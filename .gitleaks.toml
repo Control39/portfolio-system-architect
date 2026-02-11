@@ -1,0 +1,70 @@
+# .gitleaks.toml - Configuration file for Gitleaks secret scanning
+# This file defines rules for identifying and whitelisting secrets in the repository
+
+[allowlist]
+  description = "global allow lists"
+  paths = [
+    '''^vendor/''',
+    '''^node_modules/''',
+    '''^test/''',
+    '''^tests/''',
+    '''_test.go''',
+    '''_test.py''',
+    '''_test.js''',
+    '''_test.ts''',
+    '''mock_.*\\.py''',
+    '''mock_.*\\.js''',
+    '''mock_.*\\.ts''',
+    '''\\.example$''',
+    '''\\.sample$''',
+    '''\\.template$''',
+    '''example_.*''',
+    '''sample_.*''',
+    '''\\.md$''',
+    '''^docs/''',
+  ]
+  
+  # Regex patterns for secrets that should be ignored
+  regexes = [
+    '''github_token_placeholder''',
+    '''api_key_placeholder''',
+    '''password_placeholder''',
+    '''secret_placeholder''',
+  ]
+  
+  # Specific commits to ignore
+  commits = [
+    # Add specific commit hashes here if needed
+  ]
+
+# Custom rules for detecting specific types of secrets
+[[rules]]
+  id = "openai-api-key"
+  description = "OpenAI API Key"
+  regex = '''sk-[a-zA-Z0-9]{48}'''
+  tags = ["api", "openai", "key"]
+
+[[rules]]
+  id = "azure-subscription-id"
+  description = "Azure Subscription ID"
+  regex = '''[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}'''
+  tags = ["azure", "subscription"]
+
+[[rules]]
+  id = "generic-api-key"
+  description = "Generic API Key"
+  regex = '''(?i)(api[_-]?key|apikey)["']?\s*[=: ]\s*["']?[a-zA-Z0-9_\-]{32,}'''
+  tags = ["api", "key"]
+
+# Entropy settings for detecting high-entropy strings
+[entropy]
+  enabled = true
+  min_length = 20
+  max_length = 100
+  min_entropy = 4.5
+  max_entropy = 8.0
+
+# Output settings
+[report]
+  format = "json"
+  output_dir = "./gitleaks-reports"
