@@ -1,70 +1,30 @@
 # Cloud-Reason: AI Reasoning Engine
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## Описание проекта
 
-Cloud-Reason is an AI-powered reasoning engine designed for system architects and cognitive thinkers. Built on Yandex Cloud's serverless infrastructure, it leverages YandexGPT to analyze contexts, extract systemic thinking markers, and generate actionable insights.
+AI-powered reasoning engine, разработанный для системных архитекторов и когнитивных мыслителей. Построен на серверной инфраструктуре Yandex Cloud, использует YandexGPT для анализа контекстов, извлечения маркеров системного мышления и генерации практических инсайтов.
 
-## 🚀 Technology Stack
-- **Serverless Architecture**: Yandex Cloud Functions + API Gateway
-- **AI Engine**: YandexGPT for natural language understanding and reasoning
-- **Storage**: Yandex Object Storage for context persistence
-- **Language**: Python 3.11
+## Роль в экосистеме
 
-## 📚 Documentation
-Comprehensive documentation is available in the [docs/](docs/) directory:
-- [INSTRUCTIONS.md](docs/INSTRUCTIONS.md) - Detailed setup and usage guide
-- [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) - Common issues and solutions
+Cloud-Reason является исследовательским компонентом экосистемы Cognitive-Architecture, предоставляя возможности AI-анализа для извлечения и обработки маркеров системного мышления.
 
-## ⚙️ Setup & Installation
+## Ссылки на оригинальные репозитории
 
-```bash
-# Clone the repository
-git clone https://sourcecraft.dev/leadarchitect-ai/cloud-reason.git
+- Основной репозиторий: ssh://ssh.sourcecraft.dev/leadarchitect-ai/cloud-reason.git
+- Документация: [README.md](../../research/cloud-reason/README.md)
+- Инструкции: [INSTRUCTIONS.md](../../research/cloud-reason/docs/INSTRUCTIONS.md)
 
-cd cloud-reason
+## Ключевые особенности
 
-# Install dependencies
-pip install -r requirements.txt
+- Serverless архитектура на Yandex Cloud Functions + API Gateway
+- AI Engine на базе YandexGPT для понимания и рассуждения на естественном языке
+- Хранилище на Yandex Object Storage для постоянства контекста
+- REST API для интеграции с другими компонентами экосистемы
 
-# Configure environment variables
-# Copy .env.example to .env and update with your credentials
-cp .env.example .env
-```
+## Технологический стек
 
-## 🌐 API Usage
-
-The engine provides a REST API for integration:
-
-```python
-import requests
-
-# Send context for reasoning
-data = {
-    "context": "Your architectural context or problem statement here",
-    "prompt": "Analyze the systemic thinking patterns in this context"
-}
-
-response = requests.post("https://your-api-gateway.cloud.yandex.net/reason", json=data)
-print(response.json())
-```
-
-## 📂 Project Structure
-```
-cloud-reason/
-├── api/                    # Reasoning API endpoints
-├── docs/                   # Comprehensive documentation
-├── scripts/                # Utility and deployment scripts
-├── configs/                # Configuration files
-├── tests/                  # Unit and integration tests
-├── requirements.txt        # Python dependencies
-└── .env.example            # Environment variables template
-```
-
-## 🤝 Contributing
-Contributions are welcome! Please read our [contribution guidelines](CONTRIBUTING.md) before submitting pull requests.
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🏗️ Part of Cognitive-Architecture Ecosystem
-This repository is a core component of the [Cognitive-Architecture](https://sourcecraft.dev/leadarchitect-ai/my-ecosystem) ecosystem, demonstrating systemic thinking through integrated AI-assisted development.
+- Python 3.11
+- Yandex Cloud Functions
+- Yandex API Gateway
+- Yandex Object Storage
+- YandexGPT
