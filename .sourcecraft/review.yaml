@@ -1,0 +1,20 @@
+# Code review rules configuration
+# For more information, see https://sourcecraft.dev/portal/docs/sourcecraft/concepts/org-config
+
+# Example configuration:
+# review:
+#   rules:
+#     - name: "Require review from team lead"
+#       description: "All PRs must be reviewed by team lead"
+#       conditions:
+#         - type: "file_pattern"
+#           pattern: "**/*"
+#       reviewers:
+#         - type: "team"
+#           slug: "team-leads"
+#       required_approvals: 1
+
+# Site configuration for SourceCraft Sites
+site:
+  root: "/"
+  ref: "main"
