@@ -310,34 +310,5 @@ class CareerTracker:
             "levels": skill_data.levels,
         }
 
-    def generate_recommendations(self) -> List[Dict]:
-        """
-        Генерация рекомендаций по развитию на основе прогресса и психологического состояния.
-        """
-        recommendations = []
-        
-        # Для каждого маркера генерируем рекомендации
-        for skill_name, skill_data in self.markers.items():
-            for level_markers in skill_data.levels.values():
-                for marker in level_markers:
-                    if marker.id not in self.progress["completed_markers"]:
-                        if marker.priority == "high":
-                            recommendations.append({
-                                "title": f"Высокий приоритет: {marker.marker}",
-                                "description": f"Рекомендуется выполнить маркер: {marker.marker}",
-                                "priority": 5,
-                                "type": "marker_completion",
-                                "resources": marker.resources[:3]
-                            })
-                        elif marker.priority == "medium":
-                            recommendations.append({
-                                "title": f"Средний приоритет: {marker.marker}",
-                                "description": f"Рекомендуется к выполнению: {marker.marker}",
-                                "priority": 3,
-                                "type": "marker_completion",
-                                "resources": marker.resources[:3]
-                            })
-        
-        return recommendations
 
 __all__ = ["CareerTracker", "Marker", "SkillData"]
