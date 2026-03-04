@@ -94,4 +94,5 @@ journal/
 context.txt
 journal/
 notes/
-private/
+private/%WT_SETTINGS%
+Lib/
