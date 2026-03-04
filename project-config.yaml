@@ -1,0 +1,136 @@
+# project-config.yaml
+version: "1.0"
+name: "portfolio-system-architect"
+description: "Единая экосистема архитектора когнитивных систем"
+author:
+  name: "Екатерина Куделя"
+  role: "Архитектор когнитивных систем"
+  contact:
+    email: "leadarchitect.ai@gmail.com"
+    github: "github.com/leadarchitect-ai"
+
+# Ваши реальные компоненты
+components:
+  - name: "arch-compass-framework"
+    path: "components/arch-compass-framework/"
+    language: "powershell"
+    entrypoint: "ArchCompass.psm1"
+    documentation:
+      - "README.md"
+      - "docs/architecture.md"
+    dependencies:
+      - "powershell>=7.0"
+      - "gitleaks"
+
+  - name: "it-compass"
+    path: "components/it-compass/"
+    language: "python"
+    entrypoint: "src/core/tracker.py"
+    documentation:
+      - "README.md"
+      - "docs/ARCHITECTURE.md"
+      - "docs/METHODOLOGY.md"
+    dependencies:
+      - "python>=3.8"
+      - "pandas"
+      - "openpyxl"
+
+  - name: "cloud-reason"
+    description: "Система облачного рассуждения с REST API и интеграцией с Git"
+    path: "components/cloud-reason/"
+    language: "python"
+    entrypoint: "src/api/reasoning_api.py"
+    dependencies:
+      - "python>=3.8"
+      - "fastapi>=0.68.0"
+      - "uvicorn>=0.15.0"
+      - "pydantic>=1.8.0"
+      - "requests>=2.25.0"
+      - "gitpython>=3.1.0"
+      - "gitleaks>=8.0.0"
+    documentation:
+      api: "components/cloud-reason/docs/API.md"
+      workflows: "components/cloud-reason/docs/workflows.md"
+      readme: "components/cloud-reason/README.md"
+    automation:
+      scripts:
+        - "components/cloud-reason/scripts/run_api.sh"
+        - "components/cloud-reason/scripts/run_tests.sh"
+    ci_cd:
+      github_actions:
+        workflows:
+          - "test-cloud-reason"
+          - "deploy-cloud-reason"
+
+  - name: "portfolio-organizer"
+    path: "components/portfolio-organizer/"
+    language: "python"
+    entrypoint: "src/api/reasoning_api.py"
+    documentation:
+      - "README.md"
+
+  - name: "system-proof"
+    path: "components/system-proof/"
+    language: "powershell"
+    entrypoint: "RAG/process_document.ps1"
+    documentation:
+      - "README.md"
+      - "RAG/docs/"
+
+  - name: "thought-architecture"
+    path: "components/thought-architecture/"
+    language: "markdown"
+    documentation:
+      - "README.md"
+      - "cases/"
+      - "tools/"
+
+  - name: "career-development-system"
+    path: "components/career-development-system/"
+    language: "python"
+    entrypoint: "src/core/competency_tracker.py"
+    documentation:
+      - "README.md"
+      - "docs/API_REFERENCE.md"
+
+# Автоматизация — ваши реальные скрипты
+automation:
+  daily_tasks:
+    - name: "generate-obsidian-map"
+      script: "scripts/generate_obsidian_map.py"
+      description: "Генерация карты знаний Obsidian"
+      schedule: "0 2 * * *" # ежедневно в 2:00
+
+    - name: "generate-website"
+      script: "scripts/generate_website.py"
+      description: "Генерация статического сайта"
+      schedule: "0 3 * * *"
+
+    - name: "run-daily-automation"
+      script: "scripts/run_daily.ps1"
+      description: "Ежедневная автоматизация PowerShell"
+      schedule: "0 4 * * *"
+
+  on_commit:
+    - name: "validate-markers"
+      script: "scripts/sync_case_markers.py"
+      description: "Синхронизация маркеров кейсов"
+
+# CI/CD — ваши реальные workflows
+ci_cd:
+  github_actions:
+    workflows:
+      - name: "update-components"
+        path: ".github/workflows/update.yml"
+        triggers: ["push", "pull_request"]
+
+# Теги для поиска и грантов
+tags:
+  - "cognitive-architecture"
+  - "system-thinking"
+  - "portfolio-automation"
+  - "open-source"
+  - "sourcecraft-grant-ready"
+  - "python"
+  - "powershell"
+  - "ai-assisted"
