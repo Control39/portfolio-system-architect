@@ -104,3 +104,5 @@ ENV/
 ehthumbs.db
 Thumbs.db.codeassistant/
 .gigaide/
+.codeassistant/
+.gigaide/
