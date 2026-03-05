@@ -282,9 +282,9 @@ if __name__ == "__main__":
     # Генерируем отчет
     report = low_energy_mode.generate_low_energy_report()
     
-    print("=== Режим низкой энергии ===")
-    print(f"Сообщение поддержки: {report['gentle_encouragement']}")
-    print(f"Мотивационная цитата: {report['motivational_quote']}")
+    logger.info("Режим низкой энергии")
+    logger.info(f"Сообщение поддержки: {report['gentle_encouragement']}")
+    logger.info(f"Мотивационная цитата: {report['motivational_quote']}")
     print("\nПростые активности:")
     for activity in report['simple_activities']:
         print(f"- {activity}")

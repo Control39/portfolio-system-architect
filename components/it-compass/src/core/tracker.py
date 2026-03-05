@@ -162,11 +162,11 @@ class CareerTracker:
             return False
 
     def show_progress(self) -> None:
-        print("\n📊 ВАШ ПРОГРЕСС:")
-        print("-" * 50)
+        logger.info("Ваш прогресс:")
+        logger.info("-" * 50)
 
         if not self.markers:
-            print("⚠️ Нет загруженных маркеров.")
+            logger.warning("Нет загруженных маркеров.")
             return
 
         total_completed = 0
@@ -209,15 +209,15 @@ class CareerTracker:
         marker_id = marker_id.strip()
 
         if not marker_id:
-            print("❌ ID маркера не может быть пустым")
+            logger.error("ID маркера не может быть пустым")
             return False
 
         if marker_id in self.progress["completed_markers"]:
-            print(f"ℹ️ Маркер {marker_id} уже отмечен как выполненный")
+            logger.info(f"Маркер {marker_id} уже отмечен как выполненный")
             return True
 
         if not self._marker_exists(marker_id):
-            print(f"❌ Маркер {marker_id} не найден.")
+            logger.error(f"Маркер {marker_id} не найден.")
             return False
 
         self.progress["completed_markers"].append(marker_id)
@@ -226,10 +226,10 @@ class CareerTracker:
             self.progress["in_progress_markers"].remove(marker_id)
 
         if self._save_progress():
-            print(f"✅ Маркер {marker_id} отмечен как выполненный! 🎉")
+            logger.info(f"Маркер {marker_id} отмечен как выполненный!")
             return True
         else:
-            print(f"❌ Ошибка при сохранении прогресса")
+            logger.error("Ошибка при сохранении прогресса")
             return False
 
     def _marker_exists(self, marker_id: str) -> bool:
@@ -241,8 +241,8 @@ class CareerTracker:
         return False
 
     def show_recommendations(self, limit: int = 5) -> None:
-        print("\n🎯 РЕКОМЕНДАЦИИ (high priority):")
-        print("-" * 50)
+        logger.info("Рекомендации (high priority):")
+        logger.info("-" * 50)
 
         high_priority_markers = []
         for skill_name, skill_data in self.markers.items():
@@ -255,7 +255,7 @@ class CareerTracker:
                         high_priority_markers.append((skill_name, marker))
 
         if not high_priority_markers:
-            print("🎉 Поздравляем! Все high-priority маркеры выполнены!")
+            logger.info("Все high-priority маркеры выполнены!")
             return
 
         shown_count = 0
