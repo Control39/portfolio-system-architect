@@ -2,11 +2,13 @@
 
 ## Профессиональный PowerShell фреймворк
 
-**Architect-led AI-powered framework**
+**Создан архитектором когнитивных систем Екатериной Куделей**
+
+Этот фреймворк — не просто набор скриптов, а воплощение моего архитектурного мышления. Я не пишу код ради кода, я проектирую системы, где PowerShell используется как язык оркестрации сложных процессов. Arch-Compass — это инструмент, который позволяет мне, как архитектору, управлять ИИ и инфраструктурой, создавая безопасные и масштабируемые решения.
 
 ### Быстрый старт:
 ```powershell
-Import-Module .\\ArchCompass.psm1 -Force
+Import-Module .\ArchCompass.psm1 -Force
 Start-ArchCompass -Environment default
 ```
 
@@ -35,13 +37,13 @@ Start-ArchCompass -Environment default
 #### Запуск сканирования безопасности
 ```powershell
 # Запуск тестов с проверкой безопасности
-.\\arch.ps1 test -RunSecurityTests
+.\arch.ps1 test -RunSecurityTests
 
 # Запуск сканирования секретов gitleaks
-.\\arch.ps1 analyze -RunGitleaksScan
+.\arch.ps1 analyze -RunGitleaksScan
 
 # Получение оценки безопасности
-.\\arch.ps1 score
+.\arch.ps1 score
 ```
 
 ### Статус:
