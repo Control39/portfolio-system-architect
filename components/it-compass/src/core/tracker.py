@@ -1,4 +1,4 @@
-﻿"""
+"""
 Модуль отслеживания карьерного прогресса пользователя.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
@@ -14,25 +14,24 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-@dataclass
 class Marker:
-    id: str
-    marker: str
-    validation: str
-    priority: str
-    resources: List[str]
-    smart_criteria: Dict[str, str]
-    skill_name: Optional[str] = None
-    methodology_author: str = "Ekaterina Kudelya"
-    methodology_license: str = "CC BY-ND 4.0"
+    def __init__(self, id: str, marker: str, validation: str, priority: str, resources: List[str], smart_criteria: Dict[str, str], skill_name: Optional[str] = None, methodology_author: str = "Ekaterina Kudelya", methodology_license: str = "CC BY-ND 4.0"):
+        self.id = id
+        self.marker = marker
+        self.validation = validation
+        self.priority = priority
+        self.resources = resources
+        self.smart_criteria = smart_criteria
+        self.skill_name = skill_name
+        self.methodology_author = methodology_author
+        self.methodology_license = methodology_license
 
 
-@dataclass
 class SkillData:
-    skill_name: str
-    description: str
-    levels: Dict[str, List[Marker]]
-
+    def __init__(self, skill_name: str, description: str, levels: Dict[str, List[Marker]]):
+        self.skill_name = skill_name
+        self.description = description
+        self.levels = levels
 
 class CareerTracker:
     def __init__(
@@ -206,6 +205,24 @@ class CareerTracker:
         return "█" * filled_width + "░" * (width - filled_width)
 
     def mark_completed(self, marker_id: str) -> bool:
+        """
+        Помечает маркер как выполненный.
+        
+        Args:
+            marker_id: ID маркера
+            
+        Returns:
+            True, если маркер успешно помечен как выполненный, иначе False
+        """
+        """
+        Помечает маркер как выполненный.
+        
+        Args:
+            marker_id: ID маркера
+            
+        Returns:
+            True, если маркер успешно помечен как выполненный, иначе False
+        """
         marker_id = marker_id.strip()
 
         if not marker_id:
@@ -309,6 +326,7 @@ class CareerTracker:
             "completed_markers": [m.id for m in completed],
             "levels": skill_data.levels,
         }
+
 
     def generate_recommendations(self) -> List[Dict]:
         """
