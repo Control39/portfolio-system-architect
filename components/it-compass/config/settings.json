@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "IT Compass",
+    "version": "1.0.0",
+    "description": "Система отслеживания IT навыков и поддержки ментального здоровья",
+    "author": "IT Compass Team",
+    "license": "MIT"
+  },
+  "tracking": {
+    "default_markers_file": "data/markers.json",
+    "user_progress_file": "data/user_progress.json",
+    "auto_save": true,
+    "save_interval_minutes": 5,
+    "backup_enabled": true,
+    "backup_interval_hours": 24
+  },
+  "mental_support": {
+    "mood_tracking_enabled": true,
+    "stress_monitoring_enabled": true,
+    "crisis_detection_enabled": true,
+    "crisis_contacts_file": "support/resources/crisis_contacts.json",
+    "motivational_quotes_file": "support/resources/motivational_quotes.json",
+    "low_energy_mode_enabled": true
+  },
+  "portfolio": {
+    "auto_generation_enabled": true,
+    "generation_interval_days": 7,
+    "output_directory": "portfolio",
+    "include_statistics": true,
+    "include_skill_analysis": true,
+    "include_recommendations": true
+  },
+  "integration": {
+    "cloud_reason_enabled": true,
+    "cloud_reason_url": "http://localhost:8000",
+    "api_timeout_seconds": 30,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 5
+  },
+  "ui": {
+    "web_interface_enabled": true,
+    "web_port": 8080,
+    "theme": "light",
+    "language": "ru",
+    "auto_refresh_enabled": true,
+    "refresh_interval_seconds": 60
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/it_compass.log",
+    "max_file_size_mb": 10,
+    "backup_count": 5,
+    "console_output": true
+  },
+  "notifications": {
+    "enabled": true,
+    "daily_reminder_time": "09:00",
+    "weekly_summary_day": "Sunday",
+    "achievement_notifications": true,
+    "milestone_notifications": true,
+    "mental_health_reminders": true
+  },
+  "data": {
+    "markers_directory": "data/markers",
+    "default_categories": [
+      "backend_development",
+      "frontend_development",
+      "devops",
+      "data_science",
+      "cybersecurity",
+      "cloud_computing",
+      "mobile_development",
+      "ai_ml",
+      "database",
+      "testing"
+    ],
+    "skill_difficulty_levels": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ]
+  },
+  "privacy": {
+    "data_encryption_enabled": true,
+    "local_storage_only": true,
+    "anonymize_data": false,
+    "export_allowed": true
+  },
+  "performance": {
+    "max_concurrent_operations": 5,
+    "cache_enabled": true,
+    "cache_ttl_minutes": 60,
+    "memory_limit_mb": 512
+  }
+}
