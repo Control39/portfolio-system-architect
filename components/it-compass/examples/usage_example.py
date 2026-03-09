@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from core.tracker import CompetencyTracker, TechnologyMarker, UserProgress
 from core.api_integration import IntegrationManager, GitHubIntegration, LearningPlatformIntegration
-from core.mental_support import MentalSupport, MoodRecord, SelfHelpPractices
+from core.mental.psychological_support import PsychologicalSupport
 from utils.portfolio_gen import PortfolioGenerator, PortfolioSection
 
 def main():
@@ -169,30 +169,31 @@ def main():
     # 5. Психологическая поддержка
     print("5. Психологическая поддержка")
     
-    mental_support = MentalSupport("user_001")
+    psychological_support = PsychologicalSupport()
     
-    # Запись психологического состояния
-    mood_record = MoodRecord(
-        date=datetime.date.today(),
-        mood_level=4,  # Хорошее настроение
-        stress_level=2,  # Низкий стресс
-        energy_level=3,  # Умеренный уровень энергии
-        satisfaction_level=4,  # Высокая удовлетворенность
-        notes="Чувствую прогресс в изучении Django",
-        triggers=["успешное завершение проекта", "позитивная обратная связь"],
-        coping_strategies=["перерыв на прогулку", "общение с коллегами"]
-    )
+    # Генерация отчёта поддержки
+    support_report = psychological_support.generate_support_report()
+    print(f"Отчёт поддержки сгенерирован: {support_report['timestamp']}")
+    print(f"Поощрение: {support_report['gentle_encouragement']}")
+    print(f"Цитата: {support_report['motivational_quote']}")
+    print(f"Аффирмация: {support_report['positive_affirmation']}")
+    print("Простые активности:")
+    for activity in support_report['simple_activities']:
+        print(f"  - {activity}")
+    print()
     
-    mental_support.record_mood(mood_record)
-    
-    # Получение рекомендаций психологической поддержки
-    mental_recommendations = mental_support.get_current_recommendations()
-    print(f"Рекомендаций психологической поддержки: {len(mental_recommendations)}")
-    
-    if mental_recommendations:
-        rec = mental_recommendations[0]
-        print(f"Пример рекомендации: {rec.title}")
-        print(f"Описание: {rec.description}")
+    # Проверка риска выгорания
+    recent_activity = {
+        "last_activity": datetime.datetime.now().isoformat(),
+        "break_count": 0
+    }
+    if psychological_support.is_burnout_risk(recent_activity):
+        print("⚠️  Обнаружен риск выгорания!")
+        recovery_plan = psychological_support.suggest_recovery_plan()
+        print(f"Рекомендуется: {recovery_plan['title']}")
+        print(recovery_plan['description'])
+    else:
+        print("✅ Нет признаков риска выгорания")
     print()
     
     # 6. Генерация портфолио
@@ -253,13 +254,12 @@ def main():
     print(f"- Средняя уверенность: {competency_summary['average_confidence']:.1f}")
     print()
     
-    # Сводка по психологическому состоянию
-    mood_summary = mental_support.get_mood_summary()
-    print("Сводка по психологическому состоянию:")
-    if "latest_record" in mood_summary:
-        print(f"- Дата последней записи: {mood_summary['latest_record']['date']}")
-        print(f"- Уровень настроения: {mood_summary['latest_record']['mood_level']}")
-        print(f"- Уровень стресса: {mood_summary['latest_record']['stress_level']}")
+    # Сводка по психологической поддержке
+    crisis_resources = psychological_support.get_crisis_resources()
+    daily_prompt = psychological_support.get_daily_checkin_prompt()
+    print("Сводка по психологической поддержке:")
+    print(f"- Доступно контактов для кризисных ситуаций: {len(crisis_resources['contacts'])}")
+    print(f"- Ежедневный вопрос: {daily_prompt}")
     print()
     
     print("=== Пример завершен ===")

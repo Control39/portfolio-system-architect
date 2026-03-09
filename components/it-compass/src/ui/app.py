@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 from ..core.tracker import SkillTracker
 from ..core.api_integration import APIIntegration
 from ..utils.portfolio_gen import PortfolioGenerator
-from ..support.low_energy_mode import LowEnergyMode
+from ..core.mental.psychological_support import PsychologicalSupport
 
 
 class ITCompassApp:
@@ -24,7 +24,7 @@ class ITCompassApp:
         self.tracker = SkillTracker()
         self.api_integration = APIIntegration()
         self.portfolio_gen = PortfolioGenerator()
-        self.low_energy_mode = LowEnergyMode()
+        self.psychological_support = PsychologicalSupport()
         
         # Настройка страницы
         st.set_page_config(
@@ -201,18 +201,19 @@ class ITCompassApp:
         """Отображение раздела поддержки"""
         st.header("💖 Поддержка")
         
-        # Режим низкой энергии
-        if st.button("Активировать режим низкой энергии"):
-            low_energy_report = self.low_energy_mode.generate_low_energy_report()
+        # Психологическая поддержка
+        if st.button("Получить поддержку"):
+            support_report = self.psychological_support.generate_support_report()
             
-            st.markdown("### 💤 Режим низкой энергии")
-            st.markdown(f"**{low_energy_report['gentle_encouragement']}**")
+            st.markdown("### 💖 Психологическая поддержка")
+            st.markdown(f"**{support_report['gentle_encouragement']}**")
             
             st.markdown("#### Простые активности:")
-            for activity in low_energy_report['simple_activities']:
+            for activity in support_report['simple_activities']:
                 st.markdown(f"- {activity}")
             
-            st.markdown(f"**{low_energy_report['positive_affirmation']}**")
+            st.markdown(f"**Цитата:** {support_report['motivational_quote']}")
+            st.markdown(f"**Аффирмация:** {support_report['positive_affirmation']}")
             
             # Проверяем риск выгорания
             # В реальном приложении здесь будут реальные данные
@@ -221,9 +222,9 @@ class ITCompassApp:
                 "break_count": 0
             }
             
-            if self.low_energy_mode.is_burnout_risk(recent_activity):
+            if self.psychological_support.is_burnout_risk(recent_activity):
                 st.warning("⚠️ Обнаружен риск выгорания!")
-                recovery_plan = self.low_energy_mode.suggest_recovery_plan()
+                recovery_plan = self.psychological_support.suggest_recovery_plan()
                 st.markdown("#### План восстановления:")
                 st.markdown(f"**{recovery_plan['title']}**")
                 st.markdown(recovery_plan['description'])

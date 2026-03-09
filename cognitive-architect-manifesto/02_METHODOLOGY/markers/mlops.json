@@ -1,0 +1,24 @@
+{
+  "skill_name": "MLOps",
+  "description": "Machine Learning Operations",
+  "levels": {
+    "1": [
+      {
+        "id": "mlops_1_1",
+        "marker": "Настроил пайплайн для обучения модели на основе готового кода",
+        "validation": "Код пайплайна в репозитории + скриншот успешного выполнения",
+        "priority": "high",
+        "resources": ["https://mlops-guide.github.io/"],
+        "smart_criteria": {
+          "specific": "Настроить пайплайн для обучения модели",
+          "measurable": "Рабочий пайплайн с успешным выполнением",
+          "achievable": "Уровень начинающего",
+          "relevant": "Критически важный навык MLOps",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
