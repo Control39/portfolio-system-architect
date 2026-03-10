@@ -114,3 +114,11 @@ KODA.md
 *.csv
 repo_structure_*.xlsx
 repo_structure_*.csv
+# Analysis files
+*.xlsx
+*.csv
+repo_structure_*.xlsx
+repo_structure_*.csv
+
+# KODA context
+KODA.md
