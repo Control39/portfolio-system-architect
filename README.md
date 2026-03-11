@@ -125,6 +125,8 @@ python -m pytest tests/
 - [Методология](docs/methodology/) — описание объективных маркеров
 - [Кейсы](cases/) — примеры применения
 - [История](docs/history/evolution.md) — хронология развития
+- [Глоссарий](docs/glossary.md) — термины и определения
+- [FAQ](docs/faq.md) — частые вопросы
 
 ---
 
