@@ -48,3 +48,7 @@ Start-ArchCompass -Environment default
 
 ### Статус:
 Проект в активной разработке. Готовы базовые модули.
+
+### Integrations
+- **Cloud Reason** ([02_MODULES/cloud-reason](02_MODULES/cloud-reason)): Architecture validation via reasoning API
+- **IT Compass** ([02_MODULES/it-compass](02_MODULES/it-compass)): Architecture competency tracking
