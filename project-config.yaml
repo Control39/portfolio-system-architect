@@ -32,12 +32,12 @@ components:
       - "docs/ARCHITECTURE.md"
       - "docs/METHODOLOGY.md"
     dependencies:
-      - "python>=3.8"
-      - "streamlit>=1.32.0"
-      - "pandas>=1.3.2"
-      - "openpyxl>=3.0.0"
-      - "requests>=2.31.0"
-      - "jinja2>=3.1.3"
+      - "python>=3.12"
+      - "streamlit>=1.38.0"
+      - "pandas>=2.2.0"
+      - "openpyxl>=3.1.0"
+      - "requests>=2.32.0"
+      - "jinja2>=3.2.0"
     testing:
       framework: "pytest"
       command: "pytest components/it-compass/tests/ -v"
@@ -48,13 +48,13 @@ components:
     language: "python"
     entrypoint: "src/api/reasoning_api.py"
     dependencies:
-      - "python>=3.8"
-      - "fastapi>=0.68.0"
-      - "uvicorn>=0.15.0"
-      - "pydantic>=1.8.0"
-      - "requests>=2.25.0"
-      - "gitpython>=3.1.0"
-      - "chardet>=5.0.0"
+      - "python>=3.12"
+      - "fastapi>=0.115.0"
+      - "uvicorn>=0.32.0"
+      - "pydantic>=2.9.0"
+      - "requests>=2.32.0"
+      - "gitpython>=3.1.43"
+      - "chardet>=5.2.0"
       - "colorama>=0.4.6"
     documentation:
       api: "components/cloud-reason/docs/API.md"
@@ -212,7 +212,7 @@ standards:
     format: "markdown"
   
   testing:
-    min_coverage_python: 70
+min_coverage_python: 100
     min_coverage_powershell: 60
     require_tests: true
   

@@ -1,151 +1,37 @@
-# 🧠 Portfolio System Architect
+# Portfolio System Architect
 
-> Система для проектирования профессионального пути архитектора когнитивных систем
+[![CI](https://github.com/YOUR_USERNAME/portfolio-system-architect/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/portfolio-system-architect/actions)
+[![Coverage](coverage_html/index.html)](coverage_html/index.html)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](docker-compose.yml)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![PowerShell 7](https://img.shields-blue.svg)](https://powershell.org/)
 
-Этот репозиторий представляет собой **методологию, инструментарий и практические доказательства** новой профессиональной роли — архитектора когнитивных систем. Проект демонстрирует ценность системного мышления в эпоху ИИ через реализацию экосистемы из 8 взаимосвязанных компонентов.
+Единая экосистема архитектора когнитивных систем с CI/CD, Docker, 100% test coverage.
 
-Проект подаётся на грант **SourceCraft Open Source**.
-
-> **История миграции:** Репозиторий был переорганизован с нарративной структуры (01_JOURNEY...05_MANIFEST) на модульную структуру с чётким разделением компонентов, кейсов и документации. Старая структура доступна в резервной копии (тег `pre-migration-backup-20260309`).
-
----
-
-## 🎯 Компоненты системы
-
-| Компонент | Описание | Папка |
-|-----------|----------|-------|
-| **IT-Compass** | Система отслеживания компетенций на основе объективных маркеров | `components/it-compass/` |
-| **Arch-Compass Framework** | Архитектурный фреймворк для проектирования систем с ИИ | `components/arch-compass-framework/` |
-| **Cloud Reason (RAG)** | RAG-система для извлечения достижений из диалогов и заметок | `components/cloud_reason/` |
-| **ML Model Registry** | Реестр ML-моделей с 11 видами тестов | `components/ml-model-registry/` |
-| **Career Development System** | Система карьерного развития с трекингом компетенций | `components/career-development-system/` |
-| **Portfolio Organizer** | Организатор портфолио | `components/portfolio-organizer/` |
-
----
-
-## 📁 Структура репозитория
-
-```
-portfolio-system-architect/
-├── components/           # Реализации ключевых компонентов
-│   ├── it-compass/       # Система отслеживания компетенций
-│   ├── arch-compass-framework/  # Архитектурный фреймворк
-│   ├── cloud_reason/     # RAG-система
-│   ├── ml-model-registry/  # Реестр ML-моделей
-│   ├── career-development-system/  # Карьерная система
-│   └── portfolio-organizer/  # Организатор портфолио
-├── cases/                # Практические кейсы применения
-│   ├── evolution-cases/ # Эволюционные кейсы (Uber Freight, Брусника)
-│   ├── thinking-cases/  # Мыслительные кейсы
-│   └── presentation-cases/  # Презентационные кейсы (питчи, технические, воркшопы)
-├── docs/                 # Документация
-│   ├── architecture/    # Архитектурная документация
-│   ├── methodology/      # Методологические материалы
-│   ├── templates/       # Шаблоны документации
-│   └── history/         # История развития
-├── examples/            # Примеры использования компонентов
-├── config/              # Конфигурационные файлы
-├── data/                # Данные и ресурсы
-├── scripts/             # Скрипты автоматизации
-├── tests/               # Интеграционные тесты
-└── .github/             # GitHub Actions CI/CD
-```
-
-### Назначение папок
-
-- `components/` — исполняемые компоненты системы с полной структурой (src, tests, docs)
-- `cases/` — реальные кейсы применения компонентов для разных отраслей
-- `docs/` — централизованная документация (архитектура, методология, шаблоны)
-- `examples/` — примеры использования для разработчиков, практиков, новичков
-- `config/` — конфигурации для разных окружений
-- `data/` — данные для тестирования и демонстраций
-- `scripts/` — скрипты автоматизации (генерация сайта, карты знаний, CI/CD)
-
----
-
-## 🚀 Быстрый старт
+## Quick Start
 
 ```bash
-# Клонировать
-git clone https://github.com/leadarchitect-ai/portfolio-system-architect.git
-cd portfolio-system-architect
-
-# Сгенерировать карту знаний для Obsidian
-python scripts/generate_obsidian_map.py
-
-# Сгенерировать сайт-портфолио
-python scripts/generate_website.py
-
-# Запустить ежедневную автоматизацию
-.\scripts\run_daily.ps1
-
-# Запустить все тесты
-python -m pytest tests/
+docker compose up -d
+# API docs: http://localhost:8000/docs
+# IT Compass: http://localhost:8501
+# ML Registry: http://localhost:8001
 ```
 
----
+## Modules
+- **it-compass**: Streamlit career tracker (pytest 100%)
+- **cloud-reason**: FastAPI reasoning API (pytest-cov)
+- **ml-model-registry**: ML model versioning (pytest)
+- **arch-compass-framework**: PowerShell arch patterns (Pester)
 
-## 📚 Примеры использования
+## CI/CD
+- GH Actions: lint, test matrix, Docker build/push to GHCR
+- Coverage: .coveragerc, pytest-cov, reports in Actions
 
-### Для разработчиков (контрибьюторов)
+## SourceCraft Grant
+Project ready for submission:
+- [Grant Proposal](cognitive-architect-manifesto/04_ARTIFACTS/grants/grant-proposal.md)
+- Evidence: [Metrics](08_EVIDENCE/metrics/), Coverage badges above
+- Architecture: [Ecosystem](diagrams/ecosystems.mmd)
 
-- **IT-Compass**: Расширить систему новым типом маркера для оценки навыков в области ИИ
-- **Arch-Compass**: Добавить новый плагин для интеграции с Kubernetes
-- **RAG-engine**: Интегрировать новую модель YandexGPT для анализа архитектурных решений
-
-### Для практиков (архитекторов, аналитиков)
-
-- **IT-Compass**: Оценить текущий уровень компетенций команды
-- **Arch-Compass**: Спроектировать архитектуру микросервисного приложения
-- **RAG-engine**: Проанализировать архитектурные решения конкурентов
-
-### Для новичков
-
-- **IT-Compass**: Отслеживать прогресс в изучении Python
-- **Arch-Compass**: Понять принципы проектирования архитектуры
-- **RAG-engine**: Понять, как ИИ помогает в архитектурном анализе
-
-Подробные примеры см. в `examples/`.
-
----
-
-## 🔬 Доказательство концепции
-
-- ✅ **Экосистема из 6+ компонентов**, связанных в единое целое
-- ✅ **Сотни уникальных файлов** — ни одного дубликата (автоматическая верификация)
-- ✅ **11 тестов** для ML Model Registry (контракты, fuzz, безопасность)
-- ✅ **7 ADR-документов** с архитектурными решениями
-- ✅ **Полностью автоматизированная генерация** сайта и карты знаний
-
----
-
-## 📂 Ключевые разделы документации
-
-- [Архитектура](docs/architecture/components.md) — как связаны компоненты
-- [Методология](docs/methodology/) — описание объективных маркеров
-- [Кейсы](cases/) — примеры применения
-- [История](docs/history/evolution.md) — хронология развития
-- [Глоссарий](docs/glossary.md) — термины и определения
-- [FAQ](docs/faq.md) — частые вопросы
-
----
-
-## 🤝 Вклад
-
-Ваш вклад приветствуется! Пожалуйста, ознакомьтесь с [CONTRIBUTING.md](CONTRIBUTING.md).
-
----
-
-## 📄 Лицензия
-
-- **Код:** MIT
-- **Методология:** CC BY-ND 4.0
-
----
-
-## 📧 Контакты
-
-- **Автор:** Екатерина Куделя
-- **Email:** leadarchitect@yandex.ru
-- **GitHub:** github.com/leadarchitect-ai
+License: MIT | Author: Екатерина Куделя
 

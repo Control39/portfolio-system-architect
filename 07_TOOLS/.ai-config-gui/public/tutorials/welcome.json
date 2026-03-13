@@ -1,0 +1,62 @@
+{
+  "tutorials": [
+    {
+      "id": "welcome",
+      "title": "Добро пожаловать!",
+      "steps": [
+        {
+          "target": "#open-project-btn",
+          "content": "Нажмите сюда, чтобы открыть ваш проект",
+          "position": "bottom"
+        },
+        {
+          "target": "#generate-btn",
+          "content": "После открытия проекта, нажмите для генерации конфигов",
+          "position": "top"
+        },
+        {
+          "target": "#check-ollama-btn",
+          "content": "Проверьте, запущен ли Ollama",
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "id": "config-editing",
+      "title": "Редактирование конфигов",
+      "steps": [
+        {
+          "target": ".editor-tab:first-child",
+          "content": "Здесь вы можете редактировать master-config.yaml",
+          "position": "bottom"
+        },
+        {
+          "target": "#env-editor",
+          "content": "А здесь хранятся ваши API ключи (не попадают в git)",
+          "position": "left"
+        },
+        {
+          "target": "#save-btn",
+          "content": "Не забудьте сохранить изменения!",
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "id": "models",
+      "title": "Работа с моделями",
+      "steps": [
+        {
+          "target": ".models-list",
+          "content": "Список всех доступных моделей из вашего конфига",
+          "position": "right"
+        },
+        {
+          "target": ".model-item:first-child",
+          "content": "Нажмите на модель, чтобы увидеть детали",
+          "position": "right"
+        }
+      ]
+    }
+  ]
+}

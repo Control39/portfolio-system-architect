@@ -1,0 +1,17 @@
+[run]
+branch = True
+source =
+    02_MODULES/
+omit =
+    */tests/*
+    */__init__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+
+[html]
+directory = coverage_html

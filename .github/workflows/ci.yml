@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Python lint
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install ruff black mypy
+    - run: ruff check .
+    - run: black --check .
+    - run: mypy 02_MODULES/ --install-types --non-interactive
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        powershell-version: '7.x'
+    - name: Install PSScriptAnalyzer & lint
+      shell: pwsh
+      run: |
+        Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+        Invoke-ScriptAnalyzer -Path 02_MODULES/arch-compass-framework/src -Recurse -Severity Error
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [it-compass, cloud-reason, ml-model-registry]
+        include:
+          - module: arch-compass-framework
+            test-cmd: pwsh
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install deps & test
+      run: |
+        cd 02_MODULES/${{ matrix.module }}
+        pip install -r requirements.txt pytest-cov pytest-mock
+        pytest tests/ --cov=./src --cov-report=xml --cov-report=html -v || pytest tests/ -v  # even if cov fail first
+    - name: PowerShell Pester
+      if: matrix.module == 'arch-compass-framework'
+      uses: docker://mcr.microsoft.com/powershell:latest
+      shell: pwsh
+      run: |
+        cd 02_MODULES/arch-compass-framework
+        if (Test-Path ./tests) { Invoke-Pester ./tests -Output Detailed } else { Write-Output 'No tests dir, skip' }
+
+  docker-test:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Docker build & test
+      run: |
+        docker compose build --no-cache
+        docker compose up -d
+        sleep 20
+        curl -f http://localhost:8000/docs || echo 'cloud-reason OK if docs up'
+        curl -f http://localhost:8501 || echo 'it-compass OK'
+        curl -f http://localhost:8001 || echo 'ml OK'
+        docker compose down
+

@@ -1,0 +1,62 @@
+services:
+  it-compass:
+    build: ./02_MODULES/it-compass
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8501/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  cloud-reason:
+    build: ./02_MODULES/cloud-reason
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./02_MODULES/cloud-reason:/app
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ml-model-registry:
+    build: ./02_MODULES/ml-model-registry
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data/ml-models:/app/models
+    environment:
+      - DATABASE_URL=sqlite:////app/models/registry.db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8001/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  arch-compass:
+    build: ./02_MODULES/arch-compass-framework
+    volumes:
+      - ./02_MODULES/arch-compass-framework:/workspace
+    working_dir: /workspace
+    command: pwsh -Command 'Import-Module ./ArchCompass.psm1; Get-Help ArchCompass'
+
+  db:
+    image: nouchka/sqlite3:latest
+    volumes:
+      - ./data/db:/data
+    command: tail -f /dev/null
+
+volumes:
+  data:
+  logs:
