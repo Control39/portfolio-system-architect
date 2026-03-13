@@ -1,3 +1,5 @@
+# Исправление #123: нормализация путей для предотвращения дубликатов
+
 """
 Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
 """
@@ -61,12 +63,16 @@ def generate_note_content(file_path: Path) -> str:
             with open(file_path, "r", encoding="utf-8") as f:
                 file_content: str = f.read()
             content += "## Превью\n\n"
-            content += "```\n"
+            content += "```
+"
             preview: str = file_content[:500]
             content += preview
             if len(file_content) > 500:
                 content += "\n... (файл продолжается)"
-            content += "\n```\n"
+            content += "\n```
+"
+
+
         except Exception as e:
             content += f"## Ошибка\n\nНе удалось прочитать файл: {e}\n"
     
@@ -76,7 +82,7 @@ def generate_note_content(file_path: Path) -> str:
 def sanitize_filename(name: str) -> str:
     """Санитизирует имя файла для Windows."""
     # Заменяем недопустимые символы
-    invalid = '<>:"/\\|?*'
+    invalid = '<>:\"/\\|?*'
     for char in invalid:
         name = name.replace(char, "_")
     # Обрезаем слишком длинные имена
@@ -95,6 +101,16 @@ def main() -> None:
         try:
             # Формируем относительный путь
             relative = file.relative_to(REPO_ROOT)
+            
+            # Нормализация путей: 03_CASES → cases
+            normalized_parts = []
+            for part in relative.parts:
+                if part == "03_CASES":
+                    normalized_parts.append("cases")
+                else:
+                    normalized_parts.append(part)
+            relative = Path(*normalized_parts)
+            
             # Имя заметки: путь без расширения
             note_name = str(relative.with_suffix('')).replace("/", "_").replace("\\", "_")
             note_name = sanitize_filename(note_name)

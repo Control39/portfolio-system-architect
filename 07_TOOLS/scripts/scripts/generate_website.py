@@ -1,3 +1,5 @@
+# Исправление #123: нормализация путей для предотвращения дубликатов
+
 """
 Генерирует профессиональный сайт-портфолио с поддержкой Mermaid и Git-статуса.
 """
@@ -43,7 +45,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         pre {{ background: #f1f3f5; border-radius: 8px; padding: 1rem; overflow: auto; }}
         code {{ background: #e9ecef; padding: 0.2em 0.4em; border-radius: 4px; }}
         h1, h2, h3 {{ color: var(--primary); }}
-        .footer {{ margin-top: 5rem; text-align: center; color: #6c757d; font-size: 0.9rem; }}
         .mermaid {{ margin: 2rem 0; }}
     </style>
 </head>
@@ -109,7 +110,7 @@ def md_to_html(content: str) -> str:
 
 def sanitize_filename(name: str) -> str:
     """Санитизирует имя файла."""
-    invalid = '<>:"/\\|?*'
+    invalid = '<>:\"/\\|?*'
     for char in invalid:
         name = name.replace(char, "_")
     if len(name) > 200:
@@ -161,6 +162,16 @@ def convert() -> None:
     for md_file in md_files:
         try:
             relative = md_file.relative_to(REPO_ROOT)
+            
+            # Нормализация путей: 03_CASES → cases
+            normalized_parts = []
+            for part in relative.parts:
+                if part == "03_CASES":
+                    normalized_parts.append("cases")
+                else:
+                    normalized_parts.append(part)
+            relative = Path(*normalized_parts)
+            
             # Имя страницы: путь без расширения
             filename = str(relative.with_suffix('')).replace("/", "_").replace("\\", "_")
             filename = sanitize_filename(filename)
