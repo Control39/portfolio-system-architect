@@ -1,6 +1,6 @@
 # TODO Progress Tracker
 
-**Current Status:** Complete - Obsidian map and website generated cleanly, no nested files, TODO.md up to date.
+**Deprecated - Merged to root TODO.md** (Complete)
 
 ## Plan Steps:
 1. [x] Execute `python scripts/generate_obsidian_map.py`

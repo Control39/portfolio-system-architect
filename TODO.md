@@ -1,19 +1,54 @@
-# GigaChain Implementation Plan - Progress Tracker
-## Status: 6/7 Steps Complete ✅
+# Unified TODO - All Tasks Merged (ex-TODO.md + ARCHITECT + MIGRATION + PROGRESS + neuroreview + red-flags)
 
-**Approved Plan MVP Priorities:** Full plan doc + infra setup (1-2). Then RAG/MCP bridge (3), proofs (4).
+## Status: Most Complete, Manual Left
 
-1. [x] Create GigaChain_Implementation_Plan.md in 05_DOCUMENTATION/grants/
-2. [x] Update cloud-reason/requirements.txt + .env.example
-3. [x] Create gigachain_bridge.py in cloud-reason/
-4. [x] Update it-compass/ARCHITECTURE.md
-5. [x] Create system-proof/README.md + proof_schema.py
-6. [x] Add metrics/gigachain_metrics.md in 08_EVIDENCE/
-7. [ ] Test: pip install + docker compose up cloud-reason + pytest
+## План реализации (утвержден пользователем)
 
-**Next:** Install deps, set .env, test bridge.
+### Information Gathered (summary)
+- Git clean, synced with SourceCraft (origin=main).
+- .github/workflows/mirror.yml exists but not SourceCraft-specific (no cron/fetch).
+- No MIRRORING.md, no README mirroring section.
 
+### Detailed Steps:
+1. **.github/workflows/mirror-sourcecraft.yml** - YAML with cron, fetch SourceCraft, ruff/trivy, push --mirror.
+2. **MIRRORING.md** - Full template from guide.
+3. **README.md edit** - Add '## 📡 Repository Mirroring' section.
+4. **Manual post-steps** - GH_TOKEN, SourceCraft UI.
 
-**Next:** Step 1 complete → Mark [x]. Run `pip install -r 02_MODULES/cloud-reason/requirements.txt` after step 2.
-**Notes:** Use venv in c:/Users/Z/Documents/cognitive_architecture if needed. Metrics: latency, accuracy, coverage.
+### Progress:
+- [x] Create TODO.md
+- [x] Step 1: .github/workflows/mirror-sourcecraft.yml created
+- [x] Step 2: MIRRORING.md created
+- [x] Step 3: README.md updated ✅
+- [ ] Test & manual setup:
+  - Add GH_TOKEN (repo) in GitHub Settings → Secrets
+  - Setup SourceCraft UI: Settings → Repository → Mirroring → git@github.com:leadarchitect-ai/portfolio-system-architect.git (main,dev)
+  - Test: gh workflow run mirror-sourcecraft.yml (или UI)
+  - Add screenshots to MIRRORING.md
+
+## 1. Mirroring SourceCraft → GitHub
+### Progress:
+- [x] Workflow `.github/workflows/mirror-sourcecraft.yml`
+- [x] MIRRORING.md docs
+- [x] README.md section
+- [ ] GH_TOKEN secret (GitHub Settings → Secrets)
+- [ ] SourceCraft UI mirroring setup
+- [ ] Test run (Actions UI)
+
+## 2. Red Flags (ex-TODO-red-flags.md)
+- [x] ELEVATOR_PITCH.md
+- [ ] Record 2-min demo video (docker up → index.html)
+- [x] index.html links
+- [x] metrics
+- [ ] Archive dups → 09_ARCHIVE/evolution_log/
+- [x] CONTRIBUTING.md
+
+## 3. Completed (Archived):
+- **TODO_ARCHITECT**: [x] Obsidian map, website generated
+- **TODO_MIGRATION**: [x] Structure migration (1244 files)
+- **TODO_PROGRESS**: [x] Scripts execution
+- **TODO-neuroreview**: [x] Security/CSRF fixes, monitoring
+- **TODO-red-flags**: 90% [x]
+
+Last update: 2026-03-14
 

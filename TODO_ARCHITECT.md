@@ -1,6 +1,6 @@
 # TODO Progress Tracker for Architecture Tasks
 
-**Current Status: Complete** - Obsidian map structure finalized (dirs created, index updated, template in place, no duplicates), website previously generated.
+**Deprecated - Merged to root TODO.md** (Complete)
 
 ## Completed Plan Steps:
 1. [x] Execute `python scripts/generate_obsidian_map.py`

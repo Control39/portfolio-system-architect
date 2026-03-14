@@ -60,5 +60,5 @@ cases/
 └── thinking-cases/
 ```
 
-**Migration Status: COMPLETED** ✅
+**Deprecated - Merged to root TODO.md** (Complete ✅)
 

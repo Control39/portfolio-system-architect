@@ -1,5 +1,5 @@
 import uvicorn
-from .configs.loader import COMPONENT_CONFIG
+from .config.loader import COMPONENT_CONFIG
 from .api.endpoints import app
 
 def run_server():

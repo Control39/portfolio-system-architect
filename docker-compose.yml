@@ -7,11 +7,6 @@ services:
       - ./data:/app/data
     environment:
       - PYTHONPATH=/app
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8501/ || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   cloud-reason:
     build: ./02_MODULES/cloud-reason
@@ -24,11 +19,6 @@ services:
       - PYTHONPATH=/app
     depends_on:
       - db
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/status || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   ml-model-registry:
     build:
@@ -45,11 +35,6 @@ services:
       - ./data/ml-models:/app/models
     environment:
       - DATABASE_URL=sqlite:////app/models/registry.db
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8001/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   arch-compass:
     build: ./02_MODULES/arch-compass-framework

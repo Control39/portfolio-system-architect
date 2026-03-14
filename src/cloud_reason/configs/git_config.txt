@@ -1,0 +1,74 @@
+# Рекомендуемые настройки Git для работы с UTF-8 кодировкой
+# Этот файл содержит рекомендации по настройке Git
+
+# Основные настройки кодировки
+[core]
+    # Установка UTF-8 как кодировки по умолчанию
+    quotepath = false
+    # Отключаем автоопределение кодировки для путей
+    
+    # Настройка конца строк для кроссплатформенной совместимости
+    autocrlf = false
+    # Не преобразовывать конец строк при коммите/чекауте
+    
+    # Минимальный размер файла для сжатия
+    compression = 9
+    # Максимальное сжатие для экономии места
+
+# Настройки коммитов
+[commit]
+    # Кодировка сообщений коммитов
+    encoding = utf-8
+
+# Настройки совместимости с Windows
+[gui]
+    # Кодировка для GUI интерфейса
+    encoding = utf-8
+
+# Настройки для работы с именами файлов с кириллицей
+[gitweb]
+    # Параметры отображения кириллических имен файлов
+    quotepath = false
+
+# Настройки для diff и merge
+[diff "text"]
+    # Настройки сравнения текстовых файлов
+    textconv = iconv -f utf-8 -t utf-8
+
+# Рекомендуемые команды для настройки Git:
+
+# 1. Установка глобальных настроек (для всех репозиториев)
+# git config --global core.quotepath false
+# git config --global core.autocrlf false
+# git config --global commit.encoding utf-8
+# git config --global gui.encoding utf-8
+
+# 2. Установка настроек для текущего репозитория
+# git config core.quotepath false
+# git config core.autocrlf false
+# git config commit.encoding utf-8
+
+# 3. Проверка текущих настроек
+# git config --list | grep -i encoding
+# git config --list | grep -i core
+
+# 4. Дополнительные рекомендации:
+# - Убедитесь, что ваш терминал поддерживает UTF-8
+# - В Windows 11 используйте современные терминалы (Windows Terminal, PowerShell)
+# - Проверьте настройки кодировки в вашей IDE/редакторе
+# - При работе с русскоязычными путями и именами файлов используйте короткие пути
+
+# 5. Создание .gitattributes для управления концами строк
+# Пример содержимого .gitattributes:
+# * text=auto
+# *.py text eol=lf
+# *.js text eol=lf
+# *.html text eol=lf
+# *.css text eol=lf
+# *.md text eol=lf
+# *.txt text eol=lf
+
+# 6. Устранение проблем с отображением кириллицы в Git Bash
+# В Git Bash выполните:
+# export LANG=ru_RU.UTF-8
+# export LC_ALL=ru_RU.UTF-8

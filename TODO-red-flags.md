@@ -17,6 +17,6 @@
 ## LOW: Community
 - [x] Update CONTRIBUTING.md(s) *(Blueprint narrative)*
 
-**Status:** All red flags addressed. Docker pipe fix (start Docker Desktop), video manual. Tests module OK. Dups archived as evolution proof.
+**Deprecated - Merged to root TODO.md** (90% Complete)
 
 **Demo:** `open index.html` + `docker compose up -d`

@@ -52,6 +52,10 @@ open index.html
 - [SourceCraft 95%](EXECUTIVE_SUMMARY.md), [One-Pager](05_DOCUMENTATION/grants/one-pager.md)
 - Benchmarks: [Suite](BENCHMARK_SUITE/)
 
+## 📡 Repository Mirroring
+Автоматическая синхронизация **SourceCraft → GitHub** (UI + GH Actions с проверками).
+[Детали, workflows, скриншоты](MIRRORING.md)
+
 ## 🗺️ Q2-2026 Roadmap
 - Observability, k6 load, self-healing, external RAG.
 

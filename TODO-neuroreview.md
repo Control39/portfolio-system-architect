@@ -47,7 +47,7 @@ Status: Complete | Merged to main ✅
 3. [x] Ready for final commit & push
 4. [x] Neuroreview re-run passed (no critical issues)
 
-**Status: All fixes complete ✅ PR ready for merge**
+**Deprecated - Merged to root TODO.md** (Complete ✅)
 
 **Next:** ✅ All complete. Proceed to project verification.
 
