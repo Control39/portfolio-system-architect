@@ -38,6 +38,9 @@
 ## 2. Red Flags (ex-TODO-red-flags.md)
 - [x] ELEVATOR_PITCH.md
 - [ ] Record 2-min demo video (docker up → index.html)
+- [x] Docker pytest-cov fixed (it-compass→5.1.1)
+- [x] Docker healthchecks clean (removed/absent)
+- [ ] Docker arch-compass build (PowerShell modules, monitor)
 - [x] index.html links
 - [x] metrics
 - [ ] Archive dups → 09_ARCHIVE/evolution_log/

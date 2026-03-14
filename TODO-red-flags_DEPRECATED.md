@@ -17,6 +17,11 @@
 ## LOW: Community
 - [x] Update CONTRIBUTING.md(s) *(Blueprint narrative)*
 
-**Deprecated - Merged to root TODO.md** (90% Complete)
+## Docker Fixes (Gordon chat)
+- [x] pytest-cov versions (it-compass→7.0.0, ml-model-registry→7.0.0)
+- [x] healthchecks removed (docker-compose.yml clean)
+- [ ] arch-compass PowerShell build (~5-10min, monitor logs)
+
+**Deprecated - Merged to root TODO.md** (95% Complete)
 
 **Demo:** `open index.html` + `docker compose up -d`
