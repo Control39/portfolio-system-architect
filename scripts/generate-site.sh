@@ -5,7 +5,9 @@ set -e
 
 echo "Generating documentation website..."
 
-# Create output directory if it doesn't exist
+# Clean output directory to avoid accumulating old files
+echo "Cleaning output directory..."
+rm -rf 05_DOCUMENTATION/docs/website
 mkdir -p 05_DOCUMENTATION/docs/website
 
 # Copy markdown files and convert to HTML
@@ -45,6 +47,8 @@ find 05_DOCUMENTATION/docs -name "*.md" -type f | while read file; do
     echo "    table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }"
     echo "    th, td { border: 1px solid #dfe2e5; padding: 6px 13px; }"
     echo "    th { background-color: #f6f8fa; }"
+    echo "    a { color: #0366d6; text-decoration: none; }"
+    echo "    a:hover { text-decoration: underline; }"
     echo "  </style>"
     echo "</head>"
     echo "<body>"
@@ -62,7 +66,7 @@ find 05_DOCUMENTATION/docs -name "*.md" -type f | while read file; do
         -e 's/^\*\*\(.*\)\*\*/<strong>\1<\/strong>/' \
         -e 's/^\*\(.*\)\*/<em>\1<\/em>/' \
         -e 's/^- \(.*\)/<li>\1<\/li>/' \
-        -e 's/`\(.*\)`/<code>\1<\/code>/g' \
+        -e 's/`\([^`]*\)`/<code>\1<\/code>/g' \
         -e 's/^\(.*\)$/  <p>\1<\/p>/'
     
     echo "</main>"
@@ -74,30 +78,72 @@ find 05_DOCUMENTATION/docs -name "*.md" -type f | while read file; do
   } > "05_DOCUMENTATION/docs/website/${filename}.html"
 done
 
-# Create index.html
-cat > 05_DOCUMENTATION/docs/website/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
-    h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-    ul { list-style-type: none; padding: 0; }
-    li { margin: 10px 0; padding: 10px; background-color: #f6f8fa; border-radius: 3px; }
-    a { text-decoration: none; color: #0366d6; }
-    a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <h1>Documentation</h1>
-  <ul>
-    <li><a href="README.html">README</a></li>
-  </ul>
-</body>
-</html>
-EOF
+# Create index.html with list of all generated files
+{
+  echo "<!DOCTYPE html>"
+  echo "<html lang=\"en\">"
+  echo "<head>"
+  echo "  <meta charset=\"UTF-8\">"
+  echo "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+  echo "  <title>Documentation</title>"
+  echo "  <style>"
+  echo "    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }"
+  echo "    h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }"
+  echo "    ul { list-style-type: none; padding: 0; }"
+  echo "    li { margin: 10px 0; padding: 10px; background-color: #f6f8fa; border-radius: 3px; }"
+  echo "    a { text-decoration: none; color: #0366d6; }"
+  echo "    a:hover { text-decoration: underline; }"
+  echo "  </style>"
+  echo "</head>"
+  echo "<body>"
+  echo "  <h1>Documentation</h1>"
+  echo "  <ul>"
+  
+  # Generate list of all HTML files
+  find 05_DOCUMENTATION/docs/website -name "*.html" -type f | while read html_file; do
+    relative_path="${html_file#05_DOCUMENTATION/docs/website/}"
+    if [ "$relative_path" != "index.html" ]; then
+      echo "    <li><a href=\"$relative_path\">$relative_path</a></li>"
+    fi
+  done
+  
+  echo "  </ul>"
+  echo "</body>"
+  echo "</html>"
+} > 05_DOCUMENTATION/docs/website/index.html
+
+# Sort and finalize index.html
+# We need to do this in a separate step because of the pipe in the while loop above
+temp_index=$(mktemp)
+echo "<!DOCTYPE html>" > "$temp_index"
+echo "<html lang=\"en\">" >> "$temp_index"
+echo "<head>" >> "$temp_index"
+echo "  <meta charset=\"UTF-8\">" >> "$temp_index"
+echo "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" >> "$temp_index"
+echo "  <title>Documentation</title>" >> "$temp_index"
+echo "  <style>" >> "$temp_index"
+echo "    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }" >> "$temp_index"
+echo "    h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }" >> "$temp_index"
+echo "    ul { list-style-type: none; padding: 0; }" >> "$temp_index"
+echo "    li { margin: 10px 0; padding: 10px; background-color: #f6f8fa; border-radius: 3px; }" >> "$temp_index"
+echo "    a { text-decoration: none; color: #0366d6; }" >> "$temp_index"
+echo "    a:hover { text-decoration: underline; }" >> "$temp_index"
+echo "  </style>" >> "$temp_index"
+echo "</head>" >> "$temp_index"
+echo "<body>" >> "$temp_index"
+echo "  <h1>Documentation</h1>" >> "$temp_index"
+echo "  <ul>" >> "$temp_index"
+
+# Add links to all HTML files except index.html
+find 05_DOCUMENTATION/docs/website -name "*.html" -type f | grep -v "index.html" | sort | while read html_file; do
+  relative_path="${html_file#05_DOCUMENTATION/docs/website/}"
+  echo "    <li><a href=\"$relative_path\">$relative_path</a></li>" >> "$temp_index"
+done
+
+echo "  </ul>" >> "$temp_index"
+echo "</body>" >> "$temp_index"
+echo "</html>" >> "$temp_index"
+
+mv "$temp_index" 05_DOCUMENTATION/docs/website/index.html
 
 echo "Documentation website generated successfully in 05_DOCUMENTATION/docs/website/"
