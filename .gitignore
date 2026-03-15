@@ -121,3 +121,11 @@ repo_structure_*.csv
 
 # KODA context
 KODA.md
+
+venv/
+node_modules/
+logs/
+10_BACKUPS/
+.idea/
+.pytest_cache/
+.vscode-settings-backup/
