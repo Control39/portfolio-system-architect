@@ -1,25 +1,17 @@
-# TODO List for Portfolio System Architect - GitHub Actions Enhancement
+# Grant Implementation TODO
 
-## Current Task: GitHub Actions for AI Translation + Deploy Notifications + Broken Links
-✅ All steps complete! Workflows ready.
+✅ Create 06_GRANT/grant-ready.md  
+✅ Create 06_GRANT/pitch-deck.md  
+✅ Create 03_CASES/grants/one-pager.md  
+✅ Edit README.md (Grant Materials + LICENSE link)  
+✅ Add root LICENSE  
+✅ Create 05_DOCUMENTATION/docs/en/ for workflows  
+✅ Clean root: rm junk files, mv reports to 09_META/  
+✅ Git commit changes  
 
-**Последовательные шаги (выполни по порядку):**
-1. GitHub → repo → Settings → Secrets and variables → Actions → New repository secret:
-   - `GIGACHAT_API_KEY`: твой ключ GigaChat (не в .env, в GitHub secrets!)
-   - `EMAIL_USERNAME`: leadarchitect@yandex.ru
-   - `EMAIL_PASSWORD`: app password Yandex (https://yandex.ru/password/app)
-2. `gh workflow run translate-docs.yml` (тест перевода)
-3. git add . && git commit -m "Add AI workflows" && git push origin main (триггер deploy + email)
-4. Проверь Actions tab и почту leadarchitect@yandex.ru
-
-## Previous Tasks
-- ✅ Add Author Role Section to README.md  
-- ✅ Repo translation TODO  
-
-## Other Pending
-*(Auto-updated as tasks complete)*
-
-
+- [ ] Verify GitHub workflows passing (check Actions tab after push)  
+- [ ] Test docker compose up  
+- [ ] Final link check
 
 
 

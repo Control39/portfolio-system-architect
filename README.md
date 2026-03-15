@@ -93,3 +93,15 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 **Status: ✅ SourceCraft-Ready. MIT | Екатерина Куделя**
 
+## 📄 Grant Materials
+
+| Document | Link |
+|----------|------|
+| LICENSE | [`LICENSE`](LICENSE) |
+| One-Pager | [`03_CASES/grants/one-pager.md`](03_CASES/grants/one-pager.md) |
+| Grant-Ready | [`06_GRANT/grant-ready.md`](06_GRANT/grant-ready.md) |
+| Pitch Deck | [`06_GRANT/pitch-deck.md`](06_GRANT/pitch-deck.md) |
+| Impact Metrics | [`08_EVIDENCE/metrics/impact.md`](08_EVIDENCE/metrics/impact.md) |
+| Human Decisions | [`08_EVIDENCE/human-decisions.md`](08_EVIDENCE/human-decisions.md)
+
+
