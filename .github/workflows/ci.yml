@@ -20,7 +20,7 @@ jobs:
     - run: black --check .
     - run: mypy 02_MODULES/ --install-types --non-interactive
     - name: Setup PowerShell
-      uses: actions/setup-powershell@v1
+      uses: actions/setup-powershell@v4
       with:
         powershell-version: '7.x'
     - name: Install PSScriptAnalyzer & lint
@@ -51,7 +51,7 @@ jobs:
         pytest tests/ --cov=./src --cov-report=xml --cov-report=html -v || pytest tests/ -v
     - name: PowerShell Pester
       if: matrix.module == 'arch-compass-framework'
-      uses: docker://mcr.microsoft.com/powershell:latest
+      container: mcr.microsoft.com/powershell:latest
       shell: pwsh
       run: |
         cd 02_MODULES/arch-compass-framework
