@@ -1,155 +1,49 @@
-# Документация API системы управления карьерным развитием
+# API Documentation
 
-## Общая информация
+## Overview
+All endpoints are served by a **FastAPI** application (`src/api/app.py`).  
+The OpenAPI schema is automatically available at `/openapi.json` and the Swagger UI at `/docs`.
 
-Этот документ описывает API системы управления карьерным развитием на основе объективных маркеров компетенций.
+## Endpoints Detail
 
-Базовый URL: `http://localhost:5000/api`
-
-## Пользователи
-
-### Получить список всех пользователей
-
-**Запрос:**
-```
-GET /users
-```
-
-**Ответ:**
+### GET `/`
 ```json
-[
-  {
-    "id": 1,
-    "username": "ivan_petrov",
-    "email": "ivan@example.com"
-  },
-  {
-    "id": 2,
-    "username": "maria_sidorova",
-    "email": "maria@example.com"
-  }
-]
-```
-
-### Создать нового пользователя
-
-**Запрос:**
-```
-POST /users
-Content-Type: application/json
-
 {
-  "username": "new_user",
-  "email": "newuser@example.com"
+  "message": "Career Development System API is running"
 }
 ```
 
-**Ответ:**
+### GET `/profile`
+- **Response** – полная структура `UserProfile` в JSON.
+
+### POST `/goals`
 ```json
 {
-  "id": 3,
-  "username": "new_user",
-  "email": "newuser@example.com"
+  "title": "Become senior architect",
+  "description": "Lead 3 large‑scale projects",
+  "target_date": "2027-12-31"
+}
+```
+- **Response** – статус создания.
+
+### PATCH `/markers/{marker_id}`
+```json
+{
+  "status": "in_progress"
+}
+```
+- **Response** – подтверждение обновления.
+
+### GET `/evidence/export`
+- **Response** – путь к готовому ZIP‑архиву с доказательствами (PDF/MD).
+
+### GET `/progress`
+- **Response**
+```json
+{
+  "progress": 73.5
 }
 ```
 
-## Навыки пользователей
+*Все запросы требуют **Bearer Token** (встроена в `AuthMiddleware` вашего проекта).*
 
-### Получить навыки пользователя
-
-**Запрос:**
-```
-GET /users/{user_id}/skills
-```
-
-**Ответ:**
-```json
-[
-  {
-    "id": 1,
-    "name": "Python",
-    "level": 3
-  },
-  {
-    "id": 2,
-    "name": "JavaScript",
-    "level": 2
-  }
-]
-```
-
-### Добавить навык пользователю
-
-**Запрос:**
-```
-POST /users/{user_id}/skills
-Content-Type: application/json
-
-{
-  "name": "Java",
-  "level": 4
-}
-```
-
-**Ответ:**
-```json
-{
-  "id": 3,
-  "name": "Java",
-  "level": 4
-}
-```
-
-## Маркеры компетенций
-
-### Получить все маркеры компетенций
-
-**Запрос:**
-```
-GET /markers
-```
-
-**Ответ:**
-```json
-[
-  {
-    "id": 1,
-    "title": "Основы программирования",
-    "description": "Понимание базовых концепций программирования",
-    "required_level": 2
-  },
-  {
-    "id": 2,
-    "title": "Продвинутые алгоритмы",
-    "description": "Знание сложных алгоритмов и структур данных",
-    "required_level": 4
-  }
-]
-```
-
-## Модели данных
-
-### Пользователь (User)
-
-| Поле | Тип | Описание |
-|------|-----|----------|
-| id | integer | Уникальный идентификатор |
-| username | string | Имя пользователя |
-| email | string | Email пользователя |
-
-### Навык (Skill)
-
-| Поле | Тип | Описание |
-|------|-----|----------|
-| id | integer | Уникальный идентификатор |
-| name | string | Название навыка |
-| level | integer | Уровень навыка (1-10) |
-
-### Маркер компетенции (CompetencyMarker)
-
-| Поле | Тип | Описание |
-|------|-----|----------|
-| id | integer | Уникальный идентификатор |
-| title | string | Название маркера |
-| description | text | Описание маркера |
-| required_level | integer | Требуемый уровень навыка |

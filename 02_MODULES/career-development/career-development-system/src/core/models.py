@@ -1,70 +1,33 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from pydantic import BaseModel, Field
+from typing import List, Optional
+from datetime import datetime
 
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True)
-    username = Column(String(80), unique=True, nullable=False)
-    email = Column(String(120), unique=True, nullable=False)
-
-    # Отношения
-    skills = relationship("Skill", back_populates="user")
-    progress_records = relationship("ProgressRecord", back_populates="user")
-
-
-class Skill(Base):
-    __tablename__ = "skills"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    level = Column(Integer, default=1)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-
-    # Отношения
-    user = relationship("User", back_populates="skills")
-    skill_markers = relationship("SkillMarker", back_populates="skill")
+class CompetencyMarker(BaseModel):
+    """Объективный маркер компетенции."""
+    id: str = Field(..., description="Уникальный UUID")
+    title: str = Field(..., description="Краткое название маркера")
+    status: str = Field(
+        "not_started",
+        description="Статус: not_started | in_progress | completed",
+    )
+    evidence_url: Optional[str] = Field(
+        None, description="Ссылка на доказательство (PDF, скриншот и т.п.)"
+    )
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
-class CompetencyMarker(Base):
-    __tablename__ = "competency_markers"
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(200), nullable=False)
-    description = Column(Text)
-    required_level = Column(Integer, default=1)
-
-    # Отношения
-    skill_markers = relationship("SkillMarker", back_populates="marker")
+class Skill(BaseModel):
+    """Навык и набор связанных маркеров."""
+    name: str
+    level: int = Field(0, ge=0, le=5, description="Уровень от 0 до 5")
+    markers: List[CompetencyMarker] = []
 
 
-class SkillMarker(Base):
-    __tablename__ = "skill_markers"
+class UserProfile(BaseModel):
+    """Профиль пользователя."""
+    username: str
+    skills: List[Skill] = []
+    goals: List[dict] = []          # простая структура целей
+    achievements: List[dict] = []   # исторические достижения
 
-    id = Column(Integer, primary_key=True)
-    skill_id = Column(Integer, ForeignKey("skills.id"), nullable=False)
-    marker_id = Column(Integer, ForeignKey("competency_markers.id"), nullable=False)
-
-    # Отношения
-    skill = relationship("Skill", back_populates="skill_markers")
-    marker = relationship("CompetencyMarker", back_populates="skill_markers")
-
-
-class ProgressRecord(Base):
-    __tablename__ = "progress_records"
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    skill_id = Column(Integer, ForeignKey("skills.id"), nullable=False)
-    date = Column(String(50))  # Формат: YYYY-MM-DD
-    level_before = Column(Integer)
-    level_after = Column(Integer)
-    notes = Column(Text)
-
-    # Отношения
-    user = relationship("User", back_populates="progress_records")
-    skill = relationship("Skill")

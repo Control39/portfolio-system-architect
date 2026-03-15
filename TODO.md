@@ -1,12 +1,1 @@
-# CI/CD Fixes TODO - COMPLETE ✅
-
-## Completed:
-1. ✅ ci.yml: pip cache (both jobs), test guards for reqs/tests, docker retry healthcheck 60s (curl loop + logs), removed --no-cache.
-2. ✅ lfs-check.yml: Removed lfs: true, continue-on-error all steps, skip if no LFS/script.
-3. ✅ scripts/check-lfs.sh verified.
-4. [ ] Commit/push (manual: git add .github/workflows TODO.md; git commit -m "Fix CI/CD issues (non-blocker): robust tests/LFS #grant-ready").
-5. [ ] Check https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml
-6. [ ] Local: docker compose up -d; curl localhost:8000/docs etc.
-
-Repo CI/CD issues resolved. Grant-ready! 🚀
-
+# Career Development Module Setup TODO&#10;&#10;## Pending Steps:&#10;1. [ ] Create top-level src/ tests/ docs/ , requirements.txt, README.md in 02_MODULES/career-development/&#10;2. [ ] Replace/update career-development-system/ files with provided FastAPI content (app.py, add models.py, helpers.py, competency_tracker.py update, docs/API_REFERENCE.md)&#10;3. [ ] Add basic tests in career-development-system/src/tests/test_api.py&#10;4. [ ] Install & test&#10;5. [ ] Complete&#10;&#10;Mark as done when checked.
