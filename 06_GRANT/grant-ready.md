@@ -16,6 +16,7 @@
 | **Open Dataset** | Public GitHub repo | Personal notes + examples for cognitive architecture research |
 | **Noobs-Guide** | `/templates/noobs-guide.md` | Reproducible path for non-tech → architect |
 | **IT-Compass Methodology** | Open-source (MIT) | Free competency assessment for beginners, HR, EdTech |
+| **Career-Development System** | `/02_MODULES/career-development/` | Objective career tracking with competency markers |
 | **Evidence Library** | `/08_EVIDENCE/` | Transparent decision logs for community learning |
 
 ## ⚠️ Risk Mitigation

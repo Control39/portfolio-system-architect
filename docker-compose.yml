@@ -11,7 +11,7 @@ services:
   cloud-reason:
     build: ./02_MODULES/cloud-reason
     ports:
-      - "8000:8000"
+      - "8001:8001"
     volumes:
       - ./logs:/app/logs
       - ./02_MODULES/cloud-reason:/app
@@ -19,6 +19,15 @@ services:
       - PYTHONPATH=/app
     depends_on:
       - db
+
+  career-development:
+    build: ./02_MODULES/career-development/career-development-system
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
 
   ml-model-registry:
     build:
@@ -30,7 +39,7 @@ services:
         limits:
           memory: 2G
     ports:
-      - "8001:8001"
+      - "8002:8001"
     volumes:
       - ./data/ml-models:/app/models
     environment:
