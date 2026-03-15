@@ -1,7 +1,10 @@
 import unittest
 import os
 import tempfile
-from src.utils.helpers import *
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from utils.helpers import *
 
 
 class TestHelpers(unittest.TestCase):
