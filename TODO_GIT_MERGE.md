@@ -1,8 +1,8 @@
 # TODO: Git Branches Merge Plan (Approved: 2026)
 
-## Status: Pending
+## Status: Committed initial TODO
 
-### 1. [ ] Checkout main
+### 1. [x] Checkout main
 `git checkout main`
 
 ### 2. [ ] Pull all remotes
