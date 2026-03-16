@@ -1,6 +1,6 @@
 services:
   it-compass:
-    build: ./02_MODULES/it-compass
+    build: ./apps/it-compass
     ports:
       - "8501:8501"
     volumes:
@@ -9,19 +9,19 @@ services:
       - PYTHONPATH=/app
 
   cloud-reason:
-    build: ./02_MODULES/cloud-reason
+    build: ./apps/cloud-reason
     ports:
       - "8001:8001"
     volumes:
       - ./logs:/app/logs
-      - ./02_MODULES/cloud-reason:/app
+      - ./apps/cloud-reason:/app
     environment:
       - PYTHONPATH=/app
     depends_on:
       - db
 
   career-development:
-    build: ./02_MODULES/career-development/career-development-system
+    build: ./apps/career-development/career-development-system
     ports:
       - "8000:8000"
     volumes:
@@ -31,7 +31,7 @@ services:
 
   ml-model-registry:
     build:
-      context: ./02_MODULES/ml-model-registry
+      context: ./apps/ml-model-registry
       args:
         - BUILDPLATFORM=linux/amd64
     deploy:
@@ -46,9 +46,9 @@ services:
       - DATABASE_URL=sqlite:////app/models/registry.db
 
   arch-compass:
-    build: ./02_MODULES/arch-compass-framework
+    build: ./apps/arch-compass-framework
     volumes:
-      - ./02_MODULES/arch-compass-framework:/workspace
+      - ./apps/arch-compass-framework:/workspace
     working_dir: /workspace
     command: pwsh -Command 'Import-Module ./ArchCompass.psm1; Get-Help ArchCompass'
 

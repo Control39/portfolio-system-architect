@@ -7,7 +7,7 @@
 **Lead Architect: Екатерина Куделя | Zero IT → Cognitive Systems (3yr AI-Orchestrated)**
 
 ## 🚀 Elevator Pitch (30s)
-[RU/EN](05_DOCUMENTATION/docs/ELEVATOR_PITCH.md)
+[RU/EN](docs/ELEVATOR_PITCH.md)
 
 > \"Я не пишу код — проектирую системы, где **Я управляю ИИ**. 60% предложений отвергнуто. 80% ускорение. Доказательства ниже.\"
 
@@ -52,7 +52,7 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 ## 🤔 For Skeptics (3 Key Doubts Answered)
 1. **You just clicked AI?** → [Human Decisions](08_EVIDENCE/human-decisions.md): 6+ rejections logged.
 2. **Toy code?** → [Metrics](08_EVIDENCE/metrics/impact.md): 92% cov, 150ms latency.
-3. **AI author?** → [My Workflow](05_DOCUMENTATION/human-ai-workflow.md): Human sets goals/evals.
+3. **AI author?** → [My Workflow](docs/human-ai-workflow.md): Human sets goals/evals.
 
 ## 🏗️ What + Why
 **Ecosystem**: IT-Compass (markers), Arch-Compass (framework), Cloud-Reason (RAG), ML-Registry.
@@ -77,7 +77,7 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 ## CI/CD + Grant-Ready
 - GH Actions, 92% cov.
-- [SourceCraft 95%](EXECUTIVE_SUMMARY.md), [One-Pager](05_DOCUMENTATION/grants/one-pager.md)
+- [SourceCraft 95%](EXECUTIVE_SUMMARY.md), [One-Pager](docs/grants/one-pager.md)
 - Benchmarks: [Suite](BENCHMARK_SUITE/)
 
 ## 📡 Repository Mirroring
