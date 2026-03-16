@@ -67,18 +67,24 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 ## 📊 Transformation Timeline
 ```
-2025: Excel notes (zero code)
-2026: IT-Compass markers  
-2027: RAG loops
-2028: Full Docker ecosystem (95% grant-ready)
+2023: Excel notes (zero code)
+2024: IT-Compass markers  
+2025: RAG loops
+2026: Full Docker ecosystem (95% grant-ready)
 ```
 **Impact**: 80% time save → $400K/yr for 100 noobs.
 
 ## Modules
-- **it-compass**: Streamlit tracker (100%)
-- **cloud-reason**: FastAPI RAG  
-- **ml-model-registry**: Versioning
-- **arch-compass**: PS patterns
+| Module | Status | Description |
+|--------|--------|-------------|
+| IT-Compass | 95% | Streamlit tracker for IT competencies |
+| Cloud-Reason | 98% | FastAPI RAG for AI analysis |
+| ML-Registry | 95% | ML model versioning |
+| Career-Development | 95% | Career tracking with competency markers |
+| Portfolio-Organizer | 70% | Portfolio website generator |
+| Arch-Compass | 80% | Security framework |
+| System-Proof | 90% | Evidence storage |
+| Thought-Architecture | 100% | Cognitive modeling |
 
 ## CI/CD + Grant-Ready
 - GH Actions, 92% cov.
