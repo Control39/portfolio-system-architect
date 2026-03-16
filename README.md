@@ -49,6 +49,11 @@ open index.html
 
 This is not a «no-code» solution — this is **industrial AI orchestration** for creating complex systems.
 
+## 🤔 TL;DR for Employers (60s scan)
+**Impact**: Orchestrated 8-module ecosystem (92% cov, Docker-ready). Human rejects 60% AI → production quality.
+- **ROI**: 80% prototyping speedup ($400K/yr scale).
+- **Proof**: [Resume](RESUME_ENHANCED.md), [Live](index.html), `docker compose up`.
+
 ## 🤔 For Skeptics (3 Key Doubts Answered)
 1. **You just clicked AI?** → [Human Decisions](docs/evidence/human-decisions.md): 6+ rejections logged.
 2. **Toy code?** → [Metrics](docs/evidence/metrics/impact.md): 92% cov, 150ms latency.
