@@ -8,8 +8,8 @@
 | **Grant-Ready Checklist** | Готовность к гранту SourceCraft (98%) | [grant-ready.md](grant-ready.md) |
 | **Pitch Deck** | Презентация для питча | [pitch-deck.md](pitch-deck.md) |
 | **One-Pager** | Одностраничник | ../../docs/grants/one-pager.md |
-| **Risk Mitigation** | Управление рисками | [grant-ready.md#риск-митigation] |
-| **Metrics** | Импакт метрики ($400K/yr) | ../../docs/evidence/metrics/impact.md |
+| **Risk Mitigation** | Управление рисками | [grant-ready.md#risk-mitigation] |
+| **Metrics** | Импакт метрики ($400K/yr) | docs/evidence/metrics/impact.md |
 
 ## Для подачи
 1. [ ] Скачайте все в PDF: `pandoc *.md -o grant-pack.pdf`

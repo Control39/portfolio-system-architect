@@ -12,8 +12,5 @@ Status: ✅ Created (Step 1)
 7. [ ] Test: mkdocs serve + time-to-first-value
 8. [ ] Update TODO.md complete + attempt_completion
 
-Next: 06_GRANT/INDEX.md & QUICKSTART.md
-
-
-Next: docs/INDEX.md
+**COMPLETE: All steps done.**
 
