@@ -13,5 +13,5 @@
 - [Контрибьютинг](../CONTRIBUTING.md)
 - [Методология](../02_METHODOLOGY/components/README.md)
 
-Generated: $(date)
+Generated: 2026-03-17 (BLACKBOXAI)
 
