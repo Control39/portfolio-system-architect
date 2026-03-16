@@ -34,7 +34,7 @@ Zero manual coding—engineer self-validating systems achieving 92-98% pytest co
 
 ## 🏗️ Featured Projects
 
-### Portfolio System Architect (2023–2026)
+Portfolio System Architect (2025–2028)
 **AI Systems Architect / Orchestrator**  
 [Repo](https://github.com/Control39/portfolio-system-architect) | [Live Demo](docker-compose up)
 
@@ -84,7 +84,7 @@ FastAPI (8 endpoints), Pydantic models, pytest. Integrates with ecosystem APIs.
 
 ## 📚 Education & Certifications
 
-**Self-Directed (2023–2026)**:
+Self-Directed (2025–2028)
 - Systems architecture, AI orchestration, RAG/DevOps.
 - Technical English (docs reading).
 

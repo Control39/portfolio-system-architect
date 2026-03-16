@@ -67,10 +67,10 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 ## 📊 Transformation Timeline
 ```
-2023: Excel notes (zero code)
-2024: IT-Compass markers  
-2025: RAG loops
-2026: Full Docker ecosystem (95% grant-ready)
+2025: Excel notes (zero code)
+2026: IT-Compass markers  
+2027: RAG loops
+2028: Full Docker ecosystem (95% grant-ready)
 ```
 **Impact**: 80% time save → $400K/yr for 100 noobs.
 
