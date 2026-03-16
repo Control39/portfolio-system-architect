@@ -1,19 +1,19 @@
-# Portfolio System Architect Refactor TODO
+# Documentation Improvement Plan
 
-## Completed
-- [x] Created branch `refactor/structure-resume-v1`
-- [x] Analyzed repo/files with search_files/read_file
-- [x] Created RESUME_ENHANCED.md with validated improvements
-- [x] Committed resume changes
+Status: ✅ Created (Step 1)
 
-## Pending (Structure Refactor - Awaiting Grant Response)
-- [ ] git mv 02_MODULES/* -> apps/*
-- [ ] Merge 05_DOCUMENTATION/ -> docs/
-- [ ] Flatten 03_CASES/ -> docs/cases/
-- [ ] Update README.md/docker-compose.yml paths
-- [ ] pytest && docker compose up
-- [ ] Commit/push refactor branch
-- [ ] PR review (post-grant)
+## Plan Steps:
+1. [✅] Create TODO.md with steps
+2. [✅] Create docs/INDEX.md (users priority)
+3. [✅] Edit README.md (TL;DR employers, fix links)
+4. [ ] Create 06_GRANT/INDEX.md (grants)
+5. [ ] Create docs/QUICKSTART.md (users quickstart)
+6. [ ] Add MkDocs nav & scripts/generate-index.sh
+7. [ ] Test: mkdocs serve + time-to-first-value
+8. [ ] Update TODO.md complete + attempt_completion
 
-## Next
-Resume complete. Structure on hold per user workflow (main safe for grant).
+Next: 06_GRANT/INDEX.md & QUICKSTART.md
+
+
+Next: docs/INDEX.md
+
