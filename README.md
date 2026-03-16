@@ -50,15 +50,15 @@ open index.html
 This is not a «no-code» solution — this is **industrial AI orchestration** for creating complex systems.
 
 ## 🤔 For Skeptics (3 Key Doubts Answered)
-1. **You just clicked AI?** → [Human Decisions](08_EVIDENCE/human-decisions.md): 6+ rejections logged.
-2. **Toy code?** → [Metrics](08_EVIDENCE/metrics/impact.md): 92% cov, 150ms latency.
+1. **You just clicked AI?** → [Human Decisions](docs/evidence/human-decisions.md): 6+ rejections logged.
+2. **Toy code?** → [Metrics](docs/evidence/metrics/impact.md): 92% cov, 150ms latency.
 3. **AI author?** → [My Workflow](docs/human-ai-workflow.md): Human sets goals/evals.
 
 ## 🏗️ What + Why
 **Ecosystem**: IT-Compass (markers), Arch-Compass (framework), Cloud-Reason (RAG), ML-Registry.
 - **Pain Solved**: No-tech → architect (my journey: Excel→this).
 - **Innovation**: Self-poetic loops, cognitive safety.
-- **Scale**: [Noobs Guide](templates/noobs-guide.md)
+- **Scale**: [Noobs Guide](docs/templates/noobs-guide.md)
 
 ## 📊 Transformation Timeline
 ```
@@ -77,19 +77,19 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 ## CI/CD + Grant-Ready
 - GH Actions, 92% cov.
-- [SourceCraft 95%](EXECUTIVE_SUMMARY.md), [One-Pager](docs/grants/one-pager.md)
+- [SourceCraft 95%](docs/grants/EXECUTIVE_SUMMARY.md), [One-Pager](docs/grants/one-pager.md)
 - Benchmarks: [Suite](BENCHMARK_SUITE/)
 
 ## 📡 Repository Mirroring
 Автоматическая синхронизация **SourceCraft → GitHub** (UI + GH Actions с проверками).
-[Детали, workflows, скриншоты](MIRRORING.md)
+[Детали, workflows, скриншоты](docs/MIRRORING.md)
 
 ## 🗺️ Q2-2026 Roadmap
 - Observability, k6 load, self-healing, external RAG.
 
 ## 📚 Dive Deeper
 - [MkDocs Site (local)](http://127.0.0.1:8000/portfolio-system-architect/) | [Live](https://leadarchitect-ai.github.io/portfolio-system-architect/)
-- [Analysis](05_DOCUMENTATION/mkdocs-site/docs/project-analysis.md)
+- [Analysis](docs/project-analysis.md)
 
 **Status: ✅ SourceCraft-Ready. MIT | Екатерина Куделя**
 
@@ -98,10 +98,10 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 | Document | Link |
 |----------|------|
 | LICENSE | [`LICENSE`](LICENSE) |
-| One-Pager | [`03_CASES/grants/one-pager.md`](03_CASES/grants/one-pager.md) |
+| One-Pager | [`docs/grants/one-pager.md`](docs/grants/one-pager.md) |
 | Grant-Ready | [`06_GRANT/grant-ready.md`](06_GRANT/grant-ready.md) |
 | Pitch Deck | [`06_GRANT/pitch-deck.md`](06_GRANT/pitch-deck.md) |
-| Impact Metrics | [`08_EVIDENCE/metrics/impact.md`](08_EVIDENCE/metrics/impact.md) |
-| Human Decisions | [`08_EVIDENCE/human-decisions.md`](08_EVIDENCE/human-decisions.md)
+| Impact Metrics | [`docs/evidence/metrics/impact.md`](docs/evidence/metrics/impact.md) |
+| Human Decisions | [`docs/evidence/human-decisions.md`](docs/evidence/human-decisions.md)
 
 
