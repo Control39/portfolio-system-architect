@@ -128,7 +128,7 @@ Describe "StructuredLogger" {
             }
             
             # Устанавливаем тестовый секрет
-            [SecretManager]::SetSecret("TEST_API_KEY", "secret-key-12345", $false)
+[SecretManager]::SetSecret("TEST_API_KEY", (-join ((48..57)+(97..122)|Get-Random -Count 20|%{[char]$_})), $false)
         }
         
         AfterEach {
@@ -140,7 +140,7 @@ Describe "StructuredLogger" {
         
         It "Должен маскировать секреты в properties при логировании" {
             $properties = @{
-                api_key = "secret-key-12345"
+api_key = (-join ((48..57)+(97..122)|Get-Random -Count 20|%{[char]$_}))
                 username = "user1"
             }
             
@@ -158,7 +158,7 @@ Describe "StructuredLogger" {
         }
         
         It "Должен маскировать секреты в сообщении" {
-            $message = "API key is: secret-key-12345"
+$message = "API key is: " + (-join ((48..57)+(97..122)|Get-Random -Count 20|%{[char]$_}))
             
             [StructuredLogger]::Log([LogLevel]::Info, $message, "Test")
             

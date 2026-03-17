@@ -57,7 +57,7 @@ Describe "SecurityScanner" {
         It "Должен обнаружить хардкод секрета в файле" {
             # Устанавливаем тестовый секрет
             $testSecretName = "TEST_SECRET_SCAN"
-            $testSecretValue = "hardcoded-secret-value-98765"
+$testSecretValue = (-join ((48..57)+(97..122)|Get-Random -Count 20|%{[char]$_}))
             [SecretManager]::SetSecret($testSecretName, $testSecretValue, $false)
             
             # Создаем файл с хардкод секретом
