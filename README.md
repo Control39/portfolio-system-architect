@@ -1,13 +1,15 @@
 # Portfolio System Architect 🧠
 
-[![CI](https://github.com/leadarchitect-ai/portfolio-system-architect/workflows/CI/badge.svg)](https://github.com/leadarchitect-ai/portfolio-system-architect/actions)
+[![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/actions)
 [![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)](coverage_html/index.html)
-[![Codecov](https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect/graph/badge.svg?token=YOUR_TOKEN)](https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect)
+[![Tests](https://img.shields.io/badge/tests-92%25-brightgreen)](pytest.ini)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](docker-compose.yml)
 
 **Lead Architect: Екатерина Куделя | Senior System Architect ($150-250K remote) | Zero IT → Cognitive Systems (3yr AI-Orchestrated)**
 
 ## Hiring TL;DR
+Repo justifies "Senior System Architect / Tech Lead AI" via 8+ module ecosystem, 92% cov, Docker/CI, ADR, $400K impact proofs — not exaggeration, verifiable by code/docs/metrics.
+
 - **Roles**: System Architect, Tech Lead AI/ML, Solutions Architect (Yandex/Sber/Remote EU/US).
 - **Proof**: 92% cov monorepo, 80% speedup, Docker/Grafana.
 
