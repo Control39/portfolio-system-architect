@@ -71,9 +71,6 @@ target/
 # pyenv
 .python-version
 
-# celery beat schedule file
-celerybeat-schedule
-
 # dotenv
 .env
 
@@ -129,3 +126,40 @@ logs/
 .idea/
 .pytest_cache/
 .vscode-settings-backup/
+
+# Дополнительные правила для игнорирования персональных настроек
+# VS Code
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# IDE и редакторы
+*.idea/
+*.vs/
+*.userprefs
+*.userosscache
+*.suo
+*.user
+*.unityproj
+*.booproj
+
+# Операционная система
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.swn
+*~
+
+# Дополнительные файлы, которые не должны быть в репозитории
+TODO*.md
