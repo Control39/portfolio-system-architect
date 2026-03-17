@@ -79,7 +79,7 @@ $log = "User called API with key: sk-" + (-join ((48..57)+(97..122)|Get-Random -
 [SecretManager]::SetSecret("jwt", (-join ((65..90)+(97..122)|Get-Random -Count 20|%{[char]$_})), $false)
 
             # Act
-            $text = "Login failed for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 and password: P@ssw0rd123!"
+$text = "Login failed for token: $(-join ((65..90)+(97..122)|Get-Random -Count 30|%{[char]$_})) and password: $(-join ((65..90)+(97..122)|Get-Random -Count 12|%{[char]$_}))"
             $masked = [SecretManager]::MaskSecretInText($text)
 
             # Assert
