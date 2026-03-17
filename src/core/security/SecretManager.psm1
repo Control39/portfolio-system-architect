@@ -11,7 +11,7 @@ class HardcodedSecretCheckResult {
 
     HardcodedSecretCheckResult() {
         $this.HasLeaks = $false
-        $this.Lees = [System.Collections.Generic.List[hashtable]]::new()
+$this.Leaks = [System.Collections.Generic.List[hashtable]]::new()
     }
 }
 
@@ -180,7 +180,7 @@ class SecretManager {
                 $value = [SecretManager]::DecryptInMemory([SecretManager]::$Cache[$name])
                 if ($value -and $value.Length -ge 8 -and $content -match [regex]::Escape($value)) {
                     $result.HasLeaks = $true
-                    $result.Lees.Add(@{
+$result.Leaks.Add(@{
                         FilePath = $file.FullName
                         SecretName = $name
                         LineNumber = ($content.Substring(0, [Math]::Min($content.IndexOf($value), 1000)) -split '\n').Count
@@ -202,7 +202,7 @@ class SecretManager {
             try {
                 $checkResult = [SecretManager]::CheckForHardcodedSecrets((Get-Location).Path)
                 if ($checkResult.HasLeaks) {
-                    [SecretManager]::WriteErrorLog("Initial scan found hardcoded secrets! $($checkResult.Lees.Count) leaks detected.")
+$($checkResult.Leaks.Count) leaks detected.")
                 }
             } catch {
                 [SecretManager]::WriteWarningLog("Initial leak scan failed: $($_.Exception.Message)")

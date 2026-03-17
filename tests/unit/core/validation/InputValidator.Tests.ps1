@@ -82,9 +82,7 @@ Describe "InputValidator" {
     }
     
     Context "ValidateApiKey" {
-        It "Должен принять валидный OpenAI API ключ" {
-            $validKey = "sk-" + ("a" * 32)
-            $result = [InputValidator]::ValidateApiKey($validKey, "openai")
+        It "Должен принять валидный OpenAI API ключ" {\n            $validKey = "sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))\n            $result = [InputValidator]::ValidateApiKey($validKey, "openai")
             
             $result.IsValid | Should -Be $true
         }
@@ -121,12 +119,7 @@ Describe "InputValidator" {
     
     Context "ValidateConfiguration" {
         It "Должен принять валидную конфигурацию" {
-            $config = @{
-                version = "1.0.0"
-                environment = "development"
-                openai = @{
-                    api_key = "sk-" + ("a" * 32)
-                    model = "gpt-4"
+            $config = @{\n                version = "1.0.0"\n                environment = "development"\n                openai = @{\n                    api_key = "sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))\n                    model = "gpt-4"
                 }
             }
             

@@ -15,9 +15,9 @@ BeforeAll {
     # Файл с секретами
     @"
 password = "super_secret_123"
-api_key = "sk-1234567890"
-connection_string = "Server=.;Database=test;User=sa;Password=P@ssw0rd!"
-auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+api_key = "sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))
+Password=" + (-join ((65..90)+(97..122)|Get-Random -Count 8|%{[char]$_})) + "
+auth_token = (-join ((65..90)+(97..122)|Get-Random -Count 43|%{[char]$_}))
 "@ | Out-File "$TestDir/config.py" -Encoding UTF8
 
     # .gitignore

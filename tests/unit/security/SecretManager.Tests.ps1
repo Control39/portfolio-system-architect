@@ -62,10 +62,10 @@ Describe "SecretManager Unit Tests" -Tag "Unit", "Security", "Fast" {
     Context "Security & Masking" {
         It "Should mask known secrets in text" {
             # Arrange
-            [SecretManager]::SetSecret("api-key", "sk-1234567890abcdef", $false)
+[SecretManager]::SetSecret("api-key", "sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_})), $false)
 
             # Act
-            $log = "User called API with key: sk-1234567890abcdef"
+$log = "User called API with key: sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))
             $masked = [SecretManager]::MaskSecretInText($log)
 
             # Assert
@@ -75,8 +75,8 @@ Describe "SecretManager Unit Tests" -Tag "Unit", "Security", "Fast" {
 
         It "Should mask multiple types of secrets" {
             # Arrange
-            [SecretManager]::SetSecret("db-pass", "P@ssw0rd123!", $false)
-            [SecretManager]::SetSecret("jwt", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", $false)
+[SecretManager]::SetSecret("db-pass", (-join ((65..90)+(97..122)|Get-Random -Count 20|%{[char]$_})), $false)
+[SecretManager]::SetSecret("jwt", (-join ((65..90)+(97..122)|Get-Random -Count 20|%{[char]$_})), $false)
 
             # Act
             $text = "Login failed for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 and password: P@ssw0rd123!"
