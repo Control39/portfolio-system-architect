@@ -1,0 +1,203 @@
+openapi: "3.0.0"
+info:
+  title: "Reasoning API"
+  version: "1.0.0"
+  description: "API для взаимодействия с языковой моделью"
+
+x-yc-apigateway:
+  service_account: portfolio-organizer-sa
+
+paths:
+  /chat:
+    post:
+      summary: "Отправка сообщения в чат с AI"
+      operationId: chatWithAI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: "Текст сообщения для отправки в чат"
+      responses:
+        '200':
+          description: "Ответ от AI модели"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "Ответ от AI модели"
+        '400':
+          description: "Некорректный запрос"
+        '500':
+          description: "Ошибка сервера"
+      x-yc-apigateway-cors:
+        origin: "*"
+        methods:
+          - POST
+          - OPTIONS
+        headers:
+          - Content-Type
+          - Authorization
+        credentials: false
+        maxAge: 86400
+  
+  /health:
+    get:
+      summary: "Health check endpoint"
+      operationId: healthCheck
+      responses:
+        '200':
+          description: "Service is healthy"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+        '500':
+          description: "Service is unhealthy"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "unhealthy"
+                  error:
+                    type: string
+      x-yc-apigateway-cors:
+        origin: "*"
+        methods:
+          - GET
+          - OPTIONS
+        headers:
+          - Content-Type
+        credentials: false
+        maxAge: 86400
+  
+  /upload:
+    post:
+      summary: "Загрузка проекта"
+      operationId: uploadProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectName:
+                  type: string
+                  description: "Название проекта"
+                files:
+                  type: array
+                  items:
+                    type: string
+                  description: "Список файлов проекта"
+      responses:
+        '200':
+          description: "Проект успешно загружен"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  projectId:
+                    type: string
+        '400':
+          description: "Некорректный запрос"
+      x-yc-apigateway-cors:
+        origin: "*"
+        methods:
+          - POST
+          - OPTIONS
+        headers:
+          - Content-Type
+          - Authorization
+        credentials: false
+        maxAge: 86400
+
+  /analyze/{projectId}:
+    post:
+      summary: "Анализ проекта"
+      operationId: analyzeProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Анализ завершен"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  analysisId:
+                    type: string
+        '404':
+          description: "Проект не найден"
+      x-yc-apigateway-cors:
+        origin: "*"
+        methods:
+          - POST
+          - OPTIONS
+        headers:
+          - Content-Type
+          - Authorization
+        credentials: false
+        maxAge: 86400
+
+  /demo/{projectId}:
+    post:
+      summary: "Генерация демонстрации"
+      operationId: generateDemo
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Демонстрация создана"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  demoUrl:
+                    type: string
+        '404':
+          description: "Проект не найден"
+      x-yc-apigateway-cors:
+        origin: "*"
+        methods:
+          - POST
+          - OPTIONS
+        headers:
+          - Content-Type
+          - Authorization
+        credentials: false
+        maxAge: 86400

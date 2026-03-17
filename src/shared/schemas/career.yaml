@@ -1,0 +1,63 @@
+# Career Development Schemas
+# Extracted from apps/career-development/career-development-system/src/core/models.py
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: CareerDevelopmentSchemas
+type: object
+properties:
+  CompetencyMarker:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Уникальный UUID
+      title:
+        type: string
+        description: Краткое название маркера
+      status:
+        type: string
+        enum: [not_started, in_progress, completed]
+        default: not_started
+      evidence_url:
+        type: string
+        nullable: true
+      created_at:
+        type: string
+        format: date-time
+    required: [id, title, status]
+  
+  Skill:
+    type: object
+    properties:
+      name:
+        type: string
+      level:
+        type: integer
+        minimum: 0
+        maximum: 5
+      markers:
+        type: array
+        items:
+          $ref: '#/properties/CompetencyMarker'
+  
+  UserProfile:
+    type: object
+    properties:
+      username:
+        type: string
+      skills:
+        type: array
+        items:
+          $ref: '#/properties/Skill'
+      goals:
+        type: array
+        items: object
+      achievements:
+        type: array
+        items: object
+    required: [username]
+
+definitions:
+  - CompetencyMarker
+  - Skill  
+  - UserProfile

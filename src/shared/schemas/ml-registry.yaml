@@ -1,0 +1,64 @@
+# ML Model Registry Schemas
+# Extracted from apps/ml-model-registry/ml-model-registry/src/core/model_registry.py
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: MLModelRegistrySchemas
+type: object
+properties:
+  ModelMetadata:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      version:
+        type: string
+      framework:
+        type: string
+        nullable: true
+      description:
+        type: string
+        nullable: true
+      accuracy:
+        type: number
+        nullable: true
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+    required: [id, name, version]
+  
+  ModelSearchResult:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      version:
+        type: string
+      matches:
+        type: array
+        items:
+          type: string
+    additionalProperties: true
+
+  ModelOperationResult:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: [success, error]
+      model_id:
+        type: string
+      message:
+        type: string
+        nullable: true
+
+definitions:
+  - ModelMetadata
+  - ModelSearchResult
+  - ModelOperationResult

@@ -5,7 +5,12 @@
 
 ## Q1 2026 - Фундаментальная структура
 
-### Январь - Февраль
+### Ecosystem Sync [COMPLETED ✅ blackboxai]
+- [x] IT-Compass markers (17 JSONs → aggregated)
+- [x] External ecosystem docs/diagrams/plans
+- [x] Safe sync script (_sync/ structure)
+
+### Январь - Февраль [COMPLETED ✅]
 - [x] Создание базовой структуры репозитория
 - [x] Интеграция основных компонентов:
   - Arch Compass Framework
@@ -14,11 +19,13 @@
   - Thought Architecture
   - Career Development System
 - [x] Создание архитектурной документации
+- [x] **PostgreSQL Migration** (docker-compose.override.yml + Alembic)
+- [x] **Centralized Data Schemas** (src/shared/schemas + pydantic gen)
 
-### Март
-- [ ] Разработка методологии системного мышления
-- [ ] Создание базовых диаграмм компонентов
-- [ ] Определение интерфейсов между компонентами
+### Март [COMPLETED ✅]
+- [x] Разработка методологии системного мышления
+- [x] Создание базовых диаграмм компонентов (diagrams/dependencies.mmd, ecosystems.mmd)
+- [x] Определение интерфейсов между компонентами (docs/docs/components-interaction.md)
 
 ## Q2 2026 - Визуализация и документирование
 

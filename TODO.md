@@ -1,35 +1,32 @@
-# Task Progress: Point 10 - Commit/PR Badges Fix
+# TODO: Ecosystem Sync from my-ecosystem-FINAL
+✅ Priority 1 (Markers) + Priority 2 (Docs) Done | Next: Scripts/Integrations | Priority: High
 
-- [x] Create TODO.md tracking
-- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
-- [x] Add senior justification text
-- [x] Commit/push to blackboxai/improvements  
-- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
-- [x] attempt_completion
->>>>>>> blackboxai/improvements
-=======
-# Portfolio Git Cleanup & Improvements COMPLETE
+## Approved Plan Steps (Prioritized)
 
-## Repo Cleanup [✅ DONE]
-Approved plan: blackboxai/repo-cleanup PR merged.
-- Removed temp/outdated TODOs, fixed maps, tests dirs.
+### 1. Setup Structure ✅ Done
+- [x] Create `_sync/it-compass/`
+- [x] Create `docs/external-ecosystem/`
 
-## Improvements Merged [✅ DONE]
-Badges/SEO/PRs (blackboxai/improvements → main)
+### 2. Extract IT-Compass Markers (Priority 1) ✅
+- [x] Read key marker JSONs from my-ecosystem-FINAL/it-compass/src/data/markers/
+- [x] Aggregate into `docs/external-ecosystem/IT_COMPASS_MARKERS.json`
+- [x] Create `docs/external-ecosystem/it-compass-markers-summary.md` summary
 
-## Current: Git Branches Cleanup [IN PROGRESS]
-See TODO_GIT_CLEANUP.md for plan/status.
+### 3. Key Docs/Diagrams (Priority 2) ✅
+- [x] `docs/external-ecosystem/ECOSYSTEM_MAP.md` (with Mermaid)
+- [x] `docs/external-ecosystem/SYNC_PLAN.md` (full copy/adapt)
 
-Next: Sync mirrors, delete stale → unified main across remotes.
+### 4. Sync Scripts (Priority 3)
+- [ ] Create `scripts/sync-from-my-ecosystem.py` (safe diff copier)
 
-Generated: 2026
-=======
-# Task Progress: Point 10 - Commit/PR Badges Fix
+### 5. Integrations (Later, Priority 4)
+- [ ] Merge markers to `apps/it-compass/src/data/markers/`
+- [ ] Utils to cloud-reason/arch-compass-framework
+- [ ] Update ROADMAP.md / main TODO.md
 
-- [x] Create TODO.md tracking
-- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
-- [x] Add senior justification text
-- [x] Commit/push to blackboxai/improvements  
-- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
-- [x] attempt_completion
->>>>>>> blackboxai/improvements
+### 6. Verification
+- [ ] Git diff previews
+- [ ] Final report + attempt_completion
+
+**Notes**: Non-destructive (_sync/, external-ecosystem/). Update this file after each major step.
+
