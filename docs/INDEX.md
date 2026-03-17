@@ -6,7 +6,7 @@
 |-----------|--------------------|-----------|
 | **Сторонние пользователи** | [ONBOARDING.md](ONBOARDING.md), [QUICKSTART.md](QUICKSTART.md) | [examples/README.md](../04_DEVELOPMENT/examples/README.md), [noobs-guide](../templates/noobs-guide.md) |
 | **Грантовая комиссия** | [EXECUTIVE_SUMMARY](../06_GRANT/EXECUTIVE_SUMMARY.md) | [grant-ready](../06_GRANT/grant-ready.md), [pitch-deck](../06_GRANT/pitch-deck.md), [GigaChain Plan](../03_INTEGRATION/ml-model-registry-integration-plan.md) |
-| **Работодатели** | [RESUME_ENHANCED](../RESUME_ENHANCED.md), README TL;DR | [ARCHITECTURE.md](ARCHITECTURE.md), [human-ai-workflow](human-ai-workflow.md), Metrics in evidence/ |
+| **Работодатели** | README TL;DR | [ARCHITECTURE.md](ARCHITECTURE.md), [human-ai-workflow](human-ai-workflow.md), Metrics in evidence/ |
 
 ## All Key Files
 - [Архитектура](ARCHITECTURE.md)
