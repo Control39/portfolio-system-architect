@@ -1,19 +1,35 @@
-# Репозиторий Cleanup TODO (Approved Plan from Analysis)
+# Task Progress: Point 10 - Commit/PR Badges Fix
 
-## Plan Implementation Steps:
+- [x] Create TODO.md tracking
+- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
+- [x] Add senior justification text
+- [x] Commit/push to blackboxai/improvements  
+- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
+- [x] attempt_completion
+>>>>>>> blackboxai/improvements
+=======
+# Portfolio Git Cleanup & Improvements COMPLETE
 
-1. [x] Create branch `blackboxai/repo-cleanup`
+## Repo Cleanup [✅ DONE]
+Approved plan: blackboxai/repo-cleanup PR merged.
+- Removed temp/outdated TODOs, fixed maps, tests dirs.
 
-2. [x] Remove temp_todo_count.txt
-3. [x] Remove outdated TODO files: TODO_CLEANUP.md, TODO_GIT_MERGE.md, TODO_REFRACTOR.md
-4. [x] Fix recursive obsidian-map: no subdir docs/ (list_files confirmed)
-5. [x] Check & remove empty tests/ dirs in apps/ (some .gitkeep, no mass delete)
+## Improvements Merged [✅ DONE]
+Badges/SEO/PRs (blackboxai/improvements → main)
 
-6. [x] Commit changes
-7. [x] Create PR: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Frepo-cleanup
+## Current: Git Branches Cleanup [IN PROGRESS]
+See TODO_GIT_CLEANUP.md for plan/status.
 
-**COMPLETE**
+Next: Sync mirrors, delete stale → unified main across remotes.
 
-**Status**: Starting...
+Generated: 2026
+=======
+# Task Progress: Point 10 - Commit/PR Badges Fix
 
-Generated: $(date)
+- [x] Create TODO.md tracking
+- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
+- [x] Add senior justification text
+- [x] Commit/push to blackboxai/improvements  
+- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
+- [x] attempt_completion
+>>>>>>> blackboxai/improvements
