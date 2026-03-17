@@ -6,6 +6,21 @@
 
 **Lead Architect: Екатерина Куделя | Zero IT → Cognitive Systems (3yr AI-Orchestrated)**
 
+## 📋 Содержание
+- [🚀 Elevator Pitch (30s)](#🚀-elevator-pitch-30s)
+- [🤖 О роли автора](#🤖-о-роли-автора-в-проекте)
+- [🤖 Author's Role](#🤖-authors-role-in-the-project)
+- [🤔 TL;DR for Employers](#🤔-tldr-for-employers-60s-scan)
+- [🤔 For Skeptics](#🤔-for-skeptics-3-key-doubts-answered)
+- [🏗️ What + Why](#🏗️-what--why)
+- [📊 Transformation Timeline](#📊-transformation-timeline)
+- [Modules](#modules)
+- [CI/CD + Grant-Ready](#cicd---grant-ready)
+- [📡 Repository Mirroring](#📡-repository-mirroring)
+- [🗺️ Q2-2026 Roadmap](#🗺️-q2-2026-roadmap)
+- [📚 Dive Deeper](#📚-dive-deeper)
+- [📄 Grant Materials](#📄-grant-materials)
+
 ## 🚀 Elevator Pitch (30s)
 [RU/EN](docs/ELEVATOR_PITCH.md)
 
@@ -97,6 +112,11 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 
 ## 🗺️ Q2-2026 Roadmap
 - Observability, k6 load, self-healing, external RAG.
+
+## 🔄 Недавние обновления
+- **Март 2026**: Очистка битых ссылок (RESUME_ENHANCED.md), фикс coverage badge, удаление файла.
+- **Февраль 2026**: Рефакторинг модулей, обновление архитектуры.
+- **Январь 2026**: Интеграция CI/CD, GitHub Actions.
 
 ## 📚 Dive Deeper
 - [MkDocs Site (local)](http://127.0.0.1:8000/portfolio-system-architect/) | [Live](https://leadarchitect-ai.github.io/portfolio-system-architect/)
