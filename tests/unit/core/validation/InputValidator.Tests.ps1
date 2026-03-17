@@ -88,7 +88,7 @@ Describe "InputValidator" {
         }
         
         It "Должен отклонить OpenAI ключ без префикса sk-" {
-"test-" + (-join ((97..122)|Get-Random -Count 10|%{[char]$_}))
+"test-$(-join ((97..122)|Get-Random -Count 10|%{[char]$_}))"
             $result = [InputValidator]::ValidateApiKey($invalidKey, "openai")
             
             $result.IsValid | Should -Be $false
