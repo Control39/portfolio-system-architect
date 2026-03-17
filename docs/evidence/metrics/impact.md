@@ -1,5 +1,6 @@
 # Impact Metrics: Quantifiable Proof of Transformation
-*From zero IT (2023 Excel notes) → Cognitive Architect Ecosystem (2026). Metrics prove professional quality, time savings, scalability. Addresses skeptic #2: 'Not toys — enterprise-ready'.*
+*From zero IT (2023 Excel notes) → IT-Compass first repo 2025 → Cognitive Architect Ecosystem (2026). Metrics prove professional quality, time savings, scalability. Addresses skeptic #2: 'Not toys — enterprise-ready'.*
+
 
 ## Core Benchmarks (vs Industry Avg)
 | Metric | Project | Industry | Improvement |
