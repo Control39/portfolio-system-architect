@@ -52,6 +52,26 @@ services:
     working_dir: /workspace
     command: pwsh -Command 'Import-Module ./ArchCompass.psm1; Get-Help ArchCompass'
 
+  portfolio-organizer:
+    build: ./apps/portfolio-organizer/portfolio-organizer
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+
+  system-proof:
+    build: ./apps/system-proof
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+
   db:
     image: nouchka/sqlite3:latest
     volumes:
