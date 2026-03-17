@@ -1,0 +1,47 @@
+[
+  {
+    "Path": "ArchCompass.psm1"
+  },
+  {
+    "Path": "current_files.json"
+  },
+  {
+    "Path": "Initialize-ArchCompass-Ultimate.ps1"
+  },
+  {
+    "Path": ".github\\workflows\\test.yml"
+  },
+  {
+    "Path": "config\\environments\\development.yaml"
+  },
+  {
+    "Path": "src\\core\\commands\\CommandFactory.psm1"
+  },
+  {
+    "Path": "src\\core\\logging\\StructuredLogger.psm1"
+  },
+  {
+    "Path": "src\\core\\security\\SecretManager.psm1"
+  },
+  {
+    "Path": "src\\core\\validation\\InputValidator.psm1"
+  },
+  {
+    "Path": "src\\security\\SecurityScanner.psm1"
+  },
+  {
+    "Path": "tests\\pester.config.ps1"
+  },
+  {
+    "Path": "tests\\e2e\\FullFlow.Tests.ps1"
+  },
+  {
+    "Path": "tests\\integration\\EndToEnd.Tests.ps1"
+  },
+  {
+    "Path": "tests\\unit\\security\\SecretManager.Tests.ps1"
+  },
+  {
+    "Path": "tests\\unit\\security\\SecurityScanner.Tests.ps1"
+  }
+]

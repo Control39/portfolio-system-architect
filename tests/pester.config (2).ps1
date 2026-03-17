@@ -1,0 +1,5 @@
+@{
+    Run = @{
+        Container = @{ Mode = "Desktop" }
+    }
+}
