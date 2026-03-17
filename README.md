@@ -110,8 +110,9 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 |----------|------|
 | LICENSE | [`LICENSE`](LICENSE) |
 | One-Pager | [`docs/grants/one-pager.md`](docs/grants/one-pager.md) |
-| Grant-Ready | [`06_GRANT/grant-ready.md`](06_GRANT/grant-ready.md) |
-| Pitch Deck | [`06_GRANT/pitch-deck.md`](06_GRANT/pitch-deck.md) |
+| Grant-Ready | [`docs/grants/grant-ready.md`](docs/grants/grant-ready.md) |
+| Pitch Deck | [`docs/grants/pitch-deck.md`](docs/grants/pitch-deck.md) |
+| Executive Summary | [`docs/grants/EXECUTIVE_SUMMARY.md`](docs/grants/EXECUTIVE_SUMMARY.md) |
 | Impact Metrics | [`docs/evidence/metrics/impact.md`](docs/evidence/metrics/impact.md) |
 | Human Decisions | [`docs/evidence/human-decisions.md`](docs/evidence/human-decisions.md)
 
