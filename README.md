@@ -1,7 +1,7 @@
 # Portfolio System Architect 🧠
 
 [![CI](https://github.com/leadarchitect-ai/portfolio-system-architect/workflows/CI/badge.svg)](https://github.com/leadarchitect-ai/portfolio-system-architect/actions)
-[![Coverage](coverage_html/index.html)](coverage_html/index.html)
+[![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)](coverage_html/index.html)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](docker-compose.yml)
 
 **Lead Architect: Екатерина Куделя | Zero IT → Cognitive Systems (3yr AI-Orchestrated)**
@@ -52,7 +52,7 @@ This is not a «no-code» solution — this is **industrial AI orchestration** f
 ## 🤔 TL;DR for Employers (60s scan)
 **Impact**: Orchestrated 8-module ecosystem (92% cov, Docker-ready). Human rejects 60% AI → production quality.
 - **ROI**: 80% prototyping speedup ($400K/yr scale).
-- **Proof**: [Resume](RESUME_ENHANCED.md), [Live](index.html), `docker compose up`.
+- **Proof**: [Live Demo](index.html), `docker compose up`, [Architecture Overview](docs/ARCHITECTURE.md).
 
 ## 🤔 For Skeptics (3 Key Doubts Answered)
 1. **You just clicked AI?** → [Human Decisions](docs/evidence/human-decisions.md): 6+ rejections logged.

@@ -6,7 +6,7 @@
 - [ ] IT-Compass integration doc update.
 
 ## 3.2 Для трудоустройства
-- [ ] RESUME_ENHANCED.md → LinkedIn/GitHub.
+- [x] RESUME_ENHANCED.md → LinkedIn/GitHub (link removed from README).
 - [ ] Vacancy list (AI Architect, DevRel).
 - [ ] Interview prep: AI orchestration questions.
 
