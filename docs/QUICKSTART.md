@@ -26,7 +26,16 @@ docker compose up -d  # 7 services: IT-Compass, RAG API, ML Registry
 ## Troubleshooting
 - Logs: `docker compose logs`
 - LFS: `./scripts/check-lfs.sh`
-- Python dev: `pip install -r requirements-dev.txt && pytest`
+- **Python dev (fix tests)**:
+  ```
+  cd apps/[module]  # e.g. it-compass
+  python -m venv .venv
+  .venv\Scripts\activate  # Windows
+  pip install -r requirements-dev.txt
+  pip install -e .  # editable
+  pytest --cov-report=html
+  deactivate
+  ```
 
 **Time-to-Value: <2min. Questions?** [INDEX.md](INDEX.md)
 
