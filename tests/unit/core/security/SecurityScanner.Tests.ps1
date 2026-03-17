@@ -120,9 +120,9 @@ $testSecretValue = (-join ((48..57)+(97..122)|Get-Random -Count 20|%{[char]$_}))
         It "Должен обнаружить потенциальные секреты по паттернам" {
             # Создаем файл с потенциальным секретом
             $testFile = Join-Path $script:TestProjectRoot "config.ps1"
-            Set-Content -Path $testFile -Value @"
-"sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))
-(-join ((65..90)+(97..122)|Get-Random -Count 12|%{[char]$_}))
+@"
+`$api_key = "sk-$(-join ((48..57)+(97..122)|Get-Random -Count 32|%{[char]$_}))"
+`$password = "$(-join ((65..90)+(97..122)|Get-Random -Count 12|%{[char]$_}))"
 "@
             
             $config = @{
