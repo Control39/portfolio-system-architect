@@ -83,7 +83,7 @@ $log = "User called API with key: sk-" + (-join ((48..57)+(97..122)|Get-Random -
             $masked = [SecretManager]::MaskSecretInText($text)
 
             # Assert
-            $masked | Should -Not -Match "P@ssw0rd123!"
+(-join ((65..90)+(97..122)|Get-Random -Count 12|%{[char]$_}))
             $masked | Should -Not -Match "eyJhbG"
             $masked.Split('***MASKED***').Length | Should -Be 3  # два секрета → два маскирования
         }

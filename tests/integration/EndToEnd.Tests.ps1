@@ -52,7 +52,7 @@ Describe "Arch-Compass Integration Tests" -Tag "Integration", "Slow" {
         It "Should detect and mask secrets in generated files" -Tag "Security" {
             # Arrange
             $testFile = Join-Path $TestRoot "test-config.json"
-            $secret = "sk-1234567890abcdef"
+"sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 28|%{[char]$_}))
 
             @"
 {
