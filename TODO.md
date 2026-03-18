@@ -1,35 +1,19 @@
-# Task Progress: Point 10 - Commit/PR Badges Fix
+# TODO: Fix SourceCraft Warnings (blackboxai/fix-review-issues)
+Status: Approved by user | In Progress by BlackboxAI
 
-- [x] Create TODO.md tracking
-- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
-- [x] Add senior justification text
-- [x] Commit/push to blackboxai/improvements  
-- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
-- [x] attempt_completion
->>>>>>> blackboxai/improvements
-=======
-# Portfolio Git Cleanup & Improvements COMPLETE
+## ✅ Completed (Cleanup Phase)
+- [x] Remove IDE/sync/temp/duplicates (91f9337)
+- [x] Replace test secrets v1 (c910c1f)
 
-## Repo Cleanup [✅ DONE]
-Approved plan: blackboxai/repo-cleanup PR merged.
-- Removed temp/outdated TODOs, fixed maps, tests dirs.
+## 🔄 In Progress (Security/Duplicates Fix)
+1. [x] List & git rm duplicate psm1/ps1 files (StructuredLogger-1/11/111, SecretManager-1 removed)
+2. [x] Re-edit tests for remaining hardcoded secrets (SecretManager multiline fixed)
+3. [ ] Fix docker-compose.yml passwords → ${VAR} + .env.example
+4. [ ] Audit/remove unused exports (InputValidator.psm1 etc.)
+5. [ ] git add/commit/push "fix: resolve security bot + duplicates"
+6. [ ] Run Invoke-SecurityScan verify clean
 
-## Improvements Merged [✅ DONE]
-Badges/SEO/PRs (blackboxai/improvements → main)
-
-## Current: Git Branches Cleanup [IN PROGRESS]
-See TODO_GIT_CLEANUP.md for plan/status.
-
-Next: Sync mirrors, delete stale → unified main across remotes.
-
-Generated: 2026
-=======
-# Task Progress: Point 10 - Commit/PR Badges Fix
-
-- [x] Create TODO.md tracking
-- [x] Fix broken badges in README.md (CI/Codecov → shields.io)
-- [x] Add senior justification text
-- [x] Commit/push to blackboxai/improvements  
-- [x] Finalize PR on sourcecraft.dev (https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect/create-pr?source=blackboxai%2Fimprovements)
-- [x] attempt_completion
->>>>>>> blackboxai/improvements
+## ⏳ Pending (Future PRs)
+- benchmark_services.py/healthcheck.py: fix empty except
+- Migrate-Structure.ps1: clean patterns
+- Enhance primitive tests

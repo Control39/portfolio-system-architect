@@ -1,0 +1,7 @@
+{
+    "name": "Arch-Compass Development",
+    "image": "mcr.microsoft.com/powershell:latest",
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {}
+    }
+}
