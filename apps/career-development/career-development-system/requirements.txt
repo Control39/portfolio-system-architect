@@ -1,0 +1,17 @@
+streamlit
+fastapi
+uvicorn
+sqlalchemy
+alembic
+pydantic
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+celery
+redis
+pytest
+pytest-cov
+black
+isort
+mypy
