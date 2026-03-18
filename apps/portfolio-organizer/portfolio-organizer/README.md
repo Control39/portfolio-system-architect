@@ -55,6 +55,20 @@ response = requests.get('http://localhost:5000/api/portfolio')
 print(response.json())
 ```
 
+## Демо и Бейджи
+
+[![CI](https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](docker-compose.yml)
+[![Live Demo](http://localhost:8004)](http://localhost:8004)
+
+**Демо проекта**: Запустите `docker compose up portfolio-organizer` для просмотра портфолио-органайзера на http://localhost:8004.
+
+## История портфолио
+Полная эволюция: [docs/PORTFOLIO-STORY.md](../docs/PORTFOLIO-STORY.md) | Матрица: [docs/PROJECTS-MATRIX.md](../docs/PROJECTS-MATRIX.md)
+
 ## Лицензия
 
 Этот проект лицензирован по лицензии MIT - см. файл [LICENSE](LICENSE) для получения подробной информации.
+
+
+

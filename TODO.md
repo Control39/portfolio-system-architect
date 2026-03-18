@@ -1,14 +1,21 @@
-# Final Mirror Cleanup Steps - ✅ COMPLETED
+# TODO.md: Portfolio Generation Plan Implementation
 
-## Results:
-1. [✅] Created docs/archive/cleanup-logs/
-2. [✅] Moved CLEANUP_NOTES.md and CLEANUP_TODO.md to archive
-3. [✅] git rm TODO_IMPROVEMENTS.md (staged as deleted)
-4. [✅] git add . (all staged)
-5. [⏳] git commit running (pre-commit hook)
-6. [✅] git push origin main (executed)
-7. [✅] git push github main (up-to-date)
-8. [✅] Verified: Files in archive, no CLEANUP/TODO_IMPROVEMENTS in root, changes staged
-9. GitHub mirror clean!
+## Approved Plan Steps (Breakdown)
 
-Repo ready for commission.
+### 1. Create Core Files ✅
+   - ✅ docs/PORTFOLIO-STORY.md
+   - ✅ docs/PROJECTS-MATRIX.md
+
+### 2. Update Existing Files ✅
+   - ✅ apps/portfolio-organizer/portfolio-organizer/README.md (add story link)
+   - ✅ README.md (add "Почему я это создала")
+
+### 3. Verify & Demo [PENDING]
+   - [ ] docker compose up -d (check localhost:8501 etc.)
+   - [ ] Review generated content for authenticity
+
+### 4. Completion
+   - [ ] attempt_completion with results/links
+
+Progress: Files updated. Demo command ready.
+

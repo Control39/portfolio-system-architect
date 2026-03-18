@@ -1,6 +1,16 @@
 # Onboarding & Cognitive-Drift Mitigation
 
+## Windows Quickstart (RF audience)
+
+```cmd
+git clone ...
+cd portfolio-system-architect
+docker compose up -d
+start http://localhost:8501
+```
+
 ## Formal Onboarding Checklist
+
 
 1. **Clone & Setup**:
    ```
