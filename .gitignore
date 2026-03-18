@@ -161,5 +161,9 @@ Desktop.ini
 *.swn
 *~
 
+# Manual review artifacts (kept locally)
+manual-review/
+
 # Дополнительные файлы, которые не должны быть в репозитории
 TODO*.md
+

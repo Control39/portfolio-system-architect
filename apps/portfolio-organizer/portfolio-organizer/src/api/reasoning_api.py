@@ -10,9 +10,7 @@ import os
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get('SECRET_KEY')
-if not app.secret_key:
-    raise ValueError('SECRET_KEY environment variable not set!')
+app.secret_key = os.environ.get('SECRET_KEY', 'demo-secret-key-for-portfolio-organizer')
 csrf = CSRFProtect(app)
 
 # Демонстрационные данные проектов

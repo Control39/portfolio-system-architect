@@ -10,10 +10,10 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 # Импортируем модули из проекта
-from ..core.tracker import SkillTracker
-from ..core.api_integration import APIIntegration
-from ..utils.portfolio_gen import PortfolioGenerator
-from ..core.mental.psychological_support import PsychologicalSupport as PS
+from src.core.tracker import SkillTracker
+from src.core.api_integration import APIIntegration
+from src.utils.portfolio_gen import PortfolioGenerator
+from src.core.mental.psychological_support import PsychologicalSupport as PS
 
 
 class ITCompassApp:
