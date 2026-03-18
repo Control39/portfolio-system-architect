@@ -1,0 +1,58 @@
+# System Proof Schemas
+# Extracted from apps/system-proof/proof_schema.py
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: SystemProofSchemas
+type: object
+properties:
+  TraceStep:
+    type: object
+    properties:
+      input:
+        type: string
+      output:
+        type: string
+        nullable: true
+      step_type:
+        type: string
+        enum: [reasoning, validation, execution]
+      timestamp:
+        type: string
+        format: date-time
+  
+  ProofMetadata:
+    type: object
+    properties:
+      thought_architecture:
+        type: string
+        description: Architecture pattern used
+      proof_id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      validated:
+        type: boolean
+        default: false
+  
+  SystemProof:
+    type: object
+    properties:
+      id:
+        type: string
+      metadata:
+        $ref: '#/properties/ProofMetadata'
+      trace_steps:
+        type: array
+        items:
+          $ref: '#/properties/TraceStep'
+      final_result:
+        type: object
+      status:
+        type: string
+        enum: [pending, running, completed, failed]
+
+definitions:
+  - TraceStep
+  - ProofMetadata
+  - SystemProof

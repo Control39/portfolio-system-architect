@@ -18,9 +18,45 @@
    chmod +x BENCHMARK_SUITE/*.sh && BENCHMARK_SUITE/test_coverage.sh
    ```
 
-4. **Run Stack**: `docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d`
+4. **Production Stack** (with PostgreSQL + Monitoring):
+   ```
+   docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.monitoring.yml up -d postgres pgadmin prometheus grafana
+   ```
 
-5. **Verify**: http://localhost:8501 (IT-Compass), :8000/docs (Cloud-Reason), Grafana dashboards.
+5. **Schema Pipeline**:
+   ```
+   python tools/generate_pydantic.py  # Generate shared pydantic models
+   cd apps/career-development && alembic upgrade head  # Migrate DB
+   ```
+
+6. **Verify Stack**:
+   | Service | URL | Credentials |
+   |---------|-----|-------------|
+   | PgAdmin | localhost:5050 | admin/admin123 |
+   | Postgres | localhost:5432 | architect/arch_pass_2024 |
+   | Grafana | localhost:3000 | admin/admin |
+   | IT-Compass | localhost:8501 | - |
+   | Career-Dev | localhost:8000/docs | - |
+   | Health Check | `python scripts/healthcheck.py` | - |
+   | Ecosystem Sync | `python scripts/sync-from-my-ecosystem.py --preview` | docs/external-ecosystem/ |
+   
+7. **Daily Ops**:
+   ```
+   python scripts/healthcheck.py          # 🟢 All systems healthy
+   python tools/generate_pydantic.py      # Refresh schemas
+   python tools/benchmark.py              # 🏆 Benchmark report (latency <200ms)
+   ```
+   
+   **Example Healthcheck Output:**
+   ```
+   🩺 Portfolio System Health Check
+   postgres             🟢 UP localhost:5432
+   pgadmin              🟢 UP localhost:5050
+   prometheus           🟢 UP localhost:9090
+   grafana              🟢 UP localhost:3000
+   ✅ ALL SYSTEMS HEALTHY
+   ```
+
 
 ## Cognitive-Drift Mitigation
 
