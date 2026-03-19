@@ -2,8 +2,8 @@
 # Установка: pip install -r requirements-dev.txt
 
 # Листинг и форматирование
-ruff>=0.1.0
-black>=23.0.0
+#ruff>=0.1.0  # Python 3.13 compat pending
+black==24.8.0
 isort>=5.12.0
 
 # Проверка типов
@@ -25,6 +25,9 @@ coverage>=7.0.0
 pytest-playwright
 pytest-cov
 requests
+langchain==0.3.1
+langchain-community==0.3.0
+pydantic-settings==2.5.2
 
 # Зависимости для конкретных компонентов
 streamlit>=1.32.0

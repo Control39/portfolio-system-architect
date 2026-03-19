@@ -10,10 +10,9 @@ import sys
 from datetime import datetime
 from unittest.mock import patch, mock_open
 
-# Добавляем путь к модулям IT Compass
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from src.core.tracker import CompetencyTracker
+
+from apps.it_compass.src.core.tracker import CompetencyTracker
 
 
 class TestCompetencyTracker(unittest.TestCase):

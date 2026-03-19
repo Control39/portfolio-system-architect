@@ -81,7 +81,8 @@
 - **monitoring/**: Grafana/Prometheus для observability.
 
 ## 📖 Глава 4: Результаты (точка Б)
-Аудит BLACKBOXAI: Product-minded Cognitive Systems Architect 🟢92%.  
+✅ Stage 2 Enterprise: Terraform, K8s (HPA, monitoring), DR runbooks.
+Аудит BLACKBOXAI: Product-minded Cognitive Systems Architect 🟢92%.
 **Что могу**: Systemic design ⭐⭐⭐⭐⭐, Docs ⭐⭐⭐⭐⭐, Python ⭐⭐⭐⭐ (см. docs/docs/SKILLS.md).  
 **Дам работодателю**: Экосистему для cognitive architecture, $150-250K remote level.
 
