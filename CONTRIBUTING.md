@@ -34,7 +34,7 @@
 ### 2. Клонируйте
 
 ```bash
-git clone https://github.com/ВАШ_ЛОГИН/portfolio-system-architect.git
+git clone https://github.com/Control39/cognitive-systems-architecture.git
 cd portfolio-system-architect
 ```
 
@@ -518,7 +518,7 @@ jobs:
 
 ### Каналы связи
 
-- **Issues**: [GitHub Issues](https://github.com/leadarchitect-ai/portfolio-system-architect/issues)
+[GitHub Issues](https://github.com/Control39/cognitive-systems-architecture/issues)
 - **Email**: leadarchitect@yandex.ru
 
 ### График поддержки

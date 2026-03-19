@@ -3,5 +3,22 @@
 1. kubectl apply -f deployment/
 2. kubectl get pods -A
 
-Requires manifests for each service.
+**All 8 services manifests ready:**
+
+Standalone manifests created:
+- it-compass-deployment.yaml
+- auth-deployment.yaml
+- cloud-reason-deployment.yaml
+- ml-model-registry-deployment.yaml
+- career-development-deployment.yaml
+- portfolio-organizer-deployment.yaml
+- system-proof-deployment.yaml
+- arch-compass-deployment.yaml
+
+**Scaling:** See [docs/scaling-plan.md](docs/scaling-plan.md)
+
+Commands:
+1. kubectl apply -f deployment/
+2. kubectl get pods -A
+3. kubectl port-forward svc/it-compass 8501:8501
 

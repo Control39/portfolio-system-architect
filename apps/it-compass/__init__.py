@@ -1,0 +1,4 @@
+"""
+IT Compass app package.
+"""
+

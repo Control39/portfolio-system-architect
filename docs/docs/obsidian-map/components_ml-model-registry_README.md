@@ -14,7 +14,7 @@
 
 ## Статус
 
-![CI](https://github.com/leadarchitect-ai/portfolio-system-architect/workflows/CI/badge.svg)
+![CI](https://github.com/Control39/cognitive-systems-architecture/workflows/CI/badge.svg)
 ![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 

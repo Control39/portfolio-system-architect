@@ -6,7 +6,7 @@ Self-Improving Loop stub included.
 
 import os
 from dotenv import load_dotenv
-from langchain.chains import LLMChain
+
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Gigachat  # Assuming gigachain provides this
 from pydantic_settings import BaseSettings
@@ -33,12 +33,14 @@ class GigaMCPBridge:
             input_variables=['context', 'query'],
             template=\"Context from MCP/it-compass: {{context}}\\nQuery: {{query}}\\nRespond with CoT:\"
         )
-        self.chain = LLMChain(llm=self.llm, prompt=self.prompt)
+        self.chain = self.prompt | self.llm
+
 
     def giga_request(self, query: str, mcp_history: list = []) -> dict:
         \"\"\"Giga-Request with session context (Step 2). Cross-Check stub.\"\"\"
         context = '\\n'.join([h.get('content', '') for h in mcp_history[-5:]])  # Last 5
-        response = self.chain.run(context=context, query=query)
+        response = self.chain.invoke({"context": context, "query": query}).content
+
         trace = {'input': query, 'context': context, 'output': response}
         verified = self.verify_inference(trace)  # Step 3
         return {'response': response, 'trace': trace, 'verified': verified}

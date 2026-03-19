@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-reason
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloud-reason
+  template:
+    metadata:
+      labels:
+        app: cloud-reason
+    spec:
+      containers:
+      - name: cloud-reason
+        image: portfolio-system-architect:cloud-reason
+        ports:
+        - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-reason
+spec:
+  selector:
+    app: cloud-reason
+  ports:
+  - port: 8001
+    targetPort: 8001
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-reason-config
+data:
+  PYTHONPATH: /app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloud-reason
+spec:
+  rules:
+  - host: cloud-reason.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloud-reason
+            port:
+              number: 8001
