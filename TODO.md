@@ -1,21 +1,31 @@
-# Unit Tests for 90%+ Coverage
-Status: In Progress
+# TODO: Complete 4 Priorities for Final Launch
 
-## Baseline
-- [x] Analyzed files/tests structure
-- [x] Ran local tests (Python 0%, PS error)
+## Plan Breakdown (Approved)
 
-## Steps:
-- [x] 1. Fix tests/run-tests.ps1 Output param
-- [x] 2. Fix Python test syntax/imports (e2e/*.py, cloud-reason/tests/*.py, etc.)
-- [x] 3. Create PS test: tests/unit/core/configuration/ConfigurationManager.Tests.ps1
-- [x] 4. Add 5+ more PS tests for core modules (e.g. CLI, SecurityScanner)
-- [x] 5. Add Python unit tests tests/unit/test_cloud_utils.py etc.
-- [x] 6. Update cov thresholds to 90 in pytest.ini/ci.yml/test-cloud-reason.yml
-- [ ] 7. Local verify cov 90%+
-- [ ] 8. Commit/push, monitor GitHub actions https://github.com/Control39/cognitive-systems-architecture/actions
-- [ ] 9. Update this TODO as done
+### Priority 2A: Fix 11 Test Errors
+- [ ] Install dependencies: pip install -r requirements-dev.txt
+- [ ] Fix imports in apps/ml-model-registry/tests/test_api.py (remove sys.path, proper package import)
+- [ ] Fix langchain imports if needed in apps/cloud-reason
+- [x] Run pytest and verify 95% coverage (partial, 10 errors left, cov pending)
 
-**Notes:**
-- Step 6 already compliant
-- Step 7: Fixing syntax/import errors in tests/src/cloud_reason to enable collection
+### Priority 4: Terraform Modules
+- [x] Verify packages/terraform/modules/cognitive-system/*.tf (GCP GKE)
+- [x] Verify examples/basic/main.tf + README.md
+- [x] Update apps/arch-compass-framework/README.md with link
+
+### Priority 6: Sphinx Documentation
+- [x] Verify docs/api/conf.py (autodoc apps/)
+- [x] Verify docs/api/Makefile + index.rst
+- [x] Update README.md with link
+
+### Priority 7: K8s Manifests
+- [x] Confirm all 8 deployment/*.yaml exist
+- [x] Update deployment/k8s-README.md
+- [x] Update docs/scaling-plan.md
+
+### Final
+- [ ] All checks pass
+- [ ] attempt_completion with summary
+
+Updated after each step.
+

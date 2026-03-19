@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
-from cloud_reason.api.endpoints import app
+from ..api.endpoints import app
 
 client = TestClient(app)
 

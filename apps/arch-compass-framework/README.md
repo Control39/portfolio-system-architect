@@ -50,5 +50,6 @@ Start-ArchCompass -Environment default
 Проект в активной разработке. Готовы базовые модули.
 
 ### Integrations
+- **Terraform Infrastructure**: [packages/terraform/modules/cognitive-system](packages/terraform/modules/cognitive-system) - GCP GKE cluster module
 - **Cloud Reason** ([02_MODULES/cloud-reason](02_MODULES/cloud-reason)): Architecture validation via reasoning API
 - **IT Compass** ([02_MODULES/it-compass](02_MODULES/it-compass)): Architecture competency tracking

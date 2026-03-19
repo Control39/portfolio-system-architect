@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-proof
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: system-proof
+  template:
+    metadata:
+      labels:
+        app: system-proof
+    spec:
+      containers:
+      - name: system-proof
+        image: portfolio-system-architect:system-proof
+        ports:
+        - containerPort: 8005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: system-proof
+spec:
+  selector:
+    app: system-proof
+  ports:
+  - port: 8005
+    targetPort: 8005
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: system-proof-config
+data:
+  PYTHONPATH: /app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: system-proof
+spec:
+  rules:
+  - host: system-proof.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: system-proof
+            port:
+              number: 8005

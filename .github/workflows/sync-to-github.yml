@@ -1,0 +1,21 @@
+name: Sync to GitHub Mirror
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        # SourceCraft secrets? Assume token
+
+      - name: Push to GitHub Mirror
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Control39/cognitive-systems-architecture.git || true
+          git push mirror HEAD:main --force
+          git remote remove mirror

@@ -18,7 +18,7 @@
 ## Roadmap
 | Phase | Action | Timeline |
 |-------|--------|----------|
-| MVP | Docker + CI | Done |
+| MVP | Docker + CI + K8s manifests | Done |
 | Scale1 | Redis + Celery | 1 week |
 | Prod | K8s + Postgres HA | 1 month |
 
