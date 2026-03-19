@@ -54,18 +54,20 @@ Write-Host "`n🧪 Запуск тестов типа: $TestType" -ForegroundCol
 Write-Host "   Пути: $($pathsToRun -join ', ')" -ForegroundColor Gray
 
 # Параметры для Invoke-Pester
-$pesterParams = @{
-    Path = $pathsToRun
-    PassThru = $true
-    Output = 'Detailed'
-}
+$config = [Pester.Configuration]::Default
+$config.Run.Path = $pathsToRun
+$config.Output.Verbosity = 'Detailed'
+$config.TestResult.OutputFormat = 'NUnitXml'
+$config.TestResult.OutputPath = "$resultsDir/testResults_$(Get-Date -Format 'yyyyMMdd_HHmmss').xml"
 
 if ($CodeCoverage) {
-    $pesterParams['CodeCoverage'] = @(
+    $config.CodeCoverage.Enabled = $true
+    $config.CodeCoverage.Path = @(
         "$PSScriptRoot\..\src\**\*.psm1",
-        "$PSScriptRoot\..\src\**\*.ps1"
+        "$PSScriptRoot\..\src\**\*.psm1"
     )
 }
+$pesterParams = @{ Configuration = $config }
 
 if ($Tag) {
     $pesterParams['Tag'] = $Tag

@@ -1,0 +1,10 @@
+version: 1.0
+required_files:
+  - README.md
+  - docs/ARCHITECTURE.md
+component_dirs:
+  - apps/
+lint_tools:
+  ruff: true
+  black: true
+

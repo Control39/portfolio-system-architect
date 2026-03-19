@@ -1,0 +1,4 @@
+{
+  "required_files": ["README.md","docs/ARCHITECTURE.md","LICENSE"],
+  "component_dirs": ["apps/"]
+}

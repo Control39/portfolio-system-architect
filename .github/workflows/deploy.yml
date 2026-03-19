@@ -31,3 +31,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/mkdocs-site/site
+
+      - name: Deploy K8s (if tagged)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          kubectl config use-context prod
+          kubectl apply -f deployment/
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}

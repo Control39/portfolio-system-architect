@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.9.2
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    command: mlflow server --backend-store-uri postgresql://postgres:password@postgres:5432/mlflow --default-artifact-root ./mlflow/artifacts --host 0.0.0.0
+    depends_on:
+      - postgres
+
+volumes:
+  mlflow_data:
+

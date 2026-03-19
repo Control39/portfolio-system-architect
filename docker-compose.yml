@@ -7,6 +7,14 @@ services:
       - ./data:/app/data
     environment:
       - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   cloud-reason:
     build: ./apps/cloud-reason
@@ -15,19 +23,38 @@ services:
     volumes:
       - ./logs:/app/logs
       - ./apps/cloud-reason:/app
+      - ./data/rag-index:/app/rag-index
     environment:
       - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/api/v1/status')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   career-development:
     build: ./apps/career-development/career-development-system
     ports:
-      - "8000:8000"
+      - "8005:8000"
     volumes:
       - ./data:/app/data
     environment:
       - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   ml-model-registry:
     build:
@@ -43,14 +70,18 @@ services:
     volumes:
       - ./data/ml-models:/app/models
     environment:
-      - DATABASE_URL=sqlite:////app/models/registry.db
-
-  arch-compass:
-    build: ./apps/arch-compass-framework
-    volumes:
-      - ./apps/arch-compass-framework:/workspace
-    working_dir: /workspace
-    command: pwsh -Command 'Import-Module ./ArchCompass.psm1; Get-Help ArchCompass'
+      - DATABASE_URL=${DATABASE_URL}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   portfolio-organizer:
     build: ./apps/portfolio-organizer/portfolio-organizer
@@ -60,6 +91,14 @@ services:
       - ./data:/app/data
     environment:
       - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   system-proof:
     build: ./apps/system-proof
@@ -67,17 +106,49 @@ services:
       - "8003:8003"
     volumes:
       - ./data:/app/data
+      - ./data/proofs:/app/proofs
     environment:
-      - PYTHONPATH=/app
+      - DATABASE_URL=${DATABASE_URL}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  db:
-    image: nouchka/sqlite3:latest
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./data/db:/data
-    command: tail -f /dev/null
+      - postgres_data:/var/lib/postgresql/data
+      - ./data/db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - portfolio-network
+    command: postgres -c listen_addresses='*' -c max_connections=200
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # arch-compass removed from default compose (PowerShell/Windows-only)
+  # Run separately with: docker build -f apps/arch-compass-framework/Dockerfile -t arch-compass:latest apps/arch-compass-framework
 
 volumes:
   data:
   logs:
+  postgres_data:
+
+networks:
+  portfolio-network:
+    driver: bridge

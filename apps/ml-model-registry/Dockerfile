@@ -22,19 +22,27 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Runtime deps only
+# Runtime deps only + curl for health checks
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libblas3 \
     liblapack3 \
     libopenblas0 \
-    && rm -rf /var/lib/apt/lists/*
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -u 1000 appuser
 
 # Copy built wheels
 COPY --from=builder /root/.local /root/.local
 ENV PATH=/root/.local/bin:$PATH
 
-COPY . .
+COPY --chown=appuser:appuser . .
+ENV PYTHONPATH=/app
+
+USER appuser
 
 EXPOSE 8001
 
-CMD ["uvicorn", "src.core.registry:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+CMD ["uvicorn", "src.core.registry:app", "--host", "0.0.0.0", "--port", "8001"]

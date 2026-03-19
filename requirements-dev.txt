@@ -18,19 +18,22 @@ pydocstyle>=6.3.0
 docformatter>=1.7.0
 
 # Тестирование (дополнительные инструменты)
-pytest-xdist>=3.0.0  # параллельное выполнение тестов
-pytest-html>=3.2.0  # HTML отчеты
-pytest-mock>=3.10.0  # мокирование
-coverage>=7.0.0  # покрытие кода
+pytest-xdist>=3.0.0
+pytest-html>=3.2.0
+pytest-mock>=3.10.0
+coverage>=7.0.0
+pytest-playwright
+pytest-cov
+requests
 
 # Зависимости для конкретных компонентов
-streamlit>=1.32.0  # для it-compass
-fastapi[all]>=0.68.0  # для cloud-reason и ml-model-registry
+streamlit>=1.32.0
+fastapi[all]>=0.68.0
 
 # Инструменты для работы с данными
 pandas[performance]>=1.3.2
 openpyxl>=3.0.0
 
 # Дополнительные утилиты
-pre-commit>=3.0.0  # хуки pre-commit
-commitizen>=2.0.0  # стандартизация коммитов
+pre-commit>=3.0.0
+commitizen>=2.0.0
