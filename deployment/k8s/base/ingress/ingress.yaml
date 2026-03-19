@@ -1,0 +1,75 @@
+# Ingress for all services
+# Routes traffic to microservices
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-ingress
+  namespace: portfolio
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # For GCP Ingress:
+    # kubernetes.io/ingress.class: "gce"
+    # networking.gke.io/managed-certificates: "portfolio-cert"
+    
+    # SSL/TLS (future)
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: portfolio.local
+    http:
+      paths:
+      - path: /it-compass
+        pathType: Prefix
+        backend:
+          service:
+            name: it-compass
+            port:
+              number: 8501
+      
+      - path: /cloud-reason
+        pathType: Prefix
+        backend:
+          service:
+            name: cloud-reason
+            port:
+              number: 8001
+      
+      - path: /ml-registry
+        pathType: Prefix
+        backend:
+          service:
+            name: ml-model-registry
+            port:
+              number: 8001
+      
+      - path: /career-dev
+        pathType: Prefix
+        backend:
+          service:
+            name: career-development
+            port:
+              number: 8000
+      
+      - path: /portfolio-organizer
+        pathType: Prefix
+        backend:
+          service:
+            name: portfolio-organizer
+            port:
+              number: 8004
+      
+      - path: /system-proof
+        pathType: Prefix
+        backend:
+          service:
+            name: system-proof
+            port:
+              number: 8003
+  
+  # TLS stub (configure with real certificate in overlays)
+  # tls:
+  # - hosts:
+  #   - portfolio.local
+  #   secretName: portfolio-tls

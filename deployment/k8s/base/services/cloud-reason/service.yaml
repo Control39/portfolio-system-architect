@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-reason
+  namespace: portfolio
+spec:
+  type: ClusterIP
+  selector:
+    app: cloud-reason
+  ports:
+  - port: 8001
+    targetPort: 8001
+    protocol: TCP

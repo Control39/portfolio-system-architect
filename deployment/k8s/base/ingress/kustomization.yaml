@@ -1,0 +1,14 @@
+# Ingress Controller Kustomization
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+resources:
+  - ingress.yaml
+  - network-policy.yaml
+
+commonLabels:
+  component: networking

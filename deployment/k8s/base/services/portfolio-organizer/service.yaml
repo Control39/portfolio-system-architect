@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-organizer
+  namespace: portfolio
+spec:
+  type: ClusterIP
+  selector:
+    app: portfolio-organizer
+  ports:
+  - port: 8004
+    targetPort: 8004
+    protocol: TCP

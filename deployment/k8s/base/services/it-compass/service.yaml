@@ -1,0 +1,17 @@
+# IT-Compass Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: it-compass
+  namespace: portfolio
+  labels:
+    app: it-compass
+spec:
+  type: ClusterIP
+  selector:
+    app: it-compass
+  ports:
+  - port: 8501
+    targetPort: 8501
+    protocol: TCP
+    name: http

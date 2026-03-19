@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: system-proof-config
+  namespace: portfolio
+data:
+  PYTHONPATH: /app
+  LOG_LEVEL: INFO

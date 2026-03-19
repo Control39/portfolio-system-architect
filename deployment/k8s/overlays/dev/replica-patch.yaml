@@ -1,0 +1,49 @@
+# Patch for development environment
+# Single replica for all services (save resources)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: it-compass
+spec:
+  replicas: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-reason
+spec:
+  replicas: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-model-registry
+spec:
+  replicas: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: career-development
+spec:
+  replicas: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio-organizer
+spec:
+  replicas: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-proof
+spec:
+  replicas: 1

@@ -1,0 +1,16 @@
+# IT-Compass Service Manifests
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - configmap.yaml
+
+commonLabels:
+  app: it-compass
+  tier: frontend

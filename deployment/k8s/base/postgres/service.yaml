@@ -1,0 +1,19 @@
+# PostgreSQL Service
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: portfolio
+  labels:
+    app: postgres
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgresql

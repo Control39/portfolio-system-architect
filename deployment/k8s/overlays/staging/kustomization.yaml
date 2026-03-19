@@ -1,0 +1,23 @@
+# Staging Environment Overlay
+# GCP GKE Free Tier deployment
+# Works on: GKE v1.27+
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+bases:
+  - ../../base
+
+commonLabels:
+  environment: staging
+
+# Resource limits appropriate for Free Tier
+replicas:
+  - name: it-compass
+    count: 2
+  - name: cloud-reason
+    count: 2
+  - name: ml-model-registry
+    count: 2

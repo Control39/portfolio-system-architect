@@ -1,0 +1,19 @@
+# Development Environment Overlay
+# Local Kind/Minikube deployment
+# Works on: Kind, Minikube
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - replica-patch.yaml
+
+commonLabels:
+  environment: dev
+
+namePrefix: dev-

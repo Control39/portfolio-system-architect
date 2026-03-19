@@ -1,0 +1,20 @@
+# Services Kustomization
+# Includes all 7 microservices
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+resources:
+  - it-compass/
+  - cloud-reason/
+  - ml-model-registry/
+  - career-development/
+  - portfolio-organizer/
+  - system-proof/
+
+commonLabels:
+  component: microservices
+  managed-by: kustomize
