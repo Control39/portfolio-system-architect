@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: portfolio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-service
+        image: ghcr.io/portfolio-system-architect/auth-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8100
+        env:
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: portfolio-secrets
+              key: JWT_SECRET
+        - name: JWT_ALGORITHM
+          value: HS256
+        - name: LOG_LEVEL
+          value: INFO
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8100
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8100
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000

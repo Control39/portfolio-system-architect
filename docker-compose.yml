@@ -1,61 +1,127 @@
+version: '3.9'
+
 services:
-  it-compass:
-    build: ./apps/it-compass
+  # ============================================================
+  # API Gateway & Load Balancer (Traefik)
+  # Single entry point: localhost:80
+  # Dashboard: localhost:8080
+  # ============================================================
+  traefik:
+    image: traefik:v3.0
+    container_name: portfolio-gateway
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=INFO"
     ports:
-      - "8501:8501"
+      - "80:80"
+      - "8080:8080"  # Traefik dashboard: http://localhost:8080
     volumes:
-      - ./data:/app/data
-    environment:
-      - PYTHONPATH=/app
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - portfolio-network
+    environment:
+      - TRAEFIK_LOG_LEVEL=INFO
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+  # ============================================================
+  # JWT Auth Service
+  # Issues & validates tokens
+  # Endpoint: POST /auth/token (demo: username=demo, password=demo)
+  # ============================================================
+  auth-service:
+    build:
+      context: ./apps/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-prod}
+      - JWT_ALGORITHM=HS256
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/auth`)"
+      - "traefik.http.routers.auth.service=auth-service"
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8100"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501')"]
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      - traefik
 
+  # ============================================================
+  # IT-Compass (Skill Tracking UI)
+  # Route: /it-compass
+  # ============================================================
+  it-compass:
+    build: ./apps/it-compass
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.it-compass.rule=Host(`localhost`) && PathPrefix(`/it-compass`)"
+      - "traefik.http.routers.it-compass.service=it-compass"
+      - "traefik.http.services.it-compass.loadbalancer.server.port=8501"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Cloud-Reason (RAG API)
+  # Route: /cloud-reason
+  # ============================================================
   cloud-reason:
     build: ./apps/cloud-reason
-    ports:
-      - "8001:8001"
-    volumes:
-      - ./logs:/app/logs
-      - ./apps/cloud-reason:/app
-      - ./data/rag-index:/app/rag-index
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./logs:/app/logs
+      - ./apps/cloud-reason:/app
+      - ./data/rag-index:/app/rag-index
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cloud-reason.rule=Host(`localhost`) && PathPrefix(`/cloud-reason`)"
+      - "traefik.http.routers.cloud-reason.service=cloud-reason"
+      - "traefik.http.services.cloud-reason.loadbalancer.server.port=8001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/api/v1/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     depends_on:
       postgres:
         condition: service_healthy
-    networks:
-      - portfolio-network
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/api/v1/status')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      traefik:
+        condition: service_started
 
-  career-development:
-    build: ./apps/career-development/career-development-system
-    ports:
-      - "8005:8000"
-    volumes:
-      - ./data:/app/data
-    environment:
-      - PYTHONPATH=/app
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
-    networks:
-      - portfolio-network
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
+  # ============================================================
+  # ML-Model-Registry
+  # Route: /ml-registry
+  # ============================================================
   ml-model-registry:
     build:
       context: ./apps/ml-model-registry
@@ -65,64 +131,107 @@ services:
       resources:
         limits:
           memory: 2G
-    ports:
-      - "8002:8001"
-    volumes:
-      - ./data/ml-models:/app/models
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
-    depends_on:
-      postgres:
-        condition: service_healthy
+    volumes:
+      - ./data/ml-models:/app/models
     networks:
       - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ml-registry.rule=Host(`localhost`) && PathPrefix(`/ml-registry`)"
+      - "traefik.http.routers.ml-registry.service=ml-registry"
+      - "traefik.http.services.ml-registry.loadbalancer.server.port=8001"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      traefik:
+        condition: service_started
 
-  portfolio-organizer:
-    build: ./apps/portfolio-organizer/portfolio-organizer
-    ports:
-      - "8004:8004"
-    volumes:
-      - ./data:/app/data
+  # ============================================================
+  # Career Development
+  # Route: /career-dev
+  # ============================================================
+  career-development:
+    build: ./apps/career-development/career-development-system
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
-    networks:
-      - portfolio-network
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  system-proof:
-    build: ./apps/system-proof
-    ports:
-      - "8003:8003"
     volumes:
       - ./data:/app/data
-      - ./data/proofs:/app/proofs
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.career-dev.rule=Host(`localhost`) && PathPrefix(`/career-dev`)"
+      - "traefik.http.routers.career-dev.service=career-dev"
+      - "traefik.http.services.career-dev.loadbalancer.server.port=8000"
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Portfolio Organizer
+  # Route: /portfolio-organizer
+  # ============================================================
+  portfolio-organizer:
+    build: ./apps/portfolio-organizer/portfolio-organizer
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio-org.rule=Host(`localhost`) && PathPrefix(`/portfolio-organizer`)"
+      - "traefik.http.routers.portfolio-org.service=portfolio-org"
+      - "traefik.http.services.portfolio-org.loadbalancer.server.port=8004"
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # System Proof (CoT Storage)
+  # Route: /system-proof
+  # ============================================================
+  system-proof:
+    build: ./apps/system-proof
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
-    depends_on:
-      postgres:
-        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./data/proofs:/app/proofs
     networks:
       - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.system-proof.rule=Host(`localhost`) && PathPrefix(`/system-proof`)"
+      - "traefik.http.routers.system-proof.service=system-proof"
+      - "traefik.http.services.system-proof.loadbalancer.server.port=8003"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003')"]
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      traefik:
+        condition: service_started
 
+  # ============================================================
+  # PostgreSQL Database
+  # ============================================================
   postgres:
     image: postgres:14
+    container_name: postgres-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -130,8 +239,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./data/db:/docker-entrypoint-initdb.d
-    ports:
-      - "5432:5432"
     networks:
       - portfolio-network
     command: postgres -c listen_addresses='*' -c max_connections=200
@@ -140,9 +247,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  # arch-compass removed from default compose (PowerShell/Windows-only)
-  # Run separately with: docker build -f apps/arch-compass-framework/Dockerfile -t arch-compass:latest apps/arch-compass-framework
 
 volumes:
   data:

@@ -1,0 +1,67 @@
+# API Gateway (Traefik) Configuration
+# Works on: Docker Compose, K8s, bare metal
+
+version: '3.9'
+
+services:
+  # ============================================================
+  # Traefik API Gateway & Reverse Proxy
+  # Single point of entry for all microservices
+  # ============================================================
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik-gateway
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - portfolio-network
+    environment:
+      - TRAEFIK_LOG_LEVEL=INFO
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+
+  # ============================================================
+  # Auth Service (JWT Middleware)
+  # Validates JWT tokens for protected routes
+  # ============================================================
+  auth-service:
+    build:
+      context: .
+      dockerfile: apps/auth-service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8100:8100"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-dev-secret}
+      - JWT_ALGORITHM=HS256
+      - LOG_LEVEL=INFO
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`localhost`) && Path(`/auth`)"
+      - "traefik.http.routers.auth.service=auth"
+      - "traefik.http.services.auth.loadbalancer.server.port=8100"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  portfolio-network:
+    external: true
