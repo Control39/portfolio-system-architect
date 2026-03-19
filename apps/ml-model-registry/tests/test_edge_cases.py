@@ -1,5 +1,5 @@
 import unittest
-from src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 
 class TestModelRegistryEdgeCases(unittest.TestCase):
     

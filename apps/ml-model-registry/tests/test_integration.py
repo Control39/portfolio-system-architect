@@ -2,7 +2,7 @@ import unittest
 import os
 import tempfile
 import json
-from src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 from src.storage.model_storage import ModelStorage
 
 class TestModelRegistryIntegration(unittest.TestCase):
