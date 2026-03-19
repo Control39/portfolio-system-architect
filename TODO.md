@@ -1,40 +1,54 @@
-# TODO: Fix All Repo Errors - Commit & Push Both Repos
+# Fix 14 Pytest Errors - Progress Tracker
+Approved plan breakdown. Steps sequential. Update status after each.
 
-Current status: Confirmed plan approved. Progress tracked here.
+## Pending Steps:
 
-## Steps from Plan (sequential):
+### 1. Update pyproject.toml: nest=0, testpaths expanded, pytest-cov
+- Status: ✅ Done
+- Files: pyproject.toml
+- Output: nest=0 enabled, testpaths explicit for apps/*/tests
+- Command: pytest --collect-only
 
-### 1. Create pyproject.toml with pytest config (nest=0, pythonpath, python_files=tests/*.py)
+### 2. Update pytest.ini minimal
+- Status: ✅ Done
+- Files: pytest.ini
+
+### 3. __init__.py added
+- Status: ✅ Done
+- Files: apps/__init__.py, career-development chain __init__.py
+
+### 4. Fix test_api.py (ml-model): @patch paths fixed
+- Status: ✅ Done
+- Files: test_api.py (delete_model, db)
+
+### 5. Fix test_endpoints.py (cloud-reason): patch fixed
+- Status: ✅ Done
+- Files: test_endpoints.py
+
+### 6. Fix test_competency_tracker.py (career): relative import fixed
+- Status: ✅ Done
+- Files: test_competency_tracker.py
+
+### 7. Fix test_tracker.py (it-compass): sys.path removed
+- Status: ✅ Done
+- Files: test_tracker.py
+
+### 8. Fix other ml-model tests if imports bad (check after collect-only)
 - Status: ☐ Pending
 
-### 2. Update pytest.ini: Simplify (remove long pythonpath, rely on pyproject.toml)
+### 9. Verify: pytest apps/ --collect-only (15 errors)
+- Status: 🟡 Done - 15 errors (core imports, relative beyond, utils, discovery)
+- Output: career models apps import bad, test_helpers utils, cloud_reason relative beyond, tests.test_* discovery
+
+
+### 10. Full test: pytest apps/ --cov --cov-report=term-missing (honest report)
 - Status: ☐ Pending
 
-### 3. Find ALL test files with wrong absolute imports using search_files regex 'from apps\.'
+### 11. Git: add ., rm -r pytest.ini if deleted, commit detailed, push origin main && github main
 - Status: ☐ Pending
 
-### 4. Fix imports in key files:
-   - apps/ml-model-registry/tests/test_api.py: apps.ml_model_registry → ..
-   - apps/cloud-reason/tests/test_gigachain_bridge.py: apps.cloud_reason → ...
-   - apps/career-development/.../test_competency_tracker.py
-   - Others from search
+### 12. Final: git ls-files | findstr todo (remove this TODO.md), repo links
 - Status: ☐ Pending
 
-### 5. Add __init__.py where missing (apps/*/tests/, src/)
-- Status: ☐ Pending
+**Notes:** Nested fixed already. Langchain fixed. Honest reporting. Remove TODO.md at end.
 
-### 6. Verify: pytest apps/ --collect-only (0 errors)
-- Status: ☐ Pending
-
-### 7. Run full tests: pytest apps/ --cov=apps/ --cov-report=term-missing -v (0 errors, 95%+ cov)
-- Status: ☐ Pending
-
-### 8. Git: status, add ., commit detailed msg, push origin main, git push github main
-- Status: ☐ Pending
-
-### 9. Final verify: git ls-files | findstr /i todo (empty), pytest summary, repo links
-- Status: ☐ Pending
-
-**Notes:** Tasks 1-2,5-7 from original already clean. Focus on pytest imports.
-
-Updated: [timestamp when step done]

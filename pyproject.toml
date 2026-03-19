@@ -22,15 +22,23 @@ python_classes = "Test*"
 python_functions = "test_*"
 pythonpath = [
   ".",
-  "apps"
+  "apps",
+  "apps/ml-model-registry",
+  "apps/cloud-reason",
+  "apps/cloud-reason/cloud_reason",
+  "apps/it-compass",
+  "apps/it-compass/src",
+  "apps/career-development/career-development-system/src"
 ]
-# nest = 0  # Known unknown in pytest 9.0.2
 addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
 markers = [
   "e2e: E2E tests (services up)",
   "slow: Slow tests"
 ]
-fail_cov_below = 95
 filterwarnings = [
   "ignore::DeprecationWarning:langchain"
 ]
+
+[tool.pytest-cov]
+cov_fail_under = 95
+

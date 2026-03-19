@@ -1,8 +1,8 @@
 
 import unittest
 from unittest.mock import patch, MagicMock
-from ..src.core.model_registry import ModelRegistry
-from ..src.storage.model_storage import ModelStorage
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.storage.model_storage import ModelStorage
 
 class TestModelRegistryResilience(unittest.TestCase):
     
@@ -22,4 +22,4 @@ class TestModelRegistryResilience(unittest.TestCase):
     def test_get_model_with_empty_registry(self):
         """Проверка получения модели из пустого реестра"""
         result = self.registry.get_model("nonexistent_model")
-        self.assertEqual(result["error"], "Model
+self.assertEqual(result["error"], "Model not found")
