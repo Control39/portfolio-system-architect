@@ -18,7 +18,7 @@ This repository contains a comprehensive portfolio system for a Lead AI Systems 
 1. Clone the repository
 2. Install dependencies: `pip install -r requirements-dev.txt`
 3. Set up environment variables
-4. Run the application: `python main.py`
+4. Run the application: `docker compose up -d`
 
 ## Docker
 
@@ -48,13 +48,6 @@ For a quick overview of the project's value and capabilities, see the [One-Pager
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Secrets for GitHub Actions:**
-```
-DOCKER_USERNAME = your_dockerhub_username
-DOCKER_PASSWORD = your_dockerhub_token (app password)
-TELEGRAM_BOT_TOKEN = bot token
-TELEGRAM_CHAT_ID = chat id
-```
 See: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions
 
 **Documentation:**
