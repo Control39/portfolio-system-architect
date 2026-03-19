@@ -1,31 +1,23 @@
-# TODO: Complete 4 Priorities for Final Launch
+# TODO: Fix Broken Links on GitHub Pages
 
-## Plan Breakdown (Approved)
+Status: [ ] In progress
 
-### Priority 2A: Fix 11 Test Errors
-- [ ] Install dependencies: pip install -r requirements-dev.txt
-- [ ] Fix imports in apps/ml-model-registry/tests/test_api.py (remove sys.path, proper package import)
-- [ ] Fix langchain imports if needed in apps/cloud-reason
-- [x] Run pytest and verify 95% coverage (partial, 10 errors left, cov pending)
+## Approved Plan Steps (Sequential):
 
-### Priority 4: Terraform Modules
-- [x] Verify packages/terraform/modules/cognitive-system/*.tf (GCP GKE)
-- [x] Verify examples/basic/main.tf + README.md
-- [x] Update apps/arch-compass-framework/README.md with link
+1. [x] **Edit key files**: index.html, .github/profile/README.md, docs/mkdocs-site/mkdocs.yml, CONTRIBUTING.md (exact replacements for repo/docs URLs)
 
-### Priority 6: Sphinx Documentation
-- [x] Verify docs/api/conf.py (autodoc apps/)
-- [x] Verify docs/api/Makefile + index.rst
-- [x] Update README.md with link
+2. [x] **Global MD replacements**: ~20 MD files - leadarchitect-ai/portfolio-system-architect → Control39/cognitive-systems-architecture (use search_files + edit_file)
 
-### Priority 7: K8s Manifests
-- [x] Confirm all 8 deployment/*.yaml exist
-- [x] Update deployment/k8s-README.md
-- [x] Update docs/scaling-plan.md
+3. [x] **Fix badges/workflows**: Update CI badge URLs from leadarchitect-ai to Control39
+4. [x] **Rebuild Sphinx docs**: cd docs/api && make html
 
-### Final
-- [ ] All checks pass
-- [ ] attempt_completion with summary
+5. [x] **Update sitemap.xml/mkdocs if needed**
+6. [x] **Commit changes**: git add . && git commit -m "fix: broken links..."
+7. [x] **Push to remotes**: git push origin main && git push github main:gh-pages
 
-Updated after each step.
+8. [ ] **Verify site**: Check https://control39.github.io/cognitive-systems-architecture/
+
+## Progress Tracking
+- Completed:
+- Next step:
 

@@ -24,7 +24,7 @@ Services:
 
 ## GH Actions Runs
 - CI/CD: 50+ successful (lint/test/build)
-- Badge: [![CI](https://github.com/leadarchitect-ai/portfolio-system-architect/workflows/CI/badge.svg)]
+[![CI](https://github.com/Control39/cognitive-systems-architecture/workflows/CI/badge.svg)]
 
 ## Impact Telemetry Stub (Future)
 - Processed files: 500+ (RAG scans)
