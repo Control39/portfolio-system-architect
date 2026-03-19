@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "portfolio-system-architect"
+dynamic = ["version"]
+dependencies = [
+  # core deps from requirements.txt implied
+]
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = [
+  "apps",
+  "tests",
+  "tests/e2e",
+  "tests/unit"
+]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+pythonpath = [
+  ".",
+  "apps"
+]
+# nest = 0  # Known unknown in pytest 9.0.2
+addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
+markers = [
+  "e2e: E2E tests (services up)",
+  "slow: Slow tests"
+]
+fail_cov_below = 95
+filterwarnings = [
+  "ignore::DeprecationWarning:langchain"
+]

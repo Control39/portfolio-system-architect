@@ -1,1 +1,2 @@
-# Test package initialization
+# IT Compass tests package init
+

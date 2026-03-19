@@ -1,6 +1,6 @@
 import unittest
 import time
-from src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 
 class TestModelRegistryPerformance(unittest.TestCase):
     

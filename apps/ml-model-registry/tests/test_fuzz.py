@@ -1,6 +1,6 @@
 import unittest
 from hypothesis import given, strategies as st
-from src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 
 class TestModelRegistryFuzz(unittest.TestCase):
     
