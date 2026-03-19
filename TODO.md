@@ -1,23 +1,20 @@
-# TODO: Fix Broken Links on GitHub Pages
+# TODO: Fix 11 Pytest Errors - Progress Tracker
 
-Status: [ ] In progress
+## Current Status
+- [x] Task 1: Langchain fixed (LCEL no chains dep)
+- [x] Task 2: Flatten ml-model-registry structure
+- [x] Task 3: Fix test_api.py imports
+- [x] Task 4: Fix pytest.ini
+- [ ] Task 5: Run pytest verification
+- [ ] Task 6: Git commit
+- [ ] Task 7: Push origin main (SourceCraft)
+- [ ] Task 8: Push github main
+- [ ] Task 9: Final git status/log
+- [ ] Task 10: Summary report
 
-## Approved Plan Steps (Sequential):
+## Notes
+Follow exact task format for each task output.
+Goal: 0 errors, 95%+ coverage.
 
-1. [x] **Edit key files**: index.html, .github/profile/README.md, docs/mkdocs-site/mkdocs.yml, CONTRIBUTING.md (exact replacements for repo/docs URLs)
-
-2. [x] **Global MD replacements**: ~20 MD files - leadarchitect-ai/portfolio-system-architect → Control39/cognitive-systems-architecture (use search_files + edit_file)
-
-3. [x] **Fix badges/workflows**: Update CI badge URLs from leadarchitect-ai to Control39
-4. [x] **Rebuild Sphinx docs**: cd docs/api && make html
-
-5. [x] **Update sitemap.xml/mkdocs if needed**
-6. [x] **Commit changes**: git add . && git commit -m "fix: broken links..."
-7. [x] **Push to remotes**: git push origin main && git push github main:gh-pages
-
-8. [ ] **Verify site**: Check https://control39.github.io/cognitive-systems-architecture/
-
-## Progress Tracking
-- Completed:
-- Next step:
+Last update: Initial plan
 
