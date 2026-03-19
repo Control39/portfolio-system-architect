@@ -1,4 +1,4 @@
-выname: Test Cloud Reason Component
+name: Test Cloud Reason Component
 
 on:
   push:

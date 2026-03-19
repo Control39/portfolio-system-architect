@@ -39,7 +39,7 @@ curl -X POST http://localhost/auth/token \
 
 # Ответ:
 {
-  "access_token":"eyJ0eXAiOiJKV1QiLCJhbGc...",
+  "access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...[truncated]",
   "token_type":"bearer",
   "expires_in":86400
 }
