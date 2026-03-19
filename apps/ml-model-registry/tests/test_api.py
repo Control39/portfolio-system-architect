@@ -8,7 +8,7 @@ from unittest.mock import patch
 import sys
 sys.path.append('..')  # to ml-model-registry
 
-from src.api.main import app
+from apps.ml_model_registry.ml_model_registry.src.api.main import app
 
 client = TestClient(app)
 
