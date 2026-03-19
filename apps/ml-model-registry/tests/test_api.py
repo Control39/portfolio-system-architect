@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch
 
 # sys.path hack removed - use pytest.ini pythonpath
-from ..src.api.main import app
+from apps.ml_model_registry.src.api.main import app
 
 client = TestClient(app)
 

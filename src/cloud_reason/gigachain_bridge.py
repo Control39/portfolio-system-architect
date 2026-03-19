@@ -6,7 +6,7 @@ Self-Improving Loop stub included.
 
 import os
 from dotenv import load_dotenv
-from langchain.chains import LLMChain
+from langchain_core.runnables import RunnableSequence
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Gigachat  # Assuming gigachain provides this
 from pydantic_settings import BaseSettings
@@ -33,7 +33,7 @@ class GigaMCPBridge:
             input_variables=['context', 'query'],
             template="Context from MCP/it-compass: {{context}}\\nQuery: {{query}}\\nRespond with CoT:"
         )
-        self.chain = LLMChain(llm=self.llm, prompt=self.prompt)
+        self.chain = RunnableSequence(prompt=self.prompt, llm=self.llm)
 
     def giga_request(self, query: str, mcp_history: list = []) -> dict:
         """Giga-Request with session context (Step 2). Cross-Check stub."""

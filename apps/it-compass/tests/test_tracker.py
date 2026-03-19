@@ -13,7 +13,7 @@ from unittest.mock import patch, mock_open
 # Добавляем путь к модулям IT Compass
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from ..src.core.tracker import CompetencyTracker
+from src.it_compass.tracker import CompetencyTracker
 
 
 class TestCompetencyTracker(unittest.TestCase):
