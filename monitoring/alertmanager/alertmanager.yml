@@ -1,0 +1,57 @@
+# Prometheus AlertManager Configuration
+# Sends alerts to Telegram, PagerDuty, or email
+
+global:
+  resolve_timeout: 5m
+  telegram_api_url: "https://api.telegram.org"
+
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+route:
+  receiver: 'default'
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+
+  routes:
+    # Critical alerts
+    - match:
+        severity: critical
+      receiver: 'critical'
+      group_wait: 0s
+      repeat_interval: 5m
+
+    # Warning alerts
+    - match:
+        severity: warning
+      receiver: 'warning'
+      repeat_interval: 1h
+
+receivers:
+  - name: 'default'
+    # Add receivers below
+
+  - name: 'critical'
+    telegram_configs:
+      - send_resolved: true
+        api_url: https://api.telegram.org
+        bot_token: '${TELEGRAM_BOT_TOKEN}'
+        chat_id: ${TELEGRAM_CHAT_ID}
+        message: '🚨 CRITICAL: {{ .GroupLabels.alertname }}\n{{ .CommonAnnotations.description }}'
+
+  - name: 'warning'
+    telegram_configs:
+      - send_resolved: true
+        api_url: https://api.telegram.org
+        bot_token: '${TELEGRAM_BOT_TOKEN}'
+        chat_id: ${TELEGRAM_CHAT_ID}
+        message: '⚠️ WARNING: {{ .GroupLabels.alertname }}\n{{ .CommonAnnotations.description }}'
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'cluster', 'service']
