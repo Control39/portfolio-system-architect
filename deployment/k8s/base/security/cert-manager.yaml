@@ -1,0 +1,123 @@
+# Cert-Manager Installation & HTTPS Certificate Configuration
+# Automates SSL/TLS certificate management with Let's Encrypt
+
+---
+# Namespace for cert-manager
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
+
+---
+# ClusterIssuer for Let's Encrypt Production
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # Let's Encrypt production server
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: your-email@example.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    
+    # HTTP-01 solver for domain validation
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# ClusterIssuer for Let's Encrypt Staging (for testing)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: your-email@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# Certificate for portfolio.local (or your domain)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: portfolio-cert
+  namespace: portfolio
+spec:
+  secretName: portfolio-tls-secret
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - portfolio.local
+    - "*.portfolio.local"
+    # Add your actual domain:
+    # - portfolio.example.com
+    # - "*.portfolio.example.com"
+  
+  # Certificate renewal 30 days before expiration
+  renewBefore: 720h
+  
+  # Duration and renewal period
+  duration: 2160h # 90 days
+  isCA: false
+
+---
+# Ingress with TLS certificate
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-ingress-tls
+  namespace: portfolio
+  annotations:
+    # Redirect HTTP to HTTPS
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # Security headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+spec:
+  ingressClassName: nginx
+  
+  tls:
+  - hosts:
+      - portfolio.local
+    secretName: portfolio-tls-secret
+  
+  rules:
+  - host: portfolio.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: it-compass
+            port:
+              number: 8501
+      - path: /cloud-reason
+        pathType: Prefix
+        backend:
+          service:
+            name: cloud-reason
+            port:
+              number: 8001
+      - path: /ml-registry
+        pathType: Prefix
+        backend:
+          service:
+            name: ml-model-registry
+            port:
+              number: 8001
