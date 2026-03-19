@@ -14,7 +14,9 @@ from typing import Optional
 app = FastAPI(title="Auth Service", version="1.0.0")
 security = HTTPBearer()
 
-JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-in-production")
+JWT_SECRET = os.getenv("JWT_SECRET")
+if not JWT_SECRET:
+    raise ValueError("JWT_SECRET environment variable is required (production security)")
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 JWT_EXPIRATION_HOURS = 24
 

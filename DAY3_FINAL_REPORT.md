@@ -47,7 +47,7 @@ open http://localhost:8080
 ### Вывод проверки:
 ```json
 {
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...[truncated]",
   "token_type": "bearer",
   "expires_in": 86400
 }
