@@ -5,10 +5,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch
 
 # sys.path hack removed - use pytest.ini pythonpath
-import sys
-sys.path.append('..')  # to ml-model-registry
-
-from apps.ml_model_registry.ml_model_registry.src.api.main import app
+from ..src.api.main import app
 
 client = TestClient(app)
 
@@ -31,12 +28,12 @@ def test_get_model(mock_db):
     response = client.get("/models/test-model/1.0")
     assert response.status_code == 200
 
-@patch('ml_model_registry.models.registry.delete_model')
+@patch('apps.ml_model_registry.src.core.model_registry.delete_model')
 def test_delete_model(mock_delete, mock_db):
     response = client.delete("/models/test-model/1.0")
     assert response.status_code == 200
 
-@patch('ml_model_registry.models.registry.db')
+@patch('apps.ml_model_registry.src.core.model_registry.db')
 def test_register_model(mock_db):
     response = client.post("/models", json={"name": "test", "version": "1.0"})
     assert response.status_code == 200
