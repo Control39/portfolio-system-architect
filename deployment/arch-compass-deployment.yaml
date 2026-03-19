@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arch-compass
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arch-compass
+  template:
+    metadata:
+      labels:
+        app: arch-compass
+    spec:
+      containers:
+      - name: arch-compass
+        image: portfolio-system-architect:arch-compass-framework
+        ports:
+        - containerPort: 8502
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arch-compass
+spec:
+  selector:
+    app: arch-compass
+  ports:
+  - port: 8502
+    targetPort: 8502
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: arch-compass-config
+data:
+  PYTHONPATH: /app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: arch-compass
+spec:
+  rules:
+  - host: arch-compass.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: arch-compass
+            port:
+              number: 8502
