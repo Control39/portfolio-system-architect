@@ -1,4 +1,0 @@
-"""
-Career Development app package.
-"""
-
