@@ -1,0 +1,2 @@
+"""IT Compass tests package"""
+

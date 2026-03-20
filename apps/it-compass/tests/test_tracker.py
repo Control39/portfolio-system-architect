@@ -12,7 +12,7 @@ from unittest.mock import patch, mock_open
 
 
 
-from apps.it_compass.src.core.tracker import CompetencyTracker
+from ..src.core.tracker import CompetencyTracker
 
 
 class TestCompetencyTracker(unittest.TestCase):
