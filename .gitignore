@@ -151,3 +151,4 @@ node_modules/
 # Data (non-code)
 data/**/*.db
 postgres_data/
+_local_ai/

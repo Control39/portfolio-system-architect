@@ -1,133 +1,163 @@
-"""
-Режим низкой энергии для IT Compass (обновлённая версия)
-Использует объединённый модуль PsychologicalSupport для обеспечения функциональности.
-Обеспечивает обратную совместимость с предыдущими версиями.
-"""
-
-import json
-import random
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
-import logging
-
-# Импортируем PsychologicalSupport из core
-try:
-    from ..src.core.mental.psychological_support import PsychologicalSupport
-except ImportError:
-    # Fallback для случаев, когда модуль не найден
-    from .psychological_support_fallback import PsychologicalSupport
+import time
+import sys
+from typing import Dict, Any, List
 
 
 class LowEnergyMode:
-    """Режим поддержки в периоды низкой энергии (совместимость)"""
-    
+    """Специальный режим для работы в состоянии низкой энергии"""
+
     def __init__(self):
-        """Инициализация режима низкой энергии"""
-        self.logger = logging.getLogger(__name__)
-        self.psychological_support = PsychologicalSupport()
-    
-    def generate_low_energy_report(self) -> Dict:
-        """
-        Генерация отчета для режима низкой энергии
-        
-        Returns:
-            Словарь с отчетом для режима низкой энергии
-        """
-        report = self.psychological_support.generate_support_report()
-        # Преобразуем в старый формат для совместимости
-        return {
-            "timestamp": report["timestamp"],
-            "gentle_encouragement": report["gentle_encouragement"],
-            "motivational_quote": report["motivational_quote"],
-            "simple_activities": report["simple_activities"],
-            "positive_affirmation": report["positive_affirmation"],
-            "message": report.get("message", "Помните, что забота о себе - это не роскошь, а необходимость.")
-        }
-    
-    def is_burnout_risk(self, recent_activity: Dict) -> bool:
-        """
-        Определение риска выгорания
-        
-        Args:
-            recent_activity: Данные о недавней активности
-            
-        Returns:
-            True, если есть риск выгорания, иначе False
-        """
-        return self.psychological_support.is_burnout_risk(recent_activity)
-    
-    def suggest_recovery_plan(self) -> Dict:
-        """
-        Предложение плана восстановления
-        
-        Returns:
-            Словарь с планом восстановления
-        """
-        return self.psychological_support.suggest_recovery_plan()
-    
-    def get_crisis_resources(self) -> Dict:
-        """
-        Получение ресурсов для кризисных ситуаций
-        
-        Returns:
-            Словарь с ресурсами для кризисных ситуаций
-        """
-        return self.psychological_support.get_crisis_resources()
-    
-    def get_daily_checkin_prompt(self) -> str:
-        """
-        Получение ежедневного приглашения к самооценке
-        
-        Returns:
-            Строка с приглашением к самооценке
-        """
-        return self.psychological_support.get_daily_checkin_prompt()
-    
-    def export_support_data(self) -> Dict:
-        """
-        Экспорт данных поддержки
-        
-        Returns:
-            Словарь с экспортированными данными поддержки
-        """
-        return self.psychological_support.export_support_data()
-    
-    def import_support_data(self, data: Dict):
-        """
-        Импорт данных поддержки
-        
-        Args:
-            data: Словарь с данными для импорта
-        """
-        self.psychological_support.import_support_data(data)
+        self.enabled = False
+        self.last_interaction = time.time()
+        self.simple_menu = [
+            "1. Посмотреть прогресс",
+            "2. Простое упражнение",
+            "3. Мотивационная цитата",
+            "4. Выход из режима",
+        ]
+        self.exercises = [
+            {
+                "name": "Дыхание 4-7-8",
+                "description": "Вдох на 4 счета, задержка на 7, выдох на 8",
+                "duration": "2 минуты",
+            },
+            {
+                "name": "Растяжка шеи",
+                "description": "Медленные повороты головы в стороны",
+                "duration": "1 минута",
+            },
+            {
+                "name": "Взгляд в окно",
+                "description": "2 минуты смотрите вдаль, расслабляя глаза",
+                "duration": "2 минуты",
+            },
+        ]
+
+    def activate(self):
+        """Активировать режим низкой энергии"""
+        self.enabled = True
+        self.last_interaction = time.time()
+        print("\n" + "=" * 50)
+        print("😴 РЕЖИМ 'НИЗКОЙ ЭНЕРГИИ' АКТИВИРОВАН")
+        print("=" * 50)
+        print("В этом режиме доступны только базовые функции:")
+        print("✅ Простые упражнения для восстановления энергии")
+        print("✅ Мотивационные цитаты")
+        print("✅ Просмотр текущего прогресса")
+        print("🚫 Сложные аналитические функции")
+        print("🚫 Настройки и конфигурация")
+        print("🚫 Интеграция с внешними сервисами")
+        print(
+            "\n💡 Совет: Этот режим поможет вам восстановить силы и сосредоточиться на самом важном."
+        )
+        print("Нажмите Enter, чтобы перейти к упрощённому меню...")
+        input()
+
+    def is_active(self) -> bool:
+        """Проверить, активен ли режим низкой энергии"""
+        # Автоматическое отключение через 2 часа неактивности
+        if self.enabled and (time.time() - self.last_interaction > 7200):
+            self.deactivate()
+        return self.enabled
+
+    def deactivate(self):
+        """Деактивировать режим низкой энергии"""
+        if self.enabled:
+            print("\n" + "=" * 50)
+            print("⚡ РЕЖИМ 'НИЗКОЙ ЭНЕРГИИ' ДЕАКТИВИРОВАН")
+            print("=" * 50)
+            print("Все функции приложения доступны в полном объёме")
+            print("=" * 50)
+            self.enabled = False
+
+    def show_simple_menu(self) -> str:
+        """Показать упрощённое меню"""
+        self.last_interaction = time.time()
+
+        print("\n" + "=" * 40)
+        print("😴 РЕЖИМ НИЗКОЙ ЭНЕРГИИ")
+        print("=" * 40)
+
+        for item in self.simple_menu:
+            print(item)
+
+        print("=" * 40)
+        return input("\nВыберите опцию (1-4): ")
+
+    def show_progress(self):
+        """Показать упрощённый прогресс"""
+        print("\n" + "=" * 40)
+        print("📊 ВАШ ТЕКУЩИЙ ПРОГРЕСС")
+        print("=" * 40)
+        print("✅ Основные компетенции: 2 из 17")
+        print("✅ Прогресс обучения: 12%")
+        print("✅ Последнее достижение: 'Запуск приложения'")
+        print(
+            "\n💡 Совет: Сегодня отлично подойдут простые упражнения для поддержания прогресса"
+        )
+        print("=" * 40)
+        input("\nНажмите Enter, чтобы продолжить...")
+
+    def show_simple_exercise(self):
+        """Показать простое упражнение"""
+        exercise = self.exercises[0]  # Берём первое упражнение
+
+        print("\n" + "=" * 40)
+        print("🧘 ПРОСТОЕ УПРАЖНЕНИЕ")
+        print("=" * 40)
+        print(f"🎯 {exercise['name']}")
+        print(f"📝 {exercise['description']}")
+        print(f"⏱️ {exercise['duration']}")
+        print(
+            "\n💡 Это упражнение поможет вам восстановить энергию и снизить уровень стресса"
+        )
+        print("=" * 40)
+        input("\nНажмите Enter, когда будете готовы выполнить упражнение...")
+
+        print("\n⏳ Выполняем упражнение...")
+        time.sleep(3)
+        print("✅ Упражнение выполнено! Как вы себя чувствуете?")
+        input("\nНажмите Enter, чтобы продолжить...")
+
+    def run(self):
+        """Запустить режим низкой энергии"""
+        while self.is_active():
+            choice = self.show_simple_menu()
+
+            if choice == "1":
+                self.show_progress()
+
+            elif choice == "2":
+                self.show_simple_exercise()
+
+            elif choice == "3":
+                # Здесь можно добавить импорт из mental_support.py
+                try:
+                    from core.mental_support import show_random_quote_on_startup
+
+                    show_random_quote_on_startup()
+                    input("\nНажмите Enter, чтобы продолжить...")
+                except:
+                    print("\n💡 Помните: маленькие шаги приводят к большим результатам")
+                    input("\nНажмите Enter, чтобы продолжить...")
+
+            elif choice == "4":
+                self.deactivate()
+                break
+
+            else:
+                print("❌ Неверный выбор. Пожалуйста, выберите опцию от 1 до 4.")
+                input("\nНажмите Enter, чтобы продолжить...")
 
 
-# Пример использования
+# Функция для интеграции в основное приложение
+def get_low_energy_mode():
+    """Получить экземпляр режима низкой энергии"""
+    return LowEnergyMode()
+
+
 if __name__ == "__main__":
-    # Создаем режим низкой энергии
-    low_energy_mode = LowEnergyMode()
-    
-    # Генерируем отчет
-    report = low_energy_mode.generate_low_energy_report()
-    
-    print("=== Режим низкой энергии (обновлённый) ===")
-    print(f"Сообщение поддержки: {report['gentle_encouragement']}")
-    print(f"Мотивационная цитата: {report['motivational_quote']}")
-    print("\nПростые активности:")
-    for activity in report['simple_activities']:
-        print(f"- {activity}")
-    print(f"\nПозитивное напоминание: {report['positive_affirmation']}")
-    
-    # Проверяем риск выгорания (пример)
-    sample_activity = {
-        "last_activity": (datetime.now() - timedelta(hours=5)).isoformat(),
-        "break_count": 1
-    }
-    
-    if low_energy_mode.is_burnout_risk(sample_activity):
-        print("\n⚠️ Обнаружен риск выгорания!")
-        recovery_plan = low_energy_mode.suggest_recovery_plan()
-        print(f"Рекомендуется: {recovery_plan['title']}")
-        print(recovery_plan['description'])
-    else:
-        print("\n✅ Нет признаков риска выгорания")
+    # Демонстрация работы режима
+    mode = LowEnergyMode()
+    mode.activate()
+    mode.run()

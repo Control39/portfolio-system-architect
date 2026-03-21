@@ -1,305 +1,302 @@
+#!/usr/bin/env python3
 """
-Веб-интерфейс для IT Compass
-Основное приложение с веб-интерфейсом для отслеживания навыков
+IT Compass - Streamlit Web Interface for Dashboard Visualization
+Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0
 """
 
 import streamlit as st
-import json
-import os
-from datetime import datetime
-from typing import Dict, List, Optional
+from pathlib import Path
+import sys
 
-# Импортируем модули из проекта
-from src.core.tracker import SkillTracker
-from src.core.api_integration import APIIntegration
-from src.utils.portfolio_gen import PortfolioGenerator
-from src.core.mental.psychological_support import PsychologicalSupport as PS
+# Добавляем src в путь для импорта
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
+try:
+    from src.core.tracker import CareerTracker
+    from src.utils.portfolio_gen import generate_portfolio
+except ImportError as e:
+    st.error(f"❌ Ошибка импорта модулей: {e}")
+    st.error("Убедитесь, что вы находитесь в корневой директории проекта")
+    st.stop()
 
-class ITCompassApp:
-    """Основной класс веб-приложения IT Compass"""
-    
-    def __init__(self):
-        """Инициализация приложения"""
-        self.tracker = SkillTracker()
-        self.api_integration = APIIntegration()
-        self.portfolio_gen = PortfolioGenerator()
-        self.psychological_support = PS()
-        
-        # Настройка страницы
-        st.set_page_config(
-            page_title="IT Compass - Трекер навыков",
-            page_icon="🧭",
-            layout="wide"
-        )
-    
-    def render_header(self):
-        """Отображение заголовка приложения"""
-        st.title("🧭 IT Compass")
-        st.subheader("Ваш персональный навигатор в мире IT")
-        
-        # Краткая информация
-        st.markdown("""
-        IT Compass помогает отслеживать ваш прогресс в освоении IT навыков,
-        планировать развитие и создавать профессиональное портфолио.
-        """)
-    
-    def render_progress_overview(self):
-        """Отображение обзора прогресса"""
-        st.header("📊 Обзор прогресса")
-        
-        # Получаем сводку прогресса
-        summary = self.tracker.get_progress_summary()
-        
-        # Отображаем основные метрики
+# --- Конфигурация Страницы ---
+st.set_page_config(
+    page_title="IT Compass Dashboard",
+    page_icon="🧭",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# --- Инициализация Трекера ---
+@st.cache_resource
+def get_tracker():
+    """Кэшируем трекер для производительности."""
+    try:
+        return CareerTracker()
+    except Exception as e:
+        st.error(f"❌ Не удалось инициализировать CareerTracker: {e}")
+        st.error("Проверьте наличие файлов маркеров в src/data/markers/")
+        return None
+
+def render_progress_dashboard():
+    """Отображает прогресс в виде дашборда."""
+    st.header("🧭 Ваш Карьерный Прогресс: Объективные Маркеры")
+
+    if not tracker.markers:
+        st.warning("⚠️ База маркеров пуста. Проверьте файлы в src/data/markers/.")
+        return
+
+    st.markdown("---")
+
+    # Общий прогресс
+    total_completed = len(tracker.progress.get("completed_markers", []))
+    total_markers = sum(
+        len(marker) for skill_data in tracker.markers.values()
+        for level_markers in skill_data.levels.values()
+        for marker in level_markers
+    )
+
+    if total_markers > 0:
+        overall_percentage = (total_completed / total_markers) * 100
         col1, col2, col3 = st.columns(3)
-        
         with col1:
-            st.metric("Всего маркеров", summary['total_markers'])
-        
+            st.metric("✅ Выполнено", f"{total_completed}")
         with col2:
-            st.metric("Выполнено", summary['completed_markers'])
-        
+            st.metric("🎯 Всего маркеров", f"{total_markers}")
         with col3:
-            st.metric("Процент выполнения", f"{summary['completion_percentage']}%")
-        
-        # Прогресс-бар
-        st.progress(summary['completion_percentage'] / 100)
-        
-        # Статистика по направлениям
-        if summary['directions']:
-            st.subheader("По направлениям")
-            directions_data = summary['directions']
-            
-            # Создаем списки для диаграммы
-            directions = list(directions_data.keys())
-            counts = list(directions_data.values())
-            
-            # Отображаем данные в виде таблицы
-            st.table({
-                "Направление": directions,
-                "Выполнено маркеров": counts
-            })
-    
-    def render_markers_list(self):
-        """Отображение списка маркеров"""
-        st.header("🎯 Маркеры навыков")
-        
-        # Фильтры
-        directions = list(set([marker.direction for marker in self.tracker.markers.values()]))
-        selected_direction = st.selectbox("Фильтр по направлению", ["Все"] + directions)
-        
-        levels = ["basic", "advanced", "expert"]
-        selected_level = st.selectbox("Фильтр по уровню", ["Все"] + levels)
-        
-        # Фильтрация маркеров
-        filtered_markers = list(self.tracker.markers.values())
-        
-        if selected_direction != "Все":
-            filtered_markers = [m for m in filtered_markers if m.direction == selected_direction]
-        
-        if selected_level != "Все":
-            filtered_markers = [m for m in filtered_markers if m.level == selected_level]
-        
-        # Отображение маркеров
-        for marker in filtered_markers:
-            completed = self.tracker.is_marker_completed(marker.id)
-            
-            # Карточка маркера
-            card_color = "🟢" if completed else "⚪"
-            st.markdown(f"### {card_color} {marker.title}")
-            
-            col1, col2, col3 = st.columns([2, 1, 1])
-            
-            with col1:
-                st.markdown(f"**Направление:** {marker.direction}")
-                st.markdown(f"**Уровень:** {marker.level}")
-                st.markdown(f"**Описание:** {marker.description}")
-                
-                # Примеры
-                if marker.examples:
-                    st.markdown("**Примеры:**")
-                    for example in marker.examples:
-                        st.markdown(f"- {example}")
-            
-            with col2:
-                # Кнопка выполнения/отмены
-                if completed:
-                    if st.button("Отменить", key=f"uncomplete_{marker.id}"):
-                        self.tracker.uncomplete_marker(marker.id)
-                        st.experimental_rerun()
-                else:
-                    if st.button("Выполнить", key=f"complete_{marker.id}"):
-                        # Показываем форму для добавления артефактов
-                        st.session_state[f"show_artifacts_{marker.id}"] = True
-            
-            with col3:
-                # Статус выполнения
-                if completed:
-                    st.success("Выполнено")
-                else:
-                    st.info("Не выполнено")
-            
-            # Форма для добавления артефактов
-            if st.session_state.get(f"show_artifacts_{marker.id}", False):
-                st.markdown("#### Добавить артефакты")
-                artifacts = st.text_area("Артефакты (по одному на строку)", 
-                                       key=f"artifacts_{marker.id}")
-                
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("Подтвердить выполнение", key=f"confirm_{marker.id}"):
-                        artifact_list = [a.strip() for a in artifacts.split('\n') if a.strip()]
-                        self.tracker.complete_marker(marker.id, artifact_list)
-                        st.session_state[f"show_artifacts_{marker.id}"] = False
-                        st.experimental_rerun()
-                
-                with col2:
-                    if st.button("Отмена", key=f"cancel_{marker.id}"):
-                        st.session_state[f"show_artifacts_{marker.id}"] = False
-                        st.experimental_rerun()
-            
-            st.markdown("---")
-    
-    def render_portfolio_section(self):
-        """Отображение раздела портфолио"""
-        st.header("📁 Портфолио")
-        
-        # Генерация портфолио
-        if st.button("Сгенерировать портфолио"):
-            try:
-                self.portfolio_gen.generate_portfolio()
-                st.success("Портфолио успешно сгенерировано!")
-                
-                # Показываем ссылки на сгенерированные файлы
-                st.markdown("### Сгенерированные файлы:")
-                st.markdown("- [README.md](./portfolio/README.md)")
-                st.markdown("- [portfolio.json](./portfolio/portfolio.json)")
-                st.markdown("- [index.html](./portfolio/index.html)")
-                
-            except Exception as e:
-                st.error(f"Ошибка генерации портфолио: {e}")
-        
-        # Экспорт прогресса
-        st.subheader("Экспорт данных")
-        if st.button("Экспортировать прогресс"):
-            try:
-                progress_data = self.tracker.export_progress()
-                progress_json = json.dumps(progress_data, ensure_ascii=False, indent=2)
-                
-                st.download_button(
-                    label="Скачать прогресс (JSON)",
-                    data=progress_json,
-                    file_name="it_compass_progress.json",
-                    mime="application/json"
-                )
-                
-            except Exception as e:
-                st.error(f"Ошибка экспорта: {e}")
-    
-    def render_support_section(self):
-        """Отображение раздела поддержки"""
-        st.header("💖 Поддержка")
-        
-        # Психологическая поддержка
-        if st.button("Получить поддержку"):
-            support_report = self.psychological_support.generate_support_report()
-            
-            st.markdown("### 💖 Психологическая поддержка")
-            st.markdown(f"**{support_report['gentle_encouragement']}**")
-            
-            st.markdown("#### Простые активности:")
-            for activity in support_report['simple_activities']:
-                st.markdown(f"- {activity}")
-            
-            st.markdown(f"**Цитата:** {support_report['motivational_quote']}")
-            st.markdown(f"**Аффирмация:** {support_report['positive_affirmation']}")
-            
-            # Проверяем риск выгорания
-            # В реальном приложении здесь будут реальные данные
-            recent_activity = {
-                "last_activity": datetime.now().isoformat(),
-                "break_count": 0
-            }
-            
-            if self.psychological_support.is_burnout_risk(recent_activity):
-                st.warning("⚠️ Обнаружен риск выгорания!")
-                recovery_plan = self.psychological_support.suggest_recovery_plan()
-                st.markdown("#### План восстановления:")
-                st.markdown(f"**{recovery_plan['title']}**")
-                st.markdown(recovery_plan['description'])
-                
-                for step in recovery_plan['steps']:
-                    st.markdown(f"**День {step['day']}:**")
-                    for activity in step['activities']:
-                        st.markdown(f"- {activity}")
-    
-    def render_integrations_section(self):
-        """Отображение раздела интеграций"""
-        st.header("🔌 Интеграции")
-        
-        # GitHub интеграция
-        st.subheader("GitHub")
-        github_username = st.text_input("Имя пользователя GitHub")
-        if st.button("Получить данные с GitHub") and github_username:
-            try:
-                github_data = self.api_integration.github_integration(github_username)
-                if github_data:
-                    st.success(f"Получены данные для пользователя {github_username}")
-                    st.json(github_data)
-                else:
-                    st.error("Не удалось получить данные с GitHub")
-            except Exception as e:
-                st.error(f"Ошибка интеграции с GitHub: {e}")
-        
-        # Stack Overflow интеграция
-        st.subheader("Stack Overflow")
-        stackoverflow_id = st.text_input("ID пользователя Stack Overflow")
-        if st.button("Получить данные с Stack Overflow") and stackoverflow_id:
-            try:
-                stackoverflow_data = self.api_integration.stackoverflow_integration(stackoverflow_id)
-                if stackoverflow_data:
-                    st.success(f"Получены данные для пользователя {stackoverflow_id}")
-                    st.json(stackoverflow_data)
-                else:
-                    st.error("Не удалось получить данные с Stack Overflow")
-            except Exception as e:
-                st.error(f"Ошибка интеграции с Stack Overflow: {e}")
-    
-    def run(self):
-        """Запуск приложения"""
-        # Инициализация состояния сессии
-        if 'show_artifacts' not in st.session_state:
-            st.session_state['show_artifacts'] = {}
-        
-        # Отображение заголовка
-        self.render_header()
-        
-        # Навигация по разделам
-        section = st.sidebar.radio(
-            "Навигация",
-            ["Обзор", "Маркеры", "Портфолио", "Поддержка", "Интеграции"]
-        )
-        
-        # Отображение выбранного раздела
-        if section == "Обзор":
-            self.render_progress_overview()
-        elif section == "Маркеры":
-            self.render_markers_list()
-        elif section == "Портфолио":
-            self.render_portfolio_section()
-        elif section == "Поддержка":
-            self.render_support_section()
-        elif section == "Интеграции":
-            self.render_integrations_section()
-        
-        # Футер
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("### IT Compass")
-        st.sidebar.markdown(f"Последнее обновление: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            st.metric("📊 Общий прогресс", f"{overall_percentage:.1f}%")
 
+    st.markdown("---")
 
-# Запуск приложения
+    # Прогресс по навыкам
+    st.subheader("📈 Детализация по направлениям")
+
+    # Автоматически создаем колонки
+    skills = list(tracker.markers.keys())
+    if skills:
+        cols = st.columns(len(skills))
+
+        for i, skill_name in enumerate(skills):
+            skill_data = tracker.markers[skill_name]
+            completed = 0
+            total = 0
+
+            for level_markers in skill_data.levels.values():
+                total += len(level_markers)
+                for marker in level_markers:
+                    if marker.id in tracker.progress["completed_markers"]:
+                        completed += 1
+
+            with cols[i]:
+                if total > 0:
+                    percentage = (completed / total) * 100
+                    st.markdown(f"**{skill_name}**")
+                    st.progress(percentage / 100)
+                    st.caption(f"{percentage:.0f}% ({completed}/{total})")
+                else:
+                    st.info(f"**{skill_name}**\n\n(нет маркеров)")
+
+    st.markdown("---")
+
+    # Быстрые действия
+    st.subheader("⚡ Быстрые действия")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("📄 Сгенерировать портфолио", use_container_width=True):
+            try:
+                success = generate_portfolio()
+                if success:
+                    st.balloons()
+                    st.success("✅ Портфолио обновлено! Файл: `docs/my_portfolio.md`")
+                else:
+                    st.error("❌ Не удалось создать портфолио")
+            except Exception as e:
+                st.error(f"❌ Ошибка: {e}")
+
+    with col2:
+        if st.button("🎯 Показать рекомендации", use_container_width=True):
+            st.info("Рекомендации по развитию (high priority):")
+            high_priority = []
+            for skill_name, skill_data in tracker.markers.items():
+                for level_markers in skill_data.levels.values():
+                    for marker in level_markers:
+                        if (marker.id not in tracker.progress["completed_markers"]
+                            and marker.priority == "high"):
+                            high_priority.append((skill_name, marker))
+
+            if high_priority:
+                for skill_name, marker in high_priority[:5]:  # Показываем первые 5
+                    st.markdown(f"• **{skill_name}**: {marker.marker}")
+            else:
+                st.success("🎉 Все high-priority маркеры выполнены!")
+
+def render_documentation():
+    """Отображает документацию проекта."""
+    st.header("📚 Документация IT Compass")
+
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("🎯 Методология")
+        st.markdown("""
+        - [🧠 Методология SMART](./docs/METHODOLOGY.md)
+        - [💭 Психологическая поддержка](./docs/PSYCHOLOGICAL_SUPPORT.md)
+        - [🚀 Готовность к карьере](./docs/CAREER_READINESS.md)
+        """)
+
+        if st.button("📖 Открыть методологию", use_container_width=True):
+            try:
+                with open("docs/METHODOLOGY.md", "r", encoding="utf-8") as f:
+                    st.markdown(f.read())
+            except:
+                st.warning("Файл METHODOLOGY.md не найден")
+
+    with col2:
+        st.subheader("🛠 Утилиты")
+        st.markdown("""
+        - [🤝 Как внести вклад](./docs/CONTRIBUTING.md)
+        - [📄 Текущее портфолио](./docs/my_portfolio.md)
+        - [⚙️ Настройки проекта](./docs/SETUP.md)
+        """)
+
+        if st.button("📋 Посмотреть портфолио", use_container_width=True):
+            try:
+                with open("docs/my_portfolio.md", "r", encoding="utf-8") as f:
+                    st.markdown(f.read())
+            except:
+                st.warning("Портфолио ещё не сгенерировано")
+
+def render_strategy():
+    """Отображает стратегическую информацию."""
+    st.header("🚀 Стратегия выхода на рынок")
+
+    st.info("""
+    **Ваша цель** — не просто найти работу, а доказать статус **«Когнитивного Архитектора»** —
+    специалиста, который проектирует системы мышления и оценки в IT.
+    """)
+
+    st.markdown("---")
+
+    tab1, tab2, tab3 = st.tabs(["🎤 Питч", "📱 LinkedIn", "🔮 Планы"])
+
+    with tab1:
+        st.subheader("Питч для собеседования")
+        st.code("""
+«Я разработала IT Compass — систему объективной оценки навыков
+на основе верифицируемых артефактов.
+
+Вместо субъективных оценок вроде "знаю Python на 4/5"
+я показываю конкретные маркеры: "написал скрипт, собрал в Docker,
+выложил на GitHub".
+
+Вот моё портфолио, подтверждающее X% покрытия рыночных требований
+по ключевым направлениям: Python, Docker, MLOps, DevOps...»
+        """, language="markdown")
+
+        st.markdown("**Ключевые тезисы:**")
+        st.markdown("✅ Объективность вместо субъективности  ")
+        st.markdown("✅ Верифицируемые артефакты  ")
+        st.markdown("✅ Соответствие рыночным требованиям  ")
+
+    with tab2:
+        st.subheader("Публикация в LinkedIn")
+        st.warning("Используйте готовый шаблон для продвижения проекта:")
+
+        if st.button("📋 Показать шаблон поста"):
+            st.markdown("""
+**🎯 Я создала IT Compass — систему, которая заменяет "знаю на 4/5" на факты**
+
+После полугода обучения многие IT-специалисты спрашивают:
+"Хватит ли мне знаний для собеседования?"
+
+Проблема в субъективных оценках. Работодатели хотят артефакты, а не самооценку.
+
+**Решение:** IT Compass — open-source система объективных маркеров:
+- ✅ Вместо "знаю Python" → "написал скрипт для CSV и выложил на GitHub"
+- ✅ Вместо "умею в Docker" → "создал Dockerfile + запустил контейнер"
+- ✅ Вместо "разбираюсь в MLOps" → "настроил логирование в MLflow"
+
+Каждый маркер — конкретное, проверяемое действие с SMART-критериями.
+
+🚀 Проект уже включает:
+- CLI-интерфейс с прогрессом и рекомендациями
+- Генератор портфолио для резюме
+- Docker-валидацию навыков
+- 8 направлений развития (Python, Docker, MLOps, DevOps, Git, Linux, BA, QA)
+
+**Для кого:**
+- Новички: видят реальный прогресс к собеседованию
+- HR/тимлиды: объективно оценивают кандидатов
+- EdTech: создают релевантные траектории
+
+🔗 GitHub: [ссылка на репозиторий]
+🧠 Методология: © Ekaterina Kudelya, CC BY-ND 4.0
+
+#IT #Career #Development #Python #Docker #MLOps #DevOps #OpenSource
+            """)
+
+    with tab3:
+        st.subheader("Следующие шаги развития")
+        st.markdown("""
+        ### 🔄 В разработке:
+        - [ ] Веб-интерфейс (Streamlit) ← **мы здесь!**
+        - [ ] Интеграция GitHub API
+        - [ ] Парсинг вакансий в реальном времени
+
+        ### 🎯 Планируется:
+        - [ ] Новые направления: Frontend, Data Engineering
+        - [ ] Система менторства
+        - [ ] Корпоративная версия
+        """)
+
+        st.success("""
+        **Текущий фокус:** Завершение MVP Streamlit-интерфейса
+        для демонстрации на собеседованиях.
+        """)
+
+def main():
+    """Главная функция приложения."""
+    st.sidebar.title("🧭 IT Compass")
+    st.sidebar.markdown("Объективная карта IT-роста")
+    st.sidebar.markdown("---")
+
+    # Навигация
+    menu_option = st.sidebar.selectbox(
+        "Навигация",
+        ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"],
+        index=0
+    )
+
+    # Информация о проекте
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### ℹ️ О проекте")
+    st.sidebar.markdown("Методология: © 2025 Ekaterina Kudelya  ")
+    st.sidebar.markdown("Лицензия: CC BY-ND 4.0  ")
+    st.sidebar.markdown("Версия: 1.0.0")
+
+    # Быстрые действия в сайдбаре
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### ⚡ Быстрые действия")
+
+    if st.sidebar.button("🔄 Обновить данные", use_container_width=True):
+        st.rerun()
+
+    # Отображение выбранной страницы
+    if menu_option == "📊 Прогресс":
+        render_progress_dashboard()
+    elif menu_option == "📚 Документация":
+        render_documentation()
+    elif menu_option == "🚀 Стратегия":
+        render_strategy()
+
+# Инициализация трекера
+tracker = get_tracker()
+if tracker is None:
+    st.stop()
+
 if __name__ == "__main__":
-    app = ITCompassApp()
-    app.run()
+    main()
+```

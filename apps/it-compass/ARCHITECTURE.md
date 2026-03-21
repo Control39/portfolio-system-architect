@@ -28,7 +28,6 @@ IT-Compass - это методология объективных маркеро
 ### Точки интеграции
 - Интеграция с Portfolio-Organizer для автоматической генерации материалов
 - Интеграция с Cloud-Reason для анализа контекста и извлечения маркеров
-- **New: GigaChain Bridge** - Context injection via gigachain_bridge.py; RAG export feeds Giga-Request.
 - Использование данных из IT-Compass в Career Development System
 
 ## Документация
