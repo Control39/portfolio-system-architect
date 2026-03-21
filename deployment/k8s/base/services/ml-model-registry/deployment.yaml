@@ -30,8 +30,9 @@ spec:
         - name: LOG_LEVEL
           value: INFO
         volumeMounts:
-        - name: models
+        - name: shared-data
           mountPath: /app/models
+          subPath: ml-model-registry
         livenessProbe:
           httpGet:
             path: /health
@@ -55,7 +56,8 @@ spec:
           runAsNonRoot: true
           runAsUser: 1000
       volumes:
-      - name: models
-        emptyDir: {}
+      - name: shared-data
+        persistentVolumeClaim:
+          claimName: shared-data-pvc
       securityContext:
         fsGroup: 1000

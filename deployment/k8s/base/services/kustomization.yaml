@@ -8,6 +8,7 @@ kind: Kustomization
 namespace: portfolio
 
 resources:
+  - shared-data-pvc.yaml
   - it-compass/
   - cloud-reason/
   - ml-model-registry/

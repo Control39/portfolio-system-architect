@@ -42,3 +42,30 @@ filterwarnings = [
 [tool.pytest-cov]
 cov_fail_under = 95
 
+
+
+[tool.repo-audit]
+# Конфигурация автоматического аудита репозитория
+levels = ["base", "professional", "enterprise"]
+# Пути к чек-листам
+checklist_path = "tools/repo_audit/checklists/"
+# Порог прохождения (в процентах)
+pass_threshold = 80
+# Автоматическое исправление
+auto_fix = false
+# Формат вывода (json, markdown, console)
+output_format = "markdown"
+# Исключаемые пути
+exclude_paths = [
+  ".venv",
+  "node_modules",
+  "__pycache__",
+  ".git",
+  "coverage_html",
+  "data",
+  "postgres",
+]
+# Интеграция с GitHub
+github_integration = true
+# Slack-уведомления (опционально)
+slack_webhook = ""
