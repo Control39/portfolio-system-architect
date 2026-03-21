@@ -5,6 +5,60 @@
 
 This document describes how to securely manage secrets across development, staging, and production environments using industry-standard tools.
 
+## Secret Detection
+
+To prevent accidental leakage of secrets into version control, we use automated scanning with `detect-secrets`.
+
+### Installation
+
+```bash
+pip install detect-secrets
+```
+
+### Usage
+
+Run a one-time scan to find potential secrets:
+
+```bash
+python scripts/security/scan_secrets.py --scan
+```
+
+Create a baseline file to whitelist known false positives:
+
+```bash
+python scripts/security/scan_secrets.py --create-baseline
+```
+
+Audit the baseline (interactive review):
+
+```bash
+python scripts/security/scan_secrets.py --audit
+```
+
+### Integration with Pre‑commit
+
+Add to `.pre‑commit‑config.yaml`:
+
+```yaml
+- repo: https://github.com/Yelp/detect-secrets
+  rev: v1.5.0
+  hooks:
+    - id: detect-secrets
+      args: ['--baseline', '.secrets.baseline']
+      exclude: '\.secrets\.baseline$'
+```
+
+### CI/CD Integration
+
+In GitHub Actions, add a step:
+
+```yaml
+- name: Detect secrets
+  run: |
+    pip install detect-secrets
+    python scripts/security/scan_secrets.py --scan
+```
+
 ## Local Development
 
 ### Using .env files

@@ -44,6 +44,16 @@ build/
 
 For a quick overview of the project's value and capabilities, see the [One-Pager](docs/employer/ONE-PAGER.md) designed for technical leads and hiring managers.
 
+## GitOps & CI/CD
+
+The project implements a modern GitOps workflow with automated security gates, container scanning, and Kubernetes deployment.
+
+- **CI Pipeline**: Security scanning (detect‑secrets, safety, pip‑audit, Trivy), linting, testing, Docker builds, and GitOps deployment.
+- **GitOps**: Kubernetes manifests are managed with Kustomize and automatically applied via Argo CD or GitHub Actions.
+- **Secrets Management**: Encrypted secrets using Sealed Secrets / SOPS.
+
+For detailed instructions, see [GitOps Guide](docs/DEVOPS_GITOPS_GUIDE.md).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -53,6 +63,8 @@ See: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-
 **Documentation:**
 - API Docs: https://Control39.github.io/cognitive-systems-architecture/
 - Scaling Plan: [docs/scaling-plan.md](docs/scaling-plan.md)
+- GitOps Guide: [docs/DEVOPS_GITOPS_GUIDE.md](docs/DEVOPS_GITOPS_GUIDE.md)
+- Security: [docs/security/SECRETS-MANAGEMENT.md](docs/security/SECRETS-MANAGEMENT.md)
 
 **Monitoring (Grafana/Prometheus):**
 ```
