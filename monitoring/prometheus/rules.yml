@@ -145,3 +145,55 @@ groups:
         annotations:
           summary: "Error budget exhausted for {{ $labels.job }}"
           description: "30-day error rate is {{ $value | humanizePercentage }} (budget: <1%)"
+
+      # HPA Scaling Issues
+      - alert: HPAUnableToScale
+        expr: |
+          kube_hpa_status_current_replicas{namespace="portfolio"} == kube_hpa_spec_max_replicas{namespace="portfolio"}
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HPA {{ $labels.hpa }} is at max replicas"
+          description: "HPA {{ $labels.hpa }} in namespace {{ $labels.namespace }} is at max replicas ({{ $value }}) and may be unable to handle load"
+
+      - alert: HPAMinReplicasHigh
+        expr: |
+          kube_hpa_status_current_replicas{namespace="portfolio"} == kube_hpa_spec_min_replicas{namespace="portfolio"} and kube_hpa_status_current_replicas > 5
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: "HPA {{ $labels.hpa }} is at min replicas with high count"
+          description: "HPA {{ $labels.hpa }} is at min replicas ({{ $value }}) but still high, consider adjusting min replicas"
+
+      # Service-specific alerts for missing services
+      - alert: AuthServiceDown
+        expr: |
+          up{job="auth_service"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Auth Service is DOWN"
+          description: "Auth service at {{ $labels.instance }} is not responding"
+
+      - alert: CareerDevelopmentDown
+        expr: |
+          up{job="career_development"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Career Development Service is DOWN"
+          description: "Career Development service at {{ $labels.instance }} is not responding"
+
+      - alert: PortfolioOrganizerDown
+        expr: |
+          up{job="portfolio_organizer"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Portfolio Organizer Service is DOWN"
+          description: "Portfolio Organizer service at {{ $labels.instance }} is not responding"
