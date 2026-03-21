@@ -1,23 +1,25 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
+
+LABEL maintainer="Ekaterina Kudelya"
+LABEL description="IT Compass - Objective IT Career Growth Tracker"
+LABEL version="1.0.0"
+LABEL methodology="© 2025 Ekaterina Kudelya, CC BY-ND 4.0"
 
 WORKDIR /app
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd -m -u 1000 appuser
-
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ ./src/
+COPY setup.sh ./
+RUN chmod +x setup.sh
 
-COPY --chown=appuser:appuser . .
+# Создание непривилегированного пользователя
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -u 1001 -S appuser -G appgroup
 
-ENV PYTHONPATH=/app
+# Установка прав доступа для файлов приложения
+RUN chown -R appuser:appgroup /app
+
+# Установка пользователя по умолчанию
 USER appuser
 
-EXPOSE 8501
-
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-    CMD curl -f http://localhost:8501/_stcore/health || exit 1
-
-CMD ["streamlit", "run", "src/ui/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["python", "src/main.py"]

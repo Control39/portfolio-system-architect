@@ -1,35 +1,76 @@
 {
-  "python_basic": {
-    "title": "Базовое понимание Python",
-    "direction": "Python",
-    "level": "Базовый",
-    "description": "Написание простых скриптов, работа с переменными, условиями и циклами",
-    "examples": [
-      "Написал скрипт для автоматизации рутинной задачи",
-      "Создал программу для обработки текстовых файлов",
-      "Реализовал простой калькулятор"
-    ]
-  },
-  "python_oop": {
-    "title": "Объектно-ориентированное программирование",
-    "direction": "Python",
-    "level": "Продвинутый",
-    "description": "Создание классов, наследование, полиморфизм, инкапсуляция",
-    "examples": [
-      "Разработал систему управления библиотекой с использованием классов",
-      "Создал фреймворк для автоматизации тестирования",
-      "Реализовал паттерн проектирования в реальном проекте"
-    ]
-  },
-  "python_web": {
-    "title": "Веб-разработка на Python",
-    "direction": "Python",
-    "level": "Экспертный",
-    "description": "Создание веб-приложений с использованием Flask/Django/FastAPI",
-    "examples": [
-      "Разработал REST API для управления бизнес-процессами",
-      "Создал веб-приложение с аутентификацией и авторизацией",
-      "Реализовал микросервисную архитектуру на FastAPI"
+  "skill_name": "Python",
+  "description": "Программирование на Python: от основ до продвинутых концепций",
+  "levels": {
+    "1": [
+      {
+        "id": "python_1_1",
+        "marker": "Написал скрипт для автоматизации рутинной задачи",
+        "validation": "Код выложен на GitHub с описанием",
+        "priority": "high",
+        "resources": ["https://docs.python.org/3/tutorial/"],
+        "smart_criteria": {
+          "specific": "Написать скрипт для автоматизации",
+          "measurable": "Скрипт выполняет конкретную задачу",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для автоматизации процессов",
+          "time_bound": "2-3 часа"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "python_1_2",
+        "marker": "Решил 10+ задач на Codewars или LeetCode",
+        "validation": "Профиль с решениями",
+        "priority": "medium",
+        "resources": ["https://www.codewars.com/"],
+        "smart_criteria": {
+          "specific": "Решить задачи по программированию",
+          "measurable": "10 решенных задач",
+          "achievable": "Уровень начинающего",
+          "relevant": "Развивает алгоритмическое мышление",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "python_2_1",
+        "marker": "Создал веб-приложение с использованием Flask или Django",
+        "validation": "Приложение размещено на GitHub с README",
+        "priority": "high",
+        "resources": ["https://flask.palletsprojects.com/"],
+        "smart_criteria": {
+          "specific": "Создать веб-приложение",
+          "measurable": "Приложение имеет 2-3 функции",
+          "achievable": "Уровень средний",
+          "relevant": "Требуется для веб-разработки",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "python_3_1",
+        "marker": "Оптимизировал код для работы с большими данными",
+        "validation": "Бенчмарки до/после + техническое обоснование",
+        "priority": "medium",
+        "resources": ["https://numba.pydata.org/"],
+        "smart_criteria": {
+          "specific": "Оптимизация производительности Python кода",
+          "measurable": "Измеримые улучшения (скорость, память)",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Важно для работы с большими данными",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
     ]
   }
 }
