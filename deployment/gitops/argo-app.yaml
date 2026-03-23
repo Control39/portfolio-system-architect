@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio-system
+  namespace: argocd
+  labels:
+    app: portfolio
+    environment: staging
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/leadarchitect-ai/portfolio-system-architect.git
+    targetRevision: main
+    path: deployment/k8s/overlays/staging
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portfolio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ApplyOutOfSyncOnly=true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio-monitoring
+  namespace: argocd
+  labels:
+    app: portfolio
+    component: monitoring
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/leadarchitect-ai/portfolio-system-architect.git
+    targetRevision: main
+    path: monitoring
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
