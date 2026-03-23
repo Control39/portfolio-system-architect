@@ -7,20 +7,20 @@ echo "Generating documentation website..."
 
 # Clean output directory to avoid accumulating old files
 echo "Cleaning output directory..."
-rm -rf 05_DOCUMENTATION/docs/website
-mkdir -p 05_DOCUMENTATION/docs/website
+rm -rf docs/website
+mkdir -p docs/website
 
 # Copy markdown files and convert to HTML
 echo "Converting markdown files to HTML..."
 
 # Find all markdown files in documentation directory
-find 05_DOCUMENTATION/docs -name "*.md" -type f | while read file; do
+find docs -name "*.md" -type f | while read file; do
   # Get relative path and filename without extension
-  relative_path="${file#05_DOCUMENTATION/docs/}"
+  relative_path="${file#docs/}"
   filename="${relative_path%.md}"
   
   # Create output directory structure
-  output_dir="05_DOCUMENTATION/docs/website/$(dirname "$relative_path")"
+  output_dir="docs/website/$(dirname "$relative_path")"
   mkdir -p "$output_dir"
   
   # Convert markdown to HTML
@@ -75,7 +75,7 @@ find 05_DOCUMENTATION/docs -name "*.md" -type f | while read file; do
     echo "</footer>"
     echo "</body>"
     echo "</html>"
-  } > "05_DOCUMENTATION/docs/website/${filename}.html"
+  } > "docs/website/${filename}.html"
 done
 
 # Create index.html with list of all generated files
@@ -100,8 +100,8 @@ done
   echo "  <ul>"
   
   # Generate list of all HTML files
-  find 05_DOCUMENTATION/docs/website -name "*.html" -type f | while read html_file; do
-    relative_path="${html_file#05_DOCUMENTATION/docs/website/}"
+  find docs/website -name "*.html" -type f | while read html_file; do
+    relative_path="${html_file#docs/website/}"
     if [ "$relative_path" != "index.html" ]; then
       echo "    <li><a href=\"$relative_path\">$relative_path</a></li>"
     fi
@@ -110,7 +110,7 @@ done
   echo "  </ul>"
   echo "</body>"
   echo "</html>"
-} > 05_DOCUMENTATION/docs/website/index.html
+} > docs/website/index.html
 
 # Sort and finalize index.html
 # We need to do this in a separate step because of the pipe in the while loop above
@@ -135,8 +135,8 @@ echo "  <h1>Documentation</h1>" >> "$temp_index"
 echo "  <ul>" >> "$temp_index"
 
 # Add links to all HTML files except index.html
-find 05_DOCUMENTATION/docs/website -name "*.html" -type f | grep -v "index.html" | sort | while read html_file; do
-  relative_path="${html_file#05_DOCUMENTATION/docs/website/}"
+find docs/website -name "*.html" -type f | grep -v "index.html" | sort | while read html_file; do
+  relative_path="${html_file#docs/website/}"
   echo "    <li><a href=\"$relative_path\">$relative_path</a></li>" >> "$temp_index"
 done
 
@@ -144,6 +144,6 @@ echo "  </ul>" >> "$temp_index"
 echo "</body>" >> "$temp_index"
 echo "</html>" >> "$temp_index"
 
-mv "$temp_index" 05_DOCUMENTATION/docs/website/index.html
+mv "$temp_index" docs/website/index.html
 
-echo "Documentation website generated successfully in 05_DOCUMENTATION/docs/website/"
+echo "Documentation website generated successfully in docs/website/"
