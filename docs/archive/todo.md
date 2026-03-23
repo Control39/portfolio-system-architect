@@ -1,3 +1,10 @@
+> [!NOTE]
+> Актуальные задачи перенесены в GitHub Issues:
+> - [#15](https://github.com/Control39/cognitive-systems-architecture/issues/15) — Improve Pester reporting in tests/run-tests.ps1
+> - [#16](https://github.com/Control39/cognitive-systems-architecture/issues/16) — Add PSScriptInfo metadata to tools/*.ps1 scripts
+> - [#17](https://github.com/Control39/cognitive-systems-architecture/issues/17) — Re-validate all PowerShell scripts with Test-ScriptFileInfo
+> - [#18](https://github.com/Control39/cognitive-systems-architecture/issues/18) — Runtime test all PowerShell scripts
+
 # PowerShell Error Fixes TODO
 
 ## Completed
