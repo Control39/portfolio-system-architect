@@ -7,7 +7,10 @@ if (-not (Test-Path $profilePath)) {
     New-Item -Path $profilePath -Type File -Force | Out-Null
 }
 
-$repoRoot = Resolve-Path 'c:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect'
+$repoRoot = git rev-parse --show-toplevel 2>$null
+if (-not $repoRoot) {
+    $repoRoot = Split-Path $PSScriptRoot -Parent
+}
 $treeScript = Join-Path $repoRoot 'tools/tree.ps1'
 
 $profileContent = Get-Content $profilePath -Raw -ErrorAction SilentlyContinue

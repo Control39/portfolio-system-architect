@@ -1,4 +1,4 @@
-function tree {
+﻿function tree {
     param(
         [string]$Path = ".",
         [int]$Levels = 2,
@@ -25,8 +25,11 @@ function tree {
     function Get-GitStatus {
         param([string]$DirPath)
         pushd $DirPath
-        $status = git status --porcelain 2>$null
+        $status = git status --porcelain 2>&1
         popd
+        if ($LASTEXITCODE -ne 0) {
+            return "⚠️ Error"
+        }
         if ($status) { 
             if ($status -match "^ \?") { "🆕 Untracked" } 
             else { "⚡ Dirty" }
@@ -56,7 +59,10 @@ function tree {
             children = @()
             size = if ($Size) { "$(Format-Bytes (Get-DirSize $currentPath))" } else { $null }
             git = if ($GitStatus) { Get-GitStatus $currentPath } else { $null }
-            modified = if ($Modified -and $items) { $items[0].LastWriteTime } else { $null }
+            modified = if ($Modified) { 
+                $latestFile = Get-ChildItem $currentPath -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                if ($latestFile) { $latestFile.LastWriteTime } else { $null }
+            } else { $null }
         }
         
         for ($i = 0; $i -lt $allItems.Count; $i++) {
@@ -117,6 +123,6 @@ function tree {
     }
 }
 
-# Автозагрузка если dot-sourced
-if ($MyInvocation.Line) { Export-ModuleMember tree }
+# Автозагрузка если dot-sourced (убрано Export-ModuleMember - только для модулей)
+# if ($MyInvocation.Line) { Export-ModuleMember tree }
 

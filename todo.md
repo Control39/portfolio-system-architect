@@ -1,14 +1,11 @@
-# TODO v2: Улучшенный PowerShell tree (фидбек)
+# TODO for Running Analysis Tools
 
-## v1 завершена ✅
-## v2 завершена ✅
+## Task: Запустить tree.ps1, Show-GroupedChanges.ps1 и Show-ServiceHealth с рекомендациями
 
-- [x] Шаг 1: tools/tree.ps1 обновлён
-- [x] Шаг 2: tools/README.md
-- [x] Шаг 3: docs/QUICKSTART.md
-- [ ] Шаг 4: setup-profile (опционально)
-- [x] Шаг 5: Готово!
-
-
-**Цель:** CI-ready tree с git/size/json.
+- [x] 1. Fix encoding tools/tree.ps1 to UTF-8 with BOM
+- [x] 2. Fix encoding tools/Show-GroupedChanges.ps1 to UTF-8 with BOM
+- [x] 3. Run tools/tree.ps1
+- [x] 4. Run tools/Show-GroupedChanges.ps1 (fixed and run)
+- [x] 5. Provide preliminary recommendations based on outputs
+- [x] 6. Mark complete
 

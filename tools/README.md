@@ -12,7 +12,7 @@
 ```powershell
 notepad $PROFILE
 # Добавить:
-. 'c:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/tools/tree.ps1'
+. './tools/tree.ps1'
 ```
 
 ## 🎮 Примеры

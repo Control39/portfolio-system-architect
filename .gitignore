@@ -129,6 +129,9 @@ Thumbs.db
 Desktop.ini
 
 # ============ GENERATED & TEMPORARY ============
+__pycache__/
+.venv/
+*.pyc
 .pytest_cache/
 .mypy_cache/
 .coverage
