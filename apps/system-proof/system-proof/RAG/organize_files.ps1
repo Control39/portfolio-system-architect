@@ -8,6 +8,7 @@ param(
     [string]$DestinationPath,
     [switch]$IncludeSubdirectories
 )
+# Функция для логирования
 
 # Функция для логирования
 function Write-Log {

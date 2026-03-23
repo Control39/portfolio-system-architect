@@ -6,6 +6,7 @@ param(
     [string]$Path,
     [string]$OutputFolder = ".\documents\processed"
 )
+# Функция для логирования
 
 # Функция для логирования
 function Write-Log {

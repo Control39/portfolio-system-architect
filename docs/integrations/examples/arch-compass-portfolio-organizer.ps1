@@ -11,6 +11,7 @@ function Initialize-ArchProject {
         [string]$Description = "",
         [string[]]$Technologies = @()
     )
+    # Функция для инициализации архитектурного проекта
 
     Write-Host "Инициализация архитектурного проекта: $ProjectName" -ForegroundColor Green
 

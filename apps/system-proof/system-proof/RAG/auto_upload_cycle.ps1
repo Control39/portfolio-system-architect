@@ -6,6 +6,7 @@ param(
     [string]$ProcessedFolder = ".\documents\processed",
     [int]$CheckInterval = 60
 )
+# Функция для логирования
 
 # Функция для логирования
 function Write-Log {

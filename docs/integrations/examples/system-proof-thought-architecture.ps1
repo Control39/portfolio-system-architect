@@ -8,6 +8,7 @@ function Process-DocumentWithSystemProof {
         [string]$DocumentPath,
         [string]$OutputPath = ".\processed"
     )
+    # Функция для обработки документа с помощью system-proof
 
     Write-Host "Обработка документа с помощью system-proof: $DocumentPath" -ForegroundColor Green
 
