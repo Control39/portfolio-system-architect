@@ -4,38 +4,41 @@
 ```bash
 git clone https://github.com/leadarchitect-ai/portfolio-system-architect.git
 cd portfolio-system-architect
-git lfs install  # Если LFS файлы
-docker compose up -d  # 7 services: IT-Compass, RAG API, ML Registry
+git lfs install
+docker compose up -d
 ```
 
 ## 2. Verify (30s)
 | Service | URL | What |
 |---------|-----|------|
 | **IT-Compass** | http://localhost:8501 | Competency tracker |
-| **Cloud-Reason (RAG)** | http://localhost:8000/docs | AI reasoning API |
+| **Cloud-Reason** | http://localhost:8000/docs | AI reasoning API |
 | **ML Registry** | http://localhost:8001/docs | Model versioning |
-| **Grafana** | http://localhost:3000 | Monitoring (admin/prom) |
+| **Grafana** | http://localhost:3000 | Monitoring |
 
-`open index.html` — Portfolio overview.
+`open index.html`
 
-## 3. Users Examples
-- **Newcomer**: [04_DEVELOPMENT/examples/newcomer-example.md](../04_DEVELOPMENT/examples/newcomer-example.md)
-- **Developer**: pytest + extend src/
-- **Noobs**: Edit markers in it-compass → track progress.
+## 3. PowerShell Super Tree 🗂️
+```powershell
+# Magic tree с Git/Size/JSON
+tree -Icon -Size -GitStatus  # 📁 apps [✅ Clean] (1.2 MB)
+tree -Json apps > structure.json  # CI
+tree -Filter '*.ps1' -Modified
+```
+
+## 4. Установка tree глобально
+```powershell
+pwsh scripts/dev/setup-profile.ps1
+# Теперь `tree` всегда доступна!
+```
+
+## 5. Другие tools
+- `pwsh tests/run-tests.ps1`
+- `pwsh tools/run_daily.ps1`
 
 ## Troubleshooting
-- Logs: `docker compose logs`
-- LFS: `./scripts/check-lfs.sh`
-- **Python dev (fix tests)**:
-  ```
-  cd apps/[module]  # e.g. it-compass
-  python -m venv .venv
-  .venv\Scripts\activate  # Windows
-  pip install -r requirements-dev.txt
-  pip install -e .  # editable
-  pytest --cov-report=html
-  deactivate
-  ```
+- Docker logs
+- `./scripts/check-lfs.sh`
 
-**Time-to-Value: <2min. Questions?** [INDEX.md](INDEX.md)
+**Ready to rock! 🎸**
 
