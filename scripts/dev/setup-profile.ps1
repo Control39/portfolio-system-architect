@@ -9,6 +9,7 @@ if (-not (Test-Path $profilePath)) {
 
 $repoRoot = git rev-parse --show-toplevel 2>$null
 if (-not $repoRoot) {
+    Write-Warning "Не удалось определить корень репозитория через Git. Используется путь скрипта."
     $repoRoot = Split-Path $PSScriptRoot -Parent
 }
 $treeScript = Join-Path $repoRoot 'tools/tree.ps1'

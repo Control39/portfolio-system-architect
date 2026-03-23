@@ -15,6 +15,7 @@ param(
     [Parameter(Mandatory = $false)]
     [string[]]$ExcludeTag
 )
+# Run all test types
 
 $ErrorActionPreference = 'Stop'
 
@@ -93,9 +94,8 @@ try {
         Write-Host "`n📈 Покрытие кода: $([math]::Round($coverage, 2))%" -ForegroundColor $(if ($coverage -ge 80) { 'Green' } elseif ($coverage -ge 60) { 'Yellow' } else { 'Red' })
     }
     
-    # Сохранение результатов в XML
-    $xmlPath = "$resultsDir\TestResults_$(Get-Date -Format 'yyyyMMdd_HHmmss').xml"
-    $results | Export-NUnitReport -Path $xmlPath
+    # Сохранение результатов в XML (Pester config handles NUnitXml)
+    $xmlPath = $config.TestResult.OutputPath
     Write-Host "`n💾 Результаты сохранены: $xmlPath" -ForegroundColor Gray
     
     # Выход с кодом ошибки, если есть проваленные тесты

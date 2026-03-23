@@ -123,6 +123,6 @@
     }
 }
 
-# Автозагрузка если dot-sourced (убрано Export-ModuleMember - только для модулей)
-# if ($MyInvocation.Line) { Export-ModuleMember tree }
+# Автозагрузка если dot-sourced
+if ($MyInvocation.Line) { Export-ModuleMember tree }
 

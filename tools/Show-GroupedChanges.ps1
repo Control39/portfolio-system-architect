@@ -79,12 +79,21 @@ function Show-ServiceHealth {
 function SafeCommit {
     git status
     $service = Read-Host "Сервис для коммита (cloud-reason/it-compass/all)"
+    $validServices = @('cloud-reason', 'it-compass', 'all')
+    if ($validServices -notcontains $service) {
+        Write-Error "Недопустимый сервис: $service"
+        return
+    }
     if ($service -eq 'all') { 
         git add apps/
     } else { 
         git add "apps/$service/"
     }
-    git diff --cached | Select-String 'secret|password|key|token'
+    $secrets = git diff --cached | Select-String 'secret|password|key|token'
+    if ($secrets) {
+        Write-Error "Найдены потенциальные секреты. Коммит отменен."
+        return
+    }
     git commit 
 }
 
