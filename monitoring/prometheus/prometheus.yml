@@ -34,3 +34,7 @@ scrape_configs:
   - job_name: 'arch_compass'
     static_configs:
       - targets: ['arch-compass:80']
+
+  - job_name: 'auth_service'
+    static_configs:
+      - targets: ['auth-service:8100']

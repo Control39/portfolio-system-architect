@@ -74,8 +74,9 @@ spec:
       
       volumes:
       - name: data
-        emptyDir: {}
-      
+        persistentVolumeClaim:
+          claimName: shared-data-pvc
+       
       securityContext:
         fsGroup: 1000
       

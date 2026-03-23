@@ -43,13 +43,15 @@ Status Legend:
 - [ ] system-proof: RAG ps1 extractors
 - [ ] thought-architecture: cases tools SECURITY.md
 
-## Cross-cutting [0/6]
+## Cross-cutting [0/8]
 - [ ] scripts/ all ps1/py (backup/migrate/fix_encoding/sync)
 - [ ] docs/unified_plan/ ARCHITECTURE_MAP SYNC_PLAN
 - [ ] Root .gitleaks.toml
 - [ ] tools/ PS extractors
 - [ ] Merge root README ARCHITECTURE.md (mermaid ecosystem)
 - [ ] Update docker-compose deployment yamls (volumes/ports)
+- [ ] Audit code duplication between projects and consolidate shared modules
+- [x] Copy missing documentation files (CHANGELOG, CONTRIBUTING, SECURITY) from external repos
 
 ## Final Validation [0/4]
 - [ ] docker-compose up --build (all apps)

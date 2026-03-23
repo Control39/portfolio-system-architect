@@ -1,0 +1,219 @@
+# Чек-лист репозитория Portfolio System Architect
+# Автоматизированные проверки для уровней зрелости
+version: "1.0"
+levels:
+  - id: level1
+    name: "База (обязательный минимум)"
+    description: "Основные практики гигиены репозитория"
+    checks:
+      - id: repo_structure
+        name: "Структура репозитория"
+        description: "Корневая структура соответствует шаблону"
+        severity: high
+        automated: true
+        script: "checks/structure.py"
+        criteria:
+          - "apps/ существует"
+          - "src/ существует"
+          - "tests/ существует"
+          - "docs/ существует"
+          - "deployment/ существует"
+          - "diagrams/ существует"
+          - "scripts/ существует"
+          - "tools/ существует"
+          - ".github/ существует"
+          - ".env.example существует"
+          - ".gitignore существует"
+          - ".dockerignore существует"
+          - ".pre-commit-config.yaml существует"
+          - "README.md существует"
+          - "LICENSE существует"
+          - "CONTRIBUTING.md существует"
+          - "CODE_OF_CONDUCT.md существует"
+          - "pyproject.toml существует"
+          - "requirements-dev.txt существует"
+          - "Makefile существует"
+
+      - id: git_branching
+        name: "Модель ветвления"
+        description: "Используется main/develop/feature/*"
+        severity: medium
+        automated: true
+        script: "checks/git.py"
+        criteria:
+          - "Ветка main защищена"
+          - "Ветка develop существует"
+          - "Последние коммиты соответствуют Conventional Commits"
+
+      - id: linting_formatting
+        name: "Линтинг и форматирование"
+        description: "Настроены ruff, black, isort, pre-commit"
+        severity: high
+        automated: true
+        script: "checks/linting.py"
+        criteria:
+          - ".pre-commit-config.yaml валиден"
+          - "ruff check проходит"
+          - "black --check проходит"
+          - "isort --check-only проходит"
+
+      - id: secrets_check
+        name: "Проверка секретов"
+        description: "detect-secrets или gitleaks не находят секреты"
+        severity: critical
+        automated: true
+        script: "checks/secrets.py"
+        criteria:
+          - "Нет секретов в истории git"
+
+      - id: basic_ci
+        name: "Базовый CI"
+        description: "GitHub Actions workflow на push/PR"
+        severity: high
+        automated: true
+        script: "checks/ci.py"
+        criteria:
+          - ".github/workflows/ci.yml существует"
+          - "Workflow запускает линтеры и тесты"
+
+      - id: markdown_validation
+        name: "Валидация Markdown"
+        description: "markdownlint, markdown-link-check"
+        severity: low
+        automated: true
+        script: "checks/markdown.py"
+        criteria:
+          - "README.md проходит проверку ссылок"
+          - "Нет битых ссылок в документации"
+
+  - id: level2
+    name: "Профессиональный (стандарт команды)"
+    description: "Продвинутые практики качества и безопасности"
+    checks:
+      - id: semver_tags
+        name: "Семантическое версионирование и теги"
+        description: "SemVer, автоматические релизы"
+        severity: medium
+        automated: true
+        script: "checks/versioning.py"
+        criteria:
+          - "Последний тег соответствует SemVer"
+          - "Есть CHANGELOG.md"
+          - "GitHub Releases созданы"
+
+      - id: testing_coverage
+        name: "Тестирование и покрытие"
+        description: "Unit/integration/e2e тесты, покрытие >=80%"
+        severity: high
+        automated: true
+        script: "checks/testing.py"
+        criteria:
+          - "pytest проходит все тесты"
+          - "Покрытие кода >=80%"
+          - "Интеграция с Codecov/Coveralls"
+
+      - id: api_docs
+        name: "Документация API"
+        description: "Swagger/OpenAPI, автогенерация"
+        severity: medium
+        automated: false
+        criteria:
+          - "Есть эндпоинт /docs"
+          - "OpenAPI спецификация доступна"
+
+      - id: security_audit
+        name: "Аудит безопасности"
+        description: "SAST, Dependabot, проверка лицензий"
+        severity: critical
+        automated: true
+        script: "checks/security.py"
+        criteria:
+          - "Dependabot настроен"
+          - "CodeQL сканирование включено"
+          - "Нет уязвимых зависимостей"
+
+      - id: docker_k8s
+        name: "Docker и Kubernetes"
+        description: "Multi-stage builds, валидные манифесты"
+        severity: high
+        automated: true
+        script: "checks/infra.py"
+        criteria:
+          - "Dockerfile проходит hadolint"
+          - "K8s манифесты валидны (kubectl dry-run)"
+
+      - id: monitoring
+        name: "Мониторинг"
+        description: "Prometheus метрики, Grafana дашборды"
+        severity: medium
+        automated: false
+        criteria:
+          - "Эндпоинт /metrics существует"
+          - "Grafana дашборды экспортированы"
+
+  - id: level3
+    name: "Enterprise (масштабируемость и надёжность)"
+    description: "Передовые практики для масштабируемых систем"
+    checks:
+      - id: adr
+        name: "Architecture Decision Records"
+        description: "ADR хранятся в docs/adr/"
+        severity: low
+        automated: true
+        script: "checks/adr.py"
+        criteria:
+          - "Папка docs/adr/ существует"
+          - "Есть хотя бы один ADR"
+
+      - id: devcontainer
+        name: "DevContainer"
+        description: ".devcontainer/devcontainer.json"
+        severity: low
+        automated: true
+        script: "checks/devcontainer.py"
+        criteria:
+          - "Файл .devcontainer/devcontainer.json существует"
+
+      - id: feature_flags
+        name: "Feature Flags"
+        description: "Конфиги фича-флагов в репозитории"
+        severity: medium
+        automated: false
+
+      - id: dast
+        name: "DAST (динамическое тестирование безопасности)"
+        description: "OWASP ZAP интеграция"
+        severity: high
+        automated: false
+
+      - id: backups
+        name: "Резервное копирование"
+        description: "Скрипты бэкапа БД"
+        severity: medium
+        automated: false
+
+      - id: scorecard
+        name: "OpenSSF Scorecard"
+        description: "Оценка безопасности репозитория"
+        severity: high
+        automated: true
+        script: "checks/scorecard.py"
+        criteria:
+          - "Scorecard >=7/10"
+
+      - id: gitops
+        name: "GitOps"
+        description: "ArgoCD манифесты"
+        severity: medium
+        automated: false
+
+pre_release_checklist:
+  - "Все тесты проходят"
+  - "Покрытие >=80%"
+  - "Линтеры без ошибок"
+  - "Нет критических Dependabot PR"
+  - "Документация обновлена"
+  - "Секреты не закоммичены"
+  - "Kubernetes манифесты валидны"
+  - "Версия в pyproject.toml обновлена"
+  - "CHANGELOG обновлён"
