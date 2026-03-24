@@ -1,0 +1,81 @@
+name: Monitor Mirror Discrepancies
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # every 6 hours
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Fetch all remotes
+        run: |
+          git fetch origin --prune
+          git fetch github --prune
+
+      - name: Compare branches
+        id: compare
+        run: |
+          set -e
+          echo "## Branch Comparison" >> $GITHUB_STEP_SUMMARY
+          echo "| Branch | Origin Commit | GitHub Commit | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|---------------|---------------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # Get list of branches from both remotes
+          ORIGIN_BRANCHES=$(git branch -r | grep 'origin/' | grep -v 'HEAD' | sed 's/origin\///')
+          GITHUB_BRANCHES=$(git branch -r | grep 'github/' | grep -v 'HEAD' | sed 's/github\///')
+
+          ALL_BRANCHES=$(echo "$ORIGIN_BRANCHES $GITHUB_BRANCHES" | tr ' ' '\n' | sort -u)
+
+          HAS_DIFF=false
+
+          for branch in $ALL_BRANCHES; do
+            ORIGIN_COMMIT=$(git rev-parse --quiet --verify "origin/$branch" || echo "MISSING")
+            GITHUB_COMMIT=$(git rev-parse --quiet --verify "github/$branch" || echo "MISSING")
+
+            if [ "$ORIGIN_COMMIT" = "MISSING" ] && [ "$GITHUB_COMMIT" = "MISSING" ]; then
+              continue
+            fi
+
+            if [ "$ORIGIN_COMMIT" = "MISSING" ]; then
+              STATUS="⚠️ Only on GitHub"
+              HAS_DIFF=true
+            elif [ "$GITHUB_COMMIT" = "MISSING" ]; then
+              STATUS="⚠️ Only on SourceCraft"
+              HAS_DIFF=true
+            elif [ "$ORIGIN_COMMIT" != "$GITHUB_COMMIT" ]; then
+              STATUS="❌ Diverged"
+              HAS_DIFF=true
+            else
+              STATUS="✅ Synced"
+            fi
+
+            echo "| $branch | ${ORIGIN_COMMIT:0:8} | ${GITHUB_COMMIT:0:8} | $STATUS |" >> $GITHUB_STEP_SUMMARY
+          done
+
+          if [ "$HAS_DIFF" = true ]; then
+            echo "HAS_DIFF=true" >> $GITHUB_ENV
+            echo "::warning::Found discrepancies between origin and github mirrors."
+          else
+            echo "HAS_DIFF=false" >> $GITHUB_ENV
+            echo "::notice::All branches are in sync."
+          fi
+
+      - name: Notify on discrepancies (optional)
+        if: env.HAS_DIFF == 'true'
+        run: |
+          echo "Discrepancies found. Add notification step here (e.g., Telegram, Slack, email)."
+          # Example using Telegram (requires secrets):
+          # curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          #   -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          #   -d text="🚨 Mirror discrepancies detected in ${{ github.repository }}. Check workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

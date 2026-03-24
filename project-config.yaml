@@ -1,10 +1,192 @@
-version: 1.0
+version: 2.0
+description: "Конфигурация портфолио системного архитектора"
+
+# Обязательные файлы для проверки аудитом
 required_files:
   - README.md
   - docs/ARCHITECTURE.md
+  - pyproject.toml
+  - docker-compose.yml
+  - .pre-commit-config.yaml
+  - .github/workflows/ci.yml
+  - Makefile
+
+# Директории компонентов
 component_dirs:
   - apps/
+  - src/
+  - tests/
+  - deployment/
+  - monitoring/
+
+# Инструменты линтинга
 lint_tools:
   ruff: true
   black: true
+  mypy: true
+  bandit: true
+  detect-secrets: true
+  hadolint: true
 
+# Окружения
+environments:
+  dev:
+    docker_compose_files:
+      - docker-compose.yml
+      - docker-compose.monitoring.yml
+    ports:
+      web: 80
+      grafana: 3000
+      prometheus: 9090
+    health_checks: true
+    auto_restart: true
+
+  staging:
+    k8s_overlay: deployment/k8s/overlays/staging
+    replicas: 2
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    hpa:
+      min: 2
+      max: 5
+      cpu: 70
+
+  production:
+    k8s_overlay: deployment/k8s/overlays/prod
+    replicas: 3
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "512Mi"
+      limits:
+        cpu: "1000m"
+        memory: "1Gi"
+    hpa:
+      min: 3
+      max: 10
+      cpu: 80
+    ingress:
+      enabled: true
+      host: portfolio.example.com
+      tls: true
+
+# Мониторинг
+monitoring:
+  prometheus:
+    enabled: true
+    scrape_interval: "30s"
+    retention: "15d"
+    rules_file: "monitoring/prometheus/rules.yml"
+
+  grafana:
+    enabled: true
+    dashboards:
+      - portfolio.yml
+    provisioning: true
+
+  alertmanager:
+    enabled: true
+    config_file: "monitoring/alertmanager/alertmanager.yml"
+
+# Безопасность
+security:
+  secret_management: "sealed-secrets"
+  scan_in_ci:
+    - trivy
+    - safety
+    - pip-audit
+  network_policies: true
+  pod_security_policies: true
+  image_pull_policy: "IfNotPresent"
+
+# Базы данных и кэши
+databases:
+  postgres:
+    version: "14"
+    health_check: "pg_isready"
+    init_scripts:
+      - "postgres/init/01-career-schema.sql"
+
+  redis:
+    enabled: true
+    version: "7-alpine"
+    port: 6379
+    persistence: false
+    maxmemory: "256mb"
+    health_check: "redis-cli ping"
+
+# Развертывание
+deployment:
+  strategy: "rolling"
+  rollback_enabled: true
+  gitops:
+    enabled: true
+    operator: "argocd"
+    sync_policy: "automated"
+  ci_cd:
+    provider: "github-actions"
+    test_coverage_threshold: 95
+    security_gates:
+      - "detect-secrets"
+      - "bandit"
+      - "trivy"
+
+# API
+api:
+  gateway: "traefik"
+  port: 80
+  dashboard_port: 8080
+  health_endpoints:
+    - "/health"
+    - "/api/v1/status"
+  cors:
+    enabled: true
+    origins: ["*"]
+
+# Сервисы
+services:
+  - name: "it-compass"
+    port: 8501
+    path_prefix: "/it-compass"
+    health: "/_stcore/health"
+
+  - name: "cloud-reason"
+    port: 8001
+    path_prefix: "/cloud-reason"
+    health: "/api/v1/status"
+
+  - name: "ml-model-registry"
+    port: 8001
+    path_prefix: "/ml-registry"
+    health: "/health"
+
+  - name: "portfolio-organizer"
+    port: 8004
+    path_prefix: "/portfolio-organizer"
+    health: "/health"
+
+  - name: "system-proof"
+    port: 8003
+    path_prefix: "/system-proof"
+    health: "/health"
+
+  - name: "auth-service"
+    port: 8100
+    path_prefix: "/auth"
+    health: "/health"
+
+# Аудит репозитория
+repo_audit:
+  levels:
+    - "base"
+    - "professional"
+    - "enterprise"
+  checklist_path: "tools/repo_audit/checklists/"
+  pass_threshold: 80
+  auto_fix: false
+  output_format: "markdown"
