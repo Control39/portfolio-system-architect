@@ -1,0 +1,19 @@
+[%% if job %%]
+# Резюме для \"{{ job.title }}\" @ {{ job.employer }}
+
+## Контакты
+{{ user.name }} | architect@example.com
+
+## Key Skills (matched)
+[% for skill in highlighted_skills %]
+- {{ skill }} [% highlight match with job %]
+[% endfor %]
+
+## Experience
+Опыт разработки AI-систем: LangChain, PostgreSQL, FastAPI.
+
+## Why me?
+Мои навыки идеально подходят: {{ job.description[:200] }}
+
+[Apply button stub]
+[%% endif %%]

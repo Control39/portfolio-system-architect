@@ -1,0 +1,25 @@
+services:
+  job-agent:
+    build: .
+    ports:
+      - "8001:8001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+- DATABASE_URL=postgresql+asyncpg://architect:arch_pass_2024@postgres:5432/portfolio_db
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+  celery-worker:
+    build: .
+    command: celery -A tasks worker --loglevel=info
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: portfolio_db
+      POSTGRES_USER: architect
+      POSTGRES_PASSWORD: arch_pass_2024
