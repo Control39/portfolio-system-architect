@@ -156,3 +156,10 @@ data/**/*.db
 postgres_data/
 _local_ai/
 *.log
+
+# Block TODO files from agents
+TODO*.md
+*TODO*.md
+IMPROVEMENTS-TODO.md
+*.TODO
+.ai-config/tasks-*.md
