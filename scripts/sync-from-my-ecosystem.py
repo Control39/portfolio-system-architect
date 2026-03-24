@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-\"\"\"Safe sync script from my-ecosystem-FINAL to _sync/ with diff previews.
+"""Safe sync script from my-ecosystem-FINAL to _sync/ with diff previews.
+Inspired by my-ecosystem/scripts/analyze_all.py, git_fix_history.py.
+Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview"""
 Inspired by my-ecosystem/scripts/analyze_all.py, git_fix_history.py.
 Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview\"\"\"
 import os
