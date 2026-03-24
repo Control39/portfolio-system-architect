@@ -155,3 +155,4 @@ node_modules/
 data/**/*.db
 postgres_data/
 _local_ai/
+*.log
