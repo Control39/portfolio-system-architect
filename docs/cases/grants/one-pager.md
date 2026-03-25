@@ -1,6 +1,6 @@
 # Grant One-Pager: Portfolio System Architect
 
-**Contact**: leadarchitect.ai@gmail.com | [Repo](https://github.com/leadarchitect-ai/portfolio-system-architect)
+**Contact**: leadarchitect@yandex.ru | [Repo](https://github.com/leadarchitect-ai/portfolio-system-architect)
 
 **Vision**: Evidence-based cognitive architecture ecosystem. Zero IT → Architect (3yr AI-orchestrated).
 

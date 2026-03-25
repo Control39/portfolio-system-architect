@@ -26,7 +26,7 @@ Non-tech to architect barrier: High. Solution: Human-in-loop methodology → rep
 
 **Ask**: $Xk for RAG v2 + community course. *ROI: 10x via noob acceleration.*
 
-**Contact**: leadarchitect.ai@gmail.com | [Repo](.) | [Video TBA]
+**Contact**: leadarchitect@yandex.ru | [Repo](.) | [Video TBA]
 
 ---
 **English Version**

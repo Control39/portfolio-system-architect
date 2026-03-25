@@ -141,7 +141,7 @@ cognitive-architect-manifesto/
 
 ### Связаться со мной
 
-- **Email**: leadarchitect.ai@gmail.com
+- **Email**: leadarchitect@yandex.ru
 - **GitHub**: [github.com/leadarchitect-ai](https://github.com/leadarchitect-ai)
 - **Профиль в экосистеме**: [portfolio-system-architect](https://github.com/leadarchitect-ai/portfolio-system-architect)
 

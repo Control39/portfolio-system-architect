@@ -13,6 +13,6 @@
 | AI/ML | RAG/GigaChain, ML Registry | Expert | Self-poetic loops |
 | Docs | MkDocs, Mermaid, Obsidian | Expert | Full architecture/roadmap |
 
-**LinkedIn**: [linkedin.com/in/ekaterina-kudela](https://linkedin.com/in/ekaterina-kudela)  
+**LinkedIn**: *будет добавлен позже*  
 **Email**: leadarchitect@yandex.ru  
 **Portfolio Live**: https://leadarchitect-ai.github.io/portfolio-system-architect/

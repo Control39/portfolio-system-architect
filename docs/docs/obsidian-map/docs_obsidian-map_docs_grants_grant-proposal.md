@@ -24,7 +24,7 @@
 
 **Имя**: Екатерина Куделя
 **Позиция**: Архитектор когнитивных систем
-**Контакты**: leadarchitect.ai@gmail.com
+**Контакты**: leadarchitect@yandex.ru
 **Профиль**: [github.com/leadarchitect-ai](https://github.com/leadarchitect-ai)
 
 ## Проект

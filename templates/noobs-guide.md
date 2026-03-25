@@ -43,7 +43,7 @@ Follow [human-ai-workflow.md](../05_DOCUMENTATION/human-ai-workflow.md):
 - Prototyping: 3w→3d.
 - Confidence: From zero to grant-ready.
 
-**Fork, adapt, share! #CognitiveArchitect** `leadarchitect.ai@gmail.com`
+**Fork, adapt, share! #CognitiveArchitect** `leadarchitect@yandex.ru`
 
 *Template v1.0. MIT License.*
 

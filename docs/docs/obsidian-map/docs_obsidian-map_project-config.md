@@ -26,7 +26,7 @@ author:
   name: "Екатерина Куделя"
   role: "Архитектор когнитивных систем"
   contact:
-    email: "leadarchitect.ai@gmail.com"
+    email: "leadarchitect@yandex.ru"
     github: "github.com/leadarchitect-ai"
 
 # Ваши реальные компоненты
