@@ -14,5 +14,5 @@ workflows:
             script:
               - echo "Building and deploying site..."
               - mkdir -p site
-              - cp -r * site/
+              - cp -r !(site) site/
               - echo "Site built and deployed successfully!"
