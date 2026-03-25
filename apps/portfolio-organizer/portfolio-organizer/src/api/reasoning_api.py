@@ -165,11 +165,21 @@ def generate_recommendations(project: Dict[str, Any]) -> Dict[str, Any]:
 
 
 @app.route("/api/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
+@app.route("/ready", methods=["GET"])
+@app.route("/live", methods=["GET"])
 def health_check():
-    """Проверка состояния API"""
-    return jsonify(
-        {"status": "healthy", "service": "Portfolio Organizer Reasoning API"}
-    )
+    """Проверка состояния API - поддерживает /health, /ready, /live endpoints"""
+    from datetime import datetime
+    return jsonify({
+        "service": "Portfolio Organizer Reasoning API",
+        "status": "healthy",
+        "version": "0.1.0",
+        "timestamp": datetime.utcnow().isoformat(),
+        "checks": {
+            "api": {"status": "ok"}
+        }
+    })
 
 
 if __name__ == "__main__":

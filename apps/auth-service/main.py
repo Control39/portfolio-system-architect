@@ -8,8 +8,13 @@ from fastapi.security import HTTPBearer, HTTPAuthCredentials
 from pydantic import BaseModel
 import jwt
 import os
+import sys
 from datetime import datetime, timedelta
 from typing import Optional
+
+# Добавляем путь для импорта общих модулей
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from src.common.health_check import init_health_checks
 
 app = FastAPI(title="Auth Service", version="1.0.0")
 security = HTTPBearer()
@@ -88,10 +93,14 @@ async def verify(payload: dict = Depends(verify_token)):
         "role": payload.get("role"),
     }
 
-@app.get("/health")
-async def health():
-    """Health check endpoint"""
-    return {"status": "healthy", "service": "auth-service"}
+
+# Инициализируем health-check эндпоинты
+init_health_checks(
+    app,
+    service_name="auth-service",
+    version="1.0.0"
+)
+
 
 @app.get("/")
 async def root():
@@ -103,6 +112,8 @@ async def root():
             "POST /auth/token": "Issue JWT token",
             "POST /auth/verify": "Verify token",
             "GET /health": "Health check",
+            "GET /ready": "Readiness probe",
+            "GET /live": "Liveness probe",
         },
     }
 
