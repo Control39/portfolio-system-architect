@@ -13,5 +13,6 @@ workflows:
             image: docker.io/library/node:18
             script:
               - echo "Building and deploying site..."
-              - cp -r * ./site/
+              - mkdir -p site
+              - cp -r * site/
               - echo "Site built and deployed successfully!"
