@@ -3,8 +3,16 @@ from pydantic import BaseModel
 from typing import List, Optional
 import json
 import os
+import sys
 
-app = FastAPI(title="Career Development System API")
+# Добавляем путь для импорта общих модулей
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")))
+from src.common.health_check import init_health_checks
+
+app = FastAPI(title="Career Development System API", version="1.0.0")
+
+# Инициализируем health-check
+init_health_checks(app, service_name="career-development", version="1.0.0")
 
 # Путь к файлу профиля (пример)
 PROFILE_PATH = os.path.abspath(
@@ -14,7 +22,16 @@ PROFILE_PATH = os.path.abspath(
 
 @app.get("/")
 async def root():
-    return {"message": "Career Development System API is running"}
+    return {
+        "message": "Career Development System API is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "GET /health": "Health check",
+            "GET /ready": "Readiness probe",
+            "GET /live": "Liveness probe",
+            "GET /profile": "Get user profile",
+        }
+    }
 
 
 @app.get("/profile")

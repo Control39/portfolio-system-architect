@@ -5,11 +5,16 @@
 Поддерживает экспорт моделей, получение информации и синхронизацию статусов.
 """
 import os
+import sys
 import logging
 from typing import Dict, List, Optional, Any
 from fastapi import APIRouter, HTTPException, Depends, Request
 import httpx
 from pydantic import BaseModel
+
+# Импортируем async helpers
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
+from src.common.async_helpers import fetch_parallel, fetch_with_timeout
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -206,14 +211,15 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
     """
     logger.info(f"Экспорт модели {model_id} в формате {request.format}")
     
-    # Получаем данные модели из реестра
-    model_data = await fetch_from_registry(f"/api/models/{model_id}")
-    
-    # Экспортируем в нужном формате
-    export_data = await fetch_from_registry(
-        f"/api/models/{model_id}/export",
-        method="POST",
-        data={"format": request.format}
+    # Получаем данные модели и экспортируем в нужном формате ПАРАЛЛЕЛЬНО
+    # (вместо последовательного выполнения, экономим ~15 сек на большых моделях)
+    model_data, export_data = await fetch_parallel(
+        fetch_from_registry(f"/api/models/{model_id}"),
+        fetch_from_registry(
+            f"/api/models/{model_id}/export",
+            method="POST",
+            data={"format": request.format}
+        )
     )
     
     # Отправляем в Portfolio Organizer
