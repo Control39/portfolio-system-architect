@@ -230,7 +230,7 @@ services:
   # PostgreSQL Database
   # ============================================================
   postgres:
-    image: postgres:14
+    image: postgres:16
     container_name: postgres-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}

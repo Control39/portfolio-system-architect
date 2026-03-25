@@ -44,3 +44,19 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
 
+# Instrument for Prometheus metrics
+Instrumentator().instrument(app).expose(app)
+
+@app.get("/health")
+async def health():
+    """Health check endpoint for Docker healthcheck"""
+    return {"status": "healthy", "service": "ml-model-registry"}
+
+@app.get("/")
+async def root():
+    return {"message": "ML Model Registry API", "version": "1.0.0"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
+>>>>>>> upstream/main
