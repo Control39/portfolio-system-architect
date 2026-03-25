@@ -81,15 +81,17 @@ target/
 secrets/sealed-secrets/*.yaml
 !secrets/sealed-secrets/*.example.yaml
 
-# Cloud credentials & keys
-*.json
+# Cloud credentials & keys (be specific to avoid committing config files)
 *.key
 *.pem
-~/.kube/config
+*.p12
+*.pfx
 kubeconfig
 google-cloud-key.json
 aws-credentials.json
 service-account-key.json
+credentials.json
+# Note: *.json is NOT ignored - use explicit patterns for secrets only
 
 # virtualenv
 venv/
@@ -129,9 +131,7 @@ Thumbs.db
 Desktop.ini
 
 # ============ GENERATED & TEMPORARY ============
-__pycache__/
 .venv/
-*.pyc
 .pytest_cache/
 .mypy_cache/
 .coverage
@@ -140,6 +140,7 @@ htmlcov/
 *.tmp
 *.temp
 *~
+*.log
 
 # ============ PROJECT SPECIFIC ============
 KODA.md
@@ -155,7 +156,6 @@ node_modules/
 data/**/*.db
 postgres_data/
 _local_ai/
-*.log
 
 # Block TODO files from agents
 TODO*.md
