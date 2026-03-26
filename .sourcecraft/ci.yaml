@@ -1,1 +1,18 @@
+on:
+  push:
+    - workflows: [build-site]
+      filter:
+        branches: ["main"]
 
+workflows:
+  build-site:
+    tasks:
+      - name: build-and-deploy
+        cubes:
+          - name: build-site-cube
+            image: docker.io/library/node:18
+            script:
+              - echo "Building and deploying site..."
+              - mkdir -p site
+              - cp -r !(site) site/
+              - echo "Site built and deployed successfully!"
