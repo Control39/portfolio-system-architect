@@ -17,9 +17,13 @@ jobs:
       cache-key: ${{ steps.cache.outputs.cache-key }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Cache Python dependencies
         id: cache
         uses: actions/cache@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -34,8 +38,12 @@ jobs:
       valid: ${{ steps.validate.outcome == 'success' }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Restore Python cache
         uses: actions/cache@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           path: ~/.cache/pip
           key: ${{ needs.setup-cache.outputs.cache-key }}
@@ -90,12 +98,18 @@ jobs:
       warning_count: ${{ steps.count-errors.outputs.warning_count }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Set up Python
         uses: actions/setup-python@v5
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           python-version: "3.11"
       - name: Restore Python cache
         uses: actions/cache@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           path: ~/.cache/pip
           key: ${{ needs.setup-cache.outputs.cache-key }}
@@ -146,6 +160,8 @@ jobs:
           fi
       - name: Upload ruff report
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         if: always()
         with:
           name: ruff-lint-report
@@ -163,6 +179,8 @@ jobs:
       warning_count: ${{ steps.count-ps-errors.outputs.warning_count }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Install PSScriptAnalyzer
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
@@ -208,6 +226,8 @@ jobs:
           }
       - name: Upload PowerShell lint report
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         if: always()
         with:
           name: powershell-lint-report
@@ -225,6 +245,8 @@ jobs:
       missing_readmes_count: ${{ steps.count-missing.outputs.missing_readmes }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Install jq
         run: |
@@ -310,6 +332,8 @@ jobs:
       - name: Upload documentation validation report
         if: always()
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: docs-validation-report
           path: docs-validation-report.txt
@@ -325,12 +349,16 @@ jobs:
       findings_count: ${{ steps.count-findings.outputs.findings }}
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           fetch-depth: 0
       - name: Run gitleaks
         id: gitleaks
         continue-on-error: true
         uses: gitleaks/gitleaks-action@v2
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -358,6 +386,8 @@ jobs:
           fi
       - name: Upload security report
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         if: always()
         with:
           name: security-scan-report
@@ -371,12 +401,18 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Set up Python
         uses: actions/setup-python@v5
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           python-version: "3.11"
       - name: Restore Python cache
         uses: actions/cache@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           path: ~/.cache/pip
           key: ${{ needs.setup-cache.outputs.cache-key }}
@@ -427,6 +463,8 @@ jobs:
           EOF
       - name: Archive generated documentation
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: generated-documentation
           path: |
@@ -584,6 +622,8 @@ jobs:
 
       - name: Upload full report
         uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: full-quality-report
           path: full-report.md
@@ -648,6 +688,8 @@ jobs:
         if: github.event_name == 'pull_request'
         continue-on-error: true
         uses: actions/github-script@v6
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           script: |
             try {

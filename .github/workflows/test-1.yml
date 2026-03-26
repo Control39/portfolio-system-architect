@@ -20,9 +20,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     - name: Setup PowerShell
       uses: actions/setup-node@v4
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       with:
         pwsh-version: ${{ matrix.pwsh-version }}
 
@@ -60,6 +64,8 @@ jobs:
     - name: Upload Test Results
       if: always()
       uses: actions/upload-artifact@v3
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       with:
         name: test-results-${{ matrix.pwsh-version }}
         path: |
@@ -69,6 +75,8 @@ jobs:
     - name: Upload Coverage
       if: ${{ matrix.pwsh-version == '7.4' && always() }}
       uses: actions/upload-artifact@v3
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       with:
         name: coverage
         path: coverage.xml
@@ -80,9 +88,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     - name: Check for Secrets
       uses: gitleaks/gitleaks-action@v2
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -12,12 +12,16 @@ jobs:
     steps:
     - name: Checkout репозитория
       uses: actions/checkout@v3
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         submodules: 'recursive'
 
     - name: Установка Python
       uses: actions/setup-python@v4
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       with:
         python-version: '3.9'
 

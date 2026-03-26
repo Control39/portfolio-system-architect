@@ -23,9 +23,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Setup PowerShell
         uses: actions/setup-node@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           pwsh-version: ${{ matrix.pwsh-version }}
       
@@ -85,6 +89,8 @@ jobs:
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: test-results-${{ matrix.os }}-pwsh${{ matrix.pwsh-version }}
           path: |
@@ -95,6 +101,8 @@ jobs:
       - name: Upload Code Coverage
         if: always()
         uses: actions/upload-artifact@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: code-coverage-${{ matrix.os }}-pwsh${{ matrix.pwsh-version }}
           path: tests/TestResults/CodeCoverage.xml
@@ -107,11 +115,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           fetch-depth: 0  # Полная история для gitleaks
       
       - name: Setup PowerShell
         uses: actions/setup-node@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           pwsh-version: '7.4'
       
@@ -173,6 +185,8 @@ jobs:
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           config-path: .gitleaks.toml
@@ -183,6 +197,8 @@ jobs:
       - name: Upload Security Scan Results
         if: always()
         uses: actions/upload-artifact@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: security-scan-results
           path: tests/TestResults/security-scan-results.json
@@ -195,9 +211,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Setup PowerShell
         uses: actions/setup-node@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           pwsh-version: '7.4'
       
@@ -224,6 +244,8 @@ jobs:
       - name: Upload Linting Results
         if: always()
         uses: actions/upload-artifact@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: linting-results
           path: |
