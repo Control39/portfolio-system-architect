@@ -14,5 +14,5 @@ workflows:
             script:
               - echo "Building and deploying site..."
               - mkdir -p site
-              - cp -r !(site) site/
+              - for file in *; do if [ "$file" != "site" ]; then cp -r "$file" site/; fi; done
               - echo "Site built and deployed successfully!"
