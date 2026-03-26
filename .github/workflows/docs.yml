@@ -14,12 +14,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Required for git-revision-date-localized plugin
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -48,6 +51,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3

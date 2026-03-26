@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
+      - name: Checkout repository
+        uses: actions/checkout@v3
       
     - name: Set up Python
       uses: actions/setup-python@v4

@@ -14,6 +14,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
       - uses: actions/checkout@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true

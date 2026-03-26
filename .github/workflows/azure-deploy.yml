@@ -22,6 +22,9 @@ jobs:
     environment: production   # Create environment in GitHub for additional control
 
     steps:
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
       - name: Checkout
         uses: actions/checkout@v4
         env:
