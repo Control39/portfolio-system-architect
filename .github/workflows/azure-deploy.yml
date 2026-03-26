@@ -1,12 +1,6 @@
 name: Deploy to Azure
 
 on:
-  # push:
-    # branches: [ main ]
-    # paths:
-      - 'apps/**'
-      - 'deployment/**'
-      - '.github/workflows/azure-deploy.yml'
   workflow_dispatch:
 
 env:
