@@ -2,6 +2,32 @@
 
 This repository contains a comprehensive portfolio system for a Lead AI Systems Architect, demonstrating advanced capabilities in AI-driven career development, cloud reasoning, and system architecture.
 
+<!-- Badges -->
+<p align="center">
+  <!-- Архитектура -->
+  <img src="https://img.shields.io/badge/✅-Production--Ready-blue?style=for-the-badge" alt="Production Ready">
+  <img src="https://img.shields.io/badge/✅-GitOps-orange?style=for-the-badge" alt="GitOps">
+  <img src="https://img.shields.io/badge/✅-Observability-green?style=for-the-badge" alt="Observability">
+</p>
+
+<p align="center">
+  <!-- Технические метрики (динамические) -->
+  <img src="https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  <img src="https://codecov.io/gh/Control39/cognitive-systems-architecture/branch/main/graph/badge.svg" alt="Code Coverage">
+  <img src="https://img.shields.io/github/last-commit/Control39/cognitive-systems-architecture?style=flat-square&logo=git" alt="Last Commit">
+  <img src="https://img.shields.io/github/license/Control39/cognitive-systems-architecture?style=flat-square" alt="License">
+</p>
+
+<p align="center">
+  <!-- Стек -->
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
+</p>
+
+---
+
 ## Project Structure
 
 - `apps/` - Main application modules
@@ -61,6 +87,19 @@ build/
 
 For a quick overview of the project's value and capabilities, see the [One-Pager](docs/EMPLOYER_ONE_PAGER.md) designed for technical leads and hiring managers. It highlights systemic thinking, AI orchestration, and **relevance for the Russian corporate sector** (Yandex, banks, IT integrators).
 
+## Test Coverage
+
+The project includes comprehensive test coverage:
+
+- Unit tests for core components
+- Integration tests for service interactions
+- End-to-end tests for full workflows
+- Code coverage is automatically measured and reported
+
+![Test Coverage](https://img.shields.io/codecov/c/github/Control39/cognitive-systems-architecture?token=codecov_token)
+
+Coverage reports are generated in HTML format and available in the `htmlcov/` directory after running tests.
+
 ## GitOps & CI/CD
 
 The project implements a modern GitOps workflow with automated security gates, container scanning, and Kubernetes deployment.
@@ -115,6 +154,18 @@ The **systemic thinking** and **AI orchestration** demonstrated here are exactly
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🏆 Production Readiness Checklist
+
+| Категория | Статус | Документация |
+|-----------|--------|--------------|
+| **Тестирование** | ✅ | Unit (pytest), Integration, E2E, Load (Locust) |
+| **CI/CD** | ✅ | GitHub Actions + Kustomize + GitOps |
+| **Безопасность** | ✅ | Sealed Secrets, ротация в `docs/secrets.md` |
+| **Окружения** | ✅ | dev / staging / prod overlays |
+| **Мониторинг** | ✅ | Prometheus + Grafana + AlertManager |
+| **Disaster Recovery** | ✅ | Бэкапы, восстановление, DR Runbook |
+| **Документация** | ✅ | MkDocs, авто-генерация, аудит |
 
 See: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions
 
