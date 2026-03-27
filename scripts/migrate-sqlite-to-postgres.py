@@ -3,6 +3,7 @@ import psycopg2
 from psycopg2.extras import execute_values
 import os
 from pathlib import Path
+import re
 
 # Config
 SQLITE_DB = 'data/db/registry.db'  # adjust paths
@@ -12,12 +13,41 @@ POSTGRES_USER = 'postgres'
 POSTGRES_PASSWORD = 'password'
 POSTGRES_PORT = 5432
 
+def is_valid_table_name(table_name):
+    """Проверить, что имя таблицы состоит только из букв, цифр и подчеркиваний"""
+    # Дополнительная проверка длины имени таблицы
+    if len(table_name) > 63:  # Максимальная длина имени таблицы в PostgreSQL
+        return False
+    return re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', table_name) is not None
+
 def migrate_table(cur_sqlite, cur_pg, table_name):
+    """Мигрировать таблицу из SQLite в PostgreSQL"""
+    # Валидировать имя таблицы
+    if not is_valid_table_name(table_name):
+        raise ValueError(f"Invalid table name: {table_name}")
+    
+    # Использовать параметризованный запрос для выбора данных
+    # Для SELECT * FROM table_name используем проверенное имя таблицы
+    # Так как имя таблицы уже прошло валидацию, можно безопасно использовать форматирование
     cur_sqlite.execute(f"SELECT * FROM {table_name}")
     rows = cur_sqlite.fetchall()
     if rows:
         columns = [desc[0] for desc in cur_sqlite.description]
-        execute_values(cur_pg, f"CREATE TABLE IF NOT EXISTS {table_name} ({', '.join([c + ' TEXT' for c in columns])})", rows)
+        # Валидировать имена колонок
+        for col in columns:
+            if not is_valid_table_name(col):
+                raise ValueError(f"Invalid column name: {col}")
+        
+        # Создать таблицу в PostgreSQL с валидированными именами
+        # Для CREATE TABLE используем проверенные имена таблиц и колонок
+        column_defs = ', '.join([f"{col} TEXT" for col in columns])
+        create_table_sql = f"CREATE TABLE IF NOT EXISTS {table_name} ({column_defs})"
+        cur_pg.execute(create_table_sql)
+        
+        # Вставить данные
+        # execute_values автоматически экранирует значения
+        if rows:
+            execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
 
 def main():
     pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)
@@ -33,8 +63,12 @@ def main():
 
         for table in tables:
             table_name = table[0]
-            migrate_table(sqlite_cur, pg_cur, table_name)
-            print(f"Migrated {table_name}")
+            # Валидировать имя таблицы перед миграцией
+            if is_valid_table_name(table_name):
+                migrate_table(sqlite_cur, pg_cur, table_name)
+                print(f"Migrated {table_name}")
+            else:
+                print(f"Skipping invalid table name: {table_name}")
 
         sqlite_conn.close()
     pg_conn.commit()
