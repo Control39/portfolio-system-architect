@@ -10,7 +10,11 @@ import os
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get('SECRET_KEY', 'demo-secret-key-for-portfolio-organizer')
+# Требуется установка SECRET_KEY через переменную окружения
+if not os.environ.get('SECRET_KEY'):
+    raise RuntimeError("SECRET_KEY environment variable is required")
+    
+app.secret_key = os.environ.get('SECRET_KEY')
 csrf = CSRFProtect(app)
 
 # Демонстрационные данные проектов

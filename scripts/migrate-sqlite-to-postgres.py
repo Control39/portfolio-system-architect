@@ -6,12 +6,16 @@ from pathlib import Path
 import re
 
 # Config
-SQLITE_DB = 'data/db/registry.db'  # adjust paths
-POSTGRES_HOST = 'localhost'
-POSTGRES_DB = 'portfolio'
-POSTGRES_USER = 'postgres'
-POSTGRES_PASSWORD = 'password'
-POSTGRES_PORT = 5432
+SQLITE_DB = os.environ.get('SQLITE_DB', 'data/db/registry.db')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
+POSTGRES_DB = os.environ.get('POSTGRES_DB', 'portfolio')
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+POSTGRES_PORT = int(os.environ.get('POSTGRES_PORT', 5432))
+
+# Требуется установка POSTGRES_PASSWORD через переменную окружения
+if not POSTGRES_PASSWORD:
+    raise RuntimeError("POSTGRES_PASSWORD environment variable is required")
 
 def is_valid_table_name(table_name):
     """Проверить, что имя таблицы состоит только из букв, цифр и подчеркиваний"""

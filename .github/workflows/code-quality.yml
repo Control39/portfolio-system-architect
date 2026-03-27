@@ -141,6 +141,45 @@ jobs:
             echo "[]" > ruff-report.json
           fi
 
+      - name: Run Bandit security scan
+        id: bandit
+        run: |
+          echo "🔒 Running Bandit security scanner..."
+          if [ -d "apps" ] || [ -d "src" ] || [ -d "scripts" ]; then
+            bandit -r apps/ src/ scripts/ -f json -o bandit-report.json || echo '{"issues": []}' > bandit-report.json
+          else
+            echo "⚠️ No Python directories to scan"
+            echo '{"issues": []}' > bandit-report.json
+          fi
+          
+      - name: Count Bandit findings
+        id: count-bandit
+        run: |
+          echo "🔍 Counting Bandit security issues..."
+          if [ -f bandit-report.json ]; then
+            content=$(cat bandit-report.json | tr -d ' \\n')
+            if [ "$content" = "{\"issues\":[]}" ] || [ -z "$content" ]; then
+              echo "📊 No security issues found"
+              bandit_count=0
+            else
+              bandit_count=$(jq '.issues | length' bandit-report.json 2>/dev/null || echo "0")
+            fi
+            echo "bandit_count=$bandit_count" >> $GITHUB_OUTPUT
+            echo "🔒 Bandit found $bandit_count security issues"
+          else
+            echo "⚠️ No Bandit report found"
+            echo "bandit_count=0" >> $GITHUB_OUTPUT
+          fi
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        if: always()
+        with:
+          name: bandit-security-report
+          path: bandit-report.json
+          retention-days: 14
+
       # Улучшение 3: проверка на пустые отчёты
       - name: Count Python lint errors and warnings
         id: count-errors
