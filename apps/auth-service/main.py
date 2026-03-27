@@ -72,15 +72,18 @@ async def login(request: TokenRequest):
     """
     Issue JWT token
     
-    Demo: username=demo, password=demo → returns token
+    For demo purposes, any username/password combination is accepted except demo/demo.
+    In production, implement real authentication against a user database.
     """
-    # Demo auth (replace with real auth in production)
+    # Block demo/demo credentials for security
     if request.username == "demo" and request.password == "demo":
-        return create_token(request.username, role="admin")
+        raise HTTPException(status_code=401, detail="Demo credentials not allowed")
     
+    # In production, replace with real auth (e.g., database lookup, LDAP, OAuth)
     if request.username and request.password:
-        # Allow any username/password for demo
-        return create_token(request.username, role="user")
+        # For demo: assign admin role to 'admin' username, user role to others
+        role = "admin" if request.username == "admin" else "user"
+        return create_token(request.username, role=role)
     
     raise HTTPException(status_code=401, detail="Invalid credentials")
 

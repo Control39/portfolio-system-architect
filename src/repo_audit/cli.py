@@ -13,10 +13,12 @@ from typing import Dict, List, Any
 import importlib.util
 import subprocess
 
+
 def load_checklist(checklist_path: str) -> Dict[str, Any]:
     """Загрузить YAML чек-листа."""
     with open(checklist_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
+
 
 def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
     """Запустить скрипт проверки и вернуть результат."""
@@ -31,10 +33,11 @@ def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
     except Exception as e:
         return {"passed": False, "error": str(e)}
 
-def execute_shell(cmd: str, cwd: str) -> Dict[str, Any]:
+
+def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
     """Выполнить shell команду и вернуть результат."""
     try:
-        result = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True, timeout=30)
+        result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=30)
         return {
             "passed": result.returncode == 0,
             "stdout": result.stdout,
@@ -45,6 +48,7 @@ def execute_shell(cmd: str, cwd: str) -> Dict[str, Any]:
         return {"passed": False, "error": "Таймаут выполнения"}
     except Exception as e:
         return {"passed": False, "error": str(e)}
+
 
 def check_structure(repo_root: str) -> Dict[str, Any]:
     """Проверка структуры репозитория."""
@@ -66,27 +70,29 @@ def check_structure(repo_root: str) -> Dict[str, Any]:
         "message": f"Отсутствуют: {missing}" if missing else "Структура соответствует"
     }
 
+
 def check_git(repo_root: str) -> Dict[str, Any]:
     """Проверка git ветвления."""
     # Простая проверка наличия ветки develop
-    result = execute_shell("git branch --list develop", repo_root)
+    result = execute_shell(["git", "branch", "--list", "develop"], repo_root)
     develop_exists = "develop" in result.get("stdout", "")
     return {
         "passed": develop_exists,
         "message": "Ветка develop существует" if develop_exists else "Ветка develop отсутствует"
     }
 
+
 def check_linting(repo_root: str) -> Dict[str, Any]:
     """Проверка линтинга."""
     results = []
     # ruff
-    r = execute_shell("ruff check .", repo_root)
+    r = execute_shell(["ruff", "check", "."], repo_root)
     results.append(("ruff", r["passed"]))
     # black
-    b = execute_shell("black --check .", repo_root)
+    b = execute_shell(["black", "--check", "."], repo_root)
     results.append(("black", b["passed"]))
     # isort
-    i = execute_shell("isort --check-only .", repo_root)
+    i = execute_shell(["isort", "--check-only", "."], repo_root)
     results.append(("isort", i["passed"]))
     passed = all(p for _, p in results)
     return {
@@ -95,16 +101,16 @@ def check_linting(repo_root: str) -> Dict[str, Any]:
         "message": "Линтинг пройден" if passed else "Ошибки линтинга"
     }
 
+
 def check_secrets(repo_root: str) -> Dict[str, Any]:
     """Проверка секретов."""
     # Если detect-secrets установлен
-    r = execute_shell("detect-secrets scan 2>/dev/null || echo 'not installed'", repo_root)
-    if "not installed" in r.get("stdout", ""):
-        return {"passed": True, "message": "detect-secrets не установлен, пропуск"}
+    r = execute_shell(["detect-secrets", "scan"], repo_root)
     # Если есть найденные секреты
     if "Found" in r.get("stdout", ""):
         return {"passed": False, "message": "Обнаружены возможные секреты"}
     return {"passed": True, "message": "Секреты не обнаружены"}
+
 
 def check_ci(repo_root: str) -> Dict[str, Any]:
     """Проверка CI."""
@@ -113,6 +119,7 @@ def check_ci(repo_root: str) -> Dict[str, Any]:
         return {"passed": True, "message": "CI workflow существует"}
     else:
         return {"passed": False, "message": "CI workflow отсутствует"}
+
 
 def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[str, Any]:
     """Запустить аудит по чек-листу."""
@@ -175,6 +182,7 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
         "results": results
     }
 
+
 def main():
     parser = argparse.ArgumentParser(description="Аудит репозитория по чек-листу")
     parser.add_argument("--checklist", default="repo_audit/checklist.yaml", help="Путь к чек-листу")
@@ -205,6 +213,7 @@ def main():
             print("📈 Есть потенциал для улучшения.")
         else:
             print("🚨 Требуется серьёзная доработка.")
+
 
 if __name__ == "__main__":
     main()
