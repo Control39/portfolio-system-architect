@@ -38,52 +38,23 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
     rows = cur_sqlite.fetchall()
     if rows:
         columns = [desc[0] for desc in cur_sqlite.description]
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 36588164 (security: Fix SQL Injection, Command Injection, and add request timeouts)
->>>>>>> db77079e (security: Fix SQL Injection, Command Injection, and add request timeouts)
-        columns_def = ', '.join([f'{c} TEXT' for c in columns])
-        create_table_query = sql.SQL("CREATE TABLE IF NOT EXISTS {} ({})").format(
-            sql.Identifier(table_name),
-            sql.SQL(columns_def)
-        )
-        cur_pg.execute(create_table_query)
-<<<<<<< HEAD
-        
-        # Безопасная вставка данных
-        placeholders = sql.SQL(', ').join([sql.Placeholder()] * len(columns))
-        insert_query = sql.SQL("INSERT INTO {} VALUES ({})").format(
-            sql.Identifier(table_name),
-            placeholders
-        )
-        for row in rows:
-            cur_pg.execute(insert_query, row)
-=======
-        execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
-<<<<<<< HEAD
-=======
         # Валидировать имена колонок
         for col in columns:
             if not is_valid_table_name(col):
                 raise ValueError(f"Invalid column name: {col}")
         
         # Создать таблицу в PostgreSQL с валидированными именами
-        # Для CREATE TABLE используем проверенные имена таблиц и колонок
-        column_defs = ', '.join([f"{col} TEXT" for col in columns])
-        create_table_sql = f"CREATE TABLE IF NOT EXISTS {table_name} ({column_defs})"
-        cur_pg.execute(create_table_sql)
+        columns_def = ', '.join([f'{c} TEXT' for c in columns])
+        create_table_query = sql.SQL("CREATE TABLE IF NOT EXISTS {} ({})").format(
+            sql.Identifier(table_name),
+            sql.SQL(columns_def)
+        )
+        cur_pg.execute(create_table_query)
         
         # Вставить данные
         # execute_values автоматически экранирует значения
         if rows:
             execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
->>>>>>> origin/main
-=======
->>>>>>> 36588164 (security: Fix SQL Injection, Command Injection, and add request timeouts)
->>>>>>> db77079e (security: Fix SQL Injection, Command Injection, and add request timeouts)
 
 def main():
     pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)
