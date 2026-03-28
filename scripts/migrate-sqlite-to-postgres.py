@@ -57,8 +57,8 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
         if rows:
             try:
                 execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
-            except Exception as e:
-                print(f"Ошибка при вставке данных в таблицу {table_name}: {e}")
+            except psycopg2.Error as e:
+                print(f"Ошибка PostgreSQL при вставке данных в таблицу {table_name}: {e}")
                 raise
 
 def main():
