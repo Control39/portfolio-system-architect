@@ -1,6 +1,7 @@
 import sqlite3
 import psycopg2
 from psycopg2.extras import execute_values
+from psycopg2 import sql
 import os
 from pathlib import Path
 import re
@@ -37,6 +38,15 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
     rows = cur_sqlite.fetchall()
     if rows:
         columns = [desc[0] for desc in cur_sqlite.description]
+<<<<<<< HEAD
+        columns_def = ', '.join([f'{c} TEXT' for c in columns])
+        create_table_query = sql.SQL("CREATE TABLE IF NOT EXISTS {} ({})").format(
+            sql.Identifier(table_name),
+            sql.SQL(columns_def)
+        )
+        cur_pg.execute(create_table_query)
+        execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
+=======
         # Валидировать имена колонок
         for col in columns:
             if not is_valid_table_name(col):
@@ -52,6 +62,7 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
         # execute_values автоматически экранирует значения
         if rows:
             execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
+>>>>>>> origin/main
 
 def main():
     pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)

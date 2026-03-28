@@ -19,7 +19,7 @@ ML_MODEL_REGISTRY_URL = os.environ.get(
 def list_models():
     """Получение списка моделей из ML Model Registry"""
     try:
-        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/portfolio/models')
+        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/portfolio/models', timeout=60)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
@@ -31,7 +31,7 @@ def list_models():
 def get_model(model_id):
     """Получение информации о конкретной модели"""
     try:
-        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}')
+        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}', timeout=60)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
@@ -49,7 +49,8 @@ def predict(model_id):
 
         response = requests.post(
             f'{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}/predict',
-            json=data
+            json=data,
+            timeout=60
         )
         response.raise_for_status()
         return jsonify(response.json())
@@ -62,7 +63,7 @@ def predict(model_id):
 def health_check():
     """Проверка состояния интеграции с ML Model Registry"""
     try:
-        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/health')
+        response = requests.get(f'{ML_MODEL_REGISTRY_URL}/health', timeout=10)
         if response.status_code == 200:
             return jsonify({
                 'status': 'healthy',
@@ -98,7 +99,8 @@ def portfolio_analysis_with_models():
         # Отправляем данные в ML Model Registry для анализа
         response = requests.post(
             f'{ML_MODEL_REGISTRY_URL}/portfolio/analyze',
-            json=data
+            json=data,
+            timeout=60
         )
         response.raise_for_status()
         return jsonify(response.json())

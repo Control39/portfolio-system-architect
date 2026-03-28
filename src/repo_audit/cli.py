@@ -37,7 +37,11 @@ def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
 def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
     """Выполнить shell команду и вернуть результат."""
     try:
+<<<<<<< HEAD
+        result = subprocess.run(cmd, shell=False, cwd=cwd, capture_output=True, text=True, timeout=30)
+=======
         result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=30)
+>>>>>>> origin/main
         return {
             "passed": result.returncode == 0,
             "stdout": result.stdout,
