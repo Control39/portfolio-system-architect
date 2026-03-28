@@ -53,8 +53,13 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
         
         # Вставить данные
         # execute_values автоматически экранирует значения
+        # Имя таблицы уже валидировано через is_valid_table_name
         if rows:
-            execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
+            try:
+                execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
+            except Exception as e:
+                print(f"Ошибка при вставке данных в таблицу {table_name}: {e}")
+                raise
 
 def main():
     pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)
