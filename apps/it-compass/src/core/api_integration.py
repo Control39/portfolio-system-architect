@@ -28,7 +28,7 @@ class CrisisAPIService:
     def get_hotlines(self):
         """Получить список горячих линий психологической помощи"""
         try:
-            response = requests.get(self.services["psyhelp_hotline"]["api_url"], timeout=10)
+            response = requests.get(self.services["psyhelp_hotline"]["api_url"], timeout=30)
             if response.status_code == 200:
                 return response.json()
             else:
@@ -39,7 +39,7 @@ class CrisisAPIService:
     def get_meditations(self):
         """Получить список медитаций для снятия стресса"""
         try:
-            response = requests.get(self.services["mindful_meditations"]["api_url"], timeout=10)
+            response = requests.get(self.services["mindful_meditations"]["api_url"], timeout=30)
             if response.status_code == 200:
                 return response.json()
             else:
@@ -60,7 +60,7 @@ class CrisisAPIService:
                 self.services["psyhelp_find"]["api_url"],
                 json=payload,
                 headers=self.services["psyhelp_find"]["headers"],
-                timeout=10
+                timeout=30
             )
             
             if response.status_code == 200:
