@@ -38,6 +38,29 @@ trivy sbom your-image:tag
 3. Integrate with alerting system for critical vulnerabilities
 4. Generate reports for compliance audits
 
+### Secret Scanning Configuration
+
+Trivy includes built-in secret detection capabilities. The project uses a custom configuration file (`trivy-secret.yaml`) to define:
+
+- **Custom secret patterns**: Regular expressions for detecting API keys, tokens, and credentials
+- **Exclusion rules**: Files and directories to exclude from scanning
+- **Severity levels**: Classification of different secret types
+
+The configuration includes rules for:
+- AWS Access Keys and Secret Keys
+- GitHub Tokens
+- Slack Tokens
+- Private Keys
+- Database credentials
+- Generic API keys
+
+To use the custom configuration:
+```bash
+trivy fs --secret-config trivy-secret.yaml .
+```
+
+The configuration is automatically used in CI/CD pipelines via the `TRIVY_SECRET_CONFIG_PATH` environment variable.
+
 ## Semgrep
 
 Semgrep is a fast, open-source static analysis tool for finding bugs, detecting dependency vulnerabilities, and enforcing code standards.
