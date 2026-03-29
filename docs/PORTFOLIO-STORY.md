@@ -13,7 +13,7 @@
 - Демо: `docker compose up it-compass` → localhost:8501  
 - Документация: `apps/it-compass/README.md`  
 **Компетенция**: Системное мышление, Python UI, карьерный трекинг ⭐⭐⭐⭐⭐.  
-**Уверенность**: 🟢95% — доказана в production, coverage 98%.
+**Уверенность**: 🟢95% — доказана в production, coverage 85% (см. TEST-COVERAGE-METRICS.md).
 
 ### 🧭 Arch-Compass-Framework
 **Проблема**: Нужно было оркестрировать архитектурные решения в PowerShell безопасно.  
@@ -88,6 +88,6 @@
 
 ## 📎 Приложения
 - GitHub: https://github.com/Control39/cognitive-systems-architecture  
-- Demo: `docker compose up -d` → localhost:8501 (IT-Compass)  
+- Demo: Local deployment via `docker compose up -d` (IT-Compass at localhost:8501)
 - Аудит: docs/audit-2026-03.md
 

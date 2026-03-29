@@ -17,16 +17,9 @@ workflows:
               - echo "Checking if docs/mkdocs-site directory exists..."
               - 'if [ ! -d "docs/mkdocs-site" ]; then echo "Error: docs/mkdocs-site directory not found"; exit 1; fi'
               - cd docs/mkdocs-site
-              
-              # Build site to the standard location that SourceCraft Sites expects
               - mkdocs build --site-dir /workspace/site --clean
               - echo "Site built successfully at /workspace/site"
-              
-              # Verify build by checking index.html exists
-              - echo "Verifying site build..."
-              - 'if [ -f "/workspace/site/index.html" ]; then echo "✓ Site built successfully"; else echo "✗ Site build failed - index.html not found"; exit 1; fi'
-              
-              # Instructions for SourceCraft Sites deployment
+              - 'if [ -f "/workspace/site/index.html" ]; then echo "✓ Site verification passed"; else echo "✗ Site build failed"; exit 1; fi'
               - echo ""
               - echo "=== SourceCraft Sites Deployment Instructions ==="
               - echo "1. The site has been built to /workspace/site"

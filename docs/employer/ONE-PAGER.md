@@ -3,7 +3,7 @@
 **Name**: Ekaterina Kudelia  
 **Role**: Product-minded Cognitive Systems Architect  
 **Location**: Remote  
-**Years of Experience**: 3 years (with evidence-based system design)
+**Years of Experience**: 2 years (with evidence-based system design)
 
 ---
 
