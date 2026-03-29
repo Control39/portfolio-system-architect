@@ -6,6 +6,8 @@
     <title>Portfolio System Architect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Базовый URL для относительных путей -->
+    <base href="/">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
@@ -77,9 +79,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="https://leadarchitect-ai.github.io/portfolio-system-architect/">Документация</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Документация</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="https://github.com/leadarchitect-ai/portfolio-system-architect">GitHub</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Репозиторий</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="https://git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect">SourceCraft</a></li>
+                            <li><a class="dropdown-item" href="https://github.com/leadarchitect-ai/portfolio-system-architect">GitHub</a></li>
+                        </ul>
+                    </li>
 
                 </ul>
             </div>
@@ -92,19 +100,23 @@
             <h1 class="display-4 fw-bold">Архитектор когнитивных систем</h1>
             <p class="lead fs-4 mt-3">Zero IT → Architect. Human leads AI: <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/docs/evidence/human-decisions.md">Proof</a> | <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/docs/evidence/metrics/impact.md">Metrics</a></p>
             <div class="mt-4">
-<a href="https://leadarchitect-ai.github.io/portfolio-system-architect/grants/one-pager/" class="btn btn-light btn-lg px-4 py-2 me-2">
+                <a href="/grants/one-pager/" class="btn btn-light btn-lg px-4 py-2 me-2">
                     <i class="bi bi-elevator"></i> Pitch
                 </a>
                 <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/docs/evidence/human-decisions.md" class="btn btn-light btn-lg px-4 py-2 me-2">
                     <i class="bi bi-check-circle"></i> Proof
                 </a>
-                <a href="https://leadarchitect-ai.github.io/portfolio-system-architect/grants/one-pager/" class="btn btn-outline-light btn-lg px-4 py-2 me-2">
+                <a href="/grants/one-pager/" class="btn btn-outline-light btn-lg px-4 py-2 me-2">
                     <i class="bi bi-file-earmark-text"></i> One-Pager
                 </a>
-                <a href="https://github.com/leadarchitect-ai/portfolio-system-architect" class="btn btn-outline-light btn-lg px-4 py-2">
-                    <i class="bi bi-github"></i> GitHub
-                </a>
-
+                <div class="btn-group" role="group">
+                    <a href="https://git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect" class="btn btn-outline-light btn-lg px-4 py-2">
+                        <i class="bi bi-code-slash"></i> SourceCraft
+                    </a>
+                    <a href="https://github.com/leadarchitect-ai/portfolio-system-architect" class="btn btn-outline-light btn-lg px-4 py-2">
+                        <i class="bi bi-github"></i> GitHub
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -167,10 +179,14 @@ graph TD
                 Я не пишу код — я проектирую системы, где человек управляет ИИ для создания новых форм экспертизы.<br>
                 Этот проект — мой вклад в будущее профессии.
             </p>
-            <a href="https://github.com/leadarchitect-ai/portfolio-system-architect" class="btn btn-primary btn-lg">
-                <i class="bi bi-award"></i> Поддержать проект
-            </a>
-
+            <div class="btn-group" role="group">
+                <a href="https://git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect" class="btn btn-primary btn-lg">
+                    <i class="bi bi-award"></i> SourceCraft
+                </a>
+                <a href="https://github.com/leadarchitect-ai/portfolio-system-architect" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+            </div>
         </div>
     </div>
 

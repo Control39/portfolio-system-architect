@@ -27,6 +27,20 @@ jobs:
           pip install mkdocs-material
           pip install mkdocs-git-revision-date-localized-plugin
       
+      - name: Configure site_url for GitHub Pages
+        run: |
+          cd docs/mkdocs-site
+          # Создаем временный mkdocs.yml с правильным site_url для GitHub Pages
+          python -c "
+          import yaml
+          with open('mkdocs.yml', 'r') as f:
+              config = yaml.safe_load(f)
+          config['site_url'] = 'https://leadarchitect-ai.github.io/portfolio-system-architect/'
+          with open('mkdocs.yml', 'w') as f:
+              yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
+          "
+          echo "Updated site_url for GitHub Pages"
+      
       - name: Build mkdocs site
         run: |
           cd docs/mkdocs-site
