@@ -36,8 +36,43 @@ This repository contains a comprehensive portfolio system for a Lead AI Systems 
 - `docs/` - Documentation
 - `deployment/` - Deployment configurations
 - `diagrams/` - Architecture diagrams
-- `scripts/` - Utility scripts
+- `scripts/` - Utility scripts (organized by platform: `windows/`, `linux/`, `python/`)
 - `tools/` - Development tools
+
+## 🏗️ Architectural Justification
+
+This portfolio demonstrates **production-grade system architecture** through intentional technology choices:
+
+### Why Kubernetes?
+- **Demonstrates cloud-native expertise** – essential for enterprise architecture roles
+- **Shows production readiness** – orchestration, scaling, service discovery
+- **Relevant for Russian enterprise** – Yandex Cloud, SberCloud, and other Russian cloud providers use Kubernetes
+- **Proves DevOps/SRE skills** – not just development, but deployment and operations
+
+### Why Full Monitoring Stack (Prometheus/Grafana/Alertmanager)?
+- **Demonstrates observability mindset** – critical for modern microservices
+- **Shows understanding of SRE principles** – SLIs, SLOs, error budgets
+- **Proves production experience** – monitoring is not an afterthought
+- **Enterprise relevance** – financial sector (banks) requires comprehensive monitoring
+
+### Why Microservices Architecture?
+- **Demonstrates system decomposition skills** – 8 independent services
+- **Shows domain-driven design understanding** – bounded contexts, clear interfaces
+- **Proves scalability knowledge** – independent scaling, fault isolation
+- **Enterprise alignment** – large Russian companies are migrating from monoliths to microservices
+
+### Why Mixed Scripting (PowerShell/Bash/Python)?
+- **Demonstrates cross-platform expertise** – Windows (PowerShell) and Linux (Bash)
+- **Shows pragmatic approach** – right tool for the right task
+- **Proves automation skills** – CI/CD, deployment, maintenance
+- **Windows ecosystem relevance** – many Russian enterprises use Windows servers
+
+### Complexity as a Feature
+This project's complexity is **intentional and justified**:
+- It's a **portfolio**, not a startup MVP – complexity demonstrates depth of knowledge
+- Each component serves a **demonstration purpose** – shows what you can do, not just what's needed
+- **Documented decisions** – 7 ADRs explain architectural choices
+- **Production-ready patterns** – from security to monitoring to deployment
 
 ## Projects
 

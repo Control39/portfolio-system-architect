@@ -28,6 +28,7 @@ pytest-cov
 requests
 langchain>=0.3.26
 langchain-community>=0.3.27
+langchain-openai>=0.3.0
 pydantic-settings==2.5.2
 
 #    
