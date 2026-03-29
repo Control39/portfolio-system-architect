@@ -1,8 +1,11 @@
 on:
   push:
-    - workflows: [build-site]
+    - workflows: [build-site, build-docs]
       filter:
         branches: ["main", "feature/architectural-justification-docs"]
+    - workflows: [build-docs-only]
+      filter:
+        paths: ["docs/**", "mkdocs.yml"]
 
 workflows:
   build-site:
@@ -30,3 +33,25 @@ workflows:
               - echo "   c) SourceCraft Sites will automatically deploy from gh-pages branch"
               - echo "4. Alternatively, manually upload /workspace/site contents via SourceCraft UI"
               - echo "5. Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
+              
+  build-docs:
+    tasks:
+      - name: build-full-documentation
+        cubes:
+          - name: build-mkdocs
+            image: python:3.12
+            script:
+              - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+              - cd docs/mkdocs-site
+              - mkdocs build --site-dir /workspace/site
+              
+  build-docs-only:
+    tasks:
+      - name: build-docs-changes-only
+        cubes:
+          - name: build-mkdocs-light
+            image: python:3.12
+            script:
+              - pip install mkdocs-material
+              - cd docs/mkdocs-site
+              - mkdocs build --site-dir /workspace/site
