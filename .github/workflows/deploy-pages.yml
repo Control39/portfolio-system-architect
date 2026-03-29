@@ -32,21 +32,14 @@ jobs:
       - name: Configure site_url for GitHub Pages
         run: |
           cd docs/mkdocs-site
-          # Более надежный способ обновления site_url с использованием sed
-          # GitHub зеркало: Control39/cognitive-systems-architecture
+          # GitHub mirror: Control39/cognitive-systems-architecture
           SITE_URL="https://control39.github.io/cognitive-systems-architecture/"
           
-          # Создаем резервную копию
+          # Create backup
           cp mkdocs.yml mkdocs.yml.backup
           
-          # Обновляем site_url с помощью sed (сохраняем отступы)
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            # macOS
-            sed -i '' "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
-          else
-            # Linux
-            sed -i "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
-          fi
+          # Update site_url using sed (GitHub Actions uses Linux)
+          sed -i "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
           
           echo "Updated site_url for GitHub Pages: $SITE_URL"
           echo "Original config backed up to mkdocs.yml.backup"
