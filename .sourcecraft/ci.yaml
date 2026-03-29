@@ -2,7 +2,7 @@ on:
   push:
     - workflows: [build-site]
       filter:
-        branches: ["main"]
+        branches: ["main", "feature/architectural-justification-docs"]
 
 workflows:
   build-site:
