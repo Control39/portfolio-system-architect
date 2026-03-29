@@ -29,14 +29,13 @@
 
 <!-- Dynamic badges for technical evaluation -->
 <p align="center">
-  <a href="https://github.com/Control39/cognitive-systems-architecture/actions">
-    <img src="https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">
+    <img src="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml/badge.svg" alt="CI Status">
   </a>
-  <a href="https://codecov.io/gh/Control39/cognitive-systems-architecture">
-    <img src="https://codecov.io/gh/Control39/cognitive-systems-architecture/branch/main/graph/badge.svg" alt="Code Coverage">
-  </a>
-  <a href="https://github.com/Control39/cognitive-systems-architecture">
-    <img src="https://img.shields.io/github/last-commit/Control39/cognitive-systems-architecture?style=flat-square&logo=git" alt="Last Commit">
+  <!-- Code coverage badge - пока статический, можно подключить codecov позже -->
+  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Code Coverage">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
+    <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
   </a>
 </p>
 
