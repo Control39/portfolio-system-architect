@@ -157,25 +157,32 @@ async def test_yandex_gpt_connection() -> bool:
             # Используем короткий промпт для минимизации затрат
             test_prompt = "Привет! Ответь коротко: 'Тест подключения успешен'"
             
-            # В реальном тесте можно раскомментировать следующий код:
-            # response = await client.generate(
-            #     prompt=test_prompt,
-            #     system_message="Ты тестовый ассистент. Отвечай кратко."
-            # )
-            # print(f"  ✅ Ответ от Yandex GPT: {response[:100]}...")
+            # Проверяем, нужно ли выполнять реальный запрос к API
+            test_real_api = os.environ.get("YANDEX_GPT_TEST_REAL_API", "").lower() == "true"
             
-            # Вместо реального вызова показываем mock (для экономии токенов)
-            print("  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов")
-            print("     Для реального теста раскомментируйте код выше")
-            
-            # Проверяем, что клиент создан корректно
-            if client.client:
-                print("  ✅ Клиент Yandex GPT инициализирован корректно")
+            if test_real_api:
+                print("  🔧 Режим реального API: выполняется запрос к Yandex GPT...")
+                response = await client.generate(
+                    prompt=test_prompt,
+                    system_message="Ты тестовый ассистент. Отвечай кратко."
+                )
+                print(f"  ✅ Ответ от Yandex GPT: {response[:100]}...")
+                print("  ✅ Реальный запрос к API выполнен успешно")
                 return True
             else:
-                print("  ❌ Клиент Yandex GPT не инициализирован")
-                return False
+                # Режим mock для экономии токенов
+                print("  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов")
+                print("     Для реального теста установите переменную окружения:")
+                print("     export YANDEX_GPT_TEST_REAL_API=true")
                 
+                # Проверяем, что клиент создан корректно
+                if client.client:
+                    print("  ✅ Клиент Yandex GPT инициализирован корректно")
+                    return True
+                else:
+                    print("  ❌ Клиент Yandex GPT не инициализирован")
+                    return False
+                    
         except Exception as e:
             print(f"  ❌ Ошибка при тестовом запросе: {e}")
             print(f"     Проверьте:")
