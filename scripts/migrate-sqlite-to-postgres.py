@@ -116,20 +116,20 @@ def main():
         sqlite_conn.close()
         logger.info("Соединение с SQLite закрыто")
     
-    pg_conn.commit()
-    logger.info("Транзакция в PostgreSQL зафиксирована")
+        pg_conn.commit()
+        logger.info("Транзакция в PostgreSQL зафиксирована")
     
-    if pg_cur:
-        pg_cur.close()
-        logger.info("Курсор PostgreSQL закрыт")
+        if pg_cur:
+            pg_cur.close()
+            logger.info("Курсор PostgreSQL закрыт")
     
-    if pg_conn:
-        pg_conn.close()
-        logger.info("Соединение с PostgreSQL закрыто")
+        if pg_conn:
+            pg_conn.close()
+            logger.info("Соединение с PostgreSQL закрыто")
     
-    logger.info("Миграция завершена успешно")
+        logger.info("Миграция завершена успешно")
     
-    return 0  # Успешное завершение
+        return 0  # Успешное завершение
     
     except Exception as e:
         logger.error(f"Неожиданная ошибка во время миграции: {e}")
