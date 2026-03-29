@@ -5,6 +5,7 @@ from psycopg2 import sql
 import os
 from pathlib import Path
 import re
+import logging
 
 # Config
 SQLITE_DB = os.environ.get('SQLITE_DB', 'data/db/registry.db')
@@ -17,6 +18,17 @@ POSTGRES_PORT = int(os.environ.get('POSTGRES_PORT', 5432))
 # Требуется установка POSTGRES_PASSWORD через переменную окружения
 if not POSTGRES_PASSWORD:
     raise RuntimeError("POSTGRES_PASSWORD environment variable is required")
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('migration.log', mode='a', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 def is_valid_table_name(table_name):
     """Проверить, что имя таблицы состоит только из букв, цифр и подчеркиваний"""
@@ -58,18 +70,37 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
             try:
                 execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
             except psycopg2.Error as e:
-                print(f"Ошибка PostgreSQL при вставке данных в таблицу {table_name}: {e}")
+                logger.error(f"Ошибка PostgreSQL при вставке данных в таблицу {table_name}: {e}")
                 raise
 
 def main():
-    pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)
-    pg_cur = pg_conn.cursor()
+    pg_conn = None
+    pg_cur = None
+    sqlite_conn = None
+    sqlite_cur = None
+    
+    try:
+        pg_conn = psycopg2.connect(host=POSTGRES_HOST, database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, port=POSTGRES_PORT)
+        pg_cur = pg_conn.cursor()
+        logger.info("Успешное подключение к PostgreSQL")
+    except psycopg2.OperationalError as e:
+        logger.error(f"Ошибка подключения к PostgreSQL: {e}")
+        return
 
     sqlite_path = Path(SQLITE_DB)
     if sqlite_path.exists():
-        sqlite_conn = sqlite3.connect(sqlite_path)
-        sqlite_cur = sqlite_conn.cursor()
+        try:
+            sqlite_conn = sqlite3.connect(sqlite_path)
+            sqlite_cur = sqlite_conn.cursor()
+            logger.info(f"Успешное подключение к SQLite: {sqlite_path}")
+        except sqlite3.Error as e:
+            logger.error(f"Ошибка подключения к SQLite {sqlite_path}: {e}")
+            return
+    else:
+        logger.error(f"Файл SQLite базы данных не найден: {sqlite_path}")
+        return
 
+    try:
         sqlite_cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = sqlite_cur.fetchall()
 
@@ -78,15 +109,57 @@ def main():
             # Валидировать имя таблицы перед миграцией
             if is_valid_table_name(table_name):
                 migrate_table(sqlite_cur, pg_cur, table_name)
-                print(f"Migrated {table_name}")
+                logger.info(f"Миграция таблицы завершена: {table_name}")
             else:
-                print(f"Skipping invalid table name: {table_name}")
+                logger.warning(f"Пропущено недопустимое имя таблицы: {table_name}")
 
         sqlite_conn.close()
-    pg_conn.commit()
-    pg_cur.close()
-    pg_conn.close()
-    print("Migration complete.")
+        logger.info("Соединение с SQLite закрыто")
+    
+        pg_conn.commit()
+        logger.info("Транзакция в PostgreSQL зафиксирована")
+    
+        if pg_cur:
+            pg_cur.close()
+            logger.info("Курсор PostgreSQL закрыт")
+    
+        if pg_conn:
+            pg_conn.close()
+            logger.info("Соединение с PostgreSQL закрыто")
+    
+        logger.info("Миграция завершена успешно")
+    
+        return 0  # Успешное завершение
+    
+    except Exception as e:
+        logger.error(f"Неожиданная ошибка во время миграции: {e}")
+        
+        # Закрытие соединений в случае ошибки
+        if sqlite_conn:
+            sqlite_conn.close()
+            logger.info("Соединение с SQLite закрыто после ошибки")
+        
+        if pg_conn:
+            pg_conn.rollback()
+            logger.info("Транзакция в PostgreSQL отменена")
+            
+            if pg_cur:
+                pg_cur.close()
+                
+            pg_conn.close()
+            logger.info("Соединение с PostgreSQL закрыто после ошибки")
+            
+        return 1  # Завершение с ошибкой
+    
+    finally:
+        # Дополнительная проверка закрытия соединений
+        if sqlite_conn and sqlite_conn.closed == 0:
+            sqlite_conn.close()
+            logger.info("Соединение с SQLite принудительно закрыто в блоке finally")
+        
+        if pg_conn and not pg_conn.closed:
+            pg_conn.close()
+            logger.info("Соединение с PostgreSQL принудительно закрыто в блоке finally")
 
 if __name__ == '__main__':
     main()
