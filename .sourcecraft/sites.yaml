@@ -1,3 +1,13 @@
 site:
+  # SourceCraft Sites configuration
+  # Deploys static site from gh-pages branch
   root: "."
   ref: "gh-pages"
+  
+  # Optional: Base path for the site (if served under subdirectory)
+  # base_path: "/portfolio-system-architect/"
+  
+  # Build configuration (optional)
+  build:
+    command: "cd docs/mkdocs-site && mkdocs build --site-dir /tmp/site"
+    output: "/tmp/site"

@@ -2,6 +2,8 @@ name: Deploy Documentation to GitHub Pages
 
 on:
   push:
+    branches: [ main, feature/architectural-justification-docs ]
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -30,17 +32,24 @@ jobs:
       - name: Configure site_url for GitHub Pages
         run: |
           cd docs/mkdocs-site
-          # Создаем временный mkdocs.yml с правильным site_url для GitHub Pages
+          # Более надежный способ обновления site_url с использованием sed
           # GitHub зеркало: Control39/cognitive-systems-architecture
-          python -c "
-          import yaml
-          with open('mkdocs.yml', 'r') as f:
-              config = yaml.safe_load(f)
-          config['site_url'] = 'https://control39.github.io/cognitive-systems-architecture/'
-          with open('mkdocs.yml', 'w') as f:
-              yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
-          "
-          echo "Updated site_url for GitHub Pages (mirror: Control39/cognitive-systems-architecture)"
+          SITE_URL="https://control39.github.io/cognitive-systems-architecture/"
+          
+          # Создаем резервную копию
+          cp mkdocs.yml mkdocs.yml.backup
+          
+          # Обновляем site_url с помощью sed (сохраняем отступы)
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS
+            sed -i '' "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
+          else
+            # Linux
+            sed -i "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
+          fi
+          
+          echo "Updated site_url for GitHub Pages: $SITE_URL"
+          echo "Original config backed up to mkdocs.yml.backup"
       
       - name: Build mkdocs site
         run: |
@@ -56,4 +65,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/mkdocs-site/site
           publish_branch: gh-pages
+          force_orphan: true
+      
+      - name: Build only (for feature branches)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Site built successfully for feature branch"
+          echo "To deploy to GitHub Pages, merge to main branch"
+          echo "To deploy to SourceCraft Sites, check .sourcecraft/ci.yaml configuration"
 

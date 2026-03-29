@@ -7,15 +7,33 @@ on:
 workflows:
   build-site:
     tasks:
-      - name: build-and-deploy
+      - name: build-site
         cubes:
           - name: build-site-cube
             image: python:3.12
             script:
-              - echo "Building mkdocs site..."
+              - echo "Building mkdocs site for SourceCraft Sites..."
               - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
               - echo "Checking if docs/mkdocs-site directory exists..."
               - 'if [ ! -d "docs/mkdocs-site" ]; then echo "Error: docs/mkdocs-site directory not found"; exit 1; fi'
               - cd docs/mkdocs-site
+              
+              # Build site to the standard location that SourceCraft Sites expects
               - mkdocs build --site-dir /workspace/site --clean
-              - echo "Site built and ready for deployment!"
+              - echo "Site built successfully at /workspace/site"
+              
+              # List contents to verify build
+              - echo "Site contents:"
+              - ls -la /workspace/site/
+              
+              # Instructions for SourceCraft Sites deployment
+              - echo ""
+              - echo "=== SourceCraft Sites Deployment Instructions ==="
+              - echo "1. The site has been built to /workspace/site"
+              - echo "2. SourceCraft Sites is configured via .sourcecraft/sites.yaml"
+              - echo "3. To deploy:"
+              - echo "   a) Merge this PR to main branch"
+              - echo "   b) GitHub Actions will deploy to gh-pages branch"
+              - echo "   c) SourceCraft Sites will automatically deploy from gh-pages branch"
+              - echo "4. Alternatively, manually upload /workspace/site contents via SourceCraft UI"
+              - echo "5. Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
