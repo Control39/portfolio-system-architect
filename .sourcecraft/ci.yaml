@@ -22,9 +22,9 @@ workflows:
               - mkdocs build --site-dir /workspace/site --clean
               - echo "Site built successfully at /workspace/site"
               
-              # List contents to verify build
-              - echo "Site contents:"
-              - ls -la /workspace/site/
+              # Verify build by checking index.html exists
+              - echo "Verifying site build..."
+              - 'if [ -f "/workspace/site/index.html" ]; then echo "✓ Site built successfully"; else echo "✗ Site build failed - index.html not found"; exit 1; fi'
               
               # Instructions for SourceCraft Sites deployment
               - echo ""
