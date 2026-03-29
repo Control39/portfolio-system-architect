@@ -14,6 +14,7 @@
   <!-- Technical metrics -->
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square&logo=github" alt="CI: GitHub Actions">
   <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Coverage: 85%">
+  <img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Security: Trivy Scan">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License: MIT">
   <img src="https://img.shields.io/badge/Python-3.13-blue?style=flat-square&logo=python" alt="Python 3.13">
 </p>
@@ -127,7 +128,7 @@ docker compose up -d
 |----------|--------|---------------|
 | **Testing** | ✅ | Unit (pytest), Integration, E2E, Load (Locust) |
 | **CI/CD** | ✅ | GitHub Actions + Kustomize + GitOps |
-| **Security** | ✅ | Sealed Secrets, network policies, scanning |
+| **Security** | ✅ | Sealed Secrets, network policies, Trivy secret scanning |
 | **Environments** | ✅ | dev / staging / prod overlays |
 | **Monitoring** | ✅ | Prometheus + Grafana + AlertManager |
 | **Disaster Recovery** | ✅ | Backups, recovery, DR Runbook |
