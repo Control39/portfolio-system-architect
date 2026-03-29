@@ -22,12 +22,15 @@ jobs:
         with:
           python-version: '3.12'
       
-      - name: Build Sphinx Docs
+      - name: Install mkdocs and dependencies
         run: |
-          cd docs/api
-          pip install sphinx furo sphinx.ext.autodoc_typehints sphinx.ext.napoleon
-          pip install -r ../../requirements-dev.txt
-          make html
+          pip install mkdocs-material
+          pip install mkdocs-git-revision-date-localized-plugin
+      
+      - name: Build mkdocs site
+        run: |
+          cd docs/mkdocs-site
+          mkdocs build --site-dir site
       
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
@@ -36,6 +39,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/api/_build/html
+          publish_dir: ./docs/mkdocs-site/site
           publish_branch: gh-pages
 
