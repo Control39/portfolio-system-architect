@@ -37,22 +37,33 @@ def is_valid_table_name(table_name):
         return False
     return re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', table_name) is not None
 
+
+def is_valid_column_name(column_name):
+    """Проверить, что имя колонки состоит только из букв, цифр и подчеркиваний"""
+    # В PostgreSQL имена колонок имеют те же ограничения, что и имена таблиц
+    # но для семантической ясности создаем отдельную функцию
+    if len(column_name) > 63:  # Максимальная длина имени колонки в PostgreSQL
+        return False
+    return re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', column_name) is not None
+
 def migrate_table(cur_sqlite, cur_pg, table_name):
     """Мигрировать таблицу из SQLite в PostgreSQL"""
     # Валидировать имя таблицы
     if not is_valid_table_name(table_name):
         raise ValueError(f"Invalid table name: {table_name}")
     
-    # Использовать параметризованный запрос для выбора данных
-    # Для SELECT * FROM table_name используем проверенное имя таблицы
-    # Так как имя таблицы уже прошло валидацию, можно безопасно использовать форматирование
-    cur_sqlite.execute(f"SELECT * FROM {table_name}")
+    # Использовать безопасный SQL запрос для выбора данных
+    # Используем psycopg2.sql для безопасного построения запроса
+    select_query = sql.SQL("SELECT * FROM {}").format(sql.Identifier(table_name))
+    # SQLite не поддерживает psycopg2.sql, поэтому преобразуем в строку после валидации
+    # Имя таблицы уже валидировано, но для безопасности используем безопасный подход
+    cur_sqlite.execute(str(select_query))
     rows = cur_sqlite.fetchall()
     if rows:
         columns = [desc[0] for desc in cur_sqlite.description]
         # Валидировать имена колонок
         for col in columns:
-            if not is_valid_table_name(col):
+            if not is_valid_column_name(col):
                 raise ValueError(f"Invalid column name: {col}")
         
         # Создать таблицу в PostgreSQL с валидированными именами
@@ -64,11 +75,12 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
         cur_pg.execute(create_table_query)
         
         # Вставить данные
+        # Используем безопасный SQL запрос с psycopg2.sql
         # execute_values автоматически экранирует значения
-        # Имя таблицы уже валидировано через is_valid_table_name
         if rows:
             try:
-                execute_values(cur_pg, f"INSERT INTO {table_name} VALUES %s", rows)
+                insert_query = sql.SQL("INSERT INTO {} VALUES %s").format(sql.Identifier(table_name))
+                execute_values(cur_pg, insert_query, rows)
             except psycopg2.Error as e:
                 logger.error(f"Ошибка PostgreSQL при вставке данных в таблицу {table_name}: {e}")
                 raise
@@ -115,22 +127,22 @@ def main():
 
         sqlite_conn.close()
         logger.info("Соединение с SQLite закрыто")
-    
-    pg_conn.commit()
-    logger.info("Транзакция в PostgreSQL зафиксирована")
-    
-    if pg_cur:
-        pg_cur.close()
-        logger.info("Курсор PostgreSQL закрыт")
-    
-    if pg_conn:
-        pg_conn.close()
-        logger.info("Соединение с PostgreSQL закрыто")
-    
-    logger.info("Миграция завершена успешно")
-    
-    return 0  # Успешное завершение
-    
+        
+        pg_conn.commit()
+        logger.info("Транзакция в PostgreSQL зафиксирована")
+        
+        if pg_cur:
+            pg_cur.close()
+            logger.info("Курсор PostgreSQL закрыт")
+        
+        if pg_conn:
+            pg_conn.close()
+            logger.info("Соединение с PostgreSQL закрыто")
+        
+        logger.info("Миграция завершена успешно")
+        
+        return 0  # Успешное завершение
+        
     except Exception as e:
         logger.error(f"Неожиданная ошибка во время миграции: {e}")
         
