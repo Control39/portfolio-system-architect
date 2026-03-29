@@ -124,5 +124,6 @@
 }
 
 # Автозагрузка если dot-sourced
-if ($MyInvocation.Line) { Export-ModuleMember tree }
+# if ($MyInvocation.Line) { Export-ModuleMember tree }
+
 
