@@ -27,6 +27,18 @@ models:
     capabilities:
       chat: true
       completion: true
+  - id: "yandexgpt-openai"
+    name: "YandexGPT (OpenAI Compatible)"
+    provider:
+      type: "openai"
+      baseUrl: "https://ai.api.cloud.yandex.net/v1"
+      apiKey: "${YANDEXGPT_OPENAI_API_KEY}"
+      model: "gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest"
+    capabilities:
+      chat: true
+      completion: true
+      vision: false
+      functionCalling: true
   - id: "deepseek"
     name: "DeepSeek R1"
     provider:
