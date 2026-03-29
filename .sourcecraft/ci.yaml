@@ -14,6 +14,8 @@ workflows:
             script:
               - echo "Building mkdocs site..."
               - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+              - echo "Checking if docs/mkdocs-site directory exists..."
+              - if [ ! -d "docs/mkdocs-site" ]; then echo "Error: docs/mkdocs-site directory not found"; exit 1; fi
               - cd docs/mkdocs-site
               - mkdocs build --site-dir /workspace/site --clean
               - echo "Site built and ready for deployment!"
