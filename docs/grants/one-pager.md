@@ -7,7 +7,7 @@ Non-tech to architect barrier: High. Solution: Human-in-loop methodology → rep
 ## 🏗️ Innovation: Self-Poetic Ecosystem
 - **Core**: IT-Compass (markers), Arch-Compass (PS framework), Cloud-Reason (RAG API), ML-Registry.
 - **Proof**: [human-decisions.md](08_EVIDENCE/human-decisions.md) (60% AI rejects), [workflow.md](05_DOCUMENTATION/human-ai-workflow.md).
-- **Demo**: `docker compose up` → localhost:8501.
+- **Demo**: Local deployment via `docker compose up` (see [Quick Start](../../QUICKSTART.md))
 
 ## 📊 Impact Metrics (Skeptic-Proof)
 | | Before | After | Gain |
