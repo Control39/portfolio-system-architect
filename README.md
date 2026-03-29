@@ -13,10 +13,10 @@
 <p align="center">
   <!-- Technical metrics -->
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square&logo=github" alt="CI: GitHub Actions">
-  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Coverage: 85%">
+  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Code Coverage">
   <img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Security: Trivy Scan">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License: MIT">
-  <img src="https://img.shields.io/badge/Python-3.13-blue?style=flat-square&logo=python" alt="Python 3.13">
+  <img src="https://img.shields.io/badge/Python-3.13.5-blue?style=flat-square&logo=python" alt="Python 3.13.5">
 </p>
 
 <p align="center">
@@ -34,6 +34,9 @@
   </a>
   <!-- Code coverage badge - пока статический, можно подключить codecov позже -->
   <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Code Coverage">
+  <!-- Security scanning badges -->
+  <img src="https://img.shields.io/badge/Trivy-Scan-blue?style=flat-square&logo=trivy" alt="Trivy Security Scan">
+  <img src="https://img.shields.io/badge/Bandit-Check-yellow?style=flat-square&logo=bandit" alt="Bandit Security Check">
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
     <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
   </a>

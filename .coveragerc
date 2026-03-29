@@ -1,10 +1,21 @@
 [run]
 branch = True
 source =
-    02_MODULES/
+    apps/
+    src/
+    tools/
 omit =
     */tests/*
-    */__init__.py
+    */__pycache__/*
+    */migrations/*
+    */venv/*
+    */.venv/*
+    */node_modules/*
+    */build/*
+    */dist/*
+    */.eggs/*
+    */htmlcov/*
+    */coverage_html/*
 
 [report]
 exclude_lines =
@@ -12,6 +23,35 @@ exclude_lines =
     def __repr__
     raise AssertionError
     raise NotImplementedError
+    if __name__ == .__main__.:
+    @property
+    @abstractmethod
+    @staticmethod
+    @classmethod
 
 [html]
 directory = coverage_html
+title = Portfolio System Architect Test Coverage
+
+[paths]
+source =
+    apps/
+    src/
+    tools/
+
+[coverage:run]
+data_file = .coverage
+parallel = True
+
+[coverage:report]
+precision = 2
+show_missing = True
+skip_covered = False
+fail_under = 80
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
