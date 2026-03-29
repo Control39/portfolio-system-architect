@@ -6,6 +6,10 @@ on:
     - workflows: [build-docs-only]
       filter:
         paths: ["docs/**", "mkdocs.yml"]
+  schedule:
+    # Run branch cleanup every Sunday at 03:00 UTC
+    - cron: "0 3 * * 0"
+      workflows: [cleanup-branches]
 
 workflows:
   build-site:
@@ -41,17 +45,40 @@ workflows:
           - name: build-mkdocs
             image: python:3.12
             script:
+              - echo "Building full documentation with mkdocs..."
               - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
-              - cd docs/mkdocs-site
-              - mkdocs build --site-dir /workspace/site
-              
+              - mkdocs build --site-dir /workspace/docs --clean
+              - echo "Documentation built successfully at /workspace/docs"
+
   build-docs-only:
     tasks:
-      - name: build-docs-changes-only
+      - name: build-docs-only
         cubes:
-          - name: build-mkdocs-light
+          - name: build-docs-cube
             image: python:3.12
             script:
-              - pip install mkdocs-material
-              - cd docs/mkdocs-site
-              - mkdocs build --site-dir /workspace/site
+              - echo "Building documentation only (triggered by docs changes)..."
+              - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+              - mkdocs build --site-dir /workspace/docs --clean
+              - echo "Documentation built at /workspace/docs"
+
+  cleanup-branches:
+    tasks:
+      - name: cleanup-old-branches
+        cubes:
+          - name: cleanup-cube
+            image: alpine/git:latest
+            script:
+              - echo "Starting automated branch cleanup..."
+              - echo "Current date: $(date)"
+              - echo "Git version: $(git --version)"
+              
+              # Configure git identity
+              - git config --global user.email "ci@sourcecraft.dev"
+              - git config --global user.name "SourceCraft CI"
+              
+              # Run cleanup script (bash version)
+              - chmod +x scripts/cleanup-old-branches.sh
+              - DRY_RUN=false ./scripts/cleanup-old-branches.sh
+              
+              - echo "Branch cleanup completed successfully!"
