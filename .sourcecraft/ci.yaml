@@ -10,9 +10,10 @@ workflows:
       - name: build-and-deploy
         cubes:
           - name: build-site-cube
-            image: docker.io/library/node:18
+            image: python:3.12
             script:
-              - echo "Building and deploying site..."
-              - mkdir -p site
-              - for file in *; do if [ "$file" != "site" ]; then cp -r "$file" site/; fi; done
-              - echo "Site built and deployed successfully!"
+              - echo "Building mkdocs site..."
+              - pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+              - cd docs/mkdocs-site
+              - mkdocs build --site-dir /workspace/site --clean
+              - echo "Site built and ready for deployment!"
