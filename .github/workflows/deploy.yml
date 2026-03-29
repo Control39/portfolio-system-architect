@@ -53,3 +53,8 @@ jobs:
           kubectl apply -f deployment/
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          
+      - name: Trigger SourceCraft Sites deployment
+        run: |
+          echo "Site will be automatically deployed to SourceCraft Sites"
+          echo "Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
