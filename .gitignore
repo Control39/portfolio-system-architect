@@ -179,3 +179,8 @@ orchestrator.log
   
 # Temporary directories (old structure)  
 $root/ 
+  
+"# Generated documentation sites"  
+"docs/mkdocs-site/site/"  
+"05_DOCUMENTATION/"  
+"docs/website/" 
