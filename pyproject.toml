@@ -70,7 +70,17 @@ filterwarnings = [
 [tool.pytest-cov]
 cov_fail_under = 95
 
+[tool.hatch]
+package-format = ["sdist", "wheel"]
 
+[tool.hatch.version]
+path = "src/assistant_orchestrator/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/assistant_orchestrator"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/assistant_orchestrator"]
 
 [tool.repo-audit]
 # Конфигурация автоматического аудита репозитория
