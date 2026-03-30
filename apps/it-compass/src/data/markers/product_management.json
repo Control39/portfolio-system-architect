@@ -1,0 +1,76 @@
+{
+  "skill_name": "Product Management",
+  "description": "Управление продуктом: исследование рынка, roadmap, метрики, взаимодействие с командами",
+  "levels": {
+    "1": [
+      {
+        "id": "product_management_1_1",
+        "marker": "Провел customer interviews (5+ респондентов) и синтезировал insights в виде user personas и jobs‑to‑be‑done",
+        "validation": "Скрипты интервью, записи/транскрипты, документ с персонами и JTBD",
+        "priority": "high",
+        "resources": ["https://www.intercom.com/blog/run-customer-interviews/"],
+        "smart_criteria": {
+          "specific": "Провести customer interviews и создать user personas",
+          "measurable": "5+ интервью, 3+ персона, описание jobs‑to‑be‑done",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для понимания потребностей пользователей",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "product_management_1_2",
+        "marker": "Создал product roadmap на квартал с приоритизацией по RICE/Value vs Effort",
+        "validation": "Roadmap в формате таблицы/диаграммы, обоснование приоритизации",
+        "priority": "medium",
+        "resources": ["https://www.productplan.com/learn/product-roadmap/"],
+        "smart_criteria": {
+          "specific": "Разработать product roadmap",
+          "measurable": "Roadmap содержит 10+ инициатив, расставлены приоритеты по RICE, есть timeline",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для планирования развития продукта",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "product_management_2_1",
+        "marker": "Определил и внедрил ключевые product metrics (North Star, engagement, retention) и настроил их отслеживание в аналитике",
+        "validation": "Документ с метриками, дашборд в аналитическом инструменте (Amplitude, Mixpanel, GA)",
+        "priority": "high",
+        "resources": ["https://amplitude.com/north-star"],
+        "smart_criteria": {
+          "specific": "Внедрить систему product metrics",
+          "measurable": "Определен North Star metric, 5+ supporting metrics, дашборд с ежедневным отслеживанием",
+          "achievable": "Уровень средний",
+          "relevant": "Критично для data‑driven управления продуктом",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "product_management_3_1",
+        "marker": "Провел A/B тестирование гипотезы, повлиявшей на ключевую метрику продукта, и принял решение о масштабировании/отказе на основе статистической значимости",
+        "validation": "Дизайн эксперимента, результаты A/B теста, анализ статистической значимости, итоговое решение",
+        "priority": "medium",
+        "resources": ["https://www.optimizely.com/optimization-glossary/ab-testing/"],
+        "smart_criteria": {
+          "specific": "Провести A/B тестирование продукта и принять решение",
+          "measurable": "Статистически значимый результат (p < 0.05), измеренный эффект на North Star metric, документированное решение",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Требуется для evidence‑based product decisions",
+          "time_bound": "3 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}

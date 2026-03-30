@@ -5,15 +5,15 @@
     "1": [
       {
         "id": "python_1_1",
-        "marker": "Написал скрипт для автоматизации рутинной задачи",
-        "validation": "Код выложен на GitHub с описанием",
+        "marker": "Написал скрипт для обработки CSV-файла (>100 строк)",
+        "validation": "Скрипт выложен на GitHub с описанием",
         "priority": "high",
         "resources": ["https://docs.python.org/3/tutorial/"],
         "smart_criteria": {
-          "specific": "Написать скрипт для автоматизации",
-          "measurable": "Скрипт выполняет конкретную задачу",
+          "specific": "Написать скрипт для обработки CSV-файла",
+          "measurable": "Обработано более 100 строк данных",
           "achievable": "Уровень начинающего",
-          "relevant": "Требуется для автоматизации процессов",
+          "relevant": "Требуется для работы с данными",
           "time_bound": "2-3 часа"
         },
         "methodology_author": "Ekaterina Kudelya",
@@ -39,15 +39,15 @@
     "2": [
       {
         "id": "python_2_1",
-        "marker": "Создал веб-приложение с использованием Flask или Django",
-        "validation": "Приложение размещено на GitHub с README",
+        "marker": "Создал класс для работы с API и обработки ошибок",
+        "validation": "Код класса в репозитории + пример использования",
         "priority": "high",
         "resources": ["https://flask.palletsprojects.com/"],
         "smart_criteria": {
-          "specific": "Создать веб-приложение",
-          "measurable": "Приложение имеет 2-3 функции",
+          "specific": "Создать класс для работы с внешним API",
+          "measurable": "Класс обрабатывает ошибки и возвращает структурированные данные",
           "achievable": "Уровень средний",
-          "relevant": "Требуется для веб-разработки",
+          "relevant": "Требуется для интеграции с внешними сервисами",
           "time_bound": "2 недели"
         },
         "methodology_author": "Ekaterina Kudelya",
@@ -57,15 +57,15 @@
     "3": [
       {
         "id": "python_3_1",
-        "marker": "Оптимизировал код для работы с большими данными",
-        "validation": "Бенчмарки до/после + техническое обоснование",
+        "marker": "Реализовал асинхронный парсер с использованием asyncio",
+        "validation": "Код парсера + метрики производительности",
         "priority": "medium",
         "resources": ["https://numba.pydata.org/"],
         "smart_criteria": {
-          "specific": "Оптимизация производительности Python кода",
-          "measurable": "Измеримые улучшения (скорость, память)",
+          "specific": "Реализовать асинхронный парсер данных",
+          "measurable": "Измеримые улучшения производительности (скорость, параллелизм)",
           "achievable": "Продвинутый уровень",
-          "relevant": "Важно для работы с большими данными",
+          "relevant": "Важно для высоконагруженных приложений",
           "time_bound": "1 неделя"
         },
         "methodology_author": "Ekaterina Kudelya",
