@@ -53,7 +53,7 @@
     <img src="https://snyk.io/test/github/leadarchitect-ai/portfolio-system-architect/badge.svg" alt="Snyk Vulnerability Scan">
   </a>
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
+    <img src="https://img.shields.io/badge/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
   </a>
 </p>
 
@@ -206,6 +206,69 @@ python -m tools.repo_audit.audit --level base,professional,enterprise --auto-fix
 - Auto-fix capability for common issues
 
 [Full Audit Documentation →](docs/repo-audit-guide.md)
+
+## 🎬 Demo: Assistant Orchestrator & Architecture Analysis Dashboard
+
+### 🚀 Live Demo in 60 Seconds
+
+Experience the **Assistant Orchestrator** - an AI-powered tool that automatically analyzes your project's architectural maturity and generates interactive dashboards:
+
+```bash
+# 1. Install the orchestrator
+pip install -e .
+
+# 2. Run architectural analysis
+python -m assistant_orchestrator --format html --output reports
+
+# 3. Open the generated dashboard
+# The HTML report will be saved to: reports/analysis_*.html
+```
+
+### 📊 What the Dashboard Shows:
+
+| Feature | Description | Value for Employers |
+|---------|-------------|---------------------|
+| **Maturity Score** | 0-5 rating of architectural maturity | Shows understanding of production readiness |
+| **Skill Coverage** | Analysis of 18 IT skill domains | Demonstrates breadth of technical expertise |
+| **Microservices Analysis** | 8+ production-ready services | Proves ability to build scalable systems |
+| **Documentation Audit** | 22+ architecture documents | Highlights communication and documentation skills |
+| **Git History Insights** | 351+ commits, contributor analysis | Shows consistent project development |
+
+### 🖼️ Dashboard Preview:
+
+```
+📈 Architecture Maturity Dashboard
+├── 🏆 Overall Score: 4.2/5.0
+├── 📊 Microservices: 8 production-ready
+├── 📚 Documentation: 22 architecture docs
+├── 🎯 Skills Coverage: 83 markers across 19 categories
+├── 🔄 Git Activity: 351 commits, 6 contributors
+└── ⚡ Dependencies: 10 Docker services
+```
+
+### 🎯 Why This Matters for Employers:
+
+1. **Demonstrates Analytical Skills**: Not just code, but systematic analysis of architecture
+2. **Shows Production Mindset**: Focus on maturity, testing, documentation, and monitoring
+3. **Proves Automation Ability**: The orchestrator itself is a Python package with CI/CD
+4. **Highlights Communication**: Interactive dashboards make technical concepts accessible
+
+### 🔧 Try It Yourself:
+
+```bash
+# Generate a JSON report for API integration
+python -m assistant_orchestrator --format json --output reports
+
+# Get detailed verbose output
+python -m assistant_orchestrator --verbose --format text
+
+# Analyze a specific project root
+python -m assistant_orchestrator --root ./my-project --format html
+```
+
+**Integration with CI/CD**: The Assistant Orchestrator is automatically run on every commit via GitHub Actions, ensuring continuous architectural assessment.
+
+[View Sample HTML Dashboard →](reports/analysis_20260330_200708.html)
 
 ## 🏆 For SourceCraft Open Source Grant
 
