@@ -85,7 +85,7 @@
 
 1. **Изучите проект:** [GitHub Repository](https://github.com/Control39/cognitive-systems-architecture)
 2. **Посмотрите демо:** [IT-Compass в действии](apps/it-compass/README.md)
-3. **Свяжитесь со мной:** [LinkedIn](https://www.linkedin.com/in/ekaterina-kudelya/) | Email: kudelya.e@example.com
+3. **Свяжитесь со мной:** [LinkedIn](https://www.linkedin.com/in/ekaterina-kudelya/) | Email: leadarchitect@yandex.ru
 
 **Готов обсудить:**
 - Внедрение методологии в вашей компании
