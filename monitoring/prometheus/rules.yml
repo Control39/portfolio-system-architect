@@ -197,3 +197,74 @@ groups:
         annotations:
           summary: "Portfolio Organizer Service is DOWN"
           description: "Portfolio Organizer service at {{ $labels.instance }} is not responding"
+
+      # RAG System Alerts
+      - alert: RAGAPIDown
+        expr: |
+          up{job="rag_api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "RAG API Service is DOWN"
+          description: "RAG API service at {{ $labels.instance }} is not responding"
+
+      - alert: StreamlitUIDown
+        expr: |
+          up{job="streamlit_ui"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Streamlit UI Service is DOWN"
+          description: "Streamlit UI service at {{ $labels.instance }} is not responding"
+
+      - alert: ChromaDBDown
+        expr: |
+          up{job="chromadb"} == 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ChromaDB Service is DOWN"
+          description: "ChromaDB vector database at {{ $labels.instance }} is not responding"
+
+      - alert: RAGAPIHighLatency
+        expr: |
+          histogram_quantile(0.95, rate(rag_api_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "RAG API High Latency"
+          description: "RAG API 95th percentile latency is {{ $value }} seconds (threshold: 2s)"
+
+      - alert: RAGAPIErrorRateHigh
+        expr: |
+          rate(rag_api_request_errors_total[5m]) / rate(rag_api_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "RAG API High Error Rate"
+          description: "RAG API error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+      - alert: ChromaDBHighMemory
+        expr: |
+          process_resident_memory_bytes{job="chromadb"} > 2e9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ChromaDB High Memory Usage"
+          description: "ChromaDB memory usage is {{ $value | humanize }} bytes (threshold: 2GB)"
+
+      - alert: RAGIndexSizeLow
+        expr: |
+          rag_index_documents_total < 10
+        for: 10m
+        labels:
+          severity: info
+        annotations:
+          summary: "RAG Index Size Low"
+          description: "RAG index contains only {{ $value }} documents, consider adding more documentation"
