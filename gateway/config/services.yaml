@@ -53,6 +53,6 @@ redis:
   db: 0
   
 auth:
-  jwt_secret: "development-secret-key-change-in-production"
+  jwt_secret: "{{ env.JWT_SECRET }}"
   token_expiry_hours: 24
   algorithm: "HS256"
