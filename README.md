@@ -96,7 +96,7 @@ Born from personal experience transitioning from zero IT knowledge to enterprise
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| **Integrated Microservices** | 8 components | ✅ Production-ready |
+| **Integrated Components** | 10 modules (8 deployable microservices) | ✅ Production-ready |
 | **Test Coverage** | 85%+ | ✅ Comprehensive |
 | **Audit Checkpoints** | 70+ across 3 maturity levels | ✅ Automated |
 | **Architecture Decisions** | 7 documented ADRs | ✅ Transparent |
@@ -136,7 +136,7 @@ docker compose up -d
 ## 📁 Project Structure
 
 ```
-├── apps/                    # Main application modules (8 microservices)
+├── apps/                    # Main application modules (10 components, 8 deployable microservices)
 ├── src/                     # Shared source code and schemas
 ├── tests/                   # Comprehensive test suites
 ├── docs/                    # Documentation (audience-specific)
@@ -185,7 +185,7 @@ python -m tools.repo_audit.audit --level base,professional,enterprise --auto-fix
 **Open Source Commitment**: 100% (MIT + CC BY-ND)
 
 ### Key Grant Metrics:
-- 8 integrated cognitive architecture components
+- 10 integrated components (8 deployable microservices)
 - 70+ automated audit checkpoints
 - 85%+ test coverage with CI enforcement
 - 7 documented architecture decisions

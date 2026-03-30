@@ -14,7 +14,7 @@ The monitoring stack is included to demonstrate:
 ## 🏗️ Architecture
 
 ```
-Portfolio Services (8 microservices)
+Portfolio Services (8 deployable microservices)
         ↓
     Prometheus (metrics collection)
         ↓
@@ -161,7 +161,7 @@ To demonstrate the monitoring stack in action, here are example screenshots of G
 ![Grafana Dashboard - Portfolio Overview](./docs/screenshots/monitoring/grafana-portfolio-overview.png)
 
 *High-level overview of the entire portfolio system:*
-- **Service health** (8 microservices)
+- **Service health** (8 deployable microservices)
 - **Infrastructure metrics** (Kubernetes cluster resources)
 - **Business KPIs** (user activity, feature adoption)
 - **SLO compliance** (availability, latency, error budget)
