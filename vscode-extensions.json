@@ -1,0 +1,40 @@
+{
+  "//": "Рекомендуемые расширения VS Code для проекта portfolio-system-architect",
+  "//": "Установите через: View → Command Palette → 'Extensions: Show Recommended Extensions'",
+  
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+    "LittleFoxTeam.vscode-python-test-adapter",
+    "njpwerner.autodocstring",
+    
+    "tomasz-smykowski.fastapi-snippets",
+    "tushortz.python-pydantic",
+    
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "redhat.vscode-yaml",
+    "ms-vscode.makefile-tools",
+    
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+    
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-mermaid",
+    
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    
+    "charliermarsh.ruff",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    
+    "ms-vscode.powershell",
+    "prometheus.promql",
+    
+    "ms-toolsai.jupyter",
+    "ms-toolsai.vscode-jupyter-cell-tags"
+  ]
+}
