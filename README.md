@@ -2,6 +2,12 @@
 
 > A cognitive architecture ecosystem demonstrating production-grade system design, AI orchestration, and a replicable methodology for transitioning from zero IT knowledge to enterprise architecture.
 
+<!-- Language Switcher -->
+<p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/English-🇬🇧-blue?style=flat-square" alt="English"></a>
+  <a href="README.ru.md"><img src="https://img.shields.io/badge/Русский-🇷🇺-red?style=flat-square" alt="Русский"></a>
+</p>
+
 <!-- Badges -->
 <p align="center">
   <!-- Architecture -->
