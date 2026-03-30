@@ -3,6 +3,7 @@
 Объединяет все API модули.
 """
 
+import os
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from api.reasoning_api import app as reasoning_app
@@ -45,4 +46,5 @@ def health():
     return {'status': 'healthy'}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
+    port = int(os.environ.get('PORT', 8004))
+    app.run(host='0.0.0.0', port=port, debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
