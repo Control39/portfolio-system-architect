@@ -31,6 +31,9 @@
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
   <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/ChromaDB-FF6B6B?style=for-the-badge&logo=vectorworks&logoColor=white" alt="ChromaDB">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
 </p>
 
 <!-- Динамические бейджи -->
@@ -200,10 +203,66 @@ python -m tools.repo_audit.audit --level base,professional,enterprise --auto-fix
 
 [Полная документация по аудиту →](docs/repo-audit-guide.md)
 
+## 🤖 Архитектор-ассистент на основе RAG с ChromaDB
+
+### 🧠 Интеллектуальный поиск по документации и система вопросов-ответов
+
+Проект теперь включает **production-ready RAG (Retrieval-Augmented Generation) систему**, которая позволяет задавать интеллектуальные вопросы об архитектуре проекта с использованием векторного хранилища ChromaDB:
+
+```bash
+# Запустите полную RAG систему локально
+docker-compose -f docker-compose.rag.yml up -d
+
+# Доступ к сервисам:
+# - RAG API: http://localhost:8000/docs (OpenAPI документация)
+# - Streamlit UI: http://localhost:8501 (Интерактивный веб-интерфейс)
+# - ChromaDB: http://localhost:8001 (Векторная база данных)
+```
+
+### 🚀 Ключевые возможности
+
+| Компонент | Технология | Назначение |
+|-----------|------------|------------|
+| **ChromaDocumentIndexer** | ChromaDB + Sentence Transformers | Персистентное векторное хранилище для документации проекта |
+| **FastAPI RAG API** | FastAPI + Uvicorn | REST API для интеллектуальных Q&A с эндпоинтом `/ask` |
+| **Streamlit UI** | Streamlit + React | Интерактивный веб-интерфейс для нетехнических пользователей |
+| **Docker/Kubernetes** | Продакшен-деплоймент | Масштабируемый деплоймент с health checks и мониторингом |
+
+### 📊 Что можно делать
+
+1. **Задавать вопросы об архитектуре проекта:**
+   ```
+   "Как работает аутентификация в системе?"
+   "Какие технологии используются для мониторинга?"
+   "Объясните архитектуру микросервисов."
+   ```
+
+2. **Получать контекстно-зависимые ответы с источниками:**
+   - Ответы генерируются из документации проекта
+   - Каждый ответ включает оценку уверенности
+   - Цитирование источников с ссылками на файлы
+
+3. **Развертывать в продакшене:**
+   ```bash
+   # Kubernetes деплоймент
+   kubectl apply -f deployment/rag-api-deployment.yaml
+   kubectl apply -f deployment/streamlit-ui-deployment.yaml
+   ```
+
+### 🔧 Техническая реализация
+
+- **Векторные эмбеддинги**: `all-MiniLM-L6-v2` (384 измерения)
+- **Векторная база данных**: ChromaDB с персистентным хранилищем
+- **API фреймворк**: FastAPI с OpenAPI документацией
+- **Веб-интерфейс**: Streamlit с обновлениями в реальном времени
+- **Деплоймент**: Docker Compose для локальной разработки, Kubernetes для продакшена
+
+[Полная документация по интеграции ChromaDB →](docs/CHROMADB-INTEGRATION-README.md)
+
 ## 🏆 Для гранта SourceCraft Open Source
 
-**Инновационность**: 8/10  
-**Техническая сложность**: 9/10  
+**Инновационность**: 9/10
+**Техническая сложность**: 9/10
 **Коммитмент к open source**: 100% (MIT + CC BY-ND)
 
 ### Ключевые метрики для гранта:
@@ -213,6 +272,7 @@ python -m tools.repo_audit.audit --level base,professional,enterprise --auto-fix
 - 7 документированных архитектурных решений
 - 3 уровня зрелости (Base/Professional/Enterprise)
 - 1495 маркеров навыков на 18 доменах
+- **НОВОЕ**: Production-ready RAG система с ChromaDB
 
 [Полная заявка на грант →](docs/FOR-GRANT.md)
 
