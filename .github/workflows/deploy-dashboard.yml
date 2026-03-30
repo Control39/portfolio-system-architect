@@ -1,0 +1,66 @@
+name: Deploy Assistant Orchestrator Dashboard
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/assistant_orchestrator/**'
+      - '.github/workflows/deploy-dashboard.yml'
+  workflow_dispatch:
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for git analysis
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install sentence-transformers chromadb
+      
+      - name: Generate dashboard HTML
+        run: |
+          python -m assistant_orchestrator --format html --output ./dashboard
+      
+      - name: Prepare dashboard for deployment
+        run: |
+          # Create index.html from the generated HTML file
+          cd dashboard
+          HTML_FILE=$(ls analysis_*.html | head -1)
+          if [ -f "$HTML_FILE" ]; then
+            cp "$HTML_FILE" index.html
+            echo "Dashboard prepared: $HTML_FILE -> index.html"
+          else
+            echo "Error: No HTML file found in dashboard directory"
+            ls -la
+            exit 1
+          fi
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dashboard'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
