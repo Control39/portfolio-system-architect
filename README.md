@@ -32,11 +32,20 @@
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">
     <img src="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml/badge.svg" alt="CI Status">
   </a>
-  <!-- Code coverage badge - пока статический, можно подключить codecov позже -->
-  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Code Coverage">
+  <!-- Code coverage badge from Codecov -->
+  <a href="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect">
+    <img src="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect/branch/main/graph/badge.svg" alt="Code Coverage">
+  </a>
   <!-- Security scanning badges -->
   <img src="https://img.shields.io/badge/Trivy-Scan-blue?style=flat-square&logo=trivy" alt="Trivy Security Scan">
   <img src="https://img.shields.io/badge/Bandit-Check-yellow?style=flat-square&logo=bandit" alt="Bandit Security Check">
+  <!-- Dependency management badges -->
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot">
+    <img src="https://img.shields.io/badge/dependabot-enabled-brightgreen?style=flat-square&logo=dependabot" alt="Dependabot Enabled">
+  </a>
+  <a href="https://snyk.io/test/github/leadarchitect-ai/portfolio-system-architect">
+    <img src="https://snyk.io/test/github/leadarchitect-ai/portfolio-system-architect/badge.svg" alt="Snyk Vulnerability Scan">
+  </a>
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
     <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
   </a>
@@ -69,6 +78,19 @@ The ecosystem provides a complete path for individuals with zero IT background t
 - **Cloud-Reason**: AI-assisted systematic thinking
 - **Portfolio-Organizer**: Automated evidence collection
 - **Production deployment**: Real-world experience simulation
+
+## 🎯 IT-Compass: Objective Competency Measurement
+
+Born from personal experience transitioning from zero IT knowledge to enterprise architecture, IT-Compass provides a structured framework for measuring technical competencies with objective, verifiable markers.
+
+**Key Features:**
+- **18 skill domains** (DevOps, Python, System Thinking, Cloud Computing, etc.) with three proficiency levels (beginner, intermediate, advanced)
+- **SMART-criteria based markers** - each marker is Specific, Measurable, Achievable, Relevant, and Time-bound
+- **Methodology by Ekaterina Kudelya** licensed under CC BY-ND 4.0
+- **Integration with Portfolio-Organizer** for automatic evidence collection
+- **CareerTracker** Python class for progress monitoring and recommendations
+
+**Recent Enhancement:** All skill markers have been standardized with consistent three-level structure, replacing generic markers with concrete, measurable objectives. The system now includes 19 skill files with 1495 markers across all proficiency levels.
 
 ## 📊 Key Metrics
 

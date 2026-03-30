@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-03-30",
+  "subject": {
+    "name": "Ekaterina Kudelya",
+    "professional_identity": "Cognitive Architecture Designer & System Thinking Specialist",
+    "transition_timeline": "2 years from zero IT knowledge to enterprise architecture"
+  },
+  
+  "journey_milestones": [
+    {
+      "phase": "Initial Confusion",
+      "timeframe": "2 years ago",
+      "challenge": "Zero IT knowledge, no clear professional identity in IT",
+      "action": "Created Excel spreadsheet to track skills and small successes",
+      "outcome": "First iteration of what would become IT-Compass",
+      "system_component": "IT-Compass",
+      "key_insight": "Transformed personal uncertainty into an engineering tool for career feedback"
+    },
+    {
+      "phase": "Methodology Development",
+      "timeframe": "During IT-Compass development",
+      "challenge": "Realized not a coder but a system thinker; how to measure systemic thinking?",
+      "action": "Extended IT-Compass to include non-technical competencies",
+      "outcome": "Confronted the limit of objectifying subjective skills",
+      "system_component": "IT-Compass markers system",
+      "key_insight": "Strength lies in configuring and integrating systems, not just executing technical tasks"
+    },
+    {
+      "phase": "Information Chaos",
+      "timeframe": "Mid-journey",
+      "challenge": "Massive amounts of notes, AI dialogues scattered across clouds and filesystems; lost access to many conversations",
+      "action": "Attempted to write scripts to consolidate everything",
+      "outcome": "Scripts produced chaotic, unusable files; AI couldn't process large files",
+      "system_component": "RAG (Retrieval-Augmented Generation)",
+      "key_insight": "Personal failures and searches became architectural building blocks for the ecosystem"
+    },
+    {
+      "phase": "Technical Learning",
+      "timeframe": "After information chaos",
+      "challenge": "Discovered need for RAG and Reasoning systems to process personal knowledge",
+      "action": "Learned about RAG → Reasoning pipeline",
+      "outcome": "Each system component became a solution to a concrete life problem",
+      "system_component": "Cloud-Reason, RAG system",
+      "key_insight": "Tools became extensions of personal thinking patterns"
+    },
+    {
+      "phase": "Repository Chaos",
+      "timeframe": "Recent past",
+      "challenge": "Delayed Git learning; 20k+ uncommitted changes; multiple versions of projects; ecosystem grew organically",
+      "action": "Searched for ways to bring order while projects multiplied",
+      "outcome": "Projects grew together into a unified ecosystem",
+      "system_component": "Portfolio-System-Architect repository",
+      "key_insight": "Chaos is not an enemy but raw material for architecture"
+    },
+    {
+      "phase": "Professional Crystallization",
+      "timeframe": "Present",
+      "challenge": "Need to present work properly for job search and SourceCraft Open Source Grant",
+      "action": "Consolidating best elements from all repositories, creating coherent presentation",
+      "outcome": "Building master plan of professional identity",
+      "system_component": "Entire cognitive architecture ecosystem",
+      "key_insight": "Creating a new professional category rather than fitting into existing ones"
+    }
+  ],
+  
+  "professional_identity_framework": {
+    "core_strength": "Systemic and analytical thinking",
+    "value_proposition": "Architect of thinking systems and automation who redefines professional boundaries",
+    "not_a_coder": true,
+    "key_abilities": [
+      "Transforming personal uncertainty into structured methodologies",
+      "Configuring and integrating complex systems",
+      "Turning failures into architectural solutions",
+      "Creating tools that extend cognitive capabilities"
+    ],
+    "created_categories": [
+      "Cognitive Architecture of Professional Identity",
+      "Objective competency measurement for non-traditional paths",
+      "AI-assisted systematic thinking frameworks"
+    ]
+  },
+  
+  "system_components_as_journey_artifacts": {
+    "IT-Compass": "Born from Excel spreadsheet for skill tracking; evolved into objective competency measurement system",
+    "Cloud-Reason": "Solution to processing personal knowledge and AI dialogues",
+    "Portfolio-Organizer": "Automated evidence collection for non-coding achievements",
+    "RAG_system": "Response to information chaos and lost dialogues",
+    "Marker_system": "Answer to 'how to measure systemic thinking?'"
+  },
+  
+  "current_needs": [
+    "Understand professional identity for job search",
+    "Present work convincingly to employers and grant committees",
+    "Generate income from developed expertise",
+    "Validate that created framework has value for others"
+  ],
+  
+  "conversation_context": {
+    "current_task": "Refactoring IT-Compass marker system",
+    "recent_achievement": "Standardized 18 skill domains with three-level structure and SMART criteria",
+    "new_component": "Created system_thinking.json with 9 markers for systemic thinking measurement"
+  },
+  
+  "instructions_for_ai_assistants": [
+    "When assisting Ekaterina, understand she is not a traditional coder but a system architect",
+    "Her projects are embodiments of her personal journey - each component solves a real problem she faced",
+    "Focus on systemic thinking, architecture, and methodology rather than just code implementation",
+    "Help articulate her unique value proposition: creating new professional categories",
+    "Assist in presenting her work as evidence of cognitive architecture capabilities"
+  ]
+}
