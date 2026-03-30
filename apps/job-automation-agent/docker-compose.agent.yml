@@ -5,7 +5,7 @@ services:
       - "8001:8001"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-- DATABASE_URL=postgresql+asyncpg://architect:arch_pass_2024@postgres:5432/portfolio_db
+      - DATABASE_URL=postgresql+asyncpg://architect:arch_pass_2024@postgres:5432/portfolio_db
     depends_on:
       - postgres
     volumes:

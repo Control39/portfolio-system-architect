@@ -128,11 +128,17 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     """Верифицировать JWT токен."""
     token = credentials.credentials
     
-    # В production использовать реальный секрет
-    SECRET_KEY = "development-secret-key-change-in-production"
+    # Получаем секрет из конфигурации или используем значение по умолчанию
+    SECRET_KEY = services_config.get("auth", {}).get(
+        "jwt_secret",
+        "development-secret-key-change-in-production"
+    )
+    
+    # Получаем алгоритм из конфигурации
+    algorithm = services_config.get("auth", {}).get("algorithm", "HS256")
     
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[algorithm])
         return payload
     except jwt.ExpiredSignatureError:
         raise HTTPException(
@@ -315,8 +321,13 @@ async def login(auth: AuthRequest) -> AuthResponse:
             "exp": datetime.utcnow() + timedelta(hours=24)
         }
         
-        SECRET_KEY = "development-secret-key-change-in-production"
-        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        # Получаем секрет и алгоритм из конфигурации
+        SECRET_KEY = services_config.get("auth", {}).get(
+            "jwt_secret",
+            "development-secret-key-change-in-production"
+        )
+        algorithm = services_config.get("auth", {}).get("algorithm", "HS256")
+        token = jwt.encode(payload, SECRET_KEY, algorithm=algorithm)
         
         return AuthResponse(
             access_token=token,
