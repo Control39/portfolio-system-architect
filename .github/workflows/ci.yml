@@ -120,15 +120,23 @@ jobs:
       - name: Configure Git for long paths
         run: git config --system core.longpaths true
         shell: bash
-      - name: Upload coverage badge
+      - name: Update badges with real metrics
         run: |
-          # Создание badge для покрытия кода
-          mkdir -p badges
-          echo "![Test Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)" > badges/coverage.md
+          # Обновление бейджей на основе реальных метрик
+          python scripts/update-badges.py
+          
+          # Коммит обновленных бейджей
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add badges/coverage.md
-          git commit -m "chore: update coverage badge [skip ci]" || echo "No changes to commit"
+          
+          # Добавляем обновленные файлы
+          git add README.md badges/ || echo "No badge files to add"
+          git add badges/coverage.md badges/metrics.json 2>/dev/null || echo "No metric files to add"
+          
+          # Коммит если есть изменения
+          git diff --cached --quiet || git commit -m "chore: update badges with real metrics [skip ci]"
+          
+          echo "Badges updated successfully"
     services:
       postgres:
         image: postgres:14

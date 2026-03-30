@@ -1,0 +1,218 @@
+name: repo-audit-assistant
+version: 2.0
+description: Ассистент по аудиту репозиториев с интеграцией Yandex GPT
+author: Portfolio System Architect Team
+
+# Триггеры для активации навыка
+triggers:
+  - event: pull_request.opened
+    action: analyze_pr
+  - event: pull_request.synchronize
+    action: analyze_pr
+  - event: issue.comment
+    pattern: "/audit"
+    action: run_audit
+  - event: issue.comment
+    pattern: "/analyze"
+    action: analyze_repo
+  - command: "audit repo"
+    action: run_audit
+  - command: "analyze repository"
+    action: analyze_repo
+
+# Действия навыка
+actions:
+  analyze_pr:
+    description: Анализирует изменения в PR с использованием Yandex GPT
+    steps:
+      - name: Запуск аудита репозитория
+        run_tool: repo_audit
+        args: ["run", "--level", "all", "--format", "json", "--output", "audit_report.json"]
+      
+      - name: Загрузка отчета
+        load_file: audit_report.json
+        var: audit_report
+      
+      - name: Анализ отчета с помощью Yandex GPT
+        call_llm: yandex_gpt
+        prompt: |
+          Проанализируй отчет аудита репозитория и предоставь рекомендации по улучшению.
+          Отчет в формате JSON:
+          {{ audit_report | tojson }}
+          
+          В ответе укажи:
+          1. Общую оценку зрелости репозитория
+          2. Критические проблемы, требующие немедленного внимания
+          3. Рекомендации по улучшению для каждого уровня (Base, Professional, Enterprise)
+          4. Конкретные шаги для исправления проблем
+        var: llm_analysis
+      
+      - name: Генерация комментария для PR
+        generate_comment: |
+          ## 📊 Анализ аудита репозитория с помощью AI
+          
+          ### Общая оценка
+          {{ llm_analysis | split('\n')[0:3] | join('\n') }}
+          
+          ### Критические проблемы
+          {{ llm_analysis | split('\n')[3:6] | join('\n') }}
+          
+          ### Рекомендации
+          {{ llm_analysis | split('\n')[6:] | join('\n') }}
+          
+          ---
+          *Анализ выполнен с помощью Yandex GPT через SourceCraft AI skill*
+
+  run_audit:
+    description: Запускает полный аудит репозитория с AI-анализом
+    steps:
+      - name: Выполнение аудита
+        run_tool: repo_audit
+        args: ["run", "--level", "all", "--format", "markdown"]
+        var: audit_output
+      
+      - name: AI-анализ результатов
+        call_llm: yandex_gpt
+        prompt: |
+          Проанализируй результаты аудита репозитория и создай краткую сводку на русском языке.
+          
+          Результаты аудита:
+          {{ audit_output }}
+          
+          Создай структурированный ответ с разделами:
+          1. 📈 Общая статистика
+          2. ✅ Успешно пройденные проверки
+          3. ⚠️ Проблемы, требующие внимания
+          4. 🎯 Рекомендации по улучшению
+        var: analysis_summary
+      
+      - name: Отправка результата
+        respond: |
+          ## 🎯 Результаты аудита репозитория
+          
+          {{ analysis_summary }}
+          
+          ---
+          *Аудит выполнен: {{ now | date(format="%Y-%m-%d %H:%M") }}*
+          *AI-анализ: Yandex GPT*
+
+  analyze_repo:
+    description: Глубокий анализ репозитория с AI
+    steps:
+      - name: Сбор информации о репозитории
+        run_command: |
+          git log --oneline -10
+          echo "---"
+          git status
+          echo "---"
+          find . -name "*.py" -o -name "*.md" -o -name "*.yaml" -o -name "*.yml" | head -20
+        var: repo_info
+      
+      - name: AI-анализ структуры репозитория
+        call_llm: yandex_gpt
+        prompt: |
+          Проанализируй структуру и состояние репозитория на основе собранной информации.
+          
+          Информация о репозитории:
+          {{ repo_info }}
+          
+          Предоставь анализ по следующим аспектам:
+          1. 🏗️ Структура проекта
+          2. 📝 Качество коммитов
+          3. 🔍 Потенциальные проблемы
+          4. 💡 Рекомендации по улучшению архитектуры
+        var: repo_analysis
+      
+      - name: Формирование отчета
+        respond: |
+          ## 🔍 AI-анализ репозитория
+          
+          {{ repo_analysis }}
+          
+          ---
+          *Анализ выполнен с помощью Yandex GPT*
+
+# Инструменты
+tools:
+  - name: repo_audit
+    type: command
+    command: python -m repo_audit
+    args: ["run"]
+    working_dir: "."
+    description: "Инструмент аудита репозитория"
+  
+  - name: git
+    type: command
+    command: git
+    working_dir: "."
+    description: "Система контроля версий Git"
+
+# Конфигурация LLM провайдера
+llm_providers:
+  - name: yandex_gpt
+    type: openai_compatible
+    base_url: "{{ env.YANDEX_GPT_BASE_URL | default('https://ai.api.cloud.yandex.net/v1') }}"
+    api_key: "{{ env.YANDEX_GPT_API_KEY }}"
+    model: "{{ env.YANDEX_GPT_MODEL | default('gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest') }}"
+    parameters:
+      temperature: 0.7
+      max_tokens: 2000
+      top_p: 0.9
+    timeout: 30
+    max_retries: 3
+
+# Переменные окружения
+environment:
+  - YANDEX_GPT_API_KEY
+  - YANDEX_GPT_BASE_URL
+  - YANDEX_GPT_MODEL
+  - OPENAI_API_KEY
+  - OPENAI_API_BASE
+
+# Метаданные
+metadata:
+  category: "repository-analysis"
+  tags: ["audit", "ai", "yandex-gpt", "code-quality", "devops"]
+  compatibility:
+    sourcecraft: ">=1.0.0"
+    platforms: ["github", "gitlab"]
+  
+# Документация
+documentation:
+  usage: |
+    ## Использование навыка repo-audit-assistant
+    
+    ### Команды:
+    - `/audit` - запустить полный аудит репозитория
+    - `/analyze` - выполнить глубокий AI-анализ репозитория
+    
+    ### Автоматические триггеры:
+    - При открытии PR: автоматический анализ изменений
+    - При обновлении PR: переанализ изменений
+    
+    ### Требования:
+    - Настроенные переменные окружения Yandex GPT
+    - Установленный инструмент `repo_audit`
+    - Доступ к Git репозиторию
+    
+  examples: |
+    ## Примеры использования
+    
+    ### Анализ PR:
+    ```yaml
+    При открытии PR будет автоматически:
+    1. Запущен аудит репозитория
+    2. AI-анализ результатов
+    3. Добавлен комментарий с рекомендациями
+    ```
+    
+    ### Ручной запуск аудита:
+    ```bash
+    # В комментарии к issue
+    /audit
+    ```
+    
+    ### Глубокий анализ:
+    ```bash
+    # В комментарии к issue
+    /analyze

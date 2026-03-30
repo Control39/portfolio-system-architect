@@ -1,0 +1,119 @@
+name: Badge Health Monitor
+
+on:
+  schedule:
+    # Run daily at 09:00 UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:  # Allow manual triggering
+  push:
+    branches: [ main ]
+    paths:
+      - 'README.md'
+      - 'scripts/check-badges-health.py'
+      - '.github/workflows/badge-health-monitor.yml'
+
+jobs:
+  check-badge-health:
+    runs-on: ubuntu-latest
+    name: Check Badge Health
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+          sudo apt-get install -y jq bc
+
+      - name: Create badges directory
+        run: mkdir -p badges
+
+      - name: Run badge health check
+        id: health-check
+        run: |
+          # Run the health check script
+          python scripts/check-badges-health.py
+          EXIT_CODE=$?
+          
+          # Read health score from report
+          if [ -f "badges/health-report.json" ]; then
+            HEALTH_SCORE=$(jq -r '.health_score' badges/health-report.json)
+            echo "health_score=$HEALTH_SCORE" >> $GITHUB_OUTPUT
+            
+            # Determine status based on score
+            if (( $(echo "$HEALTH_SCORE < 70" | bc -l) )); then
+              echo "status=critical" >> $GITHUB_OUTPUT
+              echo "message=❌ CRITICAL: Badge health score is $HEALTH_SCORE/100 (needs immediate attention)" >> $GITHUB_OUTPUT
+            elif (( $(echo "$HEALTH_SCORE < 90" | bc -l) )); then
+              echo "status=warning" >> $GITHUB_OUTPUT
+              echo "message=⚠️ WARNING: Badge health score is $HEALTH_SCORE/100 (needs improvement)" >> $GITHUB_OUTPUT
+            else
+              echo "status=good" >> $GITHUB_OUTPUT
+              echo "message=✅ GOOD: Badge health score is $HEALTH_SCORE/100 (excellent)" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "status=error" >> $GITHUB_OUTPUT
+            echo "message=❌ ERROR: Failed to generate health report" >> $GITHUB_OUTPUT
+            echo "health_score=0" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+
+      - name: Display health status
+        run: |
+          echo "${{ steps.health-check.outputs.message }}"
+          echo "Health Score: ${{ steps.health-check.outputs.health_score }}/100"
+          
+          # Create a simple markdown summary
+          cat << EOF > badges/health-summary.md
+          # Badge Health Summary
+          
+          **Status:** ${{ steps.health-check.outputs.status }}
+          **Score:** ${{ steps.health-check.outputs.health_score }}/100
+          **Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ## Details
+          ${{ steps.health-check.outputs.message }}
+          
+          ## Next Steps
+          - Review the full report in \`badges/health-report.json\`
+          - Run \`python scripts/update-badges.py\` to update badges if needed
+          - Check for broken badge URLs
+          EOF
+
+      - name: Upload health report artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: badge-health-reports
+          path: |
+            badges/health-report.json
+            badges/health-summary.md
+          retention-days: 7
+
+      - name: Send notification for critical status
+        if: steps.health-check.outputs.status == 'critical'
+        run: |
+          echo "Sending critical notification..."
+          # In a real setup, you would:
+          # 1. Send to Slack webhook
+          # 2. Send to Telegram bot
+          # 3. Send email notification
+          # For now, we'll fail the workflow to trigger GitHub notifications
+          echo "::error::Badge health is CRITICAL: ${{ steps.health-check.outputs.health_score }}/100"
+          exit 1
+
+      - name: Send warning notification
+        if: steps.health-check.outputs.status == 'warning'
+        run: |
+          echo "Sending warning notification..."
+          echo "::warning::Badge health needs improvement: ${{ steps.health-check.outputs.health_score }}/100"
+          # Continue execution (don't fail)
