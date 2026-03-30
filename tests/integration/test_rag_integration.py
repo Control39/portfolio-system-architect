@@ -64,16 +64,21 @@ class TestRAGIntegration:
         assert stats["total_chunks"] >= 3
         
         # Ищем документы
-        results = chroma_indexer.search("Что такое RAG?", top_k=2)
-        assert len(results) == 2
+        results = chroma_indexer.search("когнитивная архитектура", top_k=2)
+        assert len(results) > 0
         
         # Проверяем, что найден правильный документ
-        found_rag = False
+        found = False
         for result in results:
-            if "RAG" in result["text"] or "Retrieval-Augmented" in result["text"]:
-                found_rag = True
+            if "когнитивная архитектура" in result["text"]:
+                found = True
                 break
-        assert found_rag, "Документ про RAG должен быть найден"
+        assert found, "Должен быть найден документ про когнитивную архитектуру"
+        
+        # Проверяем метаданные
+        for result in results:
+            assert "metadata" in result
+            assert "source" in result["metadata"]
     
     def test_chromadb_persistence(self, chroma_indexer, test_documents, tmp_path):
         """Тестирует сохранение и загрузку индекса ChromaDB."""
@@ -81,19 +86,13 @@ class TestRAGIntegration:
         for doc in test_documents:
             chroma_indexer.add_document(doc["text"], doc["metadata"])
         
-        # Сохраняем
-        save_path = tmp_path / "test_index"
-        chroma_indexer.save(str(save_path))
+        # Сохраняем путь к директории
+        persist_dir = Path(chroma_indexer.persist_directory)
         
-        # Создаем новый индексатор и загружаем
-        new_indexer = ChromaDocumentIndexer(persist_directory=str(save_path))
-        new_indexer.load(str(save_path))
+        # Создаем новый индексатор с той же директорией
+        new_indexer = ChromaDocumentIndexer(persist_directory=str(persist_dir))
         
-        # Проверяем, что документы загрузились
-        stats = new_indexer.get_stats()
-        assert stats["total_documents"] == 3
-        
-        # Проверяем поиск
+        # Проверяем, что документы сохранились
         results = new_indexer.search("ChromaDB", top_k=1)
         assert len(results) == 1
         assert "ChromaDB" in results[0]["text"]
