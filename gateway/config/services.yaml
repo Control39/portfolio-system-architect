@@ -1,0 +1,58 @@
+services:
+  architect:
+    base_url: "http://localhost:8000"
+    health_check: "/health"
+    timeout: 30
+    retries: 3
+    description: "Architect Assistant API - RAG-based консультации по архитектуре"
+    
+  portfolio:
+    base_url: "http://localhost:3000"
+    health_check: "/api/health"
+    timeout: 20
+    retries: 2
+    description: "Portfolio Organizer - управление портфолио проектов"
+    
+  ml_registry:
+    base_url: "http://localhost:5000"
+    health_check: "/health"
+    timeout: 15
+    retries: 2
+    description: "ML Model Registry - реестр ML моделей"
+    
+  it_compass:
+    base_url: "http://localhost:4000"
+    health_check: "/api/health"
+    timeout: 25
+    retries: 3
+    description: "IT Compass - система отслеживания навыков и компетенций"
+    
+  career:
+    base_url: "http://localhost:3500"
+    health_check: "/health"
+    timeout: 20
+    retries: 2
+    description: "Career Development - развитие карьеры и планирование"
+    
+  system_proof:
+    base_url: "http://localhost:3200"
+    health_check: "/health"
+    timeout: 20
+    retries: 2
+    description: "System Proof - доказательства системного мышления"
+
+gateway:
+  port: 8080
+  host: "0.0.0.0"
+  debug: false
+  log_level: "INFO"
+  
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  
+auth:
+  jwt_secret: "development-secret-key-change-in-production"
+  token_expiry_hours: 24
+  algorithm: "HS256"
