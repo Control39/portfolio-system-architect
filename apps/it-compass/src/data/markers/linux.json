@@ -1,0 +1,76 @@
+{
+  "skill_name": "Linux",
+  "description": "Администрирование Linux-систем: командная строка, скрипты, управление процессами и сервисами",
+  "levels": {
+    "1": [
+      {
+        "id": "linux_1_1",
+        "marker": "Выполнил базовые операции в командной строке: навигация по файловой системе, работа с файлами (cat, grep, find, chmod), управление процессами (ps, kill)",
+        "validation": "Скриншоты сессии терминала с выполнением команд, скрипт с примерами",
+        "priority": "high",
+        "resources": ["https://linuxjourney.com/"],
+        "smart_criteria": {
+          "specific": "Освоить базовые команды Linux CLI",
+          "measurable": "Использовано 10+ команд, выполнены задачи навигации, поиска, управления процессами",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для работы с серверами и разработки",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "linux_1_2",
+        "marker": "Написал bash-скрипт для автоматизации рутинной задачи (например, backup каталога, обработка логов)",
+        "validation": "Скрипт в репозитории, пример запуска с результатами",
+        "priority": "medium",
+        "resources": ["https://tldp.org/LDP/abs/html/"],
+        "smart_criteria": {
+          "specific": "Создать bash-скрипт для автоматизации",
+          "measurable": "Скрипт выполняет задачу, содержит условия, циклы, обработку ошибок",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для автоматизации системных задач",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "linux_2_1",
+        "marker": "Настроил и управлял сетевыми параметрами (ip, netstat, firewall, SSH туннелирование)",
+        "validation": "Конфигурационные файлы, скриншоты работы сети, описание выполненных действий",
+        "priority": "high",
+        "resources": ["https://www.cyberciti.biz/"],
+        "smart_criteria": {
+          "specific": "Настроить сетевые параметры Linux-системы",
+          "measurable": "Настроен статический IP, проброшены порты, настроен firewall, установлено SSH-туннелирование",
+          "achievable": "Уровень средний",
+          "relevant": "Требуется для администрирования серверов",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "linux_3_1",
+        "marker": "Настроил мониторинг системы (сбор метрик, логи) с использованием Prometheus, Grafana, ELK stack",
+        "validation": "Дашборды мониторинга, конфигурации сбора метрик и логов",
+        "priority": "medium",
+        "resources": ["https://prometheus.io/"],
+        "smart_criteria": {
+          "specific": "Внедрить систему мониторинга на Linux-сервере",
+          "measurable": "Сбор 5+ метрик, дашборд Grafana, настройка алертов",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Критично для поддержания стабильности production-систем",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}

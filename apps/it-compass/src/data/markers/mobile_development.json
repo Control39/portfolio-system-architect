@@ -1,0 +1,76 @@
+{
+  "skill_name": "Mobile Development",
+  "description": "Разработка мобильных приложений: нативные (iOS/Android) или кроссплатформенные (Flutter/React Native)",
+  "levels": {
+    "1": [
+      {
+        "id": "mobile_development_1_1",
+        "marker": "Создал простое мобильное приложение с одним экраном, навигацией и взаимодействием с пользователем (кнопки, текстовые поля)",
+        "validation": "Исходный код приложения, скриншоты работающего приложения на эмуляторе/устройстве",
+        "priority": "high",
+        "resources": ["https://developer.android.com/"],
+        "smart_criteria": {
+          "specific": "Создать простое мобильное приложение",
+          "measurable": "Приложение запускается, имеет UI элементы, реагирует на действия",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для входа в мобильную разработку",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "mobile_development_1_2",
+        "marker": "Интегрировал REST API для загрузки данных в приложение (например, список элементов с удаленного сервера)",
+        "validation": "Код сетевого слоя, пример ответа API, скриншоты приложения с данными",
+        "priority": "medium",
+        "resources": ["https://flutter.dev/docs/cookbook/networking/fetch-data"],
+        "smart_criteria": {
+          "specific": "Интегрировать REST API в мобильное приложение",
+          "measurable": "Приложение загружает и отображает данные с API, обрабатывает ошибки",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для работы с данными из облака",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "mobile_development_2_1",
+        "marker": "Реализовал локальное хранение данных (SQLite, Room, CoreData или аналог) и синхронизацию с backend",
+        "validation": "Код работы с БД, схемы, скриншоты приложения с офлайн-режимом",
+        "priority": "high",
+        "resources": ["https://developer.android.com/training/data-storage/room"],
+        "smart_criteria": {
+          "specific": "Внедрить локальное хранение данных в мобильном приложении",
+          "measurable": "Данные сохраняются локально, синхронизируются при наличии сети, обрабатываются конфликты",
+          "achievable": "Уровень средний",
+          "relevant": "Требуется для офлайн-работы приложения",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "mobile_development_3_1",
+        "marker": "Оптимизировал производительность приложения: уменьшил время запуска, потребление памяти, улучшил smooth scrolling",
+        "validation": "Метрики производительности до/после (профилирование, инструменты разработчика), описание оптимизаций",
+        "priority": "medium",
+        "resources": ["https://developer.android.com/topic/performance"],
+        "smart_criteria": {
+          "specific": "Оптимизировать производительность мобильного приложения",
+          "measurable": "Улучшение времени запуска на 30%, снижение потребления памяти на 20%, 60 FPS в списках",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Критично для user experience и рейтингов в магазинах приложений",
+          "time_bound": "3 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}

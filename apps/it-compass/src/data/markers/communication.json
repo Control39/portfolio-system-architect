@@ -1,0 +1,76 @@
+{
+  "skill_name": "Communication",
+  "description": "Эффективная коммуникация в IT-проектах: презентации, документация, переговоры",
+  "levels": {
+    "1": [
+      {
+        "id": "communication_1_1",
+        "marker": "Подготовил и провел презентацию проекта для команды (5+ слайдов)",
+        "validation": "Слайды презентации в репозитории, обратная связь от участников",
+        "priority": "high",
+        "resources": ["https://www.ted.com/talks"],
+        "smart_criteria": {
+          "specific": "Подготовить и провести презентацию проекта",
+          "measurable": "5+ слайдов, аудитория 3+ человека, положительная обратная связь",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для демонстрации результатов работы",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "communication_1_2",
+        "marker": "Написал техническую документацию для API или модуля",
+        "validation": "Документация в формате Markdown/OpenAPI в репозитории",
+        "priority": "medium",
+        "resources": ["https://www.swagger.io/"],
+        "smart_criteria": {
+          "specific": "Создать техническую документацию",
+          "measurable": "Документ содержит описание endpoints/модулей, примеры использования",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для поддержки разработки",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "communication_2_1",
+        "marker": "Провел workshop или обучающий сеанс для коллег (30+ минут)",
+        "validation": "Материалы workshop, скриншоты/записи, отзывы участников",
+        "priority": "high",
+        "resources": ["https://www.speakerdeck.com/"],
+        "smart_criteria": {
+          "specific": "Провести workshop по технической теме",
+          "measurable": "Длительность 30+ минут, 5+ участников, практические задания",
+          "achievable": "Уровень средний",
+          "relevant": "Развивает навыки менторинга и публичных выступлений",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "communication_3_1",
+        "marker": "Успешно провел переговоры с заказчиком или стейкхолдерами по изменению требований",
+        "validation": "Протокол встречи, обновленные требования, согласованный план",
+        "priority": "medium",
+        "resources": ["https://hbr.org/"],
+        "smart_criteria": {
+          "specific": "Провести переговоры с заказчиком по изменению scope",
+          "measurable": "Достигнуто соглашение, документированы изменения, удовлетворенность сторон",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Критично для управления проектами и клиентскими отношениями",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
