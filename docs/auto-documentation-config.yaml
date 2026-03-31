@@ -1,0 +1,86 @@
+# Configuration for automatic documentation generation
+# This file configures how documentation is automatically generated from code
+
+# Documentation generators
+generators:
+  # API documentation (FastAPI)
+  fastapi:
+    enabled: true
+    output_dir: "docs/api"
+    format: "markdown"  # or "html", "openapi"
+    include: ["gateway", "api"]
+    exclude: ["tests", "__pycache__"]
+    
+  # Python module documentation
+  pydoc:
+    enabled: true
+    output_dir: "docs/reference"
+    modules: ["src", "apps", "gateway"]
+    
+  # TypeScript/JavaScript documentation
+  typedoc:
+    enabled: false
+    output_dir: "docs/ui"
+    
+  # Database schema documentation
+  db_schema:
+    enabled: true
+    output_dir: "docs/database"
+    
+  # Architecture diagrams
+  diagrams:
+    enabled: true
+    output_dir: "docs/architecture/diagrams"
+    formats: ["png", "svg"]
+    
+  # CHANGELOG generation
+  changelog:
+    enabled: true
+    output_file: "CHANGELOG.md"
+    template: "conventional"
+
+# Auto-update settings
+auto_update:
+  on_commit: true
+  on_tag: true
+  schedule: "daily"
+  
+# Documentation quality checks
+quality_checks:
+  broken_links: true
+  spelling: true
+  readability: true
+  completeness: true
+
+# Integration with tools
+integrations:
+  sphinx:
+    enabled: true
+    config: "docs/conf.py"
+    
+  mkdocs:
+    enabled: true
+    config: "mkdocs.yml"
+    
+  readthedocs:
+    enabled: false
+    project_slug: "portfolio-system-architect"
+
+# Documentation hosting
+hosting:
+  github_pages:
+    enabled: true
+    branch: "gh-pages"
+    folder: "docs"
+    
+  netlify:
+    enabled: false
+    
+  vercel:
+    enabled: false
+
+# Notification settings
+notifications:
+  on_success: true
+  on_failure: true
+  channels: ["github", "slack"]

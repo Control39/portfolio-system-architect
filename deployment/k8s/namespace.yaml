@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portfolio-system
+  labels:
+    name: portfolio-system
+    environment: production
+    managed-by: github-actions

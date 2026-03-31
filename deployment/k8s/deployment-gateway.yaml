@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio-gateway
+  namespace: portfolio-system
+  labels:
+    app: portfolio-gateway
+    component: api-gateway
+    managed-by: github-actions
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: portfolio-gateway
+  template:
+    metadata:
+      labels:
+        app: portfolio-gateway
+        component: api-gateway
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: gateway
+        image: your-docker-username/portfolio-gateway:v1.0.0
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+      volumes:
+      - name: temp-storage
+        emptyDir:
+          sizeLimit: 100Mi
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: portfolio-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: portfolio-secrets
+              key: redis-url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+            ephemeral-storage: "2Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-gateway
+  namespace: portfolio-system
+  labels:
+    app: portfolio-gateway
+    component: api-gateway
+spec:
+  selector:
+    app: portfolio-gateway
+  ports:
+  - port: 80
+    targetPort: 8000
+    name: http
+  type: ClusterIP
