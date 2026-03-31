@@ -36,7 +36,7 @@ workflows:
               - echo "   b) GitHub Actions will deploy to gh-pages branch"
               - echo "   c) SourceCraft Sites will automatically deploy from gh-pages branch"
               - echo "4. Alternatively, manually upload /workspace/site contents via SourceCraft UI"
-              - 'echo "5. Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"'
+              - echo "5. Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
 
   build-docs:
     tasks:
