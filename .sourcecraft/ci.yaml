@@ -71,10 +71,10 @@ workflows:
               - echo "Starting automated branch cleanup..."
               - echo "Current date: $(date)"
               - echo "Git version: $(git --version)"
-              - echo "# Configure git identity"
+              - echo "Configure git identity"
               - git config --global user.email "ci@sourcecraft.dev"
               - git config --global user.name "SourceCraft CI"
-              - echo "# Run cleanup script (bash version)"
+              - echo "Run cleanup script (bash version)"
               - chmod +x scripts/cleanup-old-branches.sh
               - DRY_RUN=false ./scripts/cleanup-old-branches.sh
               - echo "Branch cleanup completed successfully!"
