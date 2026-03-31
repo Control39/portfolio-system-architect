@@ -53,6 +53,10 @@ redis:
   db: 0
   
 auth:
-  jwt_secret: "development-secret-key-change-in-production"
+  # Для production установите переменную окружения JWT_SECRET
+  # Приложение использует переменную окружения JWT_SECRET с приоритетом
+  # Если переменная не установлена, используется значение ниже
+  # В production НЕ используйте значение по умолчанию!
+  jwt_secret: "development-secret-key-change-in-production"  # Замените в production через JWT_SECRET env var
   token_expiry_hours: 24
   algorithm: "HS256"

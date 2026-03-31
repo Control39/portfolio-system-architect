@@ -18,6 +18,7 @@ import yaml
 from pathlib import Path
 import asyncio
 from contextlib import asynccontextmanager
+import os
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -34,6 +35,31 @@ redis_client = None
 http_client = None
 services_config = {}
 routes_config = []
+
+def get_jwt_secret() -> str:
+    """
+    Получить JWT секрет с приоритетом переменных окружения.
+    Порядок проверки:
+    1. Переменная окружения JWT_SECRET
+    2. Конфигурация из YAML файла (services_config["auth"]["jwt_secret"])
+    3. Значение по умолчанию для разработки
+    """
+    # 1. Проверяем переменную окружения
+    env_secret = os.getenv("JWT_SECRET")
+    if env_secret:
+        logger.info("Using JWT secret from environment variable")
+        return env_secret
+    
+    # 2. Проверяем конфигурацию из YAML
+    if services_config and "auth" in services_config:
+        config_secret = services_config["auth"].get("jwt_secret")
+        if config_secret and config_secret != "development-secret-key-change-in-production":
+            logger.info("Using JWT secret from configuration")
+            return config_secret
+    
+    # 3. Значение по умолчанию для разработки
+    logger.warning("Using development JWT secret. For production, set JWT_SECRET environment variable.")
+    return "development-secret-key-change-in-production"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -128,11 +154,8 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     """Верифицировать JWT токен."""
     token = credentials.credentials
     
-    # Получаем секрет из конфигурации или используем значение по умолчанию
-    SECRET_KEY = services_config.get("auth", {}).get(
-        "jwt_secret",
-        "development-secret-key-change-in-production"
-    )
+    # Получаем секрет с приоритетом переменных окружения
+    SECRET_KEY = get_jwt_secret()
     
     # Получаем алгоритм из конфигурации
     algorithm = services_config.get("auth", {}).get("algorithm", "HS256")
@@ -248,7 +271,7 @@ async def gateway_middleware(request: Request, call_next):
         try:
             token = auth_header.split(" ")[1]
             # Декодируем токен для получения user_id
-            SECRET_KEY = "development-secret-key-change-in-production"
+            SECRET_KEY = get_jwt_secret()
             payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_signature": False})
             user_id = payload.get("sub", "unknown")
             
@@ -321,11 +344,8 @@ async def login(auth: AuthRequest) -> AuthResponse:
             "exp": datetime.utcnow() + timedelta(hours=24)
         }
         
-        # Получаем секрет и алгоритм из конфигурации
-        SECRET_KEY = services_config.get("auth", {}).get(
-            "jwt_secret",
-            "development-secret-key-change-in-production"
-        )
+        # Получаем секрет с приоритетом переменных окружения и алгоритм из конфигурации
+        SECRET_KEY = get_jwt_secret()
         algorithm = services_config.get("auth", {}).get("algorithm", "HS256")
         token = jwt.encode(payload, SECRET_KEY, algorithm=algorithm)
         

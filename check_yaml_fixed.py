@@ -17,15 +17,18 @@ def check_yaml_file(filepath):
         # Пробуем загрузить как multi-document
         documents = list(yaml.safe_load_all(content))
         
-        if not documents:
-            return False, "Пустой документ"
+        # Улучшенная проверка: пустой файл или все документы None (только комментарии)
+        if not documents or all(doc is None for doc in documents):
+            return False, "Пустой документ или только комментарии"
             
         # Проверяем, что все документы не None (валидные)
-        for i, doc in enumerate(documents):
-            if doc is None:
-                return False, f"Документ {i+1} пустой (только комментарии)"
+        # Считаем только не-None документы
+        valid_docs = [doc for doc in documents if doc is not None]
+        
+        if not valid_docs:
+            return False, "Нет валидных документов (только комментарии)"
                 
-        return True, f"OK ({len(documents)} документов)"
+        return True, f"OK ({len(valid_docs)} документов, {len(documents) - len(valid_docs)} пустых)"
         
     except yaml.YAMLError as e:
         return False, f"YAML ошибка: {e}"
