@@ -1,0 +1,112 @@
+# Базовые конфигурации и шаблоны для сервисов
+# Используется через 'extends' в других docker-compose файлах
+
+version: '3.9'
+
+x-base-service: &base-service
+  networks:
+    - portfolio-network
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+x-python-service: &python-service
+  <<: *base-service
+  build:
+    context: .
+    dockerfile: Dockerfile
+  environment:
+    - PYTHONPATH=/app
+    - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    - PYTHONUNBUFFERED=1
+  healthcheck:
+    test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 40s
+
+x-traefik-labels: &traefik-labels
+  labels:
+    - "traefik.enable=true"
+    - "traefik.docker.network=portfolio-network"
+    - "traefik.http.routers.${SERVICE_NAME}.entrypoints=web"
+    - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${TRAEFIK_HOST:-localhost}`) && PathPrefix(`/${SERVICE_PATH}`)"
+    - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=${SERVICE_PORT}"
+
+x-database-dependencies: &database-dependencies
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+x-traefik-dependencies: &traefik-dependencies
+  depends_on:
+    traefik:
+      condition: service_started
+
+# Базовые сервисы инфраструктуры
+services:
+  # PostgreSQL Database Template
+  postgres-base:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-architect}
+      POSTGRES_USER: ${POSTGRES_USER:-architect}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-arch_pass_2024}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-architect}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: postgres -c listen_addresses='*' -c max_connections=200
+
+  # Redis Cache Template
+  redis-base:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+
+  # Traefik Gateway Template
+  traefik-base:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - portfolio-network
+    environment:
+      - TRAEFIK_LOG_LEVEL=INFO
+
+# Общие сети и volumes
+networks:
+  portfolio-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
