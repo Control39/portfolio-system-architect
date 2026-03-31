@@ -1,8 +1,8 @@
 {
-  "coverage": 85,
-  "last_updated": "2026-03-30",
-  "microservices": 8,
-  "components": 10,
-  "audit_checkpoints": 70,
-  "test_coverage": 85
+  "python_version": "3.13.5",
+  "coverage": 85.0,
+  "test_status": "failed",
+  "last_commit": "2026-03-31",
+  "dependency_count": 20,
+  "updated_at": "2026-03-31T03:12:24.405019"
 }

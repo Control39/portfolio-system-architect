@@ -19,10 +19,12 @@
 <p align="center">
   <!-- Technical metrics -->
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square&logo=github" alt="CI: GitHub Actions">
-  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Code Coverage">
-  <img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Security: Trivy Scan">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License: MIT">
-  <img src="https://img.shields.io/badge/Python-3.13.5-blue?style=flat-square&logo=python" alt="Python 3.13.5">
+  <img src="https://img.shields.io/badge/Coverage-85.0%25-brightgreen?style=flat-square" alt="Code Coverage">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions"><img src="https://img.shields.io/badge/Tests-failed-red?style=flat-square&logo=pytest" alt="Test Status"></a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning"><img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Security: Trivy Scan"></a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License: MIT"></a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.13.5-blue?style=flat-square&logo=python" alt="Python 3.13.5"></a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/requirements.txt"><img src="https://img.shields.io/badge/Dependencies-20-blue?style=flat-square&logo=pypi" alt="Dependencies"></a>
 </p>
 
 <p align="center">
@@ -38,29 +40,50 @@
 
 <!-- Dynamic badges for technical evaluation -->
 <p align="center">
-  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">
-    <img src="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/leadarchitect-ai/portfolio-system-architect/ci.yml?style=flat-square&logo=github" alt="CI Status">
   </a>
-  <!-- Code coverage badge from Codecov -->
-  <a href="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect/branch/main/graph/badge.svg" alt="Code Coverage">
-  </a>
+  <!-- Code coverage badge (static since Codecov requires authentication) -->
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/Code%20Coverage-85%25-brightgreen?style=flat-square&logo=codecov" alt="Code Coverage"></a>
   <!-- Security scanning badges -->
   <img src="https://img.shields.io/badge/Trivy-Scan-blue?style=flat-square&logo=trivy" alt="Trivy Security Scan">
-  <img src="https://img.shields.io/badge/Bandit-Check-yellow?style=flat-square&logo=bandit" alt="Bandit Security Check">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning"><img src="https://img.shields.io/badge/Bandit-Check-yellow?style=flat-square&logo=bandit" alt="Bandit Security Check"></a>
   <!-- Dependency management badges -->
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot">
     <img src="https://img.shields.io/badge/dependabot-enabled-brightgreen?style=flat-square&logo=dependabot" alt="Dependabot Enabled">
   </a>
-  <a href="https://snyk.io/test/github/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://snyk.io/test/github/leadarchitect-ai/portfolio-system-architect/badge.svg" alt="Snyk Vulnerability Scan">
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security"><img src="https://img.shields.io/badge/Security-Scan-blue?style=flat-square&logo=securityscorecard" alt="Security Scan"></a>
+  <a href="https://hub.docker.com/r/leadarchitectai/portfolio-system-architect">
+    <img src="https://img.shields.io/docker/pulls/leadarchitectai/portfolio-system-architect?style=flat-square&logo=docker" alt="Docker Pulls">
   </a>
   <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://img.shields.io/badge/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
+    <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Last Commit">
+  </a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/stargazers">
+    <img src="https://img.shields.io/github/stars/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=github" alt="GitHub Stars">
+  </a>
+  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/network/members">
+    <img src="https://img.shields.io/github/forks/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=github" alt="GitHub Forks">
   </a>
 </p>
 
 ---
+
+
+## 📊 Detailed Reports & Metrics
+
+For detailed insights behind each badge, explore these reports:
+
+| Report | Description | Link |
+|--------|-------------|------|
+| **CI/CD Pipeline** | Complete test results, build logs, and deployment status | [GitHub Actions](https://github.com/leadarchitect-ai/portfolio-system-architect/actions) |
+| **Test Coverage** | Line-by-line coverage analysis | [Coverage Report](https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml) |
+| **Security Scan** | Vulnerability assessment with Trivy & Bandit | [Security Scanning](https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning) |
+| **Dependency Health** | Outdated packages and security advisories | [Dependabot](https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot) |
+| **Code Quality** | Linting, formatting, and style checks | [Pre-commit Reports](https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/code-quality.yml) |
+| **Performance Metrics** | API response times and resource usage | [Monitoring Dashboards](docs/screenshots/monitoring/) |
+
+**💡 Tip:** Click on any badge above to jump directly to its detailed report.
 
 ## 🎯 Who Is This For?
 

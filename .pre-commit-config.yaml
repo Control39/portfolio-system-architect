@@ -22,11 +22,10 @@ repos:
         args: ['--allow-multiple-documents']
         exclude: |
           (?x)^(
-            deployment/.*\.yaml|          # Kubernetes deployment files
-            \.github/workflows/.*\.yml|   # GitHub Actions workflows
             deployment/secrets/.*\.yaml|  # Secret files
-            deployment/k8s/.*\.yaml|      # K8s configuration
-            deployment/gitops/.*\.yaml    # GitOps files
+            \.github/workflows/auto-update-badges\.yml  # Конкретный workflow
+            deployment/k8s/.*\.yaml|      # K8s configuration (из main)
+            deployment/gitops/.*\.yaml    # GitOps files (из main)
           )$
       - id: check-added-large-files
         args: ['--maxkb=1000']

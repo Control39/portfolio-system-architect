@@ -1,0 +1,164 @@
+name: Enhanced Mirror Sync & Notification
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # every 6 hours
+  workflow_dispatch:  # manual trigger
+    inputs:
+      auto_fix:
+        description: 'Automatically fix discrepancies?'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
+
+jobs:
+  monitor-and-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+        shell: bash
+        
+      - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Fetch all remotes
+        run: |
+          git fetch origin --prune
+          git fetch github --prune
+
+      - name: Compare branches and detect discrepancies
+        id: compare
+        run: |
+          set -e
+          echo "## Mirror Discrepancy Report" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run ID:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "| Branch | SourceCraft Commit | GitHub Commit | Status | Action Needed |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------------------|---------------|--------|---------------|" >> $GITHUB_STEP_SUMMARY
+
+          # Get list of branches from both remotes
+          ORIGIN_BRANCHES=$(git branch -r | grep 'origin/' | grep -v 'HEAD' | sed 's/origin\///')
+          GITHUB_BRANCHES=$(git branch -r | grep 'github/' | grep -v 'HEAD' | sed 's/github\///')
+
+          ALL_BRANCHES=$(echo "$ORIGIN_BRANCHES $GITHUB_BRANCHES" | tr ' ' '\n' | sort -u)
+
+          HAS_DIFF=false
+          DIFF_COUNT=0
+          SYNC_NEEDED=false
+          DIFF_REPORT=""
+
+          for branch in $ALL_BRANCHES; do
+            ORIGIN_COMMIT=$(git rev-parse --quiet --verify "origin/$branch" || echo "MISSING")
+            GITHUB_COMMIT=$(git rev-parse --quiet --verify "github/$branch" || echo "MISSING")
+
+            if [ "$ORIGIN_COMMIT" = "MISSING" ] && [ "$GITHUB_COMMIT" = "MISSING" ]; then
+              continue
+            fi
+
+            ACTION=""
+            if [ "$ORIGIN_COMMIT" = "MISSING" ]; then
+              STATUS="⚠️ Only on GitHub"
+              HAS_DIFF=true
+              DIFF_COUNT=$((DIFF_COUNT + 1))
+              ACTION="Delete from GitHub or sync from GitHub"
+              DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' exists only on GitHub\\n"
+            elif [ "$GITHUB_COMMIT" = "MISSING" ]; then
+              STATUS="⚠️ Only on SourceCraft"
+              HAS_DIFF=true
+              DIFF_COUNT=$((DIFF_COUNT + 1))
+              ACTION="Push to GitHub"
+              SYNC_NEEDED=true
+              DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' exists only on SourceCraft\\n"
+            elif [ "$ORIGIN_COMMIT" != "$GITHUB_COMMIT" ]; then
+              STATUS="❌ Diverged"
+              HAS_DIFF=true
+              DIFF_COUNT=$((DIFF_COUNT + 1))
+              ACTION="Force sync from SourceCraft"
+              SYNC_NEEDED=true
+              DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' has diverged commits\\n"
+            else
+              STATUS="✅ Synced"
+              ACTION="None"
+            fi
+
+            echo "| $branch | ${ORIGIN_COMMIT:0:8} | ${GITHUB_COMMIT:0:8} | $STATUS | $ACTION |" >> $GITHUB_STEP_SUMMARY
+          done
+
+          if [ "$HAS_DIFF" = true ]; then
+            echo "HAS_DIFF=true" >> $GITHUB_ENV
+            echo "DIFF_COUNT=$DIFF_COUNT" >> $GITHUB_ENV
+            echo "SYNC_NEEDED=$SYNC_NEEDED" >> $GITHUB_ENV
+            echo "DIFF_REPORT<<EOF" >> $GITHUB_ENV
+            echo "$DIFF_REPORT" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+            echo "::warning::Found $DIFF_COUNT discrepancies between origin and github mirrors."
+          else
+            echo "HAS_DIFF=false" >> $GITHUB_ENV
+            echo "DIFF_COUNT=0" >> $GITHUB_ENV
+            echo "SYNC_NEEDED=false" >> $GITHUB_ENV
+            echo "::notice::All branches are in sync."
+          fi
+
+      - name: Auto-fix discrepancies (if enabled)
+        if: env.HAS_DIFF == 'true' && (github.event.inputs.auto_fix == 'true' || env.SYNC_NEEDED == 'true')
+        run: |
+          echo "Auto-fixing discrepancies..."
+          # Push missing branches from SourceCraft to GitHub
+          git push --mirror github
+          echo "Mirror sync completed."
+
+      - name: Send email notification on discrepancies
+        if: env.HAS_DIFF == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.yandex.ru
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "🚨 Mirror Discrepancies Detected: ${{ github.repository }}"
+          to: leadarchitect@yandex.ru
+          from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
+          body: |
+            Mirror discrepancies detected in repository: ${{ github.repository }}
+            
+            Run ID: ${{ github.run_id }}
+            Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            Discrepancies found: ${{ env.DIFF_COUNT }}
+            
+            Summary:
+            ${{ env.DIFF_REPORT }}
+            
+            Action required:
+            - Review the discrepancies in the workflow run
+            - Manually sync if auto-fix was not enabled
+            - Investigate why discrepancies occurred
+            
+            This is an automated message from GitHub Actions.
+          secure: true
+
+      - name: Log sync status
+        run: |
+          if [ "$HAS_DIFF" = "true" ]; then
+            echo "Discrepancies found and handled."
+            if [ "${{ github.event.inputs.auto_fix }}" = "true" ]; then
+              echo "Auto-fix was enabled and applied."
+            fi
+          else
+            echo "All mirrors are in sync."
+          fi

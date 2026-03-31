@@ -270,9 +270,10 @@ async def gateway_middleware(request: Request, call_next):
     if auth_header and auth_header.startswith("Bearer "):
         try:
             token = auth_header.split(" ")[1]
-            # Декодируем токен для получения user_id
-            SECRET_KEY = get_jwt_secret()
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"verify_signature": False})
+            # Декодируем токен для получения user_id (только для rate limiting)
+            # Warning: Not verifying signature for rate limiting only
+            # Do not use this decoded payload for authentication
+            payload = jwt.decode(token, options={"verify_signature": False})
             user_id = payload.get("sub", "unknown")
             
             if not check_rate_limit(user_id, request.url.path):
