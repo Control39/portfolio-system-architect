@@ -14,46 +14,47 @@ jobs:
       - name: Configure Git for long paths
         run: git config --system core.longpaths true
         shell: bash
+      
       - name: Checkout repository
         uses: actions/checkout@v3
       
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
         
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
         
-    - name: Run duplicate finder
-      run: |
-        if [ -f "scripts/duplicate_finder.py" ]; then
-          echo "Running duplicate finder script..."
-          python scripts/duplicate_finder.py --ci-mode
-          echo "Duplicate check completed."
-        else
-          echo "Warning: duplicate_finder.py not found. Skipping duplicate check."
-        fi
-        
-    - name: Check for temporary files
-      run: |
-        echo "Checking for temporary files..."
-        find . -name "*.tmp" -o -name "*.temp" -o -name "*.bak" -o -name "Thumbs.db" -o -name ".DS_Store" | head -20
-        echo "Temporary file check completed."
-        
-    - name: Verify .gitignore rules
-      run: |
-        echo "Checking .gitignore file..."
-        if [ -f ".gitignore" ]; then
-          echo ".gitignore exists."
-          # Check for common missing patterns
-          if ! grep -q "__pycache__" .gitignore; then
-            echo "Warning: __pycache__ not in .gitignore"
+      - name: Run duplicate finder
+        run: |
+          if [ -f "scripts/duplicate_finder.py" ]; then
+            echo "Running duplicate finder script..."
+            python scripts/duplicate_finder.py --ci-mode
+            echo "Duplicate check completed."
+          else
+            echo "Warning: duplicate_finder.py not found. Skipping duplicate check."
           fi
-          if ! grep -q ".DS_Store" .gitignore; then
-            echo "Warning: .DS_Store not in .gitignore"
+        
+      - name: Check for temporary files
+        run: |
+          echo "Checking for temporary files..."
+          find . -name "*.tmp" -o -name "*.temp" -o -name "*.bak" -o -name "Thumbs.db" -o -name ".DS_Store" | head -20
+          echo "Temporary file check completed."
+        
+      - name: Verify .gitignore rules
+        run: |
+          echo "Checking .gitignore file..."
+          if [ -f ".gitignore" ]; then
+            echo ".gitignore exists."
+            # Check for common missing patterns
+            if ! grep -q "__pycache__" .gitignore; then
+              echo "Warning: __pycache__ not in .gitignore"
+            fi
+            if ! grep -q ".DS_Store" .gitignore; then
+              echo "Warning: .DS_Store not in .gitignore"
+            fi
+          else
+            echo "Warning: .gitignore file not found"
           fi
-        else
-          echo "Warning: .gitignore file not found"
-        fi

@@ -13,36 +13,37 @@ jobs:
       - name: Configure Git for long paths
         run: git config --system core.longpaths true
         shell: bash
+      
       - name: Checkout репозитория
         uses: actions/checkout@v4
-      env:
-        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        submodules: 'recursive'
-
-    - name: Установка Python
-      uses: actions/setup-python@v5
-      env:
-        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      with:
-        python-version: '3.9'
-
-    - name: Установка зависимостей
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Генерация карты знаний Obsidian
-      run: python scripts/generate_obsidian_map.py
-
-    - name: Генерация веб-сайта
-      run: python scripts/generate_website.py
-
-    - name: Коммит и пуш изменений
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "[AUTO] Ежедневное обновление: $(date)" || echo "Нет изменений для коммита"
-        git push
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: 'recursive'
+      
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          python-version: '3.9'
+      
+      - name: Установка зависимостей
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Генерация карты знаний Obsidian
+        run: python scripts/generate_obsidian_map.py
+      
+      - name: Генерация веб-сайта
+        run: python scripts/generate_website.py
+      
+      - name: Коммит и пуш изменений
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "[AUTO] Ежедневное обновление: $(date)" || echo "Нет изменений для коммита"
+          git push

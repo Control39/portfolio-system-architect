@@ -25,12 +25,13 @@ from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel
 import httpx
 import jwt
 import redis
 import time
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, cast
 from datetime import datetime, timedelta, timezone
 import yaml
 from pathlib import Path
@@ -49,10 +50,10 @@ security = HTTPBearer()
 CONFIG_DIR = Path(__file__).parent / "config"
 
 # Глобальные переменные
-redis_client = None
-http_client = None
-services_config = {}
-routes_config = []
+redis_client: Optional[redis.Redis] = None
+http_client: Optional[httpx.AsyncClient] = None
+services_config: Dict[str, Any] = {}
+routes_config: List[Dict[str, Any]] = []
 
 def get_jwt_secret() -> str:
     """
@@ -188,17 +189,17 @@ app.add_middleware(
 )
 
 # Модели
-class HealthResponse:
+class HealthResponse(BaseModel):
     status: str
     timestamp: str
     services: Dict[str, str]
     metrics: Dict[str, Any]
 
-class AuthRequest:
+class AuthRequest(BaseModel):
     username: str
     password: str
 
-class AuthResponse:
+class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     expires_in: int
@@ -281,7 +282,10 @@ def check_rate_limit(user_id: str, endpoint: str) -> bool:
     key = f"rate_limit:{user_id}:{endpoint}:{int(time.time() // 3600)}"
     
     try:
-        current = redis_client.incr(key)
+        # Утверждаем, что redis_client не None после проверки выше
+        assert redis_client is not None
+        # Явно приводим тип, так как incr возвращает int
+        current: int = cast(int, redis_client.incr(key))
         if current == 1:
             redis_client.expire(key, 3600)  # Expire через час
         
@@ -342,6 +346,12 @@ async def forward_request(
     user_payload: Optional[Dict] = None
 ) -> JSONResponse:
     """Перенаправить запрос к целевому сервису."""
+    if not http_client:
+        raise HTTPException(
+            status_code=500,
+            detail="HTTP client not initialized"
+        )
+    
     service_url = get_service_url(service_name)
     target_url = f"{service_url}{path}"
     
@@ -500,7 +510,7 @@ def extract_service_path(request_path: str, route_path: str) -> str:
 def create_route_handler(route_path: str, route_target: str, auth_required: bool):
     """Создать обработчик маршрута."""
     if auth_required:
-        async def handler(request: Request, user_payload: Dict = Depends(verify_token)):
+        async def auth_handler(request: Request, user_payload: Dict = Depends(verify_token)):
             service_path = extract_service_path(request.url.path, route_path)
             return await forward_request(
                 service_name=route_target,
@@ -509,8 +519,9 @@ def create_route_handler(route_path: str, route_target: str, auth_required: bool
                 request=request,
                 user_payload=user_payload
             )
+        return auth_handler
     else:
-        async def handler(request: Request):
+        async def no_auth_handler(request: Request):
             service_path = extract_service_path(request.url.path, route_path)
             return await forward_request(
                 service_name=route_target,
@@ -519,7 +530,7 @@ def create_route_handler(route_path: str, route_target: str, auth_required: bool
                 request=request,
                 user_payload=None
             )
-    return handler
+        return no_auth_handler
 
 def register_route(path: str, target: str, methods: list, auth_required: bool):
     """Зарегистрировать маршрут для всех указанных методов."""
