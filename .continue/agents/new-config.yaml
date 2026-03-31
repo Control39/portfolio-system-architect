@@ -21,3 +21,7 @@ models:
 # https://docs.continue.dev/customization/mcp-tools
 mcpServers:
   - uses: anthropic/memory-mcp
+  - command: python
+    args: ["tools/mcp_server.py"]
+    name: portfolio-mcp
+    description: "MCP server for portfolio-system-architect project"
