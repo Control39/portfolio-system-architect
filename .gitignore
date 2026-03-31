@@ -184,3 +184,6 @@ $root/
 "docs/mkdocs-site/site/"  
 "05_DOCUMENTATION/"  
 "docs/website/" 
+# Personal tools and scripts  
+/personal-tools/  
+personal-tools/ 
