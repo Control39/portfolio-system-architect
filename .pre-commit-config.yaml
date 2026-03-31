@@ -19,6 +19,15 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+        args: ['--allow-multiple-documents']
+        exclude: |
+          (?x)^(
+            deployment/.*\.yaml|          # Kubernetes deployment files
+            \.github/workflows/.*\.yml|   # GitHub Actions workflows
+            deployment/secrets/.*\.yaml|  # Secret files
+            deployment/k8s/.*\.yaml|      # K8s configuration
+            deployment/gitops/.*\.yaml    # GitOps files
+          )$
       - id: check-added-large-files
         args: ['--maxkb=1000']
       - id: check-merge-conflict
