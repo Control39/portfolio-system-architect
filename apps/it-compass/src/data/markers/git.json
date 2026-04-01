@@ -1,4 +1,4 @@
-{
+﻿{
   "skill_name": "Git",
   "description": "Версионный контроль: branching, merging, collaboration, advanced workflows",
   "levels": {
@@ -74,3 +74,4 @@
     ]
   }
 }
+

@@ -1,4 +1,4 @@
-from typing import List, Dict
+﻿from typing import List, Dict
 from pathlib import Path
 import json
 
@@ -31,4 +31,5 @@ class ReasoningIntegrator:
 
 if __name__ == '__main__':
     print("🚀 Reasoning integration ready")
+
 

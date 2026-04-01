@@ -1,4 +1,4 @@
-# Executive Summary / Исполнительный обзор (GigaChain Edition | ~350 слов)
+﻿# Executive Summary / Исполнительный обзор (GigaChain Edition | ~350 слов)
 
 ## Русская версия (обновлено с GigaChain)
 
@@ -10,7 +10,20 @@
 ### 🏗 Инновации (Skeptic-Proof)
 - **GigaChain Core**: RAG-цепочка (Chroma/LangChain) + MCP Bridge для контекстной инъекции из it-compass.
 - **Self-Poetic Loop**: Авто-улучшение промптов, proofs в system-proof с верификацией (>90% acc).
-- **Модули**: IT-Compass (маркеры), Cloud-Reason (RAG API), ML-Registry, Portfolio-Organizer.
-- **Доказательства**: GigaChain_Implementation_Plan.md, gigachain_bridge.py, metrics/gigachain_metrics.md.
+- **Модули**:
+  - **IT-Compass**: Система объективных маркеров компетенций (19 категорий, 5 уровней) с автоматической генерацией портфолио и психологической поддержкой
+  - **Cloud-Reason (RAG API)**: Когнитивный анализ архитектурных решений
+  - **ML-Registry**: Управление моделями машинного обучения
+  - **Portfolio-Organizer**: Автоматизация создания доказательной базы навыков
+- **Доказательства**: GigaChain_Implementation_Plan.md, gigachain_bridge.py, metrics/gigachain_metrics.md, полная реализация IT Compass с 85% покрытием функционала.
+
+### 🚀 Ключевое преимущество: IT Compass
+**IT Compass** — авторская методология "Объективные маркеры компетенций" (лицензия CC BY-ND 4.0), которая решает проблему субъективной оценки навыков в IT. Система предоставляет:
+- **Объективную оценку**: 19 категорий навыков с 5 уровнями компетенций
+- **Автоматическое портфолио**: Генерация PDF, Markdown, HTML на основе выполненных маркеров
+- **Психологическую поддержку**: Интеграция ментального здоровья в процесс развития
+- **AI-интеграцию**: Reasoning модели для персонализированных рекомендаций
+- **Доказательную базу**: Каждый навык подтверждается артефактами (код, документация)
 
 *(Full executive summary from tag restored for grant submission.)*
+

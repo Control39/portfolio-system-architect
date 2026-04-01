@@ -1,4 +1,4 @@
-{
+﻿{
   "skill_name": "Frontend",
   "description": "Разработка пользовательских интерфейсов: HTML/CSS/JavaScript, фреймворки, accessibility",
   "levels": {
@@ -74,3 +74,4 @@
     ]
   }
 }
+
