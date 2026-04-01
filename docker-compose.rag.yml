@@ -1,4 +1,4 @@
-﻿# Docker Compose for Architect Assistant RAG System
+# Docker Compose for Architect Assistant RAG System
 # Local development and testing environment
 
 version: '3.8'

@@ -1,4 +1,4 @@
-﻿# API Gateway (Traefik) Configuration
+# API Gateway (Traefik) Configuration
 # Works on: Docker Compose, K8s, bare metal
 
 version: '3.9'

@@ -1,4 +1,4 @@
-﻿# Docker Compose for Advanced Monitoring Stack
+# Docker Compose for Advanced Monitoring Stack
 # Includes Prometheus, AlertManager, Grafana with SLO/SLI dashboards
 
 version: '3.9'
