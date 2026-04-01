@@ -1,4 +1,4 @@
-{
+﻿{
   "skill_name": "Business Analysis",
   "description": "Анализ бизнес-требований и управление продуктом",
   "levels": {
@@ -74,3 +74,4 @@
     ]
   }
 }
+

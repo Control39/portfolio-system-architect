@@ -1,4 +1,4 @@
-import time
+﻿import time
 import sys
 from typing import Dict, Any, List
 
@@ -161,3 +161,4 @@ if __name__ == "__main__":
     mode = LowEnergyMode()
     mode.activate()
     mode.run()
+

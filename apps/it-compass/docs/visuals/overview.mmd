@@ -1,0 +1,101 @@
+﻿flowchart TD
+    User[Пользователь IT-специалист] --> UI[Web UI Streamlit]
+    User --> CLI[CLI Интерфейс]
+    
+    UI --> Tracker[Career Tracker<br/>Ядро системы]
+    CLI --> Tracker
+    
+    Tracker --> Markers[Маркеры компетенций<br/>19 категорий JSON]
+    Tracker --> Progress[Прогресс пользователя<br/>user_progress.json]
+    Tracker --> Portfolio[Генератор портфолио]
+    
+    Portfolio --> Output1[PDF портфолио]
+    Portfolio --> Output2[Markdown резюме]
+    Portfolio --> Output3[HTML страница]
+    
+    Tracker --> MentalSupport[Система психологической поддержки]
+    MentalSupport --> Quotes[База цитат]
+    MentalSupport --> Contacts[Антикризисные контакты]
+    
+    Tracker --> Reasoning[Reasoning интеграция<br/>OpenAI/OpenRouter API]
+    Reasoning --> Analysis[Анализ прогресса]
+    Reasoning --> Recommendations[Персонализированные рекомендации]
+    
+    Markers --> Categories{Категории навыков}
+    Categories --> Python[Python разработка]
+    Categories --> Docker[Docker & контейнеризация]
+    Categories --> DevOps[DevOps практики]
+    Categories --> MLOps[MLOps & Data Science]
+    Categories --> SystemThinking[Системное мышление]
+    Categories --> Other[... другие 14 категорий]
+    
+    subgraph DataLayer [Слой данных]
+        Markers
+        Progress
+        Quotes
+        Contacts
+    end
+    
+    subgraph BusinessLogic [Бизнес-логика]
+        Tracker
+        Portfolio
+        MentalSupport
+        Reasoning
+    end
+    
+    subgraph PresentationLayer [Слой представления]
+        UI
+        CLI
+        Output1
+        Output2
+        Output3
+    end
+    
+    %% Стилизация
+    classDef user fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef data fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef logic fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef presentation fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    
+    class User user
+    class DataLayer data
+    class BusinessLogic logic
+    class PresentationLayer presentation
+```
+
+## Описание архитектуры
+
+IT Compass построен как монолитное приложение с четким разделением на слои:
+
+### 1. Слой представления (Presentation Layer)
+- **Web UI на Streamlit**: Интерактивный веб-интерфейс для визуализации прогресса
+- **CLI интерфейс**: Командная строка для автоматизации и интеграций
+- **Выходные форматы**: PDF, Markdown, HTML для портфолио
+
+### 2. Бизнес-логика (Business Logic)
+- **Career Tracker**: Ядро системы, управляет прогрессом и маркерами
+- **Генератор портфолио**: Создает профессиональные документы на основе выполненных маркеров
+- **Система психологической поддержки**: Помощь в сложных ситуациях
+- **Reasoning интеграция**: AI-анализ прогресса и рекомендации
+
+### 3. Слой данных (Data Layer)
+- **Маркеры компетенций**: 19 категорий в формате JSON
+- **Прогресс пользователя**: История выполнения маркеров
+- **База цитат и контактов**: Ресурсы для психологической поддержки
+
+## Ключевые особенности архитектуры
+
+1. **Модульность**: Каждый компонент может развиваться независимо
+2. **Расширяемость**: Легко добавлять новые категории маркеров
+3. **Интеграционная готовность**: API для внешних систем (job-automation-agent)
+4. **Мультиформатность**: Поддержка различных выходных форматов
+5. **AI-интеграция**: Использование reasoning-моделей для анализа
+
+## Технологический стек
+
+- **Язык**: Python 3.8+
+- **Веб-фреймворк**: Streamlit
+- **Данные**: JSON (маркеры, прогресс)
+- **AI интеграция**: OpenAI/OpenRouter API
+- **Документация**: Markdown, Mermaid диаграммы
+- **Контейнеризация**: Docker (опционально)

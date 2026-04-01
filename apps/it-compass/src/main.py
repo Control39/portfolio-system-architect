@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 IT Compass — объективная карта роста в IT через верифицируемые маркеры
 Методология "Объективные маркеры компетенций"
@@ -555,3 +555,4 @@ class ITCompassApp:
 
 if __name__ == "__main__":
     main()
+
