@@ -1,4 +1,4 @@
-# IT-Compass
+﻿# IT-Compass
 
 Объединённая версия методологии и приложения IT-Compass.
 

@@ -1,4 +1,4 @@
-{
+﻿{
   "skill_name": "Mobile Development",
   "description": "Разработка мобильных приложений: нативные (iOS/Android) или кроссплатформенные (Flutter/React Native)",
   "levels": {
@@ -74,3 +74,4 @@
     ]
   }
 }
+

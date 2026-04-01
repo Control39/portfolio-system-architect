@@ -1,4 +1,4 @@
-"""
+﻿"""
 IT Compass Setup Script
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
@@ -24,7 +24,7 @@ setup(
     name="it-compass",
     version="1.0.0",
     author="Ekaterina Kudelya",
-    author_email="contact@it-compass.com",
+    author_email="leadarchitect@yandex.ru",
     description="Objective IT career growth tracker with verifiable markers",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",

@@ -1,4 +1,4 @@
-# 👋 Hi, I'm Ekaterina Kudelya
+﻿# 👋 Hi, I'm Ekaterina Kudelya
 
 ## 🧠 Cognitive Architecture Designer & System Thinking Specialist
 

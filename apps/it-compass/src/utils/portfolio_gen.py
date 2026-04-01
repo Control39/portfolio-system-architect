@@ -194,3 +194,4 @@ if __name__ == "__main__":
         print("\n🎉 Портфолио готово! Файл: docs/my_portfolio.md")
     else:
         print("\n❌ Не удалось создать портфолио.")
+

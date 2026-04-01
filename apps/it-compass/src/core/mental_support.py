@@ -1,4 +1,4 @@
-"""
+﻿"""
 Психологическая поддержка для IT Compass (совместимость с предыдущими версиями)
 Обеспечивает интерфейс MentalSupport, MoodRecord, SelfHelpPractices,
 используя объединённый модуль PsychologicalSupport.
