@@ -1,4 +1,4 @@
-# Diagrams Interactive Architecture Principles
+﻿# Diagrams Interactive Architecture Principles
 
 - **Путь**: `docs\obsidian-map\diagrams_interactive_architecture-principles.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ graph TD
     C --> 
 ... (файл продолжается)
 ```
+

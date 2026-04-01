@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Docs Psychological Support
+﻿# Docs Obsidian Map Components It Compass Docs Psychological Support
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_docs_PSYCHOLOGICAL_SUPPORT.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 IT Compass 
 ... (файл продолжается)
 ```
+

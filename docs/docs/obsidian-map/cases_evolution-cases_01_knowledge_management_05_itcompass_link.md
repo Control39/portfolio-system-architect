@@ -1,4 +1,4 @@
-# 05 Itcompass Link
+﻿# 05 Itcompass Link
 
 - **Путь**: `cases\evolution-cases\01_knowledge_management\05_itcompass_link.md`
 - **Тип**: .MD
@@ -18,3 +18,4 @@ IT‑Compass — это портфолио‑система, которая по
 1. **Структурирование компетен
 ... (файл продолжается)
 ```
+

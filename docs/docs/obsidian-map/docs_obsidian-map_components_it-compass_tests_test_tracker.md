@@ -1,4 +1,4 @@
-# Components It Compass Tests Test Tracker
+﻿# Components It Compass Tests Test Tracker
 
 - **Путь**: `docs\obsidian-map\components_it-compass_tests_test_tracker.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from src.core.tracker
 ... (файл продолжается)
 ```
+

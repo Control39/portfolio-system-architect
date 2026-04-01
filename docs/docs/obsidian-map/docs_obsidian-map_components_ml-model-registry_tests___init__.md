@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests   Init  
+﻿# Components Ml Model Registry Tests   Init  
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests___init__.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 ```
 
 ```
+

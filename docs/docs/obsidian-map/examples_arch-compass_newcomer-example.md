@@ -1,4 +1,4 @@
-# Newcomer Example
+﻿# Newcomer Example
 
 - **Путь**: `examples\arch-compass\newcomer-example.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 Понимание базовых принципов прое
 ... (файл продолжается)
 ```
+

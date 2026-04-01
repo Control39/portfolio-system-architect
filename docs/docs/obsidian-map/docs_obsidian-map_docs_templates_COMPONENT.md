@@ -1,4 +1,4 @@
-# Docs Templates Component
+﻿# Docs Templates Component
 
 - **Путь**: `docs\obsidian-map\docs_templates_COMPONENT.md`
 - **Тип**: .MD
@@ -40,3 +40,4 @@ def main_function(param: Type) -> Result:
     p
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Core Model Registry
+﻿# Components Ml Model Registry Src Core Model Registry
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_core_model_registry.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ class ModelRegistry:
         return {"status": "success", "
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Cloud Reason Scripts Git Fix History
+﻿# Components Cloud Reason Scripts Git Fix History
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_scripts_git_fix_history.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ from typing import Dict, List, Tuple
 import dateti
 ... (файл продолжается)
 ```
+

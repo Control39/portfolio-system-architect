@@ -1,4 +1,4 @@
-# Tracker
+﻿# Tracker
 
 - **Путь**: `components\it-compass\src\core\tracker.py`
 - **Тип**: .PY
@@ -10,3 +10,4 @@
 ```
 from .tracker import CareerTracker, Marker, SkillData
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Templates Case Evolution
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Templates Case Evolution
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_templates_case-evolution.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\templates\case-evolution.m
 ... (файл продолжается)
 ```
+

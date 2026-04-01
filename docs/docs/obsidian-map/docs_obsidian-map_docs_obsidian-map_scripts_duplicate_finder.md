@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Duplicate Finder
+﻿# Docs Obsidian Map Scripts Duplicate Finder
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_duplicate_finder.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 Рекурсивно
 ... (файл продолжается)
 ```
+

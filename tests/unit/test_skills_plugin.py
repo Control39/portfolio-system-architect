@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unit tests for skills plugin.
 """
 import json

@@ -1,4 +1,4 @@
-on:
+﻿on:
   push:
     - workflows: [build-site, build-docs]
       filter:
@@ -82,3 +82,4 @@ workflows:
               - DRY_RUN=false ./scripts/cleanup-old-branches.sh
               
               - echo "Branch cleanup completed successfully!"
+

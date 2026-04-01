@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Grants Grant Proposal
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Grants Grant Proposal
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_grants_grant-proposal.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 -
 ... (файл продолжается)
 ```
+

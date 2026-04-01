@@ -1,4 +1,4 @@
-# Human Decisions Log: Proof of Lead Architect Role
+﻿# Human Decisions Log: Proof of Lead Architect Role
 *As Lead Architect (zero IT background → cognitive systems designer), I directed AI agents. Below: key examples where I rejected/overruled AI proposals, understood trade-offs, and enforced decisions. This proves human-in-the-loop control, not 'AI wrote it all'.*
 
 ## Decision #1: PowerShell for Arch-Compass (vs Python/Go)
@@ -40,4 +40,5 @@
 *Log updated iteratively. Each shows: I set goals, evaluated AI output critically, chose based on real constraints. AI = orchestra; I = conductor.*
 
 *Timeline: Zero IT (2023) → This ecosystem (2026). Proof against skeptics.*
+
 

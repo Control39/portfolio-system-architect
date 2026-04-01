@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Faq
+﻿# Docs Obsidian Map Docs Faq
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_faq.md`
 - **Тип**: .MD
@@ -41,3 +41,4 @@
 **Когнитивный архитектор** — это специ
 ... (файл продолжается)
 ```
+

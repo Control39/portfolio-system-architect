@@ -1,4 +1,4 @@
-name: Deploy to Azure
+﻿name: Deploy to Azure
 
 on:
   # push:
@@ -72,3 +72,4 @@ jobs:
       - name: Run health check
         run: |
           curl -f https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health || exit 1
+

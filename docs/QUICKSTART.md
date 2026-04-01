@@ -1,4 +1,4 @@
-# 🚀 Quick Start Guide
+﻿# 🚀 Quick Start Guide
 
 Get started with the Portfolio System Architect in under 5 minutes. This guide walks you through setting up the complete cognitive architecture ecosystem locally.
 
@@ -191,3 +191,4 @@ docker compose exec postgres psql -U architect -d portfolio
 - Contact via [SourceCraft](https://sourcecraft.io/portfolio-system-architect)
 
 *The Portfolio System Architect is designed to demonstrate production-grade cognitive architecture. Each component is fully functional and production-ready.*
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Contract
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Contract
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_contract.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ from src.core.model_registry import ModelRegistry
 class Test
 ... (файл продолжается)
 ```
+

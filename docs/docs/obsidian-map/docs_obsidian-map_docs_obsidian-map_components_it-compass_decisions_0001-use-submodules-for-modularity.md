@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Decisions 0001 Use Submodules For Modularity
+﻿# Docs Obsidian Map Components It Compass Decisions 0001 Use Submodules For Modularity
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_decisions_0001-use-submodules-for-modularity.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 
 ... (файл продолжается)
 ```
+

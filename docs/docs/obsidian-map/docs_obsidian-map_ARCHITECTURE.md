@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `docs\obsidian-map\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 - Будет готов к подач
 ... (файл продолжается)
 ```
+

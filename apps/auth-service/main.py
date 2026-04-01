@@ -1,4 +1,4 @@
-"""
+﻿"""
 JWT Auth Service
 Issues and validates JWT tokens for API Gateway
 """

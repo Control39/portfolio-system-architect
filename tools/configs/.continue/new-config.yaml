@@ -1,4 +1,4 @@
-# This is an example configuration file
+﻿# This is an example configuration file
 # To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
 
 name: Example Config
@@ -21,3 +21,4 @@ models:
 # https://docs.continue.dev/customization/mcp-tools
 mcpServers:
   - uses: anthropic/memory-mcp
+

@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 04 Documentation Automation Problem
+﻿# 03 Cases Thinking Cases 04 Documentation Automation Problem
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_04-documentation-automation_problem.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
  
 ... (файл продолжается)
 ```
+

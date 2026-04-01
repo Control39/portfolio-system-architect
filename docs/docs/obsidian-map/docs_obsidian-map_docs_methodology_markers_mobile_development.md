@@ -1,4 +1,4 @@
-# Docs Methodology Markers Mobile Development
+﻿# Docs Methodology Markers Mobile Development
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_mobile_development.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
         "validation": "Документация или артефакт на GitHu
 ... (файл продолжается)
 ```
+

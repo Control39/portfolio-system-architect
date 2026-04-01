@@ -1,4 +1,4 @@
-# Scripts Python Scripts Src Embedding Agent Embedder
+﻿# Scripts Python Scripts Src Embedding Agent Embedder
 
 - **Путь**: `docs\obsidian-map\scripts_python scripts_src_embedding_agent_embedder.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class CodeEmbedder:
     de
 ... (файл продолжается)
 ```
+

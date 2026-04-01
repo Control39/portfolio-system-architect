@@ -1,4 +1,4 @@
-# Project Config
+﻿# Project Config
 
 - **Путь**: `project-config.yaml`
 - **Тип**: .YAML
@@ -28,3 +28,4 @@ components:
     document
 ... (файл продолжается)
 ```
+

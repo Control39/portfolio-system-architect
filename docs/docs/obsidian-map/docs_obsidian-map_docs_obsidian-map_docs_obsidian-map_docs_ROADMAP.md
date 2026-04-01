@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Roadmap
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Roadmap
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_ROADMAP.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@
 #
 ... (файл продолжается)
 ```
+

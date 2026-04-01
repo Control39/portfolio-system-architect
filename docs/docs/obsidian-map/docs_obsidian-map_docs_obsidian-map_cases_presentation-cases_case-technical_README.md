@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cases Presentation Cases Case Technical Readme
+﻿# Docs Obsidian Map Cases Presentation Cases Case Technical Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cases_presentation-cases_case-technical_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Эта папка предназначена для технических презентаций, архитект
 ... (файл продолжается)
 ```
+

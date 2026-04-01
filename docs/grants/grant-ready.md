@@ -1,4 +1,4 @@
-# Grant-Ready Documentation
+﻿# Grant-Ready Documentation
 
 ## 🚀 Innovation
 
@@ -17,3 +17,4 @@
 | **Noobs-Guide** | `/templates/noobs-guide.md` | Reproducible path for non-tech → architect |
 
 *(Full content from tag restored for grant submission.)*
+

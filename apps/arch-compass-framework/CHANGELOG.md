@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the Arch-Compass-Framework project will be documented in this file.
 

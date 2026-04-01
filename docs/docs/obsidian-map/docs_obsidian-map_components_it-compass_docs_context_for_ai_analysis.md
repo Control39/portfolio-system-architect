@@ -1,4 +1,4 @@
-# Components It Compass Docs Context For Ai Analysis
+﻿# Components It Compass Docs Context For Ai Analysis
 
 - **Путь**: `docs\obsidian-map\components_it-compass_docs_context_for_ai_analysis.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 IT Compass - это интеллектуальная система поддержки профессионального развития IT-специалистов, объединяющая отслеживание компетенций, психологическую поддержку и генерацию портфолио. Система использует адаптивные алгоритмы и анализ д
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map 04 Code Src Core Mental Support
+﻿# Docs Obsidian Map 04 Code Src Core Mental Support
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_04_CODE_src_core_mental_support.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 
 ... (файл продолжается)
 ```
+

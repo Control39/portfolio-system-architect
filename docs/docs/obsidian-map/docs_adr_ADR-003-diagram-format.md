@@ -1,4 +1,4 @@
-# Adr 003 Diagram Format
+﻿# Adr 003 Diagram Format
 
 - **Путь**: `docs\adr\ADR-003-diagram-format.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 2. **Graph
 ... (файл продолжается)
 ```
+

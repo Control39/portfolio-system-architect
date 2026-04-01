@@ -1,4 +1,4 @@
-# Duplicate Audit Report
+﻿# Duplicate Audit Report
 
 - **Путь**: `docs\obsidian-map\duplicate_audit_report.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Файлы:** `branches.yaml` (в `.sourcecraft/`)
 ... (файл продолжается)
 ```
+

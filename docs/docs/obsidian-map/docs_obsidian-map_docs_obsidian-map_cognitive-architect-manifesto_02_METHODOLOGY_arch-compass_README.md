@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cognitive Architect Manifesto 02 Methodology Arch Compass Readme
+﻿# Docs Obsidian Map Cognitive Architect Manifesto 02 Methodology Arch Compass Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cognitive-architect-manifesto_02_METHODOLOGY_arch-compass_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Этот раздел
 ... (файл продолжается)
 ```
+

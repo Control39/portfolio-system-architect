@@ -1,4 +1,4 @@
-# Components Ml Model Registry Architecture
+﻿# Components Ml Model Registry Architecture
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ ML Model Registry - это система для управления жизне
 - RESTful API для взаимодействия с в
 ... (файл продолжается)
 ```
+

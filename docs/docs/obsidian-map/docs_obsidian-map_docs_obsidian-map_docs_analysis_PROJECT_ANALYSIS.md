@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Analysis Project Analysis
+﻿# Docs Obsidian Map Docs Analysis Project Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_analysis_PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 **Аналитик:** AI Mentor Sys
 ... (файл продолжается)
 ```
+

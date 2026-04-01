@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 \"\"\"System-Proof Schema: Verification + Metadata Tagging for GigaChain.
 CoT traces, tagging: thought-architecture, system-thinking-level, source-link.
 \"\"
@@ -46,4 +46,5 @@ if __name__ == '__main__':
         verification_accuracy=0.95
     )
     print(proof.tag_and_verify(None))  # True
+
 

@@ -1,4 +1,4 @@
-# Components Career Development System Src Tests Test Competency Tracker
+﻿# Components Career Development System Src Tests Test Competency Tracker
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_tests_test_competency_tracker.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class TestCompetencyTracker(unittest.TestCase):
         # Доба
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Portfolio Organizer Src App
+﻿# Components Portfolio Organizer Src App
 
 - **Путь**: `docs\obsidian-map\components_portfolio-organizer_src_app.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ app = Flask(__name__)
 app.register_blueprint(ml
 ... (файл продолжается)
 ```
+

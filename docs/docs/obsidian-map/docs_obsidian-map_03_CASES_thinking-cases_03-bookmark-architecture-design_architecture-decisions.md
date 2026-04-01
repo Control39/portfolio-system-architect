@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 03 Bookmark Architecture Design Architecture Decisions
+﻿# 03 Cases Thinking Cases 03 Bookmark Architecture Design Architecture Decisions
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_03-bookmark-architecture-design_architecture-decisions.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 - Интеграция с существующими инст
 ... (файл продолжается)
 ```
+

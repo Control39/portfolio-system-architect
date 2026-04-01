@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Validate Yaml
+﻿# Docs Obsidian Map Scripts Validate Yaml
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_validate_yaml.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@ from pathlib import Path
 def validate_yaml_files(f
 ... (файл продолжается)
 ```
+

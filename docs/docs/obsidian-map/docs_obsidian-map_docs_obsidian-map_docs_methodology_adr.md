@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Adr
+﻿# Docs Obsidian Map Docs Methodology Adr
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_adr.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Подход к документированию архитектурных решений (ADR - Architectural Decision Records) представляе
 ... (файл продолжается)
 ```
+

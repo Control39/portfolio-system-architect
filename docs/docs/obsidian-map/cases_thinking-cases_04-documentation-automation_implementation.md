@@ -1,4 +1,4 @@
-# Implementation
+﻿# Implementation
 
 - **Путь**: `cases\thinking-cases\04-documentation-automation\implementation.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ IGNORED_DIRS: Set[str] = {
     ".git"
 ... (файл продолжается)
 ```
+

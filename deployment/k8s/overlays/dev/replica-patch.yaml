@@ -1,4 +1,4 @@
-# Patch for development environment
+﻿# Patch for development environment
 # Single replica for all services (save resources)
 
 apiVersion: apps/v1
@@ -47,3 +47,4 @@ metadata:
   name: system-proof
 spec:
   replicas: 1
+

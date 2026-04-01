@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Security
+﻿# Components Ml Model Registry Tests Test Security
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_security.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistrySecurity(unittest.TestCase):
         # Попытка инъ
 ... (файл продолжается)
 ```
+

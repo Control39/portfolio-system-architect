@@ -1,4 +1,4 @@
-# API Interfaces & Module Boundaries
+﻿# API Interfaces & Module Boundaries
 
 This document describes the public interfaces of each microservice, ensuring loose coupling and clear module boundaries.
 

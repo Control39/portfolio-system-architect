@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Scripts Run Daily
+﻿# Docs Obsidian Map Docs Obsidian Map Scripts Run Daily
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_scripts_run_daily.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - **Последнее изменение*
 ... (файл продолжается)
 ```
+

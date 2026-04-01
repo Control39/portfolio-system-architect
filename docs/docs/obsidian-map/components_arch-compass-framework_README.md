@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `components\arch-compass-framework\README.md`
 - **Тип**: .MD
@@ -19,3 +19,4 @@
 ### Быстрый ста
 ... (файл продолжается)
 ```
+

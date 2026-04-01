@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Check Yaml
+﻿# Docs Obsidian Map Scripts Check Yaml
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_check_yaml.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ try:
     print("✅ YAML ус
 ... (файл продолжается)
 ```
+

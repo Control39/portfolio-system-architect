@@ -1,4 +1,4 @@
-# Docs Obsidian Map Pr Checklist
+﻿# Docs Obsidian Map Pr Checklist
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_PR_CHECKLIST.md`
 - **Тип**: .MD
@@ -40,3 +40,4 @@
 - [ ] Код работает как
 ... (файл продолжается)
 ```
+

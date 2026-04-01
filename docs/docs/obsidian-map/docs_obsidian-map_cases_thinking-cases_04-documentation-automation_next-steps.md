@@ -1,4 +1,4 @@
-# Cases Thinking Cases 04 Documentation Automation Next Steps
+﻿# Cases Thinking Cases 04 Documentation Automation Next Steps
 
 - **Путь**: `docs\obsidian-map\cases_thinking-cases_04-documentation-automation_next-steps.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 - [ ] **RSS-лента** — автоматиче
 ... (файл продолжается)
 ```
+

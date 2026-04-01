@@ -1,4 +1,4 @@
-# 📊 Project Metrics & Usage Impact
+﻿# 📊 Project Metrics & Usage Impact
 
 ## Test Coverage
 - **Overall**: Module-level 95-100% (pytest-cov in GH Actions/module tests/)
@@ -32,3 +32,4 @@ Services:
 - Auto-updates: Daily PS script
 
 [Add Prometheus/Grafana for prod telemetry]
+

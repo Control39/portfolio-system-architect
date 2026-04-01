@@ -1,4 +1,4 @@
-import requests
+﻿import requests
 import numpy as np
 from typing import List, Optional
 import json

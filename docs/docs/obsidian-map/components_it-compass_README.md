@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `components\it-compass\README.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ it-compass/
 │   ├── ARCHITECTURE.md         # Архитектура компонента
 ... (файл продолжается)
 ```
+

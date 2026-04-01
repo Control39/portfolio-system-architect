@@ -1,4 +1,4 @@
-# Component Versions Map
+﻿# Component Versions Map
 
 - **Путь**: `component_versions_map.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
   - sr
 ... (файл продолжается)
 ```
+

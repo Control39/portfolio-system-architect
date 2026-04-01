@@ -1,4 +1,4 @@
-# Methodology.Full
+﻿# Methodology.Full
 
 - **Путь**: `cognitive-architect-manifesto\METHODOLOGY.full.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 - Используются количественные и 
 ... (файл продолжается)
 ```
+

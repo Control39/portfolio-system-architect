@@ -1,4 +1,4 @@
-# Organize Files
+﻿# Organize Files
 
 - **Путь**: `components\system-proof\RAG\organize_files.ps1`
 - **Тип**: .PS1
@@ -31,3 +31,4 @@ if (!(Test-Path $SourcePath)) {
     Write-Log "Ошибка: Исходная папк
 ... (файл продолжается)
 ```
+

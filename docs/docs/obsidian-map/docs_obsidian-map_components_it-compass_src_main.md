@@ -1,4 +1,4 @@
-# Components It Compass Src Main
+﻿# Components It Compass Src Main
 
 - **Путь**: `docs\obsidian-map\components_it-compass_src_main.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ def show_directions(tracker):
     print(
 ... (файл продолжается)
 ```
+

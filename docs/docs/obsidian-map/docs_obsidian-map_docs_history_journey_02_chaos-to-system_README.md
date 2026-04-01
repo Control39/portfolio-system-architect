@@ -1,4 +1,4 @@
-# Docs History Journey 02 Chaos To System Readme
+﻿# Docs History Journey 02 Chaos To System Readme
 
 - **Путь**: `docs\obsidian-map\docs_history_journey_02_chaos-to-system_README.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 В 2024 году я совершила технологический прорыв: я построила R
 ... (файл продолжается)
 ```
+

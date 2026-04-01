@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 02 Methodology It Compass Src Utils   Init  
+﻿# Cognitive Architect Manifesto 02 Methodology It Compass Src Utils   Init  
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_02_METHODOLOGY_it-compass_src_utils___init__.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ __all__ = ['PortfolioGenerator']
 ```
 
 ```
+

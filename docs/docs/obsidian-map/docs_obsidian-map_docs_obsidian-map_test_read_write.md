@@ -1,4 +1,4 @@
-# Docs Obsidian Map Test Read Write
+﻿# Docs Obsidian Map Test Read Write
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_test_read_write.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@
 ```
 
 ```
+

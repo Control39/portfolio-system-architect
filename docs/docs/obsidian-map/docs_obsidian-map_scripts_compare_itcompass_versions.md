@@ -1,4 +1,4 @@
-# Scripts Compare Itcompass Versions
+﻿# Scripts Compare Itcompass Versions
 
 - **Путь**: `docs\obsidian-map\scripts_compare_itcompass_versions.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@ $paths = @(
    
 ... (файл продолжается)
 ```
+

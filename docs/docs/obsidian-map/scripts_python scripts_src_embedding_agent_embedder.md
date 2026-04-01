@@ -1,4 +1,4 @@
-# Embedder
+﻿# Embedder
 
 - **Путь**: `scripts\python scripts\src\embedding_agent\embedder.py`
 - **Тип**: .PY
@@ -26,3 +26,4 @@ class CodeEmbedder:
                 f"{self.base_url}/api/embed
 ... (файл продолжается)
 ```
+

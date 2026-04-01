@@ -1,4 +1,4 @@
-# Code Quality
+﻿# Code Quality
 
 - **Путь**: `code-quality.yaml`
 - **Тип**: .YAML
@@ -37,3 +37,4 @@ python:
  
 ... (файл продолжается)
 ```
+

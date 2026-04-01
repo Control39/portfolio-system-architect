@@ -1,4 +1,4 @@
-# .Gitleaks
+﻿# .Gitleaks
 
 - **Путь**: `components\arch-compass-framework\.gitleaks.toml`
 - **Тип**: .TOML
@@ -30,3 +30,4 @@
     ''
 ... (файл продолжается)
 ```
+

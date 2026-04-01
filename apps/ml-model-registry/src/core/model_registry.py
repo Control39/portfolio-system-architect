@@ -1,4 +1,4 @@
-class ModelRegistry:
+﻿class ModelRegistry:
     """Основной класс для управления реестром моделей"""
     
     def __init__(self):

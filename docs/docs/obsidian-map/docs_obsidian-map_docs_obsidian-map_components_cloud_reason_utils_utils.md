@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Utils Utils
+﻿# Docs Obsidian Map Components Cloud Reason Utils Utils
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_utils_utils.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ def get_module_path(module_name):
     """Воз
 ... (файл продолжается)
 ```
+

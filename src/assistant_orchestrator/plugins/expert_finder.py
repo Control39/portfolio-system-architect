@@ -1,4 +1,4 @@
-"""
+﻿"""
 Expert finder plugin for identifying domain experts in the codebase.
 """
 import logging

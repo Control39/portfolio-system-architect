@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis Risk Flow Diagram
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis Risk Flow Diagram
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_risk-flow-diagram.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ graph TD
     A[Агрессивный
 ... (файл продолжается)
 ```
+

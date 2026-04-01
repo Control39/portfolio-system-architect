@@ -1,4 +1,4 @@
-# Components Arch Compass Framework Src Infrastructure Monitoring Metrics
+﻿# Components Arch Compass Framework Src Infrastructure Monitoring Metrics
 
 - **Путь**: `docs\obsidian-map\components_arch-compass-framework_src_infrastructure_monitoring_metrics.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ def track_latency(func):
     @
 ... (файл продолжается)
 ```
+

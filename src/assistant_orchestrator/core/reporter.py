@@ -1,4 +1,4 @@
-"""
+﻿"""
 Reporter for generating analysis reports.
 """
 import json
@@ -284,3 +284,4 @@ class Reporter:
 </html>"""
         
         return html
+

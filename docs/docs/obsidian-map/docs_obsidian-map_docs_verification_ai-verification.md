@@ -1,4 +1,4 @@
-# Docs Verification Ai Verification
+﻿# Docs Verification Ai Verification
 
 - **Путь**: `docs\obsidian-map\docs_verification_ai-verification.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ AI Verification - это структурированный процесс пр�
 ## Компоненты
 ... (файл продолжается)
 ```
+

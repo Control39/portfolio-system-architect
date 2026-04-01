@@ -1,4 +1,4 @@
-# Test Coverage Metrics & Quality Assurance
+﻿# Test Coverage Metrics & Quality Assurance
 
 ## 📊 Overall Test Coverage
 

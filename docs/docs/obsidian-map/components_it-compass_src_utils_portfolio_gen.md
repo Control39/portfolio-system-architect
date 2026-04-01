@@ -1,4 +1,4 @@
-# Portfolio Gen
+﻿# Portfolio Gen
 
 - **Путь**: `components\it-compass\src\utils\portfolio_gen.py`
 - **Тип**: .PY
@@ -30,3 +30,4 @@ class PortfolioGenerator:
         Инициализация 
 ... (файл продолжается)
 ```
+

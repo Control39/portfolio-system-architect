@@ -1,4 +1,4 @@
-# Docs Methodology Markers Database
+﻿# Docs Methodology Markers Database
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_database.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
         "resources": ["https
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Career Development System Src Core Models
+﻿# Docs Obsidian Map Components Career Development System Src Core Models
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_career-development-system_src_core_models.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sq
 ... (файл продолжается)
 ```
+

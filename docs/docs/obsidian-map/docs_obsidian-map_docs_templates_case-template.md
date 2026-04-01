@@ -1,4 +1,4 @@
-# Docs Templates Case Template
+﻿# Docs Templates Case Template
 
 - **Путь**: `docs\obsidian-map\docs_templates_case-template.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 * 
 ... (файл продолжается)
 ```
+

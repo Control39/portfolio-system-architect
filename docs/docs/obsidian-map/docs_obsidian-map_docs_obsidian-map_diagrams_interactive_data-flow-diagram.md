@@ -1,4 +1,4 @@
-# Docs Obsidian Map Diagrams Interactive Data Flow Diagram
+﻿# Docs Obsidian Map Diagrams Interactive Data Flow Diagram
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_diagrams_interactive_data-flow-diagram.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ graph LR
     C --> D[Сервис авторизац
 ... (файл продолжается)
 ```
+

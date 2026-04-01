@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Support Low Energy Mode
+﻿# Docs Obsidian Map Components It Compass Support Low Energy Mode
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_support_low_energy_mode.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Использует объединённый
 ... (файл продолжается)
 ```
+

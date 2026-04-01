@@ -1,4 +1,4 @@
-# 📖 Documentation Index
+﻿# 📖 Documentation Index
 
 ## Быстрый поиск по аудиториям
 
@@ -16,4 +16,5 @@
 - [Методология](../02_METHODOLOGY/components/README.md)
 
 Generated: 2026-03-17 (BLACKBOXAI)
+
 

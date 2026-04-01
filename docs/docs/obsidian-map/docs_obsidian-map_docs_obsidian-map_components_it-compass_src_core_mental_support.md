@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Src Core Mental Support
+﻿# Docs Obsidian Map Components It Compass Src Core Mental Support
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_src_core_mental_support.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 О
 ... (файл продолжается)
 ```
+

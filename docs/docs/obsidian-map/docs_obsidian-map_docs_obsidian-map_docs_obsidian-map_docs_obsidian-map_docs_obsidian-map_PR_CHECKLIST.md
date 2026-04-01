@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Pr Checklist
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Pr Checklist
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_PR_CHECKLIST.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## 
 ... (файл продолжается)
 ```
+

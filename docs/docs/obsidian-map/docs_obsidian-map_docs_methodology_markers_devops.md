@@ -1,4 +1,4 @@
-# Docs Methodology Markers Devops
+﻿# Docs Methodology Markers Devops
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_devops.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "priority": "hi
 ... (файл продолжается)
 ```
+

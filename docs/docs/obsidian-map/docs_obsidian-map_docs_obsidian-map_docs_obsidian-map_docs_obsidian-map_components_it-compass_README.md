@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components It Compass Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components It Compass Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_it-compass_README.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## Превью
 ... (файл продолжается)
 ```
+

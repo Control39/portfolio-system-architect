@@ -1,4 +1,4 @@
-# Newcomer Example
+﻿# Newcomer Example
 
 - **Путь**: `examples\cloud-reason\newcomer-example.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 
 
 ```
+

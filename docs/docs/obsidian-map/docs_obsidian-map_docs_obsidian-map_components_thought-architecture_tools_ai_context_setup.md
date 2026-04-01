@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Thought Architecture Tools Ai Context Setup
+﻿# Docs Obsidian Map Components Thought Architecture Tools Ai Context Setup
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_thought-architecture_tools_ai_context_setup.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Инструмент для настройки контекста
 ... (файл продолжается)
 ```
+

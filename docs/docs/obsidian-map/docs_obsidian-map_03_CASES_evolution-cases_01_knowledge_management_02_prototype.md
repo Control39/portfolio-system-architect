@@ -1,4 +1,4 @@
-# 03 Cases Evolution Cases 01 Knowledge Management 02 Prototype
+﻿# 03 Cases Evolution Cases 01 Knowledge Management 02 Prototype
 
 - **Путь**: `docs\obsidian-map\03_CASES_evolution-cases_01_knowledge_management_02_prototype.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 Проверить гипотезу о том, что маркеры компетенций могут быть эффективно использованы для структурирования знаний 
 ... (файл продолжается)
 ```
+

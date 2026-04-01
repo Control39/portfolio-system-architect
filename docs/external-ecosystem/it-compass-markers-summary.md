@@ -1,4 +1,4 @@
-# IT-Compass Markers Summary (from my-ecosystem-FINAL)
+﻿# IT-Compass Markers Summary (from my-ecosystem-FINAL)
 
 **Extracted**: 12/17 JSON files. **Author**: Ekaterina Kudelya (**License**: CC BY-ND 4.0).
 
@@ -26,4 +26,5 @@
 - Resources/links for learning paths.
 
 **Next**: Merge detailed ones (Python/DevOps/Docker) into current apps/it-compass.
+
 

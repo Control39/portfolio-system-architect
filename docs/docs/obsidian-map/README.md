@@ -1,4 +1,4 @@
-# Карта
+﻿# Карта
 
 # 🧠 Portfolio System Architect
 
@@ -150,4 +150,5 @@ python -m pytest tests/
 - **Автор:** Екатерина Куделя
 - **Email:** leadarchitect@yandex.ru
 - **GitHub:** github.com/leadarchitect-ai
+
 

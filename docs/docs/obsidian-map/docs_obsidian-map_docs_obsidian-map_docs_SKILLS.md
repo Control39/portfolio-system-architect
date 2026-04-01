@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Skills
+﻿# Docs Obsidian Map Docs Skills
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_SKILLS.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Этот документ представляет собой матрицу навыков, демонстрирующую ключевые компетенции, используемые в проекте Portfolio S
 ... (файл продолжается)
 ```
+

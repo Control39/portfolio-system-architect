@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map 04 Code Tests Test Support
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map 04 Code Tests Test Support
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_04_CODE_tests_test_support.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - **Размер**: 973 ба
 ... (файл продолжается)
 ```
+

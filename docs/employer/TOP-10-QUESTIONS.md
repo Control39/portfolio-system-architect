@@ -1,4 +1,4 @@
-# Top 10 Questions from Tech Leads — Q&A
+﻿# Top 10 Questions from Tech Leads — Q&A
 
 ## Q1: How would you approach architecture for a 50-person startup?
 
@@ -133,3 +133,4 @@
 **Test coverage**: 95%+ (pytest-cov)  
 **Audit result**: 92% grant-ready (verified)  
 **Enterprise-ready**: 🟢 98%+
+

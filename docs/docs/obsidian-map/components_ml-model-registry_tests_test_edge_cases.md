@@ -1,4 +1,4 @@
-# Test Edge Cases
+﻿# Test Edge Cases
 
 - **Путь**: `components\ml-model-registry\tests\test_edge_cases.py`
 - **Тип**: .PY
@@ -25,3 +25,4 @@ class TestModelRegistryEdgeCases(unittest.TestCase):
         model 
 ... (файл продолжается)
 ```
+

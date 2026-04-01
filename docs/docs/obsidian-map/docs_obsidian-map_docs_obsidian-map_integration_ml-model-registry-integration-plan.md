@@ -1,4 +1,4 @@
-# Docs Obsidian Map Integration Ml Model Registry Integration Plan
+﻿# Docs Obsidian Map Integration Ml Model Registry Integration Plan
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_integration_ml-model-registry-integration-plan.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 #
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Duplicate Finder Design
+﻿# Docs Duplicate Finder Design
 
 - **Путь**: `docs\obsidian-map\docs_duplicate_finder_design.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 - Игнорировать системные директории (.git, __pycache
 ... (файл продолжается)
 ```
+

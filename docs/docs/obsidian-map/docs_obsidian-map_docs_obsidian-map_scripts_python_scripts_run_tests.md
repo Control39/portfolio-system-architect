@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Python Scripts Run Tests
+﻿# Docs Obsidian Map Scripts Python Scripts Run Tests
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_python_scripts_run_tests.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 TEST_DIR=$(python -c "import yaml; c=yaml.safe_load(open('component-config
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Architecture Principles
+﻿# Architecture Principles
 
 - **Путь**: `docs\methodology\architecture-principles.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 #### 
 ... (файл продолжается)
 ```
+

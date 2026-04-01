@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Adr Adr 004 Data Storage Format
+﻿# Docs Obsidian Map Docs Adr Adr 004 Data Storage Format
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_adr_ADR-004-data-storage-format.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@
 Необходимо
 ... (файл продолжается)
 ```
+

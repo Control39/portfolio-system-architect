@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Api Portfolio Integration
+﻿# Components Ml Model Registry Src Api Portfolio Integration
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_api_portfolio_integration.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ from typing import Dict, List, Optional, Any
 from fastapi impo
 ... (файл продолжается)
 ```
+

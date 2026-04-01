@@ -1,4 +1,4 @@
-# Components Cloud Reason Docs Troubleshooting
+﻿# Components Cloud Reason Docs Troubleshooting
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_docs_TROUBLESHOOTING.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 2. [Проблемы с кодировкой текста](#проблемы-с-кодиров
 ... (файл продолжается)
 ```
+

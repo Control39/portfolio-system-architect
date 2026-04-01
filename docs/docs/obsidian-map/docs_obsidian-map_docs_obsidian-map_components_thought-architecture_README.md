@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Thought Architecture Readme
+﻿# Docs Obsidian Map Components Thought Architecture Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_thought-architecture_README.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@ Thought Architecture - это портфолио когнитектурных р
 Thought Archi
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Src Api Portfolio Integration
+﻿# Docs Obsidian Map Components Ml Model Registry Src Api Portfolio Integration
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_src_api_portfolio_integration.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 Модуль интеграции между ML Model R
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Contributing
+﻿# Docs Obsidian Map Contributing
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_CONTRIBUTING.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 1. **Системность** — все компоненты должны быть частью единой э
 ... (файл продолжается)
 ```
+

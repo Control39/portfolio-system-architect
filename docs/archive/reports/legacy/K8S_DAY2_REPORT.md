@@ -1,4 +1,4 @@
-# День 2: K8s Manifests & Kustomize - ЗАВЕРШЕНО ✅
+﻿# День 2: K8s Manifests & Kustomize - ЗАВЕРШЕНО ✅
 
 ## 📊 ДЕНЬ 2: ИТОГИ
 
@@ -200,3 +200,4 @@ Total: 41 YAML files + 1 README = 42 files
 
 **Time spent**: ~6 hours
 **Impact**: 🔥 Enterprise Kubernetes deployment architecture complete
+

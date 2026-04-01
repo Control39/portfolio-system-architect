@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 02 Methodology It Compass Src Data   Init  
+﻿# Cognitive Architect Manifesto 02 Methodology It Compass Src Data   Init  
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_02_METHODOLOGY_it-compass_src_data___init__.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ __all__ = ['load_markers', 'load_progress', 'save_progress']
 ```
 
 ```
+

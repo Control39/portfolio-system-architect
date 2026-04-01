@@ -1,4 +1,4 @@
-# Docs Obsidian Map Epilogue
+﻿# Docs Obsidian Map Epilogue
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_EPILOGUE.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 Когда я начала этот путь, я не знала, куда он приведет. Я просто следовала внутреннему импульсу систематизир
 ... (файл продолжается)
 ```
+

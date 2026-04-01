@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `cognitive-architect-manifesto\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
   > «Я — архитектор к
 ... (файл продолжается)
 ```
+

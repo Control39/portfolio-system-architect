@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Api   Init  
+﻿# Components Ml Model Registry Src Api   Init  
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_api___init__.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 ```
 
 ```
+

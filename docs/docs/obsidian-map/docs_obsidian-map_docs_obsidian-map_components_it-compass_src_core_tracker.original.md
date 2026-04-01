@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Src Core Tracker.Original
+﻿# Docs Obsidian Map Components It Compass Src Core Tracker.Original
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_src_core_tracker.original.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Методология "Объ
 ... (файл продолжается)
 ```
+

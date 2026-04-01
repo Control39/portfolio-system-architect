@@ -1,4 +1,4 @@
-# Prometheus Alert Rules for Portfolio System Architect
+﻿# Prometheus Alert Rules for Portfolio System Architect
 # CPU, Memory, Error Rates, and SLO/SLI metrics
 
 groups:
@@ -268,3 +268,4 @@ groups:
         annotations:
           summary: "RAG Index Size Low"
           description: "RAG index contains only {{ $value }} documents, consider adding more documentation"
+

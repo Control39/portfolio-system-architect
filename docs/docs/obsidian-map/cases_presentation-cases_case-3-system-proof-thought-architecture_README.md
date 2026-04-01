@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cases\presentation-cases\case-3-system-proof-thought-architecture\README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 3. Обеспечение соглас
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Run Tests
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Run Tests
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_python scripts_run_tests.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - **Тип**: 
 ... (файл продолжается)
 ```
+

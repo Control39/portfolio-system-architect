@@ -1,4 +1,4 @@
-# Models
+﻿# Models
 
 - **Путь**: `components\career-development-system\src\core\models.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ class User(Base):
     progress_records 
 ... (файл продолжается)
 ```
+

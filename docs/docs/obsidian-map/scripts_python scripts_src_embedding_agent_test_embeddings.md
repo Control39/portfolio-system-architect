@@ -1,4 +1,4 @@
-# Test Embeddings
+﻿# Test Embeddings
 
 - **Путь**: `scripts\python scripts\src\embedding_agent\test_embeddings.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ def test_embedder():
     for code, description in test
 ... (файл продолжается)
 ```
+

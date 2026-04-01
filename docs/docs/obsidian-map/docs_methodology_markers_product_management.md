@@ -1,4 +1,4 @@
-# Product Management
+﻿# Product Management
 
 - **Путь**: `docs\methodology\markers\product_management.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable": "Завершен
 ... (файл продолжается)
 ```
+

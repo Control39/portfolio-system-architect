@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components It Compass Docs Context For Ai Analysis
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components It Compass Docs Context For Ai Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_it-compass_docs_context_for_ai_analysis.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - **Тип**
 ... (файл продолжается)
 ```
+

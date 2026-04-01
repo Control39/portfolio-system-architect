@@ -1,4 +1,4 @@
-# User Progress
+﻿# User Progress
 
 - **Путь**: `components\it-compass\src\data\user_progress.json`
 - **Тип**: .JSON
@@ -13,3 +13,4 @@
     "in_progress_markers": []
 }
 ```
+

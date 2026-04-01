@@ -1,4 +1,4 @@
-# Test Tracker
+﻿# Test Tracker
 
 - **Путь**: `components\it-compass\tests\test_tracker.py`
 - **Тип**: .PY
@@ -33,3 +33,4 @@ class TestCompetencyTracker(unittest.TestCase):
         """Настройка перед каждым те
 ... (файл продолжается)
 ```
+

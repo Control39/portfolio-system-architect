@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Career Profile
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Career Profile
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_career_profile.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Пут
 ... (файл продолжается)
 ```
+

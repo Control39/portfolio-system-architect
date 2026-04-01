@@ -1,4 +1,4 @@
-"""
+﻿"""
 RAG Advisor plugin for Assistant Orchestrator.
 Provides intelligent search and recommendations based on project documentation.
 """

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Config Settings
+﻿# Docs Obsidian Map Components It Compass Config Settings
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_config_settings.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
     "description": "Система отслеживания IT навы
 ... (файл продолжается)
 ```
+

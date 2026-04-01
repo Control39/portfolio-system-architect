@@ -1,4 +1,4 @@
-# Horizontal Pod Autoscaler for Cloud-Reason
+﻿# Horizontal Pod Autoscaler for Cloud-Reason
 # Scales based on CPU and memory usage
 # Works on: GKE v1.27+, Kind (with metrics-server), Minikube
 
@@ -44,3 +44,4 @@ spec:
         value: 2
         periodSeconds: 60
       selectPolicy: Max
+

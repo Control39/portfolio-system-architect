@@ -1,4 +1,4 @@
-# Mental Support
+﻿# Mental Support
 
 - **Путь**: `components\it-compass\src\core\mental_support.py`
 - **Тип**: .PY
@@ -29,3 +29,4 @@ class MoodRecord:
 
 ... (файл продолжается)
 ```
+

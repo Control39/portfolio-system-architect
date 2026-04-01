@@ -1,4 +1,4 @@
-# Practitioner Example
+﻿# Practitioner Example
 
 - **Путь**: `examples\ml-model-registry\practitioner-example.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
    python src/api/main.py benchmark --models bert-base,roberta-base -
 ... (файл продолжается)
 ```
+

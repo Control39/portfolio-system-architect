@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 '''
 Benchmark script for Portfolio System Architect validation (Phase 4.2)
 Tests service latency and generates report.
@@ -67,3 +67,4 @@ def run_benchmark():
 
 if __name__ == "__main__":
     run_benchmark()
+

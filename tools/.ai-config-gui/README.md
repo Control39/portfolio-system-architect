@@ -1,4 +1,4 @@
-# AI Config Manager
+﻿# AI Config Manager
 
 Графический интерфейс для управления конфигурациями AI-сервисов.
 
@@ -40,3 +40,4 @@ npm install
 npm start
 📄 Лицензия
 MIT
+

@@ -1,4 +1,4 @@
-# Model Storage
+﻿# Model Storage
 
 - **Путь**: `components\ml-model-registry\src\storage\model_storage.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ class ModelStorage:
 
 ... (файл продолжается)
 ```
+

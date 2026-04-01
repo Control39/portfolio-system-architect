@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Manifest Methodology
+﻿# Docs Obsidian Map Docs Methodology Manifest Methodology
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_manifest-methodology.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Методология объективных м
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Methodology Architecture Principles
+﻿# Docs Methodology Architecture Principles
 
 - **Путь**: `docs\obsidian-map\docs_methodology_architecture-principles.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 Система должна быть разбита на четко определенные модули с
 ... (файл продолжается)
 ```
+

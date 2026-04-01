@@ -1,4 +1,4 @@
-# Docs Career Profile
+﻿# Docs Career Profile
 
 - **Путь**: `docs\obsidian-map\docs_career_profile.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 ### Среднесрочны
 ... (файл продолжается)
 ```
+

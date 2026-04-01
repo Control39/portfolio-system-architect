@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Roadmap
+﻿# Docs Obsidian Map Docs Roadmap
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_ROADMAP.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Этот документ описывает дорожную карту развития проекта Portfolio System Architect - комплексной системы для демонстрации архи
 ... (файл продолжается)
 ```
+

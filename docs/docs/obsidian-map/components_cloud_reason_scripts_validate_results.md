@@ -1,4 +1,4 @@
-# Validate Results
+﻿# Validate Results
 
 - **Путь**: `components\cloud_reason\scripts\validate_results.py`
 - **Тип**: .PY
@@ -32,3 +32,4 @@ def setup_logging() -> None:
    
 ... (файл продолжается)
 ```
+

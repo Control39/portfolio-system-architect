@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Architecture Diagram
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Architecture Diagram
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_03-bookmark-architecture-design_architecture-diagram.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## 
 ... (файл продолжается)
 ```
+

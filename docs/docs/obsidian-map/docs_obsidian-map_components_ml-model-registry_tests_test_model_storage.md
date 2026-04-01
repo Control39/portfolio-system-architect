@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Model Storage
+﻿# Components Ml Model Registry Tests Test Model Storage
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_model_storage.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class TestModelStorage(unittest.TestCase):
         self.test_dir = tempfile.mkdtemp
 ... (файл продолжается)
 ```
+

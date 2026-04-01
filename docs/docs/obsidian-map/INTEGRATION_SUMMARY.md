@@ -1,4 +1,4 @@
-# Integration Summary
+﻿# Integration Summary
 
 - **Путь**: `INTEGRATION_SUMMARY.md`
 - **Тип**: .MD
@@ -20,3 +20,4 @@
 - ✅ **Кейсы системного мышления** — частично интегрированы в `components/thought-architecture/cases/`, но отсутствуют evolution‑cases (knowledge_manage
 ... (файл продолжается)
 ```
+

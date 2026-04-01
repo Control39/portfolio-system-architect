@@ -1,4 +1,4 @@
-# Components Career Development System Docs Api Reference
+﻿# Components Career Development System Docs Api Reference
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_docs_API_REFERENCE.md`
 - **Тип**: .MD
@@ -51,3 +51,4 @@ POST /users
 **Тело запр
 ... (файл продолжается)
 ```
+

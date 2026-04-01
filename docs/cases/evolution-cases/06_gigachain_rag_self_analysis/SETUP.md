@@ -1,4 +1,4 @@
-# Setup Instructions (Template)
+﻿# Setup Instructions (Template)
 
 ## Prerequisites
 - Python 3.13 venv
@@ -29,3 +29,4 @@ docker-compose up  # Includes Jupyter for exploration
 Scripts in scripts/ dir. Full watcher for watched/ folder.
 
 *Demo: Query "systemic thinking" finds 111+ evidences.*
+

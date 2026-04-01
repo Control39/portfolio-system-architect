@@ -1,4 +1,4 @@
-# Docs Obsidian Map 04 Code Tests Test Support
+﻿# Docs Obsidian Map 04 Code Tests Test Support
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_04_CODE_tests_test_support.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file_
 ... (файл продолжается)
 ```
+

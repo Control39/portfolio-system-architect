@@ -1,4 +1,4 @@
-"""
+﻿"""
 Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
 """
 
@@ -128,4 +128,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

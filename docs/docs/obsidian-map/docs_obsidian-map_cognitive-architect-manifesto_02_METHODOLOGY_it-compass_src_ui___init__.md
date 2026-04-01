@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 02 Methodology It Compass Src Ui   Init  
+﻿# Cognitive Architect Manifesto 02 Methodology It Compass Src Ui   Init  
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_02_METHODOLOGY_it-compass_src_ui___init__.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ __all__ = ['create_app']
 ```
 
 ```
+

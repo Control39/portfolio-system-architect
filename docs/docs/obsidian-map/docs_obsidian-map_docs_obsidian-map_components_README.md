@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Readme
+﻿# Docs Obsidian Map Components Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 1. **it-compass** - система отслежива
 ... (файл продолжается)
 ```
+

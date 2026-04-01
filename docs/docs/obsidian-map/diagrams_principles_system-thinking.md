@@ -1,4 +1,4 @@
-# System Thinking
+﻿# System Thinking
 
 - **Путь**: `diagrams\principles\system-thinking.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ graph TB
     H --> P[Элемент 2.1.1]
 ... (файл продолжается)
 ```
+

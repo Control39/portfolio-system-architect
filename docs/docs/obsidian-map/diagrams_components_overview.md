@@ -1,4 +1,4 @@
-# Overview
+﻿# Overview
 
 - **Путь**: `diagrams\components\overview.md`
 - **Тип**: .MD
@@ -20,3 +20,4 @@ graph TD
     F --> G
 
 ```
+

@@ -1,4 +1,4 @@
-# Projects Matrix
+﻿# Projects Matrix
 
 | Проект | Проблема | Решение | Артефакты | Компетенция | Уверенность | Интеграция |
 |--------|----------|---------|-----------|-------------|-------------|------------|
@@ -10,4 +10,5 @@
 | Portfolio-Organizer | Хаос портфолио | Авто-организатор | portfolio-organizer/, localhost:8004 | Full-stack ⭐⭐⭐⭐ | 🟢92% | Внутренний |
 | System-Proof | Доказательство систем | Proof schema | proof_schema.py, README.md | Verification ⭐⭐⭐⭐ | 🟢90% | Внутренний |
 | Thought-Architecture | Когнитектурные решения | Коллекция кейсов | apps/thought-architecture/, README.md | Системное мышление ⭐⭐⭐⭐ | 🟢85% | Внутренний |
+
 

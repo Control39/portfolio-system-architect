@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis Conclusion
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis Conclusion
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_conclusion.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 3. Модель применима к анализу комп
 ... (файл продолжается)
 ```
+

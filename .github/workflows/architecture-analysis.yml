@@ -1,4 +1,4 @@
-name: Architecture Maturity Check
+﻿name: Architecture Maturity Check
 
 on:
   push:

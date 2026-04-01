@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 06 Uber Freight Analysis Readme
+﻿# 03 Cases Thinking Cases 06 Uber Freight Analysis Readme
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_06-uber-freight-analysis_README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 В январе 2026 года Uber официально объявил о сворачивании проекта Uber Freight. В него вложили более $1 млрд, оценка доходила до $3,3 млрд, но итогом стали убытки в размере $580 млн за 2023 год и $520 млн за 2024 год, сокращение 
 ... (файл продолжается)
 ```
+

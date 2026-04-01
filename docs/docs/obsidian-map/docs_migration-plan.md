@@ -1,4 +1,4 @@
-# Migration Plan
+﻿# Migration Plan
 
 - **Путь**: `docs\migration-plan.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - `docs/website/` - сгенерирова
 ... (файл продолжается)
 ```
+

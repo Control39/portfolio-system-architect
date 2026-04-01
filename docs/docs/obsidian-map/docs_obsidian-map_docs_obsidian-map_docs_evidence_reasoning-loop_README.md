@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Evidence Reasoning Loop Readme
+﻿# Docs Obsidian Map Docs Evidence Reasoning Loop Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_evidence_reasoning-loop_README.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 ```
 
 ```
+

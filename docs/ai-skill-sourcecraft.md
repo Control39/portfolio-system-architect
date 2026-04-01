@@ -1,4 +1,4 @@
-# AI-навык для SourceCraft: Repository Audit Assistant
+﻿# AI-навык для SourceCraft: Repository Audit Assistant
 
 ## Назначение
 Навык анализирует отчёт аудита репозитория, предоставляет рекомендации по улучшению и отвечает на вопросы о зрелости проекта.

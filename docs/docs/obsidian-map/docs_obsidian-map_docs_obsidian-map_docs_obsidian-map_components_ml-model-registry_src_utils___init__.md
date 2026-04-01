@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Src Utils   Init  
+﻿# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Src Utils   Init  
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_ml-model-registry_src_utils___init__.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## Превью
 ... (файл продолжается)
 ```
+

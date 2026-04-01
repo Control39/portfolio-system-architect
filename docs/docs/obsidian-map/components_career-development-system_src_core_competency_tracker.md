@@ -1,4 +1,4 @@
-# Competency Tracker
+﻿# Competency Tracker
 
 - **Путь**: `components\career-development-system\src\core\competency_tracker.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ class CompetencyTracker:
    
 ... (файл продолжается)
 ```
+

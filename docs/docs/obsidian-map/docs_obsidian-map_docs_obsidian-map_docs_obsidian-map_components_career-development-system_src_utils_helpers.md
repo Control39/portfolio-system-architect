@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Utils Helpers
+﻿# Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Utils Helpers
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_career-development-system_src_utils_helpers.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 20
 ... (файл продолжается)
 ```
+

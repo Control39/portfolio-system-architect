@@ -1,4 +1,4 @@
-# Examples It Compass Newcomer Example
+﻿# Examples It Compass Newcomer Example
 
 - **Путь**: `docs\obsidian-map\examples_it-compass_newcomer-example.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 3. Еж
 ... (файл продолжается)
 ```
+

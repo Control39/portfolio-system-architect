@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components System Proof Rag Organize Files
+﻿# Docs Obsidian Map Docs Obsidian Map Components System Proof Rag Organize Files
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_system-proof_RAG_organize_files.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Organize Fil
 ... (файл продолжается)
 ```
+

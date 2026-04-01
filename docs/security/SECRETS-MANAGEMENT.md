@@ -1,4 +1,4 @@
-# Secrets Management Strategy
+﻿# Secrets Management Strategy
 # Production-grade secret handling for Portfolio System Architect
 
 ## Overview
@@ -315,3 +315,4 @@ async def startup():
 - AWS Secrets Manager: https://docs.aws.amazon.com/secretsmanager/
 - GCP Secret Manager: https://cloud.google.com/secret-manager/docs
 - Sealed Secrets: https://github.com/bitnami-labs/sealed-secrets
+

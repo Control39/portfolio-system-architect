@@ -1,4 +1,4 @@
-"""
+﻿"""
 Тесты для health check endpoints.
 """
 

@@ -1,4 +1,4 @@
-# Docs Methodology Markers Docker
+﻿# Docs Methodology Markers Docker
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_docker.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
         "re
 ... (файл продолжается)
 ```
+

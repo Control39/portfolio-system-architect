@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis Model
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis Model
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_model.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ ICR = 0,93.
 PD ≈ 6,9 
 ... (файл продолжается)
 ```
+

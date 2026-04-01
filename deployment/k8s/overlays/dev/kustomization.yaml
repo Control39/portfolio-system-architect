@@ -1,4 +1,4 @@
-# Development Environment Overlay
+﻿# Development Environment Overlay
 # Local Kind/Minikube deployment
 # Works on: Kind, Minikube
 
@@ -17,3 +17,4 @@ commonLabels:
   environment: dev
 
 namePrefix: dev-
+

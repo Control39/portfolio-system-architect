@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Portfolio Organizer Readme
+﻿# Docs Obsidian Map Components Portfolio Organizer Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_portfolio-organizer_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Portfolio Organizer - это система, созданная архитектором когнитивных систем Екатериной Куде
 ... (файл продолжается)
 ```
+

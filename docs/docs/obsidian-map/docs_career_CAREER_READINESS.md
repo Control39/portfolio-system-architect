@@ -1,4 +1,4 @@
-# Career Readiness
+﻿# Career Readiness
 
 - **Путь**: `docs\career\CAREER_READINESS.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 
 ... (файл продолжается)
 ```
+

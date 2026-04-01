@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Generate Docs
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Generate Docs
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_generate_docs.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изм
 ... (файл продолжается)
 ```
+

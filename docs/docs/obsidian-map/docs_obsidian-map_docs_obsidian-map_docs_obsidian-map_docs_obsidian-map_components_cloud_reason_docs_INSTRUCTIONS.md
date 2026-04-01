@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Cloud Reason Docs Instructions
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Cloud Reason Docs Instructions
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_cloud_reason_docs_INSTRUCTIONS.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **П
 ... (файл продолжается)
 ```
+

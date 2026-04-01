@@ -1,4 +1,4 @@
-# Testing Plan
+﻿# Testing Plan
 
 - **Путь**: `docs\testing_plan.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 ## 2. Fuzz-те
 ... (файл продолжается)
 ```
+

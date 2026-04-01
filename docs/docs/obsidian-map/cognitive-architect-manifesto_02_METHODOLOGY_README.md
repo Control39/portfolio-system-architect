@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\README.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 **Профессиональный PowerShell фреймворк для оркестрации 
 ... (файл продолжается)
 ```
+

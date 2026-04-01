@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Search Code
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Search Code
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_python scripts_search_code.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - *
 ... (файл продолжается)
 ```
+

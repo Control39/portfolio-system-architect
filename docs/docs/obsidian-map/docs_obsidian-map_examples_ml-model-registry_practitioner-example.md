@@ -1,4 +1,4 @@
-# Examples Ml Model Registry Practitioner Example
+﻿# Examples Ml Model Registry Practitioner Example
 
 - **Путь**: `docs\obsidian-map\examples_ml-model-registry_practitioner-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
    python src/api/m
 ... (файл продолжается)
 ```
+

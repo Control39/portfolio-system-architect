@@ -1,4 +1,4 @@
-# Examples Cloud Reason Developer Example
+﻿# Examples Cloud Reason Developer Example
 
 - **Путь**: `docs\obsidian-map\examples_cloud-reason_developer-example.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
     
 ... (файл продолжается)
 ```
+

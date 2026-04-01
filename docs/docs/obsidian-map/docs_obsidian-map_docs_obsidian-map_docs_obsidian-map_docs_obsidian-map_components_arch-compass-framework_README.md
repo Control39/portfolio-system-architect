@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Arch Compass Framework Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Arch Compass Framework Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_arch-compass-framework_README.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **После
 ... (файл продолжается)
 ```
+

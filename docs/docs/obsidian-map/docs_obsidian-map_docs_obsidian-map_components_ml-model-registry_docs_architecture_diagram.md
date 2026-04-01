@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Docs Architecture Diagram
+﻿# Docs Obsidian Map Components Ml Model Registry Docs Architecture Diagram
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_docs_architecture_diagram.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Архитектурная диаграмма системы версионирования ML
 ... (файл продолжается)
 ```
+

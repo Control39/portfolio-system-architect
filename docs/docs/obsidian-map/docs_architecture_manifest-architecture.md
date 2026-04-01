@@ -1,4 +1,4 @@
-# Manifest Architecture
+﻿# Manifest Architecture
 
 - **Путь**: `docs\architecture\manifest-architecture.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
   > «Я — архитектор к
 ... (файл продолжается)
 ```
+

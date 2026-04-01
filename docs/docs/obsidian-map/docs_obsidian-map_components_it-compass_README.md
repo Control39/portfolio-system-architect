@@ -1,4 +1,4 @@
-# Components It Compass Readme
+﻿# Components It Compass Readme
 
 - **Путь**: `docs\obsidian-map\components_it-compass_README.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ it-compass/
 ├
 ... (файл продолжается)
 ```
+

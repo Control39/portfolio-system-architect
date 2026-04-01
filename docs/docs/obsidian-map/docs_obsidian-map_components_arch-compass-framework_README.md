@@ -1,4 +1,4 @@
-# Components Arch Compass Framework Readme
+﻿# Components Arch Compass Framework Readme
 
 - **Путь**: `docs\obsidian-map\components_arch-compass-framework_README.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Этот фреймворк — не просто набор скриптов, а воплощение моего архитектурного мышления. Я не пишу код ради кода, я проектирую системы, где PowerShell используется как язык оркестрации сложных проце
 ... (файл продолжается)
 ```
+

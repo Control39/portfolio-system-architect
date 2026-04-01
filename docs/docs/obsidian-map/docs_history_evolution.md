@@ -1,4 +1,4 @@
-# Evolution
+﻿# Evolution
 
 - **Путь**: `docs\history\evolution.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 ## v2.
 ... (файл продолжается)
 ```
+

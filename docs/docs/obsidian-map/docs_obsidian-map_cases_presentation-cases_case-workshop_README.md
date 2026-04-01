@@ -1,4 +1,4 @@
-# Cases Presentation Cases Case Workshop Readme
+﻿# Cases Presentation Cases Case Workshop Readme
 
 - **Путь**: `docs\obsidian-map\cases_presentation-cases_case-workshop_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ YYYY‑MM‑DD‑topic‑workshop
 - 
 ... (файл продолжается)
 ```
+

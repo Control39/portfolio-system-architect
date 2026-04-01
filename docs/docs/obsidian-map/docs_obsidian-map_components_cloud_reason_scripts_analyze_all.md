@@ -1,4 +1,4 @@
-# Components Cloud Reason Scripts Analyze All
+﻿# Components Cloud Reason Scripts Analyze All
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_scripts_analyze_all.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ def setup_logging() -> None:
     """Нас
 ... (файл продолжается)
 ```
+

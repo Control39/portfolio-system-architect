@@ -1,4 +1,4 @@
-# Docs Adr Adr 003 Ml Model Versioning System
+﻿# Docs Adr Adr 003 Ml Model Versioning System
 
 - **Путь**: `docs\obsidian-map\docs_adr_ADR-003-ml-model-versioning-system.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Отсутствие четкой системы управления версиями ML-моделей приводит к потере воспроизводимости экспериментов, сложностям с откатом к предыдущим версиям и проблемам с аудитом изменений. Необходимо создать си
 ... (файл продолжается)
 ```
+

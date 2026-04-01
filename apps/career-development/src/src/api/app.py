@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+﻿from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 import json
@@ -92,4 +92,5 @@ async def export_evidence():
     """Сгенерировать пакет доказательств. Для демо – просто возвращаем путь к файлу."""
     # В реальном проекте сюда будет логика сборки PDF/MD.
     return {"export_path": "/path/to/evidence_package.zip"}
+
 

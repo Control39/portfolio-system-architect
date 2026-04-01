@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Scripts Validate Yaml
+﻿# Docs Obsidian Map Docs Obsidian Map Scripts Validate Yaml
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_scripts_validate_yaml.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - 
 ... (файл продолжается)
 ```
+

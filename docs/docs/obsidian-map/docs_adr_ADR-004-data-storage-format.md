@@ -1,4 +1,4 @@
-# Adr 004 Data Storage Format
+﻿# Adr 004 Data Storage Format
 
 - **Путь**: `docs\adr\ADR-004-data-storage-format.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 3. **Реляционная база данных** (Pos
 ... (файл продолжается)
 ```
+

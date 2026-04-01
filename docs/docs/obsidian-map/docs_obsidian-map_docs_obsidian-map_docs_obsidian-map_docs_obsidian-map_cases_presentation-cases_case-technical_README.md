@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Cases Presentation Cases Case Technical Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Cases Presentation Cases Case Technical Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_cases_presentation-cases_case-technical_README.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - **Размер
 ... (файл продолжается)
 ```
+

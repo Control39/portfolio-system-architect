@@ -1,4 +1,4 @@
-import asyncio
+﻿import asyncio
 import os
 from typing import Dict, Any
 from langchain.agents import AgentExecutor, create_react_agent
@@ -21,3 +21,4 @@ def job_search(query: str) -> str:
     return f\"Найдено вакансии по '{query}' на hh.ru.\"
 
 def generate_resume(job_title
+

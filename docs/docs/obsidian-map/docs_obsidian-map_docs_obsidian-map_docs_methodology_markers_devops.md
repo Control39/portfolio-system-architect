@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Markers Devops
+﻿# Docs Obsidian Map Docs Methodology Markers Devops
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_markers_devops.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
       {
 ... (файл продолжается)
 ```
+

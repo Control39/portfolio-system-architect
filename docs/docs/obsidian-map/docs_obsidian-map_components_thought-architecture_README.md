@@ -1,4 +1,4 @@
-# Components Thought Architecture Readme
+﻿# Components Thought Architecture Readme
 
 - **Путь**: `docs\obsidian-map\components_thought-architecture_README.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ Thought Architecture представляет собой коллекцию ко
 - **AI Communication Breakthrough** - Прорыв в коммуникац
 ... (файл продолжается)
 ```
+

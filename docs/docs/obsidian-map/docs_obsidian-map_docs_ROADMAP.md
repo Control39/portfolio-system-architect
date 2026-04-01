@@ -1,4 +1,4 @@
-# Docs Roadmap
+﻿# Docs Roadmap
 
 - **Путь**: `docs\obsidian-map\docs_ROADMAP.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 - [x] Создание базовой структу
 ... (файл продолжается)
 ```
+

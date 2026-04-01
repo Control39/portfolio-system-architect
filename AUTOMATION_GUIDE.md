@@ -1,4 +1,4 @@
-# Полное руководство по автоматизации для portfolio-system-architect
+﻿# Полное руководство по автоматизации для portfolio-system-architect
 
 ## 📋 Что было настроено
 

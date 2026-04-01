@@ -1,4 +1,4 @@
-# Ml Model Registry Integration Plan
+﻿# Ml Model Registry Integration Plan
 
 - **Путь**: `integration\ml-model-registry-integration-plan.md`
 - **Тип**: .MD
@@ -19,3 +19,4 @@
 - Оба компонента находят
 ... (файл продолжается)
 ```
+

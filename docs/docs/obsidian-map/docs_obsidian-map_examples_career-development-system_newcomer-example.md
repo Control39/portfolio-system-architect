@@ -1,4 +1,4 @@
-# Examples Career Development System Newcomer Example
+﻿# Examples Career Development System Newcomer Example
 
 - **Путь**: `docs\obsidian-map\examples_career-development-system_newcomer-example.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 3. Пройти опрос: текущие навыки
 ... (файл продолжается)
 ```
+

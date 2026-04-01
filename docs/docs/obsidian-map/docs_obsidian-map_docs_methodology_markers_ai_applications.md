@@ -1,4 +1,4 @@
-# Docs Methodology Markers Ai Applications
+﻿# Docs Methodology Markers Ai Applications
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_ai_applications.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "prior
 ... (файл продолжается)
 ```
+

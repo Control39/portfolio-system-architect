@@ -1,4 +1,4 @@
-# План внедрения Service Discovery
+﻿# План внедрения Service Discovery
 
 ## Текущее состояние
 

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Diagrams Interactive Component Diagram
+﻿# Docs Obsidian Map Diagrams Interactive Component Diagram
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_diagrams_interactive_component-diagram.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ graph TD
     C --> D[Сервис авторизац
 ... (файл продолжается)
 ```
+

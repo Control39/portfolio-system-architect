@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components It Compass Docs Project Analysis
+﻿# Docs Obsidian Map Docs Obsidian Map Components It Compass Docs Project Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_it-compass_docs_PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Proj
 ... (файл продолжается)
 ```
+

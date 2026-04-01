@@ -1,4 +1,4 @@
-# 0001 Use Submodules For Modularity
+﻿# 0001 Use Submodules For Modularity
 
 - **Путь**: `components\it-compass\decisions\0001-use-submodules-for-modularity.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 - Возможность клониров
 ... (файл продолжается)
 ```
+

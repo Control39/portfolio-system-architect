@@ -1,4 +1,4 @@
-# Components Career Development System Src Utils Helpers
+﻿# Components Career Development System Src Utils Helpers
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_utils_helpers.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ def load_json_file(filepath):
         ret
 ... (файл продолжается)
 ```
+

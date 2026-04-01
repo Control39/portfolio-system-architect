@@ -1,4 +1,4 @@
-# 2-Minute Presentation: Lead AI Systems Architect
+﻿# 2-Minute Presentation: Lead AI Systems Architect
 
 ## (0:00-0:20) Introduction
 

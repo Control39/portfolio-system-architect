@@ -1,4 +1,4 @@
-# Problem
+﻿# Problem
 
 - **Путь**: `cases\thinking-cases\04-documentation-automation\problem.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
    - Ссылки между документ
 ... (файл продолжается)
 ```
+

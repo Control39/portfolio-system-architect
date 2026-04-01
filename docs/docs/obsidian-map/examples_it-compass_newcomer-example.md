@@ -1,4 +1,4 @@
-# Newcomer Example
+﻿# Newcomer Example
 
 - **Путь**: `examples\it-compass\newcomer-example.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Наглядный трекинг прогресса в изучении Python с автом
 ... (файл продолжается)
 ```
+

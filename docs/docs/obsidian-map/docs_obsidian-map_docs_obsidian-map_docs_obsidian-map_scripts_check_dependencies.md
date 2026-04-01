@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Scripts Check Dependencies
+﻿# Docs Obsidian Map Docs Obsidian Map Scripts Check Dependencies
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_scripts_check_dependencies.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 - **Тип**: .
 ... (файл продолжается)
 ```
+

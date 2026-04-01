@@ -1,4 +1,4 @@
-# Noobs Guide: Replicate My Zero→Architect Journey
+﻿# Noobs Guide: Replicate My Zero→Architect Journey
 *Social impact: Empower non-tech to build like me. Paste into your repo. Addresses 'scalability for others'.*
 
 ## Step 0: Mindset
@@ -46,4 +46,5 @@ Follow [human-ai-workflow.md](../05_DOCUMENTATION/human-ai-workflow.md):
 **Fork, adapt, share! #CognitiveArchitect** `leadarchitect@yandex.ru`
 
 *Template v1.0. MIT License.*
+
 

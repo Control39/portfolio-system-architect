@@ -1,4 +1,4 @@
-# Frontend
+﻿# Frontend
 
 - **Путь**: `docs\methodology\markers\frontend.json`
 - **Тип**: .JSON
@@ -25,3 +25,4 @@
           "achievable": "Ур
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-name: AI Config CI/CD
+﻿name: AI Config CI/CD
 
 on:
   push:

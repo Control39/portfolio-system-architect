@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Embedder
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Embedder
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_python scripts_src_embedding_agent_embedder.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - **Тип
 ... (файл продолжается)
 ```
+
