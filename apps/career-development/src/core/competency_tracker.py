@@ -1,4 +1,4 @@
-"""Competency Tracker stub for pytest collection."""
+﻿"""Competency Tracker stub for pytest collection."""
 
 class CompetencyTracker:
     def __init__(self):
@@ -35,4 +35,5 @@ class CompetencyTracker:
         return {"user": {"id": user_id, "username": "stub"}, "total_skills": 0, "next_milestones": []}
 
 # Stub all methods to not raise on import
+
 

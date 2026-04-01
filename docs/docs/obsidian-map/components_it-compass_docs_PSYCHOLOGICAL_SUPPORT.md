@@ -1,4 +1,4 @@
-# Psychological Support
+﻿# Psychological Support
 
 - **Путь**: `components\it-compass\docs\PSYCHOLOGICAL_SUPPORT.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@ IT Compass включает в себя комплексную систему п
 -
 ... (файл продолжается)
 ```
+

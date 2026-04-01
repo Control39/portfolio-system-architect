@@ -1,4 +1,4 @@
-# Docs Templates Case Thinking
+﻿# Docs Templates Case Thinking
 
 - **Путь**: `docs\obsidian-map\docs_templates_case-thinking.md`
 - **Тип**: .MD
@@ -44,3 +44,4 @@
 
 ... (файл продолжается)
 ```
+

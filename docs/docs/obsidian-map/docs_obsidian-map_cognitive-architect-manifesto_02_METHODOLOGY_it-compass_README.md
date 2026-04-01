@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 02 Methodology It Compass Readme
+﻿# Cognitive Architect Manifesto 02 Methodology It Compass Readme
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_02_METHODOLOGY_it-compass_README.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ IT-Compass представляет собой методологию объек
 - **Систе
 ... (файл продолжается)
 ```
+

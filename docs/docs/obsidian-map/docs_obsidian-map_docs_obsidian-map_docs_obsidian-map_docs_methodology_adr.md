@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Methodology Adr
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Methodology Adr
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_methodology_adr.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - **Последне
 ... (файл продолжается)
 ```
+

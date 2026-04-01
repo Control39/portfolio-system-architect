@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\04_ARTIFACTS\case-studies\README.md`
 - **Тип**: .MD
@@ -12,3 +12,4 @@
 
 Этот раздел содержит кейсы применения методологии из реальных диалогов.
 ```
+

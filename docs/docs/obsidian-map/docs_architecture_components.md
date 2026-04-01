@@ -1,4 +1,4 @@
-# Components
+﻿# Components
 
 - **Путь**: `docs\architecture\components.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ PowerShell фреймворк для архитектурных решений. 
 - 
 ... (файл продолжается)
 ```
+

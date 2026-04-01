@@ -1,4 +1,4 @@
-# Scripts Directory Structure
+﻿# Scripts Directory Structure
 
 This directory contains utility scripts for development, deployment, and maintenance of the portfolio system. The scripts are organized by platform and purpose to demonstrate cross-platform expertise.
 
@@ -88,3 +88,4 @@ While Python could handle all tasks, the mixed approach demonstrates:
 - [ADR-007: Technology Stack Justification](../docs/docs/adr/ADR-007-technology-stack-justification.md)
 - README.md: Architectural Justification section
 - [CI/CD Configuration](../.github/workflows/) – uses these scripts
+

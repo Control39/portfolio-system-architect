@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Tests Test Integration
+﻿# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Tests Test Integration
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_ml-model-registry_tests_test_integration.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 2026-03-12 10:
 ... (файл продолжается)
 ```
+

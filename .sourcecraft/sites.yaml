@@ -1,4 +1,4 @@
-site:
+﻿site:
   # SourceCraft Sites configuration
   # Deploys static site from gh-pages branch
   root: "."

@@ -1,4 +1,4 @@
-# Integration Examples System Proof Thought Architecture
+﻿# Integration Examples System Proof Thought Architecture
 
 - **Путь**: `docs\obsidian-map\integration_examples_system-proof-thought-architecture.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@ function Process-DocumentWithSystemProof {
         [Parameter(M
 ... (файл продолжается)
 ```
+

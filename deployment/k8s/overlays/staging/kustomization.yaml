@@ -1,4 +1,4 @@
-# Staging Environment Overlay
+﻿# Staging Environment Overlay
 # GCP GKE Free Tier deployment
 # Works on: GKE v1.27+
 
@@ -21,3 +21,4 @@ replicas:
     count: 2
   - name: ml-model-registry
     count: 2
+

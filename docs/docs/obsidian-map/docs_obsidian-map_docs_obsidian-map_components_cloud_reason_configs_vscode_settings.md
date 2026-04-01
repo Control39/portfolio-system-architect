@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Configs Vscode Settings
+﻿# Docs Obsidian Map Components Cloud Reason Configs Vscode Settings
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_configs_vscode_settings.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
   "//": "Этот
 ... (файл продолжается)
 ```
+

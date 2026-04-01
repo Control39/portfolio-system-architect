@@ -1,4 +1,4 @@
-# Professional Journey: Ekaterina Kudelya
+﻿# Professional Journey: Ekaterina Kudelya
 
 ## Overview
 This directory contains documentation of Ekaterina Kudelya's professional journey from zero IT knowledge to cognitive architecture designer. The purpose is to provide context for AI assistants and collaborators to understand the personal narrative behind the technical systems.

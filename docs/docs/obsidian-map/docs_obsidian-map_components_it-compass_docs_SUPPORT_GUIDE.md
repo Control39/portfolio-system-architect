@@ -1,4 +1,4 @@
-# Components It Compass Docs Support Guide
+﻿# Components It Compass Docs Support Guide
 
 - **Путь**: `docs\obsidian-map\components_it-compass_docs_SUPPORT_GUIDE.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ IT Compass включает в себя комплексную систему п
 ### Доку
 ... (файл продолжается)
 ```
+

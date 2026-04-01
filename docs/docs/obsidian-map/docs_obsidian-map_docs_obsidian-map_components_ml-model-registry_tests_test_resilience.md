@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Resilience
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Resilience
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_resilience.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ from unittest.mock import patch, MagicMock
 from src.
 ... (файл продолжается)
 ```
+

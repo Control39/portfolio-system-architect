@@ -1,4 +1,4 @@
-# Cleanup Plan
+﻿# Cleanup Plan
 
 - **Путь**: `cleanup_plan.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 - compon
 ... (файл продолжается)
 ```
+

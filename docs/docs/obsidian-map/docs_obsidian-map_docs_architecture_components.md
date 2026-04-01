@@ -1,4 +1,4 @@
-# Docs Architecture Components
+﻿# Docs Architecture Components
 
 - **Путь**: `docs\obsidian-map\docs_architecture_components.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 - Поддержка различных форм
 ... (файл продолжается)
 ```
+

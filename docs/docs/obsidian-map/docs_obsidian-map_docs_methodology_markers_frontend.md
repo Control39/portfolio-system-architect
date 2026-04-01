@@ -1,4 +1,4 @@
-# Docs Methodology Markers Frontend
+﻿# Docs Methodology Markers Frontend
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_frontend.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
         "resources": ["https
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Model Storage
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Model Storage
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_model_storage.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ import json
 fro
 ... (файл продолжается)
 ```
+

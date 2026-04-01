@@ -1,4 +1,4 @@
-# Generate Docs
+﻿# Generate Docs
 
 - **Путь**: `scripts\generate_docs.py`
 - **Тип**: .PY
@@ -23,3 +23,4 @@ def generate_api_docs():
         if "parameters" in endpoint
 ... (файл продолжается)
 ```
+

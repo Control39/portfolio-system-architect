@@ -1,4 +1,4 @@
-# System Proof Schemas
+﻿# System Proof Schemas
 # Extracted from apps/system-proof/proof_schema.py
 
 $schema: "http://json-schema.org/draft-07/schema#"
@@ -56,3 +56,4 @@ definitions:
   - TraceStep
   - ProofMetadata
   - SystemProof
+

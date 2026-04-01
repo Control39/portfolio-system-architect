@@ -1,4 +1,4 @@
-"""
+﻿"""
 Skills plugin for analyzing IT-Compass markers.
 """
 import json
@@ -54,3 +54,4 @@ def analyze(root: Path) -> Dict[str, Any]:
         "categories": sorted(list(categories)),
         "markers": markers[:100],  # Limit to first 100 for performance
     }
+

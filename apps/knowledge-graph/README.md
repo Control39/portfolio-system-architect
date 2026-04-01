@@ -1,4 +1,4 @@
-# Knowledge Graph Service
+﻿# Knowledge Graph Service
 
 Сервис графа знаний для экосистемы portfolio-system-architect.
 
@@ -86,3 +86,4 @@ pytest --cov=src tests/
 - **Architect Assistant** - улучшение RAG поиска через граф знаний
 - **Unified API Gateway** - единая точка входа
 - **Learning Feedback Loop** - обновление графа на основе feedback
+

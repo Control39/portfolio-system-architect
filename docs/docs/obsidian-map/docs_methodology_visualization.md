@@ -1,4 +1,4 @@
-# Visualization
+﻿# Visualization
 
 - **Путь**: `docs\methodology\visualization.md`
 - **Тип**: .MD
@@ -19,3 +19,4 @@
 ### 1. Целевая аудито
 ... (файл продолжается)
 ```
+

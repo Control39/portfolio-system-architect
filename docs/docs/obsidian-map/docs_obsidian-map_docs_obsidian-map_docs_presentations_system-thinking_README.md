@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Presentations System Thinking Readme
+﻿# Docs Obsidian Map Docs Presentations System Thinking Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_presentations_system-thinking_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Эта презентация посвящена применению сист
 ... (файл продолжается)
 ```
+

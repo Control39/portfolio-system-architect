@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Build Index
+﻿# Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Build Index
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_scripts_python scripts_build_index.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `scripts\python scr
 ... (файл продолжается)
 ```
+

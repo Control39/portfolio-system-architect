@@ -1,4 +1,4 @@
-"""
+﻿"""
 career - Generated Pydantic Models
 Source: src\shared\schemas\career.yaml
 """
@@ -23,4 +23,5 @@ class UserProfile(BaseModel):
     skills: List[Any] = Field(None)
     goals: List[Any] = Field(None)
     achievements: List[Any] = Field(None)
+
 

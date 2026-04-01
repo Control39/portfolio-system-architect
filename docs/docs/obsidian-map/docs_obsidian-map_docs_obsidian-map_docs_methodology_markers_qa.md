@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Markers Qa
+﻿# Docs Obsidian Map Docs Methodology Markers Qa
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_markers_qa.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@
         "marker": "Вы
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Grant Defense Presentation — 5 Slides
+﻿# Grant Defense Presentation — 5 Slides
 
 ## Slide 1: Problem Statement
 
@@ -112,3 +112,4 @@
 5. **Call to Action** (30s): "Join us in democratizing architecture expertise"
 
 **Total**: 5 minutes
+

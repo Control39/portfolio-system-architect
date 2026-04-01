@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\presentations\system-thinking\README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 ### 2. Системно
 ... (файл продолжается)
 ```
+

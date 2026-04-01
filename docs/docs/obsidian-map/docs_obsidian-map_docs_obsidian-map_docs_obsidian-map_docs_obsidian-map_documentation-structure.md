@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Documentation Structure
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Documentation Structure
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_documentation-structure.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Documentation St
 ... (файл продолжается)
 ```
+

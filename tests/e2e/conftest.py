@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 from playwright.sync_api import sync_playwright
 
 @pytest.fixture(scope="session")
@@ -14,4 +14,5 @@ def page(browser):
     page = context.new_page()
     yield page
     context.close()
+
 

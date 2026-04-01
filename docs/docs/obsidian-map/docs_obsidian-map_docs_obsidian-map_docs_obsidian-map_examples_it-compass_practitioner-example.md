@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Examples It Compass Practitioner Example
+﻿# Docs Obsidian Map Docs Obsidian Map Examples It Compass Practitioner Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_examples_it-compass_practitioner-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Practitioner Exa
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Pydantic Schema Generator from YAML definitions
 Generates src/shared/pydantic/*.py from src/shared/schemas/*.yaml
@@ -85,3 +85,4 @@ if __name__ == "__main__":
         print(py_content)
     else:
         generate_all()
+

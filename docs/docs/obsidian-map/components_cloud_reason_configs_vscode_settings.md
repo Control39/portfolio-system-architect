@@ -1,4 +1,4 @@
-# Vscode Settings
+﻿# Vscode Settings
 
 - **Путь**: `components\cloud_reason\configs\vscode_settings.json`
 - **Тип**: .JSON
@@ -29,3 +29,4 @@
   "[javascr
 ... (файл продолжается)
 ```
+

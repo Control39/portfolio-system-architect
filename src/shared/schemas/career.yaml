@@ -1,4 +1,4 @@
-# Career Development Schemas
+﻿# Career Development Schemas
 # Extracted from apps/career-development/career-development-system/src/core/models.py
 
 $schema: "http://json-schema.org/draft-07/schema#"
@@ -61,3 +61,4 @@ definitions:
   - CompetencyMarker
   - Skill  
   - UserProfile
+

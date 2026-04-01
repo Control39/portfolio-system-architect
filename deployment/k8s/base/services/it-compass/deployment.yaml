@@ -1,4 +1,4 @@
-# IT-Compass Deployment
+﻿# IT-Compass Deployment
 # Skill tracking UI for IT professionals
 # Works on: GKE v1.27+, Kind, Minikube
 
@@ -92,3 +92,4 @@ spec:
                   values:
                   - it-compass
               topologyKey: kubernetes.io/hostname
+

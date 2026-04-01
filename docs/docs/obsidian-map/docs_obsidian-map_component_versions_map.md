@@ -1,4 +1,4 @@
-# Component Versions Map
+﻿# Component Versions Map
 
 - **Путь**: `docs\obsidian-map\component_versions_map.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ### Версия 1: components/it-compass
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 
 class TestModelRegistryContract(unittest.TestCase):

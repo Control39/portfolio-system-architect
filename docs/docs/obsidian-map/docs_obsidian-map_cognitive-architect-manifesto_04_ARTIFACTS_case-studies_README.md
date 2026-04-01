@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 04 Artifacts Case Studies Readme
+﻿# Cognitive Architect Manifesto 04 Artifacts Case Studies Readme
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_04_ARTIFACTS_case-studies_README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 ```
 
 ```
+

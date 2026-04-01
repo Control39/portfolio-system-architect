@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Mobile Development
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Mobile Development
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_methodology_markers_mobile_development.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Mobile D
 ... (файл продолжается)
 ```
+

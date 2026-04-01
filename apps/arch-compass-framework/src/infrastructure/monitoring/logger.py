@@ -1,4 +1,4 @@
-import structlog
+﻿import structlog
 
 logger = structlog.get_logger()
 
@@ -37,3 +37,4 @@ async def update_marker(marker_id: str, status: str):
     except Exception as e:
         logger.error("marker_update_failed", marker_id=marker_id, error=str(e))
         raise
+

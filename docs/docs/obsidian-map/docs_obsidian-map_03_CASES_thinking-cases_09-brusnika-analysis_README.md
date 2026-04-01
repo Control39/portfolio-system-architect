@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis Readme
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis Readme
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_README.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 СМИ и аналитики винят ключевую ставку ЦБ (в
 ... (файл продолжается)
 ```
+

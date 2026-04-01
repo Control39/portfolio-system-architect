@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\grants\sourcecraft-grant\case-2-ecosystem-contribution\README.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 Методология архитект
 ... (файл продолжается)
 ```
+

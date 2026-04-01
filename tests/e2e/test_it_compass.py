@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 import requests
 from playwright.sync_api import expect
 
@@ -12,4 +12,5 @@ def test_it_compass_ui(page):
 def test_it_compass_api(page):
     response = requests.get("http://localhost:8501/health", timeout=5)  # Assume endpoint
     assert response.status_code == 200
+
 

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Integration Summary
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Integration Summary
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_INTEGRATION_SUMMARY.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Пут
 ... (файл продолжается)
 ```
+

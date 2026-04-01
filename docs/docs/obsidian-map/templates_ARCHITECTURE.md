@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `templates\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 ```mer
 ... (файл продолжается)
 ```
+

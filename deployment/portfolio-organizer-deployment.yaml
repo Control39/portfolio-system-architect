@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: portfolio-organizer
@@ -52,3 +52,4 @@ spec:
             name: portfolio-organizer
             port:
               number: 8004
+

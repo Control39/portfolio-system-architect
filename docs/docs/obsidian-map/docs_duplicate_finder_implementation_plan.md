@@ -1,4 +1,4 @@
-# Duplicate Finder Implementation Plan
+﻿# Duplicate Finder Implementation Plan
 
 - **Путь**: `docs\duplicate_finder_implementation_plan.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ def scan_directory(root_path, ignore_patterns):
 def calc
 ... (файл продолжается)
 ```
+

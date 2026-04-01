@@ -1,4 +1,4 @@
-# Examples Ml Model Registry Newcomer Example
+﻿# Examples Ml Model Registry Newcomer Example
 
 - **Путь**: `docs\obsidian-map\examples_ml-model-registry_newcomer-example.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `05_PRESENTATIONS\README.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 1. [case-1-it-compass-portfolio-organizer](case-studies/case-1-i
 ... (файл продолжается)
 ```
+

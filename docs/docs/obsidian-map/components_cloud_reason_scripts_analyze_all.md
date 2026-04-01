@@ -1,4 +1,4 @@
-# Analyze All
+﻿# Analyze All
 
 - **Путь**: `components\cloud_reason\scripts\analyze_all.py`
 - **Тип**: .PY
@@ -30,3 +30,4 @@ def setup_logging() -> None:
             loggi
 ... (файл продолжается)
 ```
+

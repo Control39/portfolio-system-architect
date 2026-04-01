@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Examples Ml Model Registry Newcomer Example
+﻿# Docs Obsidian Map Docs Obsidian Map Examples Ml Model Registry Newcomer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_examples_ml-model-registry_newcomer-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Newcom
 ... (файл продолжается)
 ```
+

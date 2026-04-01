@@ -1,4 +1,4 @@
-name: Sync to GitHub Mirror
+﻿name: Sync to GitHub Mirror
 
 on:
   push:

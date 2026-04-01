@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Find Cjk Characters
+﻿# Docs Obsidian Map Scripts Find Cjk Characters
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_find_cjk_characters.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Используется для
 ... (файл продолжается)
 ```
+

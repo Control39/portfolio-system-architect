@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples It Compass Developer Example
+﻿# Docs Obsidian Map Examples It Compass Developer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_it-compass_developer-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Расширить IT-Compass новым типом маркера для оценки нав
 ... (файл продолжается)
 ```
+

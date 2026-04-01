@@ -1,4 +1,4 @@
-# Docs Obsidian Map Diagrams Integration Detailed
+﻿# Docs Obsidian Map Diagrams Integration Detailed
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_diagrams_integration_detailed.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ graph LR
     C[arch-compass-framework] -
 ... (файл продолжается)
 ```
+

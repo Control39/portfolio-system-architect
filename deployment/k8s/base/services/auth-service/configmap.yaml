@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: ConfigMap
 metadata:
   name: auth-service-config
@@ -6,3 +6,4 @@ metadata:
 data:
   JWT_ALGORITHM: HS256
   LOG_LEVEL: INFO
+

@@ -1,4 +1,4 @@
-# Test Model Registry
+﻿# Test Model Registry
 
 - **Путь**: `components\ml-model-registry\tests\test_model_registry.py`
 - **Тип**: .PY
@@ -25,3 +25,4 @@ class TestModelRegistry(unittest.TestCase):
         result = self.registry.get_
 ... (файл продолжается)
 ```
+

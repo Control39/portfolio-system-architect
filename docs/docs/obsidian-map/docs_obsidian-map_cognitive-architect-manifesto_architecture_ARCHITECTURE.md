@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto Architecture Architecture
+﻿# Cognitive Architect Manifesto Architecture Architecture
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_architecture_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@ IT Compass - это система объективного отслеживан
 1. **Базовый трекер навыков** - консольное приложение для отслеживания прог
 ... (файл продолжается)
 ```
+

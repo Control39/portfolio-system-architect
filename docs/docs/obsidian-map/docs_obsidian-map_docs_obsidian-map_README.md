@@ -1,4 +1,4 @@
-# Docs Obsidian Map Readme
+﻿# Docs Obsidian Map Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Этот репозиторий представляет собой **методологию, инструментарий и практические доказательс
 ... (файл продолжается)
 ```
+

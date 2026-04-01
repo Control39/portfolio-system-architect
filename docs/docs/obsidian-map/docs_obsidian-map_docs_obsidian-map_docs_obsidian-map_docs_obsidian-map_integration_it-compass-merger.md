@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Integration It Compass Merger
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Integration It Compass Merger
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_integration_it-compass-merger.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## Прев
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Run Tests
+﻿# Run Tests
 
 - **Путь**: `scripts\python scripts\run_tests.sh`
 - **Тип**: .SH
@@ -16,3 +16,4 @@ echo "Запуск тестов в: $TEST_DIR"
 pytest $TEST_DIR -v --cov=components/cloud-reason --cov-report=html
 
 ```
+

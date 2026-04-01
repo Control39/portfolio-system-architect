@@ -1,4 +1,4 @@
-# Psychological Support
+﻿# Psychological Support
 
 - **Путь**: `components\it-compass\src\core\mental\psychological_support.py`
 - **Тип**: .PY
@@ -29,3 +29,4 @@ class PsychologicalSupport:
    
 ... (файл продолжается)
 ```
+

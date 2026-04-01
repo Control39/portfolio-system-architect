@@ -1,4 +1,4 @@
-from jinja2 import Environment, FileSystemLoader, BaseLoader
+﻿from jinja2 import Environment, FileSystemLoader, BaseLoader
 from typing import Dict
 import os
 import asyncio
@@ -13,3 +13,4 @@ else:
     print("Warning: templates not found, using fallback.")
 
 async def
+

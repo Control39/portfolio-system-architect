@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Data Analysis
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Data Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_methodology_markers_data_analysis.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `
 ... (файл продолжается)
 ```
+

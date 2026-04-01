@@ -1,4 +1,4 @@
-# ADR-003: Выбор формата диаграмм (Mermaid)
+﻿# ADR-003: Выбор формата диаграмм (Mermaid)
 
 ## Статус
 Принято
@@ -43,3 +43,4 @@
 ## Ссылки
 - Mermaid documentation
 - GitHub documentation on Mermaid support
+

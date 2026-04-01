@@ -1,4 +1,4 @@
-# Ai Applications
+﻿# Ai Applications
 
 - **Путь**: `docs\methodology\markers\ai_applications.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable": "Завершенный проект",
 ... (файл продолжается)
 ```
+

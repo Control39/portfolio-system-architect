@@ -1,4 +1,4 @@
-#   Init  
+﻿#   Init  
 
 - **Путь**: `components\ml-model-registry\tests\__init__.py`
 - **Тип**: .PY
@@ -10,3 +10,4 @@
 ```
 
 ```
+

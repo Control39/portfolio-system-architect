@@ -1,4 +1,4 @@
-# Portfolio Integration
+﻿# Portfolio Integration
 
 - **Путь**: `components\ml-model-registry\src\api\portfolio_integration.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/portf
 ... (файл продолжается)
 ```
+

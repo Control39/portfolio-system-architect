@@ -1,4 +1,4 @@
-"""
+﻿"""
 Microservices plugin for analyzing microservices architecture.
 """
 import logging
@@ -75,3 +75,4 @@ def _detect_language(path: Path) -> str:
         return "Java"
     else:
         return "unknown"
+

@@ -1,4 +1,4 @@
-# План интеграции ML Model Registry с Portfolio Organizer
+﻿# План интеграции ML Model Registry с Portfolio Organizer
 
 ## Цель
 Интегрировать компонент ML Model Registry в основную экосистему портфолио, чтобы зарегистрированные модели отображались как проекты/артефакты в Portfolio Organizer и могли быть рекомендованы на основе метрик.

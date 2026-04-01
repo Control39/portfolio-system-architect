@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cases Thinking Cases 04 Documentation Automation Implementation
+﻿# Docs Obsidian Map Cases Thinking Cases 04 Documentation Automation Implementation
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cases_thinking-cases_04-documentation-automation_implementation.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 ## Структура фа
 ... (файл продолжается)
 ```
+

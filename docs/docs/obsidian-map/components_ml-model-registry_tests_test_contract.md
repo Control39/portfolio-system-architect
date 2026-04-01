@@ -1,4 +1,4 @@
-# Test Contract
+﻿# Test Contract
 
 - **Путь**: `components\ml-model-registry\tests\test_contract.py`
 - **Тип**: .PY
@@ -26,3 +26,4 @@ class TestModelRegistryContract(unittest.TestCase):
    
 ... (файл продолжается)
 ```
+

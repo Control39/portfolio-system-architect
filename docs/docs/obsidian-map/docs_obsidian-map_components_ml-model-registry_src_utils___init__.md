@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Utils   Init  
+﻿# Components Ml Model Registry Src Utils   Init  
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_utils___init__.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 ```
 
 ```
+

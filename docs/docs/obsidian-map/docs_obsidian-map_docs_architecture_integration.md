@@ -1,4 +1,4 @@
-# Docs Architecture Integration
+﻿# Docs Architecture Integration
 
 - **Путь**: `docs\obsidian-map\docs_architecture_integration.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ graph TD
     A[i
 ... (файл продолжается)
 ```
+

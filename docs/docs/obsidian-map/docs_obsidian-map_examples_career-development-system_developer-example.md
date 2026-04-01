@@ -1,4 +1,4 @@
-# Examples Career Development System Developer Example
+﻿# Examples Career Development System Developer Example
 
 - **Путь**: `docs\obsidian-map\examples_career-development-system_developer-example.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
        def get_contributi
 ... (файл продолжается)
 ```
+

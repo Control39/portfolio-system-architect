@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Sync Case Markers
+﻿# Docs Obsidian Map Scripts Sync Case Markers
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_sync_case_markers.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 Автоматизирует процесс интеграции к
 ... (файл продолжается)
 ```
+

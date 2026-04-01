@@ -1,4 +1,4 @@
-# Practitioner Example
+﻿# Practitioner Example
 
 - **Путь**: `examples\arch-compass\practitioner-example.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
     
 ... (файл продолжается)
 ```
+

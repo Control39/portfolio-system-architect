@@ -1,4 +1,4 @@
-"""
+﻿"""
 Evidence collector for gathering project evidence.
 """
 import logging
@@ -75,3 +75,4 @@ class EvidenceCollector:
         except Exception as e:
             logger.error(f"Error collecting dependencies: {e}")
             return {}
+

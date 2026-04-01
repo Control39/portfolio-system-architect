@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Portfolio Organizer Src Api Reasoning Api
+﻿# Docs Obsidian Map Components Portfolio Organizer Src Api Reasoning Api
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_portfolio-organizer_src_api_reasoning_api.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ API для анализа и рекомендаций по проектам по
 fro
 ... (файл продолжается)
 ```
+

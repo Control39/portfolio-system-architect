@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 import pytest
 from fastapi.testclient import TestClient
@@ -39,5 +39,6 @@ def test_register_model(mock_db):
     assert response.status_code == 200
 
 # Tests achieve 95%+ coverage with mocks
+
 
 

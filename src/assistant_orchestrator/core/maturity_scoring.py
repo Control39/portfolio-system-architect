@@ -1,4 +1,4 @@
-"""
+﻿"""
 Maturity scoring for architecture assessment.
 """
 import logging

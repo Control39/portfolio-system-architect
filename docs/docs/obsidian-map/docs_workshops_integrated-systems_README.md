@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\workshops\integrated-systems\README.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 4. Получить практ
 ... (файл продолжается)
 ```
+

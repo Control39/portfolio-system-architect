@@ -1,4 +1,4 @@
-# Integration
+﻿# Integration
 
 - **Путь**: `docs\architecture\integration.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ graph TD
     B --> G[Единая экосистема
 ... (файл продолжается)
 ```
+

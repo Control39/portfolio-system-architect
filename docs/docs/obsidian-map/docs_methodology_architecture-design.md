@@ -1,4 +1,4 @@
-# Architecture Design
+﻿# Architecture Design
 
 - **Путь**: `docs\methodology\architecture-design.md`
 - **Тип**: .MD
@@ -20,3 +20,4 @@
 Система должна быть разбита на четко определенные модули с минимальными зависимостями между н
 ... (файл продолжается)
 ```
+

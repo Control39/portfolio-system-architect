@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Component Versions Map
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Component Versions Map
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_component_versions_map.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Component Versions
 ... (файл продолжается)
 ```
+

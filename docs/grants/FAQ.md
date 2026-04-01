@@ -1,4 +1,4 @@
-# Grant Application FAQ
+﻿# Grant Application FAQ
 
 ## 1. What problem does this project solve?
 

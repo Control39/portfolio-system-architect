@@ -1,4 +1,4 @@
-# Scripts Python Scripts Search Code
+﻿# Scripts Python Scripts Search Code
 
 - **Путь**: `docs\obsidian-map\scripts_python_scripts_search_code.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ def get_embedding(text):
     return response.json
 ... (файл продолжается)
 ```
+

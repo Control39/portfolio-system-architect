@@ -1,4 +1,4 @@
-# Docs History Evolution
+﻿# Docs History Evolution
 
 - **Путь**: `docs\obsidian-map\docs_history_evolution.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - Переход от
 ... (файл продолжается)
 ```
+

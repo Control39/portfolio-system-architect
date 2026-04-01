@@ -1,4 +1,4 @@
-# Test Performance
+﻿# Test Performance
 
 - **Путь**: `components\ml-model-registry\tests\test_performance.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ class TestModelRegistryPerformance(unittest.TestCase):
                 "name": f"Model 
 ... (файл продолжается)
 ```
+

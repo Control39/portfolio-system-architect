@@ -1,4 +1,4 @@
-# Docs Publications Habr Habr Article Outline
+﻿# Docs Publications Habr Habr Article Outline
 
 - **Путь**: `docs\obsidian-map\docs_publications_habr_HABR_ARTICLE_OUTLINE.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 ```
 
 ```
+

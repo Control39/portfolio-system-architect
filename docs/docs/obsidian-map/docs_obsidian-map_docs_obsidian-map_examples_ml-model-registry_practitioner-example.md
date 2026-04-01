@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Ml Model Registry Practitioner Example
+﻿# Docs Obsidian Map Examples Ml Model Registry Practitioner Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_ml-model-registry_practitioner-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Оценить качество неск
 ... (файл продолжается)
 ```
+

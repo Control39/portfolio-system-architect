@@ -1,4 +1,4 @@
-# Defense Presentation - Yandex Open Source Grant
+﻿# Defense Presentation - Yandex Open Source Grant
 
 ## Slide 1: Проблема
 - Enterprise architects тратят 60% времени на рутинные задачи (Terraform, monitoring, DR)
@@ -25,4 +25,5 @@
 - Open source cognitive architecture for 1000+ architects
 - Integration with Yandex Cloud, GigaChat
 - Grant multiplier: Enterprise-ready → Production AI
+
 

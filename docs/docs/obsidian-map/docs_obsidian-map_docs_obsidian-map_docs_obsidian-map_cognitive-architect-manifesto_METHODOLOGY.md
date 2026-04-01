@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Cognitive Architect Manifesto Methodology
+﻿# Docs Obsidian Map Docs Obsidian Map Cognitive Architect Manifesto Methodology
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_cognitive-architect-manifesto_METHODOLOGY.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 
 ... (файл продолжается)
 ```
+

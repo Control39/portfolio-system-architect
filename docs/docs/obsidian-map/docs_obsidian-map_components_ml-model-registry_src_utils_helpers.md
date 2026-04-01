@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Utils Helpers
+﻿# Components Ml Model Registry Src Utils Helpers
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_utils_helpers.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ def format_model_info(model_data):
    
 ... (файл продолжается)
 ```
+

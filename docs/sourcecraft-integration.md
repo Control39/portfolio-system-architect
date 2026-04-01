@@ -1,4 +1,4 @@
-# Интеграция с SourceCraft
+﻿# Интеграция с SourceCraft
 
 ## Создание issue в SourceCraft
 

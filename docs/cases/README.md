@@ -1,4 +1,4 @@
-# Cases Overview
+﻿# Cases Overview
 
 ## Evolution Cases
 - [01_knowledge_management](evolution-cases/01_knowledge_management/)
@@ -10,3 +10,4 @@
 
 ## Presentation Cases
 - [case-1-it-compass-portfolio-organizer](../presentation-cases/case-1-it-compass-portfolio-organizer/)
+

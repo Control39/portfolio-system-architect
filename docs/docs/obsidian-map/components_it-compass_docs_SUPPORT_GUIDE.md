@@ -1,4 +1,4 @@
-# Support Guide
+﻿# Support Guide
 
 - **Путь**: `components\it-compass\docs\SUPPORT_GUIDE.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@ IT Compass включает в себя комплексную систему п
 - **T
 ... (файл продолжается)
 ```
+

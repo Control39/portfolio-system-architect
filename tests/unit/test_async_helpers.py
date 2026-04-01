@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unit тесты для модуля async_helpers.
 """
 
@@ -190,3 +190,4 @@ def test_async_retry_decorator():
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+

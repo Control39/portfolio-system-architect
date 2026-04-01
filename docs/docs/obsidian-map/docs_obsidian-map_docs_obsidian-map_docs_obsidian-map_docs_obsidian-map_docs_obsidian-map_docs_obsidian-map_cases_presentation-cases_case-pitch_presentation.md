@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Cases Presentation Cases Case Pitch Presentation
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Cases Presentation Cases Case Pitch Presentation
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_cases_presentation-cases_case-pitch_presentation.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - **Путь**:
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Test Competency Tracker
+﻿# Test Competency Tracker
 
 - **Путь**: `components\career-development-system\src\tests\test_competency_tracker.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ class TestCompetencyTracker(unittest.TestCase):
       
 ... (файл продолжается)
 ```
+

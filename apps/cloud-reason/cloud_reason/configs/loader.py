@@ -1,4 +1,4 @@
-# components/cloud-reason/config/loader.py
+﻿# components/cloud-reason/config/loader.py
 import yaml
 from pathlib import Path
 
@@ -19,3 +19,4 @@ def load_component_config():
 
 # Глобальная переменная конфигурации
 COMPONENT_CONFIG = load_component_config()
+

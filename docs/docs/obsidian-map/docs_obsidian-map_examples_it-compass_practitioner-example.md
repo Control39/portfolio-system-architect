@@ -1,4 +1,4 @@
-# Examples It Compass Practitioner Example
+﻿# Examples It Compass Practitioner Example
 
 - **Путь**: `docs\obsidian-map\examples_it-compass_practitioner-example.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
    cd components/it-comp
 ... (файл продолжается)
 ```
+

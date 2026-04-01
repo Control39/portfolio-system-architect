@@ -1,4 +1,4 @@
-# Docs Methodology Markers User Progress
+﻿# Docs Methodology Markers User Progress
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_user_progress.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 ```
 
 ```
+

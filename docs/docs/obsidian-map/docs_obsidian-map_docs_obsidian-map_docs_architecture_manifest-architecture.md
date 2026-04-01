@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Architecture Manifest Architecture
+﻿# Docs Obsidian Map Docs Architecture Manifest Architecture
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_architecture_manifest-architecture.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 > **Документальный фильм о рождении новой професс
 ... (файл продолжается)
 ```
+

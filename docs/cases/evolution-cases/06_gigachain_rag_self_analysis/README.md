@@ -1,4 +1,4 @@
-# 06. GigaChain RAG Self-Analysis: Proof of Systemic Thinking
+﻿# 06. GigaChain RAG Self-Analysis: Proof of Systemic Thinking
 
 ## 🎯 Case Overview
 **Problem**: How to objectively measure systemic thinking when traditional metrics (code lines, years experience) don't apply? Solution: Build RAG system to analyze own notes/dialogues/code for patterns.
@@ -55,3 +55,4 @@ Building this evidences:
 - Links: [IT-Compass Markers](../02_METHODOLOGY/markers/systemic-thinking-markers.md)
 
 *See [ARCHITECTURE_DECISIONS.md], [RESULTS_SANITIZED.md].*
+

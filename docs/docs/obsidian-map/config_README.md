@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `config\README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 - `components/ml-model
 ... (файл продолжается)
 ```
+

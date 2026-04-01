@@ -1,4 +1,4 @@
-# Project Analysis
+﻿# Project Analysis
 
 - **Путь**: `docs\analysis\PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@ IT COMPASS — Система объективного отслеживания 
 │         © 2025 Ekaterina Kudelya, CC 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Arch Compass Framework Readme
+﻿# Docs Obsidian Map Components Arch Compass Framework Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_arch-compass-framework_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 **Создан архитектором когнитивных си
 ... (файл продолжается)
 ```
+

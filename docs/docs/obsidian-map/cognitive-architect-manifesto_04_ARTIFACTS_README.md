@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\04_ARTIFACTS\README.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **I
 ... (файл продолжается)
 ```
+

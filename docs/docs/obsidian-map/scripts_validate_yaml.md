@@ -1,4 +1,4 @@
-# Validate Yaml
+﻿# Validate Yaml
 
 - **Путь**: `scripts\validate_yaml.py`
 - **Тип**: .PY
@@ -30,3 +30,4 @@ def validate_yaml_files(file_list):
             with open(path, 'r', encodin
 ... (файл продолжается)
 ```
+

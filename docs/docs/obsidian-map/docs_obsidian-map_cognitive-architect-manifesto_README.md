@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto Readme
+﻿# Cognitive Architect Manifesto Readme
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_README.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Я- **архитектор когнитивных систем**. Моя сила- в создании новых форм экспертизы для эпо
 ... (файл продолжается)
 ```
+

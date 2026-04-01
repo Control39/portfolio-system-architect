@@ -1,4 +1,4 @@
-# Docs Templates Case Evolution
+﻿# Docs Templates Case Evolution
 
 - **Путь**: `docs\obsidian-map\docs_templates_case-evolution.md`
 - **Тип**: .MD
@@ -40,3 +40,4 @@
 Что было сделано для 
 ... (файл продолжается)
 ```
+

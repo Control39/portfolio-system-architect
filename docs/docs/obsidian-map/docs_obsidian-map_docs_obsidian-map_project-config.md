@@ -1,4 +1,4 @@
-# Docs Obsidian Map Project Config
+﻿# Docs Obsidian Map Project Config
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_project-config.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@ author:
   r
 ... (файл продолжается)
 ```
+

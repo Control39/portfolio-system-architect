@@ -1,4 +1,4 @@
-# Career Development System Module
+﻿# Career Development System Module
 
 Adapted from provided structure under career-development-system/.
 
@@ -15,4 +15,5 @@ Structure:
 - tests/ (module tests)
 - docs/
 - career-development-system/ (core impl)
+
 

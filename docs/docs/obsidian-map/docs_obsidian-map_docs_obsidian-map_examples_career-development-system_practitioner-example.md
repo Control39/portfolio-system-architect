@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Career Development System Practitioner Example
+﻿# Docs Obsidian Map Examples Career Development System Practitioner Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_career-development-system_practitioner-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 ## Career Development System: Пример для практика
 ... (файл продолжается)
 ```
+

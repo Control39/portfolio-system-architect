@@ -1,4 +1,4 @@
-# Case Evolution
+﻿# Case Evolution
 
 - **Путь**: `docs\templates\case-evolution.md`
 - **Тип**: .MD
@@ -42,3 +42,4 @@
 | Метрика | До | П
 ... (файл продолжается)
 ```
+

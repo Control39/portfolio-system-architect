@@ -1,4 +1,4 @@
-# Contributing to Arch-Compass-Framework
+﻿# Contributing to Arch-Compass-Framework
 
 This project is part of the [portfolio-system-architect](https://github.com/your-org/portfolio-system-architect) repository. Please refer to the root [CONTRIBUTING.md](../../CONTRIBUTING.md) for general contribution guidelines.
 

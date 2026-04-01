@@ -1,4 +1,4 @@
-# ML Model Registry
+﻿# ML Model Registry
 
 FastAPI API for ML model versioning/storage.
 
@@ -18,3 +18,4 @@ python -m src.api.main
   | GET | /health | Status |
 
 **Coverage**: pytest 95%. SQLite backend.
+

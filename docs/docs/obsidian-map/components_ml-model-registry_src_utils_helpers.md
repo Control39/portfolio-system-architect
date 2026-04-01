@@ -1,4 +1,4 @@
-# Helpers
+﻿# Helpers
 
 - **Путь**: `components\ml-model-registry\src\utils\helpers.py`
 - **Тип**: .PY
@@ -24,3 +24,4 @@ def format_model_info(model_data):
         "version": model_data.get("version"),
 ... (файл продолжается)
 ```
+

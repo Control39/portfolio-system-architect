@@ -1,4 +1,4 @@
-# Grant Submission — Metrics & Evidence
+﻿# Grant Submission — Metrics & Evidence
 
 **Project**: Portfolio System Architect - Cognitive Architecture Ecosystem  
 **Status**: ✅ SUBMITTED (Yandex Open Source Grants)  
@@ -103,3 +103,4 @@
 ---
 
 **Next Phase**: Community engagement & contributor onboarding
+

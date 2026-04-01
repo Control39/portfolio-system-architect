@@ -1,4 +1,4 @@
-# Pr Checklist
+﻿# Pr Checklist
 
 - **Путь**: `PR_CHECKLIST.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 - [ ] К
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Demos Readme
+﻿# Docs Demos Readme
 
 - **Путь**: `docs\obsidian-map\docs_demos_README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 ```
 
 ```
+

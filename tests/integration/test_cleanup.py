@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 import os
 
 def test_repo_clean():
@@ -9,4 +9,5 @@ def test_repo_clean():
 @pytest.mark.skip(reason="Docker manual start needed")
 def test_docker_services():
     pass
+
 

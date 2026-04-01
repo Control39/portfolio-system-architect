@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Glossary
+﻿# Docs Obsidian Map Docs Glossary
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_glossary.md`
 - **Тип**: .MD
@@ -40,3 +40,4 @@
 Специалист, проектирующий 
 ... (файл продолжается)
 ```
+

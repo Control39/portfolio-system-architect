@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Src Data User Progress
+﻿# Docs Obsidian Map Components It Compass Src Data User Progress
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_src_data_user_progress.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@
 ```
 
 ```
+

@@ -1,4 +1,4 @@
-# Unified Structure Plan
+﻿# Unified Structure Plan
 
 - **Путь**: `unified_structure_plan.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@ cognitive-architect-manifesto/
 │   └── 03_pr
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Run Daily
+﻿# Run Daily
 
 - **Путь**: `scripts\run_daily.ps1`
 - **Тип**: .PS1
@@ -25,3 +25,4 @@ python scripts/generate_obsidian_map.py
 
 ... (файл продолжается)
 ```
+

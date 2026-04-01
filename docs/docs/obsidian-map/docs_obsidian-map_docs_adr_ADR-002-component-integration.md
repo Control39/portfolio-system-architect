@@ -1,4 +1,4 @@
-# Docs Adr Adr 002 Component Integration
+﻿# Docs Adr Adr 002 Component Integration
 
 - **Путь**: `docs\obsidian-map\docs_adr_ADR-002-component-integration.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Необходимо интегрировать несколько самостоятельных компонентов (Arch Compass Framework, IT Compass, Portfolio Organizer, Thought Architecture, Career Development System) в единую согласованную экосистему. Каждый компонент 
 ... (файл продолжается)
 ```
+

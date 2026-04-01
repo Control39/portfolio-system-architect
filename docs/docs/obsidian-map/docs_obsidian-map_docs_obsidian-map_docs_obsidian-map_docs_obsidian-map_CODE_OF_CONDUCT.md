@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Code Of Conduct
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Code Of Conduct
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_CODE_OF_CONDUCT.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\obsidian-
 ... (файл продолжается)
 ```
+

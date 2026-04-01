@@ -1,4 +1,4 @@
-# FAQ — Часто задаваемые вопросы
+﻿# FAQ — Часто задаваемые вопросы
 
 > Ответы на частые вопросы о проекте «Portfolio System Architect»
 
@@ -180,4 +180,5 @@ python scripts/duplicate_finder.py
 ---
 
 *FAQ обновлён: 2026-03-11*
+
 

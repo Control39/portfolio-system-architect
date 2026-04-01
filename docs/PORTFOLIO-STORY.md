@@ -1,4 +1,4 @@
-# Моя Эволюция: От Zero IT к Cognitive Systems Architect
+﻿# Моя Эволюция: От Zero IT к Cognitive Systems Architect
 
 ## 📖 Глава 1: Проблема (точка А)
 Я начинала с нуля в IT без трекера навыков, с выгоранием от хаоса обучения, без инструментов для архитектурных решений и планирования карьеры. Рынок предлагал разрозненные инструменты, но ничего целостного для solo-архитектора, строящего экосистему для себя. Я начала создавать систему, чтобы отслеживать прогресс, автоматизировать мышление и доказывать компетенции.
@@ -90,4 +90,5 @@
 - GitHub: https://github.com/Control39/cognitive-systems-architecture  
 - Demo: Local deployment via `docker compose up -d` (IT-Compass at localhost:8501)
 - Аудит: docs/audit-2026-03.md
+
 

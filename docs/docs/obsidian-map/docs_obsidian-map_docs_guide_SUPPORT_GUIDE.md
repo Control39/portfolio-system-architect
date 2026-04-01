@@ -1,4 +1,4 @@
-# Docs Guide Support Guide
+﻿# Docs Guide Support Guide
 
 - **Путь**: `docs\obsidian-map\docs_guide_SUPPORT_GUIDE.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 src/main.py --mental-suppo
 ... (файл продолжается)
 ```
+

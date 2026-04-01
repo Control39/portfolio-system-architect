@@ -1,4 +1,4 @@
-import logging
+﻿import logging
 import json
 from datetime import datetime
 
@@ -46,3 +46,4 @@ class PortfolioLogger:
             'context': context,
             'timestamp': datetime.now().isoformat()
         }))
+

@@ -1,4 +1,4 @@
-# Crisis Contacts
+﻿# Crisis Contacts
 
 - **Путь**: `components\it-compass\support\resources\crisis_contacts.json`
 - **Тип**: .JSON
@@ -29,3 +29,4 @@
       "ty
 ... (файл продолжается)
 ```
+

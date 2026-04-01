@@ -1,4 +1,4 @@
-# Examples It Compass Developer Example
+﻿# Examples It Compass Developer Example
 
 - **Путь**: `docs\obsidian-map\examples_it-compass_developer-example.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
      "category": "em
 ... (файл продолжается)
 ```
+

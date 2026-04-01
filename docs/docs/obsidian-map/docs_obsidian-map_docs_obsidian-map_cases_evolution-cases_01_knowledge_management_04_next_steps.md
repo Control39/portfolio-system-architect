@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cases Evolution Cases 01 Knowledge Management 04 Next Steps
+﻿# Docs Obsidian Map Cases Evolution Cases 01 Knowledge Management 04 Next Steps
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cases_evolution-cases_01_knowledge_management_04_next_steps.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 *Этот файл будет заполне
 ... (файл продолжается)
 ```
+

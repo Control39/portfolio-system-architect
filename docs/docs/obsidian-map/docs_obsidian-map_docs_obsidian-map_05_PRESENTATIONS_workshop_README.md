@@ -1,4 +1,4 @@
-# Docs Obsidian Map 05 Presentations Workshop Readme
+﻿# Docs Obsidian Map 05 Presentations Workshop Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_05_PRESENTATIONS_workshop_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Эта папка содержит материалы для проведения воркшопов, практических сессий, обучающих мероприятий и han
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Architecture Manifest Architecture
+﻿# Docs Architecture Manifest Architecture
 
 - **Путь**: `docs\obsidian-map\docs_architecture_manifest-architecture.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 - Покажет, как **системно
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Adr 002 Component Integration
+﻿# Adr 002 Component Integration
 
 - **Путь**: `docs\adr\ADR-002-component-integration.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 2. **Микросер
 ... (файл продолжается)
 ```
+

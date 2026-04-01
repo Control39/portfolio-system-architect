@@ -1,4 +1,4 @@
-# Diagrams Integration Detailed
+﻿# Diagrams Integration Detailed
 
 - **Путь**: `docs\obsidian-map\diagrams_integration_detailed.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ graph LR
 ```
 
 ```
+

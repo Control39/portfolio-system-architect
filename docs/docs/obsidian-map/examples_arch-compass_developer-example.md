@@ -1,4 +1,4 @@
-# Developer Example
+﻿# Developer Example
 
 - **Путь**: `examples\arch-compass\developer-example.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 4. Доба
 ... (файл продолжается)
 ```
+

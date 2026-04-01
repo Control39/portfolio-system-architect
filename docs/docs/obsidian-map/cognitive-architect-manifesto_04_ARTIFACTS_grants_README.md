@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\04_ARTIFACTS\grants\README.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 - [Манифест архитектора](../../05_MANIFEST/README.md)
 - [Демонстрации и кейсы](../../../demos/README.md)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Methodology Ai Interaction
+﻿# Docs Methodology Ai Interaction
 
 - **Путь**: `docs\obsidian-map\docs_methodology_ai-interaction.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ AI Context Setup - это инструмент для оптимизации в�
 ### Область знани
 ... (файл продолжается)
 ```
+

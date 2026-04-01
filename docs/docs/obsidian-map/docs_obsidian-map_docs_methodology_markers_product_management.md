@@ -1,4 +1,4 @@
-# Docs Methodology Markers Product Management
+﻿# Docs Methodology Markers Product Management
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_product_management.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
         "validation": "Документация или артефакт на GitHu
 ... (файл продолжается)
 ```
+

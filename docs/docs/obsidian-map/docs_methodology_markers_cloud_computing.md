@@ -1,4 +1,4 @@
-# Cloud Computing
+﻿# Cloud Computing
 
 - **Путь**: `docs\methodology\markers\cloud_computing.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable": "Завершенный проект",
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Fuzz
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Fuzz
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_fuzz.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ from hypothesis import given, strategies as st
 from src.core.model_registry i
 ... (файл продолжается)
 ```
+

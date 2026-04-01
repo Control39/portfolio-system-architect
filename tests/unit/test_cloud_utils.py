@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 
 try:
     from apps.cloud_reason.utils.logger import get_logger
@@ -22,3 +22,4 @@ def test_logger():
 def test_dependency_checker():
     result = check_dependencies()
     assert isinstance(result, dict)
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Templates Architecture
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Templates Architecture
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_templates_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Templates Archit
 ... (файл продолжается)
 ```
+

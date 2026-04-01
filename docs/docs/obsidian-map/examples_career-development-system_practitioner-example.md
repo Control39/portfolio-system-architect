@@ -1,4 +1,4 @@
-# Practitioner Example
+﻿# Practitioner Example
 
 - **Путь**: `examples\career-development-system\practitioner-example.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Персонализированный карьерный план с конкретными шагами и
 ... (файл продолжается)
 ```
+

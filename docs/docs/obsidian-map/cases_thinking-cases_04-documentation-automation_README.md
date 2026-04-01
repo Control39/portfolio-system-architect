@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cases\thinking-cases\04-documentation-automation\README.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - `generate_website.py` — г
 ... (файл продолжается)
 ```
+

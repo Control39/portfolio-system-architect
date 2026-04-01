@@ -1,4 +1,4 @@
-# Docs Methodology Psychological Readme
+﻿# Docs Methodology Psychological Readme
 
 - **Путь**: `docs\obsidian-map\docs_methodology_psychological_README.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ IT Compass — это не только про технические навык
 - 😰 **Импостер-синдромом*
 ... (файл продолжается)
 ```
+

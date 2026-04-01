@@ -1,4 +1,4 @@
-# Business Analysis
+﻿# Business Analysis
 
 - **Путь**: `docs\methodology\markers\business_analysis.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable": "Завершенный 
 ... (файл продолжается)
 ```
+

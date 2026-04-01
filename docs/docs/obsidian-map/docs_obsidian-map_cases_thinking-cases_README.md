@@ -1,4 +1,4 @@
-# Cases Thinking Cases Readme
+﻿# Cases Thinking Cases Readme
 
 - **Путь**: `docs\obsidian-map\cases_thinking-cases_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ Thinking Cases — это серия кейсов, которые показыв
 ## Структура
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Methodology Markers Mlops
+﻿# Docs Methodology Markers Mlops
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_mlops.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
      
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Career Development System Src Core Competency Tracker
+﻿# Docs Obsidian Map Components Career Development System Src Core Competency Tracker
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_career-development-system_src_core_competency_tracker.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 class CompetencyTracker:
 ... (файл продолжается)
 ```
+

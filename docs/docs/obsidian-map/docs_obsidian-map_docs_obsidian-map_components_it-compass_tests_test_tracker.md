@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Tests Test Tracker
+﻿# Docs Obsidian Map Components It Compass Tests Test Tracker
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_tests_test_tracker.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ import os
 import tempfi
 ... (файл продолжается)
 ```
+

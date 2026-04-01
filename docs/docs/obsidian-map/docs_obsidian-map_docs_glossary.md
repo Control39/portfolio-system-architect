@@ -1,4 +1,4 @@
-# Docs Glossary
+﻿# Docs Glossary
 
 - **Путь**: `docs\obsidian-map\docs_glossary.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 **См. также:** [about-me.md](../about-me.md), [ARCHITECTURE.md](.
 ... (файл продолжается)
 ```
+

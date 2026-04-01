@@ -1,4 +1,4 @@
-# Case Thinking
+﻿# Case Thinking
 
 - **Путь**: `docs\templates\case-thinking.md`
 - **Тип**: .MD
@@ -44,3 +44,4 @@
 Что было достигнуто в результате мыслительно
 ... (файл продолжается)
 ```
+

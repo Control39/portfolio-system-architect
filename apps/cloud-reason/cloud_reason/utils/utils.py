@@ -1,4 +1,4 @@
-# components/cloud-reason/config/utils.py
+﻿# components/cloud-reason/config/utils.py
 from .loader import COMPONENT_CONFIG
 
 def get_module_path(module_name):
@@ -25,3 +25,4 @@ def get_automation_script(script_name):
         if script["name"] == script_name:
             return script["command"]
     return None
+

@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\methodology\psychological\README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ IT Compass — это не только про технические навык
 ## 🎯 П
 ... (файл продолжается)
 ```
+

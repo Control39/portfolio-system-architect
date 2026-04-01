@@ -1,4 +1,4 @@
-# ML Model Registry Schemas
+﻿# ML Model Registry Schemas
 # Extracted from apps/ml-model-registry/ml-model-registry/src/core/model_registry.py
 
 $schema: "http://json-schema.org/draft-07/schema#"
@@ -62,3 +62,4 @@ definitions:
   - ModelMetadata
   - ModelSearchResult
   - ModelOperationResult
+

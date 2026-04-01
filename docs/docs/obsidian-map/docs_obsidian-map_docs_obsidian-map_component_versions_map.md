@@ -1,4 +1,4 @@
-# Docs Obsidian Map Component Versions Map
+﻿# Docs Obsidian Map Component Versions Map
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_component_versions_map.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 > **Примечание:** Этот файл содержит информацию о старой структуре. Старая структура (cognitive
 ... (файл продолжается)
 ```
+

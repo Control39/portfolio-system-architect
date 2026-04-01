@@ -1,4 +1,4 @@
-# Model Registry
+﻿# Model Registry
 
 - **Путь**: `components\ml-model-registry\src\core\model_registry.py`
 - **Тип**: .PY
@@ -26,3 +26,4 @@ class ModelRegistry:
     def li
 ... (файл продолжается)
 ```
+

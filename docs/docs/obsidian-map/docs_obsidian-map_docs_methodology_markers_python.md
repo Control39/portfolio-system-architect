@@ -1,4 +1,4 @@
-# Docs Methodology Markers Python
+﻿# Docs Methodology Markers Python
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_python.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
       
 ... (файл продолжается)
 ```
+

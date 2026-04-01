@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs History Evolution
+﻿# Docs Obsidian Map Docs History Evolution
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_history_evolution.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@
 - Создана первая версия IT-Compass как Excel-таблиц
 ... (файл продолжается)
 ```
+

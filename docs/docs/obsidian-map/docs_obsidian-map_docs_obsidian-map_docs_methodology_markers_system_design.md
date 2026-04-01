@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Markers System Design
+﻿# Docs Obsidian Map Docs Methodology Markers System Design
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_markers_system_design.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
   "levels": 
 ... (файл продолжается)
 ```
+

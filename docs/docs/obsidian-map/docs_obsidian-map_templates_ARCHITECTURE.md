@@ -1,4 +1,4 @@
-# Templates Architecture
+﻿# Templates Architecture
 
 - **Путь**: `docs\obsidian-map\templates_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -41,3 +41,4 @@
 Описание компонента, его функци
 ... (файл продолжается)
 ```
+

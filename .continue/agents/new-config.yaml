@@ -1,4 +1,4 @@
-# This is an example configuration file
+﻿# This is an example configuration file
 # To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
 
 name: Example Config
@@ -25,3 +25,4 @@ mcpServers:
     args: ["tools/mcp_server.py"]
     name: portfolio-mcp
     description: "MCP server for portfolio-system-architect project"
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Integration Examples Arch Compass Portfolio Organizer
+﻿# Docs Obsidian Map Integration Examples Arch Compass Portfolio Organizer
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_integration_examples_arch-compass-portfolio-organizer.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Пример интеграции arch-compass-framewor
 ... (файл продолжается)
 ```
+

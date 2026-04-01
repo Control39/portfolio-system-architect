@@ -1,4 +1,4 @@
-"""
+﻿"""
 Document indexer for building and managing vector search index.
 """
 

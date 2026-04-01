@@ -1,4 +1,4 @@
-# Future Evolution
+﻿# Future Evolution
 
 - **Путь**: `docs\future-evolution.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - Д
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Src Storage Model Storage
+﻿# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Src Storage Model Storage
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_ml-model-registry_src_storage_model_storage.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 20
 ... (файл продолжается)
 ```
+

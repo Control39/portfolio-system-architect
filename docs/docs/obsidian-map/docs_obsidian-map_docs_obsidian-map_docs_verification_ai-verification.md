@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Verification Ai Verification
+﻿# Docs Obsidian Map Docs Verification Ai Verification
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_verification_ai-verification.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 **© Свод из ai_verification (2).md**
 ... (файл продолжается)
 ```
+

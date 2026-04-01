@@ -1,4 +1,4 @@
-# Тесты Arch-Compass Framework
+﻿# Тесты Arch-Compass Framework
 
 ## Структура тестов
 
@@ -105,3 +105,4 @@ Install-Module -Name Pester -Force -Scope CurrentUser
 
 ### Тесты падают из-за временных файлов
 Некоторые тесты создают временные файлы. Убедитесь, что у вас есть права на запись в `$TestDrive` (автоматически создается Pester).
+

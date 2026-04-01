@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cases\presentation-cases\case-2-arch-compass-cloud-reason\README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 3. Обеспечение согласованнос
 ... (файл продолжается)
 ```
+

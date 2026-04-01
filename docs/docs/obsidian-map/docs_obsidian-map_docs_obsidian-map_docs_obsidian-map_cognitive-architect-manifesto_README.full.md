@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Cognitive Architect Manifesto Readme.Full
+﻿# Docs Obsidian Map Docs Obsidian Map Cognitive Architect Manifesto Readme.Full
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_cognitive-architect-manifesto_README.full.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 
 ... (файл продолжается)
 ```
+

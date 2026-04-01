@@ -1,4 +1,4 @@
-# System Proof Thought Architecture
+﻿# System Proof Thought Architecture
 
 - **Путь**: `integration\examples\system-proof-thought-architecture.ps1`
 - **Тип**: .PS1
@@ -24,3 +24,4 @@ function Process-DocumentWithSystemProof {
     # Создание па
 ... (файл продолжается)
 ```
+

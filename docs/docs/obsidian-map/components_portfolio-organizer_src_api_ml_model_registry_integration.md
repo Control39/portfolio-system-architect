@@ -1,4 +1,4 @@
-# Ml Model Registry Integration
+﻿# Ml Model Registry Integration
 
 - **Путь**: `components\portfolio-organizer\src\api\ml_model_registry_integration.py`
 - **Тип**: .PY
@@ -30,3 +30,4 @@ def list_models():
     """Получение списка моделей из ML Model
 ... (файл продолжается)
 ```
+

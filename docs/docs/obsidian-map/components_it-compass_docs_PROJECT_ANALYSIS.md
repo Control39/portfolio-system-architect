@@ -1,4 +1,4 @@
-# Project Analysis
+﻿# Project Analysis
 
 - **Путь**: `components\it-compass\docs\PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@ IT Compass - это система для отслеживания IT навык
 3. **Генерация портфолио**: Создание профессионального портфолио на основе достиже
 ... (файл продолжается)
 ```
+

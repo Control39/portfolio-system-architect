@@ -1,4 +1,4 @@
-# Pitch Deck: Cognitive Systems Architecture
+﻿# Pitch Deck: Cognitive Systems Architecture
 
 ---
 
@@ -16,3 +16,4 @@
 > «Я не пишу код — проектирую системы, где Я управляю ИИ»
 
 *(Full pitch deck content from tag restored for grant submission.)*
+

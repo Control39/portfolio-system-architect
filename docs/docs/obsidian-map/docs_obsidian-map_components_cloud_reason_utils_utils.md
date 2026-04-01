@@ -1,4 +1,4 @@
-# Components Cloud Reason Utils Utils
+﻿# Components Cloud Reason Utils Utils
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_utils_utils.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ def get_module_path(module_name):
     raise ValueError(f"Модуль {module_name} не на
 ... (файл продолжается)
 ```
+

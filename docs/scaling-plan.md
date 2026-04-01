@@ -1,4 +1,4 @@
-# План Масштабирования Portfolio System Architect
+﻿# План Масштабирования Portfolio System Architect
 
 ## Текущий статус
 - Docker Compose: 7 services, Grafana monitoring
@@ -23,4 +23,5 @@
 | Prod | K8s + Postgres HA | 1 month |
 
 Tags: #scaling #roadmap
+
 

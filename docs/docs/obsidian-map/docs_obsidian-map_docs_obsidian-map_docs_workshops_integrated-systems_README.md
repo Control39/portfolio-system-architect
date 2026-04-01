@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Workshops Integrated Systems Readme
+﻿# Docs Obsidian Map Docs Workshops Integrated Systems Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_workshops_integrated-systems_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Этот воркшоп посвящен проектиро
 ... (файл продолжается)
 ```
+

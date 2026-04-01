@@ -1,4 +1,4 @@
-# Search Code
+﻿# Search Code
 
 - **Путь**: `scripts\python scripts\search_code.py`
 - **Тип**: .PY
@@ -31,3 +31,4 @@ def search_code(query, index_file="code_index.json"):
 
 ... (файл продолжается)
 ```
+

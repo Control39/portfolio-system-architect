@@ -1,4 +1,4 @@
-from ..config.loader import COMPONENT_CONFIG
+﻿from ..config.loader import COMPONENT_CONFIG
 
 def generate_api_docs():
     """Генерирует документацию API на основе конфигурации."""
@@ -23,3 +23,4 @@ def generate_api_docs():
     print("✅ Документация сгенерирована: docs/API_REFERENCE.md")
 
 generate_api_docs()
+

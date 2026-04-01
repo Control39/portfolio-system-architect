@@ -1,4 +1,4 @@
-# Build Index
+﻿# Build Index
 
 - **Путь**: `scripts\python scripts\src\embedding_agent\build_index.py`
 - **Тип**: .PY
@@ -29,3 +29,4 @@ def main():
     repo_path = Path(
 ... (файл продолжается)
 ```
+

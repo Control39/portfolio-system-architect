@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: career-development
@@ -52,3 +52,4 @@ spec:
             name: career-development
             port:
               number: 8003
+

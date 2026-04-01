@@ -1,4 +1,4 @@
-# Duplicate Finder
+﻿# Duplicate Finder
 
 - **Путь**: `scripts\duplicate_finder.py`
 - **Тип**: .PY
@@ -29,3 +29,4 @@ if os.name == 'nt':
 
 ... (файл продолжается)
 ```
+

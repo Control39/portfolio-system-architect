@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Cloud Reason Newcomer Example
+﻿# Docs Obsidian Map Examples Cloud Reason Newcomer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_cloud-reason_newcomer-example.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 ##
 ... (файл продолжается)
 ```
+

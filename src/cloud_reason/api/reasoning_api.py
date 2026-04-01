@@ -1,4 +1,4 @@
-import json
+﻿import json
 import os
 import time
 import yandexcloud
@@ -175,3 +175,4 @@ def call_model_with_retry(service, request, max_retries=3, timeout=300):
                 # Все попытки исчерпаны
                 logger.log_error("model_call_error", f"Все {max_retries} попытки вызова модели не удались")
                 return None
+

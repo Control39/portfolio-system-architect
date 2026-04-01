@@ -1,4 +1,4 @@
-# API Documentation
+﻿# API Documentation
 
 ## Overview
 All endpoints are served by a **FastAPI** application (`src/api/app.py`).  
@@ -46,4 +46,5 @@ The OpenAPI schema is automatically available at `/openapi.json` and the Swagger
 ```
 
 *Все запросы требуют **Bearer Token** (встроена в `AuthMiddleware` вашего проекта).*
+
 

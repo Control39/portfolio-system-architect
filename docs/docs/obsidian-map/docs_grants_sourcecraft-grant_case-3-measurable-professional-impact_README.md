@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\grants\sourcecraft-grant\case-3-measurable-professional-impact\README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 Методология архитектора когн
 ... (файл продолжается)
 ```
+

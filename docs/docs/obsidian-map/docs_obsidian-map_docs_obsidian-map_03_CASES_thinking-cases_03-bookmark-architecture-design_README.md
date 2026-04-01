@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Readme
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_03-bookmark-architecture-design_README.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Кейс: Архитектура системы управления з
 ... (файл продолжается)
 ```
+

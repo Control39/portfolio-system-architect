@@ -1,4 +1,4 @@
-# Components Cloud Reason Docs Instructions
+﻿# Components Cloud Reason Docs Instructions
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_docs_INSTRUCTIONS.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 особенно в средах Windows с поддержкой кириллицы. Все инструменты оптимизи
 ... (файл продолжается)
 ```
+

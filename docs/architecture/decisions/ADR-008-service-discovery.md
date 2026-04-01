@@ -1,4 +1,4 @@
-# ADR-008: Внедрение Service Discovery с использованием Consul
+﻿# ADR-008: Внедрение Service Discovery с использованием Consul
 
 **Статус**: Принято
 **Дата**: 2026-03-31

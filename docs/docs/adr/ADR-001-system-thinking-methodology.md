@@ -1,4 +1,4 @@
-# ADR-001: Выбор методологии системного мышления
+﻿# ADR-001: Выбор методологии системного мышления
 
 ## Статус
 Принято
@@ -33,3 +33,4 @@
 ## Ссылки
 - Soft Systems Methodology - Peter Checkland
 - Systems Thinking - Peter Senge
+

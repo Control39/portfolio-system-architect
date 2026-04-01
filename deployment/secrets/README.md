@@ -1,4 +1,4 @@
-# Kubernetes Sealed Secrets Configuration
+﻿# Kubernetes Sealed Secrets Configuration
 # This example shows how to manage secrets securely in K8s
 
 ---
@@ -124,3 +124,4 @@ jobs:
 - Verify the controller's public key matches the one used for sealing.
 - Check namespace matches the one specified in the sealed secret.
 - Use `kubectl get sealedsecret -n portfolio` to inspect sealed secrets.
+

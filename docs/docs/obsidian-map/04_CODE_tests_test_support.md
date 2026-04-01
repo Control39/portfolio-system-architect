@@ -1,4 +1,4 @@
-# Test Support
+﻿# Test Support
 
 - **Путь**: `04_CODE\tests\test_support.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ def test_psychological_support_initialization():
     assert hasa
 ... (файл продолжается)
 ```
+

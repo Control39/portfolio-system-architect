@@ -1,4 +1,4 @@
-# Docs Presentations System Thinking Readme
+﻿# Docs Presentations System Thinking Readme
 
 - **Путь**: `docs\obsidian-map\docs_presentations_system-thinking_README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ### 1. Введение в с
 ... (файл продолжается)
 ```
+

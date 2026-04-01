@@ -1,4 +1,4 @@
-# Diagrams Interactive Component Diagram
+﻿# Diagrams Interactive Component Diagram
 
 - **Путь**: `docs\obsidian-map\diagrams_interactive_component-diagram.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ graph TD
 
 ... (файл продолжается)
 ```
+

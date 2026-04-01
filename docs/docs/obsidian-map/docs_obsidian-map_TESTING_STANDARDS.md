@@ -1,4 +1,4 @@
-# Testing Standards
+﻿# Testing Standards
 
 - **Путь**: `docs\obsidian-map\TESTING_STANDARDS.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 - **Унифицированная структура тестов**: все тесты должны следовать единой струк
 ... (файл продолжается)
 ```
+

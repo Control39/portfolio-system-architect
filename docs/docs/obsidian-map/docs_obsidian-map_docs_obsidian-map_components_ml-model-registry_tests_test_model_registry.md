@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Model Registry
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Model Registry
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_model_registry.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ import unittest
 from src.core.model_registry import M
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Тестовый скрипт для проверки интеграции Yandex GPT с проектом portfolio-system-architect.
 
@@ -277,3 +277,4 @@ if __name__ == "__main__":
     # Запускаем тестирование
     exit_code = asyncio.run(main())
     sys.exit(exit_code)
+

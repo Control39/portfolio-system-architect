@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cognitive Architect Manifesto Architecture
+﻿# Docs Obsidian Map Cognitive Architect Manifesto Architecture
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cognitive-architect-manifesto_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 > **Документальный фильм о рождении новой професс
 ... (файл продолжается)
 ```
+

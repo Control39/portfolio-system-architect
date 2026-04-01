@@ -1,4 +1,4 @@
-"""
+﻿"""
 Document embedder using sentence-transformers for RAG search.
 """
 

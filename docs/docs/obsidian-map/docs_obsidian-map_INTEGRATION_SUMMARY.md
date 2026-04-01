@@ -1,4 +1,4 @@
-# Integration Summary
+﻿# Integration Summary
 
 - **Путь**: `docs\obsidian-map\INTEGRATION_SUMMARY.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 - ✅ **Маркеры компетенций (18 JSON-файлов)** — интегрированы в `cognitive-architect-manifesto/02_METHODOLO
 ... (файл продолжается)
 ```
+

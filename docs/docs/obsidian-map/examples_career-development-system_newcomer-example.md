@@ -1,4 +1,4 @@
-# Newcomer Example
+﻿# Newcomer Example
 
 - **Путь**: `examples\career-development-system\newcomer-example.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 
 
 ```
+

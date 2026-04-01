@@ -1,4 +1,4 @@
-# Docs Methodology Markers Business Analysis
+﻿# Docs Methodology Markers Business Analysis
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_business_analysis.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
   
 ... (файл продолжается)
 ```
+

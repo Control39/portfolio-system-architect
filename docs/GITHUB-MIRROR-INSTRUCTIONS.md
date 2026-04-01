@@ -1,4 +1,4 @@
-# GitHub Mirror Instructions
+﻿# GitHub Mirror Instructions
 
 ## Репозитории:
 - **SourceCraft** (основной): https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect - грант, разработка, CI/CD, PRs
@@ -36,3 +36,4 @@ DRY_RUN=true ./scripts/cleanup-old-branches.sh
 # Принудительная очистка
 ./scripts/cleanup-old-branches.sh
 ```
+
