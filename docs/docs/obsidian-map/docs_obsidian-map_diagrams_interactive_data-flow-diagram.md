@@ -1,4 +1,4 @@
-# Diagrams Interactive Data Flow Diagram
+﻿# Diagrams Interactive Data Flow Diagram
 
 - **Путь**: `docs\obsidian-map\diagrams_interactive_data-flow-diagram.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ graph LR
     J --> K[(БД визуализаций
 ... (файл продолжается)
 ```
+

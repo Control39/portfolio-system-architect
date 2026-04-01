@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `cognitive-architect-manifesto\architecture\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -17,3 +17,4 @@ IT Compass - это система объективного отслеживан
 4. **Система самоанализа** - для мета-осо
 ... (файл продолжается)
 ```
+

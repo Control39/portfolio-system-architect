@@ -1,4 +1,4 @@
-# Docs Narrative Structure
+﻿# Docs Narrative Structure
 
 - **Путь**: `docs\obsidian-map\docs_narrative-structure.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Весь репозиторий задуман как **документальный фильм о рождении новой профессии: Архитектор когнитивных систем**. Каждая п
 ... (файл продолжается)
 ```
+

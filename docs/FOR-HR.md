@@ -1,4 +1,4 @@
-# For HR & Recruiters: Evaluating a Cognitive Architect
+﻿# For HR & Recruiters: Evaluating a Cognitive Architect
 
 ## 👤 Candidate Profile: Ekaterina Kudelia
 

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Src Core   Init  
+﻿# Docs Obsidian Map Components Ml Model Registry Src Core   Init  
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_src_core___init__.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 ```
 
 ```
+

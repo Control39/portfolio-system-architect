@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map 05 Presentations Pitch Presentation
+﻿# Docs Obsidian Map Docs Obsidian Map 05 Presentations Pitch Presentation
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_05_PRESENTATIONS_pitch_presentation.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `05_PRESEN
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Methodology Systems Thinking
+﻿# Docs Methodology Systems Thinking
 
 - **Путь**: `docs\obsidian-map\docs_methodology_systems-thinking.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ### 1
 ... (файл продолжается)
 ```
+

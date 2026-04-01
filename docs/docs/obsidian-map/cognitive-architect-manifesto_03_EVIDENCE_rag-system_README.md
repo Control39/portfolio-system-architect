@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\03_EVIDENCE\rag-system\README.md`
 - **Тип**: .MD
@@ -12,3 +12,4 @@
 
 Этот раздел описывает систему индексации тысяч файлов с использованием RAG.
 ```
+

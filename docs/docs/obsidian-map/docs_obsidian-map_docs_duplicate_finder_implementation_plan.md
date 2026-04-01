@@ -1,4 +1,4 @@
-# Docs Duplicate Finder Implementation Plan
+﻿# Docs Duplicate Finder Implementation Plan
 
 - **Путь**: `docs\obsidian-map\docs_duplicate_finder_implementation_plan.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 def scan_director
 ... (файл продолжается)
 ```
+

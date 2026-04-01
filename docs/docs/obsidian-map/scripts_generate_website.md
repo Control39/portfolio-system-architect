@@ -1,4 +1,4 @@
-# Generate Website
+﻿# Generate Website
 
 - **Путь**: `scripts\generate_website.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ IGNORED_DIRS = {".git", "__pycache__", "node_modules", "venv", "env",
                 ".vscode", ".idea", "docs/webs
 ... (файл продолжается)
 ```
+

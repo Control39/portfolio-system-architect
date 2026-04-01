@@ -1,4 +1,4 @@
-# Docs Portfolio My Portfolio
+﻿# Docs Portfolio My Portfolio
 
 - **Путь**: `docs\obsidian-map\docs_portfolio_my_portfolio.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 > 🔍 Валидация: Dockerfile в репозитории +
 ... (файл продолжается)
 ```
+

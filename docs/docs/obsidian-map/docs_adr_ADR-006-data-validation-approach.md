@@ -1,4 +1,4 @@
-# Adr 006 Data Validation Approach
+﻿# Adr 006 Data Validation Approach
 
 - **Путь**: `docs\adr\ADR-006-data-validation-approach.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 4. **Встроенная валидация** - ручная
 ... (файл продолжается)
 ```
+

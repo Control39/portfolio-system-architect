@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Examples Usage Example
+﻿# Docs Obsidian Map Components It Compass Examples Usage Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_examples_usage_example.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Пример использования IT
 ... (файл продолжается)
 ```
+

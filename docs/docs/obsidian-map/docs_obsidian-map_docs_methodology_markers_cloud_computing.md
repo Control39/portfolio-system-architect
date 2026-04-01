@@ -1,4 +1,4 @@
-# Docs Methodology Markers Cloud Computing
+﻿# Docs Methodology Markers Cloud Computing
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_cloud_computing.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "prior
 ... (файл продолжается)
 ```
+

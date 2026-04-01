@@ -1,4 +1,4 @@
-# Components It Compass Scripts Reasoning Integration
+﻿# Components It Compass Scripts Reasoning Integration
 
 - **Путь**: `docs\obsidian-map\components_it-compass_scripts_reasoning_integration.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 2. Генерацию сложных рекомендаций на основе анализа рассуждений
 ... (файл продолжается)
 ```
+

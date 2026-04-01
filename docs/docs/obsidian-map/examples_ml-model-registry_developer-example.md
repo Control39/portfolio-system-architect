@@ -1,4 +1,4 @@
-# Developer Example
+﻿# Developer Example
 
 - **Путь**: `examples\ml-model-registry\developer-example.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 3. Обновить документацию в `components/ml-model-re
 ... (файл продолжается)
 ```
+

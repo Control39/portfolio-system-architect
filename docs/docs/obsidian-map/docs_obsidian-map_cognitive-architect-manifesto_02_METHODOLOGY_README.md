@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto 02 Methodology Readme
+﻿# Cognitive Architect Manifesto 02 Methodology Readme
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_02_METHODOLOGY_README.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 Этот документ объединяет ключевые компоненты моей методологии — инструменты, которые превращают хаос знаний в структурированную систему экспертизы. Каждый компонент р
 ... (файл продолжается)
 ```
+

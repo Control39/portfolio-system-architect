@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Model Registry
+﻿# Components Ml Model Registry Tests Test Model Registry
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_model_registry.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistry(unittest.TestCase):
  
 ... (файл продолжается)
 ```
+

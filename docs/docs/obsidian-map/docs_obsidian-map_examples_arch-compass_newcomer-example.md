@@ -1,4 +1,4 @@
-# Examples Arch Compass Newcomer Example
+﻿# Examples Arch Compass Newcomer Example
 
 - **Путь**: `docs\obsidian-map\examples_arch-compass_newcomer-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
    python src/cli.py tutorial web-ap
 ... (файл продолжается)
 ```
+

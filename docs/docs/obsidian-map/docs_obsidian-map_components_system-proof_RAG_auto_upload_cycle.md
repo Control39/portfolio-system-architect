@@ -1,4 +1,4 @@
-# Components System Proof Rag Auto Upload Cycle
+﻿# Components System Proof Rag Auto Upload Cycle
 
 - **Путь**: `docs\obsidian-map\components_system-proof_RAG_auto_upload_cycle.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ function Write-Log {
     $Timestamp = Get-D
 ... (файл продолжается)
 ```
+

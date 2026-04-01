@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Portfolio Organizer Src App
+﻿# Docs Obsidian Map Components Portfolio Organizer Src App
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_portfolio-organizer_src_app.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@ from flask import Flask
 from api.reasoni
 ... (файл продолжается)
 ```
+

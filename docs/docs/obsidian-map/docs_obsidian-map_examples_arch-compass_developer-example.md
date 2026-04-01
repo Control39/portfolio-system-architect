@@ -1,4 +1,4 @@
-# Examples Arch Compass Developer Example
+﻿# Examples Arch Compass Developer Example
 
 - **Путь**: `docs\obsidian-map\examples_arch-compass_developer-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
        def generate_manifests(
 ... (файл продолжается)
 ```
+

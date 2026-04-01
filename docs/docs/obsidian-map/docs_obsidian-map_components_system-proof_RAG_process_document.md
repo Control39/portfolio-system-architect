@@ -1,4 +1,4 @@
-# Components System Proof Rag Process Document
+﻿# Components System Proof Rag Process Document
 
 - **Путь**: `docs\obsidian-map\components_system-proof_RAG_process_document.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ function Write-Log {
     Write-H
 ... (файл продолжается)
 ```
+

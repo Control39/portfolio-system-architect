@@ -1,4 +1,4 @@
-# Presentation
+﻿# Presentation
 
 - **Путь**: `05_PRESENTATIONS\pitch\presentation.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ graph LR
     A[Системное мышление] --> D[Ар
 ... (файл продолжается)
 ```
+

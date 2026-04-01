@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `components\career-development-system\docs\README.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 3. **Мобильное приложение**
 ... (файл продолжается)
 ```
+

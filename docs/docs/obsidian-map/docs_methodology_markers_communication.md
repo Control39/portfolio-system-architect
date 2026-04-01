@@ -1,4 +1,4 @@
-# Communication
+﻿# Communication
 
 - **Путь**: `docs\methodology\markers\communication.json`
 - **Тип**: .JSON
@@ -25,3 +25,4 @@
        
 ... (файл продолжается)
 ```
+

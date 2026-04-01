@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Conclusion
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Conclusion
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_09-brusnika-analysis_conclusion.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Кейс «Брусники» — не история о неудаче, а демонс
 ... (файл продолжается)
 ```
+

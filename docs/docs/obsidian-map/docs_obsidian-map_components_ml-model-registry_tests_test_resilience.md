@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Resilience
+﻿# Components Ml Model Registry Tests Test Resilience
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_resilience.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class TestModelRegistryResilience(unittest.TestCase):
     def test_register_m
 ... (файл продолжается)
 ```
+

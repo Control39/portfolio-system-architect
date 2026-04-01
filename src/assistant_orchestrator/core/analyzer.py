@@ -1,4 +1,4 @@
-"""
+﻿"""
 Core analyzer class for Assistant Orchestrator.
 """
 import logging
@@ -73,3 +73,4 @@ class AssistantOrchestrator:
     def _get_timestamp(self) -> str:
         """Get current timestamp in ISO format."""
         return datetime.now().isoformat()
+

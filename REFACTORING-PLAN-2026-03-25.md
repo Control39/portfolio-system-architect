@@ -1,4 +1,4 @@
-# План Рефакторинга: Health-Check & Async Code
+﻿# План Рефакторинга: Health-Check & Async Code
 **Дата**: 25 марта 2026  
 **Автор**: GitHub Copilot  
 **Статус**: В процессе
@@ -323,4 +323,5 @@ git diff main..HEAD
 - [FastAPI Health Checks](https://fastapi.tiangolo.com)
 - [Python asyncio Best Practices](https://docs.python.org/3/library/asyncio.html)
 - [Kubernetes Probes Configuration](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+
 

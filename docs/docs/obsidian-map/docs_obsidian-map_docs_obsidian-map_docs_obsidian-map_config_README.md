@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Config Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Config Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_config_README.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@
 
 ... (файл продолжается)
 ```
+

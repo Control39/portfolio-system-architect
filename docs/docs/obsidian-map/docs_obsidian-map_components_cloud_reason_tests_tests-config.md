@@ -1,4 +1,4 @@
-# Components Cloud Reason Tests Tests Config
+﻿# Components Cloud Reason Tests Tests Config
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_tests_tests-config.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ test_suites:
     files: ["test
 ... (файл продолжается)
 ```
+

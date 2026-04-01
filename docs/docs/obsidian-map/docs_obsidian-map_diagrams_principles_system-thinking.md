@@ -1,4 +1,4 @@
-# Diagrams Principles System Thinking
+﻿# Diagrams Principles System Thinking
 
 - **Путь**: `docs\obsidian-map\diagrams_principles_system-thinking.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ graph TB
     E --> J[Подкомпон
 ... (файл продолжается)
 ```
+

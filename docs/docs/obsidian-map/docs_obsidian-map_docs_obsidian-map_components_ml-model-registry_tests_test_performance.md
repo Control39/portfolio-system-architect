@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Tests Test Performance
+﻿# Docs Obsidian Map Components Ml Model Registry Tests Test Performance
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_tests_test_performance.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ import time
 from src.core.model_registry import M
 ... (файл продолжается)
 ```
+

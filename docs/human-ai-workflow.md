@@ -1,4 +1,4 @@
-# Human-AI Workflow: My Leadership Process
+﻿# Human-AI Workflow: My Leadership Process
 *Visual proof of Lead Architect role. Not 'AI copies prompts' — orchestrated symphony. Addresses skeptic #3: 'Human is the author'.*
 
 ## Workflow Diagram
@@ -34,4 +34,5 @@ graph TD
 *This process: From chaos → ecosystem. Replicable via noobs-guide.md. My 3-year evolution proves it works for noobs.*
 
 *Updated: 2026-XX.*
+
 

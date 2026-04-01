@@ -1,4 +1,4 @@
-# App
+﻿# App
 
 - **Путь**: `components\career-development-system\src\api\app.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullab
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Integration
+﻿# Components Ml Model Registry Tests Test Integration
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_integration.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class TestModelRegistryIntegration(unittest.TestCase):
         self.storage = ModelSto
 ... (файл продолжается)
 ```
+

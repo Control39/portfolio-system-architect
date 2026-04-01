@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Check Yaml
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Check Yaml
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_check_yaml.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 20
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 AI-powered documentation translation using DeepSeek.
 Translates Russian .md files from docs/ to en/ subdirectory.
@@ -90,4 +90,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

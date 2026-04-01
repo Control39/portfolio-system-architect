@@ -1,4 +1,4 @@
-# Docs Obsidian Map About Me
+﻿# Docs Obsidian Map About Me
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_about-me.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 Я — **архитектор когнитивных систем**. Моя профе
 ... (файл продолжается)
 ```
+

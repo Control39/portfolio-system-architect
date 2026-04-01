@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Utils Dependency Checker
+﻿# Docs Obsidian Map Components Cloud Reason Utils Dependency Checker
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_utils_dependency_checker.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 import pkg_resourc
 ... (файл продолжается)
 ```
+

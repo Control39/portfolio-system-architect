@@ -1,4 +1,4 @@
-"""
+﻿"""
 Shared Pydantic models - generated from src/shared/schemas/career.yaml
 """
 from ../shared.pydantic.career import (
@@ -9,4 +9,5 @@ from ../shared.pydantic.career import (
 
 # Local extensions/aliases if needed
 __all__ = ["CompetencyMarker", "Skill", "UserProfile"]
+
 

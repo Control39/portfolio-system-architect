@@ -1,4 +1,4 @@
-# Ingress with API Gateway & Auth
+﻿# Ingress with API Gateway & Auth
 # Routes traffic through auth-service for JWT validation
 # Works on: GKE v1.27+, Kind, Minikube
 
@@ -76,3 +76,4 @@ spec:
             name: system-proof
             port:
               number: 8003
+

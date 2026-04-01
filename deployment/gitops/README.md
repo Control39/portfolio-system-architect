@@ -1,4 +1,4 @@
-# GitOps Automation for Portfolio System Architect
+﻿# GitOps Automation for Portfolio System Architect
 
 This directory contains GitOps configuration for automated deployment using Argo CD or Flux.
 

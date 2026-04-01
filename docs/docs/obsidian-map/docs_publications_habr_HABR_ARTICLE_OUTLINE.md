@@ -1,4 +1,4 @@
-# Habr Article Outline
+﻿# Habr Article Outline
 
 - **Путь**: `docs\publications\habr\HABR_ARTICLE_OUTLINE.md`
 - **Тип**: .MD
@@ -18,3 +18,4 @@
 ## Заключение
 ## Приложения
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Grants Sourcecraft Grant Readme
+﻿# Docs Obsidian Map Docs Grants Sourcecraft Grant Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_grants_sourcecraft-grant_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Эта коллекция кейсов специально подготовлена для демонстрации це
 ... (файл продолжается)
 ```
+

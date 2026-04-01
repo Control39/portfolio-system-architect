@@ -1,4 +1,4 @@
-"""
+﻿"""
 Data classes for analysis results.
 """
 from dataclasses import dataclass, field
@@ -58,3 +58,4 @@ class AnalysisResult:
             "git_stats": self.git_stats,
             "dependencies": self.dependencies,
         }
+

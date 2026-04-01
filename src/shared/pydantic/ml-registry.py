@@ -1,4 +1,4 @@
-"""
+﻿"""
 ml-registry - Generated Pydantic Models
 Source: src\shared\schemas\ml-registry.yaml
 """
@@ -26,4 +26,5 @@ class ModelOperationResult(BaseModel):
     status: str = Field(None)
     model_id: str = Field(None)
     message: str = Field(None)
+
 

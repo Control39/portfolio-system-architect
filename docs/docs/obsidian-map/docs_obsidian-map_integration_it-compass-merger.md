@@ -1,4 +1,4 @@
-# Integration It Compass Merger
+﻿# Integration It Compass Merger
 
 - **Путь**: `docs\obsidian-map\integration_it-compass-merger.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ###
 ... (файл продолжается)
 ```
+

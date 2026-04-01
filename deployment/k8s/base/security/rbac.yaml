@@ -1,4 +1,4 @@
-# Kubernetes RBAC & Security Configuration
+﻿# Kubernetes RBAC & Security Configuration
 # Least-privilege access for all microservices
 
 ---
@@ -176,3 +176,4 @@ roleRef:
 subjects:
 - kind: Namespace
   name: portfolio
+

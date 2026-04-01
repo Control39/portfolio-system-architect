@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Risk Flow Diagram
+﻿# Docs Obsidian Map Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Risk Flow Diagram
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_03_CASES_thinking-cases_09-brusnika-analysis_risk-flow-diagram.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - **Размер**: 1,13
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Integration Case Studies
+﻿# Docs Integration Case Studies
 
 - **Путь**: `docs\obsidian-map\docs_integration_case-studies.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 Необходимо интегрировать систему отслежив
 ... (файл продолжается)
 ```
+

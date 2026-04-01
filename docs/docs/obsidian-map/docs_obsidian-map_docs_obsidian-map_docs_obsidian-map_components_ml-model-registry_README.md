@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Components Ml Model Registry Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_ml-model-registry_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `components\ml-model
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto Architecture.Full
+﻿# Cognitive Architect Manifesto Architecture.Full
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_ARCHITECTURE.full.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 - Покажет, как **сист
 ... (файл продолжается)
 ```
+

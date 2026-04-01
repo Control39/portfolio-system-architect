@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Arch Compass Framework Src Infrastructure Monitoring Metrics
+﻿# Docs Obsidian Map Docs Obsidian Map Components Arch Compass Framework Src Infrastructure Monitoring Metrics
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_arch-compass-framework_src_infrastructure_monitoring_metrics.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - **Путь**: `docs\obsidian-map\components_arch-compass-framework_src_infrastructure_monitoring_metrics.md`
 ... (файл продолжается)
 ```
+

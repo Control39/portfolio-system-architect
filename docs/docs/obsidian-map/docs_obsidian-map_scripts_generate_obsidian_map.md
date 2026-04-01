@@ -1,4 +1,4 @@
-# Scripts Generate Obsidian Map
+﻿# Scripts Generate Obsidian Map
 
 - **Путь**: `docs\obsidian-map\scripts_generate_obsidian_map.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ OUTPUT_DIR: Path = REPO_ROOT / "docs" / "obsidian-map"
 README_PATH: Path = REPO_R
 ... (файл продолжается)
 ```
+

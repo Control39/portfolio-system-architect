@@ -1,4 +1,4 @@
-# Integration Diagram
+﻿# Integration Diagram
 
 - **Путь**: `diagrams\interactive\integration-diagram.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ graph TD
    
 ... (файл продолжается)
 ```
+

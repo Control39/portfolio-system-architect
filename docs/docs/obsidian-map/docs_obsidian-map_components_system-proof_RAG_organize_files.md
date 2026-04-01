@@ -1,4 +1,4 @@
-# Components System Proof Rag Organize Files
+﻿# Components System Proof Rag Organize Files
 
 - **Путь**: `docs\obsidian-map\components_system-proof_RAG_organize_files.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ function Write-Log {
     $Timestamp = Get-Da
 ... (файл продолжается)
 ```
+

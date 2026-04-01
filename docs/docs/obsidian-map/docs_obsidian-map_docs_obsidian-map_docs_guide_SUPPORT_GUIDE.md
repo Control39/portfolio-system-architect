@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Guide Support Guide
+﻿# Docs Obsidian Map Docs Guide Support Guide
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_guide_SUPPORT_GUIDE.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Этот раздел создан для того, чтобы помочь пользователям IT Compass справ
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components It Compass Src Ui App
+﻿# Docs Obsidian Map Docs Obsidian Map Components It Compass Src Ui App
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_it-compass_src_ui_app.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `components\it-compass\src\ui\app.p
 ... (файл продолжается)
 ```
+

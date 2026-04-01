@@ -1,4 +1,4 @@
-# Kustomization for PostgreSQL
+﻿# Kustomization for PostgreSQL
 # Works on: GKE v1.27+, Kind, Minikube
 
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -15,3 +15,4 @@ resources:
 commonLabels:
   app: postgres
   component: database
+

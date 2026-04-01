@@ -1,4 +1,4 @@
-# Components Cloud Reason Api Endpoints
+﻿# Components Cloud Reason Api Endpoints
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_api_endpoints.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ app = FastAPI(
     version=COMPONENT_CONFIG["compon
 ... (файл продолжается)
 ```
+

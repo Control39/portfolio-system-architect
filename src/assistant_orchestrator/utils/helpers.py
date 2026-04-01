@@ -1,4 +1,4 @@
-"""
+﻿"""
 Helper functions for Assistant Orchestrator.
 """
 import logging
@@ -116,3 +116,4 @@ def calculate_maturity_score(analysis: Dict[str, Any]) -> int:
         score += 1
     
     return min(score, 5)
+

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Единый модуль для health-check эндпоинтов.
 
 Предоставляет стандартизированные health-check функции для всех сервисов.
@@ -199,3 +199,4 @@ def init_health_checks(
     logger.info(f"Health checks initialized for service '{service_name}'")
     
     return service
+

@@ -1,4 +1,4 @@
-name: Deploy Documentation to GitHub Pages
+﻿name: Deploy Documentation to GitHub Pages
 
 on:
   push:
@@ -66,4 +66,5 @@ jobs:
           echo "Site built successfully for feature branch"
           echo "To deploy to GitHub Pages, merge to main branch"
           echo "To deploy to SourceCraft Sites, check .sourcecraft/ci.yaml configuration"
+
 

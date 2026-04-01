@@ -1,4 +1,4 @@
-# Professional Profile: Екатерина Куделя
+﻿# Professional Profile: Екатерина Куделя
 
 **Position**: Senior System Architect / Tech Lead AI
 
@@ -16,3 +16,4 @@
 **LinkedIn**: *будет добавлен позже*  
 **Email**: leadarchitect@yandex.ru  
 **Portfolio Live**: https://leadarchitect-ai.github.io/portfolio-system-architect/
+

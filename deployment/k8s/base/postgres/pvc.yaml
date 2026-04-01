@@ -1,4 +1,4 @@
-# PostgreSQL PersistentVolumeClaim
+﻿# PostgreSQL PersistentVolumeClaim
 # Works on: GKE v1.27+, Kind, Minikube
 # On GCP GKE: uses standard storage class
 
@@ -16,3 +16,4 @@ spec:
   resources:
     requests:
       storage: 5Gi  # Sufficient for GCP Free Tier
+

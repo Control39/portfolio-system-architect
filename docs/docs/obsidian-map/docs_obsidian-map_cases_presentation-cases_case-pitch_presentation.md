@@ -1,4 +1,4 @@
-# Cases Presentation Cases Case Pitch Presentation
+﻿# Cases Presentation Cases Case Pitch Presentation
 
 - **Путь**: `docs\obsidian-map\cases_presentation-cases_case-pitch_presentation.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 
 ... (файл продолжается)
 ```
+

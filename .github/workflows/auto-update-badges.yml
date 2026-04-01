@@ -1,4 +1,4 @@
-name: Auto Update Badges
+﻿name: Auto Update Badges
 
 on:
   schedule:

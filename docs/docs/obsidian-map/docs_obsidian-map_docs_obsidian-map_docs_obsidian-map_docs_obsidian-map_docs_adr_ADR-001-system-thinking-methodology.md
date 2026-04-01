@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Adr Adr 001 System Thinking Methodology
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Adr Adr 001 System Thinking Methodology
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_adr_ADR-001-system-thinking-methodology.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - **Размер**: 1,13
 ... (файл продолжается)
 ```
+

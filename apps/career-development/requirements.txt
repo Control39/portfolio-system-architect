@@ -1,6 +1,7 @@
-fastapi
+﻿fastapi
 uvicorn[standard]
 pydantic>=2.0
 pytest
 pytest-httpx
+
 

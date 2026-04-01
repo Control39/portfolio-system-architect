@@ -1,4 +1,4 @@
-# Adr 003 Ml Model Versioning System
+﻿# Adr 003 Ml Model Versioning System
 
 - **Путь**: `docs\adr\ADR-003-ml-model-versioning-system.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - Интеграцию с CI/
 ... (файл продолжается)
 ```
+

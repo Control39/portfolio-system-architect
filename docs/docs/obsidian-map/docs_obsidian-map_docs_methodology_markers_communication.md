@@ -1,4 +1,4 @@
-# Docs Methodology Markers Communication
+﻿# Docs Methodology Markers Communication
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_communication.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "priority": "high"
 ... (файл продолжается)
 ```
+

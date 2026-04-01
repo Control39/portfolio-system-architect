@@ -1,4 +1,4 @@
-# Docs Testing Plan
+﻿# Docs Testing Plan
 
 - **Путь**: `docs\obsidian-map\docs_testing_plan.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 3. Реализов
 ... (файл продолжается)
 ```
+

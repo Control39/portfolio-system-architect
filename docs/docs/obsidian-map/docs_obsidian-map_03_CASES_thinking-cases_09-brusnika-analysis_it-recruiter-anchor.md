@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis It Recruiter Anchor
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis It Recruiter Anchor
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_it-recruiter-anchor.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 Анализ проведён с использованием маркеров с
 ... (файл продолжается)
 ```
+

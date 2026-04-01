@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 04 Documentation Automation Solution
+﻿# 03 Cases Thinking Cases 04 Documentation Automation Solution
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_04-documentation-automation_solution.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ graph TD
       
 ... (файл продолжается)
 ```
+

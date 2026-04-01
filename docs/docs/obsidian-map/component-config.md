@@ -1,4 +1,4 @@
-# Component Config
+﻿# Component Config
 
 - **Путь**: `component-config.yaml`
 - **Тип**: .YAML
@@ -31,3 +31,4 @@ modules:
     description: "Основной движок рассуждени
 ... (файл продолжается)
 ```
+

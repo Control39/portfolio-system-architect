@@ -1,4 +1,4 @@
-# Diagrams Components Overview
+﻿# Diagrams Components Overview
 
 - **Путь**: `docs\obsidian-map\diagrams_components_overview.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ graph TD
 ```
 
 ```
+

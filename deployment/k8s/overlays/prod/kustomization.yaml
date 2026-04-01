@@ -1,4 +1,4 @@
-# Production Environment Overlay
+﻿# Production Environment Overlay
 # Full GKE deployment
 # Works on: GKE v1.27+
 
@@ -32,3 +32,4 @@ replicas:
 # - Pod Disruption Budgets
 # - Vertical Pod Autoscaler
 # - Monitoring ServiceMonitors
+

@@ -1,4 +1,4 @@
-# Components It Compass Examples Usage Example
+﻿# Components It Compass Examples Usage Example
 
 - **Путь**: `docs\obsidian-map\components_it-compass_examples_usage_example.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 5. Инте
 ... (файл продолжается)
 ```
+

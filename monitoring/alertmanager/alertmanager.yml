@@ -1,4 +1,4 @@
-# Prometheus AlertManager Configuration
+﻿# Prometheus AlertManager Configuration
 # Sends alerts to Telegram, PagerDuty, or email
 
 global:
@@ -55,3 +55,4 @@ inhibit_rules:
     target_match:
       severity: 'warning'
     equal: ['alertname', 'cluster', 'service']
+

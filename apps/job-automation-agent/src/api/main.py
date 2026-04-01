@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+﻿from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Any
 import os
@@ -67,4 +67,5 @@ if __name__ == \"__main__\":
     import uvicorn
     port = int(os.getenv(\"PORT\", 8001))
     uvicorn.run(\"main:app\", host=\"0.0.0.0\", port=port, reload=True)
+
 

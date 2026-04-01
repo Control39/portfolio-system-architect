@@ -1,4 +1,4 @@
-# Kubernetes CronJob for Automated PostgreSQL Backups
+﻿# Kubernetes CronJob for Automated PostgreSQL Backups
 # Runs daily at 3:00 AM UTC
 
 apiVersion: batch/v1
@@ -115,3 +115,4 @@ subjects:
 - kind: ServiceAccount
   name: backup-sa
   namespace: portfolio
+

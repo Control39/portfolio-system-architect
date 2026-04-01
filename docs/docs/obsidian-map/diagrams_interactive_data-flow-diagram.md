@@ -1,4 +1,4 @@
-# Data Flow Diagram
+﻿# Data Flow Diagram
 
 - **Путь**: `diagrams\interactive\data-flow-diagram.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ graph LR
         C -->
 ... (файл продолжается)
 ```
+

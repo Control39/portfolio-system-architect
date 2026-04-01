@@ -1,4 +1,4 @@
-# Testing Standards
+﻿# Testing Standards
 
 - **Путь**: `TESTING_STANDARDS.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@ components/
 
 ... (файл продолжается)
 ```
+

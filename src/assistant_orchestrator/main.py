@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Assistant Orchestrator — система анализа зрелости архитектуры
 """
@@ -152,3 +152,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

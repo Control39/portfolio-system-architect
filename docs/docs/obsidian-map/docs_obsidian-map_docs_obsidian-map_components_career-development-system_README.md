@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Career Development System Readme
+﻿# Docs Obsidian Map Components Career Development System Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_career-development-system_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Система управления карьерным развитием на 
 ... (файл продолжается)
 ```
+

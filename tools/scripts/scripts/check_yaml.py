@@ -1,4 +1,4 @@
-# check_yaml.py
+﻿# check_yaml.py
 import yaml
 import sys
 
@@ -14,3 +14,4 @@ except FileNotFoundError:
 except yaml.YAMLError as e:
     print(f"❌ Ошибка парсинга YAML: {e}")
     sys.exit(1)
+

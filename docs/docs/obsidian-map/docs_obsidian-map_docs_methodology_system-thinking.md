@@ -1,4 +1,4 @@
-# Docs Methodology System Thinking
+﻿# Docs Methodology System Thinking
 
 - **Путь**: `docs\obsidian-map\docs_methodology_system-thinking.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 - Учет влияния изменений в одной части с
 ... (файл продолжается)
 ```
+

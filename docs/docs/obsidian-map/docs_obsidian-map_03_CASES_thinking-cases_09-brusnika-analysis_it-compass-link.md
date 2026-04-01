@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis It Compass Link
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis It Compass Link
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_it-compass-link.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 Анализ проведён с использованием маркеров системного мышления из методологии IT-Compass: [https://github.com/leadarchitect-ai/portfolio-system-architect/tree/main/components/it-compass](https://github.com/leadarchitect-ai/portfolio-system-architect/tree/main/compone
 ... (файл продолжается)
 ```
+

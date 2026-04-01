@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Performance
+﻿# Components Ml Model Registry Tests Test Performance
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_performance.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistryPerformance(unittest.TestCase):
         """Проверка производительности при регистр
 ... (файл продолжается)
 ```
+

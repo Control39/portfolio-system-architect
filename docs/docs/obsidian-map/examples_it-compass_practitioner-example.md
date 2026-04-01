@@ -1,4 +1,4 @@
-# Practitioner Example
+﻿# Practitioner Example
 
 - **Путь**: `examples\it-compass\practitioner-example.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 Объективная оцен
 ... (файл продолжается)
 ```
+

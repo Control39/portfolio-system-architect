@@ -1,4 +1,4 @@
-# Docs Obsidian Map Diagrams Principles System Thinking
+﻿# Docs Obsidian Map Diagrams Principles System Thinking
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_diagrams_principles_system-thinking.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ graph TB
     B
 ... (файл продолжается)
 ```
+

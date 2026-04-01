@@ -1,4 +1,4 @@
-# Components It Compass Docs Project Analysis
+﻿# Components It Compass Docs Project Analysis
 
 - **Путь**: `docs\obsidian-map\components_it-compass_docs_PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ IT Compass - это система для отслеживания IT навык
 1. **Отслеживание компетенций**: Помощь в структури
 ... (файл продолжается)
 ```
+

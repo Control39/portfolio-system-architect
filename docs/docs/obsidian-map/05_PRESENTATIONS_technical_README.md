@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `05_PRESENTATIONS\technical\README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - Система reasoning в Cl
 ... (файл продолжается)
 ```
+

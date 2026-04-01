@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Prototype Implementation
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Prototype Implementation
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_03-bookmark-architecture-design_prototype-implementation.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 2026
 ... (файл продолжается)
 ```
+

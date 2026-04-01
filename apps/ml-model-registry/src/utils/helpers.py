@@ -1,4 +1,4 @@
-def validate_model_metadata(metadata):
+﻿def validate_model_metadata(metadata):
     """Проверка метаданных модели"""
     required_fields = ['name', 'version', 'framework']
     for field in required_fields:

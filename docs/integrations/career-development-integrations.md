@@ -1,4 +1,4 @@
-# Career Development Integrations
+﻿# Career Development Integrations
 
 ## API Endpoints for Integration
 - GET /profile - Get user profile
@@ -25,4 +25,5 @@ JSON profiles, Pydantic models: UserProfile, Skill, CompetencyMarker (see src/co
 
 ## Integration Examples
 Cloud-Reason RAG context injection via gigachain_bridge.py.
+
 

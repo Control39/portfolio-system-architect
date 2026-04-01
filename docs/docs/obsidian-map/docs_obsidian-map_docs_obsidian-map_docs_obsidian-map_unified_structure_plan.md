@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Unified Structure Plan
+﻿# Docs Obsidian Map Docs Obsidian Map Unified Structure Plan
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_unified_structure_plan.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 - **Размер**:
 ... (файл продолжается)
 ```
+

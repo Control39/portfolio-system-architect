@@ -1,4 +1,4 @@
-# Sanitized Results: Systemic Thinking Markers
+﻿# Sanitized Results: Systemic Thinking Markers
 
 ## Stats (Anonymized)
 - Files Indexed: Project folders (thought-architecture, portfolio-organizer, etc.).
@@ -24,3 +24,4 @@ These prove non-code architecture: integration, trade-offs, evolution.
 Visualization available in Obsidian export.
 
 *Raw data in thinking_patterns_data.json (local only).*
+

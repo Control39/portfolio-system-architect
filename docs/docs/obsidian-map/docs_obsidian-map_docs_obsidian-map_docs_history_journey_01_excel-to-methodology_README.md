@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs History Journey 01 Excel To Methodology Readme
+﻿# Docs Obsidian Map Docs History Journey 01 Excel To Methodology Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_history_journey_01_excel-to-methodology_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Этот раздел- первая глава 
 ... (файл продолжается)
 ```
+

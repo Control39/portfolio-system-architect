@@ -1,4 +1,4 @@
-# Docs Methodology Markers Readme
+﻿# Docs Methodology Markers Readme
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 ```
 
 ```
+

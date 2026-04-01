@@ -1,4 +1,4 @@
-# 🗂️ PowerShell Tree v2 - Продвинутый tree viewer
+﻿# 🗂️ PowerShell Tree v2 - Продвинутый tree viewer
 
 ## 🚀 Новые фичи v2
 - **📊 -Json**: JSON для CI/CD/pipelines
@@ -46,4 +46,5 @@ tree -Force -IncludeHidden
 | `-Modified` | Даты |
 
 **Цвета**: Cyan=папки, Gray=файлы. **Git**: ✅/⚡/🆕
+
 

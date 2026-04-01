@@ -1,4 +1,4 @@
-name: Duplicate Check
+﻿name: Duplicate Check
 
 on:
   push:
@@ -58,3 +58,4 @@ jobs:
           else
             echo "Warning: .gitignore file not found"
           fi
+

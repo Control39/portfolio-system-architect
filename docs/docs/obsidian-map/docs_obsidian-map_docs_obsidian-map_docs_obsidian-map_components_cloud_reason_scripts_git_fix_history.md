@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Cloud Reason Scripts Git Fix History
+﻿# Docs Obsidian Map Docs Obsidian Map Components Cloud Reason Scripts Git Fix History
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_cloud_reason_scripts_git_fix_history.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## Превью
 ... (файл продолжается)
 ```
+

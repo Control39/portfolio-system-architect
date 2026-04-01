@@ -1,4 +1,4 @@
-# Reasoning Api
+﻿# Reasoning Api
 
 - **Путь**: `components\portfolio-organizer\src\api\reasoning_api.py`
 - **Тип**: .PY
@@ -31,3 +31,4 @@ SAMPLE_PROJECTS = [
         "technologies": ["
 ... (файл продолжается)
 ```
+

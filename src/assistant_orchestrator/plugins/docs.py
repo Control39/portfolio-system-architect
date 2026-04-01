@@ -1,4 +1,4 @@
-"""
+﻿"""
 Documentation plugin for finding architecture documentation.
 """
 import logging
@@ -51,3 +51,4 @@ def find_docs(root: Path) -> List[str]:
     
     logger.info(f"Found {len(found_docs)} architecture documents")
     return sorted(found_docs)
+

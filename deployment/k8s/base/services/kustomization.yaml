@@ -1,4 +1,4 @@
-# Services Kustomization
+﻿# Services Kustomization
 # Includes all 7 microservices
 # Works on: GKE v1.27+, Kind, Minikube
 
@@ -19,3 +19,4 @@ resources:
 commonLabels:
   component: microservices
   managed-by: kustomize
+

@@ -1,4 +1,4 @@
-# Horizontal Pod Autoscaler for ML Model Registry
+﻿# Horizontal Pod Autoscaler for ML Model Registry
 # Scales based on CPU and memory usage
 # Works on: GKE v1.27+, Kind (with metrics-server), Minikube
 
@@ -41,3 +41,4 @@ spec:
         value: 100
         periodSeconds: 30
       selectPolicy: Max
+

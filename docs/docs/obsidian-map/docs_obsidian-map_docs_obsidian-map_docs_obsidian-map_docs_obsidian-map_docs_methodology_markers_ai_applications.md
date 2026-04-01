@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Ai Applications
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Ai Applications
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_methodology_markers_ai_applications.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее
 ... (файл продолжается)
 ```
+

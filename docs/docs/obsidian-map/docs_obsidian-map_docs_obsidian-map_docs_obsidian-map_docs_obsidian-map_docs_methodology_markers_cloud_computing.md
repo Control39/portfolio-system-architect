@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Cloud Computing
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers Cloud Computing
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_methodology_markers_cloud_computing.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее
 ... (файл продолжается)
 ```
+

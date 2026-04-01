@@ -1,4 +1,4 @@
-# Convert To Utf8
+﻿# Convert To Utf8
 
 - **Путь**: `components\cloud_reason\scripts\convert_to_utf8.py`
 - **Тип**: .PY
@@ -33,3 +33,4 @@ def setup_logging() -> None:
 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """GigaChain Bridge for Think MCP Integration.
 Integrates GigaChat API with it-compass context and Chroma RAG.
 Self-Improving Loop stub included.
@@ -68,4 +68,5 @@ if __name__ == '__main__':
     bridge = GigaMCPBridge()
     resp = bridge.giga_request('Explain RAG integration.')
     print(resp)
+
 

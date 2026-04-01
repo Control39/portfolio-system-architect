@@ -1,4 +1,4 @@
-# Adr 005 Ui Technology Choice
+﻿# Adr 005 Ui Technology Choice
 
 - **Путь**: `docs\adr\ADR-005-ui-technology-choice.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 3. **Vue.js
 ... (файл продолжается)
 ```
+

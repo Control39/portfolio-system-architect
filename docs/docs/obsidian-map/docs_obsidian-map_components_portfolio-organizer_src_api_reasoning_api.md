@@ -1,4 +1,4 @@
-# Components Portfolio Organizer Src Api Reasoning Api
+﻿# Components Portfolio Organizer Src Api Reasoning Api
 
 - **Путь**: `docs\obsidian-map\components_portfolio-organizer_src_api_reasoning_api.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@ SAMPLE_PROJECTS = [
         
 ... (файл продолжается)
 ```
+

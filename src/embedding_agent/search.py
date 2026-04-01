@@ -1,4 +1,4 @@
-"""
+﻿"""
 Simple search interface for RAG system.
 """
 

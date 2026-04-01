@@ -1,4 +1,4 @@
-# components/cloud-reason/api/endpoints.py
+﻿# components/cloud-reason/api/endpoints.py
 import os
 import sys
 from fastapi import FastAPI, HTTPException
@@ -34,3 +34,4 @@ async def root():
 async def reason(request: ReasonRequest):
     # Stub reasoning logic
     return {"reasoning": f"Analyzed {request.repo}: {request.query}", "confidence": 0.95}
+

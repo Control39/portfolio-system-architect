@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Markers Frontend
+﻿# Docs Obsidian Map Docs Methodology Markers Frontend
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_markers_frontend.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@
         "
 ... (файл продолжается)
 ```
+

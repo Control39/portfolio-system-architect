@@ -1,4 +1,4 @@
-# Docs Workshops Integrated Systems Readme
+﻿# Docs Workshops Integrated Systems Readme
 
 - **Путь**: `docs\obsidian-map\docs_workshops_integrated-systems_README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 1. Понять принципы проекти
 ... (файл продолжается)
 ```
+

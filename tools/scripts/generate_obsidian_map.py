@@ -1,4 +1,4 @@
-"""
+﻿"""
 Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
 """
 

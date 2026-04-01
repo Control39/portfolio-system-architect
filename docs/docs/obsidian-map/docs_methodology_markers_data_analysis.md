@@ -1,4 +1,4 @@
-# Data Analysis
+﻿# Data Analysis
 
 - **Путь**: `docs\methodology\markers\data_analysis.json`
 - **Тип**: .JSON
@@ -25,3 +25,4 @@
        
 ... (файл продолжается)
 ```
+

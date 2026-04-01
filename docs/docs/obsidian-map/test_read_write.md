@@ -1,4 +1,4 @@
-# Test Read Write
+﻿# Test Read Write
 
 - **Путь**: `test_read_write.md`
 - **Тип**: .MD
@@ -14,3 +14,4 @@
 
 ✅ Доступ к файлам подтверждён.
 ```
+

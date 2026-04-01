@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 from pathlib import Path
 
@@ -35,3 +35,4 @@ autodoc_default_options = {
 for app in ['it-compass', 'cloud-reason', 'career-development', 'ml-model-registry']:
     autodoc_mock_imports = []
     sys.path.append(os.path.abspath(f'../../apps/{app}'))
+

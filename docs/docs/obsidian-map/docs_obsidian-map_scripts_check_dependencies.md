@@ -1,4 +1,4 @@
-# Scripts Check Dependencies
+﻿# Scripts Check Dependencies
 
 - **Путь**: `docs\obsidian-map\scripts_check_dependencies.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ class DependencyChecker:
     def __init__(self, pro
 ... (файл продолжается)
 ```
+

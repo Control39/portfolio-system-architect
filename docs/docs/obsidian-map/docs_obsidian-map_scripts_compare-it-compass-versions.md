@@ -1,4 +1,4 @@
-# Scripts Compare It Compass Versions
+﻿# Scripts Compare It Compass Versions
 
 - **Путь**: `docs\obsidian-map\scripts_compare-it-compass-versions.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@ $versions = @(
     @{Path = "additional/leadarchi
 ... (файл продолжается)
 ```
+

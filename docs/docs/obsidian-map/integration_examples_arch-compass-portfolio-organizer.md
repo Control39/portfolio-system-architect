@@ -1,4 +1,4 @@
-# Arch Compass Portfolio Organizer
+﻿# Arch Compass Portfolio Organizer
 
 - **Путь**: `integration\examples\arch-compass-portfolio-organizer.ps1`
 - **Тип**: .PS1
@@ -25,3 +25,4 @@ function Initialize-ArchProject {
     Write-Host "Инициали
 ... (файл продолжается)
 ```
+

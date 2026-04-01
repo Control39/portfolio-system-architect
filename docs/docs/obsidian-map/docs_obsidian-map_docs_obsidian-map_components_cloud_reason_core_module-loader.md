@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Core Module Loader
+﻿# Docs Obsidian Map Components Cloud Reason Core Module Loader
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_core_module-loader.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ from ..config.loader import COMPONENT_CONFIG
 def 
 ... (файл продолжается)
 ```
+

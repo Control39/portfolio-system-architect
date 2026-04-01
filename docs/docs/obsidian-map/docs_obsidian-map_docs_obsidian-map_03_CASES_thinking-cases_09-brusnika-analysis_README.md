@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Readme
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_09-brusnika-analysis_README.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Кейс: системный анализ финансовой ловушки роста на примере девелопера «
 ... (файл продолжается)
 ```
+

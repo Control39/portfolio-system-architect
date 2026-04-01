@@ -1,4 +1,4 @@
-# Docs Adr Adr 006 Data Validation Approach
+﻿# Docs Adr Adr 006 Data Validation Approach
 
 - **Путь**: `docs\obsidian-map\docs_adr_ADR-006-data-validation-approach.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ## Р
 ... (файл продолжается)
 ```
+

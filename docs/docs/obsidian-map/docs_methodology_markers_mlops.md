@@ -1,4 +1,4 @@
-# Mlops
+﻿# Mlops
 
 - **Путь**: `docs\methodology\markers\mlops.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurabl
 ... (файл продолжается)
 ```
+

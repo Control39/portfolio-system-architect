@@ -1,4 +1,4 @@
-# Components Cloud Reason Configs Loader
+﻿# Components Cloud Reason Configs Loader
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_configs_loader.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ def load_component_config():
     if not config_path.e
 ... (файл продолжается)
 ```
+

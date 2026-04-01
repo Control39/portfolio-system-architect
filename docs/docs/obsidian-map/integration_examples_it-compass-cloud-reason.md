@@ -1,4 +1,4 @@
-# It Compass Cloud Reason
+﻿# It Compass Cloud Reason
 
 - **Путь**: `integration\examples\it-compass-cloud-reason.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ class ITCompassCloudReasonIntegration:
     def load_user_profile(self, profile_data: Dict[str
 ... (файл продолжается)
 ```
+

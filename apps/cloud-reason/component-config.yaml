@@ -1,4 +1,4 @@
-component:
+﻿component:
   name: "cloud-reason"
   description: "Система облачного рассуждения с REST API и интеграцией с Git"
   version: "0.1.0"
@@ -109,3 +109,4 @@ env_variables:
     description: "API-ключ для внешних сервисов"
   - name: "LOG_LEVEL"
     description: "Уровень логирования (DEBUG, INFO, WARNING, ERROR)"
+

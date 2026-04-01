@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Portfolio Organizer Src Api Reasoning Api
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Portfolio Organizer Src Api Reasoning Api
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_portfolio-organizer_src_api_reasoning_api.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 -
 ... (файл продолжается)
 ```
+

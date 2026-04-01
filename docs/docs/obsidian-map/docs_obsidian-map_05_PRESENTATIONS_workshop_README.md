@@ -1,4 +1,4 @@
-# 05 Presentations Workshop Readme
+﻿# 05 Presentations Workshop Readme
 
 - **Путь**: `docs\obsidian-map\05_PRESENTATIONS_workshop_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ YYYY‑MM‑DD‑topic‑workshop
 - `2025‑04‑15‑m
 ... (файл продолжается)
 ```
+

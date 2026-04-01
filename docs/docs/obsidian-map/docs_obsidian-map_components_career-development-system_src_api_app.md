@@ -1,4 +1,4 @@
-# Components Career Development System Src Api App
+﻿# Components Career Development System Src Api App
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_api_app.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ db = SQLAlchemy(app)
 class User(db.Model)
 ... (файл продолжается)
 ```
+

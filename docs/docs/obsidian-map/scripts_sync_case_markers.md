@@ -1,4 +1,4 @@
-# Sync Case Markers
+﻿# Sync Case Markers
 
 - **Путь**: `scripts\sync_case_markers.py`
 - **Тип**: .PY
@@ -33,3 +33,4 @@ class ITCompassSync:
         portfolio_path: str = "components/portfol
 ... (файл продолжается)
 ```
+

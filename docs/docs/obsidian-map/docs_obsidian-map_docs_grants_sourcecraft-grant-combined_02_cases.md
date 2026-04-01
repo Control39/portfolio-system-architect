@@ -1,4 +1,4 @@
-# Docs Grants Sourcecraft Grant Combined 02 Cases
+﻿# Docs Grants Sourcecraft Grant Combined 02 Cases
 
 - **Путь**: `docs\obsidian-map\docs_grants_sourcecraft-grant-combined_02_cases.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 ## 📊 Струк
 ... (файл продолжается)
 ```
+

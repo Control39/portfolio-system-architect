@@ -1,4 +1,4 @@
-# Cert-Manager Installation & HTTPS Certificate Configuration
+﻿# Cert-Manager Installation & HTTPS Certificate Configuration
 # Automates SSL/TLS certificate management with Let's Encrypt
 
 ---
@@ -121,3 +121,4 @@ spec:
             name: ml-model-registry
             port:
               number: 8001
+

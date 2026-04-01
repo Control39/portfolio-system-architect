@@ -1,4 +1,4 @@
-# Grant One-Pager: Portfolio System Architect
+﻿# Grant One-Pager: Portfolio System Architect
 
 **Contact**: leadarchitect@yandex.ru | [Repo](https://github.com/leadarchitect-ai/portfolio-system-architect)
 
@@ -14,4 +14,5 @@
 **Status**: 92% test cov, Docker-ready. Grant-ready docs: /06_GRANT/
 
 **Ask**: Support open cognitive tools for non-tech professionals.
+
 

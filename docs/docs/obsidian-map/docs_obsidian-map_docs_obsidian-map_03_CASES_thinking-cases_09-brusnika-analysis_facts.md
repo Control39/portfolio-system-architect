@@ -1,4 +1,4 @@
-# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Facts
+﻿# Docs Obsidian Map 03 Cases Thinking Cases 09 Brusnika Analysis Facts
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_03_CASES_thinking-cases_09-brusnika-analysis_facts.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Ключевые показатели за первое полу
 ... (файл продолжается)
 ```
+

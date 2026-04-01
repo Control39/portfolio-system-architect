@@ -1,4 +1,4 @@
-# Endpoints
+﻿# Endpoints
 
 - **Путь**: `components\cloud_reason\api\endpoints.py`
 - **Тип**: .PY
@@ -26,3 +26,4 @@ class ReasoningRequest(BaseModel):
     reasoning
 ... (файл продолжается)
 ```
+

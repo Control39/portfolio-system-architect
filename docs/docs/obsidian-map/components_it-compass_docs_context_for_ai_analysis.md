@@ -1,4 +1,4 @@
-# Context For Ai Analysis
+﻿# Context For Ai Analysis
 
 - **Путь**: `components\it-compass\docs\context_for_ai_analysis.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@ IT Compass - это интеллектуальная система поддер
 
 ... (файл продолжается)
 ```
+

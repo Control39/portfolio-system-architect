@@ -1,4 +1,4 @@
-# Екатерина Куделя 👋
+﻿# Екатерина Куделя 👋
 
 **Senior System Architect | AI Orchestration | Zero→Production**
 
@@ -13,3 +13,4 @@
 **Hiring**: System Architect/Tech Lead ($150-250K remote). Yandex/Sber/EU.
 
 📧 leadarchitect@yandex.ru | LinkedIn (скорее всего будет позже)
+

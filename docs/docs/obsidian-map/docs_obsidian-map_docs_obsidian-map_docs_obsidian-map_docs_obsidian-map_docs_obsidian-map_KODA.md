@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Koda
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Koda
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_KODA.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Docs Obsidian Map Ko
 ... (файл продолжается)
 ```
+

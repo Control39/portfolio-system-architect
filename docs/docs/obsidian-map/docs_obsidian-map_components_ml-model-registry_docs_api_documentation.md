@@ -1,4 +1,4 @@
-# Components Ml Model Registry Docs Api Documentation
+﻿# Components Ml Model Registry Docs Api Documentation
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_docs_api_documentation.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ http://localhost:8000/api/v1
 POST /m
 ... (файл продолжается)
 ```
+

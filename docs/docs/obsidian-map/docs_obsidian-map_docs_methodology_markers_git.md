@@ -1,4 +1,4 @@
-# Docs Methodology Markers Git
+﻿# Docs Methodology Markers Git
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_git.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
         "sma
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples It Compass Practitioner Example
+﻿# Docs Obsidian Map Examples It Compass Practitioner Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_it-compass_practitioner-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Оценить текущий уровень компетенций команды раз
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-from prometheus_client import Counter, Histogram, start_http_server
+﻿from prometheus_client import Counter, Histogram, start_http_server
 from functools import wraps
 
 REQUEST_COUNT = Counter('api_requests_total', 'Total API requests', ['method', 'endpoint'])
@@ -39,3 +39,4 @@ def setup_metrics(app):
             return response
 
     return {"metrics_port": 9090}
+

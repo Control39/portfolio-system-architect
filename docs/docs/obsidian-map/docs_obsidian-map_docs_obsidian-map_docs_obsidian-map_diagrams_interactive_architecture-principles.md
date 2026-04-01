@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Diagrams Interactive Architecture Principles
+﻿# Docs Obsidian Map Docs Obsidian Map Diagrams Interactive Architecture Principles
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_diagrams_interactive_architecture-principles.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Documentation Structure
+﻿# Documentation Structure
 
 - **Путь**: `documentation-structure.yaml`
 - **Тип**: .YAML
@@ -25,3 +25,4 @@ root_files:
       description: "Кодекс поведения сообще
 ... (файл продолжается)
 ```
+

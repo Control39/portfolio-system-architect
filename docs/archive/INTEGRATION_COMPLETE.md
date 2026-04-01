@@ -1,4 +1,4 @@
-# Integration Complete Report
+﻿# Integration Complete Report
 
 ## Список интегрированных компонентов
 - tools/* → scripts/tools/ (structure: code-analysis, diagnostics, migration, embedding_agent placeholders)
@@ -24,3 +24,4 @@
 - GitHub: https://github.com/Control39/cognitive-systems-architecture
 
 Status: ✅ plan executed, manual-review archived.
+

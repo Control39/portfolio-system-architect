@@ -1,4 +1,4 @@
-routes:
+﻿routes:
   # Architect Assistant API
   - path: "/api/v1/architect"
     target: "architect"

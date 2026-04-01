@@ -1,4 +1,4 @@
-# Docs Grants Sourcecraft Grant Combined Readme
+﻿# Docs Grants Sourcecraft Grant Combined Readme
 
 - **Путь**: `docs\obsidian-map\docs_grants_sourcecraft-grant-combined_README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 2. Для презентации
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Cloud Reason Utils Dependency Checker
+﻿# Components Cloud Reason Utils Dependency Checker
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_utils_dependency_checker.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ def check_dependencies():
     requir
 ... (файл продолжается)
 ```
+

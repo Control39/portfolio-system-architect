@@ -1,4 +1,4 @@
-#   Init  
+﻿#   Init  
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\it-compass\src\data\__init__.py`
 - **Тип**: .PY
@@ -17,3 +17,4 @@ from .user_progress import load_progress, save_progress
 
 __all__ = ['load_markers', 'load_progress', 'save_progress']
 ```
+

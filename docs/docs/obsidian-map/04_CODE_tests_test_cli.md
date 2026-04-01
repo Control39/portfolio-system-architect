@@ -1,4 +1,4 @@
-# Test Cli
+﻿# Test Cli
 
 - **Путь**: `04_CODE\tests\test_cli.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ try:
 except ImportError as e:
 ... (файл продолжается)
 ```
+

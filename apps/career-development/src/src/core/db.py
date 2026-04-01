@@ -1,4 +1,4 @@
-"""
+﻿"""
 Async SQLAlchemy ORM for Career Development System
 Connects shared Pydantic schemas → PostgreSQL
 """
@@ -75,3 +75,4 @@ async def init_db():
 
 if __name__ == "__main__":
     asyncio.run(init_db())
+

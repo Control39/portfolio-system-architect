@@ -1,4 +1,4 @@
-# Architecture.Full
+﻿# Architecture.Full
 
 - **Путь**: `cognitive-architect-manifesto\ARCHITECTURE.full.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
   > «Я — архитектор к
 ... (файл продолжается)
 ```
+

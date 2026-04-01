@@ -1,4 +1,4 @@
-# Build Index
+﻿# Build Index
 
 - **Путь**: `scripts\python scripts\build_index.py`
 - **Тип**: .PY
@@ -10,3 +10,4 @@
 ```
 
 ```
+

@@ -1,4 +1,4 @@
-# Docs Contributing Manifest
+﻿# Docs Contributing Manifest
 
 - **Путь**: `docs\obsidian-map\docs_CONTRIBUTING_MANIFEST.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 - Опишите что не работает и
 ... (файл продолжается)
 ```
+

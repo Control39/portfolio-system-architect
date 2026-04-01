@@ -1,4 +1,4 @@
-# Docs Methodology Psychological Support Psychological Support
+﻿# Docs Methodology Psychological Support Psychological Support
 
 - **Путь**: `docs\obsidian-map\docs_methodology_psychological-support_PSYCHOLOGICAL_SUPPORT.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@ IT Compass — это не только про технические навык
 Этот документ помогает справит
 ... (файл продолжается)
 ```
+

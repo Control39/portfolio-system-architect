@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Arch Compass Framework .Gitleaks
+﻿# Docs Obsidian Map Components Arch Compass Framework .Gitleaks
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_arch-compass-framework_.gitleaks.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 # This file defines rules
 ... (файл продолжается)
 ```
+

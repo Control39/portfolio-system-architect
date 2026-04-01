@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs History Journey Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs History Journey Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_history_journey_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 
 ... (файл продолжается)
 ```
+

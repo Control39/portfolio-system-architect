@@ -1,4 +1,4 @@
-# Test Helpers
+﻿# Test Helpers
 
 - **Путь**: `components\career-development-system\src\tests\test_helpers.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ class TestHelpers(unittest.TestCase):
     def test_sanitize_f
 ... (файл продолжается)
 ```
+

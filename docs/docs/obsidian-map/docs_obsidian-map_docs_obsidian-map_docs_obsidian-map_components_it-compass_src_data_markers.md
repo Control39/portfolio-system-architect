@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components It Compass Src Data Markers
+﻿# Docs Obsidian Map Docs Obsidian Map Components It Compass Src Data Markers
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_it-compass_src_data_markers.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `compon
 ... (файл продолжается)
 ```
+

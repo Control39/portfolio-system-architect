@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Testing Standards
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Testing Standards
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_TESTING_STANDARDS.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs
 ... (файл продолжается)
 ```
+

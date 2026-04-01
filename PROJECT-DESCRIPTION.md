@@ -1,4 +1,4 @@
-# Portfolio System Architect: Project Description
+﻿# Portfolio System Architect: Project Description
 
 ## Executive Summary
 
