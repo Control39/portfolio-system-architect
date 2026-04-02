@@ -187,3 +187,7 @@ $root/
 # Personal tools and scripts  
 /personal-tools/  
 personal-tools/ 
+
+# Personal README files
+PERSONAL-README.md
+PERSONAL-README.ru.md
