@@ -1,4 +1,4 @@
-﻿# Экосистема когнитивной архитектуры: Production-Ready портфолио системного дизайна
+# Экосистема когнитивной архитектуры: Production-Ready портфолио системного дизайна
 
 > Enterprise-grade микросервисы, Kubernetes деплоймент и AI-ассистированный системный дизайн. Демонстрирует полный путь от нулевых IT-знаний до enterprise-архитектуры с 10 интегрированными компонентами (8 развёртываемых микросервисов). Идеально для карьерного перехода, технической оценки и production-референса.
 
@@ -38,18 +38,18 @@
 
 <!-- Динамические бейджи -->
 <p align="center">
-  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">
-    <img src="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml/badge.svg" alt="Статус CI">
+  <a href="https://github.com/Control39/cognitive-systems-architecture/actions">
+    <img src="https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg" alt="Статус CI">
   </a>
   <a href="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect">
     <img src="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect/branch/main/graph/badge.svg" alt="Покрытие кода">
   </a>
   <img src="https://img.shields.io/badge/Trivy-Scan-blue?style=flat-square&logo=trivy" alt="Сканирование безопасности Trivy">
-  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot">
+  <a href="https://github.com/Control39/cognitive-systems-architecture/security/dependabot">
     <img src="https://img.shields.io/badge/dependabot-enabled-brightgreen?style=flat-square&logo=dependabot" alt="Dependabot включён">
   </a>
-  <a href="https://github.com/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://img.shields.io/github/last-commit/leadarchitect-ai/portfolio-system-architect?style=flat-square&logo=git" alt="Последний коммит">
+  <a href="https://github.com/Control39/cognitive-systems-architecture">
+    <img src="https://img.shields.io/github/last-commit/Control39/cognitive-systems-architecture?style=flat-square&logo=git" alt="Последний коммит">
   </a>
 </p>
 
@@ -108,7 +108,7 @@
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/leadarchitect-ai/portfolio-system-architect.git
+git clone https://github.com/Control39/cognitive-systems-architecture.git
 cd portfolio-system-architect
 
 # Запустите с Docker Compose
@@ -293,10 +293,10 @@ docker-compose -f docker-compose.rag.yml up -d
 
 ## 📞 Контакты и следующие шаги
 
-- **GitHub**: https://github.com/leadarchitect-ai/portfolio-system-architect
-- **SourceCraft**: https://sourcecraft.io/portfolio-system-architect
+- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
+- **SourceCraft**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
 - **Email**: leadarchitect@yandex.ru
-- **LinkedIn**: [Екатерина Куделя](https://linkedin.com/in/ekaterina-kudelya)
+
 - **Для российских предприятий**: Смотрите [Релевантность для российского рынка](docs/FOR-RUSSIAN-ENTERPRISE.md)
 - **Для технической оценки**: Смотрите [Технический глубокий анализ](docs/FOR-TECH.md)
 
