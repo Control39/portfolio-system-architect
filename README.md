@@ -389,7 +389,6 @@ We welcome contributions! Please see:
 - **GitHub**: https://github.com/leadarchitect-ai/portfolio-system-architect
 - **SourceCraft**: https://sourcecraft.io/portfolio-system-architect
 - **Email**: leadarchitect@yandex.ru
-- **LinkedIn**: [Ekaterina Kudelya](https://linkedin.com/in/ekaterina-kudelya)
 - **For Russian enterprises**: See [Russian Market Relevance](docs/FOR-RUSSIAN-ENTERPRISE.md)
 - **For technical evaluation**: See [Technical Deep Dive](docs/FOR-TECH.md)
 
