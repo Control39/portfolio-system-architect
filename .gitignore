@@ -169,7 +169,6 @@ IMPROVEMENTS-TODO.md
 reports/  
 *.json  
 *.html  
-*.txt  
 ecosystem-analysis-report.*  
 architecture-maturity-report.*  
   
