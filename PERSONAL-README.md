@@ -1,4 +1,4 @@
-﻿# 👋 Hi, I'm Ekaterina Kudelya
+# 👋 Hi, I'm Ekaterina Kudelya
 
 ## 🧠 Cognitive Architecture Designer & System Thinking Specialist
 
@@ -145,4 +145,5 @@ This personal README is itself a product of my journey – a **living artifact**
 Let's build the future of work together. 🚀
 
 ---
+
 *"Chaos is not an enemy but raw material for architecture."* – My journey's key insight

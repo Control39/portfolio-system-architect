@@ -12,7 +12,7 @@ customModes:
     groups:
       - read
       - command
-      - - edit
-        - fileRegex: (\.codeassistant/skills(-[a-z0-9-]+)?/.*)$
-          description: Project Agent Skills files under .codeassistant/skills* (SKILL.md, scripts, references, assets)
+      - edit
+      - fileRegex: (\.codeassistant/skills(-[a-z0-9-]+)?/.*)$
+        description: Project Agent Skills files under .codeassistant/skills* (SKILL.md, scripts, references, assets)
     source: global
