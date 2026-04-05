@@ -1,4 +1,4 @@
-# Narrative Structure
+﻿# Narrative Structure
 
 - **Путь**: `docs\narrative-structure.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 | Глава | Папка
 ... (файл продолжается)
 ```
+

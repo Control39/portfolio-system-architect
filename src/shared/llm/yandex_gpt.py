@@ -1,4 +1,4 @@
-"""
+﻿"""
 Модуль для работы с Yandex GPT API через LangChain.
 Поддерживает OpenAI-совместимый интерфейс Yandex Cloud AI.
 """

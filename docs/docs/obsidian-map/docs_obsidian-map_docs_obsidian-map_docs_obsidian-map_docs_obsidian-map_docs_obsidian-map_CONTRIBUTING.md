@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Contributing
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Contributing
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_CONTRIBUTING.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 ## 
 ... (файл продолжается)
 ```
+

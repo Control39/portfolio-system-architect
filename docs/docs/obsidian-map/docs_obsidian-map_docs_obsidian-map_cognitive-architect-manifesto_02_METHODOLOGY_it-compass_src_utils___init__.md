@@ -1,4 +1,4 @@
-# Docs Obsidian Map Cognitive Architect Manifesto 02 Methodology It Compass Src Utils   Init  
+﻿# Docs Obsidian Map Cognitive Architect Manifesto 02 Methodology It Compass Src Utils   Init  
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_cognitive-architect-manifesto_02_METHODOLOGY_it-compass_src_utils___init__.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 Вс
 ... (файл продолжается)
 ```
+

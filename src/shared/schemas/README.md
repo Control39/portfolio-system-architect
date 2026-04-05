@@ -1,4 +1,4 @@
-# Shared Data Schemas
+﻿# Shared Data Schemas
 
 Centralized Pydantic/SQLAlchemy schema definitions for all apps.
 
@@ -20,4 +20,5 @@ python tools/generate_pydantic.py career.yaml → src/shared/pydantic/career.py
 ```bash
 pydanticgen validate *.yaml
 ```
+
 

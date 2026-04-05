@@ -1,4 +1,4 @@
-# Integration
+﻿# Integration
 
 - **Путь**: `docs\methodology\integration.md`
 - **Тип**: .MD
@@ -20,3 +20,4 @@
 Каждый проект
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# It Compass Merger
+﻿# It Compass Merger
 
 - **Путь**: `integration\it-compass-merger.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 - Включае
 ... (файл продолжается)
 ```
+

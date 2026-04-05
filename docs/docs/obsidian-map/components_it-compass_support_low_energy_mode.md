@@ -1,4 +1,4 @@
-# Low Energy Mode
+﻿# Low Energy Mode
 
 - **Путь**: `components\it-compass\support\low_energy_mode.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ except ImportError:
     # Fallback для с
 ... (файл продолжается)
 ```
+

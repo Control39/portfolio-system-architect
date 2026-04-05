@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Templates Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Templates Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_templates_README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - *
 ... (файл продолжается)
 ```
+

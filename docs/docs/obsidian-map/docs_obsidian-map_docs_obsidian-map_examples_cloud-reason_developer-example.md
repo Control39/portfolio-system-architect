@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Cloud Reason Developer Example
+﻿# Docs Obsidian Map Examples Cloud Reason Developer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_cloud-reason_developer-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Интегрировать новую модель YandexGPT для ан
 ... (файл продолжается)
 ```
+

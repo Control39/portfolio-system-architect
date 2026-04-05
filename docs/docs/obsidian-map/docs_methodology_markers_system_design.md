@@ -1,4 +1,4 @@
-# System Design
+﻿# System Design
 
 - **Путь**: `docs\methodology\markers\system_design.json`
 - **Тип**: .JSON
@@ -25,3 +25,4 @@
        
 ... (файл продолжается)
 ```
+

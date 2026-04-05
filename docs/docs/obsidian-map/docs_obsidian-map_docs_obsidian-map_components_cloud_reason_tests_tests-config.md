@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Tests Tests Config
+﻿# Docs Obsidian Map Components Cloud Reason Tests Tests Config
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_tests_tests-config.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ test:
     v
 ... (файл продолжается)
 ```
+

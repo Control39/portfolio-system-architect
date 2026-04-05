@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Api Main
+﻿# Components Ml Model Registry Src Api Main
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_api_main.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ async def health():
     return {"status"
 ... (файл продолжается)
 ```
+

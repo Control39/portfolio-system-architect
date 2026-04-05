@@ -1,4 +1,4 @@
-# Employer One-Pager: Cognitive Systems Architect
+﻿# Employer One-Pager: Cognitive Systems Architect
 
 **Who**: Self-taught from Zero IT to Enterprise Architect in 6 months.
 **What**: Built 8-microservice cognitive portfolio system (K8s, Terraform, AI RAG).
@@ -51,3 +51,4 @@ This portfolio demonstrates **systemic thinking** – not just writing code, but
 - **LinkedIn**: [your LinkedIn]
 
 **Ready to lead your AI/cloud transformation. Let’s talk.**
+

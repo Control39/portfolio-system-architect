@@ -1,4 +1,4 @@
-# Architecture Diagram
+﻿# Architecture Diagram
 
 - **Путь**: `components\ml-model-registry\docs\architecture_diagram.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ graph TD
 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Generate Obsidian Map
+﻿# Generate Obsidian Map
 
 - **Путь**: `scripts\generate_obsidian_map.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ IGNORED_DIRS: Set[str] = {
  
 ... (файл продолжается)
 ```
+

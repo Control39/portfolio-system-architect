@@ -1,4 +1,4 @@
-# Qa
+﻿# Qa
 
 - **Путь**: `docs\methodology\markers\qa.json`
 - **Тип**: .JSON
@@ -26,3 +26,4 @@
     
 ... (файл продолжается)
 ```
+

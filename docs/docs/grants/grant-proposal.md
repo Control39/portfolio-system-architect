@@ -1,4 +1,4 @@
-# Заявка на грант Sourcecraft Open Source
+﻿# Заявка на грант Sourcecraft Open Source
 
 ## Кандидат
 

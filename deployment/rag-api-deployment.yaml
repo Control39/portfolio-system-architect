@@ -1,4 +1,4 @@
-# Kubernetes Deployment for Architect Assistant RAG API
+﻿# Kubernetes Deployment for Architect Assistant RAG API
 apiVersion: apps/v1
 kind: Deployment
 metadata:

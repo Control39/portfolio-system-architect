@@ -1,4 +1,4 @@
-# Components Ml Model Registry Readme
+﻿# Components Ml Model Registry Readme
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_README.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
 ![License](https://img.shields.io/badge/license-MIT-bl
 ... (файл продолжается)
 ```
+

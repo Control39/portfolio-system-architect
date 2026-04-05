@@ -1,4 +1,4 @@
-"""
+﻿"""
 ChromaDB-based document indexer for RAG system.
 Replaces the simple in-memory indexer with persistent vector storage.
 """

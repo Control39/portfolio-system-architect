@@ -1,4 +1,4 @@
-# Docs Methodology Markers System Design
+﻿# Docs Methodology Markers System Design
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_system_design.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "priority": "high"
 ... (файл продолжается)
 ```
+

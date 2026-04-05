@@ -1,4 +1,4 @@
-# components/cloud-reason/utils/dependency_checker.py
+﻿# components/cloud-reason/utils/dependency_checker.py
 import pkg_resources
 import subprocess
 import sys
@@ -40,3 +40,4 @@ def print_env_requirements():
 if __name__ == "__main__":
     check_dependencies()
     print_env_requirements()
+

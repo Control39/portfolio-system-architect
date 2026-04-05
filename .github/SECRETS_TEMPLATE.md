@@ -1,4 +1,4 @@
-## GitHub Actions Secrets Template
+﻿## GitHub Actions Secrets Template
 
 This template lists the required secrets for GitHub Actions workflows.
 

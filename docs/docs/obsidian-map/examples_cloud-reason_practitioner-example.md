@@ -1,4 +1,4 @@
-# Practitioner Example
+﻿# Practitioner Example
 
 - **Путь**: `examples\cloud-reason\practitioner-example.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 Количественный и качественный анализ архитектурн
 ... (файл продолжается)
 ```
+

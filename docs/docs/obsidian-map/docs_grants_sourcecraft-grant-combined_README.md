@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\grants\sourcecraft-grant-combined\README.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 
 
 ```
+

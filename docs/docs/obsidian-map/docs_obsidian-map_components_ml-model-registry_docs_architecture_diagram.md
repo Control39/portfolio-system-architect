@@ -1,4 +1,4 @@
-# Components Ml Model Registry Docs Architecture Diagram
+﻿# Components Ml Model Registry Docs Architecture Diagram
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_docs_architecture_diagram.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ graph TD
     D --> G[Model Ver
 ... (файл продолжается)
 ```
+

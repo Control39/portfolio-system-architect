@@ -1,4 +1,4 @@
-# Examples Cloud Reason Practitioner Example
+﻿# Examples Cloud Reason Practitioner Example
 
 - **Путь**: `docs\obsidian-map\examples_cloud-reason_practitioner-example.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
    python scripts/analyze_al
 ... (файл продолжается)
 ```
+

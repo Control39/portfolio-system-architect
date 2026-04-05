@@ -1,4 +1,4 @@
-# Alerting rules for Prometheus
+﻿# Alerting rules for Prometheus
 # These rules define when alerts should be triggered
 
 groups:

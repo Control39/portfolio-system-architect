@@ -1,4 +1,4 @@
-# Thought Architecture
+﻿# Thought Architecture
 
 Thought Architecture - это портфолио когнитектурных решений.
 
@@ -47,3 +47,4 @@ Thought Architecture представляет собой коллекцию ко
 ## Лицензия
 
 Этот проект лицензирован по лицензии MIT - см. файл [LICENSE](LICENSE) для получения подробной информации.
+

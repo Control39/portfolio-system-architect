@@ -1,4 +1,4 @@
-name: RAG System Update
+﻿name: RAG System Update
 
 on:
   push:

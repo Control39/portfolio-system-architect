@@ -1,4 +1,4 @@
-# Monitoring Screenshots
+﻿# Monitoring Screenshots
 
 This directory contains screenshots of the monitoring stack in action, demonstrating production-grade observability.
 
@@ -82,3 +82,4 @@ Currently, this directory contains placeholder images. To replace them with actu
 4. Commit the actual screenshots to the repository
 
 > **Note**: Placeholder images are intentionally empty/blank to avoid committing misleading or fake data. The portfolio's credibility depends on showing real, working monitoring.
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Python Scripts Search Code
+﻿# Docs Obsidian Map Scripts Python Scripts Search Code
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_python_scripts_search_code.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ from sklearn.metrics.pairwise import cosine_similarity
 def get_embedding(
 ... (файл продолжается)
 ```
+

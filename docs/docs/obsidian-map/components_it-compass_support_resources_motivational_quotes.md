@@ -1,4 +1,4 @@
-# Motivational Quotes
+﻿# Motivational Quotes
 
 - **Путь**: `components\it-compass\support\resources\motivational_quotes.json`
 - **Тип**: .JSON
@@ -32,3 +32,4 @@
    
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Linux
+﻿# Linux
 
 - **Путь**: `docs\methodology\markers\linux.json`
 - **Тип**: .JSON
@@ -25,3 +25,4 @@
           "achievable": "Уровень начина
 ... (файл продолжается)
 ```
+

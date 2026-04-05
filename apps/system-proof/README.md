@@ -1,4 +1,4 @@
-# System-Proof Module
+﻿# System-Proof Module
 
 Proof storage for GigaChain traces/CoT. Verification + Metadata Tagging.
 
@@ -78,3 +78,4 @@ docker run -p 8005:8005 system-proof
 ## Лицензия
 
 Этот проект лицензирован по лицензии MIT - см. файл [LICENSE](LICENSE) для получения подробной информации.
+

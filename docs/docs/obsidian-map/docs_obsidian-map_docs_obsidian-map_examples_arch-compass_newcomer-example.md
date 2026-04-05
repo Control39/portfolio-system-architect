@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Arch Compass Newcomer Example
+﻿# Docs Obsidian Map Examples Arch Compass Newcomer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_arch-compass_newcomer-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Понять принципы проектирования архитектуры веб-приложени
 ... (файл продолжается)
 ```
+

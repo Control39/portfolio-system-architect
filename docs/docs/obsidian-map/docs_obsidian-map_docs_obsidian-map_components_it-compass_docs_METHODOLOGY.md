@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Docs Methodology
+﻿# Docs Obsidian Map Components It Compass Docs Methodology
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_docs_METHODOLOGY.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Методология IT Compass основана на принципах системного 
 ... (файл продолжается)
 ```
+

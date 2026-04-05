@@ -1,4 +1,4 @@
-# Git Branch Management & Cleanup Process
+﻿# Git Branch Management & Cleanup Process
 
 ## 📋 Overview
 

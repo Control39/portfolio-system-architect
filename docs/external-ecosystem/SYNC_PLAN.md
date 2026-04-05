@@ -1,4 +1,4 @@
-# Sync Plan from my-ecosystem-FINAL
+﻿# Sync Plan from my-ecosystem-FINAL
 
 Full copy/adapt from SYNC_PLAN.md (Priority order).
 
@@ -17,4 +17,5 @@ portfolio-organizer, cloud-reason, system-proof, thought-architecture
 **Rules**: _sync/ folders, git diff previews, preserve authorship (Ekaterina Kudelya, CC BY-ND 4.0).
 
 **Status**: Applied here.
+
 

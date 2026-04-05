@@ -1,4 +1,4 @@
-import json
+﻿import json
 import os
 from datetime import datetime
 from typing import Dict, List, Any
@@ -86,4 +86,5 @@ class CompetencyTracker:
     def get_skill_recommendations(self) -> List[Dict]:
         # Stub
         return [{'skill': 'Python', 'reason': 'Next step', 'next_steps': [], 'resources': []}]
+
 

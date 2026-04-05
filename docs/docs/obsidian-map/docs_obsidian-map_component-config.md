@@ -1,4 +1,4 @@
-# Component Config
+﻿# Component Config
 
 - **Путь**: `docs\obsidian-map\component-config.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ dependencies:
     - 
 ... (файл продолжается)
 ```
+

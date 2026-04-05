@@ -1,4 +1,4 @@
-# ChromaDB Integration for RAG System
+﻿# ChromaDB Integration for RAG System
 
 ## 📋 Overview
 

@@ -1,4 +1,4 @@
-# ✅ POST-GRANT SUMMARY
+﻿# ✅ POST-GRANT SUMMARY
 
 **Дата**: 19 марта 2026  
 **Статус гранта**: ✅ ПОДАН  
@@ -28,4 +28,5 @@ start http://localhost:5000  # MLflow
 ## 📎 Ссылки:
 - SourceCraft: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
 - GitHub: https://github.com/Control39/cognitive-systems-architecture
+
 

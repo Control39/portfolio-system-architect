@@ -1,4 +1,4 @@
-# Docs Obsidian Map Code Quality
+﻿# Docs Obsidian Map Code Quality
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_code-quality.md`
 - **Тип**: .MD
@@ -40,3 +40,4 @@ python:
       selec
 ... (файл продолжается)
 ```
+

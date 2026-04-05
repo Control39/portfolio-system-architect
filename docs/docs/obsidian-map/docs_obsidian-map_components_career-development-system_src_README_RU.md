@@ -1,4 +1,4 @@
-# Components Career Development System Src Readme Ru
+﻿# Components Career Development System Src Readme Ru
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_README_RU.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 -
 ... (файл продолжается)
 ```
+

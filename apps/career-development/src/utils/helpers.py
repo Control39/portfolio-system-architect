@@ -1,4 +1,4 @@
-"""Helpers stub for pytest collection."""
+﻿"""Helpers stub for pytest collection."""
 
 def validate_email(email):
     return "@" in email # stub
@@ -33,4 +33,5 @@ def get_file_size(filename):
 
 # Export all
 __all__ = ["validate_email", "sanitize_filename", "calculate_skill_progress", "get_competency_level_name", "format_date", "convert_bytes_to_human_readable", "load_json_file", "save_json_file", "create_directory_if_not_exists", "get_file_size"]
+
 

@@ -1,4 +1,4 @@
-# Thinking Cases
+﻿# Thinking Cases
 
 Архитектурные и аналитические кейсы, демонстрирующие навыки системного мышления, анализа проблем и проектирования решений.
 
@@ -66,4 +66,5 @@ thinking-cases/
 - [Presentation Cases](../presentation-cases/) — презентации
 - [Evolution Cases](../evolution-cases/) — эволюция системы
 - [Components](../../components/) — технические компоненты
+
 

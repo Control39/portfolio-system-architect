@@ -1,4 +1,4 @@
-# GigaChain Implementation Plan (SourceCraft Edition)
+﻿# GigaChain Implementation Plan (SourceCraft Edition)
 
 ## Overview
 Structured roadmap for GigaChain integration into portfolio-system-architect. Focus: RAG-chain with GigaChat, MCP bridge, proof storage. MVP: Infra + Plan doc.
@@ -61,4 +61,5 @@ class GigaMCPBridge:
 **Tasks:** See TODO.md. **Responsible:** AI (impl), Human (keys/review). **Readiness:** Plan committed, prototype runs. **Risks:** Deps conflicts (pip freeze check).
 
 **Next:** Update TODO.md after each step.
+
 

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Architecture Tradeoffs
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Architecture Tradeoffs
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_architecture-tradeoffs.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 - **Размер**: 1,
 ... (файл продолжается)
 ```
+

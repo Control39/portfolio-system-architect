@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 import json
 import tempfile
 from pathlib import Path
@@ -27,3 +27,4 @@ def test_progress_file_creation():
 
 if __name__ == "__main__":
     pytest.main([__file__])
+

@@ -1,4 +1,4 @@
-# Installation instructions for Cert-Manager and security enhancements
+﻿# Installation instructions for Cert-Manager and security enhancements
 
 ## Prerequisites
 
@@ -119,3 +119,4 @@ The ingress includes security headers:
 3. Apply security manifests
 4. Monitor certificate generation
 5. Test HTTPS access
+

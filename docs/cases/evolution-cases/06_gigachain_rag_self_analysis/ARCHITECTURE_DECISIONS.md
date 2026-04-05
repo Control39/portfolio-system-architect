@@ -1,4 +1,4 @@
-# Architecture Decisions: GigaChain RAG Self-Analysis
+﻿# Architecture Decisions: GigaChain RAG Self-Analysis
 
 ## Context
 Measure systemic thinking from notes/code/dialogues. Constraints: Russian content, geoblocks, free tier, local run.
@@ -40,3 +40,4 @@ Measure systemic thinking from notes/code/dialogues. Constraints: Russian conten
 Evolution: From manual (01_knowledge_management) to autonomous self-proof.
 
 *See [README.md](../README.md)*
+

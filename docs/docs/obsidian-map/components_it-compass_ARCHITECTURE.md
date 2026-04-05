@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `components\it-compass\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ IT-Compass - это методология объективных маркеро
 - Mar
 ... (файл продолжается)
 ```
+

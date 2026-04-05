@@ -1,4 +1,4 @@
-name: Enhanced Mirror Sync & Notification
+﻿name: Enhanced Mirror Sync & Notification
 
 on:
   schedule:

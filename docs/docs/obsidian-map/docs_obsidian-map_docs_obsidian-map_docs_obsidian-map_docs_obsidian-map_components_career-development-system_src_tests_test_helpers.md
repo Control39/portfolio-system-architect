@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Tests Test Helpers
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Tests Test Helpers
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_components_career-development-system_src_tests_test_helpers.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_career-development-system_sr
 ... (файл продолжается)
 ```
+

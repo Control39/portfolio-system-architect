@@ -1,4 +1,4 @@
-# 03 Cases Thinking Cases 09 Brusnika Analysis Facts
+﻿# 03 Cases Thinking Cases 09 Brusnika Analysis Facts
 
 - **Путь**: `docs\obsidian-map\03_CASES_thinking-cases_09-brusnika-analysis_facts.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
 | Чистый убыток | −1,1 млрд руб. | ▼ (было +2,2 млрд) | Отчёт о прибылях
 ... (файл продолжается)
 ```
+

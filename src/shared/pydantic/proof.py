@@ -1,4 +1,4 @@
-"""
+﻿"""
 proof - Generated Pydantic Models
 Source: src\shared\schemas\proof.yaml
 """
@@ -24,4 +24,5 @@ class SystemProof(BaseModel):
     trace_steps: List[Any] = Field(None)
     final_result: dict[str, Any] = Field(None)
     status: str = Field(None)
+
 

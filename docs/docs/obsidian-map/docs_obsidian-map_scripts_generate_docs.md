@@ -1,4 +1,4 @@
-# Scripts Generate Docs
+﻿# Scripts Generate Docs
 
 - **Путь**: `docs\obsidian-map\scripts_generate_docs.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ def generate_api_docs():
     for endpoint in COMPONENT_CONFIG["endp
 ... (файл продолжается)
 ```
+

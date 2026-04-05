@@ -1,4 +1,4 @@
-# 03 Cases Evolution Cases 01 Knowledge Management 05 Itcompass Link
+﻿# 03 Cases Evolution Cases 01 Knowledge Management 05 Itcompass Link
 
 - **Путь**: `docs\obsidian-map\03_CASES_evolution-cases_01_knowledge_management_05_itcompass_link.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 IT‑Compass — это портфолио‑система, которая помогает IT‑специалистам структуриро
 ... (файл продолжается)
 ```
+

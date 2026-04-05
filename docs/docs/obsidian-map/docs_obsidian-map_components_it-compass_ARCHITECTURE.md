@@ -1,4 +1,4 @@
-# Components It Compass Architecture
+﻿# Components It Compass Architecture
 
 - **Путь**: `docs\obsidian-map\components_it-compass_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ IT-Compass - это методология объективных маркеро
 ### 2. С
 ... (файл продолжается)
 ```
+

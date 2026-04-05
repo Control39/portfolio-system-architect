@@ -1,4 +1,4 @@
-# GigaChain Metrics Dashboard
+﻿# GigaChain Metrics Dashboard
 
 ## Key Metrics (Targets from Plan)
 | Metric | Current | Target | Test Command |
@@ -13,4 +13,5 @@
 - Self-improve suggestions logged.
 
 **Update:** Run after `docker compose up cloud-reason`.
+
 

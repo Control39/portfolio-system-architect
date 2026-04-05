@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Edge Cases
+﻿# Components Ml Model Registry Tests Test Edge Cases
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_edge_cases.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistryEdgeCases(unittest.TestCase):
       
 ... (файл продолжается)
 ```
+

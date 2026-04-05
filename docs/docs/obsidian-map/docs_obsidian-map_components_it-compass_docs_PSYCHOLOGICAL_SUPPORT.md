@@ -1,4 +1,4 @@
-# Components It Compass Docs Psychological Support
+﻿# Components It Compass Docs Psychological Support
 
 - **Путь**: `docs\obsidian-map\components_it-compass_docs_PSYCHOLOGICAL_SUPPORT.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 IT Compass включает в себя комплексную систему психологической поддержки, разработанную с учетом специфики работы IT-специалистов. Эта система направлена на предотвращение выгорания, поддержание мотивации и создание здоровой среды для профессионально
 ... (файл продолжается)
 ```
+

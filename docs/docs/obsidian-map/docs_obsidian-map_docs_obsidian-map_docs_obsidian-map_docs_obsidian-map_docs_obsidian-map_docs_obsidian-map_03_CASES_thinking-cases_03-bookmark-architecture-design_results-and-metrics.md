@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Results And Metrics
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map 03 Cases Thinking Cases 03 Bookmark Architecture Design Results And Metrics
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_03_CASES_thinking-cases_03-bookmark-architecture-design_results-and-metrics.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 # Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map 03 Case
 ... (файл продолжается)
 ```
+

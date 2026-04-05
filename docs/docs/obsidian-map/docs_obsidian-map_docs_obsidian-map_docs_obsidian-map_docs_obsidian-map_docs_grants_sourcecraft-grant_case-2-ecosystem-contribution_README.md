@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Grants Sourcecraft Grant Case 2 Ecosystem Contribution Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Grants Sourcecraft Grant Case 2 Ecosystem Contribution Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_grants_sourcecraft-grant_case-2-ecosystem-contribution_README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_grants_sour
 ... (файл продолжается)
 ```
+

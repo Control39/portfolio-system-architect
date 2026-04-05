@@ -1,4 +1,4 @@
-# Habr Article Content
+﻿# Habr Article Content
 
 - **Путь**: `docs\publications\habr\HABR_ARTICLE_CONTENT.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 ## Пре
 ... (файл продолжается)
 ```
+

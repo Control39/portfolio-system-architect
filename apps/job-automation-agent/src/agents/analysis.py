@@ -1,4 +1,4 @@
-import pandas as pd
+﻿import pandas as pd
 from typing import Dict
 import asyncio
 # Mock DB import (no crash)
@@ -12,3 +12,4 @@ async def analyze_career_progress(user_id: str) -> Dict:
     \"\"\"Analysis Agent.\""" 
     async with get_db() as session:
         skills_df
+

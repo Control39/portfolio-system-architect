@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components It Compass Src Main
+﻿# Docs Obsidian Map Components It Compass Src Main
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_it-compass_src_main.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ import sys
 from core.
 ... (файл продолжается)
 ```
+

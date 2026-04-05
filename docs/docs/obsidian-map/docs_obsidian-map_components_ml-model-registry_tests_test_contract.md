@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Contract
+﻿# Components Ml Model Registry Tests Test Contract
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_contract.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistryContract(unittest.TestCase):
         """Пр
 ... (файл продолжается)
 ```
+

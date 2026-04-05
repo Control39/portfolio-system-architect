@@ -1,4 +1,4 @@
-# Integration Guide
+﻿# Integration Guide
 
 - **Путь**: `integration\documentation\integration-guide.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 4. **portfolio-organizer** - организатор 
 ... (файл продолжается)
 ```
+

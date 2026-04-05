@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Examples Career Development System Developer Example
+﻿# Docs Obsidian Map Docs Obsidian Map Examples Career Development System Developer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_examples_career-development-system_developer-example.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 2026-03-
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Components Career Development System Src Docs Api Documentation
+﻿# Components Career Development System Src Docs Api Documentation
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_docs_api_documentation.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 **За
 ... (файл продолжается)
 ```
+

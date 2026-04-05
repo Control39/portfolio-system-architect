@@ -1,4 +1,4 @@
-# Настройка VS Code для проекта portfolio-system-architect
+﻿# Настройка VS Code для проекта portfolio-system-architect
 
 ## 📦 Рекомендуемые расширения
 

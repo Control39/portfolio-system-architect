@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Integration Case Studies
+﻿# Docs Obsidian Map Docs Integration Case Studies
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_integration_case-studies.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Этот документ содержит кейсы интеграции компонентов в единую экосистему. Каждый кейс демонстрирует прим
 ... (файл продолжается)
 ```
+

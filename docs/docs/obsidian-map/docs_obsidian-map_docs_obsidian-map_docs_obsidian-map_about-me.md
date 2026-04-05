@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map About Me
+﻿# Docs Obsidian Map Docs Obsidian Map About Me
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_about-me.md`
 - **Тип**: .MD
@@ -41,3 +41,4 @@
 # Ека
 ... (файл продолжается)
 ```
+

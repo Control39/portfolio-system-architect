@@ -1,4 +1,4 @@
-# Usage Example
+﻿# Usage Example
 
 - **Путь**: `components\it-compass\examples\usage_example.py`
 - **Тип**: .PY
@@ -33,3 +33,4 @@ import os
 # Добавляем путь к модулям IT
 ... (файл продолжается)
 ```
+

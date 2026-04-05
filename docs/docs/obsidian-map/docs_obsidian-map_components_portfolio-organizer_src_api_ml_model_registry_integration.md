@@ -1,4 +1,4 @@
-# Components Portfolio Organizer Src Api Ml Model Registry Integration
+﻿# Components Portfolio Organizer Src Api Ml Model Registry Integration
 
 - **Путь**: `docs\obsidian-map\components_portfolio-organizer_src_api_ml_model_registry_integration.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ import os
 bp = Blueprint('ml_model_registry', __name__, url_prefix='/api/ml-model-regis
 ... (файл продолжается)
 ```
+

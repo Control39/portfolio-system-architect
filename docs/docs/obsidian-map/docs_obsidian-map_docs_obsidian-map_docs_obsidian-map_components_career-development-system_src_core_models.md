@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Core Models
+﻿# Docs Obsidian Map Docs Obsidian Map Components Career Development System Src Core Models
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_career-development-system_src_core_models.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@
 - **Последнее изменение**: 2026-03-12
 ... (файл продолжается)
 ```
+

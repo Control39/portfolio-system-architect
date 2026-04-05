@@ -1,4 +1,4 @@
-# Diagrams Interactive Integration Diagram
+﻿# Diagrams Interactive Integration Diagram
 
 - **Путь**: `docs\obsidian-map\diagrams_interactive_integration-diagram.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ graph TD
     C --> C
 ... (файл продолжается)
 ```
+

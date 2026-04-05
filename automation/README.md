@@ -1,4 +1,4 @@
-# Maximum Automation Framework for Portfolio and Job Search
+﻿# Maximum Automation Framework for Portfolio and Job Search
 
 ## 🎯 Overview
 

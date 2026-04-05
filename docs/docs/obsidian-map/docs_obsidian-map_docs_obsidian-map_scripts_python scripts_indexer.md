@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Python Scripts Indexer
+﻿# Docs Obsidian Map Scripts Python Scripts Indexer
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_python scripts_indexer.md`
 - **Тип**: .MD
@@ -37,3 +37,4 @@ from .embedder import CodeEmbedder
 class CodeIndexer:
 ... (файл продолжается)
 ```
+

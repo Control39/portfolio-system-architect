@@ -1,4 +1,4 @@
-name: Badge Health Monitor
+﻿name: Badge Health Monitor
 
 on:
   schedule:

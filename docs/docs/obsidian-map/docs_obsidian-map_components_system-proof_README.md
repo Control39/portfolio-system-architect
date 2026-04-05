@@ -1,4 +1,4 @@
-# Components System Proof Readme
+﻿# Components System Proof Readme
 
 - **Путь**: `docs\obsidian-map\components_system-proof_README.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ System Proof предоставляет инструменты для анали
 ### RAG (R
 ... (файл продолжается)
 ```
+

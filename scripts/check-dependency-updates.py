@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Script to check for dependency updates and generate report.
 Run this script manually to see what dependencies need updating.

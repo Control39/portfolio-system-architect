@@ -1,4 +1,4 @@
-# Examples Arch Compass Practitioner Example
+﻿# Examples Arch Compass Practitioner Example
 
 - **Путь**: `docs\obsidian-map\examples_arch-compass_practitioner-example.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
        {"name": "order-service", "responsibil
 ... (файл продолжается)
 ```
+

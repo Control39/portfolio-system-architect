@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\it-compass\README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@ IT-Compass представляет собой методологию объек
 Этот компонент объединяет методологическое ядро с полной те
 ... (файл продолжается)
 ```
+

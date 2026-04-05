@@ -1,4 +1,4 @@
-# Technical Overview for Architects & Tech Leads
+﻿# Technical Overview for Architects & Tech Leads
 
 ## 🏗️ System Architecture at a Glance
 

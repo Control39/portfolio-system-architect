@@ -1,4 +1,4 @@
-> [!NOTE]
+﻿> [!NOTE]
 > Актуальные задачи перенесены в GitHub Issues:
 > - [#19](https://github.com/Control39/cognitive-systems-architecture/issues/19) — Update scripts/README.md and tools/README.md with boundaries documentation
 > - [#20](https://github.com/Control39/cognitive-systems-architecture/issues/20) — Append RAG note to apps/system-proof/README.md
@@ -16,3 +16,4 @@
 7. [ ] Run repo_audit base level
 
 Updated: $(date)
+

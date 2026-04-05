@@ -1,4 +1,4 @@
-# Docs Publications Habr Habr Article Content
+﻿# Docs Publications Habr Habr Article Content
 
 - **Путь**: `docs\obsidian-map\docs_publications_habr_HABR_ARTICLE_CONTENT.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 Методология "Объективные маркер
 ... (файл продолжается)
 ```
+

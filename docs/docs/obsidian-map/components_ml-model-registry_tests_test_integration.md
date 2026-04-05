@@ -1,4 +1,4 @@
-# Test Integration
+﻿# Test Integration
 
 - **Путь**: `components\ml-model-registry\tests\test_integration.py`
 - **Тип**: .PY
@@ -28,3 +28,4 @@ class TestModelRegistryIntegration(unittest.TestCase):
         # Оч
 ... (файл продолжается)
 ```
+

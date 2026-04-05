@@ -1,4 +1,4 @@
-# Evidence Pack for Grant
+﻿# Evidence Pack for Grant
 
 ## Key Artifacts:
 - **Reports**: COMPLETION_REPORT_3DAY_SPRINT.md, DAY3_FINAL_REPORT.md, SECURITY_IMPROVEMENTS_DAY1.md
@@ -10,4 +10,5 @@
 - **Repo**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
 
 Quick check: `pytest` (90% cov), `pre-commit run --all-files`
+
 

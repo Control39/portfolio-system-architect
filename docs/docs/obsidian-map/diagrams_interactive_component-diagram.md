@@ -1,4 +1,4 @@
-# Component Diagram
+﻿# Component Diagram
 
 - **Путь**: `diagrams\interactive\component-diagram.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@ graph TD
     style B fill:#2196F3,strok
 ... (файл продолжается)
 ```
+

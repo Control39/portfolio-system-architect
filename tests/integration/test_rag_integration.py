@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Интеграционные тесты для RAG системы (ChromaDB + FastAPI + Streamlit).
 Проверяет полный цикл работы системы от индексации до ответов через API.

@@ -1,4 +1,4 @@
-# Support
+﻿# Support
 
 - **Путь**: `04_CODE\src\core\mental\support.py`
 - **Тип**: .PY
@@ -29,3 +29,4 @@ class PsychologicalSupport:
    
 ... (файл продолжается)
 ```
+

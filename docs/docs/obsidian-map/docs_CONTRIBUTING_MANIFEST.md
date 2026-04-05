@@ -1,4 +1,4 @@
-# Contributing Manifest
+﻿# Contributing Manifest
 
 - **Путь**: `docs\CONTRIBUTING_MANIFEST.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 - **Контент**: Дополнения к историям, улуч
 ... (файл продолжается)
 ```
+

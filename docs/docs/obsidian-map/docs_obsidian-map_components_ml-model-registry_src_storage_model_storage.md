@@ -1,4 +1,4 @@
-# Components Ml Model Registry Src Storage Model Storage
+﻿# Components Ml Model Registry Src Storage Model Storage
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_src_storage_model_storage.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@ class ModelStorage:
         return {"status": "success", "message": f"Model {mo
 ... (файл продолжается)
 ```
+

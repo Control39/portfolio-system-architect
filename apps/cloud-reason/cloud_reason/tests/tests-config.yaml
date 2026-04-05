@@ -1,4 +1,4 @@
-test:
+﻿test:
   component: "cloud-reason"
   directory: "tests/"
   framework: "pytest"
@@ -33,3 +33,4 @@ fixtures:
     description: "Мок для интеграции с Git"
   - name: "mock_security"
     description: "Мок для сканера безопасности"
+

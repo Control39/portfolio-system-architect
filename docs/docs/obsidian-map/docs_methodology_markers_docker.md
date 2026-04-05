@@ -1,4 +1,4 @@
-# Docker
+﻿# Docker
 
 - **Путь**: `docs\methodology\markers\docker.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable": "Контейнер успешно
 ... (файл продолжается)
 ```
+

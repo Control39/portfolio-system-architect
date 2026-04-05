@@ -1,4 +1,4 @@
-# IT-Compass ConfigMap
+﻿# IT-Compass ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,3 +8,4 @@ data:
   PYTHONPATH: /app
   LOG_LEVEL: INFO
   ENVIRONMENT: production
+

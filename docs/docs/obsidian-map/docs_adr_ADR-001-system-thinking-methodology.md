@@ -1,4 +1,4 @@
-# Adr 001 System Thinking Methodology
+﻿# Adr 001 System Thinking Methodology
 
 - **Путь**: `docs\adr\ADR-001-system-thinking-methodology.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 2. **Soft Systems Methodology (SSM)**
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Main
+﻿# Main
 
 - **Путь**: `components\cloud_reason\main.py`
 - **Тип**: .PY
@@ -27,3 +27,4 @@ def run_server():
         port_str = api_script["com
 ... (файл продолжается)
 ```
+

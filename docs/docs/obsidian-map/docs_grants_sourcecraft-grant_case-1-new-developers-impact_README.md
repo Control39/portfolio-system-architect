@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\grants\sourcecraft-grant\case-1-new-developers-impact\README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 
 ... (файл продолжается)
 ```
+

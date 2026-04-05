@@ -1,4 +1,4 @@
-# Docs Methodology Markers Cybersecurity
+﻿# Docs Methodology Markers Cybersecurity
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_cybersecurity.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "priority": "high"
 ... (файл продолжается)
 ```
+

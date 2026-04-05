@@ -1,4 +1,4 @@
-services:
+﻿services:
   architect:
     base_url: "http://localhost:8000"
     health_check: "/health"

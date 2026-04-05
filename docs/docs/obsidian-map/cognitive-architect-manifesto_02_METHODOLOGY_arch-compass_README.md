@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\arch-compass\README.md`
 - **Тип**: .MD
@@ -12,3 +12,4 @@
 
 Этот раздел описывает архитектурный фреймворк, который используется в методологии.
 ```
+

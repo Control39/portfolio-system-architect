@@ -1,4 +1,4 @@
-#   Init  
+﻿#   Init  
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\it-compass\src\utils\__init__.py`
 - **Тип**: .PY
@@ -16,3 +16,4 @@ from .portfolio_gen import PortfolioGenerator
 
 __all__ = ['PortfolioGenerator']
 ```
+

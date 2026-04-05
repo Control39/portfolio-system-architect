@@ -1,4 +1,4 @@
-# Docs Obsidian Map Git Branch Analysis
+﻿# Docs Obsidian Map Git Branch Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_GIT_BRANCH_ANALYSIS.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 **Задача выполнена полностью.** Проведён полный цикл анализа веток, коммит изменений, удаление устаревши
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Analysis Project Analysis
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Analysis Project Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_analysis_PROJECT_ANALYSIS.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\analysis\PROJECT_ANA
 ... (файл продолжается)
 ```
+

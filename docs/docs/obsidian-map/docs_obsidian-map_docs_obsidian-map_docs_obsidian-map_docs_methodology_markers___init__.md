@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers   Init  
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Methodology Markers   Init  
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_methodology_markers___init__.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\methodology\markers\
 ... (файл продолжается)
 ```
+

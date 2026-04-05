@@ -1,4 +1,4 @@
-# Docs Career Career Readiness
+﻿# Docs Career Career Readiness
 
 - **Путь**: `docs\obsidian-map\docs_career_CAREER_READINESS.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@
 | Git/GitHub  | хотя бы 1 публи
 ... (файл продолжается)
 ```
+

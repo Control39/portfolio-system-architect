@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 '''
 Unified healthcheck for Portfolio System Architect
 Exports /health, /ready, /live endpoints for all services
@@ -46,3 +46,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

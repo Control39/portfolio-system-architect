@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs History Journey 02 Chaos To System Readme
+﻿# Docs Obsidian Map Docs History Journey 02 Chaos To System Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_history_journey_02_chaos-to-system_README.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 Этот раздел — вторая глава моего докум
 ... (файл продолжается)
 ```
+

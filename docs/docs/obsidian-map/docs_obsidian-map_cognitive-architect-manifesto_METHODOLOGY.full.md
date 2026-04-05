@@ -1,4 +1,4 @@
-# Cognitive Architect Manifesto Methodology.Full
+﻿# Cognitive Architect Manifesto Methodology.Full
 
 - **Путь**: `docs\obsidian-map\cognitive-architect-manifesto_METHODOLOGY.full.md`
 - **Тип**: .MD
@@ -25,3 +25,4 @@
 Методология объективных маркеров компетенций - это система оценки и развития профессиональных навыков, основанная на измеримых показателях и конкретных достижениях. В отличие от субъективных оценок, эта методология использует четкие крит
 ... (файл продолжается)
 ```
+

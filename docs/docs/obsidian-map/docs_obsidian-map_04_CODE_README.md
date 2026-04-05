@@ -1,4 +1,4 @@
-# 04 Code Readme
+﻿# 04 Code Readme
 
 - **Путь**: `docs\obsidian-map\04_CODE_README.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 │   │   └── mental/       
 ... (файл продолжается)
 ```
+

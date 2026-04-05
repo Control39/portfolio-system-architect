@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Cleanup Plan
+﻿# Docs Obsidian Map Docs Obsidian Map Cleanup Plan
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_cleanup_plan.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@
 
 ... (файл продолжается)
 ```
+

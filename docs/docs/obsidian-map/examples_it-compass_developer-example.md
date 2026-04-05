@@ -1,4 +1,4 @@
-# Developer Example
+﻿# Developer Example
 
 - **Путь**: `examples\it-compass\developer-example.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@
    
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map 04 Code Tests Test Cli
+﻿# Docs Obsidian Map Docs Obsidian Map 04 Code Tests Test Cli
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_04_CODE_tests_test_cli.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - 
 ... (файл продолжается)
 ```
+

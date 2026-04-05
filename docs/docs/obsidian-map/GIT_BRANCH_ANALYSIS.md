@@ -1,4 +1,4 @@
-# Git Branch Analysis
+﻿# Git Branch Analysis
 
 - **Путь**: `GIT_BRANCH_ANALYSIS.md`
 - **Тип**: .MD
@@ -28,3 +28,4 @@ git branch --merged main
 * `vscode-settings-c
 ... (файл продолжается)
 ```
+

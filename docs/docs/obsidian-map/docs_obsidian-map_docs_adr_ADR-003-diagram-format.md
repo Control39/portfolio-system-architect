@@ -1,4 +1,4 @@
-# Docs Adr Adr 003 Diagram Format
+﻿# Docs Adr Adr 003 Diagram Format
 
 - **Путь**: `docs\obsidian-map\docs_adr_ADR-003-diagram-format.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@
 4.
 ... (файл продолжается)
 ```
+

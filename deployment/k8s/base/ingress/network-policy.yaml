@@ -1,4 +1,4 @@
-# Network Policies for security
+﻿# Network Policies for security
 # Implements least-privilege networking
 # Works on: GKE v1.27+ (network policies enabled), Kind, Minikube
 
@@ -115,3 +115,4 @@ spec:
     - podSelector:
         matchLabels:
           app: prometheus
+

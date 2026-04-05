@@ -1,4 +1,4 @@
-#   Init  
+﻿#   Init  
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\it-compass\src\ui\__init__.py`
 - **Тип**: .PY
@@ -16,3 +16,4 @@ from .app import create_app
 
 __all__ = ['create_app']
 ```
+

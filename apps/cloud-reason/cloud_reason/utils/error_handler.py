@@ -1,4 +1,4 @@
-class APIError(Exception):
+﻿class APIError(Exception):
     pass
 
 class YandexGPTError(APIError):
@@ -6,4 +6,5 @@ class YandexGPTError(APIError):
 
 class ValidationError(APIError):
     pass
+
 

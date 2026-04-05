@@ -1,4 +1,4 @@
-# Employer One-Pager
+﻿# Employer One-Pager
 
 **Name**: Ekaterina Kudelia  
 **Role**: Product-minded Cognitive Systems Architect  
@@ -55,3 +55,4 @@
 
 **Available for**: Full-time, contract, consulting  
 **Preference**: Early-stage startups, deep-tech, AI companies
+

@@ -1,4 +1,4 @@
-# Components It Compass Src Utils Marker Export
+﻿# Components It Compass Src Utils Marker Export
 
 - **Путь**: `docs\obsidian-map\components_it-compass_src_utils_marker_export.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@ class MarkerExporter:
     """Класс для экспорта маркеров в различные
 ... (файл продолжается)
 ```
+

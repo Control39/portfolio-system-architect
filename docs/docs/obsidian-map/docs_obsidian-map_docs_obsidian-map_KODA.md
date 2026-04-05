@@ -1,4 +1,4 @@
-# Docs Obsidian Map Koda
+﻿# Docs Obsidian Map Koda
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_KODA.md`
 - **Тип**: .MD
@@ -41,3 +41,4 @@ models:
       -
 ... (файл продолжается)
 ```
+

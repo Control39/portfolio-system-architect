@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Components System Proof Rag Process Document
+﻿# Docs Obsidian Map Docs Obsidian Map Components System Proof Rag Process Document
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_components_system-proof_RAG_process_document.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 # Proc
 ... (файл продолжается)
 ```
+

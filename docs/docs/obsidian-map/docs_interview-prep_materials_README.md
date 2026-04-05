@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `docs\interview-prep\materials\README.md`
 - **Тип**: .MD
@@ -23,3 +23,4 @@
 - Как выбрать проекты, которые
 ... (файл продолжается)
 ```
+

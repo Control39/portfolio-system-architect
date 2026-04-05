@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Load Env
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Load Env
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_load-env.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\obsidian
 ... (файл продолжается)
 ```
+

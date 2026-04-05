@@ -1,4 +1,4 @@
-# Devops
+﻿# Devops
 
 - **Путь**: `docs\methodology\markers\devops.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurabl
 ... (файл продолжается)
 ```
+

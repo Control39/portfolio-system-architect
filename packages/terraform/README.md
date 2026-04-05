@@ -1,4 +1,4 @@
-# Terraform for GCP Free Tier Deployment
+﻿# Terraform for GCP Free Tier Deployment
 
 ## Prerequisites
 
@@ -154,3 +154,4 @@ terraform force-unlock <lock-id>
 - [Terraform Google Provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
 - [GCP Free Tier](https://cloud.google.com/free/docs/gcp-free-tier)
 - [GKE Best Practices](https://cloud.google.com/kubernetes-engine/docs/best-practices)
+

@@ -1,4 +1,4 @@
-# Code Of Conduct
+﻿# Code Of Conduct
 
 - **Путь**: `CODE_OF_CONDUCT.md`
 - **Тип**: .MD
@@ -22,3 +22,4 @@
 * Уважение к чужой точ
 ... (файл продолжается)
 ```
+

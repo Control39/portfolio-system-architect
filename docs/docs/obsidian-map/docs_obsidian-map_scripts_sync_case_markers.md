@@ -1,4 +1,4 @@
-# Scripts Sync Case Markers
+﻿# Scripts Sync Case Markers
 
 - **Путь**: `docs\obsidian-map\scripts_sync_case_markers.md`
 - **Тип**: .MD
@@ -38,3 +38,4 @@ logger = logging.getLogger(__name__)
 class ITCompass
 ... (файл продолжается)
 ```
+

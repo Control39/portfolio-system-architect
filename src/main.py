@@ -1,4 +1,4 @@
-import uvicorn
+﻿import uvicorn
 from .config.loader import COMPONENT_CONFIG
 from .api.endpoints import app
 
@@ -21,3 +21,4 @@ def run_server():
 
 if __name__ == "__main__":
     run_server()
+

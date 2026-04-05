@@ -1,4 +1,4 @@
-# Components Ml Model Registry Tests Test Fuzz
+﻿# Components Ml Model Registry Tests Test Fuzz
 
 - **Путь**: `docs\obsidian-map\components_ml-model-registry_tests_test_fuzz.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@ class TestModelRegistryFuzz(unittest.TestCase):
     def test_register_model_with_random_id(
 ... (файл продолжается)
 ```
+

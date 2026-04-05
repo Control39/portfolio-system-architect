@@ -1,4 +1,4 @@
-# SourceCraft Open Source Grant Application
+﻿# SourceCraft Open Source Grant Application
 
 ## 🏆 Project: Portfolio System Architect - Cognitive Architecture Ecosystem
 

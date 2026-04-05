@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Ml Model Registry Src Utils Helpers
+﻿# Docs Obsidian Map Components Ml Model Registry Src Utils Helpers
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_ml-model-registry_src_utils_helpers.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ def validate_model_metadata(metadata):
     required_fi
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Python
+﻿# Python
 
 - **Путь**: `docs\methodology\markers\python.json`
 - **Тип**: .JSON
@@ -24,3 +24,4 @@
           "measurable":
 ... (файл продолжается)
 ```
+

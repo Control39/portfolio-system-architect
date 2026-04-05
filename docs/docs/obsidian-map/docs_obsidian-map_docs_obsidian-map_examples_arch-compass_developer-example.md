@@ -1,4 +1,4 @@
-# Docs Obsidian Map Examples Arch Compass Developer Example
+﻿# Docs Obsidian Map Examples Arch Compass Developer Example
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_examples_arch-compass_developer-example.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Добавить новый плагин для интеграции с Kubernetes
 ... (файл продолжается)
 ```
+

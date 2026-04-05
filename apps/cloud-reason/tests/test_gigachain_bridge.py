@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 from ..cloud_reason.gigachain_bridge import GigaMCPBridge as GigachainBridge
 
 def test_gigachain_bridge_init():
@@ -9,3 +9,4 @@ def test_gigachain_bridge_init():
 def test_reason_chain():
     # Full chain test
     pass
+

@@ -1,4 +1,4 @@
-# Components Cloud Reason Configs Vscode Settings
+﻿# Components Cloud Reason Configs Vscode Settings
 
 - **Путь**: `docs\obsidian-map\components_cloud_reason_configs_vscode_settings.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
   "f
 ... (файл продолжается)
 ```
+

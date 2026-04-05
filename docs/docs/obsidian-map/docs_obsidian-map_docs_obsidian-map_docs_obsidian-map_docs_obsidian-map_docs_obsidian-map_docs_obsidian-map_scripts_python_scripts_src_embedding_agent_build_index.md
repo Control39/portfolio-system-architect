@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Build Index
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Build Index
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_scripts_python_scripts_src_embedding_agent_build_index.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 # Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Build 
 ... (файл продолжается)
 ```
+

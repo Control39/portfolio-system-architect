@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Duplicate Finder Design
+﻿# Docs Obsidian Map Docs Duplicate Finder Design
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_duplicate_finder_design.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Скрипт на Python для рекурсивного обхода директорий проекта 
 ... (файл продолжается)
 ```
+

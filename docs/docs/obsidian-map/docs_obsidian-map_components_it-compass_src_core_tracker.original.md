@@ -1,4 +1,4 @@
-# Components It Compass Src Core Tracker.Original
+﻿# Components It Compass Src Core Tracker.Original
 
 - **Путь**: `docs\obsidian-map\components_it-compass_src_core_tracker.original.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@ from dataclasses import dataclass
 logging.basicConfig(level=log
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Cases Thinking Cases Readme
+﻿# Docs Obsidian Map Docs Obsidian Map Cases Thinking Cases Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_cases_thinking-cases_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 
 ... (файл продолжается)
 ```
+

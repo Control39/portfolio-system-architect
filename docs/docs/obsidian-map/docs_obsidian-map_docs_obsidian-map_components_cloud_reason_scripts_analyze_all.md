@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Scripts Analyze All
+﻿# Docs Obsidian Map Components Cloud Reason Scripts Analyze All
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_scripts_analyze_all.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
 Анализ всех текстовых файлов в проекте на п
 ... (файл продолжается)
 ```
+

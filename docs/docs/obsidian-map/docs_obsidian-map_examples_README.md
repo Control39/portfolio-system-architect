@@ -1,4 +1,4 @@
-# Examples Readme
+﻿# Examples Readme
 
 - **Путь**: `docs\obsidian-map\examples_README.md`
 - **Тип**: .MD
@@ -31,3 +31,4 @@
 - **Новичок** — как использовать компонент 
 ... (файл продолжается)
 ```
+

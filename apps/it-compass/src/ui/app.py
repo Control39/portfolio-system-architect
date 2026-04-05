@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 IT Compass - Streamlit Web Interface for Dashboard Visualization
 Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0
@@ -300,3 +300,4 @@ if tracker is None:
 if __name__ == "__main__":
     main()
 ```
+

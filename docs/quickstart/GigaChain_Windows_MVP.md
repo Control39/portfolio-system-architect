@@ -1,4 +1,4 @@
-# 🚀 GigaChain MVP на Windows за 5 минут
+﻿# 🚀 GigaChain MVP на Windows за 5 минут
 
 ## Предварительные требования
 - Python 3.10+
@@ -10,3 +10,4 @@
 ```cmd
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio
+

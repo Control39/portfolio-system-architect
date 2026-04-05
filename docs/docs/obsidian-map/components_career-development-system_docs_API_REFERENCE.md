@@ -1,4 +1,4 @@
-# Api Reference
+﻿# Api Reference
 
 - **Путь**: `components\career-development-system\docs\API_REFERENCE.md`
 - **Тип**: .MD
@@ -58,3 +58,4 @@ POST /users
 ### Получить
 ... (файл продолжается)
 ```
+

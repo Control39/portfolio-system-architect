@@ -1,4 +1,4 @@
-name: Code Quality & Documentation (SourceCraft → GitHub Sync)
+﻿name: Code Quality & Documentation (SourceCraft → GitHub Sync)
 
 on:
   push:
@@ -796,3 +796,4 @@ jobs:
             } catch (error) {
               console.log('⚠️ Failed to update PR comment:', error.message);
             }
+

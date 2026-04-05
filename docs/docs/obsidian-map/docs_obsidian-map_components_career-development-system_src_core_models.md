@@ -1,4 +1,4 @@
-# Components Career Development System Src Core Models
+﻿# Components Career Development System Src Core Models
 
 - **Путь**: `docs\obsidian-map\components_career-development-system_src_core_models.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ class User(Base):
     username = Column(String(80), uni
 ... (файл продолжается)
 ```
+

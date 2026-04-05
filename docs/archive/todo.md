@@ -1,4 +1,4 @@
-> [!NOTE]
+﻿> [!NOTE]
 > Актуальные задачи перенесены в GitHub Issues:
 > - [#15](https://github.com/Control39/cognitive-systems-architecture/issues/15) — Improve Pester reporting in tests/run-tests.ps1
 > - [#16](https://github.com/Control39/cognitive-systems-architecture/issues/16) — Add PSScriptInfo metadata to tools/*.ps1 scripts
@@ -28,3 +28,4 @@
 Updated: $(Get-Date)
 
 Updated: $(Get-Date)
+

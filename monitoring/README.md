@@ -1,4 +1,4 @@
-# Monitoring Stack for Portfolio System Architect
+﻿# Monitoring Stack for Portfolio System Architect
 
 This directory contains the complete monitoring stack for the portfolio system, demonstrating production-grade observability practices.
 
@@ -276,3 +276,4 @@ spec:
 3. **Synthetic monitoring** – blackbox exporter for external checks
 4. **Business metrics** – more portfolio-specific KPIs
 5. **Anomaly detection** – machine learning on metrics
+

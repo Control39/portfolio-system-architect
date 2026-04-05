@@ -1,4 +1,4 @@
-# MIRRORING.md
+﻿# MIRRORING.md
 
 ## Цель
 Автоматически синхронизировать репозиторий **SourceCraft** → **GitHub**,  

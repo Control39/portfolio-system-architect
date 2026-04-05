@@ -1,4 +1,4 @@
-# Examples Ml Model Registry Developer Example
+﻿# Examples Ml Model Registry Developer Example
 
 - **Путь**: `docs\obsidian-map\examples_ml-model-registry_developer-example.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
        # Тестирование у
 ... (файл продолжается)
 ```
+

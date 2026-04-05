@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Methodology Markers Cybersecurity
+﻿# Docs Obsidian Map Docs Methodology Markers Cybersecurity
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_methodology_markers_cybersecurity.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@
   "levels": 
 ... (файл продолжается)
 ```
+

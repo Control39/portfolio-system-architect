@@ -1,4 +1,4 @@
-# Architecture Principles
+﻿# Architecture Principles
 
 - **Путь**: `diagrams\interactive\architecture-principles.md`
 - **Тип**: .MD
@@ -32,3 +32,4 @@ graph TD
    
 ... (файл продолжается)
 ```
+

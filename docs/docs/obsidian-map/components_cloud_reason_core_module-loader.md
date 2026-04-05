@@ -1,4 +1,4 @@
-# Module Loader
+﻿# Module Loader
 
 - **Путь**: `components\cloud_reason\core\module-loader.py`
 - **Тип**: .PY
@@ -21,3 +21,4 @@ def load_module_by_name(module_name):
             module = importlib.util.module_from_s
 ... (файл продолжается)
 ```
+

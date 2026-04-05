@@ -1,4 +1,4 @@
-#     portfolio-system-architect
+﻿#     portfolio-system-architect
 # : pip install -r requirements-dev.txt
 
 #   
@@ -42,3 +42,4 @@ openpyxl>=3.0.0
 #  
 pre-commit>=3.0.0
 commitizen>=2.0.0
+

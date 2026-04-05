@@ -1,4 +1,4 @@
-# components/cloud-reason/api/endpoints.py
+﻿# components/cloud-reason/api/endpoints.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
@@ -18,3 +18,4 @@ async def health():
 @app.get("/")
 async def root():
     return {"message": "Cloud-Reason API", "version": "1.0.0"}
+

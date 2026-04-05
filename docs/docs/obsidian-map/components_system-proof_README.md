@@ -1,4 +1,4 @@
-# Readme
+﻿# Readme
 
 - **Путь**: `components\system-proof\README.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@ System Proof предоставляет инструменты для анали
 - **File Organizatio
 ... (файл продолжается)
 ```
+

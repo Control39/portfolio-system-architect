@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: ConfigMap
 metadata:
   name: career-development-config
@@ -6,3 +6,4 @@ metadata:
 data:
   PYTHONPATH: /app
   LOG_LEVEL: INFO
+

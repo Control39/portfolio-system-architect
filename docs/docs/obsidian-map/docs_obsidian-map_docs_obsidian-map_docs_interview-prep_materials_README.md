@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Interview Prep Materials Readme
+﻿# Docs Obsidian Map Docs Interview Prep Materials Readme
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_interview-prep_materials_README.md`
 - **Тип**: .MD
@@ -35,3 +35,4 @@
 Эти материалы помогут ва
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-name: Deploy MkDocs Site
+﻿name: Deploy MkDocs Site
 
 permissions:
   contents: read
@@ -7,7 +7,7 @@ permissions:
 
 on:
   push:
-    branches: [ main, blackboxai/* ]
+    branches: [ main ]
   pull_request:
 
 jobs:

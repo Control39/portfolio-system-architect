@@ -1,4 +1,4 @@
-# Job Automation Agent - AI Карьерный Копилот
+﻿# Job Automation Agent - AI Карьерный Копилот
 
 **Максимальная автоматизация поиска работы**: Core Agent оркестрирует JobSearch (hh.ru), Resume (Jinja2+LLM), Analysis (pandas+DB).
 
@@ -31,3 +31,4 @@ python -m cProfile -s time src/core/orchestrator.py
 **Интеграция**: career-development skills → analysis.
 
 See TODO.md for roadmap.
+

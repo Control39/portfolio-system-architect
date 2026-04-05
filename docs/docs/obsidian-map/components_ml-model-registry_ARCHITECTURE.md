@@ -1,4 +1,4 @@
-# Architecture
+﻿# Architecture
 
 - **Путь**: `components\ml-model-registry\ARCHITECTURE.md`
 - **Тип**: .MD
@@ -26,3 +26,4 @@ ML Model Registry - это система для управления жизне
 - Поддержка ра
 ... (файл продолжается)
 ```
+

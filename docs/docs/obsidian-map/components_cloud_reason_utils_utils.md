@@ -1,4 +1,4 @@
-# Utils
+﻿# Utils
 
 - **Путь**: `components\cloud_reason\utils\utils.py`
 - **Тип**: .PY
@@ -24,3 +24,4 @@ def find_endpoint_by_path(path):
         if endpoint["p
 ... (файл продолжается)
 ```
+

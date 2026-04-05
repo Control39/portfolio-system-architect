@@ -1,4 +1,4 @@
-# 🩺 ПОЛНАЯ ДИАГНОСТИКА ПРОЕКТА "portfolio-system-architect"
+﻿# 🩺 ПОЛНАЯ ДИАГНОСТИКА ПРОЕКТА "portfolio-system-architect"
 
 ## 📊 ТЕКУЩИЙ СТАТУС
 

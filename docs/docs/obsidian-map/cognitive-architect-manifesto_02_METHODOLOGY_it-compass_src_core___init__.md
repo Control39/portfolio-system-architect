@@ -1,4 +1,4 @@
-#   Init  
+﻿#   Init  
 
 - **Путь**: `cognitive-architect-manifesto\02_METHODOLOGY\it-compass\src\core\__init__.py`
 - **Тип**: .PY
@@ -11,3 +11,4 @@
 
 
 ```
+

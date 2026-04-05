@@ -1,4 +1,4 @@
-# Components Portfolio Organizer Readme
+﻿# Components Portfolio Organizer Readme
 
 - **Путь**: `docs\obsidian-map\components_portfolio-organizer_README.md`
 - **Тип**: .MD
@@ -27,3 +27,4 @@ Portfolio Organizer - это система, созданная архитект
 Portfolio Organiz
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# Screenshots Directory
+﻿# Screenshots Directory
 
 This directory contains screenshots of the portfolio system in action, providing visual evidence of functionality and production readiness.
 
@@ -36,3 +36,4 @@ Reference screenshots in markdown:
 ## 📝 Note for Reviewers
 
 These screenshots demonstrate **tangible results** of the portfolio system, moving beyond code to show working software with observability, user interfaces, and operational tooling.
+

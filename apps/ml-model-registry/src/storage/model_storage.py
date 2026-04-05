@@ -1,4 +1,4 @@
-class ModelStorage:
+﻿class ModelStorage:
     """Класс для хранения моделей"""
     
     def __init__(self):

@@ -1,4 +1,4 @@
-{
+﻿{
   "skill_name": "QA",
   "description": "Тестирование программного обеспечения: manual, automation, performance, security testing",
   "levels": {
@@ -74,3 +74,4 @@
     ]
   }
 }
+

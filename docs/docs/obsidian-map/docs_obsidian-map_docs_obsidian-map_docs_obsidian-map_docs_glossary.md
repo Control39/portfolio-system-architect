@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Glossary
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Glossary
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_glossary.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - **Последнее изменение**: 2026-03-11 23:47
 ... (файл продолжается)
 ```
+

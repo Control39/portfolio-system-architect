@@ -1,4 +1,4 @@
-# Исправление ошибки конфигурации рабочего процесса
+﻿# Исправление ошибки конфигурации рабочего процесса
 
 ## Описание проблемы
 Ошибка: yaml parsing error: incorrect node kind 'Mapping' (expected 'Scalar') for node at line 39 and col 17

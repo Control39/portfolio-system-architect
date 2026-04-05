@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Git Branch Analysis
+﻿# Docs Obsidian Map Docs Obsidian Map Git Branch Analysis
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_GIT_BRANCH_ANALYSIS.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@
 - 
 ... (файл продолжается)
 ```
+

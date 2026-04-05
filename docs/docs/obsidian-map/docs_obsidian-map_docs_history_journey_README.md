@@ -1,4 +1,4 @@
-# Docs History Journey Readme
+﻿# Docs History Journey Readme
 
 - **Путь**: `docs\obsidian-map\docs_history_journey_README.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
 - В 2023 году, не имея опыта в IT, я создала простую таблицу для отслеживания своих ша
 ... (файл продолжается)
 ```
+

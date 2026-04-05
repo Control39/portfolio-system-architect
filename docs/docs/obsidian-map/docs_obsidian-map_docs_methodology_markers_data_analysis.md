@@ -1,4 +1,4 @@
-# Docs Methodology Markers Data Analysis
+﻿# Docs Methodology Markers Data Analysis
 
 - **Путь**: `docs\obsidian-map\docs_methodology_markers_data_analysis.md`
 - **Тип**: .MD
@@ -30,3 +30,4 @@
         "priority": "high"
 ... (файл продолжается)
 ```
+

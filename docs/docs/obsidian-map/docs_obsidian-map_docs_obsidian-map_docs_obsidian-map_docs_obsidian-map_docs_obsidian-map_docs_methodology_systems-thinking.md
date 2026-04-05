@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Systems Thinking
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Obsidian Map Docs Methodology Systems Thinking
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_obsidian-map_docs_methodology_systems-thinking.md`
 - **Тип**: .MD
@@ -24,3 +24,4 @@
 - **Тип
 ... (файл продолжается)
 ```
+

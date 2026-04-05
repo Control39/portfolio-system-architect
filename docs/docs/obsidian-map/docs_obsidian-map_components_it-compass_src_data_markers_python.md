@@ -1,4 +1,4 @@
-# Components It Compass Src Data Markers Python
+﻿# Components It Compass Src Data Markers Python
 
 - **Путь**: `docs\obsidian-map\components_it-compass_src_data_markers_python.md`
 - **Тип**: .MD
@@ -29,3 +29,4 @@
       "Создал программу для обработки 
 ... (файл продолжается)
 ```
+

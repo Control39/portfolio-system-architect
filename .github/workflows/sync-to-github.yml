@@ -1,10 +1,9 @@
-name: Sync to GitHub Mirror
+﻿name: Sync to GitHub Mirror
 
 on:
   push:
     branches:
       - main
-      - blackboxai/job-automation-system
       - gh-pages
   workflow_dispatch:  # Manual trigger
   schedule:

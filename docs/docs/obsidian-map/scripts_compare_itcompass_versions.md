@@ -1,4 +1,4 @@
-# Compare Itcompass Versions
+﻿# Compare Itcompass Versions
 
 - **Путь**: `scripts\compare_itcompass_versions.ps1`
 - **Тип**: .PS1
@@ -20,3 +20,4 @@ $paths = @(
 
 ... (файл продолжается)
 ```
+

@@ -1,4 +1,4 @@
-# План объединения it-compass и it-compass.bak
+﻿# План объединения it-compass и it-compass.bak
 
 ## Введение
 

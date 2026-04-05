@@ -1,4 +1,4 @@
-# Docs Obsidian Map Architecture
+﻿# Docs Obsidian Map Architecture
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_ARCHITECTURE.md`
 - **Тип**: .MD
@@ -39,3 +39,4 @@
 Создать **единый, целостный, живой репозиторий `portfolio-
 ... (файл продолжается)
 ```
+

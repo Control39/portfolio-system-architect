@@ -1,4 +1,4 @@
-# Docs Obsidian Map Docs Obsidian Map Docs Methodology Ai Interaction
+﻿# Docs Obsidian Map Docs Obsidian Map Docs Methodology Ai Interaction
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_docs_obsidian-map_docs_methodology_ai-interaction.md`
 - **Тип**: .MD
@@ -33,3 +33,4 @@
 - **Путь**: `docs\methodology\ai-int
 ... (файл продолжается)
 ```
+

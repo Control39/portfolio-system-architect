@@ -1,4 +1,4 @@
-# Docs Obsidian Map Components Cloud Reason Configs Loader
+﻿# Docs Obsidian Map Components Cloud Reason Configs Loader
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_components_cloud_reason_configs_loader.md`
 - **Тип**: .MD
@@ -36,3 +36,4 @@ def load_component_config():
     ""
 ... (файл продолжается)
 ```
+

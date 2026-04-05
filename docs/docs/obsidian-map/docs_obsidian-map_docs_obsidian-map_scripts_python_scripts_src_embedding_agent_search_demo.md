@@ -1,4 +1,4 @@
-# Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Search Demo
+﻿# Docs Obsidian Map Scripts Python Scripts Src Embedding Agent Search Demo
 
 - **Путь**: `docs\obsidian-map\docs_obsidian-map_scripts_python_scripts_src_embedding_agent_search_demo.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ from pathlib import Path
 imp
 ... (файл продолжается)
 ```
+

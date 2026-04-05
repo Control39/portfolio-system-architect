@@ -1,4 +1,4 @@
-# Check Yaml
+﻿# Check Yaml
 
 - **Путь**: `scripts\check_yaml.py`
 - **Тип**: .PY
@@ -26,3 +26,4 @@ except yaml.YAMLError as e:
     sys.exit(1)
 
 ```
+

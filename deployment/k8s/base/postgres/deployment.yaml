@@ -1,4 +1,4 @@
-# PostgreSQL Deployment
+﻿# PostgreSQL Deployment
 # Works on: GKE v1.27+, Kind, Minikube
 # Resources tuned for GCP Free Tier
 
@@ -96,3 +96,4 @@ spec:
                 - matchExpressions:
                   - key: cloud.google.com/gke-preemptible
                     operator: DoesNotExist  # Prefer non-preemptible nodes
+

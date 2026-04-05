@@ -1,4 +1,4 @@
-"""
+﻿"""
 Git history plugin for analyzing repository activity.
 """
 import logging
@@ -111,3 +111,4 @@ def _get_branches(root: Path) -> List[str]:
     # Filter out remote branches if too many
     local_branches = [b for b in branches if not b.startswith('origin/')]
     return local_branches[:10]  # Limit to 10 branches
+

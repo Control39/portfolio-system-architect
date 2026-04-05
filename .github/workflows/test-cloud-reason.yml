@@ -1,4 +1,4 @@
-name: Test Cloud Reason Component
+﻿name: Test Cloud Reason Component
 
 on:
   push:
@@ -69,3 +69,4 @@ jobs:
 
       - name: Print environment requirements
         run: python -c "from apps.cloud-reason.utils.dependency_checker import print_env_requirements; print_env_requirements()" || echo "Skipped"
+

@@ -1,4 +1,4 @@
-# Detailed
+﻿# Detailed
 
 - **Путь**: `diagrams\integration\detailed.md`
 - **Тип**: .MD
@@ -20,3 +20,4 @@ graph LR
     F -- Когнитивные модели --> G
 
 ```
+

@@ -1,4 +1,4 @@
-# Manifest Methodology
+﻿# Manifest Methodology
 
 - **Путь**: `docs\methodology\manifest-methodology.md`
 - **Тип**: .MD
@@ -21,3 +21,4 @@
 - Используются количественные и 
 ... (файл продолжается)
 ```
+

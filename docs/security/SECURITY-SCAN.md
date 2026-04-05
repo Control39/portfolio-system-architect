@@ -1,4 +1,4 @@
-# Security Scanning
+﻿# Security Scanning
 
 ## Overview
 

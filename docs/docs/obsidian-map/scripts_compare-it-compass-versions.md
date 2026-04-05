@@ -1,4 +1,4 @@
-# Compare It Compass Versions
+﻿# Compare It Compass Versions
 
 - **Путь**: `scripts\compare-it-compass-versions.ps1`
 - **Тип**: .PS1
@@ -22,3 +22,4 @@ foreach ($v in $versions) {
         Write-Host "📁 Версия: $($v.Name) ($($v.Path))" -
 ... (файл продолжается)
 ```
+

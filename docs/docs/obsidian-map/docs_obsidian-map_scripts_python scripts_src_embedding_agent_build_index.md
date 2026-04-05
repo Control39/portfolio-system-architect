@@ -1,4 +1,4 @@
-# Scripts Python Scripts Src Embedding Agent Build Index
+﻿# Scripts Python Scripts Src Embedding Agent Build Index
 
 - **Путь**: `docs\obsidian-map\scripts_python scripts_src_embedding_agent_build_index.md`
 - **Тип**: .MD
@@ -34,3 +34,4 @@ def main():
  
 ... (файл продолжается)
 ```
+
