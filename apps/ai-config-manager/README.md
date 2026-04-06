@@ -1,4 +1,4 @@
-﻿# AI Config Manager
+# AI Config Manager
 
 Графический интерфейс для управления конфигурациями AI-сервисов.
 
@@ -13,7 +13,7 @@
 ## 📦 Установка
 
 `ash
-cd 07_TOOLS/.ai-config-gui
+cd 07_apps/ai-config-manager
 npm install
 npm start
 🔧 Дополнительная настройка

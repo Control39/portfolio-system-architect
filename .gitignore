@@ -92,3 +92,13 @@ agents/local/config/*.local.yaml
 agents/gigacode/config/*.local.yaml
 agents/logs/*.log
 agents/*.log
+
+# Temporary report files
+*.csv
+*-report.json
+*-analysis-report.txt
+health-report.json
+mcp_settings.json
+README.md.backup
+tools/.ai-config-gui-backup-*/
+project_health_report.json
