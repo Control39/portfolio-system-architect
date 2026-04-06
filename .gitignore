@@ -84,4 +84,11 @@ manual-review/
 *-SUMMARY.md
 IMPROVEMENTS-TODO.md
 TODO*.md
-.ai-config/tasks-*.md
+.ai-config/tasks-*.mdmy-repo-map*.csv
+my-repo-map*.txt
+
+# Агенты - локальные конфиги
+agents/local/config/*.local.yaml
+agents/gigacode/config/*.local.yaml
+agents/logs/*.log
+agents/*.log

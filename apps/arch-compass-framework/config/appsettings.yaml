@@ -1,0 +1,12 @@
+# Базовый конфигурационный файл
+environment: development
+logging:
+  level: Info
+  format: Json
+  path: logs/archcompass.log
+security:
+  scanEnabled: true
+  secretScanning: true
+ai:
+  provider: OpenAI
+  model: gpt-4o-mini
