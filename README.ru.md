@@ -1,6 +1,8 @@
-# Экосистема когнитивной архитектуры: Production-Ready портфолио системного дизайна
+# Экосистема когнитивной архитектуры
 
-> Enterprise-grade микросервисы, Kubernetes деплоймент и AI-ассистированный системный дизайн. Демонстрирует полный путь от нулевых IT-знаний до enterprise-архитектуры с 10 интегрированными компонентами (8 развёртываемых микросервисов). Идеально для карьерного перехода, технической оценки и production-референса.
+> **Роль:** Архитектор когнитивных систем и оркестратор ИИ  
+> **Подход:** Код генерируется ИИ под моим строгим архитектурным руководством. Я проектирую систему, создаю методологию, управляю ИИ-исполнителями, валидирую результаты, интегрирую компоненты, настраиваю CI/CD и контролирую качество.  
+> **Результат:** 11 интегрированных компонентов (9 контейнеризуемых), готовых к production и развёртыванию в Kubernetes.
 
 <!-- Переключатель языка -->
 <p align="center">
@@ -10,23 +12,20 @@
 
 <!-- Бейджи -->
 <p align="center">
-  <!-- Архитектура -->
   <img src="https://img.shields.io/badge/✅-Production--Ready-blue?style=for-the-badge" alt="Готово к продакшену">
   <img src="https://img.shields.io/badge/✅-GitOps-orange?style=for-the-badge" alt="GitOps">
   <img src="https://img.shields.io/badge/✅-Observability-green?style=for-the-badge" alt="Наблюдаемость">
 </p>
 
 <p align="center">
-  <!-- Технические метрики -->
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square&logo=github" alt="CI: GitHub Actions">
-  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Покрытие кода тестами">
+  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Покрытие тестами">
   <img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Безопасность: Trivy Scan">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="Лицензия: MIT">
   <img src="https://img.shields.io/badge/Python-3.13.5-blue?style=flat-square&logo=python" alt="Python 3.13.5">
 </p>
 
 <p align="center">
-  <!-- Стек -->
   <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
@@ -36,274 +35,52 @@
   <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
 </p>
 
-<!-- Динамические бейджи -->
-<p align="center">
-  <a href="https://github.com/Control39/cognitive-systems-architecture/actions">
-    <img src="https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg" alt="Статус CI">
-  </a>
-  <a href="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect">
-    <img src="https://codecov.io/gh/leadarchitect-ai/portfolio-system-architect/branch/main/graph/badge.svg" alt="Покрытие кода">
-  </a>
-  <img src="https://img.shields.io/badge/Trivy-Scan-blue?style=flat-square&logo=trivy" alt="Сканирование безопасности Trivy">
-  <a href="https://github.com/Control39/cognitive-systems-architecture/security/dependabot">
-    <img src="https://img.shields.io/badge/dependabot-enabled-brightgreen?style=flat-square&logo=dependabot" alt="Dependabot включён">
-  </a>
-  <a href="https://github.com/Control39/cognitive-systems-architecture">
-    <img src="https://img.shields.io/github/last-commit/Control39/cognitive-systems-architecture?style=flat-square&logo=git" alt="Последний коммит">
-  </a>
-</p>
-
 ---
 
-## 🎯 Для кого этот проект?
+## 🧭 Навигация
+| Аудитория | Ссылка | Что внутри |
+|-----------|--------|------------|
+| 🎯 **HR / Техлид** | [`docs/employer/`](docs/employer/) | Бизнес-ценность, доказательства компетенций, вопросы для интервью |
+| 💻 **Инженеры / Архитекторы** | [`docs/architecture/decisions/`](docs/architecture/decisions/) + [`src/`](src/) | ADR, стандарты валидации, паттерны интеграции, ядро системы |
+| 🛠️ **DevOps** | [`deployment/`](deployment/) + [`monitoring/`](monitoring/) | GitOps, манифесты K8s, sealed secrets, CI/CD |
+| 🌱 **Новички в IT** | [`apps/it-compass/`](apps/it-compass/) + [`docs/cases/`](docs/cases/) | Методология самооценки, кейсы роста, трекинг компетенций |
 
-| Аудитория | Решаемая проблема | Ценностное предложение |
-|-----------|-------------------|------------------------|
-| **Карьерные переходники** | Как продемонстрировать архитектурные навыки без традиционного опыта | Полное портфолио, показывающее enterprise-архитектурные возможности |
-| **Технические архитекторы** | Нужны production-ready примеры для референса | 10 интегрированных компонентов с Kubernetes, мониторингом, безопасностью |
-| **HR и рекрутеры** | Как оценивать нетрадиционных кандидатов | Объективное измерение компетенций с системой IT-Compass |
-| **Российские предприятия** | Локализованные решения для Yandex Cloud и compliance | Production-деплоймент, адаптированный для российского рынка |
-| **Комитет по грантам SourceCraft** | Оценка инновационных open source проектов | Комплексная когнитивная архитектура с социальным воздействием |
+## 📊 Техническая реализация
+| Область | Реализация | Статус |
+|---------|------------|--------|
+| **Компоненты** | 11 интегрированных компонентов (9 контейнеризуемых) | ✅ Готово к продакшену |
+| **CI/CD и GitOps** | GitHub Actions + Kustomize + автоматизация | ✅ Автоматизировано |
+| **Наблюдаемость** | Prometheus + Grafana + AlertManager | ✅ Мониторинг активен |
+| **Безопасность** | Trivy, Bandit, Sealed Secrets, сетевые политики | ✅ Соответствует стандартам |
+| **Тестирование** | Unit, Integration, E2E, Load (85%+ покрытие) | ✅ Верифицировано |
+| **Оркестрация ИИ** | RAG + Reasoning для валидации архитектуры | ✅ Операционально |
 
-## 🔥 Ключевые особенности
+## 🔄 Мой рабочий процесс
+1. **Архитектура и ограничения** → Я определяю границы, контракты, метрики успеха и возможные сбои.
+2. **Оркестрация ИИ** → Модели генерируют черновики реализации по моим спецификациям.
+3. **Валидация и рефакторинг** → Я проверяю, отклоняю неверные подходы, исправляю edge-cases и поддерживаю стандарты.
+4. **Интеграция и деплой** → Я связываю компоненты, настраиваю инфраструктуру, CI/CD и мониторинг.
+5. **Доказательства и аудит** → Автосбор через `portfolio-organizer`, проверка через `repo-audit`.
 
-### 🧠 Фреймворк когнитивной архитектуры
-- **Коллаборация человека и ИИ**: Объединяет стратегическое мышление с AI-исполнительными возможностями
-- **Методология системного мышления**: Структурированный подход к сложным проблемам
-- **Production-паттерны**: Kubernetes, микросервисы, мониторинг с первого дня
-
-### 🏗️ Production-Ready экосистема микросервисов
-- **10 интегрированных компонентов**: 8 развёртываемых как Kubernetes микросервисы
-- **Enterprise-безопасность**: Финансового уровня с Trivy, Bandit, sealed secrets
-- **Комплексный CI/CD**: GitHub Actions, Kustomize, GitOps автоматизация
-- **Полная наблюдаемость**: Prometheus, Grafana, AlertManager с кастомными дашбордами
-
-### 📊 Система измерения компетенций IT-Compass
-- **18 областей навыков**: DevOps, Python, Системное мышление, Cloud Computing и др.
-- **Три уровня владения**: Начинающий → Средний → Продвинутый с SMART-критериями
-- **Объективные маркеры**: 1495 конкретных, измеримых целей на всех уровнях
-- **Автоматическое отслеживание прогресса**: Python класс CareerTracker с рекомендациями
-
-### 🤖 AI-ассистированное принятие решений
-- **Движок Cloud-Reason**: Систематическая поддержка технических решений
-- **Мультимодельная интеграция**: Yandex GPT, OpenAI, локальные LLM
-- **Структурированные рассуждения**: Отслеживаемые пути решений с объяснимыми выходами
-- **Контекстно-зависимые рекомендации**: Проект-специфичные руководства
-
-### 📁 Автоматизированное управление портфолио
-- **Сбор доказательств**: Автоматический сбор из Git, CI/CD, документации
-- **Динамическая генерация**: Адаптированные портфолио под конкретные роли/аудитории
-- **Анализ пробелов в навыках**: Планы действий по улучшению с метриками
-- **Экспорт в нескольких форматах**: PDF, HTML, Markdown, JSON выводы
-
-### 🇷🇺 Фокус на российский рынок
-- **Деплоймент на Yandex Cloud**: Production-ready конфигурации
-- **Локальный compliance**: Требования российских банков и предприятий
-- **Двойная документация**: Английский (технический) + Русский (бизнес/рынок)
-- **Культурная релевантность**: Решения для российского корпоративного окружения
-
-## 🚀 Быстрый старт
-
-### Разверните за 5 минут
-
-```bash
-# Клонируйте репозиторий
-git clone https://github.com/Control39/cognitive-systems-architecture.git
-cd portfolio-system-architect
-
-# Запустите с Docker Compose
-docker compose up -d
-
-# Доступ к приложениям
-# Portfolio Organizer: http://localhost:8004
-# Grafana: http://localhost:3000 (admin/admin)
-# Prometheus: http://localhost:9090
-```
-
-### Изучите ключевые компоненты
-
-1. **IT-Compass**: Перейдите в `apps/it-compass/` и запустите `python src/main.py` для интерактивного отслеживания компетенций
-2. **Cloud-Reason**: Проверьте `apps/cloud-reason/` для примеров AI-ассистированного принятия решений
-3. **Portfolio-Organizer**: Посетите `http://localhost:8004` для автоматической генерации портфолио
-4. **System-Proof**: Изучите `apps/system-proof/` для валидации архитектуры
-
-### Полная документация
-- [Полное руководство по быстрому старту](docs/QUICKSTART.md) - Детальные инструкции по настройке
-- [Docker & Kubernetes деплоймент](deployment/k8s-README.md) - Production-развёртывание
-- [Настройка мониторинга](monitoring/README.md) - Конфигурация наблюдаемости
-- [Реализация безопасности](docs/security/SECURITY-SCAN.md) - Лучшие практики безопасности
-
-## 📊 Ключевые метрики
-
-| Метрика | Значение | Статус |
-|---------|----------|--------|
-| **Интегрированные компоненты** | 10 модулей (8 развёртываемых микросервисов) | ✅ Готово к продакшену |
-| **Покрытие тестами** | 85%+ | ✅ Комплексное |
-| **Аудит-чекпоинты** | 70+ на 3 уровнях зрелости | ✅ Автоматизировано |
-| **Архитектурные решения** | 7 документированных ADRs | ✅ Прозрачно |
-| **Безопасность** | Финансового уровня | ✅ Соответствует |
-| **Маркеры навыков** | 1495 на 18 доменах | ✅ Стандартизировано |
-
-### Детали покрытия тестами
-
-| Компонент | Покрытие | Статус |
-|-----------|----------|--------|
-| Основные модули | 87% | ✅ |
-| API endpoints | 92% | ✅ |
-| ML Registry | 78% | 🟡 |
-| **Итого** | **85%** | ✅ |
+> *ИИ — это слой исполнения. Архитектура, валидация и ответственность — мои.*
 
 ## 📁 Структура проекта
-
 ```
-├── apps/                    # Основные модули приложений (10 компонентов, 8 развёртываемых микросервисов)
-│   ├── it-compass/         # Система объективного измерения компетенций
-│   ├── cloud-reason/       # Движок AI-ассистированного принятия решений
-│   ├── portfolio-organizer/# Автоматический сбор доказательств
-│   ├── system-proof/       # Фреймворк валидации архитектуры
-│   └── ... 6 других компонентов
-├── src/                     # Общий исходный код и схемы
-├── tests/                   # Комплексные тестовые наборы
-├── docs/                    # Документация (аудитория-специфичная)
-├── deployment/              # Kubernetes, Terraform, Docker
+├── apps/                    # 11 интегрированных микросервисов и компонентов
+├── src/                     # Общее ядро, оркестрация ИИ, логика валидации
+├── deployment/              # Kubernetes, GitOps, Sealed Secrets
 ├── monitoring/              # Prometheus, Grafana, AlertManager
-├── diagrams/                # Архитектурные диаграммы
-└── tools/                   # Инструменты разработки и аудита
+├── docs/                    # Архитектурные решения, гайд для работодателя, методология
+├── .codeassistant/skills/   # Стандарты валидации ИИ и архитектура промптов
+└── tools/                   # Аудит репо, CI/CD, сканеры безопасности
 ```
 
-## 🏆 Готовность к продакшену
-
-| Категория | Статус | Документация |
-|-----------|--------|--------------|
-| **Тестирование** | ✅ | Unit (pytest), Integration, E2E, Load (Locust) |
-| **CI/CD** | ✅ | GitHub Actions + Kustomize + GitOps |
-| **Безопасность** | ✅ | Sealed Secrets, network policies, Trivy secret scanning |
-| **Окружения** | ✅ | dev / staging / prod overlays |
-| **Мониторинг** | ✅ | Prometheus + Grafana + AlertManager |
-| **Disaster Recovery** | ✅ | Бэкапы, восстановление, DR Runbook |
-| **Документация** | ✅ | MkDocs, авто-генерация, аудит |
-
-## 🔍 Инструмент аудита репозитория
-
-Этот репозиторий включает **автоматизированный инструмент аудита**, который оценивает зрелость кодовой базы:
-
-```bash
-# Запустите аудит для уровня 'base'
-python -m tools.repo_audit.audit --level base --output markdown
-
-# Запустите для всех уровней с авто-исправлением
-python -m tools.repo_audit.audit --level base,professional,enterprise --auto-fix
-```
-
-**Возможности**:
-- 70+ чекпоинтов на уровнях Base/Professional/Enterprise
-- AI Skill для SourceCraft: `@repo-audit проверить репозиторий`
-- Интеграция с GitHub Actions
-- Возможность авто-исправления общих проблем
-
-[Полная документация по аудиту →](docs/repo-audit-guide.md)
-
-## 🤖 Архитектор-ассистент на основе RAG с ChromaDB
-
-### 🧠 Интеллектуальный поиск по документации и система вопросов-ответов
-
-Проект теперь включает **production-ready RAG (Retrieval-Augmented Generation) систему**, которая позволяет задавать интеллектуальные вопросы об архитектуре проекта с использованием векторного хранилища ChromaDB:
-
-```bash
-# Запустите полную RAG систему локально
-docker-compose -f docker-compose.rag.yml up -d
-
-# Доступ к сервисам:
-# - RAG API: http://localhost:8000/docs (OpenAPI документация)
-# - Streamlit UI: http://localhost:8501 (Интерактивный веб-интерфейс)
-# - ChromaDB: http://localhost:8001 (Векторная база данных)
-```
-
-### 🚀 Ключевые возможности
-
-| Компонент | Технология | Назначение |
-|-----------|------------|------------|
-| **ChromaDocumentIndexer** | ChromaDB + Sentence Transformers | Персистентное векторное хранилище для документации проекта |
-| **FastAPI RAG API** | FastAPI + Uvicorn | REST API для интеллектуальных Q&A с эндпоинтом `/ask` |
-| **Streamlit UI** | Streamlit + React | Интерактивный веб-интерфейс для нетехнических пользователей |
-| **Docker/Kubernetes** | Продакшен-деплоймент | Масштабируемый деплоймент с health checks и мониторингом |
-
-### 📊 Что можно делать
-
-1. **Задавать вопросы об архитектуре проекта:**
-   ```
-   "Как работает аутентификация в системе?"
-   "Какие технологии используются для мониторинга?"
-   "Объясните архитектуру микросервисов."
-   ```
-
-2. **Получать контекстно-зависимые ответы с источниками:**
-   - Ответы генерируются из документации проекта
-   - Каждый ответ включает оценку уверенности
-   - Цитирование источников с ссылками на файлы
-
-3. **Развертывать в продакшене:**
-   ```bash
-   # Kubernetes деплоймент
-   kubectl apply -f deployment/rag-api-deployment.yaml
-   kubectl apply -f deployment/streamlit-ui-deployment.yaml
-   ```
-
-### 🔧 Техническая реализация
-
-- **Векторные эмбеддинги**: `all-MiniLM-L6-v2` (384 измерения)
-- **Векторная база данных**: ChromaDB с персистентным хранилищем
-- **API фреймворк**: FastAPI с OpenAPI документацией
-- **Веб-интерфейс**: Streamlit с обновлениями в реальном времени
-- **Деплоймент**: Docker Compose для локальной разработки, Kubernetes для продакшена
-
-[Полная документация по интеграции ChromaDB →](docs/CHROMADB-INTEGRATION-README.md)
-
-## 🏆 Для гранта SourceCraft Open Source
-
-**Инновационность**: 9/10
-**Техническая сложность**: 9/10
-**Коммитмент к open source**: 100% (MIT + CC BY-ND)
-
-### Ключевые метрики для гранта:
-- 10 интегрированных компонентов (8 развёртываемых микросервисов)
-- 70+ автоматизированных аудит-чекпоинтов
-- 85%+ покрытие тестами с CI enforcement
-- 7 документированных архитектурных решений
-- 3 уровня зрелости (Base/Professional/Enterprise)
-- 1495 маркеров навыков на 18 доменах
-- **НОВОЕ**: Production-ready RAG система с ChromaDB
-
-[Полная заявка на грант →](docs/FOR-GRANT.md)
-
-## 📄 Лицензии
-
-Код проекта лицензирован под MIT License - смотрите файл [LICENSE](LICENSE) для деталей.
-
-Документация лицензирована под Creative Commons Attribution-NoDerivatives (CC BY-ND).
-
-## 🤝 Вклад в проект
-
-Вклады приветствуются! Пожалуйста, ознакомьтесь:
-- [Руководство по вкладу](CONTRIBUTING.md)
-- [Кодекс поведения](CODE_OF_CONDUCT.md)
-- [Настройка среды разработки](docs/QUICKSTART.md#development-setup)
+## 📚 Кейсы
+### 🔧 Синхронизация инфраструктуры и харденинг (2026-04)
+**Задача:** Рассинхронизация remotes, конфликт миграции БД, ~65k строк техдолга.  
+**Решение:** Аудит веток, разрешение конфликта с `psycopg2.sql`, безопасный merge, очистка веток, пиннинг зависимостей.  
+**Результат:** Удалено 65 510 строк мусора, полная синхронизация, репозиторий чист.  
+**Полный кейс:** [`docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md`](docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md)
 
 ---
-
-## 📞 Контакты и следующие шаги
-
-- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
-- **SourceCraft**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
-- **Email**: leadarchitect@yandex.ru
-
-- **Для российских предприятий**: Смотрите [Релевантность для российского рынка](docs/FOR-RUSSIAN-ENTERPRISE.md)
-- **Для технической оценки**: Смотрите [Технический глубокий анализ](docs/FOR-TECH.md)
-
-*Это портфолио представляет не просто код, а новую парадигму профессионального развития - демонстрируя, что с правильной методологией и инструментами, любой со способностями к системному мышлению может стать enterprise-архитектором.*
-
----
-
-## 🔍 SEO Ключевые слова
-
-когнитивная архитектура, системное мышление, enterprise архитектура портфолио, production-ready микросервисы, Kubernetes портфолио, AI-ассистированный системный дизайн, карьерный переход к архитектору, измерение IT компетенций, DevOps портфолио, cloud native архитектура, пример микросервисов GitHub, примеры production деплоймента, техническое портфолио для поиска работы, примеры системного дизайна, enterprise-ready open source, российские enterprise технологии, деплоймент на Yandex Cloud, объективная оценка навыков, компетенции по SMART критериям, автоматическая генерация портфолио
+📩 **Контакты**: leadarchitect@yandex.ru | [GitHub](https://github.com/Control39/cognitive-systems-architecture) | [SourceCraft](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
