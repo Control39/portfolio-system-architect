@@ -102,3 +102,21 @@ mcp_settings.json
 README.md.backup
 tools/.ai-config-gui-backup-*/
 project_health_report.json
+
+# Python cache
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+
+# Task and backup files
+tasks/
+*.backup
+*.bak
+
+# Local temporary
+personal-tools/
+\/
+
+# Node modules
+node_modules/
