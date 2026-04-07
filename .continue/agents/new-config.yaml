@@ -1,43 +1,25 @@
-# Continue.dev конфигурация для российского стека
-# https://docs.continue.dev/reference
-
 name: Cognitive Architect Config (RU Stack)
 version: 1.0.0
 schema: v1
 
-# Модели, доступные в РФ
 models:
-  # GigaChat (Сбер) - основной облачный провайдер
   - name: GigaChat Pro Light
     provider: gigachat
     model: GigaChat-Pro-Light
     apiKey: ${GIGACHAT_API_KEY}
     roles: [chat, edit]
-
-  # YandexGPT (Яндекс) - резервный облачный
   - name: YandexGPT 3 Lite
     provider: yandexgpt
     model: yandexgpt-lite
     apiKey: ${YANDEXGPT_API_KEY}
     folderId: ${YANDEXGPT_FOLDER_ID}
     roles: [chat]
-
-  # Локальные модели через Ollama (бесплатно, без интернета)
   - name: Qwen2.5-Coder-7B (локально)
     provider: ollama
     model: qwen2.5-coder-7b
     roles: [chat, edit, apply]
 
-  - name: Llama-3.1-8B (локально)
-    provider: ollama
-    model: llama3.1:8b
-    roles: [chat]
-
-# MCP-серверы (инструменты для агентов)
 mcpServers:
-  # Наш Career Autopilot MCP-сервер
   - name: portfolio-mcp
     command: python
     args: ["apps/mcp-server/src/main.py"]
-    env:
-      PROJECT_ROOT: "${PWD}"
