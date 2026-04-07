@@ -110,3 +110,8 @@ node_modules/
 # Obsidian local vault
 docs/obsidian-map/
 **/obsidian-map/
+
+# Тестовые файлы для сканеров
+test-trivy-config.ps1
+test-secrets.txt
+
