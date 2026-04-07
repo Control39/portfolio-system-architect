@@ -1,28 +1,43 @@
-﻿# This is an example configuration file
-# To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
+# Continue.dev конфигурация для российского стека
+# https://docs.continue.dev/reference
 
-name: Example Config
+name: Cognitive Architect Config (RU Stack)
 version: 1.0.0
 schema: v1
 
-# Define which models can be used
-# https://docs.continue.dev/customization/models
+# Модели, доступные в РФ
 models:
-  - name: my gpt-5
-    provider: openai
-    model: gpt-5
-    apiKey: YOUR_OPENAI_API_KEY_HERE
-  - uses: ollama/qwen2.5-coder-7b
-  - uses: anthropic/claude-4-sonnet
-    with:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  # GigaChat (Сбер) - основной облачный провайдер
+  - name: GigaChat Pro Light
+    provider: gigachat
+    model: GigaChat-Pro-Light
+    apiKey: ${GIGACHAT_API_KEY}
+    roles: [chat, edit]
 
-# MCP Servers that Continue can access
-# https://docs.continue.dev/customization/mcp-tools
+  # YandexGPT (Яндекс) - резервный облачный
+  - name: YandexGPT 3 Lite
+    provider: yandexgpt
+    model: yandexgpt-lite
+    apiKey: ${YANDEXGPT_API_KEY}
+    folderId: ${YANDEXGPT_FOLDER_ID}
+    roles: [chat]
+
+  # Локальные модели через Ollama (бесплатно, без интернета)
+  - name: Qwen2.5-Coder-7B (локально)
+    provider: ollama
+    model: qwen2.5-coder-7b
+    roles: [chat, edit, apply]
+
+  - name: Llama-3.1-8B (локально)
+    provider: ollama
+    model: llama3.1:8b
+    roles: [chat]
+
+# MCP-серверы (инструменты для агентов)
 mcpServers:
-  - uses: anthropic/memory-mcp
-  - command: python
-    args: ["tools/mcp_server.py"]
-    name: portfolio-mcp
-    description: "MCP server for portfolio-system-architect project"
-
+  # Наш Career Autopilot MCP-сервер
+  - name: portfolio-mcp
+    command: python
+    args: ["apps/mcp-server/src/main.py"]
+    env:
+      PROJECT_ROOT: "${PWD}"
