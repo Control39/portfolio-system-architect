@@ -49,7 +49,7 @@ Thumbs.db
 Desktop.ini
 
 # ==========================================
-# AI Agent & Tool Configs (PRIVATE)
+# AI Agent & Tool Configs (PRIVATE - ИСКЛЮЧИТЬ)
 # ==========================================
 .codeassistant/
 .continue/
@@ -78,13 +78,14 @@ personal-tools/
 10_BACKUPS/
 manual-review/
 
-# Auto-generated report files (selective patterns)
+# Auto-generated report files
 *-REPORT.md
 *-ANALYSIS.md
 *-SUMMARY.md
 IMPROVEMENTS-TODO.md
 TODO*.md
-.ai-config/tasks-*.mdmy-repo-map*.csv
+.ai-config/tasks-*.md
+my-repo-map*.csv
 my-repo-map*.txt
 
 # Агенты - локальные конфиги
@@ -103,22 +104,9 @@ README.md.backup
 tools/.ai-config-gui-backup-*/
 project_health_report.json
 
-# Python cache
-__pycache__/
-*.pyc
-.mypy_cache/
-.pytest_cache/
-
-# Task and backup files
-tasks/
-*.backup
-*.bak
-
-# Local temporary
-personal-tools/
-\/
-
 # Node modules
 node_modules/
 
+# Obsidian local vault
 docs/obsidian-map/
+**/obsidian-map/
