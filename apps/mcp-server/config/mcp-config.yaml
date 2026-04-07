@@ -1,0 +1,238 @@
+# Единая конфигурация MCP-сервера для Career Autopilot
+# Версия: 1.0.0
+# Дата: 2026-04-07
+
+version: "1.0.0"
+name: "Career Autopilot MCP Server"
+description: "MCP сервер с полным доступом к файловой системе, интеграцией с IT-Compass и автоматическим обнаружением маркеров"
+
+# Настройки сервера
+server:
+  host: "localhost"
+  port: 8000
+  log_level: "INFO"
+  max_request_size: "10MB"
+  timeout_seconds: 300
+
+# Пути к данным проекта
+paths:
+  project_root: "../../.."
+  it_compass_markers: "../../it-compass/src/data/markers"
+  shared_schemas: "../../../src/shared/schemas"
+  docs: "../../../docs"
+  deployment: "../../../deployment"
+
+# Инструменты (tools)
+tools:
+  enabled:
+    - file_operations
+    - git_operations
+    - compass_integration
+    - command_execution
+    - navigation
+    - search
+  
+  file_operations:
+    max_file_size: "10MB"
+    allowed_extensions: [".py", ".md", ".yaml", ".yml", ".json", ".txt", ".js", ".ts", ".html", ".css"]
+    blocked_directories: [".git", "__pycache__", ".venv", "venv", "node_modules"]
+  
+  git_operations:
+    max_commits_to_analyze: 100
+    auto_detect_markers: true
+  
+  command_execution:
+    allowed_commands: ["python", "pip", "git", "docker", "docker-compose", "kubectl", "helm"]
+    timeout_seconds: 60
+    working_directory: "../../.."
+
+# Ресурсы (resources)
+resources:
+  enabled:
+    - navigation
+    - it_compass
+    - project_structure
+  
+  navigation:
+    audiences: ["hr", "tech_lead", "grant", "community"]
+    default_audience: "tech_lead"
+  
+  it_compass:
+    domains: ["system_thinking", "python", "docker", "devops", "cloud_computing", "data_analysis", "ai_applications"]
+    auto_refresh: true
+
+# Интеграции
+integrations:
+  continue_dev:
+    enabled: true
+    config_path: "../../../.continue/agents/new-config.yaml"
+  
+  code_assistant:
+    enabled: true
+    skills_path: "../../../.codeassistant/skills"
+  
+  api_gateway:
+    enabled: true
+    service_name: "mcp-server"
+    route_path: "/mcp"
+    port: 8000
+
+# Модели AI для анализа
+ai_models:
+  default: "gpt-4"  # Используем актуальную модель вместо GPT-5
+  available:
+    - name: "gpt-4"
+      provider: "openai"
+      max_tokens: 8192
+    
+    - name: "claude-3-opus"
+      provider: "anthropic"
+      max_tokens: 100000
+    
+    - name: "claude-3-sonnet"
+      provider: "anthropic"
+      max_tokens: 200000
+    
+    - name: "gemini-1.5-pro"
+      provider: "google"
+      max_tokens: 1000000
+    
+    - name: "local/llama-3.1"
+      provider: "ollama"
+      max_tokens: 32768
+
+# Безопасность
+security:
+  allowed_origins: ["http://localhost:3000", "http://localhost:8000"]
+  rate_limit:
+    requests_per_minute: 60
+    burst_limit: 10
+  
+  authentication:
+    enabled: false
+    # В будущем: JWT токены, API ключи
+
+# Мониторинг
+monitoring:
+  enabled: true
+  metrics_path: "/metrics"
+  health_check_path: "/health"
+  prometheus:
+    enabled: true
+    port: 9090
+  
+  logging:
+    level: "INFO"
+    format: "json"
+    file: "logs/mcp-server.log"
+
+# Конфигурация для разных окружений
+environments:
+  development:
+    server:
+      host: "localhost"
+      port: 8000
+      log_level: "DEBUG"
+    
+    tools:
+      command_execution:
+        allowed_commands: ["python", "pip", "git", "docker", "docker-compose"]
+    
+    monitoring:
+      enabled: true
+  
+  production:
+    server:
+      host: "0.0.0.0"
+      port: 8080
+      log_level: "WARNING"
+    
+    tools:
+      command_execution:
+        allowed_commands: ["python", "git"]
+        timeout_seconds: 30
+    
+    security:
+      authentication:
+        enabled: true
+    
+    monitoring:
+      enabled: true
+      prometheus:
+        enabled: true
+
+# Конфигурация Career Autopilot
+career_autopilot:
+  enabled: true
+  auto_detection:
+    enabled: true
+    scan_interval_hours: 24
+    commits_to_analyze: 50
+  
+  portfolio_generation:
+    enabled: true
+    templates:
+      - "hr"
+      - "technical"
+      - "grant"
+    
+    output_formats: ["md", "pdf", "html"]
+  
+  job_search:
+    enabled: false  # В будущем
+    platforms: ["hh.ru", "linkedin", "glassdoor"]
+  
+  skill_tracking:
+    enabled: true
+    update_frequency: "weekly"
+
+# Конфигурация развертывания
+deployment:
+  docker:
+    enabled: true
+    image: "mcp-server:latest"
+    dockerfile: "Dockerfile"
+    build_args: {}
+  
+  kubernetes:
+    enabled: true
+    namespace: "mcp"
+    replicas: 2
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+  
+  helm:
+    enabled: false  # В будущем
+
+# Миграция с устаревших конфигураций
+migration:
+  from_continue_config: true
+  from_codeassistant_config: true
+  backup_old_configs: true
+  validation:
+    check_gpt5_references: true
+    check_outdated_models: true
+
+# Документация
+documentation:
+  openapi:
+    enabled: true
+    path: "/docs"
+    title: "Career Autopilot MCP Server API"
+    version: "1.0.0"
+  
+  examples:
+    enabled: true
+    path: "examples/"
+  
+  tutorials:
+    enabled: true
+    path: "tutorials/"
+
+# Конфигурация по умолчанию (используется если не указана среда)
+default_environment: "development"

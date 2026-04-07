@@ -51,10 +51,10 @@ Desktop.ini
 # ==========================================
 # AI Agent & Tool Configs (PRIVATE - ИСКЛЮЧИТЬ)
 # ==========================================
-.codeassistant/
-.continue/
+# .codeassistant/
+# .continue/
 .gigaide/
-.sourcecraft/
+# .sourcecraft/
 .ai-config/
 .ai-config-gui/
 
