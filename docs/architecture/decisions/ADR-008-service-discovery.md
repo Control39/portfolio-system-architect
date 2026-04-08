@@ -56,7 +56,7 @@
 - **Поэтапное внедрение**: Можно внедрять постепенно, сервис за сервисом
 
 ## Связанные решения
-- [ADR-002: Интеграция компонентов в единую экосистему](../docs/adr/ADR-002-component-integration.md)
+- [ADR-002: Интеграция компонентов в единую экосистему](ADR-002-component-integration.md)
 - [Service Discovery Plan](../service-discovery-plan.md)
 - [Traefik Configuration](../../gateway/traefik.yml)
 

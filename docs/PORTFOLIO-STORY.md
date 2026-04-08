@@ -83,7 +83,7 @@
 ## 📖 Глава 4: Результаты (точка Б)
 ✅ Stage 2 Enterprise: Terraform, K8s (HPA, monitoring), DR runbooks.
 Аудит BLACKBOXAI: Product-minded Cognitive Systems Architect 🟢92%.
-**Что могу**: Systemic design ⭐⭐⭐⭐⭐, Docs ⭐⭐⭐⭐⭐, Python ⭐⭐⭐⭐ (см. docs/docs/SKILLS.md).  
+**Что могу**: Systemic design ⭐⭐⭐⭐⭐, Docs ⭐⭐⭐⭐⭐, Python ⭐⭐⭐⭐ (подробнее в README).
 **Дам работодателю**: Экосистему для cognitive architecture, $150-250K remote level.
 
 ## 📎 Приложения

@@ -265,7 +265,7 @@ spec:
 4. **Enterprise-уровень** – полный цикл: обнаружение → алерт → действие → разрешение
 
 ## 📚 Related Documentation
-- [ADR-007: Technology Stack Justification](../docs/docs/adr/ADR-007-technology-stack-justification.md)
+- [ADR-007: Technology Stack Justification](../docs/architecture/decisions/ADR-007-technology-stack-justification.md)
 - README.md: Architectural Justification section
 - [Docker Compose Configuration](../docker-compose.monitoring.yml)
 - [Grafana Dashboard Screenshots](../docs/screenshots/monitoring/)
