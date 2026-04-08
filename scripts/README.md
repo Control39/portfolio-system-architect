@@ -39,23 +39,58 @@ The mixed scripting approach (PowerShell, Bash, Python, Batch) is **intentional*
 - **Languages**: Mixed
 - **Note**: This is a transitional directory; scripts should eventually move to appropriate categories
 
-## 🔄 Current Scripts Mapping
+## 🔄 Current Status (After Restructuring)
 
-| Script | Current Location | Recommended Location | Reason |
-|--------|------------------|----------------------|--------|
-| `fix_encoding.ps1` | root | `windows/` | Windows-specific PowerShell script |
-| `migrate-to-monorepo.bat` | root | `windows/` | Windows batch script |
-| `generate-docs.sh` | root | `linux/` | Runs in Linux CI/CD |
-| `generate-index.sh` | root | `linux/` | Linux shell script |
-| `generate-site.sh` | root | `linux/` | Linux shell script |
-| `backup-postgres.sh` | root | `linux/` | PostgreSQL on Linux |
-| `restore-postgres.sh` | root | `linux/` | PostgreSQL on Linux |
-| `check-lfs.sh` | root | `linux/` | Git LFS check (Linux) |
-| `healthcheck.py` | root | `python/` | Cross-platform Python |
-| `migrate-sqlite-to-postgres.py` | root | `python/` | Cross-platform Python |
-| `sync-from-my-ecosystem.py` | root | `python/` | Cross-platform Python |
-| `test_yandex_gpt_integration.py` | root | `python/` | Cross-platform Python |
-| `translate-docs.py` | root | `python/` | Cross-platform Python |
+**Реструктуризация завершена (2026-04-08):**
+- ✅ Удалены дублирующие скрипты (см. [DEDUPLICATION_PLAN.md](./DEDUPLICATION_PLAN.md))
+- ✅ Все скрипты перемещены в соответствующие категории
+- ✅ Создан подробный индекс [INDEX.md](./INDEX.md)
+
+### Актуальная структура:
+| Категория | Скриптов | Состояние | Описание |
+|-----------|----------|-----------|----------|
+| `windows/` | 2 | 🟡 Частично | Windows-специфичные скрипты (PowerShell, Batch) |
+| `linux/` | 6 | 🟢 Полное | Linux/Unix скрипты для CI/CD и администрирования |
+| `python/` | 5 | 🟢 Полное | Кросс-платформенные Python утилиты |
+| Корень | 21 | 🟢 Стабильное | Кросс-платформенные и общие скрипты |
+
+> **Примечание**: Папка `general/` была удалена, так как все скрипты теперь categorized.
+
+## 📖 Evolution Narrative: "От Зеро к Херо"
+
+Эта папка scripts/ представляет собой **археологическую карту** профессионального роста:
+
+### 🥚 Этап 1: Прототипы (Зеро)
+```bash
+fix_encoding.ps1       # Простейшее решение конкретной проблемы
+check_yaml.py          # Базовая проверка с ошибками (удалён)
+```
+
+### 🐣 Этап 2: Специализация
+```bash
+cleanup-old-branches.ps1  # Windows-версия
+cleanup-old-branches.sh   # Linux-версия
+```
+*Разные реализации для разных ОС → доказательство enterprise-экспертизы*
+
+### 🐥 Этап 3: Улучшение
+```bash
+update-badges.py          → update-badges-enhanced.py
+check_yaml.py             → check_yaml_fixed.py
+```
+*Исправление ошибок, добавление функциональности*
+
+### 🦅 Этап 4: Production-ready (Херо)
+```bash
+healthcheck.py           # Комплексные проверки с метриками
+deploy.sh                # CI/CD пайплайн
+setup-vscode-extensions.py # Автоматизация developer experience
+```
+
+### 📊 Эволюционные паттерны:
+1. **Дублирование → Специализация** – разные версии для разных платформ
+2. **Прототип → Production** – добавление обработки ошибок, логирования
+3. **Ручное → Автоматическое** – интеграция в CI/CD пайплайны
 
 ## 🚀 Usage Guidelines
 
@@ -85,7 +120,21 @@ While Python could handle all tasks, the mixed approach demonstrates:
 4. **Performance/appropriateness** – some tasks are simpler in native shell
 
 ## 📚 Related Documentation
-- [ADR-007: Technology Stack Justification](../docs/docs/adr/ADR-007-technology-stack-justification.md)
-- README.md: Architectural Justification section
-- [CI/CD Configuration](../.github/workflows/) – uses these scripts
+
+### Архитектурные решения
+- [ADR-007: Technology Stack Justification](../docs/architecture/decisions/ADR-007-technology-stack-justification.md) – обоснование mixed scripting
+- [ADR-008: Service Discovery](../docs/architecture/decisions/ADR-008-service-discovery.md) – микросервисная архитектура
+
+### Документация реструктуризации
+- [INDEX.md](./INDEX.md) – полный индекс скриптов с архитектурной картой
+- [DEDUPLICATION_PLAN.md](./DEDUPLICATION_PLAN.md) – план удаления дубликатов
+- [restructure-scripts.ps1](./restructure-scripts.ps1) – скрипт реструктуризации
+
+### Использование в проекте
+- [CI/CD Configuration](../.github/workflows/) – пайплайны, использующие эти скрипты
+- README.md: Architectural Justification section – общее архитектурное обоснование
+
+### Эволюционный контекст
+- Git history ветки `refactor-backup` – полная история изменений
+- Удалённые скрипты доступны в git history как "археологические слои"
 

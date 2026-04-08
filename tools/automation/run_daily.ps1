@@ -9,11 +9,11 @@ git pull origin main
 
 # 2. Генерация карты знаний Obsidian
 Write-Host "[2/4] Генерация карты знаний Obsidian..." -ForegroundColor Yellow
-python scripts/generate_obsidian_map.py
+python ../documentation/generate_obsidian_map.py
 
 # 3. Генерация веб-сайта
 Write-Host "[3/4] Генерация веб-сайта..." -ForegroundColor Yellow
-python scripts/generate_website.py
+python ../documentation/generate_website.py
 
 # 4. Коммит и пуш изменений
 Write-Host "[4/4] Коммит и пуш изменений..." -ForegroundColor Yellow

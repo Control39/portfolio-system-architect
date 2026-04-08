@@ -8,8 +8,8 @@
 ### Архитектура систем
 | Навык | Уровень | Примеры применения | Доказательства |
 |-------|---------|-------------------|-----------------|
-| Системное мышление | Эксперт | Разработка методологии системного мышления, создание архитектурных принципов | [docs/methodology/system-thinking.md](../docs/methodology/system-thinking.md), [docs/adr/ADR-001-system-thinking-methodology.md](../docs/adr/ADR-001-system-thinking-methodology.md) |
-| Модульная архитектура | Эксперт | Интеграция компонентов через Git submodules, определение интерфейсов | [docs/adr/ADR-002-component-integration.md](../docs/adr/ADR-002-component-integration.md), [ARCHITECTURE.md](../ARCHITECTURE.md) |
+| Системное мышление | Эксперт | Разработка методологии системного мышления, создание архитектурных принципов | [docs/methodology/system-thinking.md](../docs/methodology/system-thinking.md), [docs/architecture/decisions/ADR-001-system-thinking-methodology.md](../docs/architecture/decisions/ADR-001-system-thinking-methodology.md) |
+| Модульная архитектура | Эксперт | Интеграция компонентов через Git submodules, определение интерфейсов | [docs/architecture/decisions/ADR-002-component-integration.md](../docs/architecture/decisions/ADR-002-component-integration.md), [ARCHITECTURE.md](../ARCHITECTURE.md) |
 | Микросервисы | Продвинутый | Архитектура компонентов как независимых сервисов | [diagrams/interactive/component-diagram.md](../diagrams/interactive/component-diagram.md) |
 | API Design | Продвинутый | Создание интерфейсов между компонентами | [docs/architecture/components.md](../docs/architecture/components.md) |
 

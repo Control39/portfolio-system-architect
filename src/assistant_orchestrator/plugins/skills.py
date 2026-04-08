@@ -26,7 +26,7 @@ def analyze(root: Path) -> Dict[str, Any]:
         categories.add(category)
         
         try:
-            with open(file, 'r', encoding='utf-8') as f:
+            with open(file, 'r', encoding='utf-8-sig') as f:
                 data = json.load(f)
             
             # Count markers across all levels
