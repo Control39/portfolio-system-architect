@@ -1,0 +1,186 @@
+# Конфигурация системы самообучения Cognitive Automation Agent
+
+# Настройки обучения
+learning:
+  # Режим обучения
+  mode: "continuous"  # continuous, batch, hybrid
+  
+  # Включить активное обучение
+  active_learning: true
+  
+  # Включить обучение с подкреплением
+  reinforcement_learning: true
+  
+  # Включить трансферное обучение
+  transfer_learning: true
+  
+  # Максимальное количество эпох обучения
+  max_epochs: 100
+  
+  # Размер батча для обучения
+  batch_size: 32
+  
+  # Скорость обучения
+  learning_rate: 0.001
+  
+  # Регуляризация
+  regularization:
+    l1: 0.01
+    l2: 0.02
+    dropout: 0.2
+
+# Настройки сбора данных
+data_collection:
+  # Включить автоматический сбор данных
+  enabled: true
+  
+  # Источники данных
+  sources:
+    - "task_execution_logs"
+    - "user_feedback"
+    - "system_metrics"
+    - "external_apis"
+  
+  # Интервал сбора данных (в секундах)
+  collection_interval: 300
+  
+  # Максимальный размер данных (в МБ)
+  max_data_size: 1024
+  
+  # Политика хранения данных
+  retention_policy:
+    raw_data: 30  # дней
+    processed_data: 90  # дней
+    model_data: 180  # дней
+
+# Настройки моделей
+models:
+  # Типы моделей для обучения
+  model_types:
+    - "classification"
+    - "regression"
+    - "clustering"
+    - "anomaly_detection"
+  
+  # Архитектуры моделей
+  architectures:
+    classification: "random_forest"
+    regression: "gradient_boosting"
+    clustering: "kmeans"
+    anomaly_detection: "isolation_forest"
+  
+  # Пути для сохранения моделей
+  save_path: "models/"
+  
+  # Формат моделей
+  format: "pickle"  # pickle, joblib, onnx
+  
+  # Версионирование моделей
+  versioning: true
+  version_schema: "semantic"  # semantic, timestamp, incremental
+
+# Настройки оценки
+evaluation:
+  # Метрики для оценки моделей
+  metrics:
+    classification: ["accuracy", "precision", "recall", "f1"]
+    regression: ["mse", "mae", "r2"]
+    clustering: ["silhouette", "davies_bouldin"]
+    anomaly_detection: ["roc_auc", "precision_at_k"]
+  
+  # Стратегия валидации
+  validation_strategy: "time_series_split"  # cross_validation, holdout, time_series_split
+  
+  # Размер тестовой выборки
+  test_size: 0.2
+  
+  # Количество фолдов для кросс-валидации
+  cv_folds: 5
+  
+  # Пороги для принятия решений
+  thresholds:
+    model_acceptance: 0.8
+    performance_degradation: 0.1
+    data_drift: 0.15
+
+# Настройки оптимизации
+optimization:
+  # Включить оптимизацию гиперпараметров
+  hyperparameter_optimization: true
+  
+  # Метод оптимизации
+  optimization_method: "bayesian"  # grid, random, bayesian
+  
+  # Количество итераций оптимизации
+  n_iterations: 50
+  
+  # Метрика для оптимизации
+  optimization_metric: "f1"
+  
+  # Ранняя остановка
+  early_stopping:
+    enabled: true
+    patience: 10
+    min_delta: 0.001
+
+# Настройки мониторинга
+monitoring:
+  # Включить мониторинг обучения
+  enabled: true
+  
+  # Метрики для мониторинга
+  tracked_metrics:
+    - "loss"
+    - "accuracy"
+    - "training_time"
+    - "memory_usage"
+    - "data_quality"
+  
+  # Интервал мониторинга (в секундах)
+  monitoring_interval: 60
+  
+  # Пороги для предупреждений
+  alert_thresholds:
+    loss_increase: 0.1
+    accuracy_drop: 0.05
+    training_time_exceeded: 3600  # секунд
+    memory_exceeded: 0.8  # доля от доступной памяти
+
+# Настройки логирования
+logging:
+  # Уровень логирования
+  level: "INFO"
+  
+  # Файлы логов
+  files:
+    training: "logs/learning_training.log"
+    evaluation: "logs/learning_evaluation.log"
+    monitoring: "logs/learning_monitoring.log"
+  
+  # Максимальный размер файла лога
+  max_file_size: "10MB"
+  
+  # Количество резервных копий
+  backup_count: 5
+  
+  # Формат логов
+  format: "json"
+
+# Настройки интеграции
+integration:
+  # Интеграция с системой хранения данных
+  storage:
+    enabled: true
+    type: "sqlite"  # sqlite, postgres, mysql
+    connection_string: "data/learning.db"
+  
+  # Интеграция с системой визуализации
+  visualization:
+    enabled: true
+    dashboard_url: "http://localhost:3000/dashboard/learning"
+  
+  # Интеграция с системой уведомлений
+  notifications:
+    enabled: true
+    channels: ["telegram", "email"]
+    events: ["training_completed", "model_deployed", "anomaly_detected"]
