@@ -2,7 +2,28 @@
 	"mcpServers": {
 		"sourcecraft": {
 			"type": "streamable-http",
-			"url": "https://api.sourcecraft.tech/mcp"
+			"url": "https://api.sourcecraft.tech/mcp",
+			"config": {
+				"toolFilter": {
+					"include": [
+						"read_file",
+						"write_to_file",
+						"apply_diff",
+						"delete_entry",
+						"move_entry",
+						"commit_changes",
+						"list_files",
+						"execute_command",
+						"search_files",
+						"run_slash_command",
+						"skill",
+						"switch_mode",
+						"update_todo_list",
+						"ask_followup_question",
+						"attempt_completion"
+					]
+				}
+			}
 		}
 	}
 }
