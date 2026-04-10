@@ -1,0 +1,85 @@
+name: GitOps Sync with ArgoCD
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to sync (staging, prod)'
+        required: true
+        default: 'staging'
+      revision:
+        description: 'Git revision (branch, tag, commit)'
+        required: false
+        default: 'main'
+  push:
+    branches:
+      - main
+    paths:
+      - 'deployment/k8s/**'
+      - 'apps/**/k8s/**'
+      - '.github/workflows/gitops-argocd.yml'
+
+env:
+  ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+  ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  ARGOCD_APPLICATION: 'portfolio-system'
+
+jobs:
+  sync-argocd:
+    runs-on: ubuntu-latest
+    name: Sync ArgoCD Application
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git for long paths
+        run: git config --global core.longpaths true
+        shell: bash
+
+      - name: Set up ArgoCD CLI
+        run: |
+          curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+          rm argocd-linux-amd64
+          argocd version --client
+
+      - name: Authenticate to ArgoCD
+        run: |
+          argocd login $ARGOCD_SERVER \
+            --username admin \
+            --password $ARGOCD_TOKEN \
+            --insecure
+
+      - name: Sync Application
+        run: |
+          argocd app sync $ARGOCD_APPLICATION \
+            --revision ${{ github.event.inputs.revision || github.sha }} \
+            --prune \
+            --force
+
+      - name: Wait for sync
+        run: |
+          argocd app wait $ARGOCD_APPLICATION \
+            --health \
+            --timeout 300
+
+      - name: Get application status
+        run: |
+          argocd app get $ARGOCD_APPLICATION
+
+      - name: Notify sync result
+        if: always()
+        uses: appleboy/telegram-action@master
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🔄 GitOps Sync ${{ job.status }}
+            Application: ${{ env.ARGOCD_APPLICATION }}
+            Revision: ${{ github.event.inputs.revision || github.sha }}
+            Environment: ${{ github.event.inputs.environment || 'staging' }}
+            Action URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

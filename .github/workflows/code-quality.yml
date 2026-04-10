@@ -17,7 +17,7 @@ jobs:
       cache-key: ${{ steps.cache.outputs.cache-key }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -41,7 +41,7 @@ jobs:
       valid: ${{ steps.validate.outcome == 'success' }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -104,7 +104,7 @@ jobs:
       warning_count: ${{ steps.count-errors.outputs.warning_count }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -227,7 +227,7 @@ jobs:
       warning_count: ${{ steps.count-ps-errors.outputs.warning_count }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -296,7 +296,7 @@ jobs:
       missing_readmes_count: ${{ steps.count-missing.outputs.missing_readmes }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -403,7 +403,7 @@ jobs:
       findings_count: ${{ steps.count-findings.outputs.findings }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -458,7 +458,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         env:
@@ -550,7 +550,7 @@ jobs:
       quality_reason: ${{ steps.quality-gate.outputs.reason }}
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       # Улучшение 2: детальное логирование входных данных
       - name: Calculate quality metrics and determine status

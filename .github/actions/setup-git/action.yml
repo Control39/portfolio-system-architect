@@ -1,0 +1,21 @@
+name: 'Setup Git'
+description: 'Configure Git for long paths and set user identity'
+inputs:
+  git-user-name:
+    description: 'Git user name'
+    required: false
+    default: 'GitHub Actions'
+  git-user-email:
+    description: 'Git user email'
+    required: false
+    default: 'actions@github.com'
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure Git for long paths
+      shell: bash
+      run: |
+        git config --global core.longpaths true
+        git config --global user.name "${{ inputs.git-user-name }}"
+        git config --global user.email "${{ inputs.git-user-email }}"
+        echo "Git configured with longpaths and user identity"

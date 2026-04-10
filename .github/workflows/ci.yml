@@ -21,7 +21,7 @@ jobs:
     name: Security Checks
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
         with:
@@ -62,13 +62,11 @@ jobs:
         uses: aquasecurity/trivy-action@master
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-          TRIVY_SECRET_CONFIG_PATH: './trivy-secret.yaml'
         with:
           scan-type: 'fs'
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          secret-config: './trivy-secret.yaml'
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v2
@@ -95,7 +93,7 @@ jobs:
     name: Lint & Format
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
 
@@ -145,16 +143,30 @@ jobs:
           pip install -e .[dev]
           pip install pytest pytest-cov pytest-asyncio pytest-xdist
 
-      - name: Run tests with coverage
+      - name: Run unit tests with coverage
         run: |
-          pytest tests/ -v --cov=src --cov=apps --cov=gateway --cov-report=xml --cov-report=html --junitxml=junit.xml
+          pytest tests/unit/ -v -m "unit and not slow" --cov=src --cov=apps --cov=gateway --cov-report=xml --cov-report=html --junitxml=junit-unit.xml -n auto
+
+      - name: Run integration tests
+        run: |
+          pytest tests/integration/ -v -m "integration and not slow" --junitxml=junit-integration.xml -n auto
+
+      - name: Run e2e tests
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: |
+          pytest tests/e2e/ -v -m "e2e and not slow" --junitxml=junit-e2e.xml
+
+      - name: Combine coverage reports
+        run: |
+          # Если есть несколько coverage файлов, можно объединить их здесь
+          echo "Coverage reports combined"
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
-          name: codecov-umbrella
+          name: codecov-umbrella-${{ matrix.os }}-${{ matrix.python-version }}
 
       - name: Upload test results
         if: always()
@@ -162,7 +174,7 @@ jobs:
         with:
           name: test-results-${{ matrix.os }}-${{ matrix.python-version }}
           path: |
-            junit.xml
+            junit-*.xml
             coverage.xml
             htmlcov/
 
@@ -178,7 +190,7 @@ jobs:
     
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - name: Checkout code
         uses: actions/checkout@v4
@@ -186,7 +198,7 @@ jobs:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Setup PowerShell
-        uses: actions/setup-node@v4
+        uses: actions/setup-powershell@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
@@ -205,14 +217,31 @@ jobs:
           # Установка дополнительных модулей, если нужны
           # Install-Module -Name powershell-yaml -Force -Scope CurrentUser
       
-      - name: Run PowerShell tests
+      - name: Run PowerShell unit tests
         shell: pwsh
         run: |
-          $testResults = Invoke-Pester -Path "apps/arch-compass-framework/tests" -PassThru -Output Detailed
-          if ($testResults.FailedCount -gt 0) {
-            Write-Error "Tests failed: $($testResults.FailedCount)"
+          $unitResults = Invoke-Pester -Path "tests/unit" -PassThru -Output Detailed -OutputFormat NUnitXml -OutputFile "pester-unit-results.xml"
+          if ($unitResults.FailedCount -gt 0) {
+            Write-Error "Unit tests failed: $($unitResults.FailedCount)"
             exit 1
           }
+
+      - name: Run PowerShell integration tests
+        shell: pwsh
+        run: |
+          $integrationResults = Invoke-Pester -Path "tests/integration" -PassThru -Output Detailed -OutputFormat NUnitXml -OutputFile "pester-integration-results.xml"
+          if ($integrationResults.FailedCount -gt 0) {
+            Write-Error "Integration tests failed: $($integrationResults.FailedCount)"
+            exit 1
+          }
+
+      - name: Upload PowerShell test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pester-results-${{ matrix.os }}-${{ matrix.pwsh-version }}
+          path: |
+            pester-*-results.xml
 
   # ==================== INTEGRATION TESTS ====================
   integration-tests:
@@ -261,7 +290,7 @@ jobs:
 
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
 
@@ -303,6 +332,25 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Scan Docker image with Trivy
+        if: always()
+        uses: aquasecurity/trivy-action@master
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+          format: 'sarif'
+          output: 'trivy-image-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy image results to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v2
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          sarif_file: 'trivy-image-results.sarif'
+
   # ==================== DEPLOYMENT ====================
   deploy-gitops:
     runs-on: ubuntu-latest
@@ -316,7 +364,7 @@ jobs:
 
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - uses: actions/checkout@v4
 
@@ -354,7 +402,7 @@ jobs:
     name: Notify on Failure
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - name: Send Telegram notification
         uses: appleboy/telegram-action@master
@@ -371,6 +419,43 @@ jobs:
             Author: ${{ github.actor }}
             Action URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+  # ==================== METRICS COLLECTION ====================
+  collect-metrics:
+    runs-on: ubuntu-latest
+    name: Collect CI/CD Metrics
+    needs: [security-check, lint, python-tests, powershell-tests, integration-tests, docker-build, deploy-gitops, notify]
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Collect job metrics
+        uses: ./.github/actions/metrics-collector
+        with:
+          job-name: 'collect-metrics'
+          job-status: ${{ job.status }}
+          metrics-file: 'ci-metrics.json'
+      
+      - name: Upload metrics to Prometheus Pushgateway (optional)
+        if: env.PROMETHEUS_PUSHGATEWAY_URL != ''
+        env:
+          PROMETHEUS_PUSHGATEWAY_URL: ${{ secrets.PROMETHEUS_PUSHGATEWAY_URL }}
+        run: |
+          echo "Pushing metrics to Prometheus Pushgateway"
+          # Здесь можно добавить логику отправки метрик
+          echo "Metrics collection complete"
+
   # ==================== BADGE UPDATES ====================
   update-badges:
     runs-on: ubuntu-latest
@@ -378,7 +463,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Configure Git for long paths
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
         shell: bash
       - name: Checkout code
         uses: actions/checkout@v4

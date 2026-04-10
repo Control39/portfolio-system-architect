@@ -1,0 +1,58 @@
+name: 'Collect CI/CD Metrics'
+description: 'Collect metrics about job duration, status, and other CI/CD metrics'
+inputs:
+  job-name:
+    description: 'Name of the job'
+    required: true
+  job-status:
+    description: 'Status of the job (success, failure, cancelled, skipped)'
+    required: true
+  metrics-file:
+    description: 'Path to output metrics file'
+    required: false
+    default: 'ci-metrics.json'
+runs:
+  using: 'composite'
+  steps:
+    - name: Collect CI/CD metrics
+      shell: bash
+      run: |
+        set -e
+        METRICS_FILE="${{ inputs.metrics-file }}"
+        # Create or append to metrics file
+        if [ ! -f "$METRICS_FILE" ]; then
+          echo '[]' > "$METRICS_FILE"
+        fi
+        # Calculate duration (simplified - could use GitHub Actions environment variables)
+        START_TIME=${{ job.started_at }}
+        END_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        # Use jq to add new entry
+        jq --arg job "${{ inputs.job-name }}" \
+           --arg status "${{ inputs.job-status }}" \
+           --arg start "$START_TIME" \
+           --arg end "$END_TIME" \
+           --arg run_id "${{ github.run_id }}" \
+           --arg run_number "${{ github.run_number }}" \
+           --arg repo "${{ github.repository }}" \
+           --arg ref "${{ github.ref }}" \
+           '. += [{
+              job: $job,
+              status: $status,
+              start_time: $start,
+              end_time: $end,
+              run_id: $run_id,
+              run_number: $run_number,
+              repository: $repo,
+              ref: $ref,
+              timestamp: (now | todate)
+            }]' "$METRICS_FILE" > "$METRICS_FILE.tmp" && mv "$METRICS_FILE.tmp" "$METRICS_FILE"
+        echo "Metrics collected for job ${{ inputs.job-name }}"
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    - name: Upload metrics artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ci-metrics
+        path: ${{ inputs.metrics-file }}
+        retention-days: 30

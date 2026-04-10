@@ -1,0 +1,98 @@
+name: 'Send Notifications'
+description: 'Send notifications to multiple channels (Telegram, Slack, Email)'
+inputs:
+  status:
+    description: 'Status of the event (success, failure, cancelled, started)'
+    required: true
+  message:
+    description: 'Main message text'
+    required: true
+  title:
+    description: 'Notification title'
+    required: false
+    default: 'CI/CD Notification'
+  channels:
+    description: 'Comma-separated list of channels to notify (telegram, slack, email)'
+    required: false
+    default: 'telegram'
+  severity:
+    description: 'Severity level (info, warning, error, critical)'
+    required: false
+    default: 'info'
+runs:
+  using: 'composite'
+  steps:
+    - name: Prepare notification payload
+      shell: bash
+      run: |
+        echo "Notification: ${{ inputs.title }}"
+        echo "Status: ${{ inputs.status }}"
+        echo "Message: ${{ inputs.message }}"
+        echo "Severity: ${{ inputs.severity }}"
+        echo "Channels: ${{ inputs.channels }}"
+
+    - name: Send Telegram notification
+      if: contains(inputs.channels, 'telegram')
+      uses: appleboy/telegram-action@master
+      env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          ${{ inputs.title }} - ${{ inputs.status }}
+          ${{ inputs.message }}
+          Severity: ${{ inputs.severity }}
+          Repository: ${{ github.repository }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}
+          Action URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    - name: Send Slack notification
+      if: contains(inputs.channels, 'slack')
+      uses: slackapi/slack-github-action@v1.27.0
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      with:
+        payload: |
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "${{ inputs.title }} - ${{ inputs.status }}"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "${{ inputs.message }}"
+                }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "Severity: ${{ inputs.severity }} | Repository: ${{ github.repository }}"
+                  }
+                ]
+              }
+            ]
+          }
+
+    - name: Send Email notification
+      if: contains(inputs.channels, 'email')
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "${{ inputs.title }} - ${{ inputs.status }}"
+        body: "${{ inputs.message }}\n\nSeverity: ${{ inputs.severity }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nAction URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        to: ${{ secrets.EMAIL_RECIPIENTS }}
+        from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>

@@ -1,0 +1,39 @@
+name: 'Run Tests'
+description: 'Run Python tests with pytest and generate coverage report'
+inputs:
+  test-path:
+    description: 'Path to test directory or file'
+    required: false
+    default: 'tests'
+  coverage-threshold:
+    description: 'Minimum coverage percentage (0-100)'
+    required: false
+    default: '80'
+  output-format:
+    description: 'Output format for coverage report (html, xml, json)'
+    required: false
+    default: 'html'
+  extra-args:
+    description: 'Extra arguments to pass to pytest'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Run tests with coverage
+      shell: bash
+      run: |
+        python -m pytest ${{ inputs.test-path }} \
+          --cov=src \
+          --cov-report=${{ inputs.output-format }} \
+          --cov-fail-under=${{ inputs.coverage-threshold }} \
+          ${{ inputs.extra-args }}
+    - name: Upload coverage report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: |
+          coverage.xml
+          htmlcov/
+        retention-days: 7
