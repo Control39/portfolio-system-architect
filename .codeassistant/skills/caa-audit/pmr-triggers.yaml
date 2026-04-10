@@ -1,0 +1,302 @@
+# Конфигурация проактивных триггеров для PMR Agent
+# Интеграция с Cognitive Automation Agent для автоматического аудита позиционирования
+
+version: "1.0.0"
+description: "Проактивные триггеры для автоматического аудита позиционирования CAA"
+
+# Основные триггеры PMR Agent
+triggers:
+  # Триггер при изменении файлов позиционирования
+  positioning_file_change:
+    enabled: true
+    description: "Запуск аудита при изменении файлов позиционирования"
+    watch_patterns:
+      - "README.md"
+      - "README_*.md"
+      - "docs/employer/*.md"
+      - "docs/employer/**/*.md"
+      - "docs/presentations/**/*.md"
+      - "docs/professional-journey/*.json"
+      - "docs/professional-journey/*.md"
+      - ".agents/USAGE.md"
+      - ".codeassistant/skills/caa-audit/*.md"
+    debounce_ms: 3000  # Задержка 3 секунды для batch изменений
+    actions:
+      - name: "run_caa_audit_quick"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --quick --format=text"
+        timeout_sec: 30
+      - name: "check_positioning_score"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --focus=positioning --format=json"
+        timeout_sec: 15
+    autonomy_level: medium
+    priority: high
+    notifications:
+      - type: "console"
+        on: ["score_change", "critical_issue"]
+      - type: "log"
+        path: ".agents/logs/pmr-triggers.log"
+
+  # Триггер при коммите в Git (интеграция с Git хуками CAA)
+  git_commit_positioning:
+    enabled: true
+    description: "Аудит позиционирования при коммите"
+    conditions:
+      - git_operation: "commit"
+      - file_changed: ["README.md", "docs/employer/*", ".agents/USAGE.md"]
+    actions:
+      - name: "pre_commit_caa_audit"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --focus=positioning,evidence --format=markdown --output=.agents/reports/pre-commit-caa-audit-{timestamp}.md"
+        timeout_sec: 60
+      - name: "validate_positioning_score"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --quick"
+        timeout_sec: 30
+        fail_on_score_below: 60  # Не пропускать коммит если score < 60
+    autonomy_level: high
+    priority: critical
+    integration:
+      with: ".agents/config/git-hooks.yaml"
+      hook: "pre-commit"
+
+  # Триггер при пуше в основную ветку
+  git_push_main:
+    enabled: true
+    description: "Полный аудит при пуше в main ветку"
+    conditions:
+      - git_operation: "push"
+      - branch: "main"
+    actions:
+      - name: "full_caa_audit"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/caa-audit-{timestamp}.md"
+        timeout_sec: 120
+      - name: "generate_positioning_report"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=json --output=.agents/data/caa-audit-latest.json"
+        timeout_sec: 30
+    autonomy_level: medium
+    priority: high
+    notifications:
+      - type: "telegram"
+        on: ["score_below_60", "critical_issue_found"]
+        config: ".agents/config/notifications.yaml"
+
+  # Триггер по расписанию (ежедневная проверка)
+  daily_schedule:
+    enabled: true
+    description: "Ежедневный аудит позиционирования"
+    schedule:
+      cron: "0 9 * * *"  # Каждый день в 9:00
+      timezone: "Europe/Kaliningrad"
+    actions:
+      - name: "daily_caa_audit"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/daily/caa-audit-{date}.md"
+        timeout_sec: 90
+      - name: "update_positioning_metrics"
+        command: "python .codeassistant/skills/caa-audit/update-metrics.py"
+        timeout_sec: 30
+    autonomy_level: high
+    priority: medium
+    retention:
+      reports: 30  # Хранить отчёты 30 дней
+      logs: 90     # Хранить логи 90 дней
+
+  # Триггер при создании Pull Request
+  pull_request_created:
+    enabled: true
+    description: "Аудит позиционирования при создании PR"
+    conditions:
+      - git_operation: "pull_request"
+      - pr_state: "open"
+    actions:
+      - name: "pr_caa_audit"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/pr/caa-audit-pr-{pr_number}.md"
+        timeout_sec: 60
+      - name: "add_audit_comment"
+        command: "python .codeassistant/skills/caa-audit/add-pr-comment.py --report=.agents/reports/pr/caa-audit-pr-{pr_number}.md"
+        timeout_sec: 30
+    autonomy_level: medium
+    priority: high
+
+  # Триггер при обнаружении критических проблем
+  critical_issue_detected:
+    enabled: true
+    description: "Экстренный аудит при обнаружении критических проблем"
+    conditions:
+      - event: "critical_issue"
+      - source: ["caa_audit", "manual_trigger", "monitoring_alert"]
+    actions:
+      - name: "emergency_caa_audit"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --focus=implementation,positioning --format=json"
+        timeout_sec: 45
+      - name: "send_alert"
+        command: "python .codeassistant/skills/caa-audit/send-alert.py --priority=critical"
+        timeout_sec: 10
+    autonomy_level: high
+    priority: critical
+    notifications:
+      - type: "all"  # Все доступные каналы уведомлений
+
+# Интеграция с существующей системой CAA
+integration:
+  caa_system:
+    config_file: ".agents/config/triggers.yaml"
+    sync_enabled: true
+    import_triggers: ["git_commit", "git_push", "file_change"]
+  
+  git_hooks:
+    config_file: ".agents/config/git-hooks.yaml"
+    hooks_to_add:
+      - name: "pre-commit-caa-audit"
+        script: ".codeassistant/skills/caa-audit/git-hooks/pre-commit"
+        description: "Проверка позиционирования CAA перед коммитом"
+      
+      - name: "pre-push-caa-audit"
+        script: ".codeassistant/skills/caa-audit/git-hooks/pre-push"
+        description: "Проверка позиционирования CAA перед пушем"
+  
+  monitoring:
+    metrics_endpoint: "http://localhost:9090/api/v1/write"
+    dashboard: "CAA Positioning Audit"
+    alerts:
+      - name: "positioning_score_low"
+        condition: "caa_positioning_score < 60"
+        severity: "warning"
+        
+      - name: "positioning_score_critical"
+        condition: "caa_positioning_score < 40"
+        severity: "critical"
+
+# Настройки уведомлений
+notifications:
+  console:
+    enabled: true
+    level: "info"  # debug, info, warning, error
+    
+  log_file:
+    enabled: true
+    path: ".agents/logs/pmr-triggers.log"
+    rotation: "daily"
+    max_size_mb: 10
+    
+  telegram:
+    enabled: false  # Включить после настройки бота
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    chat_id: "${TELEGRAM_CHAT_ID}"
+    levels: ["warning", "critical"]
+    
+  email:
+    enabled: false  # Включить после настройки SMTP
+    smtp_server: "${SMTP_SERVER}"
+    recipients: ["${ALERT_EMAIL}"]
+    levels: ["critical"]
+
+# Настройки хранения данных
+storage:
+  reports:
+    directory: ".agents/reports/caa-audit/"
+    retention_days: 30
+    compression: true
+    
+  metrics:
+    directory: ".agents/data/caa-metrics/"
+    format: "json"
+    retention_days: 90
+    
+  logs:
+    directory: ".agents/logs/caa-audit/"
+    retention_days: 60
+
+# Настройки производительности
+performance:
+  max_concurrent_audits: 2
+  audit_timeout_sec: 120
+  cache_enabled: true
+  cache_ttl_sec: 3600  # 1 час
+  
+  resource_limits:
+    cpu_percent: 50
+    memory_mb: 512
+    disk_mb: 100
+
+# Настройки безопасности
+security:
+  audit_mode: "read_only"  # read_only, suggest_changes, auto_fix
+  require_confirmation: true
+  backup_before_changes: true
+  allowed_file_patterns:
+    - "*.md"
+    - "*.json"
+    - "*.yaml"
+    - "*.yml"
+  
+  forbidden_actions:
+    - delete_files
+    - modify_source_code
+    - change_git_history
+
+# Метрики и мониторинг
+metrics:
+  collection_enabled: true
+  push_to_prometheus: false  # Включить после настройки Prometheus
+  
+  tracked_metrics:
+    - name: "caa_positioning_score"
+      description: "Общий score позиционирования CAA"
+      type: "gauge"
+      range: [0, 100]
+      
+    - name: "caa_audit_duration_seconds"
+      description: "Время выполнения аудита"
+      type: "histogram"
+      
+    - name: "caa_issues_count"
+      description: "Количество найденных проблем"
+      type: "counter"
+      labels: ["severity"]
+      
+    - name: "caa_artifacts_count"
+      description: "Количество найденных артефактов"
+      type: "gauge"
+      labels: ["type"]
+
+# Версионирование
+versioning:
+  config_version: "1.0.0"
+  compatible_caa_versions: [">=1.0.0"]
+  last_updated: "2024-04-10"
+  
+  changelog:
+    - version: "1.0.0"
+      date: "2024-04-10"
+      changes:
+        - "Первоначальная реализация проактивных триггеров"
+        - "Интеграция с существующей системой CAA"
+        - "Поддержка Git хуков"
+        - "Базовые уведомления"
+
+# Инструкции по использованию
+usage:
+  quick_start: |
+    # 1. Активировать триггеры
+    python .codeassistant/skills/caa-audit/activate-triggers.py
+    
+    # 2. Проверить конфигурацию
+    python .codeassistant/skills/caa-audit/check-config.py
+    
+    # 3. Запустить тестовый аудит
+    python .codeassistant/skills/caa-audit/caa-audit-script.py --quick
+  
+  integration_with_caa: |
+    # Триггеры PMR Agent автоматически интегрируются с CAA через:
+    # 1. Общий файл конфигурации триггеров
+    # 2. Git хуки
+    # 3. Систему мониторинга
+    # 4. Базу данных метрик
+  
+  troubleshooting: |
+    # Проблема: Триггеры не срабатывают
+    # Решение: Проверить интеграцию с .agents/config/triggers.yaml
+    
+    # Проблема: Ошибки при выполнении аудита
+    # Решение: Проверить зависимости и права доступа
+    
+    # Проблема: Нет уведомлений
+    # Решение: Проверить конфигурацию уведомлений
