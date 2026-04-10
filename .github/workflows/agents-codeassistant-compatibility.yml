@@ -1,0 +1,308 @@
+name: Agents and CodeAssistant Compatibility Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '.agents/**'
+      - '.codeassistant/**'
+      - '.github/workflows/agents-codeassistant-compatibility.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '.agents/**'
+      - '.codeassistant/**'
+  schedule:
+    # Ежедневная проверка в 6:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  compatibility-check:
+    runs-on: ubuntu-latest
+    name: Проверка совместимости между .agents и .codeassistant
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f .agents/requirements.txt ]; then pip install -r .agents/requirements.txt; fi
+          
+      - name: Validate Cognitive Automation Agent structure
+        run: |
+          echo "🔍 Проверка структуры Cognitive Automation Agent (.agents/)"
+          
+          # Проверка обязательных директорий
+          required_dirs=("config" "skills" "scripts" "changelogs")
+          for dir in "${required_dirs[@]}"; do
+            if [ -d ".agents/$dir" ]; then
+              echo "✅ Директория .agents/$dir существует"
+            else
+              echo "❌ Директория .agents/$dir отсутствует"
+              exit 1
+            fi
+          done
+          
+          # Проверка обязательных файлов
+          required_files=("config/agent-config.yaml" "config/triggers.yaml" "README.md")
+          for file in "${required_files[@]}"; do
+            if [ -f ".agents/$file" ]; then
+              echo "✅ Файл .agents/$file существует"
+            else
+              echo "⚠️ Файл .agents/$file отсутствует"
+            fi
+          done
+          
+      - name: Validate SourceCraft Agent Skills structure
+        run: |
+          echo "🔍 Проверка структуры SourceCraft Agent Skills (.codeassistant/)"
+          
+          # Проверка обязательных директорий
+          if [ -d ".codeassistant/skills" ]; then
+            echo "✅ Директория .codeassistant/skills существует"
+          else
+            echo "❌ Директория .codeassistant/skills отсутствует"
+            exit 1
+          fi
+          
+          # Проверка обязательных файлов
+          required_files=("context.md" "mcp.json")
+          for file in "${required_files[@]}"; do
+            if [ -f ".codeassistant/$file" ]; then
+              echo "✅ Файл .codeassistant/$file существует"
+            else
+              echo "⚠️ Файл .codeassistant/$file отсутствует"
+            fi
+          done
+          
+      - name: Check skill caa-audit dependencies
+        run: |
+          echo "🔍 Проверка skill caa-audit"
+          
+          if [ -f ".codeassistant/skills/caa-audit/SKILL.md" ]; then
+            echo "✅ Skill caa-audit существует"
+            
+            # Проверка, что skill ссылается на .agents/
+            if grep -q "\.agents/" ".codeassistant/skills/caa-audit/SKILL.md"; then
+              echo "✅ Skill caa-audit ссылается на Cognitive Automation Agent"
+            else
+              echo "⚠️ Skill caa-audit не ссылается на .agents/"
+            fi
+          else
+            echo "❌ Skill caa-audit отсутствует"
+            exit 1
+          fi
+          
+      - name: Run integration tests
+        run: |
+          echo "🧪 Запуск интеграционных тестов"
+          
+          # Создание простого интеграционного теста
+          cat > test_integration.py << 'EOF'
+          #!/usr/bin/env python3
+          """
+          Интеграционный тест для проверки совместимости между .agents и .codeassistant
+          """
+          
+          import os
+          import sys
+          import yaml
+          import json
+          
+          def test_agents_structure():
+              """Проверка структуры Cognitive Automation Agent"""
+              print("🔍 Тестирование структуры .agents/")
+              
+              # Проверка существования директорий
+              required_dirs = ['config', 'skills', 'changelogs']
+              for dir_name in required_dirs:
+                  path = os.path.join('.agents', dir_name)
+                  if not os.path.exists(path):
+                      print(f"❌ Отсутствует директория: {path}")
+                      return False
+                  print(f"✅ Директория существует: {path}")
+              
+              # Проверка конфигурационного файла
+              config_path = '.agents/config/agent-config.yaml'
+              if os.path.exists(config_path):
+                  try:
+                      with open(config_path, 'r') as f:
+                          config = yaml.safe_load(f)
+                      print(f"✅ Конфигурационный файл загружен: {config_path}")
+                      
+                      # Проверка обязательных полей
+                      required_fields = ['autonomy_level', 'triggers', 'skills']
+                      for field in required_fields:
+                          if field in config:
+                              print(f"✅ Поле конфигурации существует: {field}")
+                          else:
+                              print(f"⚠️ Отсутствует поле конфигурации: {field}")
+                  except Exception as e:
+                      print(f"❌ Ошибка загрузки конфигурации: {e}")
+                      return False
+              else:
+                  print(f"⚠️ Отсутствует конфигурационный файл: {config_path}")
+              
+              return True
+          
+          def test_codeassistant_structure():
+              """Проверка структуры SourceCraft Agent Skills"""
+              print("🔍 Тестирование структуры .codeassistant/")
+              
+              # Проверка существования директорий
+              required_dirs = ['skills']
+              for dir_name in required_dirs:
+                  path = os.path.join('.codeassistant', dir_name)
+                  if not os.path.exists(path):
+                      print(f"❌ Отсутствует директория: {path}")
+                      return False
+                  print(f"✅ Директория существует: {path}")
+              
+              # Проверка skill caa-audit
+              caa_audit_path = '.codeassistant/skills/caa-audit/SKILL.md'
+              if os.path.exists(caa_audit_path):
+                  print(f"✅ Skill caa-audit существует: {caa_audit_path}")
+                  
+                  # Проверка, что skill ссылается на .agents/
+                  with open(caa_audit_path, 'r') as f:
+                      content = f.read()
+                  if '.agents/' in content:
+                      print("✅ Skill caa-audit ссылается на Cognitive Automation Agent")
+                  else:
+                      print("⚠️ Skill caa-audit не ссылается на .agents/")
+              else:
+                  print(f"❌ Отсутствует skill caa-audit: {caa_audit_path}")
+                  return False
+              
+              return True
+          
+          def test_architecture_documentation():
+              """Проверка архитектурной документации"""
+              print("🔍 Тестирование архитектурной документации")
+              
+              arch_path = 'ARCHITECTURE.md'
+              if os.path.exists(arch_path):
+                  print(f"✅ Архитектурная документация существует: {arch_path}")
+                  
+                  with open(arch_path, 'r') as f:
+                      content = f.read()
+                  
+                  # Проверка ключевых разделов
+                  required_sections = [
+                      'Cognitive Automation Agent',
+                      'SourceCraft Agent Skills',
+                      'Взаимосвязи между системами'
+                  ]
+                  
+                  for section in required_sections:
+                      if section in content:
+                          print(f"✅ Раздел документации существует: {section}")
+                      else:
+                          print(f"⚠️ Отсутствует раздел документации: {section}")
+              else:
+                  print(f"❌ Отсутствует архитектурная документация: {arch_path}")
+                  return False
+              
+              return True
+          
+          def main():
+              """Основная функция тестирования"""
+              print("🚀 Запуск интеграционных тестов совместимости")
+              print("=" * 60)
+              
+              tests = [
+                  test_agents_structure,
+                  test_codeassistant_structure,
+                  test_architecture_documentation
+              ]
+              
+              results = []
+              for test in tests:
+                  try:
+                      result = test()
+                      results.append(result)
+                      print()
+                  except Exception as e:
+                      print(f"❌ Ошибка выполнения теста: {e}")
+                      results.append(False)
+              
+              # Итоговый отчет
+              print("=" * 60)
+              print("📊 Итоговый отчет:")
+              
+              passed = sum(results)
+              total = len(results)
+              
+              print(f"✅ Пройдено тестов: {passed}/{total}")
+              
+              if passed == total:
+                  print("🎉 Все тесты пройдены успешно!")
+                  return 0
+              else:
+                  print("❌ Некоторые тесты не пройдены")
+                  return 1
+          
+          if __name__ == '__main__':
+              sys.exit(main())
+          EOF
+          
+          # Запуск теста
+          python test_integration.py
+          
+      - name: Generate compatibility report
+        if: always()
+        run: |
+          echo "📋 Генерация отчета о совместимости"
+          
+          cat > compatibility-report.md << 'EOF'
+          # Отчет о совместимости между .agents и .codeassistant
+          
+          ## Дата проверки
+          $(date)
+          
+          ## Статус проверки
+          ${{ job.status }}
+          
+          ## Проверенные компоненты
+          
+          ### Cognitive Automation Agent (.agents/)
+          - Структура директорий: $([ -d ".agents/config" ] && echo "✅" || echo "❌")
+          - Конфигурационные файлы: $([ -f ".agents/config/agent-config.yaml" ] && echo "✅" || echo "❌")
+          - Навыки (skills): $([ -d ".agents/skills" ] && echo "✅" || echo "❌")
+          - Changelogs: $([ -d ".agents/changelogs" ] && echo "✅" || echo "❌")
+          
+          ### SourceCraft Agent Skills (.codeassistant/)
+          - Структура директорий: $([ -d ".codeassistant/skills" ] && echo "✅" || echo "❌")
+          - Skill caa-audit: $([ -f ".codeassistant/skills/caa-audit/SKILL.md" ] && echo "✅" || echo "❌")
+          - Контекст: $([ -f ".codeassistant/context.md" ] && echo "✅" || echo "❌")
+          - MCP конфигурация: $([ -f ".codeassistant/mcp.json" ] && echo "✅" || echo "❌")
+          
+          ### Архитектурная документация
+          - ARCHITECTURE.md: $([ -f "ARCHITECTURE.md" ] && echo "✅" || echo "❌")
+          
+          ## Рекомендации
+          
+          EOF
+          
+          echo "📄 Отчет сгенерирован: compatibility-report.md"
+          
+      - name: Upload compatibility report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compatibility-report
+          path: |
+            compatibility-report.md
+            test_integration.py
+          retention-days: 7
