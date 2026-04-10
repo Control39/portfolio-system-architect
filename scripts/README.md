@@ -1,140 +1,234 @@
-﻿# Scripts Directory Structure
+# Скрипты автоматизации VS Code Extensions
 
-This directory contains utility scripts for development, deployment, and maintenance of the portfolio system. The scripts are organized by platform and purpose to demonstrate cross-platform expertise.
+## 📋 Обзор
 
-## 🏗️ Structure Rationale
+Эта папка содержит скрипты для автоматического управления расширениями VS Code в проекте `portfolio-system-architect`. Система обеспечивает:
 
-The mixed scripting approach (PowerShell, Bash, Python, Batch) is **intentional** and demonstrates:
+- ✅ **Автоматическую проверку** соответствия расширений
+- 🔄 **Синхронизацию** между разработчиками  
+- 🚀 **Интеграцию с CI/CD** для контроля качества
+- 📊 **Отчеты** о соответствии и рекомендации
 
-1. **Cross-platform expertise** – ability to work in both Windows and Linux environments
-2. **Pragmatic tool selection** – using the right tool for each specific task
-3. **Enterprise relevance** – many Russian companies use mixed environments
-4. **Automation versatility** – scripts for CI/CD, local development, and production
+## 🚀 Быстрый старт
 
-## 📁 Directory Organization
+### Для всех платформ (рекомендуется)
 
-### `windows/` – Windows-specific scripts
-- **Purpose**: Scripts that require Windows-specific features or are meant to run in Windows environments
-- **Languages**: PowerShell (.ps1), Batch (.bat)
-- **Examples**: 
-  - `fix_encoding.ps1` – fixes file encoding issues (Windows-specific)
-  - `migrate-to-monorepo.bat` – Windows batch script for migration
-
-### `linux/` – Linux/Unix-specific scripts
-- **Purpose**: Scripts for Linux containers, CI/CD pipelines, and Unix-like systems
-- **Languages**: Bash (.sh), Shell
-- **Examples**:
-  - `generate-docs.sh` – builds documentation (runs in Docker/Linux CI)
-  - `backup-postgres.sh` – PostgreSQL backup (Linux cron job)
-
-### `python/` – Cross-platform Python scripts
-- **Purpose**: Platform-independent utilities and complex automation
-- **Languages**: Python (.py)
-- **Examples**:
-  - `healthcheck.py` – health checks for services (cross-platform)
-  - `sync-from-my-ecosystem.py` – complex data synchronization
-
-### `general/` – Platform-agnostic or legacy scripts
-- **Purpose**: Scripts that haven't been categorized yet or work on any platform
-- **Languages**: Mixed
-- **Note**: This is a transitional directory; scripts should eventually move to appropriate categories
-
-## 🔄 Current Status (After Restructuring)
-
-**Реструктуризация завершена (2026-04-08):**
-- ✅ Удалены дублирующие скрипты (см. [DEDUPLICATION_PLAN.md](./DEDUPLICATION_PLAN.md))
-- ✅ Все скрипты перемещены в соответствующие категории
-- ✅ Создан подробный индекс [INDEX.md](./INDEX.md)
-
-### Актуальная структура:
-| Категория | Скриптов | Состояние | Описание |
-|-----------|----------|-----------|----------|
-| `windows/` | 2 | 🟡 Частично | Windows-специфичные скрипты (PowerShell, Batch) |
-| `linux/` | 6 | 🟢 Полное | Linux/Unix скрипты для CI/CD и администрирования |
-| `python/` | 5 | 🟢 Полное | Кросс-платформенные Python утилиты |
-| Корень | 21 | 🟢 Стабильное | Кросс-платформенные и общие скрипты |
-
-> **Примечание**: Папка `general/` была удалена, так как все скрипты теперь categorized.
-
-## 📖 Evolution Narrative: "От Зеро к Херо"
-
-Эта папка scripts/ представляет собой **археологическую карту** профессионального роста:
-
-### 🥚 Этап 1: Прототипы (Зеро)
 ```bash
-fix_encoding.ps1       # Простейшее решение конкретной проблемы
-check_yaml.py          # Базовая проверка с ошибками (удалён)
+# Перейдите в корень проекта
+cd /path/to/portfolio-system-architect
+
+# Проверьте текущее состояние
+make check
+
+# Синхронизируйте расширения
+make sync
+
+# Предварительный просмотр изменений
+make dry-run
 ```
 
-### 🐣 Этап 2: Специализация
-```bash
-cleanup-old-branches.ps1  # Windows-версия
-cleanup-old-branches.sh   # Linux-версия
-```
-*Разные реализации для разных ОС → доказательство enterprise-экспертизы*
+### Для Windows
 
-### 🐥 Этап 3: Улучшение
-```bash
-update-badges.py          → update-badges-enhanced.py
-check_yaml.py             → check_yaml_fixed.py
-```
-*Исправление ошибок, добавление функциональности*
+```powershell
+# Используйте PowerShell скрипт
+.\scripts\vscode-extensions-manager.bat --check
+.\scripts\vscode-extensions-manager.bat --sync
+.\scripts\vscode-extensions-manager.bat --dry-run
 
-### 🦅 Этап 4: Production-ready (Херо)
-```bash
-healthcheck.py           # Комплексные проверки с метриками
-deploy.sh                # CI/CD пайплайн
-setup-vscode-extensions.py # Автоматизация developer experience
+# Или напрямую через PowerShell
+powershell -ExecutionPolicy Bypass -File scripts\vscode-extensions-windows.ps1 -Check
 ```
 
-### 📊 Эволюционные паттерны:
-1. **Дублирование → Специализация** – разные версии для разных платформ
-2. **Прототип → Production** – добавление обработки ошибок, логирования
-3. **Ручное → Автоматическое** – интеграция в CI/CD пайплайны
+### Для Linux/macOS
 
-## 🚀 Usage Guidelines
+```bash
+# Сделайте скрипт исполняемым
+chmod +x scripts/vscode-extensions-unix.sh
 
-### For New Scripts
-1. **Choose the right language**:
-   - **Windows administration**: PowerShell
-   - **Linux/containers/CI**: Bash
-   - **Cross-platform/complex logic**: Python
-2. **Place in appropriate directory**:
-   - `windows/` for Windows-specific
-   - `linux/` for Linux/Unix-specific  
-   - `python/` for cross-platform Python
-3. **Document dependencies** in script header
+# Запустите проверку
+./scripts/vscode-extensions-unix.sh --check
 
-### For Existing Scripts
-- Scripts in root directory are **legacy** and will be gradually moved
-- Update any references in documentation or CI/CD configurations
-- Test after moving to ensure nothing breaks
+# Синхронизируйте расширения
+./scripts/vscode-extensions-unix.sh --sync
+```
 
-## 🤔 Why Not Unify on One Language?
+## 📁 Структура файлов
 
-While Python could handle all tasks, the mixed approach demonstrates:
+| Файл | Назначение | Платформа |
+|------|------------|-----------|
+| `vscode-extensions-manager.py` | Основной Python скрипт | Все |
+| `vscode-extensions-windows.ps1` | PowerShell скрипт | Windows |
+| `vscode-extensions-unix.sh` | Bash скрипт | Linux/macOS |
+| `vscode-extensions-manager.bat` | Batch скрипт запуска | Windows |
+| `Makefile` | Универсальный интерфейс | Все |
 
-1. **Real-world enterprise experience** – companies have mixed environments
-2. **Specialized tool expertise** – PowerShell for Windows admin, Bash for Linux ops
-3. **Portfolio diversity** – shows breadth of skills beyond just Python
-4. **Performance/appropriateness** – some tasks are simpler in native shell
+## ⚙️ Конфигурация
 
-## 📚 Related Documentation
+Конфигурация расширений находится в `../config/vscode/vscode-extensions.json`:
 
-### Архитектурные решения
-- [ADR-007: Technology Stack Justification](../docs/architecture/decisions/ADR-007-technology-stack-justification.md) – обоснование mixed scripting
-- [ADR-008: Service Discovery](../docs/architecture/decisions/ADR-008-service-discovery.md) – микросервисная архитектура
+```json
+{
+  "required": ["ms-python.python", "ms-python.vscode-pylance"],
+  "recommended": ["ms-python.isort", "njpwerner.autodocstring"],
+  "optional": ["Continue.continue"],
+  "excluded": ["vscjava.vscode-java-debug"]
+}
+```
 
-### Документация реструктуризации
-- [INDEX.md](./INDEX.md) – полный индекс скриптов с архитектурной картой
-- [DEDUPLICATION_PLAN.md](./DEDUPLICATION_PLAN.md) – план удаления дубликатов
-- [restructure-scripts.ps1](./restructure-scripts.ps1) – скрипт реструктуризации
+## 🔧 Доступные команды
 
-### Использование в проекте
-- [CI/CD Configuration](../.github/workflows/) – пайплайны, использующие эти скрипты
-- README.md: Architectural Justification section – общее архитектурное обоснование
+### Через Makefile
 
-### Эволюционный контекст
-- Git history ветки `refactor-backup` – полная история изменений
-- Удалённые скрипты доступны в git history как "археологические слои"
+```bash
+make help           # Показать справку
+make check          # Проверить соответствие
+make install        # Установить обязательные расширения
+make sync           # Полная синхронизация
+make report         # Сгенерировать отчет
+make dry-run        # Предварительный просмотр
+make test           # Запустить тесты
+make clean          # Очистить временные файлы
+make deps           # Проверить зависимости
+make status         # Показать статус системы
+```
 
+### Через Python скрипт
+
+```bash
+python vscode-extensions-manager.py --action check
+python vscode-extensions-manager.py --action sync
+python vscode-extensions-manager.py --action sync --dry-run
+python vscode-extensions-manager.py --action report
+python vscode-extensions-manager.py --output-score  # Для CI/CD
+```
+
+## 📊 Оценка соответствия
+
+Система рассчитывает оценку соответствия:
+
+- **Обязательные расширения:** 70% оценки
+- **Исключенные расширения:** -10% за каждое
+- **Минимальный порог:** 90% (в CI/CD)
+
+## 🛠️ Разработка и тестирование
+
+### Запуск тестов
+
+```bash
+make test
+```
+
+### Проверка зависимостей
+
+```bash
+make deps
+```
+
+### Создание кастомных скриптов
+
+```python
+#!/usr/bin/env python3
+# custom-script.py
+
+import sys
+sys.path.append('.')  # Добавляем текущую папку в путь
+
+from vscode_extensions_manager import VSCodeExtensionManager
+
+manager = VSCodeExtensionManager()
+compliance = manager.check_compliance()
+
+print(f"Оценка: {compliance['compliance_score']:.1f}%")
+```
+
+## 🔄 Интеграция с CI/CD
+
+Система автоматически проверяется в GitHub Actions:
+
+- **При пуше** в ветки `main` и `develop`
+- **При пул-реквестах**
+- **Еженедельно** по расписанию
+
+Workflow файл: `.github/workflows/vscode-extensions-check.yml`
+
+## 🐛 Устранение неполадок
+
+### Ошибка "VS Code не найден"
+
+```bash
+# Проверьте, что VS Code установлен и в PATH
+code --version
+
+# Если команда не найдена:
+# 1. Запустите VS Code
+# 2. Нажмите Ctrl+Shift+P
+# 3. Выполните "Shell Command: Install 'code' command in PATH"
+```
+
+### Ошибка "Permission denied"
+
+```bash
+# Linux/macOS: Запустите с sudo
+sudo make sync
+
+# Или установите расширения вручную через VS Code
+```
+
+### Ошибка сети
+
+```bash
+# Проверьте подключение к интернету
+# Убедитесь, что Marketplace VS Code доступен
+```
+
+## 📈 Мониторинг
+
+### Отчеты
+
+Система генерирует отчеты в нескольких форматах:
+
+1. **Консольный вывод** - для быстрого просмотра
+2. **Markdown файлы** - для документации
+3. **CI/CD артефакты** - в GitHub Actions
+
+### Логи
+
+Все действия логируются с уровнями:
+- INFO: Информационные сообщения
+- WARNING: Предупреждения  
+- ERROR: Критические ошибки
+
+## 🤝 Вклад в развитие
+
+### Добавление новых расширений
+
+1. Отредактируйте `../config/vscode/vscode-extensions.json`
+2. Добавьте расширение в соответствующую категорию
+3. Запустите `make check` для проверки
+4. Создайте pull request
+
+### Улучшение скриптов
+
+1. Создайте issue с описанием улучшения
+2. Создайте ветку для разработки
+3. Реализуйте изменения
+4. Протестируйте с `make test`
+5. Создайте pull request
+
+## 📚 Дополнительные ресурсы
+
+- [Полная документация](../docs/vscode-extensions-automation.md)
+- [Конфигурация расширений](../config/vscode/vscode-extensions.json)
+- [CI/CD Workflow](../.github/workflows/vscode-extensions-check.yml)
+- [Исходный код](vscode-extensions-manager.py)
+
+## 📞 Поддержка
+
+- **Проблемы:** Создайте issue в репозитории
+- **Вопросы:** Обратитесь к документации
+- **Предложения:** Создайте issue с тегом `enhancement`
+
+---
+
+*Последнее обновление: 2026-04-10*  
+*Версия: 1.0.0*

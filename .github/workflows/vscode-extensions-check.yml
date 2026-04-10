@@ -1,0 +1,286 @@
+name: VS Code Extensions Compliance Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'config/vscode/vscode-extensions.json'
+      - 'scripts/vscode-extensions-manager.py'
+      - '.github/workflows/vscode-extensions-check.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'config/vscode/vscode-extensions.json'
+      - 'scripts/vscode-extensions-manager.py'
+  schedule:
+    # Еженедельная проверка по понедельникам в 9:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (no actual changes)'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  check-extensions:
+    name: Check VS Code Extensions Compliance
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Detect OS and run appropriate check
+      id: check_extensions
+      run: |
+        echo "Running on ${{ runner.os }}"
+        
+        if [ "${{ runner.os }}" = "Windows" ]; then
+          echo "Windows detected, using PowerShell script"
+          python scripts/vscode-extensions-manager.py --action check --config config/vscode/vscode-extensions.json
+          COMPLIANCE_SCORE=$(python scripts/vscode-extensions-manager.py --action check --config config/vscode/vscode-extensions.json --output-score)
+          echo "COMPLIANCE_SCORE=$COMPLIANCE_SCORE" >> $GITHUB_OUTPUT
+        elif [ "${{ runner.os }}" = "Linux" ] || [ "${{ runner.os }}" = "macOS" ]; then
+          echo "Unix detected, using bash script"
+          chmod +x scripts/vscode-extensions-unix.sh
+          ./scripts/vscode-extensions-unix.sh --check --config config/vscode/vscode-extensions.json
+          # Извлекаем оценку соответствия
+          COMPLIANCE_SCORE=$(./scripts/vscode-extensions-unix.sh --check --config config/vscode/vscode-extensions.json 2>/dev/null | grep "COMPLIANCE_SCORE:" | cut -d: -f2)
+          echo "COMPLIANCE_SCORE=$COMPLIANCE_SCORE" >> $GITHUB_OUTPUT
+        else
+          echo "Unknown OS, using Python script"
+          python scripts/vscode-extensions-manager.py --action check --config config/vscode/vscode-extensions.json
+          COMPLIANCE_SCORE=$(python scripts/vscode-extensions-manager.py --action check --config config/vscode/vscode-extensions.json --output-score)
+          echo "COMPLIANCE_SCORE=$COMPLIANCE_SCORE" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Generate compliance report
+      id: report
+      run: |
+        echo "Generating compliance report..."
+        
+        # Создаем отчет в формате Markdown
+        REPORT_FILE="vscode-extensions-compliance-report.md"
+        
+        cat > $REPORT_FILE << EOF
+        # VS Code Extensions Compliance Report
+        
+        **Дата проверки:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        **ОС:** ${{ runner.os }}
+        **Ветка:** ${{ github.ref_name }}
+        **Коммит:** ${{ github.sha }}
+        
+        ## Результаты проверки
+        
+        ### Общая информация
+        - **Операционная система:** ${{ runner.os }}
+        - **Конфигурационный файл:** config/vscode/vscode-extensions.json
+        - **Скрипт проверки:** scripts/vscode-extensions-manager.py
+        
+        ### Оценка соответствия
+        **Оценка:** ${{ steps.check_extensions.outputs.COMPLIANCE_SCORE || 'N/A' }}%
+        
+        ### Рекомендации
+        1. Убедитесь, что все обязательные расширения установлены
+        2. Удалите исключенные расширения, если они присутствуют
+        3. Рассмотрите установку рекомендуемых расширений для улучшения разработки
+        
+        ### Следующие шаги
+        - Запустите \`make sync\` для автоматической синхронизации расширений
+        - Проверьте конфигурационный файл на актуальность
+        - Обновите список расширений при изменении технологического стека
+        
+        ## Детали проверки
+        Полный лог проверки доступен в шаге "Detect OS and run appropriate check".
+        
+        ---
+        *Этот отчет сгенерирован автоматически системой проверки расширений VS Code.*
+        EOF
+        
+        echo "Report generated: $REPORT_FILE"
+        
+        # Сохраняем отчет как артефакт
+        echo "REPORT_FILE=$REPORT_FILE" >> $GITHUB_OUTPUT
+    
+    - name: Upload compliance report
+      uses: actions/upload-artifact@v4
+      with:
+        name: vscode-extensions-compliance-report-${{ runner.os }}
+        path: ${{ steps.report.outputs.REPORT_FILE }}
+    
+    - name: Check compliance threshold
+      id: compliance_check
+      run: |
+        SCORE=${{ steps.check_extensions.outputs.COMPLIANCE_SCORE || 0 }}
+        THRESHOLD=90
+        
+        echo "Compliance score: $SCORE%"
+        echo "Threshold: $THRESHOLD%"
+        
+        if (( $(echo "$SCORE >= $THRESHOLD" | bc -l) )); then
+          echo "✅ Compliance check PASSED"
+          echo "PASSED=true" >> $GITHUB_OUTPUT
+        else
+          echo "❌ Compliance check FAILED"
+          echo "PASSED=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Comment on PR (if failed)
+      if: github.event_name == 'pull_request' && steps.compliance_check.outputs.PASSED == 'false'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const score = "${{ steps.check_extensions.outputs.COMPLIANCE_SCORE || 0 }}";
+          const threshold = 90;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ⚠️ VS Code Extensions Compliance Check Failed
+            
+            Проверка соответствия расширений VS Code не пройдена.
+            
+            **Оценка соответствия:** ${score}%
+            **Минимальный порог:** ${threshold}%
+            
+            ### Что делать:
+            1. Установите отсутствующие обязательные расширения
+            2. Удалите исключенные расширения
+            3. Запустите \`make sync\` для автоматической синхронизации
+            
+            ### Подробности:
+            Полный отчет доступен в артефактах workflow.
+            
+            Для ручной проверки выполните:
+            \`\`\`bash
+            make check
+            \`\`\`
+            
+            Для автоматической синхронизации:
+            \`\`\`bash
+            make sync
+            \`\`\``
+          });
+    
+    - name: Fail if compliance below threshold
+      if: steps.compliance_check.outputs.PASSED == 'false'
+      run: |
+        echo "❌ Compliance score is below threshold. Failing workflow."
+        exit 1
+
+  sync-extensions:
+    name: Sync VS Code Extensions (Manual)
+    runs-on: ubuntu-latest
+    needs: check-extensions
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'false'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    
+    - name: Install VS Code (for CI environment)
+      run: |
+        # Устанавливаем VS Code в CI среде
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+          sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+          sudo apt-get update
+          sudo apt-get install -y code
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          brew install --cask visual-studio-code
+        fi
+    
+    - name: Run sync
+      run: |
+        echo "Running extensions sync..."
+        python scripts/vscode-extensions-manager.py --action sync --config config/vscode/vscode-extensions.json
+    
+    - name: Generate sync report
+      run: |
+        echo "## Sync Report" > sync-report.md
+        echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> sync-report.md
+        echo "**Action:** Sync extensions" >> sync-report.md
+        echo "" >> sync-report.md
+        echo "Extensions synchronization completed." >> sync-report.md
+    
+    - name: Upload sync report
+      uses: actions/upload-artifact@v4
+      with:
+        name: vscode-extensions-sync-report
+        path: sync-report.md
+
+  summary:
+    name: Summary
+    runs-on: ubuntu-latest
+    needs: [check-extensions]
+    if: always()
+    
+    steps:
+    - name: Download all compliance reports
+      uses: actions/download-artifact@v4
+      with:
+        path: compliance-reports
+    
+    - name: Generate summary
+      run: |
+        echo "## VS Code Extensions Compliance Check Summary" > summary.md
+        echo "" >> summary.md
+        echo "**Workflow:** ${{ github.workflow }}" >> summary.md
+        echo "**Run ID:** ${{ github.run_id }}" >> summary.md
+        echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> summary.md
+        echo "" >> summary.md
+        
+        echo "### Results by OS:" >> summary.md
+        echo "" >> summary.md
+        
+        for os in ubuntu-latest windows-latest macos-latest; do
+          REPORT_FILE="compliance-reports/vscode-extensions-compliance-report-$os/vscode-extensions-compliance-report.md"
+          if [ -f "$REPORT_FILE" ]; then
+            echo "#### $os" >> summary.md
+            grep -A2 "### Оценка соответствия" "$REPORT_FILE" | tail -1 >> summary.md
+            echo "" >> summary.md
+          fi
+        done
+        
+        echo "### Next Steps:" >> summary.md
+        echo "" >> summary.md
+        echo "1. Review the compliance reports for each OS" >> summary.md
+        echo "2. Update the extensions configuration if needed" >> summary.md
+        echo "3. Run \`make sync\` locally to synchronize extensions" >> summary.md
+        echo "" >> summary.md
+        echo "---" >> summary.md
+        echo "*Generated automatically by VS Code Extensions Compliance Check workflow*" >> summary.md
+        
+        cat summary.md
+    
+    - name: Upload summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: compliance-check-summary
+        path: summary.md

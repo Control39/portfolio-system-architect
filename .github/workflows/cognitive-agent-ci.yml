@@ -1,0 +1,219 @@
+name: Cognitive Agent CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '.agents/**'
+      - '.github/workflows/cognitive-agent-ci.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.agents/**'
+  schedule:
+    # Запускать ежедневно в 2:00 UTC для мониторинга квот
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Режим запуска агента'
+        required: true
+        default: 'minimal'
+        type: choice
+        options:
+        - minimal
+        - standard
+        - deep
+        - full
+
+jobs:
+  validate-config:
+    name: Validate Agent Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml jsonschema
+          if [ -f ".agents/requirements.txt" ]; then
+            pip install -r .agents/requirements.txt
+          fi
+
+      - name: Validate configuration files
+        run: |
+          python .agents/scripts/validate-config.py --config .agents/config/agent-config.yaml
+          python .agents/scripts/validate-config.py --config .agents/config/triggers.yaml
+          python .agents/scripts/validate-config.py --config .agents/config/learning.yaml
+
+  test-agent:
+    name: Test Agent Components
+    runs-on: ubuntu-latest
+    needs: validate-config
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install agent package
+        run: |
+          cd .agents && pip install -e .
+
+      - name: Run unit tests
+        run: |
+          cd .agents && python -m pytest tests/ -v --cov=agents --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: .agents/coverage.xml
+          flags: cognitive-agent
+
+  run-scanner:
+    name: Run Project Scanner
+    runs-on: ubuntu-latest
+    needs: test-agent
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install agent package
+        run: |
+          cd .agents && pip install -e .
+
+      - name: Run scanner in safe mode
+        run: |
+          python -m agents.scripts.scanner_main --mode=safe --output=.agents/reports/ci-scan-report.json
+        env:
+          AGENT_MODE: ci
+          SOURCECRAFT_QUOTA_SAVING: true
+
+      - name: Upload scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-report
+          path: .agents/reports/ci-scan-report.json
+
+  monitor-quotas:
+    name: Monitor SourceCraft Quotas
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install agent package
+        run: |
+          cd .agents && pip install -e .
+
+      - name: Run quota monitor
+        run: |
+          python .agents/scripts/check-db.py --quota-check --output=.agents/reports/quota-report.json
+        env:
+          SOURCECRAFT_API_KEY: ${{ secrets.SOURCECRAFT_API_KEY }}
+
+      - name: Check quota thresholds
+        run: |
+          python .agents/scripts/alert-system.py --report=.agents/reports/quota-report.json --threshold=80
+        continue-on-error: true
+
+      - name: Upload quota report
+        uses: actions/upload-artifact@v4
+        with:
+          name: quota-report
+          path: .agents/reports/quota-report.json
+
+  deploy-agent:
+    name: Deploy Agent Updates
+    runs-on: ubuntu-latest
+    needs: [test-agent, run-scanner]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build agent package
+        run: |
+          cd .agents && python setup.py sdist bdist_wheel
+
+      - name: Publish to PyPI (optional)
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          cd .agents && pip install twine
+          twine upload dist/* --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Update documentation
+        run: |
+          python .agents/scripts/add-test-metrics.py --update-docs
+          git config --global user.name "Cognitive Agent CI"
+          git config --global user.email "agent-ci@example.com"
+          git add .agents/IMPLEMENTATION_REPORT.md .agents/USAGE.md
+          git commit -m "docs: update agent documentation [skip ci]" || echo "No changes to commit"
+          git push origin main || echo "Nothing to push"
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.agents/'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Уведомления через отдельный job
+notify-failure:
+  name: Notify on Failure
+  runs-on: ubuntu-latest
+  needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, security-scan]
+  if: failure()
+  steps:
+    - name: Send Slack notification
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

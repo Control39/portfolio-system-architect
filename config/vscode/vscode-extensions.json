@@ -1,40 +1,120 @@
-﻿{
-  "//": "Рекомендуемые расширения VS Code для проекта portfolio-system-architect",
-  "//": "Установите через: View → Command Palette → 'Extensions: Show Recommended Extensions'",
+{
+  "//": "Конфигурация расширений VS Code для проекта portfolio-system-architect",
+  "//": "Автоматически управляется скриптом scripts/vscode-extensions-manager.py",
+  "//": "Дата создания: 2026-04-10",
+  "//": "Основано на анализе технологического стека проекта",
   
-  "recommendations": [
+  "required": [
+    // Python разработка (обязательные)
     "ms-python.python",
     "ms-python.vscode-pylance",
     "ms-python.black-formatter",
-    "ms-python.isort",
-    "LittleFoxTeam.vscode-python-test-adapter",
-    "njpwerner.autodocstring",
     
+    // Контейнеризация и DevOps (обязательные)
+    "ms-azuretools.vscode-docker",
+    "redhat.vscode-yaml",
+    
+    // Git (обязательные)
+    "eamodio.gitlens",
+    
+    // Качество кода (обязательные)
+    "charliermarsh.ruff",
+    "esbenp.prettier-vscode"
+  ],
+  
+  "recommended": [
+    // Python разработка (рекомендуемые)
+    "ms-python.isort",
+    "njpwerner.autodocstring",
+    "LittleFoxTeam.vscode-python-test-adapter",
+    
+    // FastAPI специфика
     "tomasz-smykowski.fastapi-snippets",
     "tushortz.python-pydantic",
     
-    "ms-azuretools.vscode-docker",
+    // Kubernetes и инфраструктура
     "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "redhat.vscode-yaml",
     "ms-vscode.makefile-tools",
     
+    // Веб и API инструменты
     "humao.rest-client",
     "rangav.vscode-thunder-client",
     
+    // Документация
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
     
-    "eamodio.gitlens",
+    // Дополнительные Git инструменты
     "mhutchie.git-graph",
     
-    "charliermarsh.ruff",
-    "esbenp.prettier-vscode",
-    "usernamehw.errorlens",
-    
-    "ms-vscode.powershell",
+    // Мониторинг и отладка
     "prometheus.promql",
+    "emilast.LogFileHighlighter",
     
-    "ms-toolsai.jupyter",
-    "ms-toolsai.vscode-jupyter-cell-tags"
-  ]
+    // PowerShell (для скриптов Windows)
+    "ms-vscode.powershell",
+    
+    // Дополнительные утилиты
+    "usernamehw.errorlens",
+    "wix.vscode-import-cost",
+    "formulahendry.code-runner",
+    
+    // Форматирование и линтинг
+    "oderwat.indent-rainbow",
+    "streetsidesoftware.code-spell-checker",
+    
+    // Работа с базами данных
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg"
+  ],
+  
+  "optional": [
+    // AI ассистенты (выберите один)
+    "Continue.continue",
+    "yandex.yandex-code-assist",
+    "GigaCode.gigacode-vscode",
+    
+    // Тематическое оформление
+    "akamud.vscode-theme-onedark",
+    "PKief.material-icon-theme",
+    
+    // Дополнительные языки
+    "ms-vscode.cpptools",
+    "ms-vscode.vscode-typescript-next",
+    
+    // Утилиты для производительности
+    "naco-siren.gradle-language",
+    "vscjava.vscode-java-pack"
+  ],
+  
+  "excluded": [
+    // Расширения, которые могут конфликтовать или дублировать функционал
+    // (установка не рекомендуется для данного проекта)
+    "vscjava.vscode-java-debug",
+    "vscjava.vscode-maven",
+    
+    // Устаревшие или проблемные расширения
+    "ms-vscode-remote.remote-wsl",
+    
+    // Расширения, вызывающие проблемы с производительностью
+    // (если не используются активно)
+    "ms-vscode.live-server",
+    "ritwickdey.LiveServer"
+  ],
+  
+  "metadata": {
+    "project_name": "portfolio-system-architect",
+    "technology_stack": [
+      "Python 3.10+",
+      "FastAPI",
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+      "GitHub Actions",
+      "Prometheus/Grafana"
+    ],
+    "last_updated": "2026-04-10",
+    "maintainer": "SourceCraft Code Assistant",
+    "compliance_target": 85
+  }
 }

@@ -8,8 +8,9 @@
 5. [Конфигурация](#конфигурация)
 6. [Интеграции](#интеграции)
 7. [Мониторинг и логи](#мониторинг-и-логи)
-8. [Устранение неполадок](#устранение-неполадок)
-9. [Развитие и расширение](#развитие-и-расширение)
+8. [Тестирование и валидация](#тестирование-и-валидация)
+9. [Устранение неполадок](#устранение-неполадок)
+10. [Развитие и расширение](#развитие-и-расширение)
 
 ## Введение
 
@@ -284,6 +285,127 @@ tail -f .agents/logs/learning.log
 2. **Learning Progress**: Прогресс обучения, точность моделей
 3. **Integration Health**: Статус интеграций, задержки синхронизации
 4. **Performance Metrics**: Время выполнения, использование ресурсов
+
+## Тестирование и валидация
+
+Cognitive Automation Agent включает комплексную систему тестирования и валидации для обеспечения надежности и корректности работы.
+
+### Валидационные тесты
+
+Основной инструмент валидации - `validation-test.py`, который проверяет все компоненты агента:
+
+```bash
+# Запуск полной валидации
+python .agents/tests/validation-test.py
+
+# Запуск через pytest (рекомендуется для CI/CD)
+pytest .agents/tests/validation-test.py -v
+
+# Запуск конкретных тестов
+pytest .agents/tests/validation-test.py::test_agent_structure -v
+pytest .agents/tests/validation-test.py::test_required_skills -v
+pytest .agents/tests/validation-test.py::test_configuration_files -v
+```
+
+**Проверяемые компоненты:**
+1. **Структура агента** - наличие всех обязательных директорий
+2. **Обязательные скиллы** - cognitive-automation-agent, project-scanner, task-planner, learning-system
+3. **Конфигурационные файлы** - agent-config.yaml, triggers.yaml, integrations.yaml
+4. **Рабочие процессы** - наличие workflow файлов
+5. **Интеграции** - документация интеграций
+6. **Зависимости** - Python зависимости
+
+### Функциональные тесты
+
+Помимо валидации, агент включает функциональные тесты для проверки реальной работы:
+
+```bash
+# Тестирование сканирования проекта
+python -m agents.scanner.test --mode=quick
+
+# Тестирование планировщика задач
+python -m agents.planner.test --generate-test-plan
+
+# Тестирование системы самообучения
+python -m agents.learning.test --metrics-db=.agents/data/trigger_metrics.db
+
+# Тестирование триггеров
+python -m agents.triggers.test --trigger=daily_schedule
+```
+
+### Тестирование автономных функций
+
+Для проверки автономности агента используются специальные тесты:
+
+```bash
+# Тестирование автономного выполнения
+python .agents/launch-script.py --mode=autonomy-test --autonomy=high
+
+# Тестирование проактивных триггеров
+python .agents/launch-script.py --trigger-test=project_open
+
+# Тестирование механизма отката
+python .agents/launch-script.py --test-rollback --scenario=failure
+```
+
+### Проверка рабочих процессов
+
+Каждый рабочий процесс (workflow) включает собственные тесты:
+
+```bash
+# Тестирование workflow настройки проекта
+python -m agents.workflows.test --workflow=project-setup
+
+# Тестирование workflow code review
+python -m agents.workflows.test --workflow=code-review
+
+# Тестирование workflow оптимизации производительности
+python -m agents.workflows.test --workflow=performance-optimization
+```
+
+### Мониторинг и метрики тестирования
+
+Результаты тестирования записываются в метрики для анализа:
+
+```bash
+# Просмотр результатов тестирования
+cat .agents/tests/latest_results.json
+
+# Анализ покрытия тестами
+python -m agents.metrics.coverage --period=30d
+
+# Генерация отчета о тестировании
+python -m agents.tests.report --format=html --output=test-report.html
+```
+
+### Интеграция с CI/CD
+
+Тесты агента интегрированы в CI/CD пайплайны:
+
+```yaml
+# .github/workflows/agent-tests.yml
+name: Cognitive Agent Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run validation tests
+        run: python .agents/tests/validation-test.py
+      - name: Run functional tests
+        run: pytest .agents/tests/ -v
+      - name: Generate test report
+        run: python -m agents.tests.report --format=markdown
+```
+
+### Рекомендации по тестированию
+
+1. **Перед развертыванием**: Всегда запускайте полную валидацию
+2. **После изменений конфигурации**: Проверьте конкретные тесты конфигурации
+3. **При добавлении новых скиллов**: Добавьте соответствующие тесты
+4. **В production**: Используйте уровень автономности `medium` с тестированием на staging
 
 ## Устранение неполадок
 
