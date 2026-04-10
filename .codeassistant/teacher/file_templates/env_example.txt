@@ -1,0 +1,63 @@
+# Шаблон файла окружения для когнитивных систем
+# Переименуйте в .env.example и заполните значения
+
+# Базовые настройки
+APP_NAME=cognitive-system
+APP_ENV=development
+DEBUG=true
+SECRET_KEY=change-this-to-a-random-secret-key
+
+# Базы данных
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=cognitive_db
+DB_USER=postgres
+DB_PASSWORD=your_password_here
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# AI API
+OPENAI_API_KEY=sk-...
+AZURE_OPENAI_API_KEY=...
+OLLAMA_HOST=http://localhost:11434
+
+# Векторные БД
+PINECONE_API_KEY=...
+WEAVIATE_HOST=localhost
+
+# Мониторинг
+SENTRY_DSN=https://...@sentry.io/...
+
+# JWT
+JWT_SECRET=change-this-jwt-secret
+JWT_EXPIRE_MINUTES=60
+
+# Внешние сервисы
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+
+# Интеграции
+SOURCECRAFT_API_KEY=...
+GIGACODE_API_KEY=...
+GITHUB_TOKEN=...
+
+# Настройки приложения
+RATE_LIMIT_REQUESTS=100
+MAX_UPLOAD_SIZE=10485760
+LOG_DIR=./logs
+
+# Разработка
+SKIP_AUTH=false
+USE_LOCAL_DB=true
+
+# Безопасность
+CORS_ORIGINS=http://localhost:3000,http://localhost:8000
+
+# Комментарии:
+# 1. Никогда не коммитьте .env файл в Git
+# 2. Используйте этот шаблон для создания .env.example
+# 3. Для production используйте секреты в Kubernetes/докере
+# 4. Генерация ключей: openssl rand -hex 32

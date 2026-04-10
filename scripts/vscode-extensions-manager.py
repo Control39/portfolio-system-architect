@@ -38,18 +38,25 @@ class VSCodeExtensionManager:
         """Определяет команду для VS Code"""
         if self.system == "Windows":
             # Пробуем разные варианты для Windows
-            for cmd in ["code", "code.cmd", "code.exe"]:
+            code_paths = [
+                "C:\\Users\\Z\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd",
+                "code",
+                "code.cmd",
+                "code.exe"
+            ]
+            for cmd in code_paths:
                 try:
-                    subprocess.run([cmd, "--version"], 
-                                 capture_output=True, check=False)
-                    return cmd
+                    result = subprocess.run([cmd, "--version"], 
+                                         capture_output=True, check=False, shell=True)
+                    if result.returncode == 0:
+                        return cmd
                 except (FileNotFoundError, subprocess.CalledProcessError):
                     continue
         else:
             # Linux/macOS
             try:
                 subprocess.run(["code", "--version"], 
-                             capture_output=True, check=False)
+                             capture_output=True, check=False, shell=True)
                 return "code"
             except (FileNotFoundError, subprocess.CalledProcessError):
                 pass
@@ -87,7 +94,8 @@ class VSCodeExtensionManager:
                 [self.code_cmd, "--list-extensions"],
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
+                shell=True
             )
             extensions = [ext.strip() for ext in result.stdout.split('\n') if ext.strip()]
             logger.info(f"Найдено {len(extensions)} установленных расширений")
@@ -107,7 +115,8 @@ class VSCodeExtensionManager:
                 [self.code_cmd, "--install-extension", extension_id],
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
+                shell=True
             )
             logger.info(f"Расширение {extension_id} успешно установлено")
             return True
@@ -123,7 +132,8 @@ class VSCodeExtensionManager:
                 [self.code_cmd, "--uninstall-extension", extension_id],
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
+                shell=True
             )
             logger.info(f"Расширение {extension_id} успешно удалено")
             return True
