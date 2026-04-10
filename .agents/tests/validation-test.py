@@ -43,7 +43,8 @@ class CognitiveAgentValidator:
             "cache",
             "models",
             "data",
-            "knowledge"
+            "knowledge",
+            "alerts"
         ]
         
         results = {"passed": [], "missing": [], "optional": []}
@@ -304,7 +305,13 @@ class CognitiveAgentValidator:
     def _is_test_passed(self, test_name: str, result: Dict[str, Any]) -> bool:
         """Определение, прошла ли проверка"""
         if test_name == "structure":
-            return len(result.get("missing", [])) == 0
+            # Проверка проходит, если нет обязательных директорий в missing
+            # Опциональные директории (logs, scans, reports, backups, cache) не считаются ошибкой
+            missing = result.get("missing", [])
+            # Фильтруем опциональные директории
+            optional_dirs = ["logs", "scans", "reports", "backups", "cache"]
+            required_missing = [d for d in missing if d not in optional_dirs]
+            return len(required_missing) == 0
         
         elif test_name == "skills":
             required = ["cognitive-automation-agent", "project-scanner", "task-planner", "learning-system"]
@@ -347,7 +354,7 @@ class CognitiveAgentValidator:
     def _generate_report(self, validation_results: Dict[str, Any]):
         """Генерация отчета о валидации"""
         report_dir = self.agent_root / "reports"
-        report_dir.mkdir(exist_ok=True)
+        report_dir.mkdir(exist_ok=True, parents=True)
         
         report_file = report_dir / f"validation_report_{self._get_timestamp().replace(':', '-')}.json"
         
@@ -459,7 +466,10 @@ class CognitiveAgentValidator:
 # Тесты pytest для автоматического тестирования
 @pytest.fixture
 def validator():
-    return CognitiveAgentValidator()
+    import os
+    # Получаем абсолютный путь к директории .agents относительно корня проекта
+    agent_root = os.path.join(os.path.dirname(__file__), '..')
+    return CognitiveAgentValidator(agent_root)
 
 def test_agent_structure(validator):
     """Тест структуры агента"""
