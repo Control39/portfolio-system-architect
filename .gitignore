@@ -12,6 +12,7 @@ env/
 build/
 dist/
 *.egg
+.pytest_cache/
 
 # ==========================================
 # Caches, Testing & Coverage
@@ -51,12 +52,11 @@ Desktop.ini
 # ==========================================
 # AI Agent & Tool Configs (PRIVATE - ИСКЛЮЧИТЬ)
 # ==========================================
-# .codeassistant/
-# .continue/
 .gigaide/
-# .sourcecraft/
 .ai-config/
 .ai-config-gui/
+# .codeassistant/  # Раскомментировать, если нужно игнорировать
+# .continue/       # Раскомментировать, если нужно
 
 # ==========================================
 # Project Specific: Logs, Reports & Generated
@@ -70,8 +70,10 @@ reports/
 $root/
 
 # Generated documentation & sites
-docs/mkdocs-site/site/
+docs/mkdocs-site/
 docs/_build/
+docs/obsidian-map/
+**/obsidian-map/          # Работает, но можно упростить
 
 # Personal tools & backups (local only)
 personal-tools/
@@ -88,7 +90,7 @@ TODO*.md
 my-repo-map*.csv
 my-repo-map*.txt
 
-# Агенты - локальные конфиги
+# Агенты - локальные конфиги и логи
 agents/local/config/*.local.yaml
 agents/gigacode/config/*.local.yaml
 agents/logs/*.log
@@ -107,11 +109,14 @@ project_health_report.json
 # Node modules
 node_modules/
 
-# Obsidian local vault
-docs/obsidian-map/
-**/obsidian-map/
+# Source maps (важно — не попали в прошлый раз!)
+*.js.map
+*.css.map
 
-# Тестовые файлы для сканеров
-test-trivy-config.ps1
-test-secrets.txt
+# Temporary folders (общие)
+.tmp/
+temp/
+tmp/
 
+# OS-specific
+ehthumbs.db
