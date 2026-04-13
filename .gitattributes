@@ -13,3 +13,9 @@
 # Hide internal docs from archive exports
 docs/internal/ export-ignore
 examples/ export-ignore
+# Exclude Obsidian files from archive exports
+.obsidian/ export-ignore
+*.canvas export-ignore
+*.excalidraw.md export-ignore
+**/obsidian-vault/ export-ignore
+**/obsidian-map/ export-ignore
