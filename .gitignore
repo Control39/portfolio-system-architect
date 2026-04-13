@@ -119,4 +119,12 @@ temp/
 tmp/
 
 # OS-specific
-ehthumbs.db
+ehthumbs.db# Obsidian Vault — не коммитить
+.obsidian/
+*.canvas
+*.excalidraw.md
+*.excalidraw/
+**/obsidian-vault/**
+**/obsidian-map/**
+*.db
+*.log
