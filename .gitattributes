@@ -10,3 +10,6 @@
 *.tar.gz filter=lfs diff=lfs merge=lfs -text
 *.jar filter=lfs diff=lfs merge=lfs -text
 *.bin filter=lfs diff=lfs merge=lfs -text
+# Hide internal docs from archive exports
+docs/internal/ export-ignore
+examples/ export-ignore
