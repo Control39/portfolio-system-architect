@@ -19,3 +19,4 @@ examples/ export-ignore
 *.excalidraw.md export-ignore
 **/obsidian-vault/ export-ignore
 **/obsidian-map/ export-ignore
+examples/legacy/ export-ignore
