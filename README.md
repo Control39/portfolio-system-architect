@@ -156,7 +156,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 **Challenge:** Diverged remotes, merge conflicts in DB migration, ~65k lines of technical debt.  
 **Approach:** Branch audit (`git log/diff`), manual conflict resolution with `psycopg2.sql` safety, `--no-ff` merge, protected branch cleanup, dependency pinning, `.gitignore` standardization.  
 **Result:** `-65 510` dead lines, full sync, security patches in `main`, `git status` clean.  
-**Read full case:** [`docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md`](docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md)
+**Read full case:** [`docs/cases/infra-sync-hardening-2026.md`](docs/cases/infra-sync-hardening-2026.md)
 
 ### 🧠 AI Orchestration Success (2025-2026)
 **Challenge:** Limited context windows in free AI tools (4K-8K tokens).  
@@ -204,7 +204,7 @@ This repository is optimized for:
 
 ### For Research & Methodology
 1. Study [`docs/methodology/`](docs/methodology/) for IT-Compass framework
-2. Analyze [`docs/external-ecosystem/`](docs/external-ecosystem/) for competency markers
+2. Analyze [`docs/methodology/`](docs/methodology/) for competency markers
 3. Review [`docs/evidence/`](docs/evidence/) for impact measurement
 
 ## 🤝 Contributing & Community
