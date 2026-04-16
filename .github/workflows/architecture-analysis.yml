@@ -1,4 +1,4 @@
-﻿name: Architecture Maturity Check
+name: Architecture Maturity Check
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
     name: Analyze architecture maturity
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Fetch all history for git stats
 

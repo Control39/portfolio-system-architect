@@ -1,4 +1,4 @@
-﻿name: Test Cloud Reason Component
+name: Test Cloud Reason Component
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
         run: git config --global core.longpaths true
         shell: bash
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 

@@ -1,4 +1,4 @@
-﻿name: Deploy MkDocs Site
+name: Deploy MkDocs Site
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
       - name: Configure Git for long paths
         run: git config --global core.longpaths true
         shell: bash
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       

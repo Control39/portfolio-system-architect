@@ -1,4 +1,4 @@
-﻿name: Badge Health Monitor
+name: Badge Health Monitor
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
     name: Check Badge Health
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

@@ -1,4 +1,4 @@
-﻿name: Monitoring and Alerts
+name: Monitoring and Alerts
 
 on:
   schedule:
@@ -20,7 +20,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -83,7 +83,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Collect GitHub metrics
       id: github-metrics
@@ -116,7 +116,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Run security scan
       run: |
@@ -144,7 +144,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Check for outdated dependencies
       run: |
@@ -172,7 +172,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Run performance tests
       run: |
@@ -198,7 +198,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Download all artifacts
       uses: actions/download-artifact@v4
