@@ -1,4 +1,4 @@
-﻿name: AI Config CI/CD
+name: AI Config CI/CD
 
 on:
   push:
@@ -90,7 +90,7 @@ jobs:
           npm run build
           
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             .ai-config-gui/dist/*.exe
