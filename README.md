@@ -226,3 +226,6 @@ This project is licensed under the MIT License - see the [`LICENSE`](LICENSE) fi
 📩 **Contact**: leadarchitect@yandex.ru | [GitHub](https://github.com/Control39/cognitive-systems-architecture) | [SourceCraft](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
 
 *Last updated: April 2026*
+
+## 📋 Quality Gates
+См. [Quality Gates Чек-лист](docs/quality-gates.md) для проверки автоматизации
