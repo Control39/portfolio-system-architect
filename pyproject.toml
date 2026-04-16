@@ -24,7 +24,7 @@ dependencies = [
     "passlib[bcrypt]>=1.7.4",
     "httpx>=0.28.1",  # Update for security and performance
     "pyyaml>=6.0.3",  # Security update: CVE-2020-14343 fix
-    "sentence-transformers>=2.2.2",
+    "sentence-transformers>=5.4.1",
     "chromadb>=0.4.22",
 ]
 readme = "README.md"
