@@ -1,0 +1,23 @@
+﻿# Зависимости для проекта cloud-reason (инструменты работы с кодировками)
+# Запустите: pip install -r requirements.txt
+
+chardet>=5.0.0
+# Библиотека для определения кодировки файлов
+
+colorama>=0.4.6
+# Поддержка цветного вывода в Windows
+
+# --- Основные зависимости проекта ---
+fastapi>=0.68.0
+uvicorn>=0.15.0
+pydantic>=1.8.0
+requests>=2.25.0
+gitpython>=3.1.0
+yandex-cloud-sdk>=0.200.0
+python-dotenv>=1.0.0
+
+# --- Тестовые зависимости ---
+pytest>=7.0.0
+pytest-cov>=4.0.0
+codecov>=2.1.0
+

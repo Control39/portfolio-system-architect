@@ -1,0 +1,77 @@
+﻿{
+  "skill_name": "Database",
+  "description": "Проектирование, оптимизация и администрирование баз данных",
+  "levels": {
+    "1": [
+      {
+        "id": "database_1_1",
+        "marker": "Спроектировал и создал нормализованную схему БД (3+ таблицы, связи, индексы)",
+        "validation": "SQL скрипты создания схемы, диаграмма отношений",
+        "priority": "high",
+        "resources": ["https://www.postgresql.org/docs/"],
+        "smart_criteria": {
+          "specific": "Спроектировать и создать схему БД",
+          "measurable": "3+ таблицы, первичные/внешние ключи, индексы на ключевых полях",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для хранения структурированных данных",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "database_1_2",
+        "marker": "Написал сложные SQL-запросы с JOIN, агрегациями и подзапросами",
+        "validation": "Файл с запросами, примеры результатов выполнения",
+        "priority": "medium",
+        "resources": ["https://www.w3schools.com/sql/"],
+        "smart_criteria": {
+          "specific": "Написать сложные SQL-запросы для анализа данных",
+          "measurable": "5+ запросов с JOIN, GROUP BY, HAVING, подзапросами",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для извлечения и анализа данных",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "database_2_1",
+        "marker": "Оптимизировал производительность БД: настройка индексов, анализ execution plans",
+        "validation": "Сравнение производительности до/после, объяснение планов запросов",
+        "priority": "high",
+        "resources": ["https://use-the-index-luke.com/"],
+        "smart_criteria": {
+          "specific": "Оптимизировать производительность запросов БД",
+          "measurable": "Ускорение запросов на 50%+, создание недостающих индексов",
+          "achievable": "Уровень средний",
+          "relevant": "Критично для high-load приложений",
+          "time_bound": "1 неделя"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "database_3_1",
+        "marker": "Реализовал репликацию и резервное копирование БД с автоматическим восстановлением",
+        "validation": "Конфигурация репликации, скрипты бэкапов, тест восстановления",
+        "priority": "medium",
+        "resources": ["https://www.postgresql.org/docs/current/warm-standby.html"],
+        "smart_criteria": {
+          "specific": "Настроить отказоустойчивость БД через репликацию и бэкапы",
+          "measurable": "Репликация master-slave, ежедневные бэкапы, успешное восстановление за 15 минут",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Необходимо для обеспечения доступности и сохранности данных",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
+
