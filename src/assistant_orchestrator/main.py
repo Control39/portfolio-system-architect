@@ -132,7 +132,7 @@ def main():
         docs = len(analysis.architecture_docs)
         commits = analysis.git_stats.get('total_commits', 0)
         
-        print(f"\n📊 Краткая статистика:")
+        print("\n📊 Краткая статистика:")
         print(f"  • Микросервисы: {len(services)}")
         print(f"  • Навыки (маркеры): {skills}")
         print(f"  • Архитектурные документы: {docs}")

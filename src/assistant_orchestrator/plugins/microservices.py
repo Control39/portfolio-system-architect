@@ -3,7 +3,7 @@ Microservices plugin for analyzing microservices architecture.
 """
 import logging
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 

@@ -2,8 +2,7 @@
 Data classes for analysis results.
 """
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
-from datetime import datetime
+from typing import Dict, List, Any
 
 
 @dataclass
