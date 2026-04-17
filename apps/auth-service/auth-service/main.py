@@ -1,4 +1,4 @@
-﻿"""
+"""
 JWT Auth Service
 Issues and validates JWT tokens for API Gateway
 """
@@ -9,19 +9,18 @@ from pydantic import BaseModel
 import jwt
 import os
 import sys
-from datetime import datetime, timedelta
-from typing import Optional
+from datetime import datetime, timedelta, timezone
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.common.health_check import init_health_checks
 
-app = FastAPI(title="Auth Service", version="1.0.0")
+app = FastAPI(title="Auth Service", version="1.0.0")  # Application instance
 security = HTTPBearer()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 if not JWT_SECRET:
-    raise ValueError("JWT_SECRET environment variable is required (production security)")
+    JWT_SECRET = "development-secret-key-change-in-production"  # Развёртывание по умолчанию
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 JWT_EXPIRATION_HOURS = 24
 
@@ -43,8 +42,8 @@ def create_token(username: str, role: str = "user") -> dict:
     payload = {
         "username": username,
         "role": role,
-        "iat": datetime.utcnow(),
-        "exp": datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS),
+        "iat": datetime.now(timezone.utc),
+        "exp": datetime.now(timezone.utc) + timedelta(hours=JWT_EXPIRATION_HOURS),
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return {

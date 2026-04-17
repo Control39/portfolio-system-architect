@@ -12,7 +12,6 @@
 import os
 import sys
 import asyncio
-import json
 from pathlib import Path
 from typing import Dict, Any
 
@@ -70,11 +69,11 @@ def check_python_module() -> bool:
         )
         
         print("  ✅ Модуль yandex_gpt.py успешно импортирован")
-        print(f"  📦 Доступные классы: YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client, generate_with_yandex_gpt")
+        print("  📦 Доступные классы: YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client, generate_with_yandex_gpt")
         
         # Проверка создания конфигурации
         config = YandexGPTConfig()
-        print(f"  ⚙️  Конфигурация по умолчанию:")
+        print("  ⚙️  Конфигурация по умолчанию:")
         print(f"    - model: {config.model}")
         print(f"    - base_url: {config.base_url}")
         print(f"    - temperature: {config.temperature}")
@@ -139,7 +138,7 @@ async def test_yandex_gpt_connection() -> bool:
         
         # Проверяем конфигурацию клиента
         config = client.get_config()
-        print(f"  ⚙️  Конфигурация клиента:")
+        print("  ⚙️  Конфигурация клиента:")
         print(f"    - API URL: {config.get('base_url')}")
         print(f"    - Модель: {config.get('model')}")
         print(f"    - API ключ: {'установлен' if config.get('api_key') else 'отсутствует'}")
@@ -185,10 +184,10 @@ async def test_yandex_gpt_connection() -> bool:
                     
         except Exception as e:
             print(f"  ❌ Ошибка при тестовом запросе: {e}")
-            print(f"     Проверьте:")
-            print(f"     1. Корректность API ключа")
+            print("     Проверьте:")
+            print("     1. Корректность API ключа")
             print(f"     2. Доступность {config.get('base_url')}")
-            print(f"     3. Наличие квот в Yandex Cloud")
+            print("     3. Наличие квот в Yandex Cloud")
             return False
             
     except Exception as e:
@@ -204,17 +203,17 @@ def generate_test_report(results: Dict[str, Any]) -> None:
     total_tests = len(results)
     passed_tests = sum(1 for result in results.values() if result)
     
-    print(f"\n📈 Статистика:")
+    print("\n📈 Статистика:")
     print(f"  Всего тестов: {total_tests}")
     print(f"  Пройдено: {passed_tests}")
     print(f"  Не пройдено: {total_tests - passed_tests}")
     
-    print(f"\n🔍 Результаты по тестам:")
+    print("\n🔍 Результаты по тестам:")
     for test_name, passed in results.items():
         status = "✅ ПРОЙДЕН" if passed else "❌ НЕ ПРОЙДЕН"
         print(f"  {status}: {test_name}")
     
-    print(f"\n💡 Рекомендации:")
+    print("\n💡 Рекомендации:")
     
     if not all(results.values()):
         print("  1. Проверьте переменные окружения в .env файле")
@@ -226,7 +225,7 @@ def generate_test_report(results: Dict[str, Any]) -> None:
         print("  2. Интеграция Yandex GPT готова к использованию")
         print("  3. Можно приступать к использованию AI skill в SourceCraft")
     
-    print(f"\n🚀 Следующие шаги:")
+    print("\n🚀 Следующие шаги:")
     print("  1. Заполните реальный API ключ в .env файле")
     print("  2. Протестируйте работу AI skill в SourceCraft")
     print("  3. Интегрируйте Yandex GPT в свои приложения")
@@ -272,7 +271,7 @@ if __name__ == "__main__":
         load_dotenv(env_path)
         print(f"📁 Загружены переменные окружения из: {env_path}")
     else:
-        print(f"⚠️  Файл .env не найден. Использую системные переменные окружения.")
+        print("⚠️  Файл .env не найден. Использую системные переменные окружения.")
     
     # Запускаем тестирование
     exit_code = asyncio.run(main())

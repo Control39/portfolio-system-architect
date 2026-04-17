@@ -3,7 +3,7 @@ proof - Generated Pydantic Models
 Source: src\shared\schemas\proof.yaml
 """
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
+from typing import List, Any
 from datetime import datetime
 
 class TraceStep(BaseModel):

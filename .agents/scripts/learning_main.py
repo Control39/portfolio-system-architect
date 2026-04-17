@@ -9,10 +9,9 @@
 
 import json
 import logging
-import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 import yaml
 import pandas as pd
 import numpy as np
@@ -564,7 +563,7 @@ class LearningSystem:
             md_report_path = json_report_path.with_suffix('.md')
             
             with open(md_report_path, 'w', encoding='utf-8') as f:
-                f.write(f"# Отчет системы самообучения\n\n")
+                f.write("# Отчет системы самообучения\n\n")
                 f.write(f"**Сгенерирован:** {report['generated_at']}\n")
                 f.write(f"**Период анализа:** {report['period_hours']} часов\n\n")
                 

@@ -1,8 +1,6 @@
 ﻿import unittest
 import os
 import tempfile
-import sys
-from pathlib import Path
 from apps.career_development.career_development_system.src.utils.helpers import *
 
 

@@ -6,7 +6,6 @@ Run this script manually to see what dependencies need updating.
 
 import subprocess  # nosec: B404 - We need subprocess for system commands
 import json
-import sys
 import shutil
 from pathlib import Path
 

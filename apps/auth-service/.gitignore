@@ -1,0 +1,14 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+.DS_Store
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.coverage
+htmlcov/
+.pytest_cache/

@@ -8,9 +8,7 @@ import os
 import sys
 import hashlib
 import shutil
-from pathlib import Path
 import time
-from collections import defaultdict
 
 def calculate_file_hash(filepath, chunk_size=8192):
     """Вычисляет SHA-256 хэш файла."""

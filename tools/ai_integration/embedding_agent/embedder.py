@@ -1,8 +1,6 @@
 ﻿import requests
 import numpy as np
-from typing import List, Optional
-import json
-from pathlib import Path
+from typing import List
 
 class CodeEmbedder:
     def __init__(self, model_name: str = "nomic-embed-text", base_url: str = "http://localhost:11434"):

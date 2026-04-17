@@ -24,7 +24,7 @@
     ],
     "venvPath": ".",
     "venv": ".venv",
-    "typeCheckingMode": "basic",
+    "typeCheckingMode": "strict",
     "pythonVersion": "3.12",
     "pythonPlatform": "Linux",
     "extraPaths": [
@@ -33,7 +33,8 @@
         "./apps/cloud-reason",
         "./apps/it-compass/src",
         "./apps/career-development/career-development-system/src",
-        "./apps/ml-model-registry/src"
+        "./apps/ml-model-registry/src",
+        "./apps/auth-service"
     ],
     "reportMissingImports": true,
     "reportMissingTypeStubs": "warning",
@@ -98,7 +99,8 @@
             "./src",
             "./apps",
             "./apps/cloud-reason",
-            "./apps/it-compass/src"
+            "./apps/it-compass/src",
+            "./apps/auth-service"
         ],
         "diagnosticSeverityOverrides": {
             "reportMissingImports": "warning",

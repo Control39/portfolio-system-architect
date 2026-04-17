@@ -3,9 +3,8 @@
 """
 
 import os
-import json
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any
 import fnmatch
 
 from fastmcp import FastMCP

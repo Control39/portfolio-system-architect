@@ -1,7 +1,5 @@
 ﻿# components/cloud-reason/api/endpoints.py
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional, List
+from fastapi import FastAPI
 
 app = FastAPI(title="Cloud-Reason API")
 

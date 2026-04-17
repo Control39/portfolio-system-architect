@@ -10,7 +10,7 @@ import json
 import yaml
 import pytest
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any
 
 # Добавляем путь к модулям агента
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -466,7 +466,6 @@ class CognitiveAgentValidator:
 # Тесты pytest для автоматического тестирования
 @pytest.fixture
 def validator():
-    import os
     # Получаем абсолютный путь к директории .agents относительно корня проекта
     agent_root = os.path.join(os.path.dirname(__file__), '..')
     return CognitiveAgentValidator(agent_root)

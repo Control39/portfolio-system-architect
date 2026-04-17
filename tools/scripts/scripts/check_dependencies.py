@@ -4,11 +4,10 @@
 Проверяет соответствие зависимостей в компонентах и корневом requirements.txt.
 """
 
-import os
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Tuple
 import yaml
 
 class DependencyChecker:

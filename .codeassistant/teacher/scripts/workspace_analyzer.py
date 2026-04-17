@@ -6,10 +6,9 @@
 
 import os
 import json
-import shutil
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple
 import hashlib
 
 class WorkspaceAnalyzer:

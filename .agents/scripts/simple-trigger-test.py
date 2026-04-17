@@ -3,7 +3,6 @@
 Упрощенный тест для проверки работы системы триггеров.
 """
 
-import os
 import sys
 import json
 import yaml

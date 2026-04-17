@@ -3,8 +3,6 @@
 CLI инструмент для автоматической проверки репозитория по чек-листу.
 """
 
-import sys
-import os
 import argparse
 import yaml
 import json

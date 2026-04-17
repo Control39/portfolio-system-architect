@@ -4,16 +4,12 @@
 Собирает метрики, генерирует отчеты и предоставляет дашборд.
 """
 
-import os
 import sys
 import json
-import yaml
-import time
 import sqlite3
 from pathlib import Path
 from datetime import datetime, timedelta
-from collections import defaultdict, Counter
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 import logging
 
 # Настройка логирования
@@ -354,7 +350,7 @@ class TriggerMetricsCollector:
         md_report_path = json_report_path.with_suffix('.md')
         
         with open(md_report_path, 'w', encoding='utf-8') as f:
-            f.write(f"# Отчет мониторинга триггеров\n\n")
+            f.write("# Отчет мониторинга триггеров\n\n")
             f.write(f"**Тип отчета:** {report['report_type']}\n")
             f.write(f"**Сгенерирован:** {report['generated_at']}\n")
             f.write(f"**Период:** {report['period_hours']} часов\n\n")
@@ -706,7 +702,7 @@ def main():
         print("📊 Генерация отчета...")
         report = collector.generate_report("daily")
         
-        print(f"✓ Отчет сгенерирован:")
+        print("✓ Отчет сгенерирован:")
         print(f"  - Всего событий: {report['event_statistics']['total_events']}")
         print(f"  - Успешных: {report['event_statistics']['successful_events']}")
         print(f"  - Неудачных: {report['event_statistics']['failed_events']}")

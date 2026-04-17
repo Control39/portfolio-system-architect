@@ -7,10 +7,8 @@ Evaluates repository maturity across three levels: base, professional, enterpris
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Dict, List, Any
 
 class RepositoryAudit:
     def __init__(self, repo_path: str = ".", level: str = "base"):

@@ -128,4 +128,18 @@ ehthumbs.db# Obsidian Vault — не коммитить
 **/obsidian-map/**
 *.db
 *.log
-.gigacode/config.ini
+.gigacode/config.ini# Сгенерированный сайт
+/site/
+
+# Временные файлы
+trivy.zip
+server.py
+test.py
+tests/conftest.py
+*.tmp
+*.log
+
+# Сборки
+/dist/
+/build/
+/__pycache__/

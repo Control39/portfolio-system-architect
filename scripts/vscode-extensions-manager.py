@@ -6,11 +6,9 @@
 
 import json
 import subprocess
-import sys
-import os
 import platform
 from pathlib import Path
-from typing import List, Dict, Set, Optional
+from typing import List, Dict
 import argparse
 import logging
 from datetime import datetime

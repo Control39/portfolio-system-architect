@@ -15,9 +15,8 @@ import os
 import sys
 import yaml
 import json
-import re
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent

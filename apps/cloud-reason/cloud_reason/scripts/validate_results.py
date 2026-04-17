@@ -4,13 +4,11 @@
 Проверка корректности конвертации файлов в UTF-8.
 Валидирует, что все файлы действительно в UTF-8 и читаются без ошибок.
 """
-import os
 import chardet
 import logging
 from pathlib import Path
 import json
-from typing import Dict, List, Tuple
-import unicodedata
+from typing import Dict
 
 def setup_logging() -> None:
     """Настройка системы логирования"""

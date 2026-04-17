@@ -1,5 +1,4 @@
-﻿import pytest
-
+﻿
 try:
     from apps.cloud_reason.utils.logger import get_logger
 except ImportError:

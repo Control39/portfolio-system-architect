@@ -7,9 +7,7 @@ import os
 import sys
 import yaml
 import json
-import subprocess
 from datetime import datetime
-from pathlib import Path
 
 class HealthChecker:
     def __init__(self):

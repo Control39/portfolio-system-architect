@@ -6,7 +6,6 @@ import pytest
 import asyncio
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from datetime import datetime
 
 from src.common.health_check import (
     HealthCheckService,

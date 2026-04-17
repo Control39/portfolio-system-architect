@@ -1,7 +1,7 @@
 ﻿# components/cloud-reason/api/endpoints.py
 import os
 import sys
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Импортируем общие модули

@@ -8,13 +8,13 @@ import os
 import sys
 import logging
 from typing import Dict, List, Optional, Any
-from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi import APIRouter, HTTPException
 import httpx
 from pydantic import BaseModel
 
 # Импортируем async helpers
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
-from src.common.async_helpers import fetch_parallel, fetch_with_timeout
+from src.common.async_helpers import fetch_parallel
 
 # Настройка логирования
 logger = logging.getLogger(__name__)

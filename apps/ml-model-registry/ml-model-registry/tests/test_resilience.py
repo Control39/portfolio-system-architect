@@ -1,8 +1,6 @@
 ﻿
 import unittest
-from unittest.mock import patch, MagicMock
 from apps.ml_model_registry.src.core.model_registry import ModelRegistry
-from apps.ml_model_registry.src.storage.model_storage import ModelStorage
 
 class TestModelRegistryResilience(unittest.TestCase):
     

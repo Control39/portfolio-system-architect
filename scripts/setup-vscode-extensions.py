@@ -7,9 +7,8 @@
 import subprocess
 import sys
 import json
-import os
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List
 
 class VSCodeExtensionInstaller:
     """Установщик расширений VS Code с поддержкой конфигураций стеков"""

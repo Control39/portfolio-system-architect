@@ -3,7 +3,6 @@
 Inspired by my-ecosystem/scripts/analyze_all.py, git_fix_history.py.
 Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview"""
 import os
-import json
 import difflib
 import argparse
 from pathlib import Path

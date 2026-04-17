@@ -3,9 +3,7 @@
 Тестовый скрипт для проверки работы обработчика триггеров Cognitive Automation Agent.
 """
 
-import os
 import sys
-import time
 import json
 import yaml
 from pathlib import Path

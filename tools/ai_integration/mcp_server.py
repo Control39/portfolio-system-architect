@@ -8,8 +8,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-import subprocess
+from typing import List, Optional
 
 # Добавляем путь к проекту для импорта модулей
 project_root = Path(__file__).parent.parent

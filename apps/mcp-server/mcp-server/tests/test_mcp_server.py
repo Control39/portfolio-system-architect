@@ -17,7 +17,7 @@ import tempfile
 import subprocess
 from pathlib import Path
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
@@ -320,4 +320,3 @@ if __name__ == "__main__":
         sys.exit(0)
 
 # Импортируем datetime здесь, чтобы избежать ошибок импорта
-from datetime import datetime

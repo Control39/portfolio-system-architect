@@ -79,7 +79,6 @@ def test_searcher():
     searcher = DocumentSearcher()
     
     # Add a test document
-    from embedding_agent.indexer import DocumentIndexer
     searcher.indexer.add_document(
         "RAG stands for Retrieval-Augmented Generation, a technique for enhancing LLMs with external knowledge.",
         {"source": "test", "topic": "AI"}

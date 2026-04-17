@@ -7,7 +7,6 @@ from typing import Dict
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.core.database import get_db
 
 router = APIRouter()
@@ -48,7 +47,7 @@ async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
         db_status = "connected"
     except Exception as e:
         db_status = f"error: {str(e)}"
-    
+
     return {
         "status": "ready" if db_status == "connected" else "not_ready",
         "database": db_status,

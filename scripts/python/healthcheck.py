@@ -5,7 +5,6 @@ Exports /health, /ready, /live endpoints for all services
 '''
 import sys
 import subprocess
-from pathlib import Path
 
 SERVICES = {
     'postgres': 'localhost:5432',

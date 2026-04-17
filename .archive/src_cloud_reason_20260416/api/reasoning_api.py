@@ -3,13 +3,12 @@ import os
 import time
 import yandexcloud
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import (
-    TextGenerationRequest,
-    TextGenerationResponse
+    TextGenerationRequest
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationServiceStub
 )
-from src.cloud_reason.utils.logger import PortfolioLogger
+from apps.cloud_reason.cloud_reason.utils.logger import PortfolioLogger
 
 # Инициализация логгера
 logger = PortfolioLogger()

@@ -1,8 +1,6 @@
 ﻿"""
 Unit tests for maturity scoring.
 """
-import pytest
-from pathlib import Path
 from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
 
 

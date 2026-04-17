@@ -2,7 +2,6 @@
 import sys
 from pathlib import Path
 import json
-import numpy as np
 
 # Добавляем путь к src
 sys.path.append(str(Path(__file__).parent.parent))
