@@ -6,7 +6,6 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
-
 from src.core.config import settings
 
 # Базовый класс для моделей
@@ -54,5 +53,5 @@ async def init_db() -> None:
         # Здесь создаем таблицы только для разработки
         if settings.environment == "development":
             await conn.run_sync(Base.metadata.create_all)
-    
+
     print(f"Database initialized: {settings.database_url}")

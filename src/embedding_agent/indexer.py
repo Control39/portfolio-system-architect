@@ -2,7 +2,6 @@
 Document indexer for building and managing vector search index.
 """
 
-import json
 import pickle
 from pathlib import Path
 from typing import List, Dict, Any, Optional

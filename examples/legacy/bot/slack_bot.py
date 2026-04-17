@@ -5,7 +5,7 @@ Slack бот для AI-консультанта по архитектуре.
 
 import os
 import logging
-from typing import Dict, Any
+from typing import Any
 from pathlib import Path
 import sys
 
@@ -165,7 +165,7 @@ class SlackArchitectBot:
                     health_text += f"• Документов в индексе: {stats.get('total_documents', 0)}\n"
                     health_text += f"• Модель: {stats.get('model_name', 'unknown')}\n"
                 
-                health_text += f"\n💡 Используйте `/architect <вопрос>` для консультаций"
+                health_text += "\n💡 Используйте `/architect <вопрос>` для консультаций"
                 
                 say(health_text)
                 

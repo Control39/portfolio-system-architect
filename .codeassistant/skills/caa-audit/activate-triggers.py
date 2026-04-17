@@ -4,14 +4,13 @@
 Интеграция с существующей системой Cognitive Automation Agent
 """
 
-import os
 import sys
 import yaml
 import shutil
 import argparse
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 class TriggerActivator:
     """Активатор проактивных триггеров PMR Agent"""

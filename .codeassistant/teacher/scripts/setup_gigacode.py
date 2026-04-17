@@ -5,7 +5,6 @@
 Дата: 2026-04-10
 """
 
-import os
 import sys
 import json
 import subprocess

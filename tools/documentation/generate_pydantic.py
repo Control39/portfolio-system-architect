@@ -5,10 +5,8 @@ Generates src/shared/pydantic/*.py from src/shared/schemas/*.yaml
 """
 
 import yaml
-import os
 import argparse
 from pathlib import Path
-import re
 
 SCHEMAS_DIR = Path("src/shared/schemas")
 PYDANTIC_DIR = Path("src/shared/pydantic")

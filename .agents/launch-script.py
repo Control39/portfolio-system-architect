@@ -13,7 +13,7 @@ import subprocess
 import threading
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Any
 
 # Настройка логирования
 logging.basicConfig(

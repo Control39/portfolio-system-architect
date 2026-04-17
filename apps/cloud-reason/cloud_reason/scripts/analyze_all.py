@@ -9,7 +9,7 @@ import chardet
 import logging
 from pathlib import Path
 import json
-from typing import Dict, List, Tuple
+from typing import Dict
 
 def setup_logging() -> None:
     """Настройка системы логирования"""

@@ -5,7 +5,6 @@ Streamlit UI для AI-консультанта по архитектуре.
 
 import streamlit as st
 import requests
-import json
 from datetime import datetime
 import time
 

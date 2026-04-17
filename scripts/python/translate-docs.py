@@ -5,14 +5,10 @@ Translates Russian .md files from docs/ to en/ subdirectory.
 Preserves structure, creates PR-ready changes.
 """
 
-import os
 import re
-import json
 import requests
 from pathlib import Path
 import argparse
-from git import Repo  # pip install GitPython
-import tempfile
 
 GIGACHAT_URL = "https://gigachat.api.sber.ru/chat/completions"
 PROMPT = """

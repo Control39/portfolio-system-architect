@@ -8,7 +8,7 @@ from typing import Optional, Dict, Any, List
 from langchain_openai import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.callbacks.base import BaseCallbackHandler
-from pydantic import BaseModel, Field
+from pydantic import Field
 from pydantic_settings import BaseSettings
 import logging
 

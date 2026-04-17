@@ -3,13 +3,12 @@
 Скрипты автоматизации Git для когнитивного архитектора
 """
 
-import os
 import sys
 import subprocess
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict
 
 class GitAutomation:
     def __init__(self, repo_path: str = "."):
@@ -176,7 +175,7 @@ class GitAutomation:
         
         commits = self.run_git(cmd)
         
-        changelog = f"# Changelog\n\n"
+        changelog = "# Changelog\n\n"
         changelog += f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n"
         
         if commits:

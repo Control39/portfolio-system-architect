@@ -3,7 +3,7 @@ career - Generated Pydantic Models
 Source: src\shared\schemas\career.yaml
 """
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
+from typing import List, Any
 from datetime import datetime
 
 class CompetencyMarker(BaseModel):

@@ -113,7 +113,7 @@ def main():
         new_badges = len(re.findall(r'<img[^>]*badge[^>]*>', final_content))
         linked_badges = len(re.findall(r'<a[^>]*><img[^>]*badge[^>]*></a>', final_content))
         
-        print(f"📊 Statistics:")
+        print("📊 Statistics:")
         print(f"  - Total badges: {new_badges}")
         print(f"  - Badges with links: {linked_badges}")
         print(f"  - Percentage linked: {(linked_badges/new_badges)*100:.1f}%")

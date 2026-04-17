@@ -6,12 +6,10 @@ MCP Server for Career Autopilot
 Git, IT-Compass маркерами и выполнения команд.
 """
 
-import os
 import sys
 import json
-import subprocess
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List
 
 from fastmcp import FastMCP
 

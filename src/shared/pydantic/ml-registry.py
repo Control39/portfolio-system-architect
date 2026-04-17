@@ -3,7 +3,7 @@ ml-registry - Generated Pydantic Models
 Source: src\shared\schemas\ml-registry.yaml
 """
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
+from typing import List, Any
 from datetime import datetime
 
 class ModelMetadata(BaseModel):

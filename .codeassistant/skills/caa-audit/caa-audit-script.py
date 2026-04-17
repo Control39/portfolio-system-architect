@@ -6,14 +6,13 @@ CAA Audit Script - Реализация режима caa-audit для PMR Agent
 Проверка соответствия между технической реализацией и бизнес-позиционированием
 """
 
-import os
 import sys
 import json
 import yaml
 import argparse
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 
 class CaaAudit:
     """Аудитор Cognitive Automation Agent"""

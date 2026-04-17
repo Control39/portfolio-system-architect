@@ -2,7 +2,7 @@
 Document embedder using sentence-transformers for RAG search.
 """
 
-from typing import List, Optional
+from typing import List
 import numpy as np
 from sentence_transformers import SentenceTransformer
 import logging

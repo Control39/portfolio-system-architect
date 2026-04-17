@@ -4,15 +4,13 @@
 Выполняет планирование, приоритизацию и оптимизацию задач.
 """
 
-import os
 import sys
 import json
 import yaml
 import time
 import logging
-import random
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 from datetime import datetime, timedelta
 
 # Настройка логирования
@@ -175,7 +173,7 @@ class TaskPlanner:
         # Сортировка по приоритету (по убыванию)
         self.tasks.sort(key=lambda x: x.get("final_priority", 0), reverse=True)
         
-        logger.info(f"Задачи приоритизированы. Топ-3:")
+        logger.info("Задачи приоритизированы. Топ-3:")
         for i, task in enumerate(self.tasks[:3]):
             logger.info(f"  {i+1}. {task['title']} (приоритет: {task['final_priority']:.2f})")
         

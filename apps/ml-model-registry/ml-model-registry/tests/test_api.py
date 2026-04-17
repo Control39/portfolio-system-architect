@@ -1,7 +1,4 @@
-﻿import sys
-import os
-import pytest
-from fastapi.testclient import TestClient
+﻿from fastapi.testclient import TestClient
 from unittest.mock import patch
 
 # sys.path hack removed - use pytest.ini pythonpath

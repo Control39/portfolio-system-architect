@@ -9,7 +9,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 import logging
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart

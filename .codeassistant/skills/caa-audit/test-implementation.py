@@ -11,7 +11,7 @@ import json
 import subprocess
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict
 
 class Phase1Tester:
     """Тестер реализации Фазы 1"""
@@ -231,7 +231,7 @@ class Phase1Tester:
                     "name": f"caa_config_exists_{Path(config_file).name}",
                     "status": "warning",
                     "message": f"Конфигурация CAA не найдена: {config_file}",
-                    "recommendation": f"Создать файл или настроить интеграцию вручную"
+                    "recommendation": "Создать файл или настроить интеграцию вручную"
                 })
         
         # Проверка директории .agents/

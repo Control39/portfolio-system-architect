@@ -6,13 +6,11 @@
 
 import re
 import subprocess
-import sys
 import os
 import json
 import tomllib
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, Any
 
 def get_python_version() -> str:
     """Получить версию Python из pyproject.toml или .python-version."""

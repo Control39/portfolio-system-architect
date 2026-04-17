@@ -4,18 +4,14 @@
 Проверяет полный цикл работы системы от индексации до ответов через API.
 """
 
-import os
 import sys
 import time
-import json
 import tempfile
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Any
 
 import pytest
 import requests
-from sentence_transformers import SentenceTransformer
 
 # Добавляем путь к проекту
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -275,7 +271,6 @@ class TestRAGPerformance:
     
     def test_search_performance(self, performance_indexer):
         """Тестирует производительность поиска."""
-        import time
         
         queries = [
             "когнитивная архитектура",
@@ -330,7 +325,6 @@ class TestRAGPerformance:
 
 def test_full_rag_pipeline():
     """Полный интеграционный тест RAG пайплайна."""
-    import tempfile
     
     with tempfile.TemporaryDirectory() as tmpdir:
         # 1. Инициализация компонентов

@@ -5,7 +5,6 @@
 
 import re
 import requests
-from urllib.parse import urlparse
 
 def extract_badge_urls(readme_content):
     """Извлечь все URL бейджей из README"""

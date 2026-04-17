@@ -4,7 +4,6 @@
 Выполняет анализ технологического стека, зависимостей и архитектуры.
 """
 
-import os
 import sys
 import json
 import yaml

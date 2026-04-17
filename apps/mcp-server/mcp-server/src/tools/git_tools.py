@@ -2,11 +2,10 @@
 Инструменты для работы с Git
 """
 
-import os
 import subprocess
 import json
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from datetime import datetime, timedelta
 
 from fastmcp import FastMCP

@@ -1,7 +1,6 @@
 ﻿# Пример интеграции it-compass и cloud-reason
 # Демонстрация взаимодействия между системой отслеживания компетенций и системой анализа облачных решений
 
-import json
 from typing import Dict, List, Any
 
 

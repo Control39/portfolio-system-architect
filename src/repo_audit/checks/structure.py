@@ -2,7 +2,6 @@
 Проверка структуры репозитория.
 """
 
-import os
 from pathlib import Path
 
 def run(repo_root: str) -> dict:

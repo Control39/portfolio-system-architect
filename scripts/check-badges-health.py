@@ -7,7 +7,7 @@
 import re
 import json
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 import sys
 
@@ -203,7 +203,7 @@ def main():
         print(f"\nFreshness: {freshness['days_old']} days old")
     
     # Рекомендации
-    print(f"\nRecommendations:")
+    print("\nRecommendations:")
     for i, rec in enumerate(report['recommendations'], 1):
         print(f"  {i}. {rec}")
     

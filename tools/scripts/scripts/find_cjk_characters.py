@@ -4,7 +4,6 @@
 Используется для очистки текстовых файлов от случайно попавших иероглифов.
 """
 
-import os
 import re
 import sys
 from pathlib import Path
@@ -142,7 +141,7 @@ def scan_repository(root_dir: str = '.') -> Dict[str, List[Dict[str, Any]]]:
             rel_path = file_path.relative_to(root_path)
             results[str(rel_path)] = matches
     
-    print(f"📊 Статистика:")
+    print("📊 Статистика:")
     print(f"   Всего файлов: {total_files}")
     print(f"   Проверено файлов: {scanned_files}")
     print(f"   Файлов с иероглифами: {len(results)}")
@@ -280,10 +279,10 @@ def main():
     
     # Возвращаем код выхода
     if results:
-        print(f"\n❌ Найдены файлы с иероглифами. Код выхода: 1")
+        print("\n❌ Найдены файлы с иероглифами. Код выхода: 1")
         sys.exit(1)
     else:
-        print(f"\n✅ Проверка завершена успешно. Код выхода: 0")
+        print("\n✅ Проверка завершена успешно. Код выхода: 0")
         sys.exit(0)
 
 if __name__ == '__main__':
