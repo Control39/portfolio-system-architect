@@ -6,7 +6,6 @@
 """
 
 from src.core.tracker import CareerTracker
-from src.utils.portfolio_gen import generate_portfolio
 
 
 def main():
