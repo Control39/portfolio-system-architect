@@ -1,0 +1,108 @@
+﻿{
+  "skill_name": "Docker",
+  "description": "Контейнеризация приложений",
+  "levels": {
+    "1": [
+      {
+        "id": "docker_1_1",
+        "marker": "Создал Dockerfile для Python-приложения",
+        "validation": "Dockerfile в репозитории + скриншот работающего контейнера",
+        "priority": "high",
+        "resources": ["https://docs.docker.com/"],
+        "smart_criteria": {
+          "specific": "Создать Dockerfile для Python-приложения с установкой зависимостей",
+          "measurable": "Dockerfile успешно собирает образ и запускает контейнер",
+          "achievable": "Использовать официальный Python образ и базовые инструкции",
+          "relevant": "Базовый навык контейнеризации приложений",
+          "time_bound": "За 1 день"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "docker_1_2",
+        "marker": "Запустил контейнер с пробросом портов и volume",
+        "validation": "Команда docker run с параметрами + скриншот",
+        "priority": "medium",
+        "resources": [],
+        "smart_criteria": {
+          "specific": "Запустить контейнер с пробросом порта 8080 и volume для данных",
+          "measurable": "Приложение доступно по localhost:8080, данные сохраняются в volume",
+          "achievable": "Использовать флаги -p и -v в docker run",
+          "relevant": "Понимание работы с портами и томами в Docker",
+          "time_bound": "За 2 часа"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "docker_2_1",
+        "marker": "Оптимизировал Docker образ, сократив размер на 60%",
+        "validation": "Сравнение размеров образов до/после",
+        "priority": "medium",
+        "resources": [],
+        "smart_criteria": {
+          "specific": "Оптимизировать Docker образ, уменьшив его размер минимум на 60%",
+          "measurable": "Размер образа до и после оптимизации (скриншот docker images)",
+          "achievable": "Использовать легковесные базовые образы, многоступенчатую сборку",
+          "relevant": "Уменьшение размера образов ускоряет деплой и экономит ресурсы",
+          "time_bound": "За 3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "docker_2_2",
+        "marker": "Настроил multi-stage сборку для production образа",
+        "validation": "Dockerfile с multi-stage + метрики размера",
+        "priority": "high",
+        "resources": [],
+        "smart_criteria": {
+          "specific": "Реализовать multi-stage сборку Docker образа для production",
+          "measurable": "Production образ содержит только runtime зависимости, размер < 200MB",
+          "achievable": "Использовать multi-stage builds в Dockerfile",
+          "relevant": "Безопасность и эффективность production образов",
+          "time_bound": "За 2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "docker_3_1",
+        "marker": "Настроил docker-compose для 3+ сервисов с health checks",
+        "validation": "docker-compose.yml + логи работы системы",
+        "priority": "high",
+        "resources": [],
+        "smart_criteria": {
+          "specific": "Настроить docker-compose для оркестрации 3+ взаимосвязанных сервисов с health checks",
+          "measurable": "Все сервисы запускаются через docker-compose up, health checks проходят",
+          "achievable": "Использовать docker-compose с секциями healthcheck",
+          "relevant": "Оркестрация многокомпонентных приложений в разработке",
+          "time_bound": "За 1 неделю"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "docker_3_2",
+        "marker": "Реализовал сбор логов и метрик из контейнеров",
+        "validation": "Дашборд с метриками + конфигурация логирования",
+        "priority": "medium",
+        "resources": [],
+        "smart_criteria": {
+          "specific": "Настроить сбор логов и метрик из Docker контейнеров в централизованную систему",
+          "measurable": "Логи и метрики доступны в Grafana/Prometheus или аналогичном дашборде",
+          "achievable": "Использовать драйверы логирования и экспортеры метрик",
+          "relevant": "Мониторинг production контейнеров",
+          "time_bound": "За 2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
