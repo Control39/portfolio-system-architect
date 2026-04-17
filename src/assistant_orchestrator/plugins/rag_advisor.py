@@ -6,7 +6,6 @@ Provides intelligent search and recommendations based on project documentation.
 import logging
 from pathlib import Path
 from typing import Dict, List, Any, Optional
-import json
 
 # Try to import embedding_agent, but make it optional
 try:
@@ -286,7 +285,6 @@ def search_docs(root: Path, query: str) -> List[Dict[str, Any]]:
 
 if __name__ == "__main__":
     # Test the plugin
-    import sys
     
     test_root = Path(".").resolve()
     advisor = RAGAdvisor(test_root)
