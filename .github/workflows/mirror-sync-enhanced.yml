@@ -1,4 +1,4 @@
-﻿name: Enhanced Mirror Sync & Notification
+name: Enhanced Mirror Sync & Notification
 
 on:
   schedule:
@@ -124,7 +124,7 @@ jobs:
 
       - name: Send email notification on discrepancies
         if: env.HAS_DIFF == 'true'
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v16
         with:
           server_address: smtp.yandex.ru
           server_port: 465
