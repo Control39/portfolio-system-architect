@@ -128,8 +128,8 @@
 ## 📞 Контакты
 
 **GitHub:** https://github.com/Control39/portfolio-system-architect  
-**Email:** [ваш email]  
-**Telegram:** [ваш telegram]  
+**Email:** leadarchitect@yandex.ru  
+**Telegram:** @leadarchitect_ai  
 
 ---
 
