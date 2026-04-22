@@ -4,7 +4,7 @@ Expert finder plugin for identifying domain experts in the codebase.
 import logging
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from collections import defaultdict
 
 logger = logging.getLogger(__name__)

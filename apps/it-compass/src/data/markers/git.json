@@ -1,0 +1,77 @@
+﻿{
+  "skill_name": "Git",
+  "description": "Версионный контроль: branching, merging, collaboration, advanced workflows",
+  "levels": {
+    "1": [
+      {
+        "id": "git_1_1",
+        "marker": "Создал репозиторий, выполнил серию коммитов с осмысленными сообщениями, настроил .gitignore",
+        "validation": "Репозиторий на GitHub/GitLab с историей коммитов, README, .gitignore",
+        "priority": "high",
+        "resources": ["https://git-scm.com/doc"],
+        "smart_criteria": {
+          "specific": "Создать репозиторий и выполнить коммиты",
+          "measurable": "5+ коммитов, осмысленные сообщения, корректный .gitignore",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для любого проекта с версионным контролем",
+          "time_bound": "1 день"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "git_1_2",
+        "marker": "Работал с ветками: создание, переключение, слияние (merge), разрешение конфликтов",
+        "validation": "Ветки в репозитории, скриншоты процесса слияния, разрешенные конфликты",
+        "priority": "medium",
+        "resources": ["https://www.atlassian.com/git/tutorials/using-branches"],
+        "smart_criteria": {
+          "specific": "Попрактиковаться с ветками и слияниями",
+          "measurable": "Создано 3+ ветки, выполнено слияние с конфликтом и его разрешение",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для командной разработки",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "git_2_1",
+        "marker": "Использовал interactive rebase для очистки истории, squash коммитов, перестановки",
+        "validation": "История до/после rebase, описание выполненных действий",
+        "priority": "high",
+        "resources": ["https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History"],
+        "smart_criteria": {
+          "specific": "Применить interactive rebase для улучшения истории коммитов",
+          "measurable": "Выполнен rebase с squash 3+ коммитов, история стала линейной и чистой",
+          "achievable": "Уровень средний",
+          "relevant": "Требуется для поддержания чистой истории проекта",
+          "time_bound": "1 день"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "git_3_1",
+        "marker": "Настроил и использовал Git hooks (pre-commit, pre-push) для автоматической проверки кода (линтеры, тесты)",
+        "validation": "Скрипты hooks в репозитории, демонстрация их работы",
+        "priority": "medium",
+        "resources": ["https://git-scm.com/docs/githooks"],
+        "smart_criteria": {
+          "specific": "Внедрить Git hooks для автоматизации проверок",
+          "measurable": "2+ hooks (pre-commit, pre-push), запускаются линтер и тесты",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Повышает качество кода и предотвращает ошибки",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
+

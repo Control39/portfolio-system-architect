@@ -4,7 +4,7 @@ Skills plugin for analyzing IT-Compass markers.
 import json
 import logging
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 logger = logging.getLogger(__name__)
 

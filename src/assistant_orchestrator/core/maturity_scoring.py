@@ -2,7 +2,8 @@
 Maturity scoring for architecture assessment.
 """
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
