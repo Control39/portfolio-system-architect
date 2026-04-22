@@ -49,7 +49,7 @@ pydantic-settings==2.5.2
 # Web/API development
 streamlit>=1.32.0
 fastapi[all]>=0.68.0
-uvicorn[standard]>=0.24.0
+uvicorn[standard]>=0.45.0
 
 # Data processing
 pandas[performance]>=1.3.2
