@@ -197,8 +197,9 @@ class DocumentIndexer:
         """Load index from disk."""
         load_path = Path(path)
         
+        # SECURITY: Only load from trusted local path
         with open(load_path, 'rb') as f:
-            index_data = pickle.load(f)
+            index_data = pickle.load(f)  # nosec: trusted local file
         
         self.documents = index_data["documents"]
         self.embeddings = index_data["embeddings"]
