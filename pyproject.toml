@@ -51,16 +51,7 @@ testpaths = [
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
-pythonpath = [
-  ".",
-  "apps",
-  "apps/ml-model-registry",
-  "apps/cloud-reason",
-  "apps/cloud-reason/cloud_reason",
-  "apps/it-compass",
-  "apps/it-compass/src",
-  "apps/career-development/career-development-system/src"
-]
+pythonpath = []
 addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
 markers = [
   "e2e: E2E tests (services up)",
@@ -80,10 +71,10 @@ package-format = ["sdist", "wheel"]
 path = "src/assistant_orchestrator/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-packages = ["src/assistant_orchestrator"]
+packages = ["src", "apps"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/assistant_orchestrator"]
+packages = ["src", "apps"]
 
 [tool.repo-audit]
 # Конфигурация автоматического аудита репозитория
