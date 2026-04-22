@@ -6,6 +6,11 @@
 > **Proof:** 1495 verifiable competency markers across 18 IT domains, production‑ready with full observability.
 > **Repository:** [GitHub (Primary)](https://github.com/Control39/portfolio-system-architect) | [SourceCraft (Mirror)](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
 
+<!-- 🔥 For Employers: Quick Start -->
+<p align="center">
+  <strong>🔍 Hiring Manager?</strong> Start here: <a href="docs/FOR-EMPLOYER.md">Full Portfolio</a> | <a href="docs/ONE-PAGER.md">One-Pager (3 min read)</a>
+</p>
+
 <!-- Language Switcher -->
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/English-🇬🇧-blue?style=flat-square" alt="English"></a>
