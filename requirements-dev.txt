@@ -48,7 +48,7 @@ pydantic-settings==2.5.2
 
 # Web/API development
 streamlit>=1.32.0
-fastapi[all]>=0.68.0
+fastapi[all]>=0.136.0
 uvicorn[standard]>=0.24.0
 
 # Data processing
