@@ -40,12 +40,21 @@ secrets/sealed-secrets/*.yaml
 # IDE & OS Files
 # ==========================================
 .idea/
-.vscode/
+# .vscode/  # Частично отслеживаем (см. ниже)
 *.swp
 *.swo
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Исключаем только лишнее из .vscode (но оставляем settings.json)
+!.vscode/
+.vscode/**/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/launch.json
 
 # ==========================================
 # AI Agent & Tool Configs (PRIVATE)

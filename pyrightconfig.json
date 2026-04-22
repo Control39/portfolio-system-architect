@@ -26,7 +26,7 @@
     "venv": ".venv",
     "typeCheckingMode": "strict",
     "pythonVersion": "3.12",
-    "pythonPlatform": "Linux",
+    "pythonPlatform": "Windows",
     "extraPaths": [
         "./src",
         "./apps",
