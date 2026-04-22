@@ -1,0 +1,71 @@
+# Code formatting and linting
+black
+isort
+ruff
+
+# Type checking
+mypy
+pyright
+types-requests
+types-pyyaml
+types-python-dateutil
+types-setuptools
+
+# Security scanning
+bandit
+safety
+detect-secrets
+
+# Documentation
+pydocstyle
+docformatter
+mkdocs
+mkdocs-material
+mkdocstrings[python]
+
+# Testing
+pytest
+pytest-xdist
+pytest-html
+pytest-mock
+pytest-playwright
+pytest-cov
+coverage
+requests
+
+# AI/ML development
+langchain
+langchain-community
+langchain-openai
+pydantic-settings==2.5.2
+
+# Web/API development
+streamlit
+fastapi[all]
+uvicorn[standard]
+
+# Data processing
+pandas[performance]
+openpyxl
+numpy
+
+# Git and pre-commit hooks
+pre-commit
+commitizen
+
+# Container and deployment tools
+docker
+python-on-whales
+
+# Monitoring and profiling
+memory-profiler
+py-spy
+
+# Jupyter/Notebook development
+jupyter
+ipykernel
+
+# Windows-specific (optional)
+pywin32; sys_platform == 'win32'
+
+pytest-asyncio
