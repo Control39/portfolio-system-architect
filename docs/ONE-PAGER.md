@@ -59,8 +59,8 @@
 
 ## 📞 Контакты
 
-**Email:** [ваш email]  
-**Telegram:** [ваш telegram]  
+**Email:** leadarchitect@yandex.ru  
+**Telegram:** @leadarchitect_ai  
 **GitHub:** https://github.com/Control39/portfolio-system-architect
 
 ---
