@@ -5,14 +5,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.egg-info/
+dist/
+build/
 .venv/
 venv/
 env/
 .Python
-build/
-dist/
-*.egg
-.pytest_cache/
 
 # ==========================================
 # Caches, Testing & Coverage
@@ -50,37 +48,33 @@ Thumbs.db
 Desktop.ini
 
 # ==========================================
-# AI Agent & Tool Configs (PRIVATE - ИСКЛЮЧИТЬ)
+# AI Agent & Tool Configs (PRIVATE)
 # ==========================================
 .gigaide/
 .ai-config/
 .ai-config-gui/
-# .codeassistant/  # Раскомментировать, если нужно игнорировать
-# .continue/       # Раскомментировать, если нужно
+# .codeassistant/    # Раскомментировать при необходимости
+# .continue/         # Раскомментировать при необходимости
 
 # ==========================================
 # Project Specific: Logs, Reports & Generated
 # ==========================================
-tasks/
-cache/
+
+# Логи
 logs/
+*.log
+agents/logs/*.log
+agents/*.log
+
+# Кэши и временные папки
+cache/
+tmp/
+temp/
+.tmp/
+
+# Отчёты и аналитика
 test_reports/
 reports/
-*.log
-$root/
-
-# Generated documentation & sites
-docs/mkdocs-site/
-docs/_build/
-docs/obsidian-map/
-**/obsidian-map/          # Работает, но можно упростить
-
-# Personal tools & backups (local only)
-personal-tools/
-10_BACKUPS/
-manual-review/
-
-# Auto-generated report files
 *-REPORT.md
 *-ANALYSIS.md
 *-SUMMARY.md
@@ -89,57 +83,43 @@ TODO*.md
 .ai-config/tasks-*.md
 my-repo-map*.csv
 my-repo-map*.txt
-
-# Агенты - локальные конфиги и логи
-agents/local/config/*.local.yaml
-agents/gigacode/config/*.local.yaml
-agents/logs/*.log
-agents/*.log
-
-# Temporary report files
-*.csv
 *-report.json
 *-analysis-report.txt
 health-report.json
-mcp_settings.json
-README.md.backup
-tools/.ai-config-gui-backup-*/
 project_health_report.json
+mcp_settings.json
 
-# Node modules
-node_modules/
-
-# Source maps (важно — не попали в прошлый раз!)
-*.js.map
-*.css.map
-
-# Temporary folders (общие)
-.tmp/
-temp/
-tmp/
-
-# OS-specific
-ehthumbs.db# Obsidian Vault — не коммитить
+# Генерируемые файлы и сайты
+docs/_build/
+docs/mkdocs-site/
+docs/obsidian-map/
 .obsidian/
 *.canvas
 *.excalidraw.md
 *.excalidraw/
-**/obsidian-vault/**
-**/obsidian-map/**
+**/obsidian-vault/
+**/obsidian-map/
 *.db
-*.log
-.gigacode/config.ini# Сгенерированный сайт
 /site/
+
+# Node.js
+node_modules/
+*.js.map
+*.css.map
+
+# Резервные копии
+README.md.backup
+tools/.ai-config-gui-backup-*/
+
+# Персональные инструменты
+personal-tools/
+10_BACKUPS/
+manual-review/
+
+# Локальные конфиги агентов
+agents/local/config/*.local.yaml
+agents/gigacode/config/*.local.yaml
 
 # Временные файлы
 trivy.zip
-server.py
-test.py
-tests/conftest.py
 *.tmp
-*.log
-
-# Сборки
-/dist/
-/build/
-/__pycache__/
