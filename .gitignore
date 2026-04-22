@@ -131,4 +131,10 @@ agents/gigacode/config/*.local.yaml
 
 # Временные файлы
 trivy.zip
-*.tmp
+*.tmpcache/  
+site/  
+plans/  
+*.pyc  
+__pycache__/  
+*.log  
+*.tmp 
