@@ -1,13 +1,11 @@
-security: fix critical vulnerabilities
+chore(deps): обновить зависимости через pip-compile
 
-- Updated Flask 2.3.3 → 3.1.3 (CVE-2026-27205)
-- Added #nosec comments for trusted pickle usage (migration only)
-- Added #nosec comments for safe subprocess commands (git, ruff, black)
-- Added #nosec comments for container-bound hosts (0.0.0.0)
+- Обновлены все зависимости до последних версий
+- Flask 3.1.3 (CVE-2026-27205 исправлен)
+- certifi 2026.4.22
+- click 8.3.3
+- idna 3.13
+- urllib3 2.6.3
+- werkzeug 3.1.8
 
-All changes follow Bandit security recommendations:
-- Pickle: Only for trusted local migration files
-- Subprocess: Hardcoded commands, no user input
-- Host binding: Containerized deployment, not externally exposed
-
-Closes: #security-fixes
+Проверка: pip-audit -r requirements.txt → No known vulnerabilities
