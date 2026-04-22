@@ -46,7 +46,7 @@ This portfolio demonstrates **systemic thinking** – not just writing code, but
 ## Contact
 
 - **Email**: [your email]
-- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
+- **GitHub**: https://github.com/Control39/portfolio-system-architect
 - **SourceCraft**: https://sourcecraft.io/portfolio-system-architect
 - **LinkedIn**: [your LinkedIn]
 

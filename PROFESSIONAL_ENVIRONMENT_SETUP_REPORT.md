@@ -205,7 +205,7 @@ alerts:
 
 ### Внешние ресурсы
 - **SourceCraft**: https://git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
-- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
+- **GitHub**: https://github.com/Control39/portfolio-system-architect
 - **GigaCode**: https://gigachat.dev/
 - **Ollama**: https://ollama.ai/
 

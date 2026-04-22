@@ -188,7 +188,7 @@ xdg-open htmlcov/index.html  # Linux
 ```
 
 ### Online Reports
-- **Codecov Dashboard**: https://codecov.io/gh/Control39/cognitive-systems-architecture
+- **Codecov Dashboard**: https://codecov.io/gh/Control39/portfolio-system-architect
 - **GitHub Actions**: Coverage reports in CI workflow artifacts
 - **Project Documentation**: Coverage trends in monthly reports
 
@@ -215,4 +215,4 @@ xdg-open htmlcov/index.html  # Linux
 *Next Review: April 2026*  
 *Quality Owner: Lead Architect*
 
-[Back to README](../README.md) | [View CI Dashboard](https://github.com/Control39/cognitive-systems-architecture/actions)
+[Back to README](../README.md) | [View CI Dashboard](https://github.com/Control39/portfolio-system-architect/actions)

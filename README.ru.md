@@ -2,7 +2,8 @@
 
 > **Роль:** Архитектор когнитивных систем и оркестратор ИИ  
 > **Подход:** Код генерируется ИИ под моим строгим архитектурным руководством. Я проектирую систему, создаю методологию, управляю ИИ-исполнителями, валидирую результаты, интегрирую компоненты, настраиваю CI/CD и контролирую качество.  
-> **Результат:** 11 интегрированных компонентов (9 контейнеризуемых), готовых к production и развёртыванию в Kubernetes.
+> **Результат:** 14 интегрированных компонентов (12 контейнеризуемых), готовых к production и развёртыванию в Kubernetes.
+> **Репозиторий:** [GitHub (Основной)](https://github.com/Control39/portfolio-system-architect) | [SourceCraft (Зеркало)](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
 
 <!-- Переключатель языка -->
 <p align="center">
@@ -48,7 +49,7 @@
 ## 📊 Техническая реализация
 | Область | Реализация | Статус |
 |---------|------------|--------|
-| **Компоненты** | 11 интегрированных компонентов (9 контейнеризуемых) | ✅ Готово к продакшену |
+| **Компоненты** | 14 интегрированных компонентов (12 контейнеризуемых) | ✅ Готово к продакшену |
 | **CI/CD и GitOps** | GitHub Actions + Kustomize + автоматизация | ✅ Автоматизировано |
 | **Наблюдаемость** | Prometheus + Grafana + AlertManager | ✅ Мониторинг активен |
 | **Безопасность** | Trivy, Bandit, Sealed Secrets, сетевые политики | ✅ Соответствует стандартам |
@@ -66,7 +67,7 @@
 
 ## 📁 Структура проекта
 ```
-├── apps/                    # 11 интегрированных микросервисов и компонентов
+├── apps/                    # 14 интегрированных микросервисов и компонентов
 ├── src/                     # Общее ядро, оркестрация ИИ, логика валидации
 ├── deployment/              # Kubernetes, GitOps, Sealed Secrets
 ├── monitoring/              # Prometheus, Grafana, AlertManager
@@ -80,7 +81,7 @@
 **Задача:** Рассинхронизация remotes, конфликт миграции БД, ~65k строк техдолга.  
 **Решение:** Аудит веток, разрешение конфликта с `psycopg2.sql`, безопасный merge, очистка веток, пиннинг зависимостей.  
 **Результат:** Удалено 65 510 строк мусора, полная синхронизация, репозиторий чист.  
-**Полный кейс:** [`docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md`](docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md)
+**Полный кейс:** [`docs/cases/infra-sync-hardening-2026.md`](docs/cases/infra-sync-hardening-2026.md)
 
 ---
-📩 **Контакты**: leadarchitect@yandex.ru | [GitHub](https://github.com/Control39/cognitive-systems-architecture) | [SourceCraft](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
+📩 **Контакты**: leadarchitect@yandex.ru | [GitHub](https://github.com/Control39/portfolio-system-architect) | [SourceCraft](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)

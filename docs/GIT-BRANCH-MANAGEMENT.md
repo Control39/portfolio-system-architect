@@ -148,7 +148,7 @@ git checkout -b feature/restored-branch <commit-hash>
 
 ## 🔗 Related Documentation
 
-- [GitHub Mirror Instructions](GITHUB-MIRROR-INSTRUCTIONS.md)
+- [SourceCraft Mirror Instructions](SOURCECRAFT-MIRROR-INSTRUCTIONS.md)
 - [CI/CD Configuration](../.sourcecraft/ci.yaml)
 - [Contributing Guidelines](../CONTRIBUTING.md)
 

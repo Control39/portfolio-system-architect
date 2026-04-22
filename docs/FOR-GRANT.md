@@ -168,7 +168,7 @@ Our ecosystem provides:
 2. [Business Impact Analysis](FOR-RUSSIAN-ENTERPRISE.md)
 3. [Demo Video](docs/screenshots/) - Available upon request
 4. Live Deployment Demo - Available locally via `docker compose up` (see [Quick Start](QUICKSTART.md))
-5. [Code Repository](https://github.com/Control39/cognitive-systems-architecture)
+5. [Code Repository](https://github.com/Control39/portfolio-system-architect)
 
 ---
 

@@ -20,8 +20,8 @@ docker run --rm ghcr.io/control39/arch-compass:latest Start-ArchCompass -Version
 
 ### Вариант 2: Локально (если хочешь изучить код)
 ```powershell
-git clone https://github.com/Control39/cognitive-systems-architecture.git
-cd cognitive-systems-architecture/apps/arch-compass-framework
+git clone https://github.com/Control39/portfolio-system-architect.git
+cd portfolio-system-architect/apps/arch-compass-framework
 Import-Module ./ArchCompass.psm1 -Force
 Start-ArchCompass -Health
 ```
@@ -141,7 +141,7 @@ gitleaks detect --source . --config .gitleaks.toml --report-path reports/gitleak
 
 ### Для грантовой комиссии:
 - Ссылка на методологию: [`../../docs/methodology/`](../../docs/methodology/)
-- Ссылка на кейс инфраструктурного харденинга: [`../../docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md`](../../docs/obsidian-map/03_CASES/infra-sync-hardening-2026.md)
+- Ссылка на кейс инфраструктурного харденинга: [`../../docs/cases/infra-sync-hardening-2026.md`](../../docs/cases/infra-sync-hardening-2026.md)
 
 ---
 
@@ -171,4 +171,4 @@ arch-compass-framework/
 
 ---
 
-📩 **Контакты**: [GitHub](https://github.com/Control39/cognitive-systems-architecture) | `leadarchitect@yandex.ru
+📩 **Контакты**: [GitHub](https://github.com/Control39/portfolio-system-architect) | `leadarchitect@yandex.ru

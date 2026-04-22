@@ -24,6 +24,6 @@ STATUS: ⚠️ PARTIALLY OPERATIONAL - Core infra Up, apps need fixes
 - [IT-Compass](/docs/evidence/screenshots/employer-demo/it-compass.png)
 - Add more after capture.
 
-**Status**: Production-ready monorepo under active development for grant review. Some services stabilizing. Integrated manual-review tools. GitHub mirror: https://github.com/Control39/cognitive-systems-architecture. Integration complete: [docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md](docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md)
+**Status**: Production-ready monorepo under active development for grant review. Some services stabilizing. Integrated manual-review tools. GitHub mirror: https://github.com/Control39/portfolio-system-architect. Integration complete: [docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md](docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md)
 
 
