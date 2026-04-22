@@ -87,7 +87,7 @@
 **Дам работодателю**: Экосистему для cognitive architecture, $150-250K remote level.
 
 ## 📎 Приложения
-- GitHub: https://github.com/Control39/cognitive-systems-architecture  
+- GitHub: https://github.com/Control39/portfolio-system-architect  
 - Demo: Local deployment via `docker compose up -d` (IT-Compass at localhost:8501)
 - Аудит: docs/audit-2026-03.md
 

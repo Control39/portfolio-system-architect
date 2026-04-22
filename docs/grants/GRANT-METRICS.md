@@ -72,7 +72,7 @@
 ## 📎 Evidence Links
 
 - **Repository**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
-- **GitHub Mirror**: https://github.com/Control39/cognitive-systems-architecture
+- **GitHub Mirror**: https://github.com/Control39/portfolio-system-architect
 - **Documentation**: deployment/k8s/README.md, packages/terraform/README.md
 - **Security**: docs/security/SECRETS-MANAGEMENT.md
 - **Testing**: pytest coverage 95%+

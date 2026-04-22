@@ -21,7 +21,7 @@
 ## Инструкции
 - docker compose up for services
 - scripts/tools/ ready for dev
-- GitHub: https://github.com/Control39/cognitive-systems-architecture
+- GitHub: https://github.com/Control39/portfolio-system-architect
 
 Status: ✅ plan executed, manual-review archived.
 

@@ -42,7 +42,7 @@
 ## 🔗 Links
 
 - **Repository**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
-- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
+- **GitHub**: https://github.com/Control39/portfolio-system-architect
 - **Audit Result**: 92% grant-ready (verified by Yandex OSS)
 
 ---

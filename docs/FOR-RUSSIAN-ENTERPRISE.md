@@ -131,7 +131,7 @@
 ### Контактная информация:
 - **Email**: [ваш email]
 - **Telegram**: [ваш telegram]
-- **GitHub**: https://github.com/Control39/cognitive-systems-architecture
+- **GitHub**: https://github.com/Control39/portfolio-system-architect
 - **SourceCraft**: https://sourcecraft.io/portfolio-system-architect
 
 ---

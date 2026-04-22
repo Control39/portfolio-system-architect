@@ -59,7 +59,7 @@ print(response.json())
 
 ## Демо и Бейджи
 
-[![CI](https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/Control39/cognitive-systems-architecture/actions/workflows/ci.yml)
+[![CI](https://github.com/Control39/portfolio-system-architect/actions/workflows/ci.yml/badge.svg)](https://github.com/Control39/portfolio-system-architect/actions/workflows/ci.yml)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](docker-compose.yml)
 
 **Демо проекта**: Запустите `docker compose up portfolio-organizer` для просмотра портфолио-органайзера на http://localhost:8004.

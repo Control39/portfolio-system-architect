@@ -34,7 +34,7 @@
 ### 2. Клонируйте
 
 ```bash
-git clone https://github.com/Control39/cognitive-systems-architecture.git
+git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 ```
 
@@ -636,7 +636,7 @@ jobs:
 
 ### Каналы связи
 
-[GitHub Issues](https://github.com/Control39/cognitive-systems-architecture/issues)
+[GitHub Issues](https://github.com/Control39/portfolio-system-architect/issues)
 - **Email**: leadarchitect@yandex.ru
 
 ### График поддержки
@@ -662,7 +662,7 @@ A: Следуйте структуре в разделе "Стандарты о�
 
 ## Политика безопасности
 
-Для сообщения об уязвимостях используйте [GitHub Security Advisories](https://github.com/Control39/cognitive-systems-architecture/security/advisories/new).
+Для сообщения об уязвимостях используйте [GitHub Security Advisories](https://github.com/Control39/portfolio-system-architect/security/advisories/new).
 
 ---
 
@@ -692,6 +692,6 @@ A: Следуйте структуре в разделе "Стандарты о�
 
 ## Вопросы?
 
-- Создайте [Issue](https://github.com/Control39/cognitive-systems-architecture/issues)
+- Создайте [Issue](https://github.com/Control39/portfolio-system-architect/issues)
 - Напишите: leadarchitect@yandex.ru
 
