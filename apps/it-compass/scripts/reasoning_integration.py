@@ -8,7 +8,8 @@ import os
 import sys
 import requests
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
+from datetime import datetime
 
 # Add the project root to the path to allow imports
 project_root = Path(__file__).parent.parent
@@ -269,7 +270,7 @@ def main():
         print("✅ Применение совпадений к трекеру...")
         results = integrator.apply_matches_to_tracker(matches)
 
-        print("\n📊 РЕЗУЛЬТАТЫ ПРИМЕНЕНИЯ:")
+        print(f"\n📊 РЕЗУЛЬТАТЫ ПРИМЕНЕНИЯ:")
         print(f"  - Применено: {results['applied']}")
         print(f"  - Пропущено (уже отмечены): {results['skipped']}")
         print(f"  - Ошибок: {results['errors']}")

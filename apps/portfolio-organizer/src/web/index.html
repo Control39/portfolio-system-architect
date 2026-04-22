@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Organizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Portfolio Organizer</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Total Projects</h3>
+                    <p id="total-projects">0</p>
+                </div>
+                <div class="card">
+                    <h3>In Progress</h3>
+                    <p id="in-progress">0</p>
+                </div>
+                <div class="card">
+                    <h3>Completed</h3>
+                    <p id="completed">0</p>
+                </div>
+                <div class="card">
+                    <h3>Upcoming Deadlines</h3>
+                    <p id="upcoming-deadlines">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+            <div id="project-list">
+                <!-- Project items will be dynamically added here -->
+            </div>
+        </section>
+
+        <section id="analytics">
+            <h2>Analytics</h2>
+            <div class="chart-container">
+                <canvas id="projects-chart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Portfolio Organizer. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

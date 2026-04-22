@@ -1,0 +1,77 @@
+﻿{
+  "skill_name": "Frontend",
+  "description": "Разработка пользовательских интерфейсов: HTML/CSS/JavaScript, фреймворки, accessibility",
+  "levels": {
+    "1": [
+      {
+        "id": "frontend_1_1",
+        "marker": "Создал адаптивную веб-страницу с использованием HTML5, CSS3 (Flexbox/Grid) и валидным семантическим разметкой",
+        "validation": "Код страницы на GitHub Pages, скриншоты на разных разрешениях",
+        "priority": "high",
+        "resources": ["https://developer.mozilla.org/en-US/docs/Web"],
+        "smart_criteria": {
+          "specific": "Создать адаптивную веб-страницу",
+          "measurable": "Страница корректно отображается на mobile/desktop, валидная HTML-разметка",
+          "achievable": "Уровень начинающего",
+          "relevant": "Требуется для frontend-разработки",
+          "time_bound": "3 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      },
+      {
+        "id": "frontend_1_2",
+        "marker": "Реализовал интерактивность на JavaScript (обработка событий, динамическое изменение DOM)",
+        "validation": "Код JavaScript, демо работающей функциональности",
+        "priority": "medium",
+        "resources": ["https://javascript.info/"],
+        "smart_criteria": {
+          "specific": "Добавить интерактивность на веб-страницу",
+          "measurable": "3+ обработчика событий, динамическое обновление контента",
+          "achievable": "Уровень начинающего",
+          "relevant": "Необходимо для создания interactive UI",
+          "time_bound": "2 дня"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "2": [
+      {
+        "id": "frontend_2_1",
+        "marker": "Разработал SPA-приложение с использованием React/Vue/Angular (роутинг, состояние, работа с API)",
+        "validation": "Исходный код приложения, демо на GitHub Pages или аналогичном хостинге",
+        "priority": "high",
+        "resources": ["https://reactjs.org/"],
+        "smart_criteria": {
+          "specific": "Создать SPA-приложение на современном фреймворке",
+          "measurable": "Приложение имеет 2+ страницы, состояние, загрузку данных с API",
+          "achievable": "Уровень средний",
+          "relevant": "Требуется для современных frontend-проектов",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ],
+    "3": [
+      {
+        "id": "frontend_3_1",
+        "marker": "Оптимизировал производительность frontend-приложения (lazy loading, code splitting, минификация, кэширование)",
+        "validation": "Метрики производительности до/после (Lighthouse, WebPageTest), конфигурация сборки",
+        "priority": "medium",
+        "resources": ["https://web.dev/learn/performance/"],
+        "smart_criteria": {
+          "specific": "Оптимизировать производительность frontend-приложения",
+          "measurable": "Улучшение scores Lighthouse на 20+ пунктов, уменьшение времени загрузки на 30%+",
+          "achievable": "Продвинутый уровень",
+          "relevant": "Критично для user experience и SEO",
+          "time_bound": "2 недели"
+        },
+        "methodology_author": "Ekaterina Kudelya",
+        "methodology_license": "CC BY-ND 4.0"
+      }
+    ]
+  }
+}
+
