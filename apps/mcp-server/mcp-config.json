@@ -1,0 +1,67 @@
+{
+  "mcpServers": {
+    "career-autopilot": {
+      "command": "python",
+      "args": [
+        "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server/src/main.py"
+      ],
+      "cwd": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server",
+      "env": {
+        "PROJECT_ROOT": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect",
+        "PYTHONPATH": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect"
+      }
+    },
+    "career-autopilot-docker": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "portfolio-mcp-data:/app/data",
+        "career-autopilot-mcp:latest"
+      ],
+      "cwd": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server"
+    }
+  },
+  "tools": {
+    "file_tools": {
+      "enabled": true,
+      "description": "Работа с файлами проекта"
+    },
+    "git_tools": {
+      "enabled": true,
+      "description": "Git операции и SourceCraft интеграция"
+    },
+    "compass_tools": {
+      "enabled": true,
+      "description": "IT-Compass маркеры компетенций"
+    },
+    "chroma_tools": {
+      "enabled": true,
+      "description": "Векторный поиск через ChromaDB"
+    },
+    "monitoring_tools": {
+      "enabled": true,
+      "description": "Prometheus, Grafana, Docker stats"
+    },
+    "app_management": {
+      "enabled": true,
+      "description": "Управление 12 микросервисами"
+    },
+    "security_tools": {
+      "enabled": true,
+      "description": "bandit, pip-audit сканирование"
+    }
+  },
+  "resources": {
+    "navigation": {
+      "enabled": true,
+      "audiences": ["hr", "tech_lead", "grant", "community", "sourcecraft"]
+    },
+    "it_compass": {
+      "enabled": true,
+      "domains": "auto-discover"
+    }
+  }
+}
