@@ -1,0 +1,34 @@
+# MCP Server Dependencies
+# Generated from pyproject.toml
+
+# Core MCP
+fastmcp>=0.1.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+httpx>=0.27.0
+
+# Data validation
+pydantic>=2.8.0
+python-dotenv>=1.0.1
+
+# Vector database
+chromadb>=0.5.0
+
+# Git operations
+gitpython>=3.1.43
+
+# YAML support
+pyyaml>=6.0
+
+# HTTP client
+requests>=2.31.0
+
+# Security scanning
+bandit>=1.7.0
+pip-audit>=2.5.0
+
+# Optional: Docker support
+# docker>=7.0.0
+
+# Optional: Monitoring
+# prometheus-client>=0.19.0

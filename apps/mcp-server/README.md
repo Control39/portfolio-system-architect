@@ -1,16 +1,63 @@
 # MCP Server for Career Autopilot
 
-MCP (Model Context Protocol) сервер с полным доступом к файловой системе, интеграцией с IT-Compass и автоматическим обнаружением маркеров.
+**Версия:** 1.0  
+**Статус:** ✅ Готов к использованию
 
-## Назначение
+MCP (Model Context Protocol) сервер для работы с экосистемой Career Autopilot и IT-Compass.
 
-Сервер предоставляет инструменты для:
-- Чтения/записи файлов в проекте
-- Выполнения команд через subprocess
-- Доступа к Git (коммиты, история)
-- Интеграции с IT-Compass маркерами
-- Навигации по репозиторию для разных аудиторий
-- Автоматического обнаружения маркеров из коммитов
+## 🎯 Назначение
+
+Сервер предоставляет AI-агентам (Koda, Claude, SourceCraft) доступ к:
+- 📁 **Файловой системе** проекта
+- 🔀 **Git** и SourceCraft интеграции
+- 🧭 **IT-Compass** маркерам компетенций (1495 маркеров)
+- 🗄️ **ChromaDB** векторному поиску
+- 📊 **Мониторингу** (Prometheus, Grafana)
+- 🚀 **12 микросервисам** (apps/)
+- 🔒 **Безопасности** (bandit, pip-audit)
+
+## 🛠️ Инструменты
+
+### 1. File Tools
+- `read_file(path)` - чтение файла
+- `write_file(path, content)` - запись файла
+- `list_files(path, recursive)` - список файлов
+- `search_files(query, pattern)` - поиск файлов
+
+### 2. Git Tools
+- `get_git_status()` - статус репозитория
+- `get_git_history(days)` - история коммитов
+- `scan_commits_for_markers(count)` - анализ коммитов на маркеры
+- `get_branch_info()` - информация о ветках
+
+### 3. IT-Compass Tools
+- `evaluate_by_compass(domain, level)` - оценка по домену
+- `get_markers_by_domain(domain)` - маркеры домена
+- `get_available_domains()` - список доменов
+- `auto_detect_markers_from_code(path)` - авто-обнаружение маркеров
+
+### 4. ChromaDB Tools
+- `chroma_get_collections()` - список коллекций
+- `chroma_query(collection, query, n_results)` - векторный поиск
+- `chroma_add_document(collection, document, metadata)` - добавление документа
+- `chroma_get_collection_info(collection)` - информация о коллекции
+
+### 5. Monitoring Tools
+- `get_prometheus_targets()` - target'ы Prometheus
+- `get_prometheus_metrics(query)` - PromQL запросы
+- `get_grafana_dashboards()` - дашборды Grafana
+- `check_monitoring_stack_status()` - статус стека
+- `get_docker_container_stats()` - статистика контейнеров
+
+### 6. App Management
+- `list_apps()` - список микросервисов
+- `get_app_info(app_name)` - информация о приложении
+- `restart_app(app_name)` - перезапуск приложения
+
+### 7. Security Tools
+- `run_security_scan(scan_type)` - сканирование безопасности
+  - `bandit` - статический анализ кода
+  - `pip-audit` - проверка уязвимостей зависимостей
 
 ## Архитектура
 
@@ -40,24 +87,79 @@ apps/mcp-server/
 - **Shared Schemas**: использует контракты из `src/shared/schemas/`
 - **Monitoring**: интегрируется с Prometheus через метрики
 
-## Быстрый старт
+## 🚀 Быстрый старт
+
+### Локальный запуск
 
 ```bash
-# Установка зависимостей
+# Переход в директорию проекта
 cd apps/mcp-server
-pip install -r requirements.txt
+
+# Установка зависимостей
+pip install -e .
 
 # Запуск сервера
 python src/main.py
+```
 
-# Тестирование с Claude Desktop
-# Добавить в конфигурацию Claude Desktop:
-# "mcpServers": {
-#   "career-autopilot": {
-#     "command": "python",
-#     "args": ["/path/to/apps/mcp-server/src/main.py"]
-#   }
-# }
+### Docker запуск
+
+```bash
+# Сборка образа
+docker build -t career-autopilot-mcp:latest .
+
+# Запуск контейнера
+docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v portfolio-mcp-data:/app/data \
+  career-autopilot-mcp:latest
+```
+
+## 🔌 Интеграция с MCP клиентами
+
+### Claude Desktop
+
+Добавьте в конфигурацию Claude Desktop:
+
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`  
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "career-autopilot": {
+      "command": "python",
+      "args": [
+        "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server/src/main.py"
+      ],
+      "cwd": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server"
+    }
+  }
+}
+```
+
+### Koda / SourceCraft
+
+Используйте готовую конфигурацию из `mcp-config.json`:
+
+```bash
+# Копирование конфигурации
+cp mcp-config.json ~/.koda/mcp.json
+```
+
+### VS Code (Cline, Roo Code)
+
+```json
+{
+  "mcpServers": [
+    {
+      "name": "Career Autopilot",
+      "type": "stdio",
+      "command": "python",
+      "args": ["path/to/apps/mcp-server/src/main.py"]
+    }
+  ]
+}
 ```
 
 ## Инструменты
