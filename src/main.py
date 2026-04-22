@@ -33,8 +33,29 @@ except ImportError:
     def root():
         return {"message": "Заглушечное приложение"}
 
-def run_server():
-    # Берём команду запуска из конфигурации
+def main():
+    """Основная функция для запуска сервера в production-режиме."""
+    try:
+        api_script = next(
+            script for script in COMPONENT_CONFIG["automation"]["scripts"]
+            if script["name"] == "run_api"
+        )
+        print(f"Запуск API: {api_script['command']}")
+
+        # Извлекаем порт из команды (если указан)
+        port = 8000  # дефолтный порт
+        if "--port" in api_script["command"]:
+            port_str = api_script["command"].split("--port")[1].strip().split()[0]
+            port = int(port_str)
+    except (KeyError, StopIteration):
+        print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
+        port = 8000
+
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # Без reload в продакшене
+
+
+def main_dev():
+    """Функция для запуска сервера в development-режиме с возможностью перезагрузки."""
     try:
         api_script = next(
             script for script in COMPONENT_CONFIG["automation"]["scripts"]
@@ -53,6 +74,7 @@ def run_server():
 
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
 
+
 if __name__ == "__main__":
-    run_server()
+    main_dev()  # Запускаем в режиме разработки по умолчанию
 
