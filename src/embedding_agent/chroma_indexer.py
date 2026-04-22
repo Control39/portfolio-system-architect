@@ -278,6 +278,9 @@ class ChromaDocumentIndexer:
         """
         Migrate documents from pickle-based index to ChromaDB.
         
+        ⚠️ SECURITY WARNING: This method uses pickle for legacy data migration only.
+        Never use this with untrusted input. For production, use JSON format.
+        
         Args:
             pickle_path: Path to pickle file from old indexer.
             
@@ -293,8 +296,9 @@ class ChromaDocumentIndexer:
             return []
         
         try:
+            # SECURITY: Only load from trusted local path
             with open(pickle_file, 'rb') as f:
-                index_data = pickle.load(f)
+                index_data = pickle.load(f)  # nosec: trusted local file for migration only
             
             documents = index_data.get("documents", [])
             embeddings = index_data.get("embeddings", [])

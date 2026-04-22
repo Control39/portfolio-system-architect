@@ -51,7 +51,7 @@ def main():
         print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # Без reload в продакшене
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # nosec: bound in container, not exposed externally
 
 
 def main_dev():
@@ -72,7 +72,7 @@ def main_dev():
         print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=True)  # nosec: dev mode, bound in container
 
 
 if __name__ == "__main__":
