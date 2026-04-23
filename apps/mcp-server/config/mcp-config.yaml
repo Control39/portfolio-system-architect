@@ -79,7 +79,7 @@ integrations:
 
 # Модели AI для анализа
 ai_models:
-  default: "gpt-4"  # Используем актуальную модель вместо GPT-5
+  default: "gpt-4"  # Используем актуальную модель, не GPT-5
   available:
     - name: "gpt-4"
       provider: "openai"
@@ -217,6 +217,7 @@ migration:
   validation:
     check_gpt5_references: true
     check_outdated_models: true
+    # Упоминание gpt-5 в комментариях не является проблемой, так как модель не используется
 
 # Документация
 documentation:
