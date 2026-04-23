@@ -32,7 +32,8 @@
 **Ключевые доказательства:**
 - ✅ 12 микросервисов — управление сложными проектами
 - ✅ 19 доменов компетенций — системное мышление
-- ✅ MCP Server — инновации и AI-интеграция
+- ✅ MCP Server — интеграция AI-ассистентов
+- ✅ Arch-Compass — фреймворк для оркестрации инфраструктуры
 
 ---
 
@@ -43,6 +44,7 @@
 | Документ | Ссылка | Время |
 |----------|--------|-------|
 | Архитектурные решения (ADR) | [architecture/decisions/](architecture/decisions/) | 30 мин |
+| Arch-Compass Framework | [../apps/arch-compass-framework/README.md](../apps/arch-compass-framework/README.md) | 15 мин |
 | MCP Server (AI интеграция) | [../apps/mcp-server/README.md](../apps/mcp-server/README.md) | 15 мин |
 | Cloud-Reason (Reasoning-движок) | [../src/cloud_reason/](../src/cloud_reason/) | 20 мин |
 | Кейсы интеграции | [cases/cases/presentation-cases/](cases/cases/presentation-cases/) | 30 мин |
@@ -74,6 +76,24 @@
 - ✅ GitHub Actions — автоматический CI/CD
 - ✅ Prometheus + Grafana — полный мониторинг
 - ✅ Bandit + pip-audit + Trivy — безопасность
+
+---
+
+### 📊 Бизнес-Аналитик / Менеджер Продукта
+
+**Вам важно:** Бизнес-ценность, ROI, влияние на компанию
+
+| Документ | Ссылка | Время |
+|----------|--------|-------|
+| Кейс: Arch-Compass (Infra, ROI 3M) | [cases/business-impact/case-04-arch-compass-framework.md](cases/business-impact/case-04-arch-compass-framework.md) | 10 мин |
+| Кейс: Онбординг (ROI 2.6M) | [cases/business-impact/case-01-onboarding-optimization.md](cases/business-impact/case-01-onboarding-optimization.md) | 10 мин |
+| Кейс: AI-разработка (ROI 98M) | [cases/business-impact/case-02-ai-development-acceleration.md](cases/business-impact/case-02-ai-development-acceleration.md) | 10 мин |
+| Кейс: GitOps (ROI 10M) | [cases/business-impact/case-03-gitops-operational-efficiency.md](cases/business-impact/case-03-gitops-operational-efficiency.md) | 10 мин |
+
+**Ключевые доказательства:**
+- ✅ **ROI 110M+ руб/год** — суммарная экономия от внедрения
+- ✅ **Окупаемость 2 недели - 6 месяцев** — быстрая отдача
+- ✅ **Масштабируемость** — от 10 до 50+ серверов
 
 ---
 
