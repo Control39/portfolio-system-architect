@@ -1,30 +1,30 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arch-compass
+  name: infra-orchestrator
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: arch-compass
+      app: infra-orchestrator
   template:
     metadata:
       labels:
-        app: arch-compass
+        app: infra-orchestrator
     spec:
       containers:
-      - name: arch-compass
-        image: portfolio-system-architect:arch-compass-framework
+      - name: infra-orchestrator
+        image: portfolio-system-architect:infra-orchestrator
         ports:
         - containerPort: 8502
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: arch-compass
+  name: infra-orchestrator
 spec:
   selector:
-    app: arch-compass
+    app: infra-orchestrator
   ports:
   - port: 8502
     targetPort: 8502
@@ -32,24 +32,24 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: arch-compass-config
+  name: infra-orchestrator-config
 data:
   PYTHONPATH: /app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: arch-compass
+  name: infra-orchestrator
 spec:
   rules:
-  - host: arch-compass.local
+  - host: infra-orchestrator.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: arch-compass
+            name: infra-orchestrator
             port:
               number: 8502
 
