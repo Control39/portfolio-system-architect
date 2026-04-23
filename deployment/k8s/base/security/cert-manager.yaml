@@ -107,11 +107,11 @@ spec:
             name: it-compass
             port:
               number: 8501
-      - path: /cloud-reason
+      - path: /decision-engine
         pathType: Prefix
         backend:
           service:
-            name: cloud-reason
+            name: decision-engine
             port:
               number: 8001
       - path: /ml-registry

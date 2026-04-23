@@ -1,6 +1,6 @@
 ﻿
 try:
-    from apps.cloud_reason.utils.logger import get_logger
+    from apps.decision_engine.decision_engine.utils.logger import get_logger
 except ImportError:
     def get_logger(name):
         class Logger:
@@ -9,7 +9,7 @@ except ImportError:
         return Logger()
 
 try:
-    from apps.cloud_reason.utils.dependency_checker import check_dependencies
+    from apps.decision_engine.decision_engine.utils.dependency_checker import check_dependencies
 except ImportError:
     def check_dependencies():
         return {"status": "stub"}

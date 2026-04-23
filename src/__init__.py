@@ -12,7 +12,7 @@ __email__ = ""
 # Экспорт основных компонентов
 __all__ = [
     "main",
-    "cloud_reason",
+    "decision_engine",
     "repo_audit",
     "shared",
     "ai",

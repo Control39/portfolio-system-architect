@@ -10,7 +10,7 @@ namespace: portfolio
 resources:
   - shared-data-pvc.yaml
   - it-compass/
-  - cloud-reason/
+  - decision-engine/
   - ml-model-registry/
   - career-development/
   - portfolio-organizer/

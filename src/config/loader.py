@@ -9,15 +9,15 @@ import warnings
 import sys
 import os
 
-# Добавляем путь для импорта cloud_reason
+# Добавляем путь для импорта decision_engine
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from cloud_reason.configs.loader import COMPONENT_CONFIG
-    from cloud_reason.configs.loader import load_component_config
+    from decision_engine.decision_engine.configs.loader import COMPONENT_CONFIG
+    from decision_engine.decision_engine.configs.loader import load_component_config
 except ImportError:
     warnings.warn(
-        "Не удалось импортировать cloud_reason.configs.loader. "
+        "Не удалось импортировать decision_engine.decision_engine.configs.loader. "
         "Используется fallback конфигурация.",
         ImportWarning
     )

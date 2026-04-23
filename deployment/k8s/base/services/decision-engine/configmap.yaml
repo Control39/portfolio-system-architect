@@ -1,7 +1,7 @@
 ﻿apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloud-reason-config
+  name: decision-engine-config
   namespace: portfolio
 data:
   PYTHONPATH: /app
