@@ -1,10 +1,10 @@
-﻿# Кейс 2: Интеграция arch-compass-framework и cloud-reason
+﻿# Кейс 2: Интеграция Infra-Orchestrator и Cloud-Reason
 
 ## Описание
 
-Этот кейс демонстрирует интеграцию архитектурного фреймворка с облачной платформой для принятия решений:
-- arch-compass-framework: фреймворк для архитектурного проектирования
-- cloud-reason: облачная платформа для анализа и принятия решений
+Этот кейс демонстрирует интеграцию библиотеки инфраструктурной оркестрации с облачной платформой для принятия решений:
+- Infra-Orchestrator: библиотека PowerShell для оркестрации инфраструктуры
+- Cloud-Reason: облачная платформа для анализа и принятия решений
 
 ## Цели интеграции
 
@@ -25,8 +25,8 @@
 
 ```mermaid
 graph TD
-    A[arch-compass-framework] --> B[Model Repository]
-    C[cloud-reason] --> D[Analysis Engine]
+    A[Infra-Orchestrator] --> B[Model Repository]
+    C[Cloud-Reason] --> D[Analysis Engine]
     B --> E[Decision Support Service]
     D --> E
     E --> F[Visualization Layer]
