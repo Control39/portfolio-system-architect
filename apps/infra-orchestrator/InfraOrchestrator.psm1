@@ -1,16 +1,16 @@
-# ArchCompass.psm1 - главный модуль
+# InfraOrchestrator.psm1 - главный модуль
 $ErrorActionPreference = 'Stop'
 $ModuleRoot = $PSScriptRoot
 
 # Загрузка существующих подмодулей
 $modules = @(
-    "src\\core\\utilities\\ConfigurationManager.psm1"
-    "src\\infrastructure\\security\\SecretManager.psm1"
-    "src\\infrastructure\\security\\SecurityScanner.psm1"
-    "src\\core\\logging\\StructuredLogger.psm1"
-    "src\\core\\validation\\InputValidator.psm1"
-    "src\\ai\\providers\\OpenAIIntegration.psm1"
-    "src\\core\\commands\\CommandFactory.psm1"
+    "src\core\utilities\ConfigurationManager.psm1"
+    "src\infrastructure\security\SecretManager.psm1"
+    "src\infrastructure\security\SecurityScanner.psm1"
+    "src\core\logging\StructuredLogger.psm1"
+    "src\core\validation\InputValidator.psm1"
+    "src\ai\providers\OpenAIIntegration.psm1"
+    "src\core\commands\CommandFactory.psm1"
 )
 
 foreach ($module in $modules) {
@@ -42,7 +42,7 @@ foreach ($module in $newModules) {
 }
 
 # Основная команда
-function Start-ArchCompass {
+function Start-InfraOrchestrator {
     param(
         [string]$Environment = "default",
         [switch]$RunSecurityTests,
@@ -55,18 +55,18 @@ function Start-ArchCompass {
 
     # Версия
     if ($Version) {
-        $manifest = Import-PowerShellDataFile -Path "$PSScriptRoot/ArchCompass.psd1" -ErrorAction SilentlyContinue
-        $version = if ($manifest) { $manifest.ModuleVersion } else { "6.0.0" }
-        Write-Host "🧭 Arch-Compass Framework v$version"
+        $manifest = Import-PowerShellDataFile -Path "$PSScriptRoot/InfraOrchestrator.psd1" -ErrorAction SilentlyContinue
+        $version = if ($manifest) { $manifest.ModuleVersion } else { "7.0.0" }
+        Write-Host "🔧 Infra-Orchestrator Framework v$version"
         Write-Host "📦 Author: Ekaterina Kudelya (Cognitive Architect)"
-        Write-Host "📜 License: CC BY-ND 4.0"
+        Write-Host "📜 License: CC BY-ND 4.0 (методология), MIT (код)"
         return
     }
 
     # Self-Audit (Health Check)
     if ($Health) {
-        if (Get-Command Test-ArchCompassHealth -ErrorAction SilentlyContinue) {
-            return Test-ArchCompassHealth -Detailed
+        if (Get-Command Test-InfraOrchestratorHealth -ErrorAction SilentlyContinue) {
+            return Test-InfraOrchestratorHealth -Detailed
         } else {
             Write-Warning "HealthCheck модуль не загружен. Проверьте путь: src/core/diagnostics/HealthCheck.psm1"
             return
@@ -96,8 +96,8 @@ function Start-ArchCompass {
     # Help
     if ($Help) {
         Write-Host @"
-🧭 Arch-Compass Framework
-Использование: Start-ArchCompass [-Environment <имя>] [-RunSecurityTests] [-Version] [-Health] [-Metrics] [-Diagram]
+🔧 Infra-Orchestrator Framework
+Использование: Start-InfraOrchestrator [-Environment <имя>] [-RunSecurityTests] [-Version] [-Health] [-Metrics] [-Diagram]
 
 Параметры:
   -Environment     : Окружение (development, staging, production)
@@ -109,17 +109,17 @@ function Start-ArchCompass {
   -Help            : Показать эту справку
 
 Примеры:
-  Start-ArchCompass -Environment production
-  Start-ArchCompass -Version
-  Start-ArchCompass -Health -Detailed
-  Start-ArchCompass -Metrics
-  Start-ArchCompass -Diagram
+  Start-InfraOrchestrator -Environment production
+  Start-InfraOrchestrator -Version
+  Start-InfraOrchestrator -Health -Detailed
+  Start-InfraOrchestrator -Metrics
+  Start-InfraOrchestrator -Diagram
 "@
         return
     }
 
     # Основной запуск
-    Write-Host "✅ Arch-Compass запущен в режиме: $Environment" -ForegroundColor Green
+    Write-Host "✅ Infra-Orchestrator запущен в режиме: $Environment" -ForegroundColor Green
     
     if ($RunSecurityTests) {
         Write-Host "🔍 Запуск тестов безопасности..." -ForegroundColor Yellow
@@ -135,11 +135,11 @@ function Start-ArchCompass {
 }
 
 # Экспорт функций
-Export-ModuleMember -Function Start-ArchCompass
+Export-ModuleMember -Function Start-InfraOrchestrator
 
 # Дополнительные функции для прямого доступа (опционально)
-if (Get-Command Test-ArchCompassHealth -ErrorAction SilentlyContinue) {
-    Export-ModuleMember -Function Test-ArchCompassHealth
+if (Get-Command Test-InfraOrchestratorHealth -ErrorAction SilentlyContinue) {
+    Export-ModuleMember -Function Test-InfraOrchestratorHealth
 }
 
 if (Get-Command Export-PrometheusMetrics -ErrorAction SilentlyContinue) {
@@ -154,4 +154,4 @@ if (Get-Command Invoke-CompassAudit -ErrorAction SilentlyContinue) {
     Export-ModuleMember -Function Invoke-CompassAudit
 }
 
-Write-Verbose "🧭 Arch-Compass Framework полностью загружен"
+Write-Verbose "🔧 Infra-Orchestrator Framework полностью загружен"
