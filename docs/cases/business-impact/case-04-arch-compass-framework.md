@@ -64,8 +64,8 @@
 ## 🔧 Техническая Реализация
 
 ```
-apps/arch-compass-framework/    # Основной фреймворк
-├── modules/                    # 7 независимых модулей
+apps/infra-orchestrator/    # Основная библиотека
+├── src/                    # 7 независимых модулей
 │   ├── security/              # Security scanning & compliance
 │   ├── monitoring/            # Prometheus metrics export
 │   ├── networking/            # Network policies validation
@@ -82,25 +82,25 @@ apps/arch-compass-framework/    # Основной фреймворк
 
 1. **Self-Audit:**
 ```powershell
-Invoke-ArchAudit -Path "./deployment" -RuleSet "enterprise"
+Invoke-InfraAudit -Path "./deployment" -RuleSet "enterprise"
 # Результат: JSON-отчёт с метриками соответствия
 ```
 
 2. **Экспорт в Prometheus:**
 ```powershell
-Export-ArchMetrics -Format "prometheus" -Output "./metrics/architecture.prom"
+Export-InfraMetrics -Format "prometheus" -Output "./metrics/architecture.prom"
 # Метрики: architectural_drift, security_compliance, test_coverage
 ```
 
 3. **Архитектурные Контракты:**
 ```powershell
-Test-ArchContract -Component "auth-service" -Contract "microservice-v1"
+Test-InfraContract -Component "auth-service" -Contract "microservice-v1"
 # Результат: Pass/Fail с детализацией нарушений
 ```
 
 4. **Модульность:**
 ```powershell
-Import-ArchModule -Name "security" -Version "1.2.0"
+Import-InfraModule -Name "security" -Version "1.2.0"
 Invoke-SecurityScan -Target "./src"
 ```
 

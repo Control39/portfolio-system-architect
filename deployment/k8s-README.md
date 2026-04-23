@@ -13,7 +13,7 @@ Standalone manifests created:
 - career-development-deployment.yaml
 - portfolio-organizer-deployment.yaml
 - system-proof-deployment.yaml
-- arch-compass-deployment.yaml
+- infra-orchestrator-deployment.yaml
 
 **Scaling:** See [docs/scaling-plan.md](docs/scaling-plan.md)
 

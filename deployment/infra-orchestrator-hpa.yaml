@@ -1,13 +1,13 @@
 ﻿apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: arch-compass-hpa
+  name: infra-orchestrator-hpa
   namespace: portfolio
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: arch-compass
+    name: infra-orchestrator
   minReplicas: 2
   maxReplicas: 6
   metrics:
