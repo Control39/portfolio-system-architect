@@ -1,6 +1,6 @@
-Import-Module -Force ./ArchCompass.psm1
+Import-Module -Force ./InfraOrchestrator.psm1
 
-Describe 'ArchCompass Functions' {
+Describe 'InfraOrchestrator Functions' {
     It 'Tests Get-ArchPattern' {
         $result = Get-ArchPattern -Name 'Microservices'
         $result | Should -Not -BeNullOrEmpty

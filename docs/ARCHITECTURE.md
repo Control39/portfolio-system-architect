@@ -31,7 +31,7 @@ graph TD
     style G fill:#1a73e8,stroke:#fff,color:#fff
 ```
 
-### 1. arch-compass-framework
+### 1. infra-orchestrator
 - **Назначение**: Фреймворк архитектурного компаса
 - **Функции**:
   - Определение архитектурных принципов

@@ -105,7 +105,7 @@
 | Быстрый старт | `docs/quickstart/` |
 | Кейсы (Case Studies) | `docs/cases/` |
 | Методология IT-Compass | `apps/it-compass/docs/` |
-| Arch-Compass Framework | `apps/arch-compass-framework/README.md` |
+| Infra-Orchestrator Framework | `apps/infra-orchestrator/README.md` |
 | MCP Server | `apps/mcp-server/QUICKSTART.md` |
 | Безопасность | `docs/SECURITY_AUDIT_REPORT.md` |
 

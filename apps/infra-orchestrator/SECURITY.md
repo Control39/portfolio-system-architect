@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Only the latest major version of Arch-Compass-Framework receives security updates.
+Only the latest major version of Infra-Orchestrator Framework receives security updates.
 
 ## Reporting a Vulnerability
 

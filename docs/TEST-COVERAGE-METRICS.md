@@ -58,7 +58,7 @@
 | **Cloud-Reason** | 85% | 89 tests | 2026-03-28 |
 | **ML-Model-Registry** | 78% | 67 tests | 2026-03-27 |
 | **Portfolio-Organizer** | 82% | 54 tests | 2026-03-28 |
-| **Arch-Compass (PowerShell)** | 82% | 38 tests | 2026-03-27 |
+| **Infra-Orchestrator (PowerShell)** | 82% | 38 tests | 2026-03-27 |
 | **System-Proof** | 75% | 41 tests | 2026-03-26 |
 | **Career-Development** | 80% | 58 tests | 2026-03-28 |
 
