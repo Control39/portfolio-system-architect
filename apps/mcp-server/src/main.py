@@ -283,7 +283,7 @@ def get_navigation_resource(audience: str = "tech_lead") -> str:
 3. **Демо-видео** (`docs/screenshots/`) - скриншоты и демонстрации
 
 ## Что показывает:
-- Системное мышление (1495 маркеров по 18 доменам)
+- Системное мышление (83 маркера по 19 доменам)
 - Управление сложными проектами (12 микросервисов)
 - Полный CI/CD и мониторинг
 - Способность создавать методологии и инструменты
@@ -317,7 +317,7 @@ def get_navigation_resource(audience: str = "tech_lead") -> str:
 # Тур для грантовых комитетов (SourceCraft Open Source)
 
 ## Инновации:
-1. **IT-Compass** - авторская методология с 1495 объективными маркерами
+1. **IT-Compass** - авторская методология с 83 объективными маркерами
 2. **Cognitive Systems Architecture** - архитектура когнитивных систем
 3. **Career Autopilot** - автоматическое обнаружение маркеров и генерация портфолио
 
@@ -362,7 +362,7 @@ def get_navigation_resource(audience: str = "tech_lead") -> str:
 - ✅ Готовность к community contribution
 
 ### 2. Инновации
-- ✅ IT-Compass - уникальная методология (1495 маркеров)
+- ✅ IT-Compass - уникальная методология (83 маркера в 19 доменах)
 - ✅ Cognitive Automation Agent - когнитивная автоматизация
 - ✅ MCP Server - интеграция с AI assistants
 

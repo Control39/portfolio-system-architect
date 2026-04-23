@@ -1,11 +1,28 @@
-chore(deps): обновить зависимости через pip-compile
+feat(mcp): создать полноценный MCP сервер для Career Autopilot
 
-- Обновлены все зависимости до последних версий
-- Flask 3.1.3 (CVE-2026-27205 исправлен)
-- certifi 2026.4.22
-- click 8.3.3
-- idna 3.13
-- urllib3 2.6.3
-- werkzeug 3.1.8
+Архитектура MCP сервера:
 
-Проверка: pip-audit -r requirements.txt → No known vulnerabilities
+Инструменты:
+- file_tools.py - работа с файлами проекта
+- git_tools.py - Git операции и SourceCraft
+- compass_tools.py - IT-Compass маркеры (83 маркера в 19 доменах)
+- chroma_tools.py - векторный поиск ChromaDB
+- monitoring_tools.py - Prometheus, Grafana, Docker stats
+- main.py - app management (12 микросервисов)
+- main.py - security tools (bandit, pip-audit)
+
+Ресурсы:
+- navigate://{audience} - навигация для HR, tech, grant, community
+- it-compass://domain/{domain} - информация о доменах
+
+Интеграция:
+- mcp-config.json - конфигурация для MCP клиентов
+- Dockerfile - контейнеризация
+- requirements.txt - зависимости
+- README.md - полная документация
+
+Сценарии использования:
+1. Koda AI assistant - автоматизация разработки
+2. Claude Desktop - работа с кодом и документами
+3. SourceCraft - грантовая заявка и интеграция
+4. CI/CD - сканирование безопасности и мониторинг
