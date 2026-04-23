@@ -1,6 +1,6 @@
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 Import-Module Pester -Force
-Import-Module (Join-Path $Here '..\\ArchCompass.psm1') -Force
+Import-Module (Join-Path $Here '..\\InfraOrchestrator.psm1') -Force
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
