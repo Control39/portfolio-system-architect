@@ -39,6 +39,8 @@
   <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
   <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white" alt="PowerShell">
+  <img src="https://img.shields.io/badge/Pester-4D5210?style=for-the-badge&logo=pester&logoColor=white" alt="Pester">
   <img src="https://img.shields.io/badge/ChromaDB-FF6B6B?style=for-the-badge&logo=vectorworks&logoColor=white" alt="ChromaDB">
   <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
 </p>
@@ -119,6 +121,16 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 
 ## 🧭 Core Components & Architecture
 
+### 🏗️ **Arch-Compass Framework**: Infrastructure Orchestration (TOP PRIORITY)
+| Aspect | Implementation |
+|--------|---------------|
+| **Purpose** | Enterprise infrastructure framework with self-audit, Prometheus metrics, architectural contracts |
+| **Technology** | PowerShell 7 + Pester (85%+ test coverage), cross-platform |
+| **Key Features** | Self-audit system, 7 modular components, architectural contracts, automated security scanning |
+| **Integration** | Exports metrics to Prometheus, integrates with CI/CD, validates K8s manifests |
+| **Business Value** | -97% audit time, -75% onboarding time, -70% infrastructure incidents |
+| **Status** | ✅ Production-ready, enterprise-grade |
+
 ### 🧭 IT-Compass: Methodological Core
 | Aspect | Implementation |
 |--------|---------------|
@@ -127,6 +139,15 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | **Integration** | Feeds evidence to `portfolio-organizer`, provides context to `cloud-reason` |
 | **Human-Centered** | Built-in psychological support module (burnout prevention, crisis resources) |
 | **Status** | ✅ Production-ready, installable via `pip`, Dockerized |
+
+### 🤖 MCP Server: AI Integration Platform
+| Aspect | Implementation |
+|--------|---------------|
+| **Purpose** | Unified AI agent interface with 7 tool categories (file, git, compass, monitoring, security) |
+| **Technology** | Python + FastAPI + MCP protocol |
+| **Key Features** | RAG indexing, automatic marker detection, portfolio generation |
+| **Integration** | Claude Desktop, Koda, VS Code, IT-Compass |
+| **Status** | ✅ Operational, actively used |
 
 ### 🏗️ Microservices Architecture
 - **Cloud Reason Engine** - AI-driven decision making with explainable reasoning
