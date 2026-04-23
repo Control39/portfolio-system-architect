@@ -1,12 +1,12 @@
-﻿# components/cloud-reason/api/endpoints.py
+﻿# components/decision-engine/api/endpoints.py
 from fastapi import FastAPI
 
-app = FastAPI(title="Cloud-Reason API")
+app = FastAPI(title="Decision Engine API")
 
 @app.get("/api/v1/status")
 async def status():
     """Health check endpoint for Docker healthcheck"""
-    return {"status": "healthy", "service": "cloud-reason"}
+    return {"status": "healthy", "service": "decision-engine"}
 
 @app.get("/health")
 async def health():
@@ -15,5 +15,5 @@ async def health():
 
 @app.get("/")
 async def root():
-    return {"message": "Cloud-Reason API", "version": "1.0.0"}
+    return {"message": "Decision Engine API", "version": "1.0.0"}
 

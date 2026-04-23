@@ -1,5 +1,5 @@
 ﻿import pytest
-from ..cloud_reason.gigachain_bridge import GigaMCPBridge as GigachainBridge
+from ..decision_engine.gigachain_bridge import GigaMCPBridge as GigachainBridge
 
 def test_gigachain_bridge_init():
     bridge = GigachainBridge()

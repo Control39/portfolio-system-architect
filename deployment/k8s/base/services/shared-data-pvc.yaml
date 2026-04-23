@@ -1,5 +1,5 @@
 ﻿# Shared PersistentVolumeClaim for service data
-# Used by cloud-reason, ml-model-registry, system-proof, etc.
+# Used by decision-engine, ml-model-registry, system-proof, etc.
 # Mounted as /app/data, /app/models, /app/rag-index, etc.
 
 apiVersion: v1

@@ -7,6 +7,6 @@ resources:
   - configmap.yaml
   - hpa.yaml
 commonLabels:
-  app: cloud-reason
+  app: decision-engine
   tier: backend
 

@@ -30,7 +30,7 @@ class ProjectContext(BaseModel):
     description: str = "Когнитивная архитектура для системного мышления"
     components: List[str] = Field(default_factory=lambda: [
         "IT-Compass", "RAG System", "System Thinking Markers", 
-        "Portfolio Organizer", "Cloud-Reason", "Career Development"
+        "Portfolio Organizer", "Decision Engine", "Career Development"
     ])
 
 class ITCompassQuery(BaseModel):
@@ -216,7 +216,7 @@ class PortfolioMCP:
             """Получить статус RAG системы"""
             try:
                 rag_paths = [
-                    project_root / "apps" / "cloud-reason",
+                    project_root / "apps" / "decision-engine",
                     project_root / "apps" / "system-proof",
                     project_root / "gateway"
                 ]
@@ -301,8 +301,8 @@ class PortfolioMCP:
                         "path": "apps/career-development/src",
                         "description": "Система развития карьеры"
                     },
-                    "cloud-reason": {
-                        "path": "apps/cloud-reason",
+                    "decision-engine": {
+                        "path": "apps/decision-engine",
                         "description": "RAG и reasoning система"
                     },
                     "system-proof": {

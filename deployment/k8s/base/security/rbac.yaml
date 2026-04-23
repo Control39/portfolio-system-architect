@@ -15,10 +15,10 @@ metadata:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cloud-reason-sa
+  name: decision-engine-sa
   namespace: portfolio
   labels:
-    app: cloud-reason
+    app: decision-engine
 
 ---
 apiVersion: v1
@@ -70,11 +70,11 @@ subjects:
   name: it-compass-sa
 
 ---
-# RoleBinding: cloud-reason-sa can read configs & secrets
+# RoleBinding: decision-engine-sa can read configs & secrets
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: cloud-reason-config-reader
+  name: decision-engine-config-reader
   namespace: portfolio
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -82,7 +82,7 @@ roleRef:
   name: config-reader
 subjects:
 - kind: ServiceAccount
-  name: cloud-reason-sa
+  name: decision-engine-sa
 
 ---
 # RoleBinding: ml-model-registry-sa can read configs & secrets

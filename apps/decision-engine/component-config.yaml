@@ -1,8 +1,8 @@
 ﻿component:
-  name: "cloud-reason"
-  description: "Система облачного рассуждения с REST API и интеграцией с Git"
+  name: "decision-engine"
+  description: "Система принятия решений на основе AI с REST API и интеграцией с Git"
   version: "0.1.0"
-  path: "components/cloud-reason/"
+  path: "components/decision-engine/"
 
 dependencies:
   python:
@@ -74,10 +74,10 @@ tests:
 ci_cd:
   github_actions:
     workflows:
-      - name: "test-cloud-reason"
-        path: ".github/workflows/test-cloud-reason.yml"
-      - name: "deploy-cloud-reason"
-        path: ".github/workflows/deploy-cloud-reason.yml"
+      - name: "test-decision-engine"
+        path: ".github/workflows/test-decision-engine.yml"
+      - name: "deploy-decision-engine"
+        path: ".github/workflows/deploy-decision-engine.yml"
 
 automation:
   scripts:
@@ -100,7 +100,7 @@ security:
 
 logging:
   level: "INFO"
-  output: "logs/cloud-reason.log"
+  output: "logs/decision-engine.log"
 
 env_variables:
   - name: "GIT_REPO_URL"

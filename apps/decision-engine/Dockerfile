@@ -26,7 +26,7 @@ ENV PATH=/root/.local/bin:$PATH
 ENV PYTHONPATH=/app:$PYTHONPATH
 
 COPY --chown=appuser:appuser . .
-COPY --chown=appuser:appuser cloud_reason /app/cloud_reason
+COPY --chown=appuser:appuser decision_engine /app/decision_engine
 COPY --chown=appuser:appuser component-config.yaml /app/component-config.yaml
 
 USER appuser
@@ -36,4 +36,4 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD curl -f http://localhost:8000/api/v1/status || exit 1
 
-CMD ["uvicorn", "cloud_reason.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "decision_engine.main:app", "--host", "0.0.0.0", "--port", "8000"]

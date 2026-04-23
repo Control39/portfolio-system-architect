@@ -13,7 +13,7 @@ SERVICES = {
     'grafana': 'localhost:3000',
     'career-development': 'localhost:8001/health',  # Adjust port
     'it-compass': 'localhost:8501/health',
-    'cloud-reason': 'localhost:8000/health',
+    'decision-engine': 'localhost:8000/health',
 }
 
 def check_tcp(hostport: str) -> bool:
