@@ -1,12 +1,12 @@
-﻿# Пример интеграции it-compass и cloud-reason
-# Демонстрация взаимодействия между системой отслеживания компетенций и системой анализа облачных решений
+﻿# Пример интеграции it-compass и decision-engine
+# Демонстрация взаимодействия между системой отслеживания компетенций и движком принятия решений
 
 from typing import Dict, List, Any
 
 
-class ITCompassCloudReasonIntegration:
+class ITCompassDecisionEngineIntegration:
     """
-    Класс для демонстрации интеграции it-compass и cloud-reason
+    Класс для демонстрации интеграции it-compass и decision-engine
     """
 
     def __init__(self):
@@ -24,10 +24,10 @@ class ITCompassCloudReasonIntegration:
 
     def load_cloud_solutions(self, solutions_data: List[Dict[str, Any]]):
         """
-        Загрузка данных об облачных решениях из cloud-reason
+        Загрузка данных об облачных решениях из decision-engine
         """
         self.cloud_solutions = solutions_data
-        print("Данные об облачных решениях загружены из cloud-reason")
+        print("Данные об облачных решениях загружены из decision-engine")
         print(f"Доступно решений: {len(self.cloud_solutions)}")
 
     def generate_recommendations(self) -> List[Dict[str, Any]]:
@@ -81,7 +81,7 @@ class ITCompassCloudReasonIntegration:
         """
         Отображение рекомендаций
         """
-        print("\n=== РЕКОМЕНДАЦИИ ПО ИНТЕГРАЦИИ IT-COMPASS И CLOUD-REASON ===")
+        print("\n=== РЕКОМЕНДАЦИИ ПО ИНТЕГРАЦИИ IT-COMPASS И DECISION-ENGINE ===")
         if not self.recommendations:
             print("Рекомендации не найдены. Возможно, требуется больше данных.")
             return
@@ -128,11 +128,11 @@ def main():
     """
     Основная функция демонстрации интеграции
     """
-    print("Демонстрация интеграции it-compass и cloud-reason")
+    print("Демонстрация интеграции it-compass и decision-engine")
     print("=" * 50)
 
     # Создание экземпляра интеграции
-    integration = ITCompassCloudReasonIntegration()
+    integration = ITCompassDecisionEngineIntegration()
 
     # Загрузка данных
     integration.load_user_profile(SAMPLE_USER_PROFILE)
@@ -145,7 +145,7 @@ def main():
     integration.display_recommendations()
 
     print("\n=== ЗАКЛЮЧЕНИЕ ===")
-    print("Интеграция it-compass и cloud-reason позволяет:")
+    print("Интеграция it-compass и decision-engine позволяет:")
     print("1. Персонализировать рекомендации по облачным решениям")
     print("2. Определять пробелы в навыках пользователя")
     print("3. Предлагать пути обучения для освоения новых технологий")

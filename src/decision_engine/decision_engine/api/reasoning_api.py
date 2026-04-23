@@ -9,7 +9,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import (
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationServiceStub
 )
-from src.cloud_reason.utils.logger import PortfolioLogger
+from src.decision_engine.decision_engine.utils.logger import PortfolioLogger
 
 # Инициализация логгера
 logger = PortfolioLogger()

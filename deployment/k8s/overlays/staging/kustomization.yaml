@@ -17,7 +17,7 @@ commonLabels:
 replicas:
   - name: it-compass
     count: 2
-  - name: cloud-reason
+  - name: decision-engine
     count: 2
   - name: ml-model-registry
     count: 2

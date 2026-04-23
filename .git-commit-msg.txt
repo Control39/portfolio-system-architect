@@ -1,28 +1,24 @@
-feat(mcp): создать полноценный MCP сервер для Career Autopilot
+refactor: завершение переименования Arch-Compass → Infra-Orchestrator
 
-Архитектура MCP сервера:
+Добавлено:
+- Kubernetes манифесты: arch-compass-deployment.yaml → infra-orchestrator-deployment.yaml
+- HPA: arch-compass-hpa.yaml → infra-orchestrator-hpa.yaml
+- Обновлены имена в манифестах (metadata.name, app labels, service names)
+- Обновлены кейсы документации:
+  - docs/cases/business-impact/case-04-arch-compass-framework.md
+  - docs/cases/presentation-cases/case-2-arch-compass-cloud-reason/README.md
 
-Инструменты:
-- file_tools.py - работа с файлами проекта
-- git_tools.py - Git операции и SourceCraft
-- compass_tools.py - IT-Compass маркеры (83 маркера в 19 доменах)
-- chroma_tools.py - векторный поиск ChromaDB
-- monitoring_tools.py - Prometheus, Grafana, Docker stats
-- main.py - app management (12 микросервисов)
-- main.py - security tools (bandit, pip-audit)
+Изменения в манифестах:
+- name: arch-compass → infra-orchestrator
+- app labels: arch-compass → infra-orchestrator
+- service names: arch-compass → infra-orchestrator
+- ingress host: arch-compass.local → infra-orchestrator.local
+- image tag: arch-compass-framework → infra-orchestrator
 
-Ресурсы:
-- navigate://{audience} - навигация для HR, tech, grant, community
-- it-compass://domain/{domain} - информация о доменах
+Изменения в кейсах:
+- Название кейса: "Arch-Compass" → "Infra-Orchestrator"
+- Описание: "фреймворк" → "библиотека"
+- Команды: Invoke-ArchAudit → Invoke-InfraAudit, Export-ArchMetrics → Export-InfraMetrics
+- Диаграммы Mermaid обновлены
 
-Интеграция:
-- mcp-config.json - конфигурация для MCP клиентов
-- Dockerfile - контейнеризация
-- requirements.txt - зависимости
-- README.md - полная документация
-
-Сценарии использования:
-1. Koda AI assistant - автоматизация разработки
-2. Claude Desktop - работа с кодом и документами
-3. SourceCraft - грантовая заявка и интеграция
-4. CI/CD - сканирование безопасности и мониторинг
+Всего изменено: 8 файлов

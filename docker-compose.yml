@@ -87,26 +87,26 @@ services:
       - traefik
 
   # ============================================================
-  # Cloud-Reason (RAG API)
-  # Route: /cloud-reason
+  # Decision Engine (RAG API)
+  # Route: /decision-engine
   # ============================================================
-  cloud-reason:
-    build: ./apps/cloud-reason
+  decision-engine:
+    build: ./apps/decision-engine
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
       - ./logs:/app/logs
-      - ./apps/cloud-reason:/app
+      - ./apps/decision-engine:/app
       - ./data/rag-index:/app/rag-index
     networks:
       - portfolio-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cloud-reason.rule=Host(`localhost`) && PathPrefix(`/cloud-reason`)"
-      - "traefik.http.routers.cloud-reason.service=cloud-reason"
-      - "traefik.http.services.cloud-reason.loadbalancer.server.port=8001"
+      - "traefik.http.routers.decision-engine.rule=Host(`localhost`) && PathPrefix(`/decision-engine`)"
+      - "traefik.http.routers.decision-engine.service=decision-engine"
+      - "traefik.http.services.decision-engine.loadbalancer.server.port=8001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/api/v1/status"]
       interval: 30s
