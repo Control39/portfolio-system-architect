@@ -1,21 +1,21 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloud-reason
+  name: decision-engine
   namespace: portfolio
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: cloud-reason
+      app: decision-engine
   template:
     metadata:
       labels:
-        app: cloud-reason
+        app: decision-engine
     spec:
       containers:
-      - name: cloud-reason
-        image: ghcr.io/portfolio-system-architect/cloud-reason:latest
+      - name: decision-engine
+        image: ghcr.io/portfolio-system-architect/decision-engine:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8001
@@ -54,7 +54,7 @@ spec:
         volumeMounts:
           - name: shared-data
             mountPath: /app/rag-index
-            subPath: cloud-reason-rag
+            subPath: decision-engine-rag
       volumes:
         - name: shared-data
           persistentVolumeClaim:

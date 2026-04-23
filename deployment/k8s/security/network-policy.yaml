@@ -37,7 +37,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: cloud-reason
+      app: decision-engine
   policyTypes:
   - Ingress
   - Egress
@@ -48,7 +48,7 @@ spec:
           app: it-compass
     ports:
     - protocol: TCP
-      port: 8000
+      port: 8001
   egress:
   - to:
     - podSelector:

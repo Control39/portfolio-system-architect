@@ -9,7 +9,7 @@ __all__ = []
 
 # Реэкспорт для обратной совместимости
 try:
-    from ..cloud_reason.configs.loader import COMPONENT_CONFIG
+    from ..decision_engine.decision_engine.configs.loader import COMPONENT_CONFIG
     __all__.append('COMPONENT_CONFIG')
 except ImportError:
     # Fallback конфигурация

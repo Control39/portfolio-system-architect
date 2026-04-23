@@ -12,7 +12,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloud-reason
+  name: decision-engine
 spec:
   replicas: 1
 
