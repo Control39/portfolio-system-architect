@@ -72,7 +72,8 @@ Start-ArchCompass -Health -Detailed
 | **Контракты** | Интерфейсы в `src/core/contracts/` (IModule, IAiProvider) | `Validate-Contract.ps1` + Pester-тесты |
 | **Безопасность** | SecretManager + gitleaks + маскирование в логах | `.gitleaks.toml`, `SecurityScanner.psm1` |
 | **Наблюдаемость** | Экспорт метрик в Prometheus-формат | `MetricsExporter.psm1`, `EXPOSE 9091` в Dockerfile |
-| **Тестируемость** | Pester + PSScriptAnalyzer в CI | `tests/test_archcompass.Tests.ps1`, GitHub Actions |
+| **Тестируемость** | Pester + PSScriptAnalyzer в CI | `tests/*.Tests.ps1` (15+ тестов), GitHub Actions |
+| **AI-оркестрация** | 3 провайдера (OpenAI, YandexGPT, LocalLLM) через фабрику | `src/ai/providers/`, `AiProviderFactory.psm1` |
 
 ---
 
@@ -101,6 +102,51 @@ gitleaks detect --source . --config .gitleaks.toml --report-path reports/gitleak
 
 ---
 
+## 🤖 AI-провайдеры
+
+Фреймворк поддерживает три провайдера LLM через единый интерфейс `IAiProvider`:
+
+| Провайдер | Описание | Поддерживает | Сценарий использования |
+|-----------|----------|--------------|------------------------|
+| **OpenAI** | GPT-4o, GPT-3.5 | Completion, Embeddings | Продуктивные задачи, высокое качество |
+| **YandexGPT** | Yandex Cloud (РФ) | Completion | 152-ФЗ compliance, русскоязычные задачи |
+| **LocalLLM** | Ollama, vLLM, LM Studio | Completion, Embeddings | Оффлайн-режим, приватность |
+
+### Использование
+
+```powershell
+# OpenAI
+$openai = Get-AiProvider -Name 'OpenAI' -Config @{
+    ApiKey = 'your-api-key'
+    Model = 'gpt-4o'
+}
+Invoke-Completion -Prompt "Архитектурный анализ..."
+
+# YandexGPT (для российских enterprise-кейсов)
+$yandex = Get-AiProvider -Name 'YandexGPT' -Config @{
+    ApiKey = 'yandex-api-key'
+    FolderId = 'your-folder-id'
+}
+
+# LocalLLM (полная приватность)
+$local = Get-AiProvider -Name 'LocalLLM' -Config @{
+    Endpoint = 'http://localhost:11434'
+    Model = 'llama3'
+}
+```
+
+### Тесты
+
+Все провайдеры покрыты Pester-тестами:
+```powershell
+Invoke-Pester -Path './tests/OpenAiProvider.Tests.ps1'
+Invoke-Pester -Path './tests/YandexGptProvider.Tests.ps1'
+Invoke-Pester -Path './tests/LocalLlmProvider.Tests.ps1'
+Invoke-Pester -Path './tests/AiProviderFactory.Tests.ps1'
+```
+
+---
+
 ## 🔗 Интеграции в экосистеме
 
 | Компонент | Назначение | Ссылка (относительная) |
@@ -120,11 +166,11 @@ gitleaks detect --source . --config .gitleaks.toml --report-path reports/gitleak
 |--------|--------|-------|--------|-----------|
 | Core (ConfigurationManager, InputValidator) | ✅ Стабильно | ✅ Pester | ✅ | Production |
 | Security (SecretManager, SecurityScanner) | ✅ Стабильно | ✅ Pester + gitleaks | ✅ | Production |
-| AI Providers (OpenAI, заглушки Yandex/Local) | 🟡 Рефакторинг под контракты | ⚠️ Частично | ✅ | Beta |
-| Diagnostics (HealthCheck, MetricsExporter) | 🟢 Новый, требует документирования | ✅ Базовые | ✅ | Alpha |
+| AI Providers (OpenAI, YandexGPT, LocalLLM) | ✅ Готово | ✅ Pester (15+ тестов) | ✅ | Beta → Ready |
+| Diagnostics (HealthCheck, MetricsExporter) | 🟢 Новый | ✅ Базовые | ✅ | Alpha |
 | Integrations (CompassAudit) | 🔴 Концепт | ❌ | ❌ | Prototype |
 
-**Общая готовность:** ✅ Контейнеризирован, само-аудит работает, можно демонстрировать.
+**Общая готовность:** ✅ Контейнеризирован, self-audit работает, AI-провайдеры протестированы, можно демонстрировать.
 
 ---
 

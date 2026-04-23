@@ -33,7 +33,23 @@
 
 ## 🏆 3 кейса для собеседования
 
-### Кейс 1: MCP Server (AI Integration Platform)
+### Кейс 1: Arch-Compass (Infrastructure Orchestration Framework)
+
+**Проблема:** Управление сложной когнитивной архитектурой требует единого оркестратора для PowerShell, AI-провайдеров и DevOps процессов.
+
+**Решение:** Спроектировала и реализовала Arch-Compass Framework — контейнеризованный оркестратор на PowerShell с архитектурными контрактами и self-audit.
+
+**Результат:**
+- Единый интерфейс для управления AI (OpenAI, YandexGPT, LocalLLM)
+- Self-audit и экспорт метрик в Prometheus для production-ready системы
+- Доказанная безопасность: gitleaks, маскирование секретов, валидация конфигураций
+- **Технологии:** PowerShell 7, Docker, gitleaks, Pester, Prometheus
+
+**Файлы:** `apps/arch-compass-framework/`, `README.md`
+
+---
+
+### Кейс 2: MCP Server (AI Integration Platform)
 
 **Проблема:** AI-ассистенты (Claude, Koda) не имели доступа к коду и данным проекта.
 
@@ -49,7 +65,7 @@
 
 ---
 
-### Кейс 2: IT-Compass (Competency Framework)
+### Кейс 3: IT-Compass (Competency Framework)
 
 **Проблема:** Новички в IT не понимают как оценить свои компетенции. HR не могут объективно оценить кандидатов.
 
@@ -65,41 +81,18 @@
 
 ---
 
-### Кейс 3: Экосистема из 12 микросервисов
-
-**Проблема:** Нужна масштабируемая архитектура для AI-системы.
-
-**Решение:** Спроектировала и реализовала 12 независимых сервисов:
-- `auth-service` — аутентификация
-- `cloud-reason` — reasoning-движок
-- `knowledge-graph` — граф знаний
-- `portfolio-organizer` — авто-генерация портфолио
-- `mcp-server` — AI integration
-- `it-compass` — методология
-- и ещё 7 сервисов
-
-**Результат:**
-- Каждый сервис — независимый Docker-контейнер
-- Общий API Gateway
-- Мониторинг: Prometheus + Grafana
-- CI/CD: GitHub Actions
-- **Технологии:** Python, FastAPI, Docker, Kubernetes, PostgreSQL
-
-**Файлы:** `apps/`, `deployment/k8s/`, `docker-compose.yml`
-
----
-
 ## 🛠️ Технологический стек
 
 | Категория | Технологии |
 |-----------|------------|
-| **Языки** | Python 3.12, YAML, JSON, Markdown |
+| **Языки** | Python 3.12, **PowerShell 7**, YAML, JSON, Markdown |
 | **Backend** | FastAPI, Pydantic, SQLAlchemy |
 | **AI/ML** | ChromaDB, RAG, LangChain, MCP |
-| **DevOps** | Docker, Kubernetes, GitHub Actions |
+| **DevOps** | Docker, Kubernetes, GitHub Actions, **Pester** |
+| **Инфраструктура** | **PowerShell Framework**, GitOps, Sealed Secrets |
 | **Базы данных** | PostgreSQL, ChromaDB (vector) |
 | **Мониторинг** | Prometheus, Grafana, Alertmanager |
-| **Security** | Bandit, pip-audit, Trivy |
+| **Security** | Bandit, pip-audit, Trivy, **gitleaks** |
 | **Tools** | Git, VS Code, Jupyter, pre-commit |
 
 ---
@@ -112,6 +105,7 @@
 | Быстрый старт | `docs/quickstart/` |
 | Кейсы (Case Studies) | `docs/cases/` |
 | Методология IT-Compass | `apps/it-compass/docs/` |
+| Arch-Compass Framework | `apps/arch-compass-framework/README.md` |
 | MCP Server | `apps/mcp-server/QUICKSTART.md` |
 | Безопасность | `docs/SECURITY_AUDIT_REPORT.md` |
 
