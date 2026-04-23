@@ -60,7 +60,7 @@ This repository serves multiple audiences with different goals. Use this guide t
 4. **For RAG system:** [`docs/CHROMADB-INTEGRATION-README.md`](CHROMADB-INTEGRATION-README.md) - Knowledge management
 
 ### Key Cognitive Concepts:
-- **IT-Compass methodology:** 1495 verifiable markers across 18 IT domains
+- **IT-Compass methodology:** 83 verifiable markers across 19 IT domains
 - **System thinking patterns:** Causal loops, feedback mechanisms, boundary definition
 - **AI-human collaboration:** Orchestrating AI agents while maintaining architectural control
 
@@ -90,7 +90,7 @@ This repository serves multiple audiences with different goals. Use this guide t
 4. **For evidence:** [`docs/evidence/`](evidence/) - Validation evidence
 
 ### Key Grant-Ready Features:
-- **Measurable outcomes:** 1495 verifiable competency markers
+- **Measurable outcomes:** 83 verifiable competency markers
 - **Scalable methodology:** Applicable across organizations and domains
 - **Production validation:** Real-world deployment and monitoring
 - **Innovation:** Novel approach to cognitive architecture and AI orchestration
@@ -110,7 +110,7 @@ Business Value (Employer) ←→ Architecture Decisions (Architect) ←→ Infra
 | Hiring Managers | Production readiness | 12 containerized components, 85%+ test coverage |
 | Architects | Decision quality | 10+ ADR with trade-off analysis |
 | DevOps Engineers | Infrastructure reliability | Zero-downtime deployments, comprehensive monitoring |
-| Researchers | Methodological rigor | 1495 verifiable markers, peer-reviewed approach |
+| Researchers | Methodological rigor | 83 verifiable markers, peer-reviewed approach |
 | Beginners | Learning progression | Structured cases from simple to complex |
 
 ## 🚀 Next Steps Based on Your Role
