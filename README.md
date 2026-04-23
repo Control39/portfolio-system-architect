@@ -121,7 +121,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 
 ## 🧭 Core Components & Architecture
 
-### 🏗️ **Arch-Compass Framework**: Infrastructure Orchestration (TOP PRIORITY)
+### 🏗️ **Infra-Orchestrator Framework**: Infrastructure Orchestration (TOP PRIORITY)
 | Aspect | Implementation |
 |--------|---------------|
 | **Purpose** | Enterprise infrastructure framework with self-audit, Prometheus metrics, architectural contracts |

@@ -9,7 +9,7 @@ This project is part of the [portfolio-system-architect](https://github.com/your
 1. Ensure you have PowerShell 7.0+ installed.
 2. Import the module:
    ```powershell
-   Import-Module ./ArchCompass.psm1 -Force
+   Import-Module ./InfraOrchestrator.psm1 -Force
    ```
 3. Run tests with Pester:
    ```powershell

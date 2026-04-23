@@ -19,9 +19,9 @@
 **Проблема**: Нужно было оркестрировать архитектурные решения в PowerShell безопасно.  
 **Решение**: Модульный PS-фреймворк с secrets/gitleaks.  
 **Артефакт**:  
-- Код: `apps/arch-compass-framework/ArchCompass.psm1`  
-- Демо: `Import-Module ArchCompass.psm1; Start-ArchCompass`  
-- Документация: `apps/arch-compass-framework/README.md`  
+- Код: `apps/infra-orchestrator/InfraOrchestrator.psm1`  
+- Демо: `Import-Module InfraOrchestrator.psm1; Start-InfraOrchestrator`  
+- Документация: `apps/infra-orchestrator/README.md`  
 **Компетенция**: DevOps, scripting, security ⭐⭐⭐⭐.  
 **Уверенность**: 🟢90% — gitleaks integration active.
 

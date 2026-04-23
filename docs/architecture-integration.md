@@ -85,7 +85,7 @@ $analysis = Invoke-CloudReasonAnalysis -Config "architecture.yaml" -ReasoningAPI
    - Интеграция с YandexGPT API
    - Загрузка файлов в Object Storage
 
-2. **Расширение Arch-Compass**:
+2. **Расширение Infra-Orchestrator**:
    - Модуль генерации архитектурных диаграмм
    - Интеграция с reasoning API для валидации
    - Поддержка MCP (Model Context Protocol)
