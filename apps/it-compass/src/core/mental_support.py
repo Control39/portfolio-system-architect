@@ -4,8 +4,6 @@
 используя объединённый модуль PsychologicalSupport.
 """
 
-import json
-import random
 from datetime import datetime, date
 from typing import Dict, List, Optional, Any
 from .mental.psychological_support import PsychologicalSupport as PS

@@ -9,8 +9,6 @@ import logging
 import argparse
 from pathlib import Path
 
-import sys
-from pathlib import Path
 
 # Add the project root to the path to allow imports
 project_root = Path(__file__).parent.parent
@@ -233,7 +231,7 @@ class ITCompassApp:
 
         if total_markers > 0:
             overall = (total_completed / total_markers) * 100
-            print(f"\n📊 ОБЩАЯ СТАТИСТИКА:")
+            print("\n📊 ОБЩАЯ СТАТИСТИКА:")
             print(f"Выполнено: {total_completed} из {total_markers} маркеров")
             print(f"Общий прогресс: {overall:.1f}%")
 
@@ -512,7 +510,7 @@ class ITCompassApp:
 
         if total_markers > 0:
             overall = (total_completed / total_markers) * 100
-            print(f"\n📊 ОБЩАЯ СТАТИСТИКА:")
+            print("\n📊 ОБЩАЯ СТАТИСТИКА:")
             print(f"Выполнено: {total_completed} из {total_markers} маркеров")
             print(f"Общий прогресс: {overall:.1f}%")
 

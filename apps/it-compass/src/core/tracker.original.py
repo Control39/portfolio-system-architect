@@ -229,7 +229,7 @@ class CareerTracker:
             print(f"✅ Маркер {marker_id} отмечен как выполненный! 🎉")
             return True
         else:
-            print(f"❌ Ошибка при сохранении прогресса")
+            print("❌ Ошибка при сохранении прогресса")
             return False
 
     def _marker_exists(self, marker_id: str) -> bool:

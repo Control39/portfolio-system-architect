@@ -5,7 +5,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List
 from ..core.tracker import CareerTracker, Marker
 
 logger = logging.getLogger(__name__)
@@ -194,7 +194,7 @@ class MarkerExporter:
 {marker.validation}
 
 ## Ресурсы для изучения
-""" + "\n".join([f"- {resource}" for resource in marker.resources]) + f"""
+""" + "\n".join([f"- {resource}" for resource in marker.resources]) + """
 
 ## SMART критерии
 """ + "\n".join([f"- {key}: {value}" for key, value in marker.smart_criteria.items()]) + f"""

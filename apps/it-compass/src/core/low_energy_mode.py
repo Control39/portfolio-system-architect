@@ -4,10 +4,8 @@
 Обеспечивает обратную совместимость с предыдущими версиями.
 """
 
-import json
-import random
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict
 import logging
 
 # Импортируем PsychologicalSupport из core.mental
@@ -108,7 +106,6 @@ LowEnergyModeAlias = PsychologicalSupport
 
 # Пример использования
 if __name__ == "__main__":
-    import sys
     logging.basicConfig(level=logging.INFO)
     
     # Создаем режим низкой энергии
