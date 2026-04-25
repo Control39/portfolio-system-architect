@@ -105,8 +105,8 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | 💻 **CTO / VP Engineering** | [💰 Business Value](#-business-value-autoarchitect-engine) + [`docs/ONE-PAGER.md`](docs/ONE-PAGER.md) | Cost savings, risk reduction, team efficiency |
 | 🛠️ **DevOps Lead / SRE** | [🚀 Quick Start: AutoArchitect](#-quick-start-autoarchitect-engine) + [`deployment/`](deployment/) | Autonomous automation, GitOps, monitoring |
 | 🔍 **Tech Lead / Architect** | [`ARCHITECTURE.md`](ARCHITECTURE.md) + [`docs/architecture/decisions/`](docs/architecture/decisions/) | System design, integration patterns, ADR |
-| 🌱 **Beginners / Mentors** | [`apps/it-compass/`](apps/it-compass/) + [`docs/cases/`](docs/cases/) | Self-assessment methodology, growth tracking |
-| 🏆 **Grant Committees** | [`docs/grants/`](docs/grants/) | Impact evidence, scalability, social value |
+| 🌱 **Beginners / Mentors** | [`apps/it-compass/`](apps/it-compass/) + [`docs/cases/`](docs/cases/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Self-assessment, growth tracking, reasoning methodology |
+| 🏆 **Grant Committees** | [`docs/grants/`](docs/grants/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Impact evidence, scalability, reasoning methodology |
 
 ## 📊 Technical Delivery & Production Features
 
@@ -259,7 +259,15 @@ docker run --rm ghcr.io/control39/autoarchitect:latest --mode demo
 └── tools/                  # Repo audit, CI/CD, security scanners
 ```
 
-## 📚 Case Studies & Evidence
+## 📚 Case Studies, Evidence & Reasoning Methodology
+
+### 🧠 Reasoning System Integration
+
+The reasoning-approach is now fully integrated into the portfolio architecture, providing:
+- Interactive visualization of logical chains
+- Color-coded direction system (DevOps, MLOps, Analytics, etc.)
+- Automated route generation from tasks
+- Excalidraw visualizations for key cases
 
 ### 🔧 Infrastructure Sync & Hardening (2026-04)
 **Challenge:** Diverged remotes, merge conflicts in DB migration, ~65k lines of technical debt.  
@@ -289,15 +297,19 @@ This repository is optimized for:
 - **Professional Networks**: Shareable case studies, evidence-based competency proof
 - **Grant Applications**: Structured impact evidence, scalability plans, financial transparency
 
-## 🖼️ Screenshots & Visual Evidence
+## 🖼️ Visual Evidence & Reasoning System
 
-> *Note: Add screenshots of Grafana dashboards, architecture diagrams, and component UIs here*
+> *Interactive visualization of reasoning-approach to system architecture*
 
-<!--
-![Grafana Dashboard](docs/screenshots/monitoring/grafana-ai-service.png)
-![Architecture Diagram](diagrams/ecosystems.mmd.png)
-![IT-Compass UI](docs/screenshots/it-compass-dashboard.png)
--->
+### Reasoning-System
+
+Explore the interactive reasoning-visualization:
+
+- 🎯 [Interactive Reasoning Routes](docs/visualization/interactive.md) - Filter by direction and explore logical chains
+- 📊 [Excalidraw Visualization](diagrams/reasoning/system-integration.excalidraw) - System integration case study
+- 🧩 [Reasoning Principles](docs/reasoning/PRINCIPLES.md) - Core methodology
+
+![Reasoning System](docs/screenshots/reasoning-system.png)
 
 ## 📝 How to Use This Repository
 
