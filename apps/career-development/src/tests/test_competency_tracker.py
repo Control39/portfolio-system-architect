@@ -1,4 +1,4 @@
-﻿import unittest
+import unittest
 from apps.career_development.career_development_system.src.core.competency_tracker import CompetencyTracker
 
 
