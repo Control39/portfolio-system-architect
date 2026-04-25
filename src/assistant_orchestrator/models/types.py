@@ -1,13 +1,14 @@
-﻿"""Data classes for analysis results.
+﻿"""
+Data classes for analysis results.
 """
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Dict, List, Any, Optional
+from datetime import datetime
 
 
 @dataclass
 class MicroserviceInfo:
     """Information about a microservice."""
-
     name: str
     path: str
     is_production_ready: bool = False
@@ -15,42 +16,39 @@ class MicroserviceInfo:
     has_docker: bool = False
     has_kubernetes: bool = False
     language: str = "unknown"
-    dependencies: list[str] = field(default_factory=list)
+    dependencies: List[str] = field(default_factory=list)
 
 
 @dataclass
 class SkillMarker:
     """Skill marker from IT-Compass."""
-
     id: str
     category: str
     level: int
     description: str
-    evidence: list[str] = field(default_factory=list)
+    evidence: List[str] = field(default_factory=list)
 
 
 @dataclass
 class GitStats:
     """Git repository statistics."""
-
     total_commits: int = 0
     recent_activity_days: int = 0
-    contributors: list[str] = field(default_factory=list)
-    branches: list[str] = field(default_factory=list)
+    contributors: List[str] = field(default_factory=list)
+    branches: List[str] = field(default_factory=list)
 
 
 @dataclass
 class AnalysisResult:
     """Overall analysis result."""
-
     timestamp: str
-    microservices: dict[str, Any] = field(default_factory=dict)
-    skill_markers: dict[str, Any] = field(default_factory=dict)
-    architecture_docs: list[str] = field(default_factory=list)
-    git_stats: dict[str, Any] = field(default_factory=dict)
-    dependencies: dict[str, list[str]] = field(default_factory=dict)
-
-    def dict(self) -> dict[str, Any]:
+    microservices: Dict[str, Any] = field(default_factory=dict)
+    skill_markers: Dict[str, Any] = field(default_factory=dict)
+    architecture_docs: List[str] = field(default_factory=list)
+    git_stats: Dict[str, Any] = field(default_factory=dict)
+    dependencies: Dict[str, List[str]] = field(default_factory=dict)
+    
+    def dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "timestamp": self.timestamp,
@@ -60,5 +58,4 @@ class AnalysisResult:
             "git_stats": self.git_stats,
             "dependencies": self.dependencies,
         }
-
 

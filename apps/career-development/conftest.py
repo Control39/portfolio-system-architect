@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 
 # Автоматически добавляем папку src/ текущего сервиса в PYTHONPATH
