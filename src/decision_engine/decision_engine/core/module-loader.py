@@ -1,8 +1,6 @@
 ﻿import importlib.util
 from pathlib import Path
-
 from ..config.loader import COMPONENT_CONFIG
-
 
 def load_module_by_name(module_name):
     """Загружает Python‑модуль по имени из конфигурации."""
@@ -18,5 +16,4 @@ def load_module_by_name(module_name):
 # Пример использования
 reasoning_engine = loadmodule_by_name("reasoning_engine")
 print(f"✅ Модуль {reasoning_engine.__name__} загружен")
-
 

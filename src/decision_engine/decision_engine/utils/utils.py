@@ -1,7 +1,6 @@
 ﻿# components/cloud-reason/config/utils.py
 from .loader import COMPONENT_CONFIG
 
-
 def get_module_path(module_name):
     """Возвращает путь к модулю по его имени."""
     for module in COMPONENT_CONFIG["modules"]:
@@ -26,5 +25,4 @@ def get_automation_script(script_name):
         if script["name"] == script_name:
             return script["command"]
     return None
-
 
