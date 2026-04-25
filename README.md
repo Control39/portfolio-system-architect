@@ -205,6 +205,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 - **System Proof** - Automated validation of production readiness criteria
 - **ML Model Registry** - Versioned machine learning models with A/B testing
 - **API Gateway** - Unified entry point with security and observability
+- **Auth Service** - JWT authorization and token validation
 
 ## 🚀 Quick Start: AutoArchitect Engine
 

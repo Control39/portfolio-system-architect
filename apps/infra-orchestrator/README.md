@@ -158,7 +158,7 @@ Invoke-Pester -Path './tests/AiProviderFactory.Tests.ps1'
 |-----------|-----------|------------------------|
 | **IT-Compass** | Передаёт маркеры компетенций для аудита использования фреймворка | [`../../apps/it-compass/`](../../apps/it-compass/) |
 | **Cloud-Reason** | Получает контекст для валидации архитектурных решений | [`../../apps/cloud-reason/`](../../apps/cloud-reason/) |
-| **Portfolio-Organizer** | Принимает отчёты о выполнении команд для генерации доказательств | [`../../apps/portfolio-organizer/`](../../apps/portfolio-organizer/) |
+| **Portfolio-Organizer** | Принимает отчёты о выполнении команд для генерации доказательств | [`../../apps/portfolio_organizer/`](../../apps/portfolio_organizer/) |
 | **Terraform modules** | Деплой инфраструктуры (GCP GKE, Yandex Cloud) | [`../../deployment/terraform/`](../../deployment/terraform/) |
 
 > ⚠️ Пути относительные от `apps/infra-orchestrator/README.md`. На GitHub они кликабельны.
