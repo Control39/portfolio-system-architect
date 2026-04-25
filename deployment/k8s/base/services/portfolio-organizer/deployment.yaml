@@ -1,21 +1,21 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: portfolio-organizer
+  name: portfolio_organizer
   namespace: portfolio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: portfolio-organizer
+      app: portfolio_organizer
   template:
     metadata:
       labels:
-        app: portfolio-organizer
+        app: portfolio_organizer
     spec:
       containers:
-      - name: portfolio-organizer
-        image: ghcr.io/portfolio-system-architect/portfolio-organizer:latest
+      - name: portfolio_organizer
+        image: ghcr.io/portfolio-system-architect/portfolio_organizer:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8004
@@ -37,7 +37,7 @@ spec:
         volumeMounts:
           - name: shared-data
             mountPath: /app/portfolio-data
-            subPath: portfolio-organizer
+            subPath: portfolio_organizer
       volumes:
         - name: shared-data
           persistentVolumeClaim:

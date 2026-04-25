@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 # Установка секрета для JWT
 os.environ["JWT_SECRET"] = "test-secret-key-for-unit-tests"
 
-from apps.auth_service.auth_service.main import app
+from apps.auth_service.main import app
 from fastapi.testclient import TestClient
 
 client = TestClient(app)

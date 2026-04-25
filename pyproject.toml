@@ -79,8 +79,7 @@ packages = ["src", "apps"]
 [project.optional-dependencies]
 audit = [
     "pip-audit>=2.9.0",
-    "bandit>=1.8.0",
-    "gitleaks>=8.28.0"
+    "bandit>=1.8.0"
 ]
 
 [tool.repo-audit]
