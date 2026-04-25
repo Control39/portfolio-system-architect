@@ -1,11 +1,11 @@
-"""
+﻿"""
 Job Automation Agent
 Поиск вакансий и генерация резюме с помощью AI
 """
 
 import os
 import asyncio
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Set
 
 # LangChain imports
 from langchain.agents import AgentExecutor, create_react_agent
@@ -13,6 +13,10 @@ from langchain.tools import Tool
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.language_models import FakeListLLM
+
+# Импорт компонентов для интеграции с системой отслеживания карьеры
+from apps.it_compass.src.core.tracker import CareerTracker
+from apps.it_compass.src.utils.marker_export import MarkerExporter
 
 # Настройка LLM
 api_key = os.getenv("OPENAI_API_KEY")
@@ -32,6 +36,18 @@ else:
     ])
     USE_MOCK = True
     print("⚠️ OpenAI API key not found. Using mock responses.")
+
+# Инициализация компонентов отслеживания карьеры
+try:
+    career_tracker = CareerTracker()
+    marker_exporter = MarkerExporter(career_tracker)
+    INTEGRATION_ENABLED = True
+    print("✅ Интеграция с системой отслеживания карьеры активирована")
+except Exception as e:
+    print(f"❌ Ошибка инициализации системы отслеживания карьеры: {e}")
+    INTEGRATION_ENABLED = False
+    career_tracker = None
+    marker_exporter = None
 
 def job_search(query: str) -> str:
     """Поиск вакансий на hh.ru."""
@@ -73,10 +89,85 @@ def generate_resume(job_title: str, skills: Optional[List[str]] = None) -> str:
     response = llm.invoke(prompt)
     return response.content
 
+def _find_matching_markers(skills: List[str]) -> Set[str]:
+    """Поиск маркеров компетенций, соответствующих указанным навыкам.
+    
+    Args:
+        skills: Список навыков из анализа вакансии
+        
+    Returns:
+        Множество ID найденных маркеров
+    """
+    if not INTEGRATION_ENABLED:
+        return set()
+    
+    matching_markers = set()
+    skill_lower = [skill.lower() for skill in skills]
+    
+    try:
+        # Поиск маркеров, соответствующих навыкам
+        for skill_name, skill_data in career_tracker.markers.items():
+            for level_name, level_markers in skill_data.levels.items():
+                for marker in level_markers:
+                    # Проверяем соответствие по навыку
+                    if skill_name.lower() in skill_lower:
+                        matching_markers.add(marker.id)
+                        continue
+                    
+                    # Проверяем соответствие по ресурсам маркера
+                    for resource in marker.resources:
+                        for skill in skills:
+                            if skill.lower() in resource.lower():
+                                matching_markers.add(marker.id)
+                                break
+                        if marker.id in matching_markers:
+                            break
+                    
+                    # Проверяем соответствие по описанию маркера
+                    if marker.id not in matching_markers:  # Избегаем дубликатов
+                        marker_text = f"{marker.marker} {marker.validation}".lower()
+                        for skill in skills:
+                            if skill.lower() in marker_text:
+                                matching_markers.add(marker.id)
+                                break
+    except Exception as e:
+        print(f"Ошибка при поиске соответствующих маркеров: {e}")
+    
+    return matching_markers
+
+
+def _auto_mark_completed(marker_ids: Set[str]) -> Dict[str, Any]:
+    """Автоматически отмечает найденные маркеры как выполненные.
+    
+    Args:
+        marker_ids: Множество ID маркеров для отметки
+        
+    Returns:
+        Статистика по проставленным маркерам
+    """
+    if not INTEGRATION_ENABLED or not marker_ids:
+        return {"marked": 0, "failed": 0, "total": 0}
+    
+    results = {"marked": 0, "failed": 0, "total": len(marker_ids)}
+    
+    for marker_id in marker_ids:
+        try:
+            success = career_tracker.mark_completed(marker_id)
+            if success:
+                results["marked"] += 1
+            else:
+                results["failed"] += 1
+        except Exception as e:
+            print(f"Ошибка при проставлении маркера {marker_id}: {e}")
+            results["failed"] += 1
+    
+    return results
+
+
 def analyze_requirements(job_description: str) -> Dict[str, Any]:
-    """Анализ требований вакансии."""
+    """Анализ требований вакансии с интеграцией системы отслеживания карьеры."""
     if USE_MOCK:
-        return {
+        analysis_result = {
             "skills": ["Python", "FastAPI", "PostgreSQL", "Docker", "Git"],
             "experience_years": 3,
             "responsibilities": [
@@ -86,16 +177,48 @@ def analyze_requirements(job_description: str) -> Dict[str, Any]:
             ],
             "salary_range": "200 000 - 250 000 ₽"
         }
+    else:
+        prompt = f"""
+        Проанализируй требования вакансии и верни JSON:
+        {job_description[:1000]}
+        
+        Выдели: skills, experience_years, responsibilities, salary_range
+        """
+        
+        response = llm.invoke(prompt)
+        try:
+            analysis_result = json.loads(response.content)
+        except:
+            analysis_result = {"skills": [], "experience_years": 0, "responsibilities": [], "salary_range": "Не указано"}
     
-    prompt = f"""
-    Проанализируй требования вакансии и верни JSON:
-    {job_description[:1000]}
+    # Интеграция с системой отслеживания карьеры
+    if INTEGRATION_ENABLED and analysis_result.get("skills"):
+        print(f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}")
+        
+        # Поиск маркеров, соответствующих требованиям вакансии
+        matching_markers = _find_matching_markers(analysis_result["skills"])
+        
+        if matching_markers:
+            print(f"🎯 Найдено {len(matching_markers)} соответствующих маркеров компетенций")
+            
+            # Автоматическое проставление отметок о выполнении
+            mark_results = _auto_mark_completed(matching_markers)
+            
+            print(f"✅ Автоматически отмечено {mark_results['marked']} маркеров как выполненные")
+            if mark_results['failed'] > 0:
+                print(f"⚠️ Не удалось отметить {mark_results['failed']} маркеров")
+            
+            # Добавляем информацию об интеграции в результат
+            analysis_result["career_integration"] = {
+                "matched_markers_count": len(matching_markers),
+                "marked_as_completed": mark_results["marked"],
+                "failed_to_mark": mark_results["failed"],
+                "matched_marker_ids": list(matching_markers)
+            }
+        else:
+            print("ℹ️ Соответствующие маркеры компетенций не найдены")
     
-    Выдели: skills, experience_years, responsibilities, salary_range
-    """
-    
-    response = llm.invoke(prompt)
-    return {"analysis": response.content}
+    return analysis_result
 
 # Инструменты для агента
 tools = [
