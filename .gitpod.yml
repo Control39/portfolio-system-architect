@@ -1,0 +1,30 @@
+image: gitpod/workspace-full
+vscode:
+  extensions:
+    - ms-python.python
+    - ms-python.vscode-pylance
+    - ms-azuretools.vscode-docker
+    - davidanson.vscode-markdownlint
+    - eamodio.gitlens
+tasks:
+  - name: 🔧 Setup & Install
+    init: |
+      echo "📦 Устанавливаю зависимости..."
+      if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+      if [ -f "pyproject.toml" ]; then pip install -e ".[dev]" 2>/dev/null || pip install fastapi uvicorn streamlit pytest coverage; fi
+      echo "✅ Готово"
+  - name: 🚀 Demo Server
+    command: |
+      echo "🌐 Запуск демо-сервиса..."
+      # Раскомментируй нужный запуск под свой сервис:
+      uvicorn apps.autoarchitect.main:app --host 0.0.0.0 --port 8000
+      # streamlit run apps.it-compass.main.py --server.port 3000 --server.headless true
+      echo "💡 Открой порт 8000 или 3000 в панели Gitpod"
+      tail -f /dev/null
+ports:
+  - port: 8000
+    onOpen: open-preview
+    visibility: public
+  - port: 3000
+    onOpen: open-preview
+    visibility: public
