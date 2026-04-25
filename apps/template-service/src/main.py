@@ -4,13 +4,11 @@
 Запускает FastAPI приложение с настройками из конфигурации.
 """
 
-import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
-
 from src.api import router as api_router
 from src.core.config import settings
 from src.core.database import init_db
@@ -28,12 +26,12 @@ async def lifespan(app: FastAPI):
     logger.info("Starting Template Service...")
     logger.info(f"Environment: {settings.environment}")
     logger.info(f"Debug mode: {settings.debug}")
-    
+
     # Инициализация базы данных
     await init_db()
-    
+
     yield
-    
+
     # Очистка при остановке
     logger.info("Shutting down Template Service...")
 
@@ -53,7 +51,7 @@ def create_app() -> FastAPI:
         redoc_url="/redoc" if settings.environment != "production" else None,
         lifespan=lifespan,
     )
-    
+
     # Настройка CORS
     app.add_middleware(
         CORSMiddleware,
@@ -62,13 +60,13 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    
+
     # Подключение роутеров
     app.include_router(health_router, prefix="/health", tags=["health"])
     app.include_router(api_router, prefix="/api/v1", tags=["api"])
-    
+
     # Кастомные обработчики ошибок могут быть добавлены здесь
-    
+
     return app
 
 
@@ -77,7 +75,7 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     uvicorn.run(
         "src.main:app",
         host=settings.host,
