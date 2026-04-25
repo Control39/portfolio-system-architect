@@ -279,3 +279,4 @@ def print_summary(results: dict) -> None:
         print("КОММИТ РЕЗЕРВНОЙ КОПИИ:")
         if results["backup_commit"]["commit_created"]:
             print("  Статус: УСПЕШНО")
+

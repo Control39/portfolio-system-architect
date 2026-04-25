@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Скрипт активации Cognitive Automation Agent для VS Code.
 Запускается автоматически при открытии проекта.
 """
@@ -60,3 +60,4 @@ if __name__ == "__main__":
         activate_cognitive_agent()
     else:
         print("📁 Запуск вне VS Code, активация пропущена")
+

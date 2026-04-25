@@ -35,3 +35,4 @@ def get_file_size(filename):
 __all__ = ["calculate_skill_progress", "convert_bytes_to_human_readable", "create_directory_if_not_exists", "format_date", "get_competency_level_name", "get_file_size", "load_json_file", "sanitize_filename", "save_json_file", "validate_email"]
 
 
+

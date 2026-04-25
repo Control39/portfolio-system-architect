@@ -44,3 +44,4 @@ async def test_readiness_check_without_db():
     assert "status" in data
     assert "database" in data
     assert "timestamp" in data
+

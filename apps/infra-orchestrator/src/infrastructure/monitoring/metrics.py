@@ -41,3 +41,4 @@ def setup_metrics(app):
 
     return {"metrics_port": 9090}
 
+

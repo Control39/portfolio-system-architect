@@ -219,3 +219,4 @@ class DocumentIndexer:
             "model_name": self.embedder.model_name,
             "index_path": str(self.index_path) if self.index_path else None,
         }
+

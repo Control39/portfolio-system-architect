@@ -61,3 +61,4 @@ class AnalysisResult:
             "dependencies": self.dependencies,
         }
 
+

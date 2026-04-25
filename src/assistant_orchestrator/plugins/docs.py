@@ -50,3 +50,4 @@ def find_docs(root: Path) -> list[str]:
     logger.info(f"Found {len(found_docs)} architecture documents")
     return sorted(found_docs)
 
+

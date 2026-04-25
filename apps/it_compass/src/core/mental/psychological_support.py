@@ -303,3 +303,4 @@ if __name__ == "__main__":
     crisis = ps.get_crisis_resources()
     print(f"\nКонтакты для кризисных ситуаций: {len(crisis['contacts'])} доступно")
     print(f"Ежедневный вопрос: {ps.get_daily_checkin_prompt()}")
+

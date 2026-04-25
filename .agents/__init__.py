@@ -1,4 +1,4 @@
-"""Cognitive Automation Agent Package
+﻿"""Cognitive Automation Agent Package
 
 Автономный интеллектуальный агент для автоматизации разработки и управления проектами.
 """
@@ -28,3 +28,4 @@ def __getattr__(name):
         from .launch_script import CognitiveAgentLauncher
         return CognitiveAgentLauncher
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+

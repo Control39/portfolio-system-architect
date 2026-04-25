@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Тестирование и валидация Cognitive Automation Agent.
 Проверка всех компонентов агента на корректность работы.
 """
@@ -529,3 +529,4 @@ if __name__ == "__main__":
             print("Рекомендации по исправлению в сгенерированном отчете.")
 
         sys.exit(0 if results["overall"] == "PASSED" else 1)
+

@@ -71,3 +71,4 @@ class DocumentEmbedder:
     def get_embedding_dimension(self) -> int:
         """Get the dimension of embeddings produced by this model."""
         return self.model.get_sentence_embedding_dimension()
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Система самообучения для Cognitive Automation Agent.
 
 Собирает метрики выполнения задач, анализирует эффективность,
@@ -738,3 +738,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

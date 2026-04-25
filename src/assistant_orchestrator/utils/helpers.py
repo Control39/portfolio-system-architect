@@ -117,3 +117,4 @@ def calculate_maturity_score(analysis: dict[str, Any]) -> int:
 
     return min(score, 5)
 
+

@@ -79,3 +79,4 @@ class Settings(BaseSettings):
 
 # Глобальный экземпляр настроек
 settings = Settings()
+

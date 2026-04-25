@@ -22,3 +22,4 @@ def load_component_config():
 # Глобальная переменная конфигурации
 COMPONENT_CONFIG = load_component_config()
 
+

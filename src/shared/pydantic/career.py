@@ -26,3 +26,4 @@ class UserProfile(BaseModel):
     achievements: list[Any] = Field(None)
 
 
+

@@ -24,3 +24,4 @@ class TestModelRegistryResilience(unittest.TestCase):
         self.registry.get_model("nonexistent_model")
 self.assertEqual(result["error"], "Model not found")
 
+

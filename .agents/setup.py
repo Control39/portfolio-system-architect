@@ -1,4 +1,4 @@
-"""Setup configuration for Cognitive Automation Agent package.
+﻿"""Setup configuration for Cognitive Automation Agent package.
 """
 
 from setuptools import find_packages, setup
@@ -64,3 +64,4 @@ setup(
         ],
     },
 )
+
