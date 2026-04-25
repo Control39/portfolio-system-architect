@@ -6,7 +6,6 @@ Job Automation Agent
 import os
 import asyncio
 from typing import Dict, Any, List, Optional
-from pathlib import Path
 
 # LangChain imports
 from langchain.agents import AgentExecutor, create_react_agent
