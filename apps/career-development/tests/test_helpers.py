@@ -1,7 +1,7 @@
 ﻿import unittest
 import os
 import tempfile
-from apps.career_development.src.utils.helpers import validate_evidence_link, generate_id
+from src.utils.helpers import validate_evidence_link, generate_id
 
 
 class TestHelpers(unittest.TestCase):
