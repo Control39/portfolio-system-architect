@@ -1,9 +1,10 @@
 ﻿# check_yaml.py
-import yaml
 import sys
 
+import yaml
+
 try:
-    with open('component-config.yaml', 'r', encoding='utf-8') as file:
+    with open("component-config.yaml", encoding="utf-8") as file:
         data = yaml.safe_load(file)
     print("✅ YAML успешно загружен!")
     print(f"Версия конфигурации: {data.get('version', 'N/A')}")

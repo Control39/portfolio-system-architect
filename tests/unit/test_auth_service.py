@@ -4,13 +4,14 @@ import sys
 import pytest
 
 # Настройка пути к проекту
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 # Установка секрета для JWT
 os.environ["JWT_SECRET"] = "test-secret-key-for-unit-tests"
 
-from apps.auth_service.main import app
 from fastapi.testclient import TestClient
+
+from apps.auth_service.main import app
 
 client = TestClient(app)
 
@@ -20,7 +21,7 @@ def demo_token():
     """Фикстура для получения валидного access token."""
     response = client.post(
         "/auth/token",
-        json={"username": "test_user", "password": "test_pass"}
+        json={"username": "test_user", "password": "test_pass"},
     )
     assert response.status_code == 200
     data = response.json()
@@ -38,7 +39,7 @@ def any_user_token():
     """Фикстура для пользователя user1."""
     response = client.post(
         "/auth/token",
-        json={"username": "user1", "password": "pass"}
+        json={"username": "user1", "password": "pass"},
     )
     assert response.status_code == 200
     data = response.json()
@@ -75,7 +76,7 @@ def test_login_invalid():
 def test_verify_token(demo_token):
     response = client.post(
         "/auth/verify",
-        headers={"Authorization": f"Bearer {demo_token}"}
+        headers={"Authorization": f"Bearer {demo_token}"},
     )
     assert response.status_code == 200
     data = response.json()
@@ -87,7 +88,7 @@ def test_verify_token(demo_token):
 def test_verify_invalid_token():
     response = client.post(
         "/auth/verify",
-        headers={"Authorization": "Bearer invalid-token"}
+        headers={"Authorization": "Bearer invalid-token"},
     )
     assert response.status_code == 401
     assert response.json()["detail"] == "Invalid token"

@@ -1,5 +1,4 @@
-﻿"""
-Unit tests for maturity scoring.
+﻿"""Unit tests for maturity scoring.
 """
 from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
 
@@ -13,10 +12,10 @@ def test_maturity_scorer_empty():
         "git_stats": {"total_commits": 0, "recent_activity_days": 0, "contributors": []},
         "dependencies": {},
     }
-    
+
     scorer = MaturityScorer(analysis)
     score = scorer.calculate_score()
-    
+
     assert score == 0.0
     assert isinstance(score, float)
 
@@ -47,10 +46,10 @@ def test_maturity_scorer_basic():
             "worker": ["redis"],
         },
     }
-    
+
     scorer = MaturityScorer(analysis)
     score = scorer.calculate_score()
-    
+
     # Score should be between 0 and 5
     assert 0.0 <= score <= 5.0
     # With these metrics, score should be > 0
@@ -79,10 +78,10 @@ def test_maturity_scorer_recommendations():
         },
         "dependencies": {},
     }
-    
+
     scorer = MaturityScorer(analysis)
     recommendations = scorer.get_recommendations()
-    
+
     # Should have at least one recommendation for low maturity
     assert len(recommendations) > 0
     assert all("category" in rec for rec in recommendations)
@@ -105,7 +104,7 @@ def test_score_microservices():
         "git_stats": {"total_commits": 0, "recent_activity_days": 0, "contributors": []},
         "dependencies": {},
     }
-    
+
     scorer = MaturityScorer(analysis)
     # Access private method via name mangling (not ideal, but for testing)
     # Instead we'll test through public calculate_score
@@ -136,10 +135,10 @@ def test_score_cap():
         },
         "dependencies": {f"service{i}": [] for i in range(10)},
     }
-    
+
     scorer = MaturityScorer(analysis)
     score = scorer.calculate_score()
-    
+
     assert score <= 5.0
     # With these perfect metrics, score should be close to 5.0
     assert score >= 4.0

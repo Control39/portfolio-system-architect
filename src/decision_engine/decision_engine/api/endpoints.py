@@ -1,7 +1,8 @@
 ﻿# components/decision-engine/api/endpoints.py
 import os
 import sys
-from fastapi import FastAPI, HTTPException
+
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Импортируем общие модули
@@ -27,7 +28,7 @@ async def root():
             "GET /health": "Health check",
             "GET /ready": "Readiness probe",
             "GET /live": "Liveness probe",
-        }
+        },
     }
 
 @app.post("/reason")

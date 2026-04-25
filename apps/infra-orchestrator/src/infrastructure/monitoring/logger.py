@@ -3,10 +3,10 @@
 logger = structlog.get_logger()
 
 def setup_logging(app):
-    \"\"\"Configure structured logging with structlog.\"\"\"
+    """Configure structured logging with structlog."""
     import structlog
+    from structlog.processors import JSONRenderer, TimeStamper
     from structlog.stdlib import LoggerFactory
-    from structlog.processors import TimeStamper, JSONRenderer
 
     timestamper = TimeStamper(fmt="iso")
     processors = [
@@ -14,7 +14,7 @@ def setup_logging(app):
         structlog.stdlib.add_log_level,
         timestamper,
         structlog.processors.format_exc_info,
-        JSONRenderer()
+        JSONRenderer(),
     ]
 
     structlog.configure(

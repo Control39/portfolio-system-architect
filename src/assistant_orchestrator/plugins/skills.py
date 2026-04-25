@@ -1,34 +1,34 @@
-﻿"""
-Skills plugin for analyzing IT-Compass markers.
+﻿"""Skills plugin for analyzing IT-Compass markers.
 """
 import json
 import logging
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
-def analyze(root: Path) -> Dict[str, Any]:
+def analyze(root: Path) -> dict[str, Any]:
     """Analyze skill markers from IT-Compass."""
     markers_dir = root / "apps" / "it_compass" / "src" / "data" / "markers"
-    
+    logger.info(f"Searching for markers in: {markers_dir}")
+
     if not markers_dir.exists():
         logger.warning(f"Markers directory not found: {markers_dir}")
         return {"error": "markers dir not found", "total_count": 0, "categories": [], "markers": []}
-    
+
     markers = []
     categories = set()
     total_markers = 0
-    
+
     for file in markers_dir.glob("*.json"):
-        category = file.stem.replace('_', ' ').title()
+        category = file.stem.replace("_", " ").title()
         categories.add(category)
-        
+
         try:
-            with open(file, 'r', encoding='utf-8-sig') as f:
+            with open(file, encoding="utf-8-sig") as f:
                 data = json.load(f)
-            
+
             # Count markers across all levels
             levels = data.get("levels", {})
             for level_num, level_markers in levels.items():
@@ -41,14 +41,14 @@ def analyze(root: Path) -> Dict[str, Any]:
                                 "category": category,
                                 "level": int(level_num),
                                 "description": marker.get("description", ""),
-                                "evidence": marker.get("evidence", [])
+                                "evidence": marker.get("evidence", []),
                             })
         except Exception as e:
             logger.error(f"Failed to parse {file}: {e}")
             continue
-    
+
     logger.info(f"Found {total_markers} markers in {len(categories)} categories")
-    
+
     return {
         "total_count": total_markers,
         "categories": sorted(list(categories)),

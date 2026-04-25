@@ -2,6 +2,7 @@
 import requests
 from playwright.sync_api import expect
 
+
 @pytest.mark.e2e
 def test_it_compass_ui(page):
     page.goto("http://localhost:8501")

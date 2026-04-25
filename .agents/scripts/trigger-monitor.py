@@ -1,43 +1,42 @@
 #!/usr/bin/env python3
-"""
-Система мониторинга для работы триггеров Cognitive Automation Agent.
+"""Система мониторинга для работы триггеров Cognitive Automation Agent.
 Собирает метрики, генерирует отчеты и предоставляет дашборд.
 """
 
-import sys
 import json
-import sqlite3
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
 import logging
+import sqlite3
+import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any
 
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('.agents/logs/monitor.log'),
-        logging.StreamHandler()
-    ]
+        logging.FileHandler(".agents/logs/monitor.log"),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
 
 class TriggerMetricsCollector:
     """Сборщик метрик работы триггеров"""
-    
+
     def __init__(self, db_path: str = ".agents/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_database()
-    
+
     def _init_database(self):
         """Инициализация базы данных"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         # Таблица событий
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 event_name TEXT NOT NULL,
@@ -50,10 +49,10 @@ class TriggerMetricsCollector:
                 error_message TEXT,
                 metadata TEXT
             )
-        ''')
-        
+        """)
+
         # Таблица метрик
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_metrics (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 metric_name TEXT NOT NULL,
@@ -62,10 +61,10 @@ class TriggerMetricsCollector:
                 period TEXT NOT NULL,
                 tags TEXT
             )
-        ''')
-        
+        """)
+
         # Таблица статистики
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_stats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 stat_name TEXT NOT NULL,
@@ -73,32 +72,32 @@ class TriggerMetricsCollector:
                 timestamp DATETIME NOT NULL,
                 period TEXT NOT NULL
             )
-        ''')
-        
+        """)
+
         # Индексы для производительности
-        cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)')
-        cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)')
-        cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)')
-        cursor.execute('CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)')
-        
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)")
+
         conn.commit()
         conn.close()
-        
+
         logger.info(f"База данных инициализирована: {self.db_path}")
-    
-    def record_event(self, event_name: str, source: str, priority: int, 
-                    status: str, execution_time: Optional[float] = None,
-                    success: Optional[bool] = None, error_message: Optional[str] = None,
-                    metadata: Optional[Dict] = None):
+
+    def record_event(self, event_name: str, source: str, priority: int,
+                    status: str, execution_time: float | None = None,
+                    success: bool | None = None, error_message: str | None = None,
+                    metadata: dict | None = None):
         """Запись события триггера"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
-        cursor.execute('''
+
+        cursor.execute("""
             INSERT INTO trigger_events 
             (event_name, source, timestamp, priority, status, execution_time, success, error_message, metadata)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
+        """, (
             event_name,
             source,
             datetime.now().isoformat(),
@@ -107,67 +106,67 @@ class TriggerMetricsCollector:
             execution_time,
             success,
             error_message,
-            json.dumps(metadata) if metadata else None
+            json.dumps(metadata) if metadata else None,
         ))
-        
+
         conn.commit()
         conn.close()
-        
+
         logger.debug(f"Записано событие: {event_name} ({status})")
-    
-    def record_metric(self, metric_name: str, metric_value: float, 
-                     period: str = "instant", tags: Optional[Dict] = None):
+
+    def record_metric(self, metric_name: str, metric_value: float,
+                     period: str = "instant", tags: dict | None = None):
         """Запись метрики"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
-        cursor.execute('''
+
+        cursor.execute("""
             INSERT INTO trigger_metrics 
             (metric_name, metric_value, timestamp, period, tags)
             VALUES (?, ?, ?, ?, ?)
-        ''', (
+        """, (
             metric_name,
             metric_value,
             datetime.now().isoformat(),
             period,
-            json.dumps(tags) if tags else None
+            json.dumps(tags) if tags else None,
         ))
-        
+
         conn.commit()
         conn.close()
-        
+
         logger.debug(f"Записана метрика: {metric_name} = {metric_value}")
-    
+
     def record_stat(self, stat_name: str, stat_value: Any, period: str = "daily"):
         """Запись статистики"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
-        cursor.execute('''
+
+        cursor.execute("""
             INSERT INTO trigger_stats 
             (stat_name, stat_value, timestamp, period)
             VALUES (?, ?, ?, ?)
-        ''', (
+        """, (
             stat_name,
             json.dumps(stat_value),
             datetime.now().isoformat(),
-            period
+            period,
         ))
-        
+
         conn.commit()
         conn.close()
-        
+
         logger.debug(f"Записана статистика: {stat_name}")
-    
-    def get_event_stats(self, hours: int = 24) -> Dict[str, Any]:
+
+    def get_event_stats(self, hours: int = 24) -> dict[str, Any]:
         """Получение статистики событий за указанный период"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
-        
+
         # Общая статистика
-        cursor.execute('''
+        cursor.execute("""
             SELECT 
                 COUNT(*) as total_events,
                 SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) as successful_events,
@@ -175,19 +174,19 @@ class TriggerMetricsCollector:
                 AVG(execution_time) as avg_execution_time
             FROM trigger_events
             WHERE timestamp >= ?
-        ''', (cutoff_time,))
-        
+        """, (cutoff_time,))
+
         row = cursor.fetchone()
         stats = {
             "total_events": row[0] or 0,
             "successful_events": row[1] or 0,
             "failed_events": row[2] or 0,
             "avg_execution_time": row[3] or 0,
-            "success_rate": (row[1] / row[0] * 100) if row[0] > 0 else 0
+            "success_rate": (row[1] / row[0] * 100) if row[0] > 0 else 0,
         }
-        
+
         # Статистика по типам событий
-        cursor.execute('''
+        cursor.execute("""
             SELECT 
                 event_name,
                 COUNT(*) as count,
@@ -197,8 +196,8 @@ class TriggerMetricsCollector:
             WHERE timestamp >= ?
             GROUP BY event_name
             ORDER BY count DESC
-        ''', (cutoff_time,))
-        
+        """, (cutoff_time,))
+
         events_by_type = []
         for row in cursor.fetchall():
             events_by_type.append({
@@ -206,13 +205,13 @@ class TriggerMetricsCollector:
                 "count": row[1],
                 "avg_time": row[2] or 0,
                 "success_count": row[3] or 0,
-                "success_rate": (row[3] / row[1] * 100) if row[1] > 0 else 0
+                "success_rate": (row[3] / row[1] * 100) if row[1] > 0 else 0,
             })
-        
+
         stats["events_by_type"] = events_by_type
-        
+
         # Статистика по источникам
-        cursor.execute('''
+        cursor.execute("""
             SELECT 
                 source,
                 COUNT(*) as count
@@ -220,28 +219,28 @@ class TriggerMetricsCollector:
             WHERE timestamp >= ?
             GROUP BY source
             ORDER BY count DESC
-        ''', (cutoff_time,))
-        
+        """, (cutoff_time,))
+
         events_by_source = []
         for row in cursor.fetchall():
             events_by_source.append({
                 "source": row[0],
-                "count": row[1]
+                "count": row[1],
             })
-        
+
         stats["events_by_source"] = events_by_source
-        
+
         conn.close()
         return stats
-    
-    def get_metrics_summary(self, hours: int = 24) -> Dict[str, Any]:
+
+    def get_metrics_summary(self, hours: int = 24) -> dict[str, Any]:
         """Получение сводки метрик"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
-        
-        cursor.execute('''
+
+        cursor.execute("""
             SELECT 
                 metric_name,
                 AVG(metric_value) as avg_value,
@@ -251,21 +250,21 @@ class TriggerMetricsCollector:
             FROM trigger_metrics
             WHERE timestamp >= ?
             GROUP BY metric_name
-        ''', (cutoff_time,))
-        
+        """, (cutoff_time,))
+
         metrics = {}
         for row in cursor.fetchall():
             metrics[row[0]] = {
                 "avg": row[1] or 0,
                 "min": row[2] or 0,
                 "max": row[3] or 0,
-                "count": row[4] or 0
+                "count": row[4] or 0,
             }
-        
+
         conn.close()
         return metrics
-    
-    def generate_report(self, report_type: str = "daily") -> Dict[str, Any]:
+
+    def generate_report(self, report_type: str = "daily") -> dict[str, Any]:
         """Генерация отчета"""
         if report_type == "daily":
             hours = 24
@@ -275,53 +274,53 @@ class TriggerMetricsCollector:
             hours = 720
         else:
             hours = 24
-        
+
         event_stats = self.get_event_stats(hours)
         metrics_summary = self.get_metrics_summary(hours)
-        
+
         report = {
             "report_type": report_type,
             "generated_at": datetime.now().isoformat(),
             "period_hours": hours,
             "event_statistics": event_stats,
             "metrics_summary": metrics_summary,
-            "recommendations": self._generate_recommendations(event_stats, metrics_summary)
+            "recommendations": self._generate_recommendations(event_stats, metrics_summary),
         }
-        
+
         # Сохраняем отчет
         report_dir = Path(".agents/reports")
         report_dir.mkdir(parents=True, exist_ok=True)
-        
+
         report_file = report_dir / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(report_file, 'w', encoding='utf-8') as f:
+        with open(report_file, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
-        
+
         # Генерируем читаемый отчет
         self._generate_human_readable_report(report, report_file)
-        
+
         logger.info(f"Сгенерирован отчет: {report_file}")
         return report
-    
-    def _generate_recommendations(self, event_stats: Dict, metrics_summary: Dict) -> List[str]:
+
+    def _generate_recommendations(self, event_stats: dict, metrics_summary: dict) -> list[str]:
         """Генерация рекомендаций на основе статистики"""
         recommendations = []
-        
+
         # Проверяем успешность событий
         success_rate = event_stats.get("success_rate", 0)
         if success_rate < 80:
             recommendations.append(
                 f"Низкий процент успешных событий: {success_rate:.1f}%. "
-                "Рекомендуется проверить логи ошибок и настроить обработку исключений."
+                "Рекомендуется проверить логи ошибок и настроить обработку исключений.",
             )
-        
+
         # Проверяем среднее время выполнения
         avg_execution_time = event_stats.get("avg_execution_time", 0)
         if avg_execution_time > 10:  # больше 10 секунд
             recommendations.append(
                 f"Высокое среднее время выполнения: {avg_execution_time:.1f} секунд. "
-                "Рекомендуется оптимизировать обработку событий."
+                "Рекомендуется оптимизировать обработку событий.",
             )
-        
+
         # Проверяем распределение по типам событий
         events_by_type = event_stats.get("events_by_type", [])
         if len(events_by_type) > 0:
@@ -329,73 +328,71 @@ class TriggerMetricsCollector:
             if most_common["count"] > 100:  # слишком много событий одного типа
                 recommendations.append(
                     f"Слишком много событий типа '{most_common['event_name']}': {most_common['count']}. "
-                    "Рассмотрите возможность агрегации или уменьшения частоты."
+                    "Рассмотрите возможность агрегации или уменьшения частоты.",
                 )
-        
+
         # Проверяем наличие ошибок
         failed_events = event_stats.get("failed_events", 0)
         if failed_events > 10:
             recommendations.append(
                 f"Обнаружено много неудачных событий: {failed_events}. "
-                "Рекомендуется провести анализ причин сбоев."
+                "Рекомендуется провести анализ причин сбоев.",
             )
-        
+
         if not recommendations:
             recommendations.append("Система работает стабильно. Рекомендации не требуются.")
-        
+
         return recommendations
-    
-    def _generate_human_readable_report(self, report: Dict, json_report_path: Path):
+
+    def _generate_human_readable_report(self, report: dict, json_report_path: Path):
         """Генерация читаемого отчета в markdown"""
-        md_report_path = json_report_path.with_suffix('.md')
-        
-        with open(md_report_path, 'w', encoding='utf-8') as f:
+        md_report_path = json_report_path.with_suffix(".md")
+
+        with open(md_report_path, "w", encoding="utf-8") as f:
             f.write("# Отчет мониторинга триггеров\n\n")
             f.write(f"**Тип отчета:** {report['report_type']}\n")
             f.write(f"**Сгенерирован:** {report['generated_at']}\n")
             f.write(f"**Период:** {report['period_hours']} часов\n\n")
-            
+
             # Статистика событий
-            event_stats = report['event_statistics']
+            event_stats = report["event_statistics"]
             f.write("## Статистика событий\n\n")
             f.write(f"- Всего событий: **{event_stats['total_events']}**\n")
             f.write(f"- Успешных событий: **{event_stats['successful_events']}**\n")
             f.write(f"- Неудачных событий: **{event_stats['failed_events']}**\n")
             f.write(f"- Процент успеха: **{event_stats['success_rate']:.1f}%**\n")
             f.write(f"- Среднее время выполнения: **{event_stats['avg_execution_time']:.2f} секунд**\n\n")
-            
+
             # События по типам
             f.write("### События по типам\n\n")
             f.write("| Тип события | Количество | Среднее время | Успешность |\n")
             f.write("|-------------|------------|---------------|------------|\n")
-            
-            for event in event_stats.get('events_by_type', []):
-                f.write(f"| {event['event_name']} | {event['count']} | {event['avg_time']:.2f}с | {event['success_rate']:.1f}% |\n")
-            
+
+            f.writelines(f"| {event['event_name']} | {event['count']} | {event['avg_time']:.2f}с | {event['success_rate']:.1f}% |\n" for event in event_stats.get("events_by_type", []))
+
             f.write("\n")
-            
+
             # Рекомендации
             f.write("## Рекомендации\n\n")
-            for i, recommendation in enumerate(report['recommendations'], 1):
-                f.write(f"{i}. {recommendation}\n")
-            
+            f.writelines(f"{i}. {recommendation}\n" for i, recommendation in enumerate(report["recommendations"], 1))
+
             f.write("\n---\n")
             f.write(f"*Полный отчет в JSON: `{json_report_path}`*\n")
-        
+
         logger.info(f"Сгенерирован читаемый отчет: {md_report_path}")
 
 class TriggerDashboard:
     """Дашборд для мониторинга триггеров"""
-    
+
     def __init__(self, collector: TriggerMetricsCollector):
         self.collector = collector
-    
+
     def generate_html_dashboard(self) -> str:
         """Генерация HTML дашборда"""
         # Получаем статистику
         stats = self.collector.get_event_stats(24)
         metrics = self.collector.get_metrics_summary(24)
-        
+
         # Генерируем HTML
         html = f"""
         <!DOCTYPE html>
@@ -565,16 +562,16 @@ class TriggerDashboard:
                 <div class="recommendations">
                     <h3>💡 Рекомендации</h3>
         """
-        
+
         # Генерируем рекомендации
         report = self.collector.generate_report("daily")
-        for i, recommendation in enumerate(report['recommendations'], 1):
+        for i, recommendation in enumerate(report["recommendations"], 1):
             html += f"""
                     <div class="recommendation-item">
                         <strong>{i}.</strong> {recommendation}
                     </div>
             """
-        
+
         html += f"""
                 </div>
                 
@@ -676,15 +673,15 @@ class TriggerDashboard:
         </body>
         </html>
         """
-        
+
         # Сохраняем дашборд
         dashboard_dir = Path(".agents/dashboards")
         dashboard_dir.mkdir(parents=True, exist_ok=True)
-        
+
         dashboard_file = dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
-        with open(dashboard_file, 'w', encoding='utf-8') as f:
+        with open(dashboard_file, "w", encoding="utf-8") as f:
             f.write(html)
-        
+
         logger.info(f"Сгенерирован дашборд: {dashboard_file}")
         return str(dashboard_file)
 
@@ -693,42 +690,42 @@ def main():
     print("=" * 60)
     print("СИСТЕМА МОНИТОРИНГА ТРИГГЕРОВ")
     print("=" * 60)
-    
+
     try:
         # Инициализируем сборщик метрик
         collector = TriggerMetricsCollector()
-        
+
         # Генерируем отчет
         print("📊 Генерация отчета...")
         report = collector.generate_report("daily")
-        
+
         print("✓ Отчет сгенерирован:")
         print(f"  - Всего событий: {report['event_statistics']['total_events']}")
         print(f"  - Успешных: {report['event_statistics']['successful_events']}")
         print(f"  - Неудачных: {report['event_statistics']['failed_events']}")
         print(f"  - Успешность: {report['event_statistics']['success_rate']:.1f}%")
-        
+
         # Генерируем дашборд
         print("\n📈 Генерация дашборда...")
         dashboard = TriggerDashboard(collector)
         dashboard_file = dashboard.generate_html_dashboard()
-        
+
         print(f"✓ Дашборд сгенерирован: {dashboard_file}")
-        
+
         # Выводим рекомендации
         print("\n💡 Рекомендации:")
-        for i, recommendation in enumerate(report['recommendations'], 1):
+        for i, recommendation in enumerate(report["recommendations"], 1):
             print(f"  {i}. {recommendation}")
-        
+
         print("\n" + "=" * 60)
         print("✅ Мониторинг завершен успешно!")
         print("\n📋 Доступные команды:")
         print("  - Просмотр отчета: cat .agents/reports/trigger_report_*.json")
         print("  - Открыть дашборд: start .agents/dashboards/trigger_dashboard_*.html")
         print("  - Запуск в режиме демона: python trigger-monitor.py --daemon")
-        
+
         return True
-        
+
     except Exception as e:
         logger.error(f"Ошибка мониторинга: {e}")
         return False

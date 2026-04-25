@@ -1,14 +1,14 @@
 ﻿#!/usr/bin/env python3
-"""
-Скрипт для синхронизации файлов между двумя проектами на основе хэшей.
+"""Скрипт для синхронизации файлов между двумя проектами на основе хэшей.
 Сравнивает содержимое файлов и копирует отсутствующие или более новые версии.
 """
 
-import os
-import sys
 import hashlib
+import os
 import shutil
+import sys
 import time
+
 
 def calculate_file_hash(filepath, chunk_size=8192):
     """Вычисляет SHA-256 хэш файла."""
@@ -23,18 +23,17 @@ def calculate_file_hash(filepath, chunk_size=8192):
         return None
 
 def scan_directory(directory, relative_to=None):
-    """
-    Сканирует директорию рекурсивно, возвращает словарь:
-      относительный_путь -> (полный_путь, хэш, размер, время_модификации)
+    """Сканирует директорию рекурсивно, возвращает словарь:
+    относительный_путь -> (полный_путь, хэш, размер, время_модификации)
     """
     if relative_to is None:
         relative_to = directory
     file_map = {}
     for root, dirs, files in os.walk(directory):
         # Пропускаем скрытые папки
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        dirs[:] = [d for d in dirs if not d.startswith(".")]
         for f in files:
-            if f.startswith('.'):
+            if f.startswith("."):
                 continue
             full_path = os.path.join(root, f)
             rel_path = os.path.relpath(full_path, relative_to)
@@ -46,18 +45,17 @@ def scan_directory(directory, relative_to=None):
                 if file_hash is None:
                     continue
                 file_map[rel_path] = {
-                    'full_path': full_path,
-                    'hash': file_hash,
-                    'size': size,
-                    'mtime': mtime
+                    "full_path": full_path,
+                    "hash": file_hash,
+                    "size": size,
+                    "mtime": mtime,
                 }
             except OSError as e:
                 print(f"  ⚠️  Ошибка доступа к {full_path}: {e}")
     return file_map
 
 def compare_directories(source_map, target_map):
-    """
-    Сравнивает два словаря файлов.
+    """Сравнивает два словаря файлов.
     Возвращает:
       - missing: файлы, которые есть в source, но отсутствуют в target
       - different: файлы с одинаковым путём, но разным хэшем
@@ -73,10 +71,10 @@ def compare_directories(source_map, target_map):
             missing[rel_path] = src_info
         else:
             tgt_info = target_map[rel_path]
-            if src_info['hash'] != tgt_info['hash']:
+            if src_info["hash"] != tgt_info["hash"]:
                 different[rel_path] = {
-                    'source': src_info,
-                    'target': tgt_info
+                    "source": src_info,
+                    "target": tgt_info,
                 }
 
     # Файлы, которые есть только в target (возможно, устаревшие)
@@ -88,8 +86,8 @@ def compare_directories(source_map, target_map):
 
 def copy_file(src_info, target_dir, dry_run=False, backup=True):
     """Копирует файл из source в target с сохранением структуры папок."""
-    rel_path = src_info.get('_rel_path')  # будет установлено вызывающим кодом
-    src_path = src_info['full_path']
+    rel_path = src_info.get("_rel_path")  # будет установлено вызывающим кодом
+    src_path = src_info["full_path"]
     dest_path = os.path.join(target_dir, rel_path)
 
     if dry_run:
@@ -117,8 +115,7 @@ def copy_file(src_info, target_dir, dry_run=False, backup=True):
         return False
 
 def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_confirm=False):
-    """
-    Синхронизирует один компонент (поддиректорию) из source в target.
+    """Синхронизирует один компонент (поддиректорию) из source в target.
     """
     print(f"\n🔍 Синхронизация компонента: {component_name}")
     print(f"   Источник: {source_dir}")
@@ -151,9 +148,9 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
 
     # Добавляем относительный путь в информацию для удобства
     for rel_path, info in missing.items():
-        info['_rel_path'] = rel_path
+        info["_rel_path"] = rel_path
     for rel_path, diff in different.items():
-        diff['source']['_rel_path'] = rel_path
+        diff["source"]["_rel_path"] = rel_path
 
     # Показываем детали
     if missing:
@@ -166,8 +163,8 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
     if different:
         print("\n🔄 Файлы с различиями (возможно, нужна перезапись):")
         for rel_path in list(different.keys())[:10]:
-            src_size = different[rel_path]['source']['size']
-            tgt_size = different[rel_path]['target']['size']
+            src_size = different[rel_path]["source"]["size"]
+            tgt_size = different[rel_path]["target"]["size"]
             print(f"   • {rel_path} (размеры: {src_size} vs {tgt_size} байт)")
         if len(different) > 10:
             print(f"   ... и ещё {len(different) - 10} файлов")
@@ -188,7 +185,7 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
     if not dry_run and not auto_confirm:
         print(f"\n📦 Будет выполнено действий: {total_actions}")
         response = input("   Продолжить синхронизацию? (y/n): ").lower()
-        if response not in ('y', 'yes', 'д', 'да'):
+        if response not in ("y", "yes", "д", "да"):
             print("❌ Синхронизация отменена.")
             return False
 
@@ -204,7 +201,7 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
     if different:
         print("\n🔄 Перезапись файлов с различиями...")
         for rel_path, diff in different.items():
-            src_info = diff['source']
+            src_info = diff["source"]
             if copy_file(src_info, target_dir, dry_run=dry_run):
                 success_count += 1
 
@@ -213,13 +210,13 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Синхронизация проектов по хэшам файлов')
-    parser.add_argument('source', help='Исходная директория (my-ecosystem-FINAL)')
-    parser.add_argument('target', help='Целевая директория (portfolio-system-architect)')
-    parser.add_argument('--component', help='Имя компонента (подпапка) для синхронизации')
-    parser.add_argument('--dry-run', action='store_true', help='Показать план без реальных действий')
-    parser.add_argument('--all', action='store_true', help='Синхронизировать все компоненты')
-    parser.add_argument('--yes', action='store_true', help='Автоматически подтверждать действия')
+    parser = argparse.ArgumentParser(description="Синхронизация проектов по хэшам файлов")
+    parser.add_argument("source", help="Исходная директория (my-ecosystem-FINAL)")
+    parser.add_argument("target", help="Целевая директория (portfolio-system-architect)")
+    parser.add_argument("--component", help="Имя компонента (подпапка) для синхронизации")
+    parser.add_argument("--dry-run", action="store_true", help="Показать план без реальных действий")
+    parser.add_argument("--all", action="store_true", help="Синхронизировать все компоненты")
+    parser.add_argument("--yes", action="store_true", help="Автоматически подтверждать действия")
 
     args = parser.parse_args()
 
@@ -252,7 +249,7 @@ def main():
                 os.path.join(target_root, comp),
                 comp,
                 dry_run=args.dry_run,
-                auto_confirm=args.yes
+                auto_confirm=args.yes,
             )
     else:
         print("❌ Укажите --component или --all")
@@ -260,5 +257,5 @@ def main():
 
     return 0
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

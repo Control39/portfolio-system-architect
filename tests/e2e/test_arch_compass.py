@@ -1,5 +1,7 @@
-﻿import pytest
-import subprocess
+﻿import subprocess
+
+import pytest
+
 
 @pytest.mark.e2e
 def test_arch_compass_module():

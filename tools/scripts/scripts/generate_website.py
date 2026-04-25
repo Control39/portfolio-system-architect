@@ -1,13 +1,12 @@
 ﻿# Исправление #123: нормализация путей для предотвращения дубликатов
 
-"""
-Генерирует профессиональный сайт-портфолио с поддержкой Mermaid и Git-статуса.
+"""Генерирует профессиональный сайт-портфолио с поддержкой Mermaid и Git-статуса.
 """
 
 import subprocess
 from pathlib import Path
+
 import markdown as md
-from typing import List, Tuple, Dict
 
 # Пути
 REPO_ROOT: Path = Path(__file__).parent.parent.resolve()
@@ -15,7 +14,7 @@ OUTPUT_DIR: Path = REPO_ROOT / "docs" / "website"
 LOGO_PATH: str = REPO_ROOT / "assets" / "logo.svg"
 
 # Игнорируемые директории
-IGNORED_DIRS = {".git", "__pycache__", "node_modules", "venv", "env", 
+IGNORED_DIRS = {".git", "__pycache__", "node_modules", "venv", "env",
                 ".vscode", ".idea", "docs/website", "Lib", "data/embeddings"}
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -81,19 +80,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def generate_nav_links(pages_keys: List[str]) -> str:
+def generate_nav_links(pages_keys: list[str]) -> str:
     """Генерирует навигацию на основе реальных страниц."""
     links = []
     # Всегда добавляем главную
     links.append('                        <li><a class="nav-link" href="index.html">[+] Главная</a></li>')
-    
+
     # Добавляем страницы, которые существуют
     for key in sorted(set(pages_keys)):
         if key == "index":
             continue
         display = key.replace("-", " ").replace("_", " ").title()
         links.append(f'                        <li><a class="nav-link" href="{key}.html">[{key[0].upper()}] {display}</a></li>')
-    
+
     return "\n".join(links)
 
 
@@ -102,7 +101,7 @@ def md_to_html(content: str) -> str:
     try:
         return md.markdown(
             content.replace("]]", "").replace("[[", ""),
-            extensions=['fenced_code', 'codehilite', 'tables']
+            extensions=["fenced_code", "codehilite", "tables"],
         )
     except Exception as e:
         return f"<p>Ошибка парсинга: {e}</p>"
@@ -110,7 +109,7 @@ def md_to_html(content: str) -> str:
 
 def sanitize_filename(name: str) -> str:
     """Санитизирует имя файла."""
-    invalid = '<>:\"/\\|?*'
+    invalid = '<>:"/\\|?*'
     for char in invalid:
         name = name.replace(char, "_")
     if len(name) > 200:
@@ -121,7 +120,7 @@ def sanitize_filename(name: str) -> str:
 def convert() -> None:
     """Основная функция генерации сайта."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    
+
     logo = str(LOGO_PATH) if LOGO_PATH.exists() else "https://via.placeholder.com/40"
 
     # Индексная страница
@@ -140,14 +139,14 @@ def convert() -> None:
     try:
         result = subprocess.run(
             ["git", "log", "-1", "--format=%h %s (%cr)"],
-            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10
+            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
         )
         if result.returncode == 0 and result.stdout.strip():
             index_content += f"\n- **Последний коммит**: `{result.stdout.strip()}`\n"
     except Exception:
         pass
 
-    pages: Dict[str, Tuple[str, str]] = {"index": ("Главная", index_content)}
+    pages: dict[str, tuple[str, str]] = {"index": ("Главная", index_content)}
 
     # Сканируем репозиторий напрямую
     md_files = []
@@ -162,7 +161,7 @@ def convert() -> None:
     for md_file in md_files:
         try:
             relative = md_file.relative_to(REPO_ROOT)
-            
+
             # Нормализация путей: 03_CASES → cases
             normalized_parts = []
             for part in relative.parts:
@@ -171,17 +170,17 @@ def convert() -> None:
                 else:
                     normalized_parts.append(part)
             relative = Path(*normalized_parts)
-            
+
             # Имя страницы: путь без расширения
-            filename = str(relative.with_suffix('')).replace("/", "_").replace("\\", "_")
+            filename = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
             filename = sanitize_filename(filename)
-            
-            with open(md_file, "r", encoding="utf-8") as f:
+
+            with open(md_file, encoding="utf-8") as f:
                 content = f.read()
-            
+
             title = filename.replace("-", " ").replace("_", " ").title()
             pages[filename] = (title, content)
-            
+
         except Exception as e:
             print(f"[!] {md_file.name}: {e}")
 
@@ -195,7 +194,7 @@ def convert() -> None:
             title=title,
             navigation=nav,
             content=html_content,
-            logo=logo
+            logo=logo,
         )
         output_path = OUTPUT_DIR / f"{stem}.html"
         try:
