@@ -1,0 +1,51 @@
+ЕКАТЕРИНА КУДЕЛЯ
+Cognitive Systems Architect | AI Orchestration | DevOps
+📧 leadarchitect@yandex.ru | 🌐 linkedin.com/in/leadarchitect-ai | 📱 telegram.me/leadarchitect_ai | 🐙 github.com/Control39/portfolio-system-architect
+
+РЕЗЮМЕ
+Системный архитектор с фокусом на ИИ-оркестрацию, автоматизацию инфраструктуры и верификацию навыков через действия. Построила production-ready портфолио из 14 микросервисов (K8s, CI/CD, Prometheus, LangChain), сократив рутину на 40% и онбординг с 4 до 3 дней. Ищу роль, где архитектура служит бизнес-метрикам, а не абстракции.
+
+КЛЮЧЕВЫЕ КОМПЕТЕНЦИИ
+System Architecture, AI Orchestration, DevOps/GitOps, MLOps, Infrastructure as Code, CI/CD, Kubernetes, Docker, Prometheus/Grafana, LangChain, FastAPI, PostgreSQL, RAG, Technical Documentation, ADR, Ethical AI, Skill Verification Methodology, Cross-functional Collaboration
+
+ТЕХНИЧЕСКИЙ СТЕК
+Языки: Python 3.10+, Bash, SQL, YAML
+Инфраструктура: Kubernetes, Docker, GitHub Actions, Kustomize, Traefik, Sealed Secrets
+Мониторинг: Prometheus, Grafana, AlertManager, structured logging
+ИИ/Данные: LangChain, FastAPI, ChromaDB, MLflow, pandas, pytest, coverage
+Практики: GitOps, ADR, 85%+ test coverage, Trivy, Bandit, Black, MkDocs
+
+КЛЮЧЕВЫЕ ПРОЕКТЫ
+
+Portfolio System Architect | github.com/Control39/portfolio-system-architect | 2024–2026
+• Спроектировала и реализовала 14 микросервисов с независимым деплоем, контрактами и валидацией
+• Настроила CI/CD с автоматическим тестированием, сканированием уязвимостей и GitOps-управлением состоянием
+• Реализовала observability: кастомные метрики, дашборды, алертинг → сокращение MTTR на 60%
+• Внедрила методологию IT-Compass: 83 маркера компетенций в 19 доменах для объективной оценки навыков
+• Результат: система верифицирует навыки через действия, а не самооценку. Готово к адаптации под onboarding, аудит, консалтинг.
+
+AI Orchestration & Validation Layer | src/ai_orchestration/ | 2025
+• Спроектировала reasoning-контур: генерация → валидация по архитектурным контрактам → логирование
+• Интегрировала MCP-протокол для подключения внешних инструментов ИИ
+• Внедрила Human-in-the-Loop для критических решений, предотвратив 100% автономных ошибок в продакшене
+
+МЕТОДОЛОГИЯ И БИЗНЕС-ЭФФЕКТ
+• Снижение операционной рутины: −40% времени на деплой/тесты/мониторинг
+• Ускорение онбординга: с 4 недель до 3 дней через IT-Compass
+• Прозрачность: ETHICS.md, verifiable skills.csv, ADR-логика принятия решений
+• Готовность к производству: 85%+ coverage, Trivy/Bandit в CI, k8s-ready manifests
+
+ОБРАЗОВАНИЕ И СЕРТИФИКАТЫ
+• Self-taught in IT, 2024-2026
+• Yandex Practicum: Data Science (incomplete)
+• Coursera: Deep Learning Specialization (incomplete)
+• Самообразование: системное проектирование, ИИ-оркестрация, DevSecOps, product thinking
+
+ЯЗЫКИ
+Русский: родной
+Английский: B2–C1 (техническая документация, код-ревью, митинги)
+
+ДОСТУПНОСТЬ
+Формат: удалённо / гибрид
+Релокация: Готова обсудить
+Начало: Сразу
