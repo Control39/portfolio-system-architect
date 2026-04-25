@@ -44,6 +44,14 @@
       "style": { "fill": "#e0f0ff", "stroke": "#333" }
     }
   ],
+  "directionStyles": {
+    "analytics": { "fill": "#4285F4", "label": "Аналитика" },
+    "devops": { "fill": "#FBBC05", "label": "DevOps" },
+    "mlops": { "fill": "#34A853", "label": "MLOps" },
+    "documentation": { "fill": "#A142F4", "label": "Документирование" },
+    "ai": { "fill": "#EA4335", "label": "ИИ" },
+    "systems": { "fill": "#F4B400", "label": "Системное мышление" }
+  }
   "edges": [
     { "source": "source", "target": "task", "label": "" },
     { "source": "task", "target": "tool", "label": "" },
