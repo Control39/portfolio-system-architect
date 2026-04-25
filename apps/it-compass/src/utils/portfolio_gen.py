@@ -117,7 +117,7 @@ class PortfolioGenerator:
             f"> Сформировано автоматически через [IT Compass](https://github.com/Control39/it-compass) "
             f"({datetime.now().strftime('%d.%m.%Y')})",
             "",
-            f"> **Методология:** © 2025 Ekaterina Kudelya, [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/)",
+            "> **Методология:** © 2025 Ekaterina Kudelya, [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/)",
             "",
             "## ✅ Подтверждённые навыки",
             "",
@@ -131,7 +131,7 @@ class PortfolioGenerator:
                     lines.append(f" > 🔍 Валидация: {marker['validation']}")
 
                 if marker.get("priority") == "high":
-                    lines.append(f" > ⭐ Высокий приоритет для трудоустройства")
+                    lines.append(" > ⭐ Высокий приоритет для трудоустройства")
 
                 methodology_author = marker.get(
                     "methodology_author", "Ekaterina Kudelya"
