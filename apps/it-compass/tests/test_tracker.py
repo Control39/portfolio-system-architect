@@ -3,7 +3,7 @@ import tempfile
 from pathlib import Path
 import sys
 
-sys.path.append(".")
+sys.path.insert(0, ".")
 
 from src.core.tracker import CareerTracker
 
