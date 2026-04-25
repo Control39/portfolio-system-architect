@@ -330,3 +330,4 @@ class ChromaDocumentIndexer:
         except Exception as e:
             logger.error(f"Error migrating from pickle: {e}")
             return []
+

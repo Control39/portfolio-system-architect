@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Основной скрипт сканера проекта для Cognitive Automation Agent.
 Выполняет анализ технологического стека, зависимостей и архитектуры.
 """
@@ -822,3 +822,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

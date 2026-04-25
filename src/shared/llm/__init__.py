@@ -14,3 +14,4 @@ __all__ = [
     "create_yandex_gpt_client",
     "generate_with_yandex_gpt",
 ]
+

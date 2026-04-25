@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Тестовый скрипт для проверки работы обработчика триггеров Cognitive Automation Agent.
 """
 
@@ -417,3 +417,4 @@ if __name__ == "__main__":
     print("   Смотрите .agents/scripts/git-hooks-setup.py")
 
     sys.exit(0 if tests_passed else 1)
+

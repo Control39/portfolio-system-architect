@@ -48,3 +48,4 @@ if __name__ == "__main__":
         verification_accuracy=0.95,
     )
     print(proof.tag_and_verify(None))  # True
+

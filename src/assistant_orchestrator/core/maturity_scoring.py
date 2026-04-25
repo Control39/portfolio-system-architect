@@ -251,3 +251,4 @@ class MaturityScorer:
                 score += 0.5
 
         return min(score, 0.5)
+

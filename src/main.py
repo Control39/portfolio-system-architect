@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 
 import uvicorn
@@ -78,4 +78,5 @@ def main_dev():
 
 if __name__ == "__main__":
     main_dev()  # Запускаем в режиме разработки по умолчанию
+
 
