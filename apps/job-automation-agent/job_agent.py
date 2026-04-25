@@ -8,9 +8,10 @@ import asyncio
 from typing import Dict, Any, List, Optional, Set
 
 # LangChain imports
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain.tools import Tool
-from langchain.prompts import PromptTemplate
+from langchain.agents.factory import create_agent
+from langchain.agents.middleware.types import AgentState
+from langchain_core.tools import Tool
+from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.language_models import FakeListLLM
 
@@ -251,7 +252,11 @@ prompt_template = PromptTemplate.from_template("""
 """)
 
 if not USE_MOCK:
-    agent = create_react_agent(llm, tools, prompt_template)
+    agent = create_agent(
+        llm=llm,
+        tools=tools,
+        prompt=prompt_template
+    )
     agent_executor = AgentExecutor(
         agent=agent, 
         tools=tools, 
