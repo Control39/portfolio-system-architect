@@ -1,19 +1,19 @@
-﻿# Career Development System Module
+﻿# Career Development System
 
-Adapted from provided structure under career-development-system/.
+Это система управления карьерным развитием на основе объективных маркеров компетенций.
 
-## Quick Start
-1. pip install -r requirements.txt
-2. cd career-development-system/src/api
-3. uvicorn app:app --reload
-4. Open http://localhost:8000/docs
+## Структура проекта
 
-See career-development-system/README.md for details.
+- `api/` - API сервисы
+- `web/` - Веб-интерфейс
+- `mobile/` - Мобильное приложение
+- `core/` - Ядро системы
+- `utils/` - Вспомогательные модули
+- `tests/` - Тесты
 
-Structure:
-- src/ (wrapper)
-- tests/ (module tests)
-- docs/
-- career-development-system/ (core impl)
+## Начало работы
 
+1. Установите зависимости
+2. Запустите миграции базы данных
+3. Запустите сервер разработки
 

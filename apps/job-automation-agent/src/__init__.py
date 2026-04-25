@@ -1,2 +1,2 @@
-﻿# Job Automation Agent src
+﻿# Core orchestrator
 

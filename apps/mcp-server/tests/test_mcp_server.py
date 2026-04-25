@@ -17,7 +17,7 @@ import tempfile
 import subprocess
 from pathlib import Path
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
@@ -218,9 +218,8 @@ class TestMCPIntegration(unittest.TestCase):
             
             # Проверяем, что нет упоминаний GPT-5
             config_str = str(config)
-            # Проверка на gpt-5 удалена: упоминание в комментариях допустимо, основная модель - gpt-4
-            # self.assertNotIn("gpt-5", config_str.lower())
-            # self.assertNotIn("gpt5", config_str.lower())
+            self.assertNotIn("gpt-5", config_str.lower())
+            self.assertNotIn("gpt5", config_str.lower())
 
 class TestCareerAutopilotFeatures(unittest.TestCase):
     """Тесты функций Career Autopilot"""
@@ -257,8 +256,8 @@ class TestCareerAutopilotFeatures(unittest.TestCase):
                 depth = root.count(os.sep) - str(mcp_dir).count(os.sep)
                 max_depth = max(max_depth, depth)
             
-            # Архитектура проекта требует глубину до 9 уровней
-            self.assertLessEqual(max_depth, 9, 
+            # Рекомендуемая максимальная глубина: 4 уровня
+            self.assertLessEqual(max_depth, 5, 
                                f"Избыточная вложенность в MCP-сервере: {max_depth} уровней")
 
 def run_all_tests():
@@ -321,4 +320,3 @@ if __name__ == "__main__":
         sys.exit(0)
 
 # Импортируем datetime здесь, чтобы избежать ошибок импорта
-from datetime import datetime

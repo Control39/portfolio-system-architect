@@ -1,7 +1,6 @@
 ﻿import unittest
 import os
 import tempfile
-import json
 from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 from src.storage.model_storage import ModelStorage
 
