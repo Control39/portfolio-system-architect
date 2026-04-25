@@ -1,10 +1,11 @@
-﻿"""
-proof - Generated Pydantic Models
+﻿r"""proof - Generated Pydantic Models
 Source: src\shared\schemas\proof.yaml
 """
-from pydantic import BaseModel, Field
-from typing import List, Any
 from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 class TraceStep(BaseModel):
     input: str = Field(None)
@@ -21,7 +22,7 @@ class ProofMetadata(BaseModel):
 class SystemProof(BaseModel):
     id: str = Field(None)
     metadata: str = Field(None)
-    trace_steps: List[Any] = Field(None)
+    trace_steps: list[Any] = Field(None)
     final_result: dict[str, Any] = Field(None)
     status: str = Field(None)
 

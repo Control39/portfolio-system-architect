@@ -1,7 +1,6 @@
 # server.py
 import json
 import os
-from typing import Dict, List, Optional
 
 import requests
 from fastapi import FastAPI
@@ -17,7 +16,7 @@ if not os.path.exists(CONFIG_PATH):
     print("Создайте его или скопируйте из config.example.json")
     exit(1)
 
-with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+with open(CONFIG_PATH, encoding="utf-8") as f:
     config = json.load(f)
 
 # Загружаем переменные окружения
@@ -42,8 +41,8 @@ class Message(BaseModel):
     content: str
 
 class ChatRequest(BaseModel):
-    messages: List[Message]
-    model: Optional[str] = None
+    messages: list[Message]
+    model: str | None = None
 
 # === Роут для чата ===
 @app.post("/v1/chat/completions")
@@ -58,8 +57,8 @@ async def chat_completions(request: ChatRequest):
                 json={
                     "model": config["codette"]["model"],
                     "prompt": request.messages[-1].content,
-                    "stream": False
-                }
+                    "stream": False,
+                },
             )
             data = response.json()
             return {
@@ -67,14 +66,14 @@ async def chat_completions(request: ChatRequest):
                     {
                         "message": {
                             "role": "assistant",
-                            "content": data.get("response", "Нет ответа от Codette")
-                        }
-                    }
+                            "content": data.get("response", "Нет ответа от Codette"),
+                        },
+                    },
                 ],
-                "model": config["codette"]["model"]
+                "model": config["codette"]["model"],
             }
         except Exception as e:
-            return {"error": f"Codette error: {str(e)}"}
+            return {"error": f"Codette error: {e!s}"}
 
     elif provider == "gigachat":
         # Запрос к GigaChat API
@@ -85,9 +84,9 @@ async def chat_completions(request: ChatRequest):
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Accept": "application/json",
                     "RqUID": "unique-request-id",
-                    "Authorization": f"Basic {config['gigachat']['api_key']}"
+                    "Authorization": f"Basic {config['gigachat']['api_key']}",
                 },
-                data={"scope": "GIGACHAT_API_PERS"}
+                data={"scope": "GIGACHAT_API_PERS"},
             )
             token = auth_response.json().get("access_token")
 
@@ -95,13 +94,13 @@ async def chat_completions(request: ChatRequest):
                 "https://gigachat.devices.sberbank.ru/api/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {token}"
+                    "Authorization": f"Bearer {token}",
                 },
                 json={
                     "model": config["gigachat"]["model"],
                     "messages": [{"role": m.role, "content": m.content} for m in request.messages],
-                    "temperature": 0.7
-                }
+                    "temperature": 0.7,
+                },
             )
             data = chat_response.json()
             return {
@@ -109,14 +108,14 @@ async def chat_completions(request: ChatRequest):
                     {
                         "message": {
                             "role": "assistant",
-                            "content": data["choices"][0]["message"]["content"]
-                        }
-                    }
+                            "content": data["choices"][0]["message"]["content"],
+                        },
+                    },
                 ],
-                "model": "GigaChat"
+                "model": "GigaChat",
             }
         except Exception as e:
-            return {"error": f"GigaChat error: {str(e)}"}
+            return {"error": f"GigaChat error: {e!s}"}
 
     else:
         return {"error": f"Unknown provider: {provider}"}

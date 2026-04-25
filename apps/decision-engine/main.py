@@ -1,6 +1,8 @@
 ﻿import uvicorn
-from .configs.loader import COMPONENT_CONFIG
+
 from .api.endpoints import app
+from .configs.loader import COMPONENT_CONFIG
+
 
 def run_server():
     # Берём команду запуска из конфигурации

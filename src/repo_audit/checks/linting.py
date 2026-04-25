@@ -1,8 +1,8 @@
-﻿"""
-Проверка линтинга и форматирования.
+﻿"""Проверка линтинга и форматирования.
 """
 
 import subprocess
+
 
 def run(repo_root: str) -> dict:
     results = []
@@ -12,7 +12,7 @@ def run(repo_root: str) -> dict:
         cwd=repo_root,
         capture_output=True,
         text=True,
-        timeout=30
+        timeout=30,
     )
     results.append(("ruff", r.returncode == 0, r.stdout[:200] if r.stdout else ""))
     # black
@@ -21,7 +21,7 @@ def run(repo_root: str) -> dict:
         cwd=repo_root,
         capture_output=True,
         text=True,
-        timeout=30
+        timeout=30,
     )
     results.append(("black", b.returncode == 0, b.stdout[:200] if b.stdout else ""))
     # isort
@@ -30,7 +30,7 @@ def run(repo_root: str) -> dict:
         cwd=repo_root,
         capture_output=True,
         text=True,
-        timeout=30
+        timeout=30,
     )
     results.append(("isort", i.returncode == 0, i.stdout[:200] if i.stdout else ""))
 
@@ -38,7 +38,7 @@ def run(repo_root: str) -> dict:
     return {
         "passed": passed,
         "details": [{"tool": t, "passed": p, "output": o} for t, p, o in results],
-        "message": "Линтинг пройден" if passed else "Ошибки линтинга"
+        "message": "Линтинг пройден" if passed else "Ошибки линтинга",
     }
 
 if __name__ == "__main__":

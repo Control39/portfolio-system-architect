@@ -1,10 +1,10 @@
 import toml
-from pathlib import Path
+
 
 def validate_pyproject():
     file_path = "apps/mcp-server/pyproject.toml"
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             data = toml.load(f)
         print(f"✅ {file_path} — valid TOML")
         print(f"Name: {data['project']['name']}")

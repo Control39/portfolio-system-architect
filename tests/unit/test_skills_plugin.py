@@ -1,10 +1,9 @@
-﻿"""
-Unit tests for skills plugin.
+﻿"""Unit tests for skills plugin.
 """
 import json
+import sys
 import tempfile
 from pathlib import Path
-import sys
 
 # Add src to path to import modules
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -40,8 +39,8 @@ def test_analyze_skills_with_markers():
                 ],
                 "2": [
                     {"id": "py-oop", "description": "Object-oriented programming", "evidence": []},
-                ]
-            }
+                ],
+            },
         }
 
         with open(markers_dir / "python.json", "w", encoding="utf-8") as f:
@@ -52,8 +51,8 @@ def test_analyze_skills_with_markers():
             "levels": {
                 "1": [
                     {"id": "devops-ci", "description": "Continuous Integration", "evidence": []},
-                ]
-            }
+                ],
+            },
         }
 
         with open(markers_dir / "devops.json", "w", encoding="utf-8") as f:

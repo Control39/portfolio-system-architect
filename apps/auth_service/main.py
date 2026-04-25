@@ -1,15 +1,15 @@
-"""
-JWT Auth Service
+"""JWT Auth Service
 Issues and validates JWT tokens for API Gateway
 """
 
-from fastapi import FastAPI, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
-from pydantic import BaseModel
-import jwt
 import os
 import sys
 from datetime import datetime, timedelta, timezone
+
+import jwt
+from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.security import HTTPBearer
+from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -52,13 +52,13 @@ def create_token(username: str, role: str = "user") -> dict:
         "expires_in": JWT_EXPIRATION_HOURS * 3600,
     }
 
-def verify_token(credentials: HTTPAuthCredentials = Depends(security)) -> dict:
+def verify_token(credentials: HTTPBearer = Security(security)) -> dict:
     """Verify JWT token"""
     try:
         payload = jwt.decode(
             credentials.credentials,
             JWT_SECRET,
-            algorithms=[JWT_ALGORITHM]
+            algorithms=[JWT_ALGORITHM],
         )
         return payload
     except jwt.ExpiredSignatureError:
@@ -68,22 +68,21 @@ def verify_token(credentials: HTTPAuthCredentials = Depends(security)) -> dict:
 
 @app.post("/auth/token", response_model=TokenResponse)
 async def login(request: TokenRequest):
-    """
-    Issue JWT token
-    
+    """Issue JWT token
+
     For demo purposes, any username/password combination is accepted except demo/demo.
     In production, implement real authentication against a user database.
     """
     # Block demo/demo credentials for security
     if request.username == "demo" and request.password == "demo":
         raise HTTPException(status_code=401, detail="Demo credentials not allowed")
-    
+
     # In production, replace with real auth (e.g., database lookup, LDAP, OAuth)
     if request.username and request.password:
         # For demo: assign admin role to 'admin' username, user role to others
         role = "admin" if request.username == "admin" else "user"
         return create_token(request.username, role=role)
-    
+
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
 @app.post("/auth/verify")
@@ -100,7 +99,7 @@ async def verify(payload: dict = Depends(verify_token)):
 init_health_checks(
     app,
     service_name="auth-service",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 

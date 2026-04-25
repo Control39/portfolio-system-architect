@@ -1,5 +1,4 @@
-"""
-Auth Service Module
+"""Auth Service Module
 """
 
 from .main import app, create_token, verify_token

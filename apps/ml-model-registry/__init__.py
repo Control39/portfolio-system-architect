@@ -1,5 +1,4 @@
-﻿"""
-ML Model Registry app package.
+﻿"""ML Model Registry app package.
 """
 
 

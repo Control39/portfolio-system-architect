@@ -9,7 +9,9 @@ except ImportError:
         return Logger()
 
 try:
-    from apps.decision_engine.decision_engine.utils.dependency_checker import check_dependencies
+    from apps.decision_engine.decision_engine.utils.dependency_checker import (
+        check_dependencies,
+    )
 except ImportError:
     def check_dependencies():
         return {"status": "stub"}

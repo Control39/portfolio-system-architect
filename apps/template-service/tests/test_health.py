@@ -4,6 +4,7 @@
 
 import pytest
 from fastapi.testclient import TestClient
+
 from src.main import app
 
 client = TestClient(app)
@@ -33,7 +34,7 @@ def test_liveness_check():
 async def test_readiness_check_without_db():
     """
     Тест readiness check без реальной базы данных.
-    
+
     Этот тест проверяет, что endpoint возвращает корректную структуру,
     даже если база данных недоступна.
     """

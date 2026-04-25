@@ -1,14 +1,13 @@
-﻿"""
-Модуль отслеживания карьерного прогресса пользователя.
+﻿"""Модуль отслеживания карьерного прогресса пользователя.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
 
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -20,9 +19,9 @@ class Marker:
     marker: str
     validation: str
     priority: str
-    resources: List[str]
-    smart_criteria: Dict[str, str]
-    skill_name: Optional[str] = None
+    resources: list[str]
+    smart_criteria: dict[str, str]
+    skill_name: str | None = None
     methodology_author: str = "Ekaterina Kudelya"
     methodology_license: str = "CC BY-ND 4.0"
 
@@ -31,7 +30,7 @@ class Marker:
 class SkillData:
     skill_name: str
     description: str
-    levels: Dict[str, List[Marker]]
+    levels: dict[str, list[Marker]]
 
 
 class CareerTracker:
@@ -42,12 +41,12 @@ class CareerTracker:
     ):
         self.markers_dir = Path(markers_dir)
         self.progress_file = Path(progress_file)
-        self._markers_cache: Optional[Dict[str, SkillData]] = None
-        self._all_markers_cache: Optional[Dict[str, Marker]] = None
+        self._markers_cache: dict[str, SkillData] | None = None
+        self._all_markers_cache: dict[str, Marker] | None = None
         self.markers = self._load_all_markers()
         self.progress = self._load_progress()
 
-    def _load_all_markers(self) -> Dict[str, SkillData]:
+    def _load_all_markers(self) -> dict[str, SkillData]:
         if not self.markers_dir.exists():
             logger.warning(f"Директория маркеров не найдена: {self.markers_dir}")
             return {}
@@ -56,11 +55,11 @@ class CareerTracker:
         try:
             for file_path in self.markers_dir.glob("*.json"):
                 try:
-                    with open(file_path, "r", encoding="utf-8") as f:
+                    with open(file_path, encoding="utf-8") as f:
                         skill_data_raw = json.load(f)
 
                     skill_name = skill_data_raw.get(
-                        "skill_name", file_path.stem.capitalize()
+                        "skill_name", file_path.stem.capitalize(),
                     )
                     levels = self._parse_skill_levels(skill_data_raw.get("levels", {}))
 
@@ -82,8 +81,8 @@ class CareerTracker:
         return markers
 
     def _parse_skill_levels(
-        self, levels_data: Dict[str, Any]
-    ) -> Dict[str, List[Marker]]:
+        self, levels_data: dict[str, Any],
+    ) -> dict[str, list[Marker]]:
         levels = {}
         for level_key, markers_list in levels_data.items():
             levels[level_key] = []
@@ -98,10 +97,10 @@ class CareerTracker:
                         smart_criteria=marker_data.get("smart_criteria", {}),
                         skill_name=marker_data.get("skill_name"),
                         methodology_author=marker_data.get(
-                            "methodology_author", "Ekaterina Kudelya"
+                            "methodology_author", "Ekaterina Kudelya",
                         ),
                         methodology_license=marker_data.get(
-                            "methodology_license", "CC BY-ND 4.0"
+                            "methodology_license", "CC BY-ND 4.0",
                         ),
                     )
                     levels[level_key].append(marker)
@@ -110,13 +109,13 @@ class CareerTracker:
                     continue
         return levels
 
-    def _load_progress(self) -> Dict[str, List[str]]:
+    def _load_progress(self) -> dict[str, list[str]]:
         if not self.progress_file.exists():
             logger.info("Файл прогресса не найден, создаётся новый")
             return {"completed_markers": [], "in_progress_markers": []}
 
         try:
-            with open(self.progress_file, "r", encoding="utf-8") as f:
+            with open(self.progress_file, encoding="utf-8") as f:
                 data = json.load(f)
 
             if not isinstance(data, dict):
@@ -139,7 +138,7 @@ class CareerTracker:
                 in_progress = []
 
             logger.info(
-                f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе"
+                f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе",
             )
             return {"completed_markers": completed, "in_progress_markers": in_progress}
 
@@ -191,14 +190,14 @@ class CareerTracker:
             percentage = (completed_count / skill_total) * 100
             progress_bar = self._create_progress_bar(percentage)
             print(
-                f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})"
+                f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})",
             )
 
         if total_markers > 0:
             overall_percentage = (total_completed / total_markers) * 100
             overall_bar = self._create_progress_bar(overall_percentage)
             print(
-                f"{'Общий прогресс':<20} {overall_bar} {overall_percentage:5.1f}% ({total_completed}/{total_markers})"
+                f"{'Общий прогресс':<20} {overall_bar} {overall_percentage:5.1f}% ({total_completed}/{total_markers})",
             )
 
     def _create_progress_bar(self, percentage: float, width: int = 20) -> str:
@@ -228,9 +227,8 @@ class CareerTracker:
         if self._save_progress():
             print(f"✅ Маркер {marker_id} отмечен как выполненный! 🎉")
             return True
-        else:
-            print("❌ Ошибка при сохранении прогресса")
-            return False
+        print("❌ Ошибка при сохранении прогресса")
+        return False
 
     def _marker_exists(self, marker_id: str) -> bool:
         for skill_data in self.markers.values():
@@ -281,7 +279,7 @@ class CareerTracker:
                     print(f"... и ещё {remaining} рекомендаций")
                 break
 
-    def get_skill_progress(self, skill_name: str) -> Dict[str, Any]:
+    def get_skill_progress(self, skill_name: str) -> dict[str, Any]:
         skill_data = self.markers.get(skill_name)
         if not skill_data:
             return None
@@ -290,7 +288,7 @@ class CareerTracker:
         total = 0
 
         for level_key, level_markers in skill_data.levels.items():
-            level_total = len(level_markers)
+            len(level_markers)
             level_completed = 0
 
             for marker in level_markers:
