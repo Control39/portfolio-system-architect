@@ -16,9 +16,10 @@ from src.shared.pydantic.career import (
     CompetencyMarker, Skill, UserProfile
 )
 
+# Для миграций используем синхронный драйвер
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql+asyncpg://architect:arch_pass_2024@localhost:5432/portfolio_db"
+    "postgresql+psycopg2://architect:arch_pass_2024@localhost:5432/portfolio_db"
 )
 
 engine = create_async_engine(DATABASE_URL, echo=True)
@@ -47,15 +48,15 @@ class SkillORM(Base):
 
 # Dependency
 async def get_db() -> AsyncSession:
-    async with AsyncSessionLocal() as session:
-        try:
-            yield session
-            await session.commit()
-        except Exception:
-            await session.rollback()
-            raise
-        finally:
-            await session.close()
+    session = AsyncSessionLocal()
+    try:
+        yield session
+        await session.commit()
+    except Exception:
+        await session.rollback()
+        raise
+    finally:
+        await session.close()
 
 async def pydantic_to_orm(profile: UserProfile, session: AsyncSession):
     """Convert Pydantic → ORM + save"""

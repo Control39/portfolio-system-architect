@@ -1,5 +1,30 @@
-﻿{
-  "completed_markers": [],
+{
+  "completed_markers": [
+    "git_2_1",
+    "docker_1_2",
+    "python_3_1",
+    "docker_2_2",
+    "docker_3_1",
+    "database_1_1",
+    "frontend_2_1",
+    "git_3_1",
+    "system_design_2_1",
+    "ai_applications_3_1",
+    "qa_1_2",
+    "ai_applications_1_1",
+    "frontend_1_1",
+    "git_1_1",
+    "python_1_1",
+    "python_2_1",
+    "python_1_2",
+    "devops_1_1",
+    "docker_2_1",
+    "database_3_1",
+    "docker_1_1",
+    "system_design_1_2",
+    "docker_3_2",
+    "mlops_1_1",
+    "git_1_2"
+  ],
   "in_progress_markers": []
 }
-
