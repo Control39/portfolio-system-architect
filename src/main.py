@@ -23,7 +23,7 @@ except ImportError:
     print("Внимание: Используется fallback конфигурация. Убедитесь, что component-config.yaml существует.")
 
 try:
-    from api.endpoints import app
+    from apps.portfolio_organizer.src.endpoints import app
 except ImportError:
     print("Ошибка: Не удалось импортировать app из api.endpoints")
     print("Создаем заглушечное FastAPI приложение")
