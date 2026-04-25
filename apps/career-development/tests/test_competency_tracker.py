@@ -1,5 +1,5 @@
-import unittest
-from apps.career_development.career_development_system.src.core.competency_tracker import CompetencyTracker
+﻿import unittest
+from src.core.competency_tracker import CompetencyTracker
 
 
 class TestCompetencyTracker(unittest.TestCase):

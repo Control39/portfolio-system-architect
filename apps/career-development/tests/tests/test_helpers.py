@@ -1,9 +1,9 @@
-import unittest
+﻿import unittest
 import os
 import tempfile
 import sys
 from pathlib import Path
-from apps.career_development.career_development_system.src.utils.helpers import *
+from src.utils.helpers import *
 
 
 class TestHelpers(unittest.TestCase):
