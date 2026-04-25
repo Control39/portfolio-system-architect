@@ -325,3 +325,4 @@ if __name__ == "__main__":
     else:
         print("\nRAG dependencies not available. Install:")
         print("  pip install sentence-transformers chromadb")
+

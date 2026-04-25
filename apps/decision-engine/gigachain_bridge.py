@@ -69,3 +69,4 @@ if __name__ == "__main__":
     bridge = GigaMCPBridge()
     resp = bridge.giga_request("Explain RAG integration.")
     print(resp)
+

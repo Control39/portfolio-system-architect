@@ -110,3 +110,4 @@ def _get_branches(root: Path) -> list[str]:
     local_branches = [b for b in branches if not b.startswith("origin/")]
     return local_branches[:10]  # Limit to 10 branches
 
+

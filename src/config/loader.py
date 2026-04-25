@@ -1,4 +1,4 @@
-"""Загрузчик конфигурации (обратная совместимость).
+﻿"""Загрузчик конфигурации (обратная совместимость).
 
 Этот модуль предоставляет обратную совместимость для импорта
 `from .config.loader import COMPONENT_CONFIG`.
@@ -40,3 +40,4 @@ except ImportError:
     COMPONENT_CONFIG = load_component_config()
 
 __all__ = ["COMPONENT_CONFIG", "load_component_config"]
+

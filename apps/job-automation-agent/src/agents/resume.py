@@ -35,3 +35,4 @@ else:
     resume_content = template.render(job=job, profile=profile)
     return resume_content
 
+

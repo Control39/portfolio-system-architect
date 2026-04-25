@@ -55,3 +55,4 @@ def analyze(root: Path) -> dict[str, Any]:
         "markers": markers[:100],  # Limit to first 100 for performance
     }
 
+

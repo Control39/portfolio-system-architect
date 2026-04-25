@@ -175,3 +175,4 @@ if __name__ == "__main__":
     low_energy = LowEnergyMode()
     report = low_energy.generate_support_report()
     print(f"Отчёт низкой энергии: {report['gentle_encouragement']}")
+

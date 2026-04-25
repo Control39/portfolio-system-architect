@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """IT-Compass Tools для MCP Server
 
 Инструменты для работы с маркерами компетенций IT-Compass.
@@ -198,3 +198,4 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         if (file.suffix in [".yml", ".yaml"] and any(x in file.name.lower() for x in ["workflow", "github", "action"])) or file.suffix == ".tf":
             return "devops"
         return None
+

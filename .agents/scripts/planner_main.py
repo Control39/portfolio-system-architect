@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Основной скрипт планировщика задач для Cognitive Automation Agent.
 Выполняет планирование, приоритизацию и оптимизацию задач.
 """
@@ -503,3 +503,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

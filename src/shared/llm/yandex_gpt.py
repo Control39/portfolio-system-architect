@@ -206,3 +206,4 @@ if __name__ == "__main__":
             print("  YANDEX_GPT_MODEL=gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest")
 
     asyncio.run(example())
+

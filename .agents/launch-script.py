@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Скрипт запуска Cognitive Automation Agent.
 Обеспечивает автоматический запуск, мониторинг и управление агентом.
 """
@@ -599,3 +599,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

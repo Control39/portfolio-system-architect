@@ -22,3 +22,4 @@ async def analyze_career_progress(user_id: str) -> dict:
         "recommendations": [],
     }
 
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Скрипт для настройки Git хуков, интегрированных с Cognitive Automation Agent.
 Создает хуки, которые автоматически запускают триггеры при Git операциях.
 """
@@ -688,3 +688,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n❌ Критическая ошибка: {e}")
         sys.exit(1)
+

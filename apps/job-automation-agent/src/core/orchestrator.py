@@ -24,3 +24,4 @@ async def analyze_career_progress(user_id: str) -> dict:
     return {"user_id": user_id, "progress": 0.0, "recommendations": []}
 
 
+

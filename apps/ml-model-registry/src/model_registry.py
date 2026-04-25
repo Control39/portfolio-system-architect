@@ -46,3 +46,4 @@
             if model_data.get("name") == model_name:
                 versions.append({**model_data, "id": model_id})
         return sorted(versions, key=lambda x: x.get("version", ""))
+

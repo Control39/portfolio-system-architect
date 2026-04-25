@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Интеграция Cognitive Automation Agent с VS Code.
 Обеспечивает автоматический запуск агента при открытии проекта,
 команды для палитры команд и уведомления.
@@ -396,3 +396,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

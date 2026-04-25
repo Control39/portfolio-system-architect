@@ -1,4 +1,4 @@
-"""Инструменты для работы с Git
+﻿"""Инструменты для работы с Git
 """
 
 import json
@@ -414,3 +414,4 @@ __all__ = [
     "get_git_status_tool",
     "scan_last_commits_for_markers_tool",
 ]
+

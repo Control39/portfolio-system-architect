@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Система мониторинга для работы триггеров Cognitive Automation Agent.
 Собирает метрики, генерирует отчеты и предоставляет дашборд.
 """
@@ -733,3 +733,4 @@ def main():
 if __name__ == "__main__":
     success = main()
     sys.exit(0 if success else 1)
+

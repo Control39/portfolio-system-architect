@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """MCP Server for Career Autopilot
 
 Сервер предоставляет инструменты для работы с файловой системой,
@@ -233,3 +233,4 @@ if __name__ == "__main__":
 
     # Запускаем сервер
     mcp.run()
+

@@ -56,3 +56,4 @@ async def init_db() -> None:
             await conn.run_sync(Base.metadata.create_all)
 
     print(f"Database initialized: {settings.database_url}")
+

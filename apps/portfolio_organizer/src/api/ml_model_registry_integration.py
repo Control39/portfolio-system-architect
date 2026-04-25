@@ -106,3 +106,4 @@ def portfolio_analysis_with_models():
         return jsonify({
             "error": f"Portfolio analysis failed: {e!s}",
         }), 500
+

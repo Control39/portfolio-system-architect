@@ -18,3 +18,4 @@
         """Удаление модели"""
         # Заглушка для удаления модели
         return {"status": "success", "message": f"Model {model_id} deleted"}
+

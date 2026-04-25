@@ -48,3 +48,4 @@ class PortfolioLogger:
             "timestamp": datetime.now().isoformat(),
         }))
 
+
