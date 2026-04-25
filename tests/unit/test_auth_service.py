@@ -20,7 +20,7 @@ def demo_token():
     """Фикстура для получения валидного access token."""
     response = client.post(
         "/auth/token",
-        json={"username": "demo", "password": "demo"}
+        json={"username": "test_user", "password": "test_pass"}
     )
     assert response.status_code == 200
     data = response.json()
@@ -80,8 +80,8 @@ def test_verify_token(demo_token):
     assert response.status_code == 200
     data = response.json()
     assert data["valid"] is True
-    assert data["username"] == "demo"
-    assert data["role"] == "admin"
+    assert data["username"] == "test_user"
+    assert data["role"] == "user"
 
 
 def test_verify_invalid_token():
