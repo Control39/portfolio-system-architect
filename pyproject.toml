@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "portfolio-system-architect"
 dynamic = ["version"]
 dependencies = [
+    "flask-wtf>=1.2.0",
     "fastapi>=0.135.2",
     "uvicorn[standard]>=0.32.0",
     "pydantic>=2.9.2",
@@ -20,7 +21,7 @@ dependencies = [
     "langchain-openai>=0.2.1",
     "pandas>=3.0.2",
     "python-multipart>=0.0.13",
-    "python-jose[cryptography]>=3.3.0",
+    "python-jose[cryptography]>=3.5.0",
     "passlib[bcrypt]>=1.7.4",
     "httpx>=0.28.1",  # Update for security and performance
     "pyyaml>=6.0.3",  # Security update: CVE-2020-14343 fix
@@ -81,6 +82,26 @@ audit = [
     "pip-audit>=2.9.0",
     "bandit>=1.8.0"
 ]
+dev = [
+    "pytest>=9.0.0",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.0",
+    "ruff>=0.15.0",
+    "black>=26.0.0",
+    "bandit>=1.8.0",
+    "mypy>=1.15.0",
+]
+test = [
+    "pytest>=9.0.0",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.0",
+]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.0",
+]
+
+
 
 [tool.repo-audit]
 # Конфигурация автоматического аудита репозитория
