@@ -1,12 +1,10 @@
 ﻿#!/usr/bin/env python3
-"""
-Пример использования IT Compass
+"""Пример использования IT Compass
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
 
 from src.core.tracker import CareerTracker
-from src.utils.portfolio_gen import generate_portfolio
 
 
 def main():

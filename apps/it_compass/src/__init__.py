@@ -1,5 +1,4 @@
-﻿"""
-IT Compass - Objective IT career growth tracker
+﻿"""IT Compass - Objective IT career growth tracker
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """

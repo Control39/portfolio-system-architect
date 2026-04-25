@@ -1,38 +1,37 @@
 ﻿#!/usr/bin/env python3
-"""
-CLI инструмент для автоматической проверки репозитория по чек-листу.
+"""CLI инструмент для автоматической проверки репозитория по чек-листу.
 """
 
 import argparse
-import yaml
-import json
-from pathlib import Path
-from typing import Dict, List, Any
 import importlib.util
+import json
 import subprocess
+from pathlib import Path
+from typing import Any
+
+import yaml
 
 
-def load_checklist(checklist_path: str) -> Dict[str, Any]:
+def load_checklist(checklist_path: str) -> dict[str, Any]:
     """Загрузить YAML чек-листа."""
-    with open(checklist_path, 'r', encoding='utf-8') as f:
+    with open(checklist_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
-def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
+def run_check(script_path: str, repo_root: str) -> dict[str, Any]:
     """Запустить скрипт проверки и вернуть результат."""
     try:
         spec = importlib.util.spec_from_file_location("check_module", script_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        if hasattr(module, 'run'):
+        if hasattr(module, "run"):
             return module.run(repo_root)
-        else:
-            return {"passed": False, "error": "Функция run не найдена"}
+        return {"passed": False, "error": "Функция run не найдена"}
     except Exception as e:
         return {"passed": False, "error": str(e)}
 
 
-def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
+def execute_shell(cmd: list[str], cwd: str) -> dict[str, Any]:
     """Выполнить shell команду и вернуть результат."""
     try:
         # shell=False для безопасности, чтобы избежать инъекций команд
@@ -41,7 +40,7 @@ def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
             "passed": result.returncode == 0,
             "stdout": result.stdout,
             "stderr": result.stderr,
-            "returncode": result.returncode
+            "returncode": result.returncode,
         }
     except subprocess.TimeoutExpired:
         return {"passed": False, "error": "Таймаут выполнения"}
@@ -49,14 +48,14 @@ def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
         return {"passed": False, "error": str(e)}
 
 
-def check_structure(repo_root: str) -> Dict[str, Any]:
+def check_structure(repo_root: str) -> dict[str, Any]:
     """Проверка структуры репозитория."""
     required = [
         "apps", "src", "tests", "docs", "deployment", "diagrams",
         "scripts", "tools", ".github", ".env.example", ".gitignore",
         ".dockerignore", ".pre-commit-config.yaml", "README.md",
         "LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md",
-        "pyproject.toml", "requirements-dev.txt", "Makefile"
+        "pyproject.toml", "requirements-dev.txt", "Makefile",
     ]
     missing = []
     for item in required:
@@ -66,22 +65,22 @@ def check_structure(repo_root: str) -> Dict[str, Any]:
     return {
         "passed": len(missing) == 0,
         "missing": missing,
-        "message": f"Отсутствуют: {missing}" if missing else "Структура соответствует"
+        "message": f"Отсутствуют: {missing}" if missing else "Структура соответствует",
     }
 
 
-def check_git(repo_root: str) -> Dict[str, Any]:
+def check_git(repo_root: str) -> dict[str, Any]:
     """Проверка git ветвления."""
     # Простая проверка наличия ветки develop
     result = execute_shell(["git", "branch", "--list", "develop"], repo_root)
     develop_exists = "develop" in result.get("stdout", "")
     return {
         "passed": develop_exists,
-        "message": "Ветка develop существует" if develop_exists else "Ветка develop отсутствует"
+        "message": "Ветка develop существует" if develop_exists else "Ветка develop отсутствует",
     }
 
 
-def check_linting(repo_root: str) -> Dict[str, Any]:
+def check_linting(repo_root: str) -> dict[str, Any]:
     """Проверка линтинга."""
     results = []
     # ruff
@@ -97,11 +96,11 @@ def check_linting(repo_root: str) -> Dict[str, Any]:
     return {
         "passed": passed,
         "details": results,
-        "message": "Линтинг пройден" if passed else "Ошибки линтинга"
+        "message": "Линтинг пройден" if passed else "Ошибки линтинга",
     }
 
 
-def check_secrets(repo_root: str) -> Dict[str, Any]:
+def check_secrets(repo_root: str) -> dict[str, Any]:
     """Проверка секретов."""
     # Если detect-secrets установлен
     r = execute_shell(["detect-secrets", "scan"], repo_root)
@@ -111,16 +110,15 @@ def check_secrets(repo_root: str) -> Dict[str, Any]:
     return {"passed": True, "message": "Секреты не обнаружены"}
 
 
-def check_ci(repo_root: str) -> Dict[str, Any]:
+def check_ci(repo_root: str) -> dict[str, Any]:
     """Проверка CI."""
     ci_path = Path(repo_root) / ".github" / "workflows" / "ci.yml"
     if ci_path.exists():
         return {"passed": True, "message": "CI workflow существует"}
-    else:
-        return {"passed": False, "message": "CI workflow отсутствует"}
+    return {"passed": False, "message": "CI workflow отсутствует"}
 
 
-def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[str, Any]:
+def run_audit(checklist_path: str, repo_root: str, level: str = None) -> dict[str, Any]:
     """Запустить аудит по чек-листу."""
     checklist = load_checklist(checklist_path)
     results = []
@@ -144,20 +142,19 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
                         result = run_check(str(script_path), repo_root)
                     else:
                         result = {"passed": False, "error": "Скрипт не найден"}
+                # встроенные проверки
+                elif check_id == "repo_structure":
+                    result = check_structure(repo_root)
+                elif check_id == "git_branching":
+                    result = check_git(repo_root)
+                elif check_id == "linting_formatting":
+                    result = check_linting(repo_root)
+                elif check_id == "secrets_check":
+                    result = check_secrets(repo_root)
+                elif check_id == "basic_ci":
+                    result = check_ci(repo_root)
                 else:
-                    # встроенные проверки
-                    if check_id == "repo_structure":
-                        result = check_structure(repo_root)
-                    elif check_id == "git_branching":
-                        result = check_git(repo_root)
-                    elif check_id == "linting_formatting":
-                        result = check_linting(repo_root)
-                    elif check_id == "secrets_check":
-                        result = check_secrets(repo_root)
-                    elif check_id == "basic_ci":
-                        result = check_ci(repo_root)
-                    else:
-                        result = {"passed": False, "error": "Проверка не реализована"}
+                    result = {"passed": False, "error": "Проверка не реализована"}
             else:
                 result = {"passed": None, "message": "Ручная проверка"}
             passed = result.get("passed", False)
@@ -168,7 +165,7 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
                 "check": check_id,
                 "name": check_name,
                 "passed": passed,
-                "details": result
+                "details": result,
             })
 
     return {
@@ -176,9 +173,9 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
             "total": total_checks,
             "passed": passed_checks,
             "failed": total_checks - passed_checks,
-            "score": (passed_checks / total_checks * 100) if total_checks > 0 else 0
+            "score": (passed_checks / total_checks * 100) if total_checks > 0 else 0,
         },
-        "results": results
+        "results": results,
     }
 
 

@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 import uvicorn
 
 # Добавляем путь к проекту для корректного импорта
@@ -15,10 +16,10 @@ except ImportError:
             "scripts": [
                 {
                     "name": "run_api",
-                    "command": "uvicorn api.endpoints:app --host 0.0.0.0 --port 8000 --reload"
-                }
-            ]
-        }
+                    "command": "uvicorn api.endpoints:app --host 0.0.0.0 --port 8000 --reload",
+                },
+            ],
+        },
     }
     print("Внимание: Используется fallback конфигурация. Убедитесь, что component-config.yaml существует.")
 

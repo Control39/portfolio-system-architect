@@ -1,59 +1,59 @@
 #!/usr/bin/env python3
-"""
-Интеграция Cognitive Automation Agent с VS Code.
+"""Интеграция Cognitive Automation Agent с VS Code.
 Обеспечивает автоматический запуск агента при открытии проекта,
 команды для палитры команд и уведомления.
 """
 
-import os
 import json
+import os
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
+
 
 class VSCodeIntegration:
     """Интеграция с VS Code"""
-    
+
     def __init__(self, agent_root: str = ".agents"):
         self.agent_root = Path(agent_root)
         self.vscode_dir = Path(".vscode")
         self.config = self._load_config()
-        
-    def _load_config(self) -> Dict[str, Any]:
+
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации"""
         config_path = self.agent_root / "config" / "agent-config.yaml"
         if config_path.exists():
             try:
                 import yaml
-                with open(config_path, 'r', encoding='utf-8') as f:
+                with open(config_path, encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
             except:
                 pass
         return {}
-    
+
     def setup_vscode_integration(self) -> bool:
         """Настройка интеграции с VS Code"""
         print("🔧 Настройка интеграции с VS Code...")
-        
+
         try:
             # Создаем задачи для VS Code
             self._create_vscode_tasks()
-            
+
             # Создаем настройки для VS Code
             self._create_vscode_settings()
-            
+
             # Создаем сниппеты
             self._create_vscode_snippets()
-            
+
             # Создаем скрипт активации
             self._create_activation_script()
-            
+
             print("✅ Интеграция с VS Code настроена")
             return True
-            
+
         except Exception as e:
             print(f"❌ Ошибка настройки интеграции: {e}")
             return False
-    
+
     def _create_vscode_tasks(self):
         """Создание задач для VS Code"""
         tasks = {
@@ -65,17 +65,17 @@ class VSCodeIntegration:
                     "command": "python",
                     "args": [
                         "${workspaceFolder}/.agents/launch-script.py",
-                        "--autonomy=medium"
+                        "--autonomy=medium",
                     ],
                     "group": {
                         "kind": "build",
-                        "isDefault": False
+                        "isDefault": False,
                     },
                     "presentation": {
                         "reveal": "always",
-                        "panel": "dedicated"
+                        "panel": "dedicated",
                     },
-                    "problemMatcher": []
+                    "problemMatcher": [],
                 },
                 {
                     "label": "Cognitive Agent: Сканировать проект",
@@ -83,26 +83,26 @@ class VSCodeIntegration:
                     "command": "python",
                     "args": [
                         "${workspaceFolder}/.agents/launch-script.py",
-                        "--scan"
+                        "--scan",
                     ],
                     "group": "build",
                     "presentation": {
                         "reveal": "always",
-                        "panel": "dedicated"
-                    }
+                        "panel": "dedicated",
+                    },
                 },
                 {
                     "label": "Cognitive Agent: Валидировать",
                     "type": "shell",
                     "command": "python",
                     "args": [
-                        "${workspaceFolder}/.agents/tests/validation-test.py"
+                        "${workspaceFolder}/.agents/tests/validation-test.py",
                     ],
                     "group": "test",
                     "presentation": {
                         "reveal": "always",
-                        "panel": "dedicated"
-                    }
+                        "panel": "dedicated",
+                    },
                 },
                 {
                     "label": "Cognitive Agent: Оптимизировать",
@@ -110,13 +110,13 @@ class VSCodeIntegration:
                     "command": "python",
                     "args": [
                         "${workspaceFolder}/.agents/launch-script.py",
-                        "--optimize"
+                        "--optimize",
                     ],
                     "group": "build",
                     "presentation": {
                         "reveal": "always",
-                        "panel": "dedicated"
-                    }
+                        "panel": "dedicated",
+                    },
                 },
                 {
                     "label": "Cognitive Agent: Показать дашборд",
@@ -124,26 +124,26 @@ class VSCodeIntegration:
                     "command": "python",
                     "args": [
                         "${workspaceFolder}/.agents/launch-script.py",
-                        "--dashboard"
+                        "--dashboard",
                     ],
                     "group": "build",
                     "presentation": {
                         "reveal": "always",
-                        "panel": "dedicated"
-                    }
-                }
-            ]
+                        "panel": "dedicated",
+                    },
+                },
+            ],
         }
-        
+
         # Создаем директорию .vscode если её нет
         self.vscode_dir.mkdir(exist_ok=True)
-        
+
         tasks_file = self.vscode_dir / "tasks.json"
-        with open(tasks_file, 'w', encoding='utf-8') as f:
+        with open(tasks_file, "w", encoding="utf-8") as f:
             json.dump(tasks, f, indent=2)
-        
+
         print(f"📋 Созданы задачи VS Code: {tasks_file}")
-    
+
     def _create_vscode_settings(self):
         """Создание настроек для VS Code"""
         settings = {
@@ -156,33 +156,33 @@ class VSCodeIntegration:
             "editor.formatOnSave": True,
             "editor.codeActionsOnSave": {
                 "source.fixAll": "explicit",
-                "source.organizeImports": "explicit"
+                "source.organizeImports": "explicit",
             },
             "python.analysis.autoImportCompletions": True,
             "python.analysis.typeCheckingMode": "basic",
             "terminal.integrated.env.windows": {
                 "COGNITIVE_AGENT_ENABLED": "true",
-                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/.agents"
-            }
+                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/.agents",
+            },
         }
-        
+
         settings_file = self.vscode_dir / "settings.json"
-        
+
         # Если файл уже существует, объединяем настройки
         if settings_file.exists():
             try:
-                with open(settings_file, 'r', encoding='utf-8') as f:
+                with open(settings_file, encoding="utf-8") as f:
                     existing_settings = json.load(f)
                 # Объединяем настройки
                 settings = {**existing_settings, **settings}
             except:
                 pass
-        
-        with open(settings_file, 'w', encoding='utf-8') as f:
+
+        with open(settings_file, "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=2)
-        
+
         print(f"⚙️  Созданы настройки VS Code: {settings_file}")
-    
+
     def _create_vscode_snippets(self):
         """Создание сниппетов для VS Code"""
         snippets = {
@@ -195,9 +195,9 @@ class VSCodeIntegration:
                     "agent = CognitiveAgent(autonomy_level='${1|high,medium,low|}')",
                     "agent.activate()",
                     "agent.scan_project()",
-                    "agent.generate_plan()"
+                    "agent.generate_plan()",
                 ],
-                "description": "Активация Cognitive Automation Agent"
+                "description": "Активация Cognitive Automation Agent",
             },
             "Cognitive Agent Scan": {
                 "prefix": "cog-scan",
@@ -207,9 +207,9 @@ class VSCodeIntegration:
                     "",
                     "scanner = ProjectScanner()",
                     "report = scanner.scan(deep=${1|True,False|})",
-                    "scanner.save_report('scan_report.json')"
+                    "scanner.save_report('scan_report.json')",
                 ],
-                "description": "Сканирование проекта"
+                "description": "Сканирование проекта",
             },
             "Cognitive Agent Task": {
                 "prefix": "cog-task",
@@ -224,18 +224,18 @@ class VSCodeIntegration:
                     "    priority='${3|critical,high,medium,low|}',",
                     "    estimated_time=${4:60}",
                     ")",
-                    "planner.add_to_queue(task)"
+                    "planner.add_to_queue(task)",
                 ],
-                "description": "Создание задачи"
-            }
+                "description": "Создание задачи",
+            },
         }
-        
+
         snippets_file = self.vscode_dir / "cognitive-agent.code-snippets"
-        with open(snippets_file, 'w', encoding='utf-8') as f:
+        with open(snippets_file, "w", encoding="utf-8") as f:
             json.dump(snippets, f, indent=2)
-        
+
         print(f"📝 Созданы сниппеты VS Code: {snippets_file}")
-    
+
     def _create_activation_script(self):
         """Создание скрипта активации для VS Code"""
         script_content = '''#!/usr/bin/env python3
@@ -301,19 +301,19 @@ if __name__ == "__main__":
     else:
         print("📁 Запуск вне VS Code, активация пропущена")
 '''
-        
+
         script_file = self.agent_root / "scripts" / "vscode-activate.py"
         script_file.parent.mkdir(exist_ok=True, parents=True)
-        
-        with open(script_file, 'w', encoding='utf-8') as f:
+
+        with open(script_file, "w", encoding="utf-8") as f:
             f.write(script_content)
-        
+
         # Делаем скрипт исполняемым (для Unix-систем)
-        if os.name != 'nt':
+        if os.name != "nt":
             os.chmod(script_file, 0o755)
-        
+
         print(f"🚀 Создан скрипт активации: {script_file}")
-    
+
     def create_launch_configuration(self):
         """Создание конфигурации запуска для отладки"""
         launch_config = {
@@ -326,14 +326,14 @@ if __name__ == "__main__":
                     "program": "${workspaceFolder}/.agents/launch-script.py",
                     "args": ["--debug"],
                     "console": "integratedTerminal",
-                    "justMyCode": False
+                    "justMyCode": False,
                 },
                 {
                     "name": "Cognitive Agent: Validate",
                     "type": "python",
                     "request": "launch",
                     "program": "${workspaceFolder}/.agents/tests/validation-test.py",
-                    "console": "integratedTerminal"
+                    "console": "integratedTerminal",
                 },
                 {
                     "name": "Cognitive Agent: Scanner",
@@ -341,42 +341,42 @@ if __name__ == "__main__":
                     "request": "launch",
                     "program": "${workspaceFolder}/.agents/launch-script.py",
                     "args": ["--scan", "--deep"],
-                    "console": "integratedTerminal"
-                }
-            ]
+                    "console": "integratedTerminal",
+                },
+            ],
         }
-        
+
         launch_file = self.vscode_dir / "launch.json"
-        
+
         # Если файл уже существует, добавляем конфигурации
         if launch_file.exists():
             try:
-                with open(launch_file, 'r', encoding='utf-8') as f:
+                with open(launch_file, encoding="utf-8") as f:
                     existing_config = json.load(f)
-                
+
                 # Добавляем наши конфигурации в начало
                 if "configurations" in existing_config:
                     existing_config["configurations"] = launch_config["configurations"] + existing_config["configurations"]
                 else:
                     existing_config["configurations"] = launch_config["configurations"]
-                
+
                 launch_config = existing_config
             except:
                 pass
-        
-        with open(launch_file, 'w', encoding='utf-8') as f:
+
+        with open(launch_file, "w", encoding="utf-8") as f:
             json.dump(launch_config, f, indent=2)
-        
+
         print(f"🐛 Созданы конфигурации запуска: {launch_file}")
-    
+
     def run(self):
         """Запуск интеграции"""
         print("=" * 60)
         print("🚀 ИНТЕГРАЦИЯ COGNITIVE AUTOMATION AGENT С VS CODE")
         print("=" * 60)
-        
+
         success = self.setup_vscode_integration()
-        
+
         if success:
             print("\n✅ Интеграция успешно настроена!")
             print("\nДоступные команды в VS Code:")
@@ -386,7 +386,7 @@ if __name__ == "__main__":
             print("\nФайлы конфигурации созданы в директории .vscode/")
         else:
             print("\n❌ Настройка интеграции завершилась с ошибками")
-        
+
         return success
 
 def main():

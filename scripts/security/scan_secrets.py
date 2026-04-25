@@ -1,12 +1,12 @@
 ﻿#!/usr/bin/env python3
-"""
-Сканирование проекта на наличие потенциальных секретов (ключей API, паролей, токенов).
+"""Сканирование проекта на наличие потенциальных секретов (ключей API, паролей, токенов).
 Использует detect-secrets для создания базового файла .secrets.baseline и последующего сравнения.
 """
+import os
 import subprocess
 import sys
-import os
 from pathlib import Path
+
 
 def run_detect_secrets_scan() -> int:
     """Запуск detect-secrets scan и вывод результатов."""

@@ -13,7 +13,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """
     Настройки приложения.
-    
+
     Значения загружаются из переменных окружения с префиксом TEMPLATE_.
     """
 

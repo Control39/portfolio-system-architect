@@ -1,5 +1,4 @@
-﻿"""
-Embedding Agent for RAG search over project documentation.
+﻿"""Embedding Agent for RAG search over project documentation.
 """
 
 from .embedder import DocumentEmbedder
