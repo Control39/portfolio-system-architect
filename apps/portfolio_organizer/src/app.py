@@ -1,17 +1,16 @@
-﻿"""Основное приложение Portfolio Organizer.
+﻿"""
+Основное приложение Portfolio Organizer.
 Объединяет все API модули.
 """
 
 import os
-
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-
 from .api.ml_model_registry_integration import bp as ml_model_registry_bp
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key") # Use default for testing
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key') # Use default for testing
 csrf = CSRFProtect(app)
 
 # Регистрируем blueprint для интеграции с ML Model Registry
@@ -27,24 +26,23 @@ app.register_blueprint(ml_model_registry_bp)
 # Для текущей задачи мы запустим reasoning_api отдельно.
 # Этот файл app.py будет использоваться для интеграции с ML Model Registry.
 
-@app.route("/")
+@app.route('/')
 def index():
     return {
-        "service": "Portfolio Organizer",
-        "version": "0.1.0",
-        "endpoints": {
-            "/api/ml-model-registry/*": "ML Model Registry integration",
-            "/api/projects": "Projects API (see reasoning_api)",
-            "/api/portfolio/analysis": "Portfolio analysis (see reasoning_api)",
-        },
+        'service': 'Portfolio Organizer',
+        'version': '0.1.0',
+        'endpoints': {
+            '/api/ml-model-registry/*': 'ML Model Registry integration',
+            '/api/projects': 'Projects API (see reasoning_api)',
+            '/api/portfolio/analysis': 'Portfolio analysis (see reasoning_api)',
+        }
     }
 
-@app.route("/health")
+@app.route('/health')
 def health():
-    return {"status": "healthy"}
+    return {'status': 'healthy'}
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8004))
-    app.run(host="0.0.0.0", port=port, debug=os.environ.get("FLASK_DEBUG", "False").lower() == "true")
-
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8004))
+    app.run(host='0.0.0.0', port=port, debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
 

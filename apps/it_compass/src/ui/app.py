@@ -1,12 +1,12 @@
 ﻿#!/usr/bin/env python3
-"""IT Compass - Streamlit Web Interface for Dashboard Visualization
+"""
+IT Compass - Streamlit Web Interface for Dashboard Visualization
 Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0
 """
 
-import sys
-from pathlib import Path
-
 import streamlit as st
+from pathlib import Path
+import sys
 
 # Добавляем src в путь для импорта
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -24,7 +24,7 @@ st.set_page_config(
     page_title="IT Compass Dashboard",
     page_icon="🧭",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded"
 )
 
 # --- Инициализация Трекера ---
@@ -149,12 +149,10 @@ def render_documentation():
 
         if st.button("📖 Открыть методологию", use_container_width=True):
             try:
-                with open("docs/METHODOLOGY.md", encoding="utf-8") as f:
+                with open("docs/METHODOLOGY.md", "r", encoding="utf-8") as f:
                     st.markdown(f.read())
-            except FileNotFoundError:
+            except:
                 st.warning("Файл METHODOLOGY.md не найден")
-            except Exception as e:
-                st.error(f"Ошибка при чтении файла: {e}")
 
     with col2:
         st.subheader("🛠 Утилиты")
@@ -166,12 +164,10 @@ def render_documentation():
 
         if st.button("📋 Посмотреть портфолио", use_container_width=True):
             try:
-                with open("docs/my_portfolio.md", encoding="utf-8") as f:
+                with open("docs/my_portfolio.md", "r", encoding="utf-8") as f:
                     st.markdown(f.read())
-            except FileNotFoundError:
+            except:
                 st.warning("Портфолио ещё не сгенерировано")
-            except Exception as e:
-                st.error(f"Ошибка при чтении файла портфолио: {e}")
 
 def render_strategy():
     """Отображает стратегическую информацию."""
@@ -271,7 +267,7 @@ def main():
     menu_option = st.sidebar.selectbox(
         "Навигация",
         ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"],
-        index=0,
+        index=0
     )
 
     # Информация о проекте
@@ -303,5 +299,5 @@ if tracker is None:
 
 if __name__ == "__main__":
     main()
-
+```
 

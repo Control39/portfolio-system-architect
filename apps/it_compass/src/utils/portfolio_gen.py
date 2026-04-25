@@ -1,12 +1,14 @@
-﻿"""Генератор портфолио для IT Compass.
+﻿"""
+Генератор портфолио для IT Compass.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
 
 import json
 import logging
-from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Optional
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +23,7 @@ class PortfolioGenerator:
         self.markers_dir = Path(markers_dir)
         self.progress_file = Path(progress_file)
         self.output_file = Path(output_file)
-        self._markers_cache: dict[str, dict] | None = None
+        self._markers_cache: Optional[Dict[str, Dict]] = None
 
     def generate_portfolio(self) -> bool:
         try:
@@ -48,13 +50,13 @@ class PortfolioGenerator:
             print(f"⚠️ Ошибка генерации: {e}")
             return False
 
-    def _load_progress(self) -> dict | None:
+    def _load_progress(self) -> Optional[Dict]:
         if not self.progress_file.exists():
             print("⚠️ Файл прогресса отсутствует.")
             return None
 
         try:
-            with open(self.progress_file, encoding="utf-8") as f:
+            with open(self.progress_file, "r", encoding="utf-8") as f:
                 progress = json.load(f)
 
             if not isinstance(progress, dict):
@@ -69,7 +71,7 @@ class PortfolioGenerator:
             logger.error(f"Неожиданная ошибка при загрузке прогресса: {e}")
             return None
 
-    def _load_all_markers(self) -> dict[str, dict]:
+    def _load_all_markers(self) -> Dict[str, Dict]:
         if self._markers_cache is not None:
             return self._markers_cache
 
@@ -82,11 +84,11 @@ class PortfolioGenerator:
         try:
             for json_path in self.markers_dir.glob("*.json"):
                 try:
-                    with open(json_path, encoding="utf-8") as f:
+                    with open(json_path, "r", encoding="utf-8") as f:
                         skill_data = json.load(f)
 
                     skill_name = skill_data.get(
-                        "skill_name", json_path.stem.capitalize(),
+                        "skill_name", json_path.stem.capitalize()
                     )
 
                     for level_data in skill_data.get("levels", {}).values():
@@ -106,7 +108,7 @@ class PortfolioGenerator:
         self._markers_cache = markers
         return markers
 
-    def _create_portfolio_content(self, completed_markers: list[dict]) -> list[str]:
+    def _create_portfolio_content(self, completed_markers: List[Dict]) -> List[str]:
         by_skill = self._group_markers_by_skill(completed_markers)
 
         lines = [
@@ -132,11 +134,11 @@ class PortfolioGenerator:
                     lines.append(" > ⭐ Высокий приоритет для трудоустройства")
 
                 methodology_author = marker.get(
-                    "methodology_author", "Ekaterina Kudelya",
+                    "methodology_author", "Ekaterina Kudelya"
                 )
                 methodology_license = marker.get("methodology_license", "CC BY-ND 4.0")
                 lines.append(
-                    f" > 📋 Методология: © {methodology_author}, {methodology_license}",
+                    f" > 📋 Методология: © {methodology_author}, {methodology_license}"
                 )
             lines.append("")
 
@@ -149,19 +151,19 @@ class PortfolioGenerator:
                 "- Используйте это портфолио при откликах на вакансии",
                 "",
                 "> 🚀 **Следующий шаг:** Продолжайте отмечать выполненные маркеры!",
-            ],
+            ]
         )
 
         return lines
 
-    def _group_markers_by_skill(self, markers: list[dict]) -> dict[str, list[dict]]:
+    def _group_markers_by_skill(self, markers: List[Dict]) -> Dict[str, List[Dict]]:
         grouped = {}
         for marker in markers:
             skill = marker.get("skill_name", "Other")
             grouped.setdefault(skill, []).append(marker)
         return grouped
 
-    def _save_portfolio(self, content: list[str]) -> bool:
+    def _save_portfolio(self, content: List[str]) -> bool:
         try:
             self.output_file.parent.mkdir(parents=True, exist_ok=True)
             portfolio_text = "\n".join(content)
@@ -192,5 +194,4 @@ if __name__ == "__main__":
         print("\n🎉 Портфолио готово! Файл: docs/my_portfolio.md")
     else:
         print("\n❌ Не удалось создать портфолио.")
-
 
