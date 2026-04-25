@@ -6,26 +6,26 @@ build-backend = "hatchling.build"
 name = "portfolio-system-architect"
 dynamic = ["version"]
 dependencies = [
-    "fastapi>=0.68.0",
-    "uvicorn[standard]>=0.15.0",
-    "pydantic>=2.0.0",
-    "pydantic-settings>=2.5.2",
-    "sqlalchemy>=2.0.0",
-    "alembic>=1.12.0",
-    "psycopg2-binary>=2.9.0",
-    "redis>=5.0.0",
+    "fastapi>=0.135.2",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.9.2",
+    "pydantic-settings>=2.6.1",
+    "sqlalchemy>=2.0.37",
+    "alembic>=1.14.0",
+    "psycopg2-binary>=2.9.10",
+    "redis>=5.3.1",
     "requests>=2.33.1",  # Security update: CVE fixes
-    "langchain>=0.3.1",
-    "langchain-community>=0.3.27",
-    "langchain-openai>=0.3.0",
-    "pandas>=1.3.2",
-    "python-multipart>=0.0.5",
+    "langchain>=1.2.13",
+    "langchain-community>=0.2.28",
+    "langchain-openai>=0.2.1",
+    "pandas>=3.0.2",
+    "python-multipart>=0.0.13",
     "python-jose[cryptography]>=3.3.0",
     "passlib[bcrypt]>=1.7.4",
     "httpx>=0.28.1",  # Update for security and performance
     "pyyaml>=6.0.3",  # Security update: CVE-2020-14343 fix
-    "sentence-transformers>=2.2.2",
-    "chromadb>=0.4.22",
+    "sentence-transformers>=3.0.1",
+    "chromadb>=1.5.5",
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -75,6 +75,13 @@ packages = ["src", "apps"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src", "apps"]
+
+[project.optional-dependencies]
+audit = [
+    "pip-audit>=2.9.0",
+    "bandit>=1.8.0",
+    "gitleaks>=8.28.0"
+]
 
 [tool.repo-audit]
 # Конфигурация автоматического аудита репозитория
