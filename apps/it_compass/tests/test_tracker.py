@@ -6,7 +6,7 @@ import sys
 
 sys.path.append(".")
 
-from src.core.tracker import CareerTracker
+from apps.it_compass.src.core.tracker import CareerTracker
 
 
 def test_tracker_initialization():
