@@ -1,8 +1,7 @@
-﻿import sys
+﻿import pytest
 import tempfile
 from pathlib import Path
-
-import pytest
+import sys
 
 sys.path.append(".")
 

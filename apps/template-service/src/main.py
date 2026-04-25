@@ -10,7 +10,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 from src.api import router as api_router
-
 from src.core.config import settings
 from src.core.database import init_db
 from src.core.health import router as health_router
@@ -20,7 +19,7 @@ from src.core.health import router as health_router
 async def lifespan(app: FastAPI):
     """
     Контекстный менеджер жизненного цикла приложения.
-
+    
     Выполняет инициализацию при запуске и очистку при остановке.
     """
     # Инициализация при запуске
@@ -40,7 +39,7 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     """
     Фабрика для создания экземпляра FastAPI приложения.
-
+    
     Returns:
         FastAPI: Настроенное приложение
     """
@@ -84,4 +83,3 @@ if __name__ == "__main__":
         reload=settings.debug,
         log_level=settings.log_level.lower(),
     )
-

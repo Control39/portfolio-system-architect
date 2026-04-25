@@ -1,19 +1,20 @@
-﻿"""API для анализа и рекомендаций по проектам портфолио
+﻿"""
+API для анализа и рекомендаций по проектам портфолио
 """
 
-import os
-from typing import Any
-
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_wtf.csrf import CSRFProtect
+from typing import Dict, List, Any
+import json
+import os
 
 app = Flask(__name__)
 
 # Требуется установка SECRET_KEY через переменную окружения
-if not os.environ.get("SECRET_KEY"):
+if not os.environ.get('SECRET_KEY'):
     raise RuntimeError("SECRET_KEY environment variable is required")
-
-app.secret_key = os.environ.get("SECRET_KEY")
+    
+app.secret_key = os.environ.get('SECRET_KEY')
 csrf = CSRFProtect(app)
 
 # Демонстрационные данные проектов
@@ -66,7 +67,8 @@ def get_project(project_id):
     project = next((p for p in SAMPLE_PROJECTS if p["id"] == project_id), None)
     if project:
         return jsonify(project)
-    return jsonify({"error": "Project not found"}), 404
+    else:
+        return jsonify({"error": "Project not found"}), 404
 
 
 @app.route("/api/projects/<int:project_id>/recommendations", methods=["GET"])
@@ -87,26 +89,26 @@ def portfolio_analysis():
     analysis = {
         "total_projects": len(SAMPLE_PROJECTS),
         "completed_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "completed"],
+            [p for p in SAMPLE_PROJECTS if p["status"] == "completed"]
         ),
         "in_progress_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"],
+            [p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"]
         ),
         "pending_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "pending"],
+            [p for p in SAMPLE_PROJECTS if p["status"] == "pending"]
         ),
         "total_budget": sum(p["budget"] for p in SAMPLE_PROJECTS),
         "average_team_size": sum(p["team_size"] for p in SAMPLE_PROJECTS)
         / len(SAMPLE_PROJECTS),
         "technologies": list(
-            set(tech for p in SAMPLE_PROJECTS for tech in p["technologies"]),
+            set(tech for p in SAMPLE_PROJECTS for tech in p["technologies"])
         ),
     }
 
     return jsonify(analysis)
 
 
-def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
+def generate_recommendations(project: Dict[str, Any]) -> Dict[str, Any]:
     """Генерация рекомендаций для проекта"""
     recommendations = {
         "project_id": project["id"],
@@ -121,14 +123,14 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
                 {
                     "type": "warning",
                     "message": "Прогресс проекта ниже 50%. Рассмотрите возможность пересмотра плана или увеличения ресурсов.",
-                },
+                }
             )
         elif project["progress"] > 80:
             recommendations["suggestions"].append(
                 {
                     "type": "info",
                     "message": "Проект близок к завершению. Начните планирование постпроектного анализа.",
-                },
+                }
             )
 
     # Рекомендации на основе дедлайна
@@ -142,7 +144,7 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
             {
                 "type": "urgent",
                 "message": f"До дедлайна осталось {days_until_deadline} дней. Приоритизируйте критически важные задачи.",
-            },
+            }
         )
 
     # Рекомендации на основе технологий
@@ -151,7 +153,7 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
             {
                 "type": "info",
                 "message": "Для Python проектов с большой командой рассмотрите использование дополнительных инструментов для управления зависимостями.",
-            },
+            }
         )
 
     # Рекомендации на основе бюджета
@@ -160,7 +162,7 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
             {
                 "type": "info",
                 "message": "Проект с крупным бюджетом. Рассмотрите возможность внедрения дополнительных метрик отслеживания ROI.",
-            },
+            }
         )
 
     return recommendations
@@ -179,12 +181,11 @@ def health_check():
         "version": "0.1.0",
         "timestamp": datetime.utcnow().isoformat(),
         "checks": {
-            "api": {"status": "ok"},
-        },
+            "api": {"status": "ok"}
+        }
     })
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=os.environ.get("FLASK_DEBUG", "False").lower() == "true")
-
+    app.run(host="0.0.0.0", port=5000, debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
 

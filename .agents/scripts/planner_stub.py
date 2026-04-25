@@ -1,10 +1,11 @@
-﻿#!/usr/bin/env python3
-"""Заглушка компонента planner Cognitive Automation Agent.
+#!/usr/bin/env python3
+"""
+Заглушка компонента planner Cognitive Automation Agent.
 В реальной реализации здесь будет логика компонента.
 """
 
-import logging
 import time
+import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 def main():
     """Основная функция компонента"""
     logger.info(f"Компонент {component} запущен")
-
+    
     # Имитация работы компонента
     while True:
         logger.info(f"Компонент {component} работает...")
@@ -20,4 +21,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

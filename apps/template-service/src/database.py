@@ -6,7 +6,6 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
-
 from src.core.config import settings
 
 # Базовый класс для моделей
@@ -32,7 +31,7 @@ AsyncSessionLocal = async_sessionmaker(
 async def get_db() -> AsyncSession:
     """
     Dependency для получения сессии базы данных.
-
+    
     Yields:
         AsyncSession: Асинхронная сессия базы данных
     """
@@ -46,7 +45,7 @@ async def get_db() -> AsyncSession:
 async def init_db() -> None:
     """
     Инициализация базы данных.
-
+    
     Создает все таблицы, определенные в моделях.
     """
     async with engine.begin() as conn:
@@ -56,4 +55,3 @@ async def init_db() -> None:
             await conn.run_sync(Base.metadata.create_all)
 
     print(f"Database initialized: {settings.database_url}")
-

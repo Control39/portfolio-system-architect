@@ -1,3 +1,3 @@
-﻿"""Модуль API для Portfolio Organizer.
 """
-
+Модуль API для Portfolio Organizer.
+"""

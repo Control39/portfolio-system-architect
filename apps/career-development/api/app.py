@@ -1,9 +1,9 @@
-﻿import json
+﻿from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import Optional
+import json
 import os
 import sys
-
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")))
@@ -16,7 +16,7 @@ init_health_checks(app, service_name="career-development", version="1.0.0")
 
 # Путь к файлу профиля (пример)
 PROFILE_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "user_profile.json"),
+    os.path.join(os.path.dirname(__file__), "..", "..", "user_profile.json")
 )
 
 
@@ -30,7 +30,7 @@ async def root():
             "GET /ready": "Readiness probe",
             "GET /live": "Liveness probe",
             "GET /profile": "Get user profile",
-        },
+        }
     }
 
 
@@ -39,7 +39,7 @@ async def get_profile():
     """Вернуть JSON‑профиль пользователя."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, encoding="utf-8") as f:
+    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
     return data
 
@@ -47,8 +47,8 @@ async def get_profile():
 # ------------------- Пример простых моделей -------------------
 class GoalCreate(BaseModel):
     title: str
-    description: str | None = None
-    target_date: str | None = None  # ISO‑date
+    description: Optional[str] = None
+    target_date: Optional[str] = None  # ISO‑date
 
 
 @app.post("/goals")
@@ -56,7 +56,7 @@ async def create_goal(goal: GoalCreate):
     """Создаёт новую цель в профиле."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, encoding="utf-8") as f:
+    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
         profile = json.load(f)
 
     profile.setdefault("goals", []).append(goal.dict())
@@ -71,7 +71,7 @@ async def update_marker(marker_id: str, status: str):
     """Обновление статуса маркера (not_started, in_progress, completed)."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, encoding="utf-8") as f:
+    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
         profile = json.load(f)
 
     # поиск маркера
@@ -92,6 +92,5 @@ async def export_evidence():
     """Сгенерировать пакет доказательств. Для демо – просто возвращаем путь к файлу."""
     # В реальном проекте сюда будет логика сборки PDF/MD.
     return {"export_path": "/path/to/evidence_package.zip"}
-
 
 

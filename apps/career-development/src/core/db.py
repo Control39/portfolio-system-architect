@@ -1,18 +1,24 @@
-﻿"""Async SQLAlchemy ORM for Career Development System
+﻿"""
+Async SQLAlchemy ORM for Career Development System
 Connects shared Pydantic schemas → PostgreSQL
 """
 import asyncio
 import os
-
-from sqlalchemy import DateTime, Integer, String, func
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from typing import List
+from sqlalchemy.ext.asyncio import (
+    AsyncSession, 
+    create_async_engine, 
+    async_sessionmaker
+)
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-from src.shared.pydantic.career import UserProfile
+from sqlalchemy import String, Integer, DateTime, func, ForeignKey, JSON
+from src.shared.pydantic.career import (
+    CompetencyMarker, Skill, UserProfile
+)
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://architect:arch_pass_2024@localhost:5432/portfolio_db",
+    "DATABASE_URL", 
+    "postgresql+asyncpg://architect:arch_pass_2024@localhost:5432/portfolio_db"
 )
 
 engine = create_async_engine(DATABASE_URL, echo=True)
@@ -24,7 +30,7 @@ class Base(DeclarativeBase):
 
 class CompetencyMarkerORM(Base):
     __tablename__ = "competency_markers"
-
+    
     id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
     title: Mapped[str] = mapped_column(String, nullable=False)
     status: Mapped[str] = mapped_column(String, nullable=False, index=True)
@@ -33,7 +39,7 @@ class CompetencyMarkerORM(Base):
 
 class SkillORM(Base):
     __tablename__ = "skills"
-
+    
     id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String, nullable=False, index=True)
     level: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -54,12 +60,13 @@ async def get_db() -> AsyncSession:
 async def pydantic_to_orm(profile: UserProfile, session: AsyncSession):
     """Convert Pydantic → ORM + save"""
     # Simplified - full impl in service layer
-    {
+    orm_profile = {
         "username": profile.username,
         "skills": [skill.dict() for skill in profile.skills],
         # ... persist JSONB
     }
     # session.add(...)
+    pass
 
 # Init tables
 async def init_db():
@@ -68,5 +75,4 @@ async def init_db():
 
 if __name__ == "__main__":
     asyncio.run(init_db())
-
 
