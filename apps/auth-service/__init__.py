@@ -1,9 +1,7 @@
 """
-Package initialization for auth-service.
-This file makes Python treat the directories as packages.
+Module initialization for auth_service.
 """
 
-# Re-export application instance
-from .auth_service.auth_service import app, get_app
+from .auth_service import app, create_token, verify_token
 
-__all__ = ["app", "get_app"]
+__all__ = ["app", "create_token", "verify_token"]
