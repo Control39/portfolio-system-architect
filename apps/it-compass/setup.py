@@ -4,7 +4,6 @@ IT Compass Setup Script
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
 from setuptools import setup, find_packages
-import os
 
 def read_file(filename):
     try:
