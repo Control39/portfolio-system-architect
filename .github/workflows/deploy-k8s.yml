@@ -1,4 +1,4 @@
-﻿name: Deploy to Kubernetes
+name: Deploy to Kubernetes
 
 on:
   push:
@@ -82,7 +82,7 @@ jobs:
           type=sha,prefix={{branch}}-
 
     - name: Build and push gateway image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v7
       with:
         context: ./gateway
         file: ./gateway/Dockerfile
@@ -91,7 +91,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Build and push API image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v7
       with:
         context: ./api
         file: ./api/Dockerfile
