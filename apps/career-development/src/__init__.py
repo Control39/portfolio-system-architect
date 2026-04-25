@@ -1,3 +1,5 @@
-﻿"""Career Development System - src package"""
+﻿"""
+Career Development src package.
+"""
 
 
