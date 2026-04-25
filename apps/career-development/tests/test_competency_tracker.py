@@ -1,5 +1,5 @@
 ﻿import unittest
-from ..src.core.competency_tracker import CompetencyTracker
+from apps.career_development.career_development_system.src.core.competency_tracker import CompetencyTracker
 
 
 class TestCompetencyTracker(unittest.TestCase):
@@ -119,5 +119,4 @@ class TestCompetencyTracker(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
 
