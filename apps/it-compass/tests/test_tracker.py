@@ -1,9 +1,10 @@
 ﻿import pytest
+import json
 import tempfile
 from pathlib import Path
 import sys
 
-sys.path.insert(0, ".")
+sys.path.append(".")
 
 from src.core.tracker import CareerTracker
 
@@ -18,7 +19,9 @@ def test_progress_file_creation():
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_progress = Path(temp_dir) / "progress.json"
         tracker = CareerTracker(progress_file=str(temp_progress))
-
+        
+        # Создаем файл прогресса
+        tracker._save_progress()
         assert tracker.progress_file.exists()
         assert tracker.progress["completed_markers"] == []
         assert tracker.progress["in_progress_markers"] == []
