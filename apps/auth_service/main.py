@@ -1,10 +1,10 @@
-"""
+﻿"""
 JWT Auth Service
 Issues and validates JWT tokens for API Gateway
 """
 
-from fastapi import FastAPI, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi import FastAPI, HTTPException, Depends, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 import jwt
 import os
@@ -52,7 +52,7 @@ def create_token(username: str, role: str = "user") -> dict:
         "expires_in": JWT_EXPIRATION_HOURS * 3600,
     }
 
-def verify_token(credentials: HTTPAuthCredentials = Depends(security)) -> dict:
+def verify_token(credentials: HTTPAuthorizationCredentials = Security(HTTPBearer())) -> dict:
     """Verify JWT token"""
     try:
         payload = jwt.decode(
@@ -122,3 +122,7 @@ async def root():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8100)
+
+
+
+
