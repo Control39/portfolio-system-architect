@@ -48,7 +48,7 @@ class CareerTracker:
         try:
             for file_path in self.markers_dir.glob("*.json"):
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, 'r', encoding='utf-8-sig') as f:
                         skill_data_raw = json.load(f)
 
                     skill_name = skill_data_raw.get("skill_name", file_path.stem.capitalize())
@@ -100,7 +100,7 @@ class CareerTracker:
             return {"completed_markers": [], "in_progress_markers": []}
 
         try:
-            with open(self.progress_file, 'r', encoding='utf-8') as f:
+            with open(self.progress_file, 'r', encoding='utf-8-sig') as f:
                 data = json.load(f)
 
             if not isinstance(data, dict):

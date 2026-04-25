@@ -12,8 +12,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
-    from src.core.tracker import CareerTracker
-    from src.utils.portfolio_gen import generate_portfolio
+    from core.tracker import CareerTracker
+    from utils.portfolio_gen import generate_portfolio
 except ImportError as e:
     st.error(f"❌ Ошибка импорта модулей: {e}")
     st.error("Убедитесь, что вы находитесь в корневой директории проекта")
@@ -32,7 +32,7 @@ st.set_page_config(
 def get_tracker():
     """Кэшируем трекер для производительности."""
     try:
-        return CareerTracker()
+        return CareerTracker(markers_dir="apps/it_compass/src/data/markers", progress_file="apps/it_compass/src/data/user_progress.json")
     except Exception as e:
         st.error(f"❌ Не удалось инициализировать CareerTracker: {e}")
         st.error("Проверьте наличие файлов маркеров в src/data/markers/")
@@ -51,7 +51,7 @@ def render_progress_dashboard():
     # Общий прогресс
     total_completed = len(tracker.progress.get("completed_markers", []))
     total_markers = sum(
-        len(marker) for skill_data in tracker.markers.values()
+        1 for skill_data in tracker.markers.values()
         for level_markers in skill_data.levels.values()
         for marker in level_markers
     )
