@@ -6,7 +6,16 @@ class TestCompetencyTracker(unittest.TestCase):
 
     def setUp(self):
         """Настройка тестового окружения"""
-        self.tracker = CompetencyTracker()
+        # Создаем профиль пользователя для теста
+        self.profile = UserProfile(
+            id="user_001",
+            username="Тестовый Пользователь",
+            email="test@example.com",
+            skills=[],
+            level=1,
+            completed_markers=[]
+        )
+        self.tracker = CompetencyTracker(profile=self.profile)
         self.user_id = "user_001"
 
         # Добавляем тестового пользователя
