@@ -1,0 +1,7 @@
+id,source,task,tool,direction,complexity,benefit
+1,GitHub,Оптимизация CI/CD пайплайна,"GitHub Actions, Cache API, Matrix builds",DevOps,Высокая,Очень высокая
+2,Hexlet,Реализация системы автоматического тестирования,"Python, PyTest, Docker, GitHub Classroom",MLOps,Средняя,Высокая
+3,Kaggle,Прогнозирование временных рядов,"Python, Pandas, Scikit-learn, Prophet",Аналитика,Высокая,Очень высокая
+4,Проект,Реорганизация в микросервисную архитектуру,"Docker, Kubernetes, gRPC, Istio",Системное мышление,Высокая,Очень высокая
+5,Проект,Автоматизация технической документации,"Sphinx, MkDocs, OpenAPI, Swagger",Документирование,Средняя,Высокая
+6,Проект,Разработка системы рекомендаций,"TensorFlow, Redis, Kafka, Embeddings",ИИ,Высокая,Очень высокая

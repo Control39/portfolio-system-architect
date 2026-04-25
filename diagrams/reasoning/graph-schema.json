@@ -51,7 +51,7 @@
     "documentation": { "fill": "#A142F4", "label": "Документирование" },
     "ai": { "fill": "#EA4335", "label": "ИИ" },
     "systems": { "fill": "#F4B400", "label": "Системное мышление" }
-  }
+  },
   "edges": [
     { "source": "source", "target": "task", "label": "" },
     { "source": "task", "target": "tool", "label": "" },
