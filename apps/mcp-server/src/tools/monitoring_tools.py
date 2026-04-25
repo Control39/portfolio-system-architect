@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Monitoring Tools для MCP Server
 
 Инструменты для работы с Prometheus, Grafana и мониторингом проекта.
@@ -234,3 +234,4 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
             config["grafana"]["datasources"] = datasources
 
         return config
+

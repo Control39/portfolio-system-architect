@@ -19,3 +19,4 @@ def load_module_by_name(module_name):
 reasoning_engine = loadmodule_by_name("reasoning_engine")
 print(f"✅ Модуль {reasoning_engine.__name__} загружен")
 
+

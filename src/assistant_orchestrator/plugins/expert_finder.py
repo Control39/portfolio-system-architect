@@ -266,3 +266,4 @@ def find_experts(root: Path) -> dict[str, Any]:
             "single_expert_modules": len(bottlenecks.get("single_expert_modules", [])),
         },
     }
+

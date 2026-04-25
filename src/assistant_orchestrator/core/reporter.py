@@ -284,3 +284,4 @@ class Reporter:
 
         return html
 
+

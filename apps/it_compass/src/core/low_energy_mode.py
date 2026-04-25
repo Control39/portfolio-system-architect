@@ -133,3 +133,4 @@ if __name__ == "__main__":
         print(recovery_plan["description"])
     else:
         print("\n✅ Нет признаков риска выгорания")
+

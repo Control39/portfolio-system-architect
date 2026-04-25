@@ -1,4 +1,4 @@
-"""Модуль скриптов Cognitive Automation Agent.
+﻿"""Модуль скриптов Cognitive Automation Agent.
 
 Содержит основные компоненты агента: сканер, планировщик, систему обучения и обработчик триггеров.
 """
@@ -14,3 +14,4 @@ __all__ = [
     "Scanner",
     "TriggerProcessor",
 ]
+

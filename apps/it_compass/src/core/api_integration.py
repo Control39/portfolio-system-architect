@@ -88,3 +88,4 @@ class CrisisAPIService:
 if __name__ == "__main__":
     service = CrisisAPIService()
     service.show_available_services()
+

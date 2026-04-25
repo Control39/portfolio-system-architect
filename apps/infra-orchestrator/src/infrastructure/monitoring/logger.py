@@ -38,3 +38,4 @@ async def update_marker(marker_id: str, status: str):
         logger.error("marker_update_failed", marker_id=marker_id, error=str(e))
         raise
 
+

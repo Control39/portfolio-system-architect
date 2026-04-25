@@ -70,3 +70,4 @@ async def liveness_check() -> Dict[str, str]:
         "status": "alive",
         "timestamp": datetime.utcnow().isoformat(),
     }
+

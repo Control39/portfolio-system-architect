@@ -75,3 +75,4 @@ class EvidenceCollector:
             logger.error(f"Error collecting dependencies: {e}")
             return {}
 
+

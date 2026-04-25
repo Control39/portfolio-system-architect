@@ -1,4 +1,4 @@
-"""Job Automation Agent
+﻿"""Job Automation Agent
 Поиск вакансий и генерация резюме с помощью AI
 """
 
@@ -188,3 +188,4 @@ if __name__ == "__main__":
 
     result = process_request_sync("Создай резюме для Senior Backend Developer")
     print(f"Результат: {result}")
+

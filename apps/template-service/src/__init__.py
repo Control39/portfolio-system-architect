@@ -7,3 +7,4 @@ Template Service - шаблон микросервиса для проекта p
 
 __version__ = "0.1.0"
 __author__ = "Portfolio System Architect Team"
+

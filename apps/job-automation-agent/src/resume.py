@@ -16,3 +16,4 @@ async def generate_resume(profile: dict, job_description: str) -> str:
     """Generates a resume based on user profile and job description."""
     template = env.from_string("""{{ name }} has skills in {{ skills|join(', ') }}.""")
     return template.render(**profile)
+

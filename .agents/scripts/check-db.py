@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Проверка структуры базы данных мониторинга
 """
 
@@ -70,3 +70,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -236,3 +236,4 @@ if __name__ == "__main__":
     # Пример запуска системы поддержки
     support_system = MentalSupportSystem()
     support_system.run()
+

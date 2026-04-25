@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """ChromaDB Tools для MCP Server
 
 Инструменты для работы с векторной базой ChromaDB.
@@ -166,3 +166,4 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return {"error": "chromadb not installed"}
         except Exception as e:
             return {"error": str(e)}
+

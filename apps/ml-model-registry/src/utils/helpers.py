@@ -15,3 +15,4 @@ def format_model_info(model_data):
         "framework": model_data.get("framework"),
         "created_at": model_data.get("created_at"),
     }
+

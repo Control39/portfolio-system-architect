@@ -6,3 +6,4 @@ from shared.pydantic.career import CompetencyMarker, Skill, UserProfile
 __all__ = ["CompetencyMarker", "Skill", "UserProfile"]
 
 
+

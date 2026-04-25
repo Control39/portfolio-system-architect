@@ -74,3 +74,4 @@ def _detect_language(path: Path) -> str:
         return "Java"
     return "unknown"
 
+

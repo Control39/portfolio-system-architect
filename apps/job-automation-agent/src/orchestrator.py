@@ -23,3 +23,4 @@ def generate_resume(job_title: str, profile: dict[str, Any], job_description: st
     return asyncio.run(resume_agent.generate_resume(profile, job_description))
 
 
+

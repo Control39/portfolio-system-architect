@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Обработчик автоматических триггеров Cognitive Automation Agent.
 Мониторит события и запускает соответствующие действия.
 """
@@ -528,3 +528,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

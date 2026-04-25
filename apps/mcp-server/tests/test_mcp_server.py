@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Тесты для MCP-сервера Career Autopilot
 
 Проверяет:
@@ -319,3 +319,4 @@ if __name__ == "__main__":
         sys.exit(0)
 
 # Импортируем datetime здесь, чтобы избежать ошибок импорта
+

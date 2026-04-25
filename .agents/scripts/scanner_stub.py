@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Заглушка компонента scanner Cognitive Automation Agent.
 В реальной реализации здесь будет логика компонента.
 """
@@ -20,3 +20,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
