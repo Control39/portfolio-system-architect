@@ -1,6 +1,11 @@
 ﻿"""
-Cloud Reason app package.
+Decision Engine - модуль принятия решений на основе AI.
+
+Содержит инструменты для работы с языковыми моделями,
+генерации гипотез и принятия обоснованных решений.
 """
-</xai:function_call name="create_file">
-<parameter name="absolute_path">c:/Users/Z/Desktop/portfolio-system-architect/apps/cloud-reason/cloud_reason/__init__.py
+
+__version__ = "0.1.0"
+__all__ = ["api", "utils", "gigachain_bridge"]
+
 

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def analyze(root: Path) -> Dict[str, Any]:
     """Analyze skill markers from IT-Compass."""
-    markers_dir = root / "apps" / "it-compass" / "src" / "data" / "markers"
+    markers_dir = root / "apps" / "it_compass" / "src" / "data" / "markers"
     
     if not markers_dir.exists():
         logger.warning(f"Markers directory not found: {markers_dir}")
