@@ -416,7 +416,6 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: --report-format sarif --report-path gitleaks-report.sarif
@@ -572,7 +571,7 @@ jobs:
           ARTIFACT_URL="https://github.com/$REPO/actions/runs/$RUN_ID/artifacts"
           RUN_URL="https://github.com/$REPO/actions/runs/$RUN_ID"
 
-          # Собираем метрики с защитой от пустых значений
+          # Собираем метрики с защитой от пуст��х значений
           PY_ERRORS="${{ needs.lint-python.outputs.error_count }}"
           PY_ERRORS=${PY_ERRORS:-0}
           PY_WARNINGS="${{ needs.lint-python.outputs.warning_count }}"
@@ -634,166 +633,4 @@ jobs:
             SECURITY_DETAILS=$(jq -r '.runs[0].results | group_by(.ruleId) | map({ruleId: .[0].ruleId, count: length}) | .[] | "  - \(.ruleId): \(.count) issues"' gitleaks-report.sarif 2>/dev/null || echo "  - Unable to parse security details")
           fi
 
-          # Создаём полный отчёт
-          cat > full-report.md << EOF
-          # 📊 Code Quality Report
-          **Generated:** $(date)
-          **Workflow Run:** [View Run]($RUN_URL)
-
-          ## 🚦 Quality Gate: $QUALITY_STATUS
-          **Reason:** $STATUS_REASON
-
-          ## 📈 Summary Metrics
-          | Metric | Count |
-          |--------|-------|
-          | 🔴 Errors | $TOTAL_ERRORS |
-          | 🟡 Warnings | $TOTAL_WARNINGS |
-          | 📝 Missing Docs | $TOTAL_MISSING |
-          | 🔒 Security Findings | $SEC_FINDINGS |
-
-          ## 📋 Detailed Metrics
-          | Job | Errors | Warnings | Status |
-          |-----|--------|----------|--------|
-          | Python Lint | $PY_ERRORS | $PY_WARNINGS | ${{ needs.lint-python.result }} |
-          | PowerShell Lint | $PS_ERRORS | $PS_WARNINGS | ${{ needs.lint-powershell.result }} |
-          | Documentation | - | - | ${{ needs.validate-documentation.result }} |
-          | Security Scan | $SEC_FINDINGS | - | ${{ needs.security-scan.result }} |
-
-          ## 🔒 Security Findings Summary
-          $(if [ $SEC_FINDINGS -gt 0 ]; then
-            echo "$SECURITY_DETAILS"
-          else
-            echo "No security findings detected"
-          fi)
-
-          ## 📁 Artifacts
-          - [Python Lint Report]($ARTIFACT_URL)
-          - [PowerShell Lint Report]($ARTIFACT_URL)
-          - [Documentation Validation]($ARTIFACT_URL)
-          - [Security Scan Report]($ARTIFACT_URL)
-          - [Generated Documentation]($ARTIFACT_URL)
-
-          ## 📝 Next Steps
-          $([ $TOTAL_ERRORS -gt 0 ] && echo "- Fix 🔴 errors first" || echo "")
-          $([ $SEC_FINDINGS -gt 0 ] && echo "- Address 🔒 security findings" || echo "")
-          $([ $TOTAL_WARNINGS -gt 0 ] && echo "- Review 🟡 warnings" || echo "")
-          $([ $TOTAL_MISSING -gt 0 ] && echo "- Add missing documentation 📝" || echo "")
-          - Run workflow again after fixes
-          EOF
-
-          echo "✅ Full report created"
-
-      - name: Upload full report
-        uses: actions/upload-artifact@v3
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          name: full-quality-report
-          path: full-report.md
-          retention-days: 30
-
-      # Улучшение 6: позитивные сообщения в PR
-      - name: Create compact PR comment
-        if: github.event_name == 'pull_request'
-        id: create-comment
-        continue-on-error: true
-        run: |
-          RUN_ID=${{ github.run_id }}
-          REPO=${{ github.repository }}
-          RUN_URL="https://github.com/$REPO/actions/runs/$RUN_ID"
-
-          QUALITY_STATUS="${{ steps.quality-gate.outputs.status }}"
-          STATUS_REASON="${{ steps.quality-gate.outputs.reason }}"
-
-          # Собираем ключевые метрики
-          PY_ERRORS="${{ needs.lint-python.outputs.error_count }}"
-          PY_ERRORS=${PY_ERRORS:-0}
-          PY_WARNINGS="${{ needs.lint-python.outputs.warning_count }}"
-          PY_WARNINGS=${PY_WARNINGS:-0}
-
-          PS_ERRORS="${{ needs.lint-powershell.outputs.error_count }}"
-          PS_ERRORS=${PS_ERRORS:-0}
-          PS_WARNINGS="${{ needs.lint-powershell.outputs.warning_count }}"
-          PS_WARNINGS=${PS_WARNINGS:-0}
-
-          SEC_FINDINGS="${{ needs.security-scan.outputs.findings_count }}"
-          SEC_FINDINGS=${SEC_FINDINGS:-0}
-
-          MISSING_FILES="${{ needs.validate-documentation.outputs.missing_files_count }}"
-          MISSING_FILES=${MISSING_FILES:-0}
-          MISSING_READMES="${{ needs.validate-documentation.outputs.missing_readmes_count }}"
-          MISSING_READMES=${MISSING_READMES:-0}
-
-          TOTAL_ERRORS=$((PY_ERRORS + PS_ERRORS + SEC_FINDINGS))
-
-          # Компактный комментарий с позитивным сообщением
-          cat > pr-comment.md << EOF
-          ## ${QUALITY_STATUS} Code Quality Summary
-
-          **${STATUS_REASON}**
-
-          \`\`\`
-          Python:    🔴 ${PY_ERRORS} errors  🟡 ${PY_WARNINGS} warnings
-          PowerShell: 🔴 ${PS_ERRORS} errors  🟡 ${PS_WARNINGS} warnings
-          Security:  🔒 ${SEC_FINDINGS} findings
-          Docs:      📝 ${MISSING_FILES} files  📚 ${MISSING_READMES} READMEs
-          \`\`\`
-
-          [📊 View Full Report](${RUN_URL})
-
-          $([ $TOTAL_ERRORS -eq 0 ] && [ $SEC_FINDINGS -eq 0 ] && echo "🎉 **Ready to merge!** All quality checks passed." || echo "")
-          EOF
-
-          echo "✅ Compact PR comment created"
-
-      # Удаление старых комментариев и публикация нового
-      - name: Update PR comment
-        if: github.event_name == 'pull_request'
-        continue-on-error: true
-        uses: actions/github-script@v6
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          script: |
-            try {
-              const fs = require('fs');
-              const comment = fs.readFileSync('pr-comment.md', 'utf8');
-              
-              console.log('🔍 Looking for previous comments...');
-              
-              const { data: comments } = await github.rest.issues.listComments({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 100
-              });
-              
-              const botComments = comments.filter(c => 
-                c.user.type === 'Bot' && 
-                c.body.includes('Code Quality Summary')
-              );
-              
-              console.log(`Found ${botComments.length} previous comments`);
-              
-              for (const oldComment of botComments) {
-                console.log(`Deleting comment #${oldComment.id}`);
-                await github.rest.issues.deleteComment({
-                  comment_id: oldComment.id,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                });
-              }
-              
-              console.log('Creating new comment...');
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-              
-              console.log('✅ PR comment updated successfully');
-            } catch (error) {
-              console.log('⚠️ Failed to update PR comment:', error.message);
-            }
 
