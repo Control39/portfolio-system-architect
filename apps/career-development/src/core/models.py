@@ -1,7 +1,7 @@
 ﻿"""
 Shared Pydantic models - generated from src/shared/schemas/career.yaml
 """
-from ../shared.pydantic.career import (
+from pydantic.career import (
     CompetencyMarker, 
     Skill, 
     UserProfile
