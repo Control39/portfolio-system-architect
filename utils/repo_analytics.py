@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""
-Аналитика GitHub-репо: просмотры, клоны, источники.
+"""Аналитика GitHub-репо: просмотры, клоны, источники.
 Требует: pip install requests
 GitHub Token с правами: repo
 """
-import os, requests, json, csv, sys
+import csv
+import os
+import sys
 from datetime import datetime
 from pathlib import Path
+
+import requests
 
 OWNER = "Control39"
 REPO = "portfolio-system-architect"
@@ -38,7 +41,7 @@ def main():
         sys.exit(1)
 
     today = datetime.now().strftime("%Y-%m-%d")
-    
+
     # 1. Просмотры
     views = fetch_github("traffic/views")
     if views:

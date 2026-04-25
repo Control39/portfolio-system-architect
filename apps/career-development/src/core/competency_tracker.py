@@ -1,5 +1,5 @@
-﻿from typing import List
-from .models import UserProfile, CompetencyMarker
+﻿
+from .models import CompetencyMarker, UserProfile
 
 
 class CompetencyTracker:
@@ -10,8 +10,7 @@ class CompetencyTracker:
 
     # -----------------------------------------------------------------
     def update_marker(self, marker_id: str, new_status: str) -> bool:
-        """
-        Обновить статус маркера.
+        """Обновить статус маркера.
         Возвращает True, если маркер найден и обновлён.
         """
         for skill in self.profile.skills:
@@ -23,8 +22,7 @@ class CompetencyTracker:
 
     # -----------------------------------------------------------------
     def calculate_progress(self) -> float:
-        """
-        Рассчитать процент завершения всех маркеров.
+        """Рассчитать процент завершения всех маркеров.
         """
         total = 0
         completed = 0
@@ -35,7 +33,7 @@ class CompetencyTracker:
         return (completed / total * 100) if total else 0.0
 
     # -----------------------------------------------------------------
-    def list_pending_markers(self) -> List[CompetencyMarker]:
+    def list_pending_markers(self) -> list[CompetencyMarker]:
         """Вернуть список всех маркеров, которые ещё не завершены."""
         pending = []
         for skill in self.profile.skills:

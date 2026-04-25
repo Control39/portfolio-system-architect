@@ -1,7 +1,8 @@
-﻿import unittest
-import os
+﻿import os
 import tempfile
-from src.utils.helpers import validate_evidence_link, generate_id
+import unittest
+
+from src.utils.helpers import validate_evidence_link
 
 
 class TestHelpers(unittest.TestCase):
@@ -27,10 +28,10 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(calculate_skill_progress(0, 10), 0.0)
         self.assertEqual(calculate_skill_progress(10, 10), 100.0)
         self.assertEqual(
-            calculate_skill_progress(15, 10), 100.0
+            calculate_skill_progress(15, 10), 100.0,
         )  # Не должно превышать 100%
         self.assertEqual(
-            calculate_skill_progress(-5, 10), 0.0
+            calculate_skill_progress(-5, 10), 0.0,
         )  # Не должно быть меньше 0%
 
     def test_get_competency_level_name(self):
@@ -56,7 +57,7 @@ class TestHelpers(unittest.TestCase):
         """Тест операций с JSON файлами"""
         # Создаем временный файл для теста
         with tempfile.NamedTemporaryFile(
-            mode="w", delete=False, suffix=".json"
+            mode="w", delete=False, suffix=".json",
         ) as temp_file:
             temp_filename = temp_file.name
             test_data = {"test": "data", "number": 42}

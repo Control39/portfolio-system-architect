@@ -1,12 +1,11 @@
 ﻿# Пример интеграции it-compass и decision-engine
 # Демонстрация взаимодействия между системой отслеживания компетенций и движком принятия решений
 
-from typing import Dict, List, Any
+from typing import Any
 
 
 class ITCompassDecisionEngineIntegration:
-    """
-    Класс для демонстрации интеграции it-compass и decision-engine
+    """Класс для демонстрации интеграции it-compass и decision-engine
     """
 
     def __init__(self):
@@ -14,25 +13,22 @@ class ITCompassDecisionEngineIntegration:
         self.cloud_solutions = []
         self.recommendations = []
 
-    def load_user_profile(self, profile_data: Dict[str, Any]):
-        """
-        Загрузка профиля пользователя из it-compass
+    def load_user_profile(self, profile_data: dict[str, Any]):
+        """Загрузка профиля пользователя из it-compass
         """
         self.user_profile = profile_data
         print("Профиль пользователя загружен из it-compass")
         print(f"Компетенции: {', '.join(self.user_profile.get('skills', []))}")
 
-    def load_cloud_solutions(self, solutions_data: List[Dict[str, Any]]):
-        """
-        Загрузка данных об облачных решениях из decision-engine
+    def load_cloud_solutions(self, solutions_data: list[dict[str, Any]]):
+        """Загрузка данных об облачных решениях из decision-engine
         """
         self.cloud_solutions = solutions_data
         print("Данные об облачных решениях загружены из decision-engine")
         print(f"Доступно решений: {len(self.cloud_solutions)}")
 
-    def generate_recommendations(self) -> List[Dict[str, Any]]:
-        """
-        Генерация рекомендаций на основе профиля пользователя и облачных решений
+    def generate_recommendations(self) -> list[dict[str, Any]]:
+        """Генерация рекомендаций на основе профиля пользователя и облачных решений
         """
         user_skills = set(self.user_profile.get("skills", []))
         self.recommendations = []
@@ -52,7 +48,7 @@ class ITCompassDecisionEngineIntegration:
                     "required_skills": list(required_skills),
                     "missing_skills": list(required_skills - user_skills),
                     "learning_path": self._generate_learning_path(
-                        required_skills - user_skills
+                        required_skills - user_skills,
                     ),
                 }
                 self.recommendations.append(recommendation)
@@ -61,9 +57,8 @@ class ITCompassDecisionEngineIntegration:
         self.recommendations.sort(key=lambda x: x["match_score"], reverse=True)
         return self.recommendations
 
-    def _generate_learning_path(self, missing_skills: set) -> List[str]:
-        """
-        Генерация пути обучения для недостающих навыков
+    def _generate_learning_path(self, missing_skills: set) -> list[str]:
+        """Генерация пути обучения для недостающих навыков
         """
         learning_paths = {
             "AWS": "AWS Certified Solutions Architect",
@@ -78,8 +73,7 @@ class ITCompassDecisionEngineIntegration:
         ]
 
     def display_recommendations(self):
-        """
-        Отображение рекомендаций
+        """Отображение рекомендаций
         """
         print("\n=== РЕКОМЕНДАЦИИ ПО ИНТЕГРАЦИИ IT-COMPASS И DECISION-ENGINE ===")
         if not self.recommendations:
@@ -125,8 +119,7 @@ SAMPLE_CLOUD_SOLUTIONS = [
 
 
 def main():
-    """
-    Основная функция демонстрации интеграции
+    """Основная функция демонстрации интеграции
     """
     print("Демонстрация интеграции it-compass и decision-engine")
     print("=" * 50)
@@ -139,7 +132,7 @@ def main():
     integration.load_cloud_solutions(SAMPLE_CLOUD_SOLUTIONS)
 
     # Генерация рекомендаций
-    recommendations = integration.generate_recommendations()
+    integration.generate_recommendations()
 
     # Отображение результатов
     integration.display_recommendations()

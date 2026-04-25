@@ -1,6 +1,8 @@
 ﻿import unittest
+
 from src.core.competency_tracker import CompetencyTracker
 from src.core.models import UserProfile
+
 
 class TestCompetencyTracker(unittest.TestCase):
 
@@ -13,7 +15,7 @@ class TestCompetencyTracker(unittest.TestCase):
             email="test@example.com",
             skills=[],
             level=1,
-            completed_markers=[]
+            completed_markers=[],
         )
         self.tracker = CompetencyTracker(profile=self.profile)
         self.user_id = "user_001"
@@ -39,7 +41,7 @@ class TestCompetencyTracker(unittest.TestCase):
         """Тест добавления пользователя"""
         self.assertIn(self.user_id, self.tracker.users)
         self.assertEqual(
-            self.tracker.users[self.user_id]["username"], "Тестовый Пользователь"
+            self.tracker.users[self.user_id]["username"], "Тестовый Пользователь",
         )
         self.assertEqual(self.tracker.users[self.user_id]["email"], "test@example.com")
 
@@ -62,7 +64,7 @@ class TestCompetencyTracker(unittest.TestCase):
             "Основы программирования",
         )
         self.assertEqual(
-            self.tracker.competency_markers["marker_001"]["required_level"], 2
+            self.tracker.competency_markers["marker_001"]["required_level"], 2,
         )
 
     def test_update_skill_level(self):

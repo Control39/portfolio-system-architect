@@ -1,5 +1,4 @@
-﻿"""
-Entry point for python -m assistant_orchestrator
+﻿"""Entry point for python -m assistant_orchestrator
 """
 from assistant_orchestrator.main import main
 

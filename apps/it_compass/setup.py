@@ -1,20 +1,20 @@
-﻿"""
-IT Compass Setup Script
+﻿"""IT Compass Setup Script
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
+
 
 def read_file(filename):
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return ""
 
 def read_requirements():
     try:
-        with open("requirements.txt", 'r', encoding='utf-8') as f:
+        with open("requirements.txt", encoding="utf-8") as f:
             return [line.strip() for line in f if line.strip() and not line.startswith("#")]
     except FileNotFoundError:
         return []

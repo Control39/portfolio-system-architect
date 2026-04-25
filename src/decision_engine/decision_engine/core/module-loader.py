@@ -1,6 +1,8 @@
 ﻿import importlib.util
 from pathlib import Path
+
 from ..config.loader import COMPONENT_CONFIG
+
 
 def load_module_by_name(module_name):
     """Загружает Python‑модуль по имени из конфигурации."""

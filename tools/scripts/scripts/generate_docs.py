@@ -1,5 +1,6 @@
 ﻿from ..config.loader import COMPONENT_CONFIG
 
+
 def generate_api_docs():
     """Генерирует документацию API на основе конфигурации."""
     docs = f"# {COMPONENT_CONFIG['component']['name']}\n\n"

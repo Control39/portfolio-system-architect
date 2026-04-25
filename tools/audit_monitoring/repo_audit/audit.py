@@ -1,6 +1,5 @@
 ﻿#!/usr/bin/env python3
-"""
-Repository Audit Tool for Portfolio System Architect.
+"""Repository Audit Tool for Portfolio System Architect.
 
 Evaluates repository maturity across three levels: base, professional, enterprise.
 """
@@ -9,6 +8,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+
 
 class RepositoryAudit:
     def __init__(self, repo_path: str = ".", level: str = "base"):
@@ -28,16 +28,15 @@ class RepositoryAudit:
             self.results.append({
                 "check": description,
                 "status": "PASS",
-                "path": path
+                "path": path,
             })
             return True
-        else:
-            self.results.append({
-                "check": description,
-                "status": "FAIL",
-                "path": path
-            })
-            return False
+        self.results.append({
+            "check": description,
+            "status": "FAIL",
+            "path": path,
+        })
+        return False
 
     def check_directory_exists(self, path: str, description: str) -> bool:
         """Check if a directory exists."""
@@ -49,16 +48,15 @@ class RepositoryAudit:
             self.results.append({
                 "check": description,
                 "status": "PASS",
-                "path": path
+                "path": path,
             })
             return True
-        else:
-            self.results.append({
-                "check": description,
-                "status": "FAIL",
-                "path": path
-            })
-            return False
+        self.results.append({
+            "check": description,
+            "status": "FAIL",
+            "path": path,
+        })
+        return False
 
     def check_file_content(self, path: str, description: str, keyword: str = None) -> bool:
         """Check if file contains specific keyword."""
@@ -69,43 +67,34 @@ class RepositoryAudit:
                 "check": description,
                 "status": "FAIL",
                 "path": path,
-                "note": "File missing"
+                "note": "File missing",
             })
             return False
         try:
             content = full_path.read_text(encoding="utf-8")
             self.total += 1
-            if keyword and keyword in content:
+            if (keyword and keyword in content) or not keyword:
                 self.score += 1
                 self.results.append({
                     "check": description,
                     "status": "PASS",
-                    "path": path
-                })
-                return True
-            elif not keyword:
-                self.score += 1
-                self.results.append({
-                    "check": description,
-                    "status": "PASS",
-                    "path": path
-                })
-                return True
-            else:
-                self.results.append({
-                    "check": description,
-                    "status": "FAIL",
                     "path": path,
-                    "note": f"Keyword '{keyword}' not found"
                 })
-                return False
+                return True
+            self.results.append({
+                "check": description,
+                "status": "FAIL",
+                "path": path,
+                "note": f"Keyword '{keyword}' not found",
+            })
+            return False
         except Exception as e:
             self.total += 1
             self.results.append({
                 "check": description,
                 "status": "ERROR",
                 "path": path,
-                "note": str(e)
+                "note": str(e),
             })
             return False
 
@@ -166,12 +155,12 @@ class RepositoryAudit:
             "score": self.score,
             "total": self.total,
             "percentage": round(percentage, 2),
-            "results": self.results
+            "results": self.results,
         }
 
         if output_format == "json":
             return json.dumps(data, indent=2, ensure_ascii=False)
-        elif output_format == "markdown":
+        if output_format == "markdown":
             lines = [
                 f"# Repository Audit Report – {self.level.upper()}",
                 "",
@@ -189,17 +178,17 @@ class RepositoryAudit:
                 note = r.get("note", "")
                 lines.append(f"| {status} | {check} | `{path}` | {note} |")
             return "\n".join(lines)
-        else:  # console
-            print(f"\nRepository Audit – {self.level.upper()}")
-            print(f"Score: {self.score}/{self.total} ({percentage:.2f}%)")
-            print("\nDetailed results:")
-            for r in self.results:
-                status = r["status"]
-                check = r["check"]
-                path = r.get("path", "")
-                note = f" – {r.get('note')}" if r.get("note") else ""
-                print(f"  [{status}] {check} ({path}){note}")
-            return ""
+        # console
+        print(f"\nRepository Audit – {self.level.upper()}")
+        print(f"Score: {self.score}/{self.total} ({percentage:.2f}%)")
+        print("\nDetailed results:")
+        for r in self.results:
+            status = r["status"]
+            check = r["check"]
+            path = r.get("path", "")
+            note = f" – {r.get('note')}" if r.get("note") else ""
+            print(f"  [{status}] {check} ({path}){note}")
+        return ""
 
 def main():
     parser = argparse.ArgumentParser(description="Repository audit tool")
