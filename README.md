@@ -310,7 +310,11 @@ Explore the interactive reasoning-visualization:
 - 📊 [Excalidraw Visualization](diagrams/reasoning/system-integration.excalidraw) - System integration case study
 - 🧩 [Reasoning Principles](docs/reasoning/PRINCIPLES.md) - Core methodology
 
+<<<<<<< HEAD
 ![Reasoning System](https://github.com/Control39/portfolio-system-architect/raw/main/docs/screenshots/reasoning-system.png)
+=======
+![Reasoning System](docs/screenshots/reasoning-system.png)
+>>>>>>> 0b0e059641af06c3835651f7437e181f097f7b14
 
 ## 📝 How to Use This Repository
 
