@@ -1,0 +1,28 @@
+{
+  "mcp_server": {
+    "enabled": true,
+    "url": "http://localhost:8000",
+    "timeout": 30000,
+    "retries": 3,
+    "endpoints": {
+      "health_check": "/health",
+      "process_prompt": "/process-prompt",
+      "get_rules": "/rules"
+    },
+    "headers": {
+      "Content-Type": "application/json",
+      "User-Agent": "GIGA-IDE/1.0"
+    }
+  },
+  "features": {
+    "enable_prompt_validation": true,
+    "enable_rule_engine": true,
+    "enable_response_enhancement": true
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/gigacode.log",
+    "max_size": "10MB",
+    "backup_count": 5
+  }
+}
