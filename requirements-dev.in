@@ -35,7 +35,7 @@ requests
 
 # AI/ML development
 langchain-core<1.0.0,>=0.3.73
-langchain-openai<1.0.0,>=0.3.28
+langchain-openai>=1.2.1,<2.0.0
 langchain-text-splitters<1.0.0,>=0.3.9
 langchain>=0.3.28
 langchain-community>=0.3.27
