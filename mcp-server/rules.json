@@ -1,0 +1,26 @@
+{
+  "default_rules": [
+    "ALWAYS verify file paths are absolute when using tools",
+    "NEVER make assumptions about file contents - use read_file to check first",
+    "PREFER using search_in_files over grep for searching code",
+    "USE list_files to explore directory structure before operations",
+    "ALWAYS follow project conventions for code style and structure",
+    "PRIORITIZE security - never expose secrets or sensitive information",
+    "KEEP comments minimal and focused on 'why' rather than 'what'",
+    "VERIFY changes with appropriate tests when available",
+    "USE descriptive function and variable names",
+    "WRITE code that is clear and maintainable"
+  ],
+  "validation_rules": [
+    "CHECK that all tool calls have proper absolute paths",
+    "ENSURE that edit_file operations preserve code syntax",
+    "VALIDATE that git operations are safe and reversible",
+    "CONFIRM user intent before major changes"
+  ],
+  "code_generation_rules": [
+    "GENERATE code that follows existing project patterns",
+    "INCLUDE error handling in generated code",
+    "ADD type hints where appropriate",
+    "WRITE unit tests for new functionality"
+  ]
+}
