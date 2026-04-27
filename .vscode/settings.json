@@ -1,121 +1,43 @@
 {
-  // ================================
-  // Python настройки (уже есть)
-  // ================================
-  "python.defaultInterpreterPath": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/.venv/Scripts/python.exe",
-  "python.terminal.activateEnvironment": true,
-  "python.terminal.useEnvFile": true,
-
-  // ================================
-  // Настройки GigaCode для ЭТОГО репозитория
-  // ================================
-  "gigacode.useWorkerForCommands": false,
-  "gigacode.experimental.workerEnabled": false,
-  "gigacode.inlineCompletions.enabled": true,
-  "gigacode.chat.agentModel": "CodeChat",
-  "gigacode.chat.askModel": "CodeChat",
-  // Раскомментируйте, если используете Yandex API:
-  // "gigacode.apiProvider": "OpenAI Compatible",
-  // "gigacode.baseUrl": "https://llm.api.cloud.yandex.net/foundationModels/v1",
-  // "gigacode.apiKey": "твой-ключ-для-этого-проекта",
-  // "gigacode.model": "gpt://b1g8ug48iu3bb3gv8iom/yandexgpt",
-
-  // ================================
-  // Настройки SourceCraft для ЭТОГО репозитория
-  // ================================
-  "sourcecraft-code-assist.allowedCommands": [
-    "npm test",
-    "npm install",
-    "tsc",
-    "git log",
-    "git diff",
-    "git show",
-    "pip",
-    "pip install",
-    "python",
-    "pytest",
-    "git status",
-    "git branch",
-    "git pull",
-    "ls",
-    "pwd",
-    "echo",
-    "cat"
-  ],
-  "sourcecraft-code-assist.deniedCommands": [
-    "rm -rf",
-    "sudo",
-    "shutdown",
-    "reboot",
-    "dd",
-    "mkfs",
-    "chmod 777",
-    "git push --force"
-  ],
-  "sourcecraft-code-assist.useWorker": false,
-  "sourcecraft-code-assist.runInTerminal": true,
-  // Путь к папке с настройками SourceCraft внутри проекта
-  ".codeassistant/skills": "${workspaceFolder}/.codeassistant/skills", 
-
-  // ================================
-  // Форматирование и линтинг (УЛУЧШЕНО)
-  // ================================
-  // Используем Black как основной форматтер
-  "python.formatting.provider": "black",
-  // Используем Ruff для линтинга (исправления ошибок)
-  "python.linting.ruffEnabled": true,
-  // Включаем автоисправление ошибок линтера при сохранении
-  "python.linting.ruffArgs": ["--fix"],
-  "python.analysis.diagnosticMode": "workspace",
-  "python.defaultInterpreterPath": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/.venv/Scripts/python.exe"
-  
-  // Общие настройки редактора
-  "editor.formatOnSave": true,
-  "[python]": {
-    "editor.formatOnSave": true,
-    // Автоматически сортирует импорты (isort) при сохранении
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
-    }
-  },
-  
-  // ================================
-  // Что исключить из поиска (ОПТИМИЗИРОВАНО ДЛЯ KODA CLI)
-  // ================================
-  "files.exclude": {
-    // Игнорируем папки и файлы, которые не относятся к коду
-    "**/.git": true,
-    "**/__pycache__": true,
-    ".venv": true, // Корень виртуального окружения
-    ".pytest_cache": true,
-    ".vscode": false, // ← КРИТИЧНО: Koda должна видеть .vscode
-    ".codeassistant": false, // ← КРИТИЧНО: Koda должна видеть .codeassistant
-    ".gigacode": false, // ← Koda должна видеть .gigacode
-    ".DS_Store": true,
-    ".env": true,
-    ".idea": true,
-    ".history": true,
-    "*~": true,
-    ".directory": true,
-    ".directory.json": true,
-    // Папки с логами и кэшем
-    "**/logs": true,
-    "**/.cache": true,
-    "cache/": true,
-    "tmp/": true,
-    "temp/": true
-  },
-  
-  // ================================
-  // Тестирование (УЛУЧШЕНО)
-  // ================================
-  "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": false,
-  // Указываем, где лежат тесты. Это позволит запускать их через кнопку 'Run Test'
-  "python.testing.pytestArgs": [
-    "-p", "no:warnings",   // Отключаем предупреждения для чистоты вывода
-    "--tb=short",         // Короткий вывод трейсбека
-    "--cov=.",             // Включаем замер покрытия кода тестами
-    "{workspaceFolder}/tests"   // Путь к папке с тестами
-  ]
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/apps"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "apps",
+        "src",
+        "--cov=apps",
+        "--cov=src",
+        "--cov-report=term-missing"
+    ],
+    "python.testing.unittestEnabled": false,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.formatOnSave": true
+    },
+    "black-formatter.args": [
+        "--config",
+        "pyproject.toml"
+    ],
+    "isort.args": [
+        "--settings-path",
+        "pyproject.toml"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.ignore": [
+        ".venv",
+        ".git",
+        ".agents",
+        ".codeassistant"
+    ],
+    "python.analysis.useLibraryCodeForTypes": true,
+    "python.languageServer": "Pylance"
 }
