@@ -75,7 +75,7 @@
 **Статус:** ✅ Обосновано (false positive)
 
 **Файлы:**
-- `src/main.py`
+- `apps/it_compass/src/main.py`
 
 ---
 

@@ -16,10 +16,10 @@
 **Команды:**
 ```bash
 # Перейти в папку компонента
-cd components/ml-model-registry
+cd apps/ml-model-registry
 
 # Создать новый файл эндпоинтов
-touch src/api/portfolio_integration.py
+touch apps/ml-model-registry/src/api/portfolio_integration.py
 
 # Редактировать main.py для подключения новых маршрутов
 ```
@@ -74,10 +74,10 @@ if __name__ == "__main__":
 
 **Команды:**
 ```bash
-cd components/portfolio-organizer
+cd apps/portfolio_organizer
 
 # Создать файл интеграции
-touch src/integration/ml_model_registry.py
+touch apps/portfolio_organizer/src/integration/ml_model_registry.py
 
 # Обновить основной API
 ```
@@ -113,7 +113,7 @@ async def get_ml_models():
 # Обновить component_versions_map.md (уже сделано)
 
 # Создать краткий гайд по интеграции
-touch docs/integration/ml-model-registry.md
+touch docs/integrations/ml-model-registry.md
 ```
 
 ### 4. Запуск тестов
@@ -122,11 +122,11 @@ touch docs/integration/ml-model-registry.md
 **Команды:**
 ```bash
 # В ML Model Registry
-cd components/ml-model-registry
+cd apps/ml-model-registry
 python -m pytest tests/ -v
 
 # В Portfolio Organizer
-cd components/portfolio-organizer
+cd apps/portfolio_organizer
 python -m pytest tests/ -v
 ```
 
@@ -134,12 +134,12 @@ python -m pytest tests/ -v
 **Команды:**
 ```bash
 # В одном терминале запустить ML Model Registry
-cd components/ml-model-registry
-uvicorn src.api.main:app --reload --port 8000
+cd apps/ml-model-registry
+uvicorn apps.ml-model-registry.src.api.main:app --reload --port 8000
 
 # В другом терминале запустить Portfolio Organizer
-cd components/portfolio-organizer
-uvicorn src.api.main:app --reload --port 8001
+cd apps/portfolio_organizer
+uvicorn apps.portfolio_organizer.src.api.main:app --reload --port 8001
 
 # Проверить эндпоинты
 curl http://localhost:8000/portfolio/models

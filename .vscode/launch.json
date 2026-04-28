@@ -1,0 +1,75 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Текущий файл",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: pytest текущий файл",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["${file}"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: pytest весь проект",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "apps",
+                "src",
+                "--cov=apps",
+                "--cov=src",
+                "--cov-report=term-missing"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: FastAPI - Cloud Reason",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "apps.cloud_reason.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8001",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Streamlit - IT Compass",
+            "type": "python",
+            "request": "launch",
+            "module": "streamlit",
+            "args": [
+                "run",
+                "apps/it_compass/app.py",
+                "--server.port",
+                "8501"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Koda CLI",
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Koda",
+            "runtimeExecutable": "koda",
+            "console": "integratedTerminal"
+        }
+    ]
+}
