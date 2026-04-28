@@ -10,6 +10,10 @@ build/
 .venv/
 venv/
 env/
+# Исключаем вложенные виртуальные окружения
+**/venv/
+**/.venv/
+**/env/
 .Python
 
 # ==========================================
@@ -140,12 +144,11 @@ agents/gigacode/config/*.local.yaml
 
 # Временные файлы
 trivy.zip
-*.tmpcache/  
-site/  
-plans/  
-*.pyc  
-__pycache__/  
-*.log  
-*.tmp 
-.gigacode/ 
-
+*.tmpcache/
+site/
+plans/
+*.pyc
+__pycache__/
+*.log
+*.tmp
+.gigacode/

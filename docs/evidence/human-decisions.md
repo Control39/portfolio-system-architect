@@ -1,11 +1,11 @@
 ﻿# Human Decisions Log: Proof of Lead Architect Role
 *As Lead Architect (zero IT background → cognitive systems designer), I directed AI agents. Below: key examples where I rejected/overruled AI proposals, understood trade-offs, and enforced decisions. This proves human-in-the-loop control, not 'AI wrote it all'.*
 
-## Decision #1: PowerShell for Arch-Compass (vs Python/Go)
+## Decision #1: PowerShell for Infra-Orchestrator (vs Python/Go)
 - **AI Proposal**: Pure Python microservice for cross-platform arch patterns.
 - **My Rejection**: Ops reality — Windows-heavy infra (PowerShell native). Python adds runtime deps; PS is zero-install for Azure/AD.
-- **Trade-off**: Less portable but 80% faster deploy in enterprise. Result: ArchCompass.psm1 (production-ready).
-- **Evidence**: `02_MODULES/arch-compass-framework/ArchCompass.psd1`
+- **Trade-off**: Less portable but 80% faster deploy in enterprise. Result: InfraOrchestrator.psm1 (стабильная версия).
+- **Evidence**: `02_MODULES/infra-orchestrator/InfraOrchestrator.psd1`
 
 ## Decision #2: ChromaDB over FAISS/Pinecone (IT-Compass RAG)
 - **AI Proposal**: FAISS for speed on large embeddings.
@@ -40,5 +40,3 @@
 *Log updated iteratively. Each shows: I set goals, evaluated AI output critically, chose based on real constraints. AI = orchestra; I = conductor.*
 
 *Timeline: Zero IT (2023) → This ecosystem (2026). Proof against skeptics.*
-
-

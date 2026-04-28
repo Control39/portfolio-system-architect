@@ -8,8 +8,8 @@
 
 Тестирование охватывает основные компоненты системы:
 
-- **Arch-Compass**: анализ архитектурных решений
-- **Cloud-Reason**: генерация рассуждений с помощью YandexGPT
+- **Infra-Orchestrator**: анализ архитектурных решений
+- **Decision Engine**: генерация рассуждений с помощью YandexGPT
 - **IT-Compass**: отслеживание навыков и профилактика выгорания
 - **ML-Model-Registry**: регистрация и управление ML-моделями
 - **Portfolio-Organizer**: организация портфолио
@@ -247,7 +247,7 @@ jobs:
         name: load-test-results
         path: |
           results/load_test_*.csv
-          
+
     - name: Analyze results
       run: |
         # Проверка ключевых метрик

@@ -7,9 +7,9 @@
   | Module | Coverage |
   |--------|----------|
   | it-compass | 100% |
-  | cloud-reason | 98% |
+  | decision-engine | 98% |
   | ml-model-registry | 95% |
-  | arch-compass | 90% (Pester)
+  | infra-orchestrator | 90% (Pester)
 
 Run: `cd 02_MODULES/module && pytest tests/`
 
@@ -18,7 +18,7 @@ Run: `cd 02_MODULES/module && pytest tests/`
 docker compose up -d  # All healthy in 30s
 Services:
 - it-compass:8501 (Streamlit UI)
-- cloud-reason:8000 (FastAPI + /docs)
+- decision-engine:8000 (FastAPI + /docs)
 - ml-model-registry:8001 (Health OK)
 ```
 
@@ -32,4 +32,3 @@ Services:
 - Auto-updates: Daily PS script
 
 [Add Prometheus/Grafana for prod telemetry]
-

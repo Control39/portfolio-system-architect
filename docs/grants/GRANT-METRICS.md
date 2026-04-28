@@ -1,8 +1,8 @@
 ﻿# Grant Submission — Metrics & Evidence
 
-**Project**: Portfolio System Architect - Cognitive Architecture Ecosystem  
-**Status**: ✅ SUBMITTED (Yandex Open Source Grants)  
-**Author**: Ekaterina Kudelia, Lead AI Architect  
+**Project**: Portfolio System Architect - Cognitive Architecture Ecosystem
+**Status**: ✅ SUBMITTED (Yandex Open Source Grants)
+**Author**: Ekaterina Kudelia, Lead AI Architect
 **Date**: March 19, 2026
 
 ---
@@ -18,7 +18,7 @@
 - **Test Coverage**: 95%+ (pytest-cov)
 
 ### Infrastructure
-- **Microservices**: 8 (it-compass, cloud-reason, ml-model-registry, career-dev, portfolio-org, system-proof, auth-service, arch-compass)
+- **Microservices**: 8 (it-compass, decision-engine, ml-model-registry, career-dev, portfolio-org, system-proof, auth-service, infra-orchestrator)
 - **Deployment Targets**: Docker Compose, Kubernetes (GKE), Terraform (IaC)
 - **Database**: PostgreSQL 14
 - **Monitoring**: Prometheus + Grafana + AlertManager
@@ -103,4 +103,3 @@
 ---
 
 **Next Phase**: Community engagement & contributor onboarding
-

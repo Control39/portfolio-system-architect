@@ -7,8 +7,8 @@ Non-tech to architect barrier: High. Solution: Human-in-loop methodology → rep
 ## 🏗️ Innovation: Self-Poetic Ecosystem
 - **Core**:
   - **IT-Compass**: Complete system for objective competency tracking (19 skill categories, 5 levels) with automatic portfolio generation and psychological support
-  - **Arch-Compass**: Professional development framework for system architects
-  - **Cloud-Reason**: RAG API for cognitive analysis of architectural decisions
+  - **Infra-Orchestrator**: Professional development framework for system architects
+  - **Decision Engine**: RAG API for cognitive analysis of architectural decisions
   - **ML-Registry**: Machine learning model management and versioning
 - **Proof**: [human-decisions.md](08_EVIDENCE/human-decisions.md) (60% AI rejects), [workflow.md](05_DOCUMENTATION/human-ai-workflow.md), full IT Compass implementation with 85% feature coverage.
 - **Demo**: Local deployment via `docker compose up` (see [Quick Start](../../QUICKSTART.md)) + IT Compass Web UI (Streamlit) and CLI interface
@@ -47,5 +47,3 @@ Non-tech to architect barrier: High. Solution: Human-in-loop methodology → rep
 **Grant Match**: AI leadership, OSS, inclusion.
 
 **Ready. Transform IT entry. 🚀**
-
-
