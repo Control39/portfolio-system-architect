@@ -72,6 +72,7 @@ Desktop.ini
 # .codeassistant/    # Раскомментировать при необходимости
 # .continue/         # Раскомментировать при необходимости
 # .gigacode/         # Частично отслеживаем (см. ниже)
+# Отслеживаем config.ini для конфигурации
 !.gigacode/config.yaml
 !.gigacode/README.md
 !.gigacode/examples.md
