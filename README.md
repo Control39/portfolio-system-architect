@@ -112,14 +112,14 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 
 | Area | Implementation | Status |
 |------|----------------|--------|
-| **Components** | 14 integrated components (12 containerized) | ✅ Production-ready |
+| **Components** | 14 integrated components (12 containerized) | ✅ Стабильная версия |
 | **CI/CD & GitOps** | GitHub Actions + Kustomize + automated rollouts | ✅ Automated |
 | **Observability** | Prometheus + Grafana + AlertManager + custom dashboards | ✅ Monitored |
 | **Security** | Trivy, Bandit, Sealed Secrets, network policies | ✅ Compliant |
 | **Testing** | Unit, Integration, E2E, Load (Locust) → 85%+ coverage | ✅ Verified |
 | **AI Orchestration** | RAG indexing + Reasoning loop for architecture validation | ✅ Operational |
 | **Database** | PostgreSQL + ChromaDB vector store + Redis cache | ✅ Scalable |
-| **API Gateway** | Traefik with rate limiting, authentication, load balancing | ✅ Enterprise-ready |
+| **API Gateway** | Traefik with rate limiting, authentication, load balancing | ✅ Корпоративный уровень |
 
 ## 💰 Business Value: AutoArchitect Engine
 
@@ -168,7 +168,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | **Key Features** | Proactive task planning, self-learning from metrics, Git/CI/CD integration, auto-docs generation |
 | **Integration** | GitHub Actions, Docker, Kubernetes, Prometheus, GitLab, Jira |
 | **Business Value** | -40% DevOps time on routine, -70% production incidents, -75% onboarding time |
-| **Status** | ✅ Production-ready, 15+ Pester/pytest tests, 85%+ coverage |
+| **Status** | ✅ Стабильная версия, 15+ Pester/pytest тестов, 85%+ покрытие |
 
 ### 🏗️ **Infra-Orchestrator Framework**: Infrastructure Orchestration
 | Aspect | Implementation |
@@ -178,7 +178,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | **Key Features** | Self-audit system, 7 modular components, architectural contracts, automated security scanning |
 | **Integration** | Exports metrics to Prometheus, integrates with CI/CD, validates K8s manifests |
 | **Business Value** | -97% audit time, -75% onboarding time, -70% infrastructure incidents |
-| **Status** | ✅ Production-ready, enterprise-grade |
+| **Status** | ✅ Стабильная версия, корпоративный уровень |
 
 ### 🧭 IT-Compass: Methodological Core
 | Aspect | Implementation |
@@ -187,7 +187,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | **Architecture** | Modular Python package with JSON-based marker schema, Streamlit UI, test coverage |
 | **Integration** | Feeds evidence to `portfolio-organizer`, provides context to `decision-engine` |
 | **Human-Centered** | Built-in psychological support module (burnout prevention, crisis resources) |
-| **Status** | ✅ Production-ready, installable via `pip`, Dockerized |
+| **Status** | ✅ Стабильная версия, устанавливается через `pip`, Dockerized |
 
 ### 🤖 MCP Server: AI Integration Platform
 | Aspect | Implementation |
