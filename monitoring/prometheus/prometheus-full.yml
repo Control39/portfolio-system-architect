@@ -7,9 +7,9 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'cloud_reason'
+  - job_name: 'decision_engine'
     static_configs:
-      - targets: ['cloud-reason:8001']
+      - targets: ['decision-engine:8001']
 
   - job_name: 'ml_model_registry'
     static_configs:
@@ -31,7 +31,6 @@ scrape_configs:
     static_configs:
       - targets: ['system-proof:8003']
 
-  - job_name: 'arch_compass'
+  - job_name: 'infra_orchestrator'
     static_configs:
-      - targets: ['arch-compass:80']  # Assume
-
+      - targets: ['infra-orchestrator:8502']

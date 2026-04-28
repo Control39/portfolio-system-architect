@@ -83,7 +83,7 @@ groups:
       # Service Unavailable
       - alert: ServiceDown
         expr: |
-          up{job=~"cloud-reason|it-compass|ml-registry|system-proof"} == 0
+          up{job=~"decision-engine|it-compass|ml-registry|system-proof"} == 0
         for: 2m
         labels:
           severity: critical
@@ -268,4 +268,3 @@ groups:
         annotations:
           summary: "RAG Index Size Low"
           description: "RAG index contains only {{ $value }} documents, consider adding more documentation"
-

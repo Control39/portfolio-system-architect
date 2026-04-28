@@ -17,12 +17,12 @@ kubectl apply -k "${K8S_PATH}"
 # Wait for deployments
 echo "Waiting for deployments to be ready..."
 kubectl rollout status deployment/it-compass -n portfolio --timeout=300s
-kubectl rollout status deployment/cloud-reason -n portfolio --timeout=300s
+kubectl rollout status deployment/decision-engine -n portfolio --timeout=300s
 kubectl rollout status deployment/ml-model-registry -n portfolio --timeout=300s
 kubectl rollout status deployment/portfolio-organizer -n portfolio --timeout=300s
 kubectl rollout status deployment/system-proof -n portfolio --timeout=300s
 kubectl rollout status deployment/auth-service -n portfolio --timeout=300s
-kubectl rollout status deployment/arch-compass-framework -n portfolio --timeout=300s
+kubectl rollout status deployment/infra-orchestrator -n portfolio --timeout=300s
 kubectl rollout status deployment/career-development -n portfolio --timeout=300s
 
 echo "All deployments are ready."

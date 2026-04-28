@@ -44,9 +44,9 @@
 | Документ | Ссылка | Время |
 |----------|--------|-------|
 | Архитектурные решения (ADR) | [architecture/decisions/](architecture/decisions/) | 30 мин |
-| Arch-Compass Framework | [../apps/arch-compass-framework/README.md](../apps/arch-compass-framework/README.md) | 15 мин |
+| Infra-Orchestrator | [../apps/infra-orchestrator/README.md](../apps/infra-orchestrator/README.md) | 15 мин |
 | MCP Server (AI интеграция) | [../apps/mcp-server/README.md](../apps/mcp-server/README.md) | 15 мин |
-| Cloud-Reason (Reasoning-движок) | [../src/cloud_reason/](../src/cloud_reason/) | 20 мин |
+| Decision Engine (Reasoning-движок) | [../apps/decision-engine/](../apps/decision-engine/) | 20 мин |
 | Кейсы интеграции | [cases/cases/presentation-cases/](cases/cases/presentation-cases/) | 30 мин |
 
 **Ключевые доказательства:**
@@ -150,8 +150,8 @@
 
 ### Кейс 1: MCP Server — AI Integration Platform
 
-**Проблема:** AI-ассистенты не имели доступа к коду проекта  
-**Решение:** 7 групп инструментов (File, Git, Compass, ChromaDB, Monitoring, App Management, Security)  
+**Проблема:** AI-ассистенты не имели доступа к коду проекта
+**Решение:** 7 групп инструментов (File, Git, Compass, ChromaDB, Monitoring, App Management, Security)
 **Результат:** AI читает/пишет файлы, делает векторный поиск, сканирует безопасность
 
 **Файлы:** [`apps/mcp-server/`](../apps/mcp-server/)
@@ -160,8 +160,8 @@
 
 ### Кейс 2: IT-Compass — Competency Framework
 
-**Проблема:** Нет объективной оценки компетенций  
-**Решение:** 19 доменов с маркерами (Python, Docker, DevOps, System Thinking)  
+**Проблема:** Нет объективной оценки компетенций
+**Решение:** 19 доменов с маркерами (Python, Docker, DevOps, System Thinking)
 **Результат:** Авто-обнаружение маркеров из кода, генерация портфолио
 
 **Файлы:** [`apps/it-compass/`](../apps/it-compass/)
@@ -170,8 +170,8 @@
 
 ### Кейс 3: Экосистема из 12 Микросервисов
 
-**Проблема:** Масштабируемая архитектура для AI-системы  
-**Решение:** 12 независимых сервисов с общим API Gateway  
+**Проблема:** Масштабируемая архитектура для AI-системы
+**Решение:** 12 независимых сервисов с общим API Gateway
 **Результат:** Docker + Kubernetes + CI/CD + Monitoring
 
 **Файлы:** [`apps/`](../apps/), [`deployment/k8s/`](../deployment/k8s/)
@@ -186,7 +186,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ IT-Compass   │  │ MCP Server   │  │ Cloud-Reason │      │
+│  │ IT-Compass   │  │ MCP Server   │  │ Decision Engine │      │
 │  │ 19 доменов   │  │ 7 инструментов│  │ RAG+Reasoning│      │
 │  └──────────────┘  └──────────────┘  └──────────────┘      │
 │                                                              │
@@ -251,7 +251,5 @@
 
 ---
 
-**Последнее обновление:** Апрель 2026  
+**Последнее обновление:** Апрель 2026
 **Статус:** ✅ Готово к проверке работодателем
-
-

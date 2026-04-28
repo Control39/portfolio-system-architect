@@ -57,7 +57,7 @@ make docs                # Запуск документации
 - **Python: Текущий файл** — запустить открытый файл
 - **Python: pytest текущий файл** — запустить тесты в файле
 - **Python: pytest весь проект** — запустить все тесты
-- **Python: FastAPI - Cloud Reason** — запустить API сервис
+- **Python: FastAPI - Decision Engine** — запустить API сервис
 - **Python: Streamlit - IT Compass** — запустить UI приложение
 
 ## Рекомендуемые расширения

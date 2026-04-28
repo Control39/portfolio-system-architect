@@ -1,6 +1,6 @@
 # KODA.md — Контекст для взаимодействия с проектом
 
-> **Дата создания:** 22 апреля 2026 г.  
+> **Дата создания:** 22 апреля 2026 г.
 > **Тип проекта:** Продукт с кодом — когнитивная архитектура и система автоматизации
 
 ---
@@ -45,7 +45,7 @@ portfolio-system-architect/
 │   └── mcp.json               # MCP конфигурация
 ├── apps/                      # 14 интегрированных микросервисов
 │   ├── it-compass/           # IT-Compass фреймворк
-│   ├── cloud-reason/         # AI reasoning engine с RAG
+│   ├── decision-engine/      # AI reasoning engine с RAG
 │   ├── portfolio-organizer/  # Автоматический сбор доказательств
 │   ├── system-proof/         # Хранение доказательств (CoT)
 │   ├── ml-model-registry/    # Регистр ML-моделей

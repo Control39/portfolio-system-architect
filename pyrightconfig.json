@@ -98,7 +98,7 @@
         "extraPaths": [
             "./src",
             "./apps",
-            "./apps/cloud-reason",
+            "./apps/decision-engine",
             "./apps/it-compass/src",
             "./apps/auth-service"
         ],
