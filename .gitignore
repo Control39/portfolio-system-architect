@@ -1,4 +1,4 @@
-# ==========================================
+﻿# ==========================================
 # Python & Virtual Environments
 # ==========================================
 __pycache__/
@@ -26,7 +26,9 @@ htmlcov/
 # Secrets & Environment Variables
 # ==========================================
 .env
+!.env.example
 .env.*
+!.env.example
 *.key
 *.pem
 *.p12
@@ -61,6 +63,7 @@ Desktop.ini
 .ai-config/
 .ai-config-gui/
 .gigacode/.env
+!.env.example
 .gigacode/*.local.yaml
 # .codeassistant/    # Раскомментировать при необходимости
 # .continue/         # Раскомментировать при необходимости
@@ -69,6 +72,7 @@ Desktop.ini
 !.gigacode/README.md
 !.gigacode/examples.md
 !.gigacode/.env.example
+!.env.example
 
 # ==========================================
 # Project Specific: Logs, Reports & Generated
@@ -144,3 +148,4 @@ __pycache__/
 *.log  
 *.tmp 
 .gigacode/ 
+

@@ -1,0 +1,116 @@
+﻿{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Запустить все сервисы",
+      "type": "shell",
+      "command": "docker-compose up -d",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "new" }
+    },
+    {
+      "label": "⏹️ Остановить все сервисы",
+      "type": "shell",
+      "command": "docker-compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧪 Запустить тесты",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pytest tests/ -v --tb=short",
+      "group": "test",
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "🧪 Запустить тесты с покрытием",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pytest tests/ -v --cov=. --cov-report=html",
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "📦 Установить зависимости",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pip install -r requirements.txt",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔒 Аудит безопасности зависимостей",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pip audit",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎨 Форматировать код (Black)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m black .",
+      "problemMatcher": []
+    },
+    {
+      "label": "📋 Сортировать импорты (isort)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m isort .",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔍 Линтер Ruff",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m ruff check .",
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "🔍 Линтер Ruff (с автоисправлением)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m ruff check . --fix",
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "📊 Проверка типов (Pyright)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pyright",
+      "problemMatcher": ["$python"]
+    },
+    {
+      "label": "🔄 Git Status",
+      "type": "shell",
+      "command": "git status",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔄 Git Pull",
+      "type": "shell",
+      "command": "git pull origin main",
+      "problemMatcher": []
+    },
+    {
+      "label": "📤 Git Push",
+      "type": "shell",
+      "command": "git push origin main",
+      "problemMatcher": []
+    },
+    {
+      "label": "🏗️ Сборка Docker образов",
+      "type": "shell",
+      "command": "docker-compose build",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧹 Очистка кэша Python",
+      "type": "shell",
+      "command": "Get-ChildItem -Recurse -Filter \"__pycache__\" | Remove-Item -Recurse -Force; Get-ChildItem -Recurse -Filter \"*.pyc\" | Remove-Item -Force",
+      "problemMatcher": []
+    },
+    {
+      "label": "📝 Генерация документации",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pdoc -o docs/api ./src",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔍 Проверка секретов в Git",
+      "type": "shell",
+      "command": "git log --all --full-history -p | Select-String -Pattern \"(api[_-]?key|password|secret|token).*[=:].*\" -CaseSensitive:$false",
+      "problemMatcher": []
+    }
+  ]
+}
