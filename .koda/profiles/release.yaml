@@ -1,0 +1,29 @@
+﻿# Release Profile
+# Use before releases and deployments
+
+rules:
+  - repo-structure.md
+  - coding-standards.md
+  - security-rules.md
+
+skills:
+  - code-reviewer
+  - code-security-auditor
+  - repo-quality-auditor
+  - performance-profiler
+
+tools:
+  filesystem:
+    enabled: true
+  git:
+    enabled: true
+  terminal:
+    enabled: true
+
+checks:
+  - all-tests-pass
+  - coverage-min-80
+  - security-scan-clean
+  - no-critical-issues
+  - changelog-updated
+  - version-bumped

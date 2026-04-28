@@ -1,0 +1,29 @@
+﻿# Security Profile
+# Use for security audits and reviews
+
+rules:
+  - repo-structure.md
+  - security-rules.md
+
+skills:
+  - code-security-auditor
+  - repo-quality-auditor
+
+tools:
+  filesystem:
+    enabled: true
+  git:
+    enabled: true
+  terminal:
+    enabled: true
+    allowed_commands:
+      - bandit
+      - pip-audit
+      - trufflehog
+      - gitleaks
+
+checks:
+  - secrets-scan
+  - dependency-audit
+  - bandit-scan
+  - security-tests

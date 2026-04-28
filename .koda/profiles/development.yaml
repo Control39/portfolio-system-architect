@@ -1,0 +1,22 @@
+﻿# Development Profile
+# Use for daily development tasks
+
+rules:
+  - repo-structure.md
+  - coding-standards.md
+
+skills:
+  - code-reviewer
+  - test-generator
+
+tools:
+  filesystem:
+    enabled: true
+  git:
+    enabled: true
+  terminal:
+    enabled: true
+
+checks:
+  - pre-commit-hooks
+  - unit-tests
