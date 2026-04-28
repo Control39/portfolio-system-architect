@@ -12,7 +12,7 @@ All services are exposed via the central API Gateway (Traefik) at `http://localh
 |---------|-------------|-----------------|-------------|
 | Auth Service | `/auth` | 8100 | JWT token issuance and validation |
 | IT-Compass | `/it-compass` | 8501 | Skill tracking UI (Streamlit) |
-| Cloud-Reason | `/cloud-reason` | 8001 | RAG API for document reasoning |
+| Decision Engine | `/decision-engine` | 8001 | RAG API for document reasoning |
 | ML Model Registry | `/ml-registry` | 8001 | Model versioning and deployment |
 | Career Development | `/career-dev` | 8000 | Career path recommendations |
 | Portfolio Organizer | `/portfolio-organizer` | 8004 | Project portfolio management |
@@ -26,10 +26,10 @@ All services are exposed via the central API Gateway (Traefik) at `http://localh
 - **POST /auth/validate** – Validate token
 - **GET /auth/health** – Health check
 
-### 2. Cloud-Reason
-- **POST /cloud-reason/api/v1/query** – Submit a natural language query
-- **GET /cloud-reason/api/v1/status** – Service status
-- **GET /cloud-reason/api/v1/docs** – OpenAPI spec
+### 2. Decision Engine
+- **POST /decision-engine/api/v1/query** – Submit a natural language query
+- **GET /decision-engine/api/v1/status** – Service status
+- **GET /decision-engine/api/v1/docs** – OpenAPI spec
 
 ### 3. ML Model Registry
 - **POST /ml-registry/api/v1/models** – Register a new model
@@ -80,9 +80,9 @@ Traefik routing labels are defined in `docker-compose.yml`. Each service must:
 
 Services may call each other only via their public HTTP endpoints. Internal dependencies:
 
-- Cloud‑Reason → Auth (token validation)
+- Decision Engine → Auth (token validation)
 - System Proof → Auth (optional)
-- ML Model Registry → Cloud‑Reason (model inference)
+- ML Model Registry → Decision Engine (model inference)
 
 ## Monitoring & Observability
 

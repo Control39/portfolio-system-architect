@@ -9,7 +9,7 @@ STATUS: ⚠️ PARTIALLY OPERATIONAL - Core infra Up, apps need fixes
   | Service | URL | Description |
   |---------|-----|-------------|
   | IT-Compass | http://localhost:8501 | Competency tracker |
-  | Cloud-Reason | http://localhost:8001 | RAG AI analysis |
+  | Decision Engine | http://localhost:8001 | RAG AI analysis |
   | Career-Dev | http://localhost:8000 | Career system |
   | ML Registry | http://localhost:8002 | Model versioning |
   | Portfolio Organizer | http://localhost:8004 | Site generator |
@@ -25,5 +25,3 @@ STATUS: ⚠️ PARTIALLY OPERATIONAL - Core infra Up, apps need fixes
 - Add more after capture.
 
 **Status**: Production-ready monorepo under active development for grant review. Some services stabilizing. Integrated manual-review tools. GitHub mirror: https://github.com/Control39/portfolio-system-architect. Integration complete: [docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md](docs/archive/MANUAL_REVIEW_INTEGRATION_PLAN.md)
-
-

@@ -66,7 +66,7 @@ docker compose logs --tail=50
 
 ### Test API Endpoints
 ```bash
-# Test Cloud-Reason API
+# Test Decision Engine API
 curl http://localhost:8000/health
 
 # Test ML Registry
@@ -84,7 +84,7 @@ curl http://localhost:8080/health
 3. Try the burnout prevention analytics
 4. Explore career path recommendations
 
-### Try Cloud-Reason AI
+### Try Decision Engine AI
 1. Open http://localhost:8000/docs
 2. Try the `/rag/query` endpoint with technical questions
 3. Test systematic thinking prompts

@@ -2,15 +2,15 @@
 
 ## 🏆 Project: Portfolio System Architect - Cognitive Architecture Ecosystem
 
-**Applicant**: Ekaterina Kudelia  
-**Grant Program**: SourceCraft Open Source Grants  
-**Requested Amount**: [To be determined based on grant program]  
-**Project Duration**: 6 months  
+**Applicant**: Ekaterina Kudelia
+**Grant Program**: SourceCraft Open Source Grants
+**Requested Amount**: [To be determined based on grant program]
+**Project Duration**: 6 months
 **License**: MIT + CC BY-ND for documentation
 
 ## 🎯 Executive Summary
 
-This project represents a **new paradigm in professional development**: a cognitive architecture ecosystem that enables individuals with zero IT background to become enterprise architects through AI-assisted systematic thinking. 
+This project represents a **new paradigm in professional development**: a cognitive architecture ecosystem that enables individuals with zero IT background to become enterprise architects through AI-assisted systematic thinking.
 
 ### Core Innovation
 We're not just building another portfolio system; we're **creating the methodology and tools for a new professional category**: the Cognitive Architect. This bridges the gap between human strategic thinking and AI execution capabilities.
@@ -47,8 +47,8 @@ We're not just building another portfolio system; we're **creating the methodolo
 
 ### Ecosystem Components
 1. **IT-Compass** - Skills tracking and career navigation system
-2. **Cloud-Reason** - Systematic thinking API with RAG capabilities  
-3. **Arch-Compass** - Architectural decision automation framework
+2. **Decision Engine** - Systematic thinking API with RAG capabilities
+3. **Infra-Orchestrator** - Architectural decision automation framework
 4. **ML-Model-Registry** - Versioned AI model management
 5. **Portfolio-Organizer** - Automated evidence collection and presentation
 6. **System-Proof** - Formal verification of architectural decisions
@@ -67,7 +67,7 @@ We're not just building another portfolio system; we're **creating the methodolo
 ### Problem Being Solved
 The IT industry faces a **massive talent shortage** while simultaneously excluding talented individuals who:
 - Don't have traditional CS backgrounds
-- Can't afford years of formal education  
+- Can't afford years of formal education
 - Have systemic thinking abilities but lack coding skills
 
 ### Solution

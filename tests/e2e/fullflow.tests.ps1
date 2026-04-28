@@ -1,5 +1,5 @@
 # tests/e2e/FullFlow.Tests.ps1
-Describe "Arch-Compass End-to-End Tests" -Tag "E2E", "Slow", "RequiresAzure" {
+Describe "Infra-Orchestrator End-to-End Tests" -Tag "E2E", "Slow", "RequiresAzure" {
     BeforeAll {
         # Мокаем Get-Command для имитации CLI
         Mock Get-Command {
@@ -21,7 +21,7 @@ Describe "Arch-Compass End-to-End Tests" -Tag "E2E", "Slow", "RequiresAzure" {
     AfterAll {
         # Гарантируем очистку
         Get-ChildItem $env:TEMP -Directory -Filter "ArchCompass-E2E-*" -ErrorAction SilentlyContinue |
-            Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
     }
 
     Context "Repository Initialization" {

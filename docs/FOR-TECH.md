@@ -10,7 +10,7 @@ This portfolio demonstrates **production-grade cognitive architecture** through 
 |-----------|-----------------|---------|
 | **IT-Compass** | FastAPI, PostgreSQL, Pydantic | Skills tracking and burnout prevention with AI-driven insights |
 | **Decision Engine** | FastAPI, YandexGPT, RAG | Systematic thinking API with reasoning capabilities |
-| **Arch-Compass** | PowerShell, .NET Core | Architectural decision automation framework |
+| **Infra-Orchestrator** | PowerShell, .NET Core | Architectural decision automation framework |
 | **ML-Model-Registry** | FastAPI, MLflow, PostgreSQL | Versioned model management with API and UI |
 | **Portfolio-Organizer** | Streamlit, FastAPI | Automated portfolio generation and presentation |
 | **System-Proof** | Python, Formal Methods | Formal verification of architectural decisions |

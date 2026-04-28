@@ -43,7 +43,7 @@ class PortfolioSystemUser(HttpUser):
         """
         try:
             response = self.client.get(
-                "/arch-compass/analyze",
+                "/infra-orchestrator/analyze",
                 headers=self.headers,
                 params={
                     "project_type": random.choice(
@@ -52,9 +52,9 @@ class PortfolioSystemUser(HttpUser):
                 },
             )
             if response.status_code != 200:
-                print(f"GET /arch-compass/analyze failed: {response.status_code}")
+                print(f"GET /infra-orchestrator/analyze failed: {response.status_code}")
         except Exception as e:
-            print(f"GET /arch-compass/analyze exception: {e}")
+            print(f"GET /infra-orchestrator/analyze exception: {e}")
 
     @task(2)
     def get_decision_engine_reasoning(self):

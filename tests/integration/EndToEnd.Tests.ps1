@@ -1,5 +1,5 @@
 # tests/integration/EndToEnd.Tests.ps1
-Describe "Arch-Compass Integration Tests" -Tag "Integration", "Slow" {
+Describe "Infra-Orchestrator Integration Tests" -Tag "Integration", "Slow" {
     BeforeAll {
         # Импорт модулей
         $srcPath = "$PSScriptRoot/../../src"
@@ -52,7 +52,7 @@ Describe "Arch-Compass Integration Tests" -Tag "Integration", "Slow" {
         It "Should detect and mask secrets in generated files" -Tag "Security" {
             # Arrange
             $testFile = Join-Path $TestRoot "test-config.json"
-"sk-" + (-join ((48..57)+(97..122)|Get-Random -Count 28|%{[char]$_}))
+            "sk-" + ( -join ((48..57) + (97..122) | Get-Random -Count 28 | % { [char]$_ }))
 
             @"
 {
@@ -70,10 +70,10 @@ Describe "Arch-Compass Integration Tests" -Tag "Integration", "Slow" {
 
             # Логируем результат сканирования (без прямого значения)
             [StructuredLogger]::Log("Security scan completed", "WARN", @{
-                File = $testFile
-                IssueCount = $scanResult.Findings.Count
-                SampleType = $scanResult.Findings[0].Type
-            })
+                    File       = $testFile
+                    IssueCount = $scanResult.Findings.Count
+                    SampleType = $scanResult.Findings[0].Type
+                })
 
             $logFile = Get-ChildItem "$LogDir/*.log" | Select-Object -First 1 -ErrorAction SilentlyContinue
             $logContent = if ($logFile) { Get-Content $logFile -Raw } else { "" }
