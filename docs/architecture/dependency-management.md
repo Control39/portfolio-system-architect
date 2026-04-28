@@ -157,7 +157,7 @@ pytest
 # или иметь свои специфические зависимости
 
 # Пример использования в .agents/launch-script.py
-from src.main import app  # Использование основного приложения
+from apps.career_development.src.main import app  # Использование основного приложения
 import requests  # Использование глобальной зависимости
 import click     # Использование глобальной зависимости
 ```

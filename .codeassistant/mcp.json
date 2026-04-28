@@ -31,12 +31,12 @@
 			"command": "ollama"
 		},
 		"gigacode": {
-			"type": "http",
-			"url": "https://api-key-ai.ngc.nvidia.com/v1",
-			"headers": {
-				"Authorization": "Bearer sk-ecff695e-1234-5678-9012-345678901234"
-			},
-			"command": "gigacode"
+			"type": "streamable-http",
+			"url": "https://gigachat.cft.ru/v1/mcp",
+			"env": {
+				"GIGACODE_API_KEY": "${env:GIGACODE_API_KEY}",
+				"GIGACODE_MODEL": "GigaChat"
+			}
 		}
 	}
 }

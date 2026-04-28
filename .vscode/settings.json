@@ -1,43 +1,36 @@
 {
-    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
-    "python.terminal.activateEnvironment": true,
-    "python.analysis.extraPaths": [
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/apps"
-    ],
-    "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": [
-        "apps",
-        "src",
-        "--cov=apps",
-        "--cov=src",
-        "--cov-report=term-missing"
-    ],
-    "python.testing.unittestEnabled": false,
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
-        },
-        "editor.formatOnSave": true
-    },
-    "black-formatter.args": [
-        "--config",
-        "pyproject.toml"
-    ],
-    "isort.args": [
-        "--settings-path",
-        "pyproject.toml"
-    ],
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.diagnosticMode": "workspace",
-    "python.analysis.ignore": [
-        ".venv",
-        ".git",
-        ".agents",
-        ".codeassistant"
-    ],
-    "python.analysis.useLibraryCodeForTypes": true,
-    "python.languageServer": "Pylance"
+  // Python интерпретатор
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.extraPaths": ["${workspaceFolder}/apps", "${workspaceFolder}/src"],
+  
+  // GigaCode настройки
+  "gigacode.enabled": true,
+  "gigacode.apiKey": "${env:GIGACODE_API_KEY}",
+  "gigacode.model": "GigaChat",
+  "gigacode.maxTokens": 4000,
+  "gigacode.temperature": 0.7,
+  "gigacode.enableCodeCompletion": true,
+  "gigacode.enableChat": true,
+  "gigacode.language": "ru",
+  "gigacode.autoSuggest": true,
+  "gigacode.suggestDelay": 300,
+  "gigacode.contextWindow": 8000,
+  
+  // Настройки для конкретных языков
+  "gigacode.python.enabled": true,
+  "gigacode.typescript.enabled": true,
+  "gigacode.javascript.enabled": true,
+  "gigacode.yaml.enabled": true,
+  "gigacode.markdown.enabled": true,
+  
+  // Интеграция с другими инструментами
+  "gigacode.integrateWithCopilot": false,
+  "gigacode.fallbackToSourceCraft": true,
+  "gigacode.showTokenUsage": true,
+  
+  // Оптимизация токенов
+  "gigacode.notifyOnLowTokens": true,
+  "gigacode.lowTokenThreshold": 50,
+  "gigacode.cache_responses": true
 }
