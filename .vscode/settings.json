@@ -1,36 +1,155 @@
-{
-  // Python интерпретатор
+﻿{
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.terminal.activateEnvironment": true,
-  "python.analysis.extraPaths": ["${workspaceFolder}/apps", "${workspaceFolder}/src"],
-  
-  // GigaCode настройки
+  "python.terminal.useEnvFile": true,
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/apps",
+    "${workspaceFolder}/src"
+  ],
+  "python.analysis.diagnosticMode": "workspace",
+  // ================================
+  // GigaCode - основные настройки
+  // ================================
   "gigacode.enabled": true,
   "gigacode.apiKey": "${env:GIGACODE_API_KEY}",
   "gigacode.model": "GigaChat",
   "gigacode.maxTokens": 4000,
   "gigacode.temperature": 0.7,
+  "gigacode.contextWindow": 8000,
+  "gigacode.language": "ru",
+  // GigaCode - функции
   "gigacode.enableCodeCompletion": true,
   "gigacode.enableChat": true,
-  "gigacode.language": "ru",
   "gigacode.autoSuggest": true,
   "gigacode.suggestDelay": 300,
-  "gigacode.contextWindow": 8000,
-  
-  // Настройки для конкретных языков
+  "gigacode.useWorkerForCommands": false,
+  "gigacode.experimental.workerEnabled": false,
+  "gigacode.inlineCompletions.enabled": true,
+  // GigaCode - модели для чата
+  "gigacode.chat.agentModel": "CodeChat",
+  "gigacode.chat.askModel": "CodeChat",
+  // GigaCode - языки
   "gigacode.python.enabled": true,
   "gigacode.typescript.enabled": true,
   "gigacode.javascript.enabled": true,
   "gigacode.yaml.enabled": true,
   "gigacode.markdown.enabled": true,
-  
-  // Интеграция с другими инструментами
+  // GigaCode - интеграция
   "gigacode.integrateWithCopilot": false,
   "gigacode.fallbackToSourceCraft": true,
   "gigacode.showTokenUsage": true,
-  
-  // Оптимизация токенов
+  // GigaCode - оптимизация
   "gigacode.notifyOnLowTokens": true,
   "gigacode.lowTokenThreshold": 50,
-  "gigacode.cache_responses": true
+  "gigacode.cache_responses": true,
+  // ================================
+  // SourceCraft - настройки
+  // ================================
+  "sourcecraft-code-assist.allowedCommands": [
+    "npm test",
+    "npm install",
+    "tsc",
+    "git log",
+    "git diff",
+    "git show",
+    "pip",
+    "pip install",
+    "python",
+    "pytest",
+    "git status",
+    "git branch",
+    "git pull",
+    "ls",
+    "pwd",
+    "echo",
+    "cat"
+  ],
+  "sourcecraft-code-assist.deniedCommands": [
+    "rm -rf",
+    "sudo",
+    "shutdown",
+    "reboot",
+    "dd",
+    "mkfs",
+    "chmod 777",
+    "git push --force"
+  ],
+  "sourcecraft-code-assist.useWorker": false,
+  "sourcecraft-code-assist.runInTerminal": true,
+  // ================================
+  // Python - форматирование и линтинг
+  // ================================
+  "python.formatting.provider": "black",
+  "python.linting.ruffEnabled": true,
+  "python.linting.ruffArgs": ["--fix"],
+  // ================================
+  // Редактор - автоформатирование
+  // ================================
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.trimAutoWhitespace": true,
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true
+  },
+  // ================================
+  // Файлы - что исключить из поиска
+  // ================================
+  "files.exclude": {
+    "**/.git": true,
+    "**/__pycache__": true,
+    "**/.venv": true,
+    "**/venv": true,
+    "**/.pytest_cache": true,
+    "**/.cache": true,
+    "**/cache": true,
+    "**/logs": true,
+    "**/*.pyc": true,
+    "**/*.pyo": true,
+    "**/*.pyd": true,
+    "**/.DS_Store": true,
+    "**/*.exe": true,
+    "**/*.dll": true,
+    "**/*.so": true,
+    "**/.env": true,
+    "**/.env.*": true,
+    "**/*.local": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/__pycache__/**": true
+  },
+  // ================================
+  // Тестирование - pytest
+  // ================================
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "-p", "no:warnings",
+    "--tb=short",
+    "--cov=.",
+    "${workspaceFolder}/tests"
+  ],
+  // ================================
+  // Прочие полезные настройки
+  // ================================
+  "editor.rulers": [80, 100, 120],
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": true,
+  "workbench.editor.enablePreview": false,
+  "explorer.confirmDragAndDrop": false
 }
