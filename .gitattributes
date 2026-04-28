@@ -1,5 +1,4 @@
 # Отслеживание конфигурационных файлов с чувствительными данными
-
 # Отслеживание других конфигурационных файлов
 .env filter=lfs diff=lfs merge=lfs -text
 *.env filter=lfs diff=lfs merge=lfs -text
@@ -19,3 +18,9 @@ examples/ export-ignore
 **/obsidian-vault/ export-ignore
 **/obsidian-map/ export-ignore
 examples/legacy/ export-ignore
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
