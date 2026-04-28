@@ -1,20 +1,22 @@
-{
+﻿{
     "recommendations": [
         "ms-python.python",
         "ms-python.vscode-pylance",
         "ms-python.black-formatter",
         "ms-python.isort",
         "ms-python.debugpy",
-        "mtxr.sqltools",
         "esbenp.prettier-vscode",
-        "streetsidesoftware.code-spell-checker",
         "redhat.vscode-yaml",
         "bierner.markdown-mermaid",
         "danielbullion.git-graph",
         "ms-azuretools.vscode-docker",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
         "timonwong.shellcheck",
+        "gigacode.gigacode-vscode",
+        "sourcecraft.code-assist"
+    ],
+    "unwantedRecommendations": [
+        "mtxr.sqltools",
         "ryanluker.vscode-coverage-gutters",
-        "gigacode.gigacode-vscode"
+        "streetsidesoftware.code-spell-checker"
     ]
 }
