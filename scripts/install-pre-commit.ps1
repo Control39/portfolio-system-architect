@@ -16,19 +16,25 @@ if (-not (Test-Path ".venv\Scripts\python.exe")) {
 Write-Host "  ✅ Python найден" -ForegroundColor Green
 $PYTHON = ".venv\Scripts\python.exe"
 
-# Установка pre-commit
-Write-Host "2. Установка pre-commit..." -ForegroundColor Yellow
-& $PYTHON -m pip install pre-commit
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "  ✅ pre-commit установлен" -ForegroundColor Green
+# Проверка pre-commit
+Write-Host "2. Проверка pre-commit..." -ForegroundColor Yellow
+$precommitCheck = & $PYTHON -m pip show pre-commit 2>&1
+if ($precommitCheck) {
+    Write-Host "  ✅ pre-commit уже установлен" -ForegroundColor Green
 } else {
-    Write-Host "  ❌ Ошибка установки pre-commit" -ForegroundColor Red
-    exit 1
+    Write-Host "  ⚠️ Установка pre-commit..." -ForegroundColor Yellow
+    & $PYTHON -m pip install pre-commit
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "  ✅ pre-commit установлен" -ForegroundColor Green
+    } else {
+        Write-Host "  ❌ Ошибка установки pre-commit" -ForegroundColor Red
+        exit 1
+    }
 }
 
-# Установка хуков
+# Установка хуков (напрямую через pre-commit, не через python -m)
 Write-Host "3. Установка git hooks..." -ForegroundColor Yellow
-& $PYTHON -m pre-commit install
+pre-commit install
 if ($LASTEXITCODE -eq 0) {
     Write-Host "  ✅ Git hooks установлены" -ForegroundColor Green
 } else {
@@ -38,7 +44,7 @@ if ($LASTEXITCODE -eq 0) {
 
 # Установка хуков для commit-msg
 Write-Host "4. Установка commit-msg hooks..." -ForegroundColor Yellow
-& $PYTHON -m pre-commit install --hook-type commit-msg
+pre-commit install --hook-type commit-msg
 if ($LASTEXITCODE -eq 0) {
     Write-Host "  ✅ Commit-msg hooks установлены" -ForegroundColor Green
 } else {
