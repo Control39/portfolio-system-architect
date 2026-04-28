@@ -1,4 +1,4 @@
-{
+﻿{
 	"mcpServers": {
 		"sourcecraft": {
 			"type": "streamable-http",
@@ -36,6 +36,28 @@
 			"env": {
 				"GIGACODE_API_KEY": "${env:GIGACODE_API_KEY}",
 				"GIGACODE_MODEL": "GigaChat"
+			}
+		},
+		"local-mcp": {
+			"type": "streamable-http",
+			"url": "https://gigachat.cft.ru/v1/mcp",
+			"auth": {
+				"type": "bearer",
+				"token": "${env:GIGACODE_API_KEY}"
+			},
+			"headers": {
+				"X-Model": "GigaChat"
+			}
+		},
+		"remote-mcp": {
+			"type": "streamable-http",
+			"url": "https://gigachat.cft.ru/v1/mcp",
+			"auth": {
+				"type": "bearer",
+				"token": "${env:GIGACODE_API_KEY}"
+			},
+			"headers": {
+				"X-Model": "GigaChat-Pro"
 			}
 		}
 	}
