@@ -1,4 +1,4 @@
-# AutoArchitect Engine: Autonomous Project Orchestration System
+﻿# AutoArchitect Engine: Autonomous Project Orchestration System
 
 > **Role:** Cognitive Systems Architect & AI Orchestrator  
 > **What it does:** Autonomous engine that handles DevOps routines (tests, deployments, security scans, documentation) without micromanagement.  
@@ -105,7 +105,7 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 | 💻 **CTO / VP Engineering** | [💰 Business Value](#-business-value-autoarchitect-engine) + [`docs/ONE-PAGER.md`](docs/ONE-PAGER.md) | Cost savings, risk reduction, team efficiency |
 | 🛠️ **DevOps Lead / SRE** | [🚀 Quick Start: AutoArchitect](#-quick-start-autoarchitect-engine) + [`deployment/`](deployment/) | Autonomous automation, GitOps, monitoring |
 | 🔍 **Tech Lead / Architect** | [`ARCHITECTURE.md`](ARCHITECTURE.md) + [`docs/architecture/decisions/`](docs/architecture/decisions/) | System design, integration patterns, ADR |
-| 🌱 **Beginners / Mentors** | [`apps/it-compass/`](apps/it-compass/) + [`docs/cases/`](docs/cases/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Self-assessment, growth tracking, reasoning methodology |
+| 🌱 **Beginners / Mentors** | [`docs/methodology/02_METHODOLOGY/it-compass/`](docs/methodology/02_METHODOLOGY/it-compass/) + [`docs/cases/`](docs/cases/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Self-assessment, growth tracking, reasoning methodology |
 | 🏆 **Grant Committees** | [`docs/grants/`](docs/grants/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Impact evidence, scalability, reasoning methodology |
 
 ## 📊 Technical Delivery & Production Features
@@ -310,11 +310,8 @@ Explore the interactive reasoning-visualization:
 - 📊 [Excalidraw Visualization](diagrams/reasoning/system-integration.excalidraw) - System integration case study
 - 🧩 [Reasoning Principles](docs/reasoning/PRINCIPLES.md) - Core methodology
 
-<<<<<<< HEAD
 ![Reasoning System](https://github.com/Control39/portfolio-system-architect/raw/main/docs/screenshots/reasoning-system.png)
-=======
 ![Reasoning System](docs/screenshots/reasoning-system.png)
->>>>>>> 0b0e059641af06c3835651f7437e181f097f7b14
 
 ## 📝 How to Use This Repository
 
@@ -322,7 +319,7 @@ Explore the interactive reasoning-visualization:
 1. Explore [`docs/employer/`](docs/employer/) for competency proof templates
 2. Study [`docs/cases/business-impact/`](docs/cases/business-impact/) — **ROI-кейсы с цифрами**
 3. Study [`docs/cases/`](docs/cases/) for real-world problem-solving examples
-4. Use [`apps/it-compass/`](apps/it-compass/) to measure your own IT competencies
+4. Use [`docs/methodology/02_METHODOLOGY/it-compass/`](docs/methodology/02_METHODOLOGY/it-compass/) to measure your own IT competencies
 
 ### For Technical Evaluation
 1. Review [`docs/architecture/decisions/`](docs/architecture/decisions/) for architectural thinking
@@ -353,3 +350,4 @@ This project is licensed under the MIT License - see the [`LICENSE`](LICENSE) fi
 📩 **Contact**: leadarchitect@yandex.ru | [GitHub](https://github.com/Control39/portfolio-system-architect) | [SourceCraft](https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect)
 
 *Last updated: April 2026*
+
