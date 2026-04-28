@@ -191,7 +191,7 @@ Improved: "Cognitive Architecture Ecosystem: Production-ready microservices, Kub
 
 ```bash
 # Clone and deploy in 5 minutes
-git clone https://github.com/leadarchitect-ai/portfolio-system-architect
+git clone https://github.com/Control39/portfolio-system-architect
 cd portfolio-system-architect
 docker compose up -d
 ```
@@ -263,7 +263,7 @@ Create `docs/README.md`:
 2. Set up Google Analytics for GitHub Pages (if used)
 3. Monitor search engine referrals
 4. Track social media shares
-5. Measure conversion to contributions/contact
+5. Measure co?nversion to contributions/contact
 
 ## 🎯 Success Metrics
 
