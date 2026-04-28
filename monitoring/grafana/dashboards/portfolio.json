@@ -8,15 +8,20 @@
     "panels": [
       {
         "id": 1,
-        "title": "CPU – Cloud-Reason",
+        "title": "CPU – Decision Engine",
         "type": "timeseries",
         "targets": [
           {
-            "expr": "process_cpu_seconds_total{job=\"cloud_reason\"}",
+            "expr": "process_cpu_seconds_total{job=\"decision_engine\"}",
             "legendFormat": "{{instance}}"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
       },
       {
         "id": 2,
@@ -28,7 +33,12 @@
             "legendFormat": "p95"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
       },
       {
         "id": 3,
@@ -40,7 +50,12 @@
             "legendFormat": "RPS"
           }
         ],
-        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8}
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
       }
     ],
     "time": {
@@ -48,11 +63,9 @@
       "to": "now"
     },
     "timepicker": {},
-    "timezone": "browser",
     "refresh": "15s",
     "schemaVersion": 38,
     "version": 1
   },
   "overwrite": true
 }
-

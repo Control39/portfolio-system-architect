@@ -1,4 +1,4 @@
-﻿import random
+import random
 import string
 
 from locust import HttpUser, between, task
@@ -16,14 +16,12 @@ class PortfolioSystemUser(HttpUser):
     host = "http://localhost:8000"  # API Gateway
 
     def on_start(self):
-        """Executed when a user starts
-        """
+        """Executed when a user starts"""
         # Authenticate user
         self.login()
 
     def login(self):
-        """Simulate user login
-        """
+        """Simulate user login"""
         try:
             response = self.client.post(
                 "/auth/login",
@@ -48,7 +46,9 @@ class PortfolioSystemUser(HttpUser):
                 "/arch-compass/analyze",
                 headers=self.headers,
                 params={
-                    "project_type": random.choice(["microservice", "monolith", "serverless"]),
+                    "project_type": random.choice(
+                        ["microservice", "monolith", "serverless"]
+                    ),
                 },
             )
             if response.status_code != 200:
@@ -57,13 +57,13 @@ class PortfolioSystemUser(HttpUser):
             print(f"GET /arch-compass/analyze exception: {e}")
 
     @task(2)
-    def get_cloud_reasoning(self):
-        """Task: Get cloud reasoning response
+    def get_decision_engine_reasoning(self):
+        """Task: Get decision engine reasoning response
         Weight: 2 (common)
         """
         try:
             response = self.client.post(
-                "/cloud-reason/reason",
+                "/decision-engine/reason",
                 headers=self.headers,
                 json={
                     "prompt": "How to design a scalable microservice architecture?",
@@ -100,7 +100,9 @@ class PortfolioSystemUser(HttpUser):
         """
         try:
             # Generate random project name
-            project_name = "project_" + "".join(random.choices(string.ascii_lowercase, k=8))
+            project_name = "project_" + "".join(
+                random.choices(string.ascii_lowercase, k=8)
+            )
 
             response = self.client.post(
                 "/portfolio-organizer/projects",
@@ -108,11 +110,15 @@ class PortfolioSystemUser(HttpUser):
                 json={
                     "name": project_name,
                     "description": f"Automated test project {project_name}",
-                    "tags": random.sample(["ai", "cloud", "security", "devops", "ml", "data"], k=3),
+                    "tags": random.sample(
+                        ["ai", "cloud", "security", "devops", "ml", "data"], k=3
+                    ),
                 },
             )
             if response.status_code != 201:
-                print(f"POST /portfolio-organizer/projects failed: {response.status_code}")
+                print(
+                    f"POST /portfolio-organizer/projects failed: {response.status_code}"
+                )
         except Exception as e:
             print(f"POST /portfolio-organizer/projects exception: {e}")
 
@@ -152,6 +158,7 @@ class PortfolioSystemUser(HttpUser):
         except Exception as e:
             print(f"GET /career-development/plan exception: {e}")
 
+
 # Configuration for locust
 # This can be overridden by command line arguments
 class Config:
@@ -159,6 +166,7 @@ class Config:
     USERS = 100  # Number of simulated users
     SPAWN_RATE = 10  # Users spawned per second
     RUN_TIME = "1h"  # Duration of the test
+
 
 # To run this test:
 # locust -f tests/load/test_load.py --host=http://localhost:8000 -u 100 -r 10 --run-time=1h --headless

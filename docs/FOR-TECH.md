@@ -1,4 +1,4 @@
-﻿# Technical Overview for Architects & Tech Leads
+﻿#  Technical Overview for Architects & Tech Leads
 
 ## 🏗️ System Architecture at a Glance
 
@@ -9,7 +9,7 @@ This portfolio demonstrates **production-grade cognitive architecture** through 
 | Component | Technology Stack | Purpose |
 |-----------|-----------------|---------|
 | **IT-Compass** | FastAPI, PostgreSQL, Pydantic | Skills tracking and burnout prevention with AI-driven insights |
-| **Cloud-Reason** | FastAPI, YandexGPT, RAG | Systematic thinking API with reasoning capabilities |
+| **Decision Engine** | FastAPI, YandexGPT, RAG | Systematic thinking API with reasoning capabilities |
 | **Arch-Compass** | PowerShell, .NET Core | Architectural decision automation framework |
 | **ML-Model-Registry** | FastAPI, MLflow, PostgreSQL | Versioned model management with API and UI |
 | **Portfolio-Organizer** | Streamlit, FastAPI | Automated portfolio generation and presentation |

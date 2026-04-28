@@ -13,7 +13,7 @@ Get started with the Portfolio System Architect in under 5 minutes. This guide w
 
 ```bash
 # Clone the repository
-git clone https://github.com/leadarchitect-ai/portfolio-system-architect.git
+git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 
 # Initialize Git LFS (required for some model files)
@@ -33,7 +33,7 @@ docker compose ps
 
 The ecosystem includes 8 integrated microservices:
 - **IT-Compass** - Skills tracking and career navigation
-- **Cloud-Reason** - AI reasoning API with RAG capabilities
+- **Decision Engine** - AI reasoning API with RAG capabilities
 - **ML Model Registry** - Versioned AI model management
 - **Portfolio Organizer** - Automated evidence collection
 - **Career Development** - AI-driven career planning
@@ -46,7 +46,7 @@ The ecosystem includes 8 integrated microservices:
 | Service | URL | Purpose | Default Credentials |
 |---------|-----|---------|-------------------|
 | **IT-Compass UI** | http://localhost:8501 | Competency tracker & portfolio | - |
-| **Cloud-Reason API** | http://localhost:8000/docs | AI reasoning & RAG | - |
+| **Decision Engine API** | http://localhost:8000/docs | AI reasoning & RAG | - |
 | **ML Registry API** | http://localhost:8001/docs | Model versioning | - |
 | **Grafana** | http://localhost:3000 | Monitoring & dashboards | admin/admin |
 | **Prometheus** | http://localhost:9090 | Metrics collection | - |
@@ -153,7 +153,7 @@ git lfs ls-files
 ```bash
 # Check specific service logs
 docker compose logs it-compass
-docker compose logs cloud-reason
+docker compose logs decision-engine
 
 # Check database connectivity
 docker compose exec postgres psql -U architect -d portfolio
@@ -185,10 +185,9 @@ docker compose exec postgres psql -U architect -d portfolio
 
 ---
 
-**Need more help?**  
+**Need more help?**
 - Check the [troubleshooting guide](../docs/troubleshooting.md)
 - Open an issue on [GitHub](https://github.com/leadarchitect-ai/portfolio-system-architect/issues)
 - Contact via [SourceCraft](https://sourcecraft.io/portfolio-system-architect)
 
 *The Portfolio System Architect is designed to demonstrate production-grade cognitive architecture. Each component is fully functional and production-ready.*
-
