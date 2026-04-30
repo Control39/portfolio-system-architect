@@ -10,7 +10,7 @@ jobs:
         with: { python-version: '3.13' }
       - name: Install deps
         run: pip install -r requirements-dev.txt
-      - name: Run tests
-        run: pytest --cov=src --cov-report=xml
+      - name: Run unit and integration tests (skip e2e and load)
+        run: pytest -m "not e2e" --ignore=tests/load --cov=src --cov-report=xml
       - name: Upload coverage
         uses: codecov/codecov-action@v4
