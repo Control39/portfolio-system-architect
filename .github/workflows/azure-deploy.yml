@@ -1,4 +1,4 @@
-﻿name: Deploy to Azure
+name: Deploy to Azure
 
 on:
   # push:
@@ -48,7 +48,7 @@ jobs:
         run: az account show
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
