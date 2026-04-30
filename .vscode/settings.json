@@ -1,4 +1,4 @@
-﻿{
+{
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.terminal.activateEnvironment": true,
   "python.terminal.useEnvFile": true,
@@ -45,6 +45,7 @@
   // ================================
   // SourceCraft - настройки
   // ================================
+  "sourcecraft-code-assist.account": "leadarchitect@yandex.ru",
   "sourcecraft-code-assist.allowedCommands": [
     "npm test",
     "npm install",
@@ -81,7 +82,9 @@
   // ================================
   "python.formatting.provider": "black",
   "python.linting.ruffEnabled": true,
-  "python.linting.ruffArgs": ["--fix"],
+  "python.linting.ruffArgs": [
+    "--fix"
+  ],
   // ================================
   // Редактор - автоформатирование
   // ================================
@@ -139,7 +142,8 @@
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": [
-    "-p", "no:warnings",
+    "-p",
+    "no:warnings",
     "--tb=short",
     "--cov=.",
     "${workspaceFolder}/tests"
@@ -147,7 +151,11 @@
   // ================================
   // Прочие полезные настройки
   // ================================
-  "editor.rulers": [80, 100, 120],
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
   "editor.renderWhitespace": "selection",
   "editor.minimap.enabled": true,
   "workbench.editor.enablePreview": false,

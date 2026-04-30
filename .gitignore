@@ -153,3 +153,4 @@ __pycache__/
 *.log
 *.tmp
 .gigacode/
+objects.txt

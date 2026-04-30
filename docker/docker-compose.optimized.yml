@@ -5,7 +5,7 @@ version: '3.9'
 
 # Импорт базовых конфигураций
 x-base: &base-config
-  file: ./docker/base-services.yml
+  file: ./base-services.yml
   service: postgres-base
 
 services:
@@ -14,7 +14,7 @@ services:
   # ============================================================
   traefik:
     extends:
-      file: ./docker/base-services.yml
+      file: ./base-services.yml
       service: traefik-base
     container_name: portfolio-gateway
     labels:
@@ -27,7 +27,7 @@ services:
   # ============================================================
   auth-service:
     extends:
-      file: ./docker/base-services.yml
+      file: ./base-services.yml
       service: postgres-base
     build:
       context: ./apps/auth-service
@@ -75,24 +75,24 @@ services:
       - traefik
 
   # ============================================================
-  # Cloud-Reason (RAG API)
+  # Decision Engine (RAG API)
   # ============================================================
-  cloud-reason:
-    build: ./apps/cloud-reason
+  decision-engine:
+    build: ./apps/decision-engine
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
-      - ./apps/cloud-reason:/app
+      - ./apps/decision-engine:/app
       - ./data/rag-index:/app/rag-index
     networks:
       - portfolio-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cloud-reason.rule=Host(`localhost`) && PathPrefix(`/cloud-reason`)"
-      - "traefik.http.routers.cloud-reason.service=cloud-reason"
-      - "traefik.http.services.cloud-reason.loadbalancer.server.port=8001"
+      - "traefik.http.routers.decision-engine.rule=Host(`localhost`) && PathPrefix(`/decision-engine`)"
+      - "traefik.http.routers.decision-engine.service=decision-engine"
+      - "traefik.http.services.decision-engine.loadbalancer.server.port=8001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/api/v1/status"]
       interval: 30s
@@ -213,7 +213,7 @@ services:
   # ============================================================
   postgres:
     extends:
-      file: ./docker/base-services.yml
+      file: ./base-services.yml
       service: postgres-base
     container_name: postgres-db
     volumes:
@@ -224,20 +224,13 @@ services:
   # ============================================================
   redis:
     extends:
-      file: ./docker/base-services.yml
+      file: ./base-services.yml
       service: redis-base
     container_name: redis-cache
     ports:
       - "6379:6379"
 
 # Общие сети и volumes (наследуются из base-services.yml)
-networks:
-  portfolio-network:
-    external: true
-    name: portfolio-network
-
 volumes:
   data:
   logs:
-  postgres_data:
-    external: true
