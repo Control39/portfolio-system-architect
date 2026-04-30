@@ -8,15 +8,13 @@ from pathlib import Path
 # Add parent directory to sys.path to allow imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from tools.repo_audit.checker import RepositoryAuditor
-from tools.repo_audit.checks import (
-    cicd,
-    code_quality,
-    documentation,
-    security,
-    structure,
-)
-from tools.repo_audit.report import ReportGenerator
+from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
+from tools.repo_audit.checks import cicd  # noqa: E402
+from tools.repo_audit.checks import code_quality  # noqa: E402
+from tools.repo_audit.checks import documentation  # noqa: E402
+from tools.repo_audit.checks import security  # noqa: E402
+from tools.repo_audit.checks import structure  # noqa: E402; noqa: E402
+from tools.repo_audit.report import ReportGenerator  # noqa: E402
 
 
 def main():
