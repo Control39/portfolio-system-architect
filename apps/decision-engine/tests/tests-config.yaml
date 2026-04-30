@@ -1,5 +1,5 @@
-﻿test:
-  component: "cloud-reason"
+test:
+  component: "decision-engine"
   directory: "tests/"
   framework: "pytest"
   options:
@@ -33,4 +33,3 @@ fixtures:
     description: "Мок для интеграции с Git"
   - name: "mock_security"
     description: "Мок для сканера безопасности"
-

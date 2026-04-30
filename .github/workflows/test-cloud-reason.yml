@@ -1,4 +1,4 @@
-﻿name: Test Cloud Reason Component
+name: Test Decision Engine Component
 
 on:
   push:
@@ -36,19 +36,19 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r apps/cloud-reason/requirements.txt
+          pip install -r apps/decision-engine/requirements.txt
           pip install pytest pytest-cov codecov
 
       - name: Run dependency check
-        run: python -c "from apps.cloud-reason.utils.dependency_checker import check_dependencies; check_dependencies()" || echo "Skipped"
+        run: python -c "from apps.decision-engine.utils.dependency_checker import check_dependencies; check_dependencies()" || echo "Skipped"
 
       - name: Run tests
-        run: pytest apps/cloud-reason/tests/ -v || echo "No tests or skipped"
+        run: pytest apps/decision-engine/tests/ -v || echo "No tests or skipped"
 
       - name: Generate coverage report
         run: |
-          pytest apps/cloud-reason/tests/ \
-            --cov=apps/cloud-reason --cov-fail-under=90 \
+          pytest apps/decision-engine/tests/ \
+            --cov=apps/decision-engine --cov-fail-under=90 \
             --cov-report=xml:coverage.xml \
             --cov-report=html:htmlcov || echo "Coverage skipped"
 
@@ -68,5 +68,4 @@ jobs:
           fi
 
       - name: Print environment requirements
-        run: python -c "from apps.cloud-reason.utils.dependency_checker import print_env_requirements; print_env_requirements()" || echo "Skipped"
-
+        run: python -c "from apps.decision-engine.utils.dependency_checker import print_env_requirements; print_env_requirements()" || echo "Skipped"
