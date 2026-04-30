@@ -69,7 +69,7 @@ This repository is living proof that **systematic thinking + AI orchestration** 
 | Phase | What Happened | Evidence in This Repo |
 |-------|---------------|----------------------|
 | **ZERO (2024)** | No IT background, no coding experience, no cloud knowledge | Methodology born from first principles, not copy‑pasting |
-| **Learning (2024‑2025)** | Mastered 19 IT domains via 83 verifiable markers (IT‑Compass) | [`apps/it‑compass/`](apps/it‑compass/) – objective competency measurement |
+| **Learning (2024‑2025)** | Mastered 19 IT domains via 83 verifiable markers (IT‑Compass) | [`apps/it_compass/`](apps/it_compass/) – objective competency measurement |
 | **Orchestration (2025)** | Used free AI tools with context limits as "execution layer" | AI‑generated code under architectural guidance (all ADRs documented) |
 | **Integration (2026)** | Built 12 microservices, containerized, monitored, deployable | Full CI/CD, Kubernetes, Prometheus/Grafana, sealed secrets |
 | **HERO (Now)** | Cognitive Systems Architect delivering enterprise‑ready ecosystems | This repo – a cohesive, self‑auditing, production‑ready portfolio |
@@ -101,9 +101,9 @@ This repository demonstrates **systems architecture thinking**, not just coding 
 
 | You are | Read | What's inside |
 |---------|------|---------------|
-| 🎯 **HR / Hiring Manager** | [`docs/FOR-EMPLOYER.md`](docs/FOR-EMPLOYER.md) + [💰 Business Value](#-business-value-autoarchitect-engine) | Business ROI, competency proof, interview Q&A |
-| 💻 **CTO / VP Engineering** | [💰 Business Value](#-business-value-autoarchitect-engine) + [`docs/ONE-PAGER.md`](docs/ONE-PAGER.md) | Cost savings, risk reduction, team efficiency |
-| 🛠️ **DevOps Lead / SRE** | [🚀 Quick Start: AutoArchitect](#-quick-start-autoarchitect-engine) + [`deployment/`](deployment/) | Autonomous automation, GitOps, monitoring |
+| 🎯 **HR / Hiring Manager** | [`docs/FOR-EMPLOYER.md`](docs/FOR-EMPLOYER.md) + [💰 Business Value](#business-value-autoarchitect-engine) | Business ROI, competency proof, interview Q&A |
+| 💻 **CTO / VP Engineering** | [💰 Business Value](#business-value-autoarchitect-engine) + [`docs/ONE-PAGER.md`](docs/ONE-PAGER.md) | Cost savings, risk reduction, team efficiency |
+| 🛠️ **DevOps Lead / SRE** | [🚀 Quick Start: AutoArchitect](#quick-start-autoarchitect-engine) + [`deployment/`](deployment/) | Autonomous automation, GitOps, monitoring |
 | 🔍 **Tech Lead / Architect** | [`ARCHITECTURE.md`](ARCHITECTURE.md) + [`docs/architecture/decisions/`](docs/architecture/decisions/) | System design, integration patterns, ADR |
 | 🌱 **Beginners / Mentors** | [`docs/methodology/02_METHODOLOGY/it-compass/`](docs/methodology/02_METHODOLOGY/it-compass/) + [`docs/cases/`](docs/cases/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Self-assessment, growth tracking, reasoning methodology |
 | 🏆 **Grant Committees** | [`docs/grants/`](docs/grants/) + [`docs/visualization/interactive.md`](docs/visualization/interactive.md) | Impact evidence, scalability, reasoning methodology |
