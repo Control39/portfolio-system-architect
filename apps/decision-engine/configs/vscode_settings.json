@@ -61,14 +61,14 @@
 
   "//": "Подсветка проблем с кодировкой",
   "problems.decorations.enabled": true,
-  
+
   "//": "Предотвращение случайного сохранения в неправильной кодировке",
   "files.saveEncoding": "utf8",
-  
+
   "//": "Отображение невидимых символов для отладки проблем с кодировкой",
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "boundary",
-  
+
   "//": "Проверка конфигурации при открытии проекта",
   "security.workspace.trust.untrustedFiles": "open"
 }

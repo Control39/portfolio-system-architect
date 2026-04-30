@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 
 import pytest
@@ -49,6 +49,7 @@ def any_user_token():
 
 
 # === Тесты ===
+
 
 def test_health():
     response = client.get("/health")

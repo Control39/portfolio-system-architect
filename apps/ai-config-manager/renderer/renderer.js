@@ -64,10 +64,10 @@ document.querySelectorAll('.editor-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.editor-pane').forEach(p => p.classList.remove('active'));
-    
+
     tab.classList.add('active');
     document.getElementById(tab.dataset.tab + '-pane').classList.add('active');
-    
+
     if (tab.dataset.tab === 'monitor') {
       startMonitoring();
     } else {
@@ -138,7 +138,7 @@ function updateModelsList(models) {
     list.innerHTML = '<div class="text-muted text-center py-3">Нет моделей</div>';
     return;
   }
-  
+
   list.innerHTML = models.map(model => `
     <div class="model-item" data-model='${JSON.stringify(model)}'>
       <div class="model-name">
@@ -150,7 +150,7 @@ function updateModelsList(models) {
       </div>
     </div>
   `).join('');
-  
+
   // Добавляем обработчики
   document.querySelectorAll('.model-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -175,7 +175,7 @@ function getProviderColor(type) {
 // ============================================================================
 function showModelDetails(model) {
   const modal = new bootstrap.Modal(document.getElementById('modelModal'));
-  
+
   document.getElementById('model-details').innerHTML = `
     <table class="table table-sm table-dark">
       <tr><th>ID</th><td>${model.id}</td></tr>
@@ -187,11 +187,11 @@ function showModelDetails(model) {
       <tr><th>Температура</th><td>${model.defaults?.temperature || 0.2}</td></tr>
       <tr><th>Роли</th><td>${(model.roles || []).join(', ')}</td></tr>
     </table>
-    
+
     <h6 class="mt-3">Промпт:</h6>
     <pre class="bg-dark p-2" style="font-size: 11px;">${model.promptTemplate || 'Не задан'}</pre>
   `;
-  
+
   modal.show();
 }
 
@@ -206,12 +206,12 @@ async function saveConfig() {
     alert('Сначала откройте проект');
     return;
   }
-  
+
   try {
     const configYaml = editor.getValue();
     const config = jsyaml.load(configYaml);
     const env = envEditor.value;
-    
+
     const result = await window.electronAPI.saveConfig(projectPath, config, env);
     if (result.success) {
       addOutput('✅ Конфиг сохранён', 'success');
@@ -235,11 +235,11 @@ async function generateConfigs() {
     alert('Сначала откройте проект');
     return;
   }
-  
+
   addOutput('🔄 Генерация конфигов...', 'info');
-  
+
   const result = await window.electronAPI.runGenerate(projectPath);
-  
+
   if (result.success) {
     addOutput('✅ Генерация завершена', 'success');
   } else {
@@ -259,19 +259,19 @@ document.getElementById('check-ollama-btn').addEventListener('click', checkOllam
 
 async function checkOllama() {
   addOutput('🔄 Проверка Ollama...', 'info');
-  
+
   const status = await window.electronAPI.checkOllama();
-  
+
   const badge = document.getElementById('ollama-badge');
   const dot = document.getElementById('ollama-status-dot');
   const text = document.getElementById('ollama-status-text');
-  
+
   if (status.running) {
     badge.className = 'status-badge online';
     badge.innerHTML = '<i class="fas fa-circle"></i> Ollama: работает';
     dot.className = 'status-dot online';
     text.textContent = `Ollama: ${status.version || 'работает'}`;
-    
+
     addOutput(`✅ Ollama запущен. Моделей: ${status.models.length}`, 'success');
     if (status.models.length > 0) {
       status.models.forEach(m => addOutput(`  📦 ${m.name} (${m.size})`, 'info'));
@@ -281,10 +281,10 @@ async function checkOllama() {
     badge.innerHTML = '<i class="fas fa-circle"></i> Ollama: не запущен';
     dot.className = 'status-dot offline';
     text.textContent = 'Ollama: не запущен';
-    
+
     addOutput('❌ Ollama не запущен', 'error');
   }
-  
+
   updateStatusBar();
 }
 
@@ -295,9 +295,9 @@ document.getElementById('run-tests-btn').addEventListener('click', runTests);
 
 async function runTests() {
   addOutput('🔄 Запуск тестов...', 'info');
-  
+
   const result = await window.electronAPI.runTests(projectPath);
-  
+
   if (result.success) {
     addOutput('✅ Тесты пройдены', 'success');
   } else {
@@ -318,7 +318,7 @@ document.getElementById('open-monitor-btn').addEventListener('click', () => {
 
 function startMonitoring() {
   if (updateInterval) return;
-  
+
   initCharts();
   updateSystemStatus();
   updateInterval = setInterval(updateSystemStatus, 5000);
@@ -352,7 +352,7 @@ function initCharts() {
       }
     }
   });
-  
+
   const memCtx = document.getElementById('memory-chart').getContext('2d');
   memoryChart = new Chart(memCtx, {
     type: 'doughnut',
@@ -368,17 +368,17 @@ function initCharts() {
 
 async function updateSystemStatus() {
   const status = await window.electronAPI.getSystemStatus();
-  
+
   // Обновляем метрики
   document.getElementById('mon-ollama').textContent = status.ollama.running ? '✅ Работает' : '❌ Не запущен';
   document.getElementById('mon-models').textContent = status.ollama.models.length;
-  
+
   const configsCount = Object.values(status.configs).filter(c => c.exists).length;
   document.getElementById('mon-configs').textContent = `${configsCount}/4`;
-  
+
   const uptime = Math.floor(status.uptime / 60);
   document.getElementById('mon-uptime').textContent = `${uptime} мин`;
-  
+
   // Обновляем графики
   if (statusChart) {
     const time = new Date().toLocaleTimeString();
@@ -390,7 +390,7 @@ async function updateSystemStatus() {
     }
     statusChart.update();
   }
-  
+
   if (memoryChart) {
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     const total = process.memoryUsage().heapTotal / 1024 / 1024;
@@ -406,13 +406,13 @@ function addOutput(text, type = 'info') {
   const panel = document.getElementById('output-panel');
   const line = document.createElement('div');
   line.className = 'output-line ' + (type === 'error' ? 'error' : type === 'success' ? 'success' : '');
-  
+
   const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : '➡️';
   line.innerHTML = `${icon} ${text}`;
-  
+
   panel.appendChild(line);
   panel.scrollTop = panel.scrollHeight;
-  
+
   // Ограничиваем количество строк
   while (panel.children.length > 100) {
     panel.removeChild(panel.firstChild);
@@ -424,21 +424,21 @@ function addOutput(text, type = 'info') {
 // ============================================================================
 function updateStatusBar() {
   if (!currentConfig) return;
-  
+
   const configs = [
     { name: 'Continue', path: systemInfo.homeDir + '\\.continue\\config.json' },
     { name: 'SourceCraft', path: projectPath + '\\.sourcecraft\\ci.yaml' },
     { name: 'Koda', path: projectPath + '\\.koda\\config.yaml' },
     { name: 'Cline', path: projectPath + '\\.cline\\config.yaml' }
   ];
-  
+
   let count = 0;
   configs.forEach(c => {
     try {
       if (require('fs').existsSync(c.path)) count++;
     } catch {}
   });
-  
+
   document.getElementById('configs-count').textContent = `${count}/4 конфигов`;
 }
 

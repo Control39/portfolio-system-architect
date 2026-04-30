@@ -55,7 +55,7 @@ check_vscode_installed() {
             "/opt/vscode/bin/code"
             "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
         )
-        
+
         for path in "${possible_paths[@]}"; do
             if [[ -f "$path" ]]; then
                 log_info "VS Code найден по пути: $path"
@@ -63,7 +63,7 @@ check_vscode_installed() {
                 return 0
             fi
         done
-        
+
         log_error "VS Code не найден. Установите VS Code и добавьте в PATH"
         return 1
     fi
@@ -91,12 +91,12 @@ get_installed_extensions() {
 install_extension() {
     local extension_id="$1"
     local code_cmd=$(get_code_cmd)
-    
+
     if [[ "$DRY_RUN" == "true" ]]; then
         log_info "[DRY RUN] Установка расширения: $extension_id"
         return 0
     fi
-    
+
     log_info "Установка расширения: $extension_id"
     if $code_cmd --install-extension "$extension_id" --force 2>/dev/null; then
         log_success "Расширение установлено: $extension_id"
@@ -111,12 +111,12 @@ install_extension() {
 uninstall_extension() {
     local extension_id="$1"
     local code_cmd=$(get_code_cmd)
-    
+
     if [[ "$DRY_RUN" == "true" ]]; then
         log_info "[DRY RUN] Удаление расширения: $extension_id"
         return 0
     fi
-    
+
     log_info "Удаление расширения: $extension_id"
     if $code_cmd --uninstall-extension "$extension_id" 2>/dev/null; then
         log_success "Расширение удалено: $extension_id"
@@ -130,12 +130,12 @@ uninstall_extension() {
 # Загрузка конфигурации
 load_config() {
     local config_path="$1"
-    
+
     if [[ ! -f "$config_path" ]]; then
         log_error "Конфигурационный файл не найден: $config_path"
         return 1
     fi
-    
+
     # Используем Python для парсинга JSON (более надежно, чем jq, который может отсутствовать)
     python3 -c "
 import json, sys
@@ -143,17 +143,17 @@ try:
     with open('$config_path', 'r') as f:
         config = json.load(f)
     print('CONFIG_LOADED')
-    
+
     # Выводим обязательные расширения
     if 'required' in config:
         for ext in config['required']:
             print(f'REQUIRED:{ext}')
-    
+
     # Выводим исключенные расширения
     if 'excluded' in config:
         for ext in config['excluded']:
             print(f'EXCLUDED:{ext}')
-            
+
 except Exception as e:
     print(f'ERROR:{str(e)}')
     sys.exit(1)
@@ -168,10 +168,10 @@ parse_config_output() {
     local output="$1"
     local -n required_ref="$2"
     local -n excluded_ref="$3"
-    
+
     required_ref=()
     excluded_ref=()
-    
+
     while IFS= read -r line; do
         if [[ "$line" == "REQUIRED:"* ]]; then
             required_ref+=("${line#REQUIRED:}")
@@ -184,18 +184,18 @@ parse_config_output() {
 # Проверка соответствия
 check_compliance() {
     log_info "Проверка соответствия расширений..."
-    
+
     local installed_extensions=$(get_installed_extensions)
     local config_output=$(load_config "$CONFIG_PATH")
-    
+
     if [[ $? -ne 0 ]]; then
         return 1
     fi
-    
+
     local required=()
     local excluded=()
     parse_config_output "$config_output" required excluded
-    
+
     # Проверка обязательных расширений
     local missing_required=()
     for ext in "${required[@]}"; do
@@ -203,7 +203,7 @@ check_compliance() {
             missing_required+=("$ext")
         fi
     done
-    
+
     # Проверка исключенных расширений
     local found_excluded=()
     for ext in "${excluded[@]}"; do
@@ -211,33 +211,33 @@ check_compliance() {
             found_excluded+=("$ext")
         fi
     done
-    
+
     # Расчет compliance score
     local total_required=${#required[@]}
     local installed_required=$((total_required - ${#missing_required[@]}))
     local compliance_score=100
-    
+
     if [[ $total_required -gt 0 ]]; then
         compliance_score=$(echo "scale=2; $installed_required * 100 / $total_required" | bc)
     fi
-    
+
     # Формирование отчета
     local total_installed=$(echo "$installed_extensions" | wc -l | tr -d ' ')
-    
+
     echo "REPORT:"
     echo "TOTAL_INSTALLED:$total_installed"
     echo "REQUIRED_COUNT:$total_required"
     echo "INSTALLED_REQUIRED:$installed_required"
     echo "COMPLIANCE_SCORE:$compliance_score"
     echo "STATUS:$([[ ${#missing_required[@]} -eq 0 && ${#found_excluded[@]} -eq 0 ]] && echo "PASS" || echo "FAIL")"
-    
+
     if [[ ${#missing_required[@]} -gt 0 ]]; then
         echo "MISSING_REQUIRED:"
         for ext in "${missing_required[@]}"; do
             echo "  - $ext"
         done
     fi
-    
+
     if [[ ${#found_excluded[@]} -gt 0 ]]; then
         echo "FOUND_EXCLUDED:"
         for ext in "${found_excluded[@]}"; do
@@ -249,22 +249,22 @@ check_compliance() {
 # Синхронизация расширений
 sync_extensions() {
     log_info "Синхронизация расширений..."
-    
+
     local installed_extensions=$(get_installed_extensions)
     local config_output=$(load_config "$CONFIG_PATH")
-    
+
     if [[ $? -ne 0 ]]; then
         return 1
     fi
-    
+
     local required=()
     local excluded=()
     parse_config_output "$config_output" required excluded
-    
+
     local installed_count=0
     local uninstalled_count=0
     local failed_count=0
-    
+
     # Установка отсутствующих обязательных расширений
     for ext in "${required[@]}"; do
         if ! echo "$installed_extensions" | grep -q "^${ext}$"; then
@@ -275,7 +275,7 @@ sync_extensions() {
             fi
         fi
     done
-    
+
     # Удаление исключенных расширений
     for ext in "${excluded[@]}"; do
         if echo "$installed_extensions" | grep -q "^${ext}$"; then
@@ -286,7 +286,7 @@ sync_extensions() {
             fi
         fi
     done
-    
+
     log_info "Синхронизация завершена:"
     log_info "  Установлено: $installed_count"
     log_info "  Удалено: $uninstalled_count"
@@ -296,9 +296,9 @@ sync_extensions() {
 # Генерация отчета
 generate_report() {
     local report_output=$(check_compliance)
-    
+
     echo -e "\n${CYAN}=== ОТЧЕТ О СООТВЕТСТВИИ РАСШИРЕНИЙ VS CODE ===${NC}"
-    
+
     while IFS= read -r line; do
         case "$line" in
             TOTAL_INSTALLED:*)
@@ -338,7 +338,7 @@ generate_report() {
                 ;;
         esac
     done <<< "$report_output"
-    
+
     echo -e "${CYAN}=============================================${NC}\n"
 }
 
@@ -401,12 +401,12 @@ show_help() {
 main() {
     log_info "Запуск скрипта управления расширениями VS Code для Unix"
     log_info "Конфигурационный файл: $CONFIG_PATH"
-    
+
     # Проверка VS Code
     if ! check_vscode_installed; then
         exit 1
     fi
-    
+
     # Выполнение действия
     case "$ACTION" in
         "check")
@@ -418,7 +418,7 @@ main() {
             local required=()
             local excluded=()
             parse_config_output "$config_output" required excluded
-            
+
             local installed_extensions=$(get_installed_extensions)
             for ext in "${required[@]}"; do
                 if ! echo "$installed_extensions" | grep -q "^${ext}$"; then
@@ -431,7 +431,7 @@ main() {
             generate_report
             ;;
     esac
-    
+
     log_success "Скрипт завершен"
 }
 

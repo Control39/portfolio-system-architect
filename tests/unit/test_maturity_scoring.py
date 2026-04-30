@@ -1,5 +1,6 @@
-﻿"""Unit tests for maturity scoring.
+"""Unit tests for maturity scoring.
 """
+
 from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
 
 
@@ -9,7 +10,11 @@ def test_maturity_scorer_empty():
         "microservices": {"services": []},
         "skill_markers": {"total_count": 0, "categories": []},
         "architecture_docs": [],
-        "git_stats": {"total_commits": 0, "recent_activity_days": 0, "contributors": []},
+        "git_stats": {
+            "total_commits": 0,
+            "recent_activity_days": 0,
+            "contributors": [],
+        },
         "dependencies": {},
     }
 
@@ -25,8 +30,18 @@ def test_maturity_scorer_basic():
     analysis = {
         "microservices": {
             "services": [
-                {"name": "api", "is_production_ready": True, "has_tests": True, "has_docker": True},
-                {"name": "worker", "is_production_ready": False, "has_tests": False, "has_docker": True},
+                {
+                    "name": "api",
+                    "is_production_ready": True,
+                    "has_tests": True,
+                    "has_docker": True,
+                },
+                {
+                    "name": "worker",
+                    "is_production_ready": False,
+                    "has_tests": False,
+                    "has_docker": True,
+                },
             ],
             "has_docker_compose": True,
             "has_kubernetes": False,
@@ -61,7 +76,12 @@ def test_maturity_scorer_recommendations():
     analysis = {
         "microservices": {
             "services": [
-                {"name": "api", "is_production_ready": False, "has_tests": False, "has_docker": False},
+                {
+                    "name": "api",
+                    "is_production_ready": False,
+                    "has_tests": False,
+                    "has_docker": False,
+                },
             ],
             "has_docker_compose": False,
             "has_kubernetes": False,
@@ -101,7 +121,11 @@ def test_score_microservices():
         },
         "skill_markers": {"total_count": 0, "categories": []},
         "architecture_docs": [],
-        "git_stats": {"total_commits": 0, "recent_activity_days": 0, "contributors": []},
+        "git_stats": {
+            "total_commits": 0,
+            "recent_activity_days": 0,
+            "contributors": [],
+        },
         "dependencies": {},
     }
 

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Валидация YAML-файлов проекта"""
 
 import sys
@@ -30,6 +30,7 @@ def validate_yaml_files(file_list):
             errors.append(f"❌ Ошибка в {filepath}: {type(e).__name__}: {e}")
 
     return errors
+
 
 if __name__ == "__main__":
     # Список файлов для проверки

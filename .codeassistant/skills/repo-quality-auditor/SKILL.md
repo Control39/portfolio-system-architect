@@ -66,27 +66,27 @@
 ## Формат отчёта:
 ```yaml
 repo_quality:
-  structure: 
+  structure:
     status: "✅/❌"
     issues: ["найдена матрешка docs/docs/", "отсутствует README в apps/cloud-reason"]
-    
+
   links:
     total: 156
     broken: ["https://example.com/old", "docs/missing.md"]
-    
+
   badges:
     total: 21
     working: 19
     broken: ["codecov", "docker-pulls"]
-    
+
   tests:
     coverage: "87%"
     core_coverage: "92%"
     failing: ["test_edge_case.py::test_failure"]
-    
+
   language:
     issues: ["машинный перевод в CONTRIBUTING.md стр. 45"]
-    
+
   honesty:
     mismatches: ["README показывает старый API", "скриншот устарел"]
 ```

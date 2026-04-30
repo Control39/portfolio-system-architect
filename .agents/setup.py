@@ -2,13 +2,15 @@
 Setup configuration for Cognitive Automation Agent package.
 """
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
+    requirements = [
+        line.strip() for line in fh if line.strip() and not line.startswith("#")
+    ]
 
 setup(
     name="cognitive-automation-agent",
@@ -19,8 +21,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/cognitive-automation-agent",
-    packages=find_packages(include=['agents', 'agents.*']),
-    package_dir={'agents': '.'},
+    packages=find_packages(include=["agents", "agents.*"]),
+    package_dir={"agents": "."},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

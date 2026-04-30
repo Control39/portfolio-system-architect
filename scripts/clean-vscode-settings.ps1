@@ -42,20 +42,20 @@ $vscodePaths = @(
     "$env:APPDATA\Code",
     "$env:APPDATA\Code - Insiders",
     "$env:APPDATA\VSCodium",
-    
+
     # Локальные настройки
     "$env:LOCALAPPDATA\Programs\Microsoft VS Code",
     "$env:LOCALAPPDATA\Programs\VSCodium",
-    
+
     # Кэш и временные файлы
     "$env:LOCALAPPDATA\Microsoft\vscode-cpptools",
     "$env:LOCALAPPDATA\Microsoft\VSCodeCache",
-    
+
     # Настройки в профиле пользователя
     "$env:USERPROFILE\.vscode",
     "$env:USERPROFILE\.vscode-insiders",
     "$env:USERPROFILE\.vscode-oss",
-    
+
     # Кэш расширений
     "$env:USERPROFILE\.vscode\extensions",
     "$env:USERPROFILE\.vscode-insiders\extensions"
@@ -64,46 +64,46 @@ $vscodePaths = @(
 # Функция для создания резервной копии
 function Backup-VSCodeSettings {
     param([string]$BackupDir)
-    
+
     Write-Host "Создание резервной копии настроек VSCode..." -ForegroundColor Cyan
-    
+
     $backupPaths = @()
     foreach ($path in $vscodePaths) {
         if (Test-Path $path) {
             $backupPaths += $path
         }
     }
-    
+
     if ($backupPaths.Count -eq 0) {
         Write-Host "Настройки VSCode не найдены для резервного копирования." -ForegroundColor Yellow
         return
     }
-    
+
     $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
     $backupFile = Join-Path $BackupDir "vscode-backup-$timestamp.zip"
-    
+
     try {
         # Создаем временную директорию для копирования
         $tempDir = Join-Path $env:TEMP "vscode-backup-$timestamp"
         New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
-        
+
         foreach ($path in $backupPaths) {
             $name = Split-Path $path -Leaf
             $dest = Join-Path $tempDir $name
             Write-Host "  Копирование: $path" -ForegroundColor Gray
-            
+
             if (Test-Path $path) {
                 Copy-Item -Path $path -Destination $dest -Recurse -Force -ErrorAction SilentlyContinue
             }
         }
-        
+
         # Архивируем
         Compress-Archive -Path "$tempDir\*" -DestinationPath $backupFile -CompressionLevel Optimal
         Write-Host "Резервная копия создана: $backupFile" -ForegroundColor Green
-        
+
         # Очищаем временную директорию
         Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
-        
+
         return $backupFile
     }
     catch {
@@ -115,10 +115,10 @@ function Backup-VSCodeSettings {
 # Функция удаления настроек
 function Remove-VSCodeSettings {
     Write-Host "Удаление настроек VSCode..." -ForegroundColor Cyan
-    
+
     $deletedCount = 0
     $errorCount = 0
-    
+
     foreach ($path in $vscodePaths) {
         if (Test-Path $path) {
             Write-Host "  Удаление: $path" -ForegroundColor Gray
@@ -132,7 +132,7 @@ function Remove-VSCodeSettings {
             }
         }
     }
-    
+
     # Дополнительные очистки реестра (опционально)
     if ($isAdmin) {
         Write-Host "Очистка записей реестра VSCode..." -ForegroundColor Cyan
@@ -143,7 +143,7 @@ function Remove-VSCodeSettings {
             "HKCU:\Software\Classes\Applications\Code.exe",
             "HKCU:\Software\Classes\Applications\CodeInsiders.exe"
         )
-        
+
         foreach ($regPath in $regPaths) {
             if (Test-Path $regPath) {
                 try {
@@ -155,7 +155,7 @@ function Remove-VSCodeSettings {
             }
         }
     }
-    
+
     Write-Host "Удалено директорий: $deletedCount, ошибок: $errorCount" -ForegroundColor Green
 }
 
@@ -169,7 +169,7 @@ function Reinstall-VSCode {
     Write-Host "   - Добавить в PATH" -ForegroundColor Yellow
     Write-Host "3. После установки откройте проект и выберите интерпретатор Python" -ForegroundColor Yellow
     Write-Host "4. Установите рекомендуемые расширения из .vscode/extensions.json" -ForegroundColor Yellow
-    
+
     $choice = Read-Host "`nХотите открыть страницу загрузки VSCode? (y/n)"
     if ($choice -eq 'y' -or $choice -eq 'Y') {
         Start-Process "https://code.visualstudio.com/download"
@@ -189,7 +189,7 @@ if (-not $SkipConfirmation) {
     Write-Host "  - Кэш и временные файлы" -ForegroundColor Yellow
     Write-Host "  - Установленные расширения" -ForegroundColor Yellow
     Write-Host "  - Конфигурации проектов" -ForegroundColor Yellow
-    
+
     $confirm = Read-Host "`nПродолжить? (y/n)"
     if ($confirm -ne 'y' -and $confirm -ne 'Y') {
         Write-Host "Отменено пользователем." -ForegroundColor Yellow

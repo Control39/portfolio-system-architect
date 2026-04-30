@@ -1,12 +1,15 @@
-﻿from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional
 import json
 import os
 import sys
+from typing import Optional
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
+)
 from src.common.health_check import init_health_checks
 
 app = FastAPI(title="Career Development System API", version="1.0.0")
@@ -30,7 +33,7 @@ async def root():
             "GET /ready": "Readiness probe",
             "GET /live": "Liveness probe",
             "GET /profile": "Get user profile",
-        }
+        },
     }
 
 
@@ -92,5 +95,3 @@ async def export_evidence():
     """Сгенерировать пакет доказательств. Для демо – просто возвращаем путь к файлу."""
     # В реальном проекте сюда будет логика сборки PDF/MD.
     return {"export_path": "/path/to/evidence_package.zip"}
-
-

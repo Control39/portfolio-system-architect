@@ -27,4 +27,3 @@ git push sourcecraft main --force
 - SourceCraft зеркалит только `main` и `gh-pages`
 - Автоматическая очистка старых веток на GitHub: каждое воскресенье 03:00 UTC
 - Подробности: [Git Branch Management](GIT-BRANCH-MANAGEMENT.md)
-

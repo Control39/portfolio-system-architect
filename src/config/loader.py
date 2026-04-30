@@ -5,23 +5,25 @@
 `from .config.loader import COMPONENT_CONFIG`.
 """
 
-import warnings
-import sys
 import os
+import sys
+import warnings
 
 # Добавляем путь для импорта decision_engine
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from decision_engine.decision_engine.configs.loader import COMPONENT_CONFIG
-    from decision_engine.decision_engine.configs.loader import load_component_config
+    from decision_engine.decision_engine.configs.loader import (
+        COMPONENT_CONFIG,
+        load_component_config,
+    )
 except ImportError:
     warnings.warn(
         "Не удалось импортировать decision_engine.decision_engine.configs.loader. "
         "Используется fallback конфигурация.",
-        ImportWarning
+        ImportWarning,
     )
-    
+
     # Fallback конфигурация
     def load_component_config():
         """Заглушечная функция загрузки конфигурации."""
@@ -30,12 +32,12 @@ except ImportError:
                 "scripts": [
                     {
                         "name": "run_api",
-                        "command": "uvicorn api.endpoints:app --host 0.0.0.0 --port 8000 --reload"
+                        "command": "uvicorn api.endpoints:app --host 0.0.0.0 --port 8000 --reload",
                     }
                 ]
             }
         }
-    
+
     COMPONENT_CONFIG = load_component_config()
 
-__all__ = ['COMPONENT_CONFIG', 'load_component_config']
+__all__ = ["COMPONENT_CONFIG", "load_component_config"]

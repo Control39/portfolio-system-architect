@@ -9,4 +9,3 @@ resources:
 commonLabels:
   app: portfolio-organizer
   tier: backend
-

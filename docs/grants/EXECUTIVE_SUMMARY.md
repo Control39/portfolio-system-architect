@@ -26,4 +26,3 @@
 - **Доказательную базу**: Каждый навык подтверждается артефактами (код, документация)
 
 *(Full executive summary from tag restored for grant submission.)*
-

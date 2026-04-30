@@ -166,6 +166,6 @@ git checkout -b feature/restored-branch <commit-hash>
 
 ---
 
-*Last updated: $(date +%Y-%m-%d)*  
-*Auto-cleanup status: ✅ Active*  
+*Last updated: $(date +%Y-%m-%d)*
+*Auto-cleanup status: ✅ Active*
 *Next cleanup: Sunday 03:00 UTC*

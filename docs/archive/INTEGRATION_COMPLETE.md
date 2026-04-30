@@ -24,4 +24,3 @@
 - GitHub: https://github.com/Control39/portfolio-system-architect
 
 Status: ✅ plan executed, manual-review archived.
-

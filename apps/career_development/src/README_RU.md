@@ -86,4 +86,3 @@ python -m unittest tests/test_helpers.py
 ## Лицензия
 
 Этот проект лицензирован по лицензии MIT.
-

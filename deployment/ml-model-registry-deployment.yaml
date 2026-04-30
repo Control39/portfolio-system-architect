@@ -52,4 +52,3 @@ spec:
             name: ml-model-registry
             port:
               number: 8002
-

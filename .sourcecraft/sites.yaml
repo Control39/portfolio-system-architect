@@ -3,14 +3,14 @@
   # Deploys static site from gh-pages branch
   root: "."
   ref: "gh-pages"
-  
+
   # Base path for the site
   base_path: "/portfolio-system-architect/"
-  
+
   # Build configuration
   build:
     command: "cd docs/mkdocs-site && mkdocs build --site-dir /tmp/site"
     output: "/tmp/site"
-    
+
   # Advanced settings
   custom_domain: "docs.portfolio-system-architect.example.com"  # Если планируете кастомный домен

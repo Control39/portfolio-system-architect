@@ -1,16 +1,18 @@
-﻿"""
+"""
 Модуль отслеживания карьерного прогресса пользователя.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
 """
+
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class Marker:
@@ -24,14 +26,20 @@ class Marker:
     methodology_author: str = "Ekaterina Kudelya"
     methodology_license: str = "CC BY-ND 4.0"
 
+
 @dataclass
 class SkillData:
     skill_name: str
     description: str
     levels: Dict[str, List[Marker]]
 
+
 class CareerTracker:
-    def __init__(self, markers_dir: str = "apps/it_compass/src/data/markers", progress_file: str = "apps/it_compass/src/data/user_progress.json"):
+    def __init__(
+        self,
+        markers_dir: str = "apps/it_compass/src/data/markers",
+        progress_file: str = "apps/it_compass/src/data/user_progress.json",
+    ):
         self.markers_dir = Path(markers_dir)
         self.progress_file = Path(progress_file)
         self._markers_cache: Optional[Dict[str, SkillData]] = None
@@ -48,16 +56,18 @@ class CareerTracker:
         try:
             for file_path in self.markers_dir.glob("*.json"):
                 try:
-                    with open(file_path, 'r', encoding='utf-8-sig') as f:
+                    with open(file_path, "r", encoding="utf-8-sig") as f:
                         skill_data_raw = json.load(f)
 
-                    skill_name = skill_data_raw.get("skill_name", file_path.stem.capitalize())
+                    skill_name = skill_data_raw.get(
+                        "skill_name", file_path.stem.capitalize()
+                    )
                     levels = self._parse_skill_levels(skill_data_raw.get("levels", {}))
 
                     markers[skill_name] = SkillData(
                         skill_name=skill_name,
                         description=skill_data_raw.get("description", ""),
-                        levels=levels
+                        levels=levels,
                     )
                     logger.info(f"Загружен навык: {skill_name}")
 
@@ -71,7 +81,9 @@ class CareerTracker:
 
         return markers
 
-    def _parse_skill_levels(self, levels_data: Dict[str, Any]) -> Dict[str, List[Marker]]:
+    def _parse_skill_levels(
+        self, levels_data: Dict[str, Any]
+    ) -> Dict[str, List[Marker]]:
         levels = {}
         for level_key, markers_list in levels_data.items():
             levels[level_key] = []
@@ -85,8 +97,12 @@ class CareerTracker:
                         resources=marker_data.get("resources", []),
                         smart_criteria=marker_data.get("smart_criteria", {}),
                         skill_name=marker_data.get("skill_name"),
-                        methodology_author=marker_data.get("methodology_author", "Ekaterina Kudelya"),
-                        methodology_license=marker_data.get("methodology_license", "CC BY-ND 4.0")
+                        methodology_author=marker_data.get(
+                            "methodology_author", "Ekaterina Kudelya"
+                        ),
+                        methodology_license=marker_data.get(
+                            "methodology_license", "CC BY-ND 4.0"
+                        ),
                     )
                     levels[level_key].append(marker)
                 except KeyError as e:
@@ -100,7 +116,7 @@ class CareerTracker:
             return {"completed_markers": [], "in_progress_markers": []}
 
         try:
-            with open(self.progress_file, 'r', encoding='utf-8-sig') as f:
+            with open(self.progress_file, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
 
             if not isinstance(data, dict):
@@ -110,15 +126,21 @@ class CareerTracker:
             completed = data.get("completed_markers", [])
             in_progress = data.get("in_progress_markers", [])
 
-            if not isinstance(completed, list) or not all(isinstance(x, str) for x in completed):
+            if not isinstance(completed, list) or not all(
+                isinstance(x, str) for x in completed
+            ):
                 logger.warning("Некорректные данные completed_markers")
                 completed = []
 
-            if not isinstance(in_progress, list) or not all(isinstance(x, str) for x in in_progress):
+            if not isinstance(in_progress, list) or not all(
+                isinstance(x, str) for x in in_progress
+            ):
                 logger.warning("Некорректные данные in_progress_markers")
                 in_progress = []
 
-            logger.info(f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе")
+            logger.info(
+                f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе"
+            )
             return {"completed_markers": completed, "in_progress_markers": in_progress}
 
         except json.JSONDecodeError as e:
@@ -131,7 +153,7 @@ class CareerTracker:
     def _save_progress(self) -> bool:
         try:
             self.progress_file.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.progress_file, 'w', encoding='utf-8') as f:
+            with open(self.progress_file, "w", encoding="utf-8") as f:
                 json.dump(self.progress, f, ensure_ascii=False, indent=2)
             logger.info("Прогресс успешно сохранён")
             return True
@@ -168,12 +190,16 @@ class CareerTracker:
 
             percentage = (completed_count / skill_total) * 100
             progress_bar = self._create_progress_bar(percentage)
-            print(f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})")
+            print(
+                f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})"
+            )
 
         if total_markers > 0:
             overall_percentage = (total_completed / total_markers) * 100
             overall_bar = self._create_progress_bar(overall_percentage)
-            print(f"{'Общий прогресс':<20} {overall_bar} {overall_percentage:5.1f}% ({total_completed}/{total_markers})")
+            print(
+                f"{'Общий прогресс':<20} {overall_bar} {overall_percentage:5.1f}% ({total_completed}/{total_markers})"
+            )
 
     def _create_progress_bar(self, percentage: float, width: int = 20) -> str:
         filled_width = int((percentage / 100) * width)
@@ -222,7 +248,10 @@ class CareerTracker:
         for skill_name, skill_data in self.markers.items():
             for level_markers in skill_data.levels.values():
                 for marker in level_markers:
-                    if (marker.id not in self.progress["completed_markers"] and marker.priority == "high"):
+                    if (
+                        marker.id not in self.progress["completed_markers"]
+                        and marker.priority == "high"
+                    ):
                         high_priority_markers.append((skill_name, marker))
 
         if not high_priority_markers:
@@ -278,7 +307,8 @@ class CareerTracker:
             "total_count": total,
             "percentage": overall_percentage,
             "completed_markers": [m.id for m in completed],
-            "levels": skill_data.levels
+            "levels": skill_data.levels,
         }
 
-__all__ = ['CareerTracker', 'Marker', 'SkillData']
+
+__all__ = ["CareerTracker", "Marker", "SkillData"]

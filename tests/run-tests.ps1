@@ -5,13 +5,13 @@ param(
     [Parameter(Mandatory = $false)]
     [ValidateSet('Unit', 'Integration', 'E2E', 'All')]
     [string]$TestType = 'All',
-    
+
     [Parameter(Mandatory = $false)]
     [switch]$CodeCoverage,
-    
+
     [Parameter(Mandatory = $false)]
     [string[]]$Tag,
-    
+
     [Parameter(Mandatory = $false)]
     [string[]]$ExcludeTag
 )
@@ -81,30 +81,30 @@ if ($ExcludeTag) {
 # Запуск тестов
 try {
     $results = Invoke-Pester @pesterParams
-    
+
     # Вывод результатов
     Write-Host "`n📊 Результаты тестирования:" -ForegroundColor Cyan
     Write-Host "   Всего тестов: $($results.TotalCount)" -ForegroundColor White
     Write-Host "   Успешно: $($results.PassedCount)" -ForegroundColor Green
     Write-Host "   Провалено: $($results.FailedCount)" -ForegroundColor $(if ($results.FailedCount -gt 0) { 'Red' } else { 'Green' })
     Write-Host "   Пропущено: $($results.SkippedCount)" -ForegroundColor Yellow
-    
+
     if ($CodeCoverage -and $results.CodeCoverage) {
         $coverage = $results.CodeCoverage.CoveragePercent
         Write-Host "`n📈 Покрытие кода: $([math]::Round($coverage, 2))%" -ForegroundColor $(if ($coverage -ge 80) { 'Green' } elseif ($coverage -ge 60) { 'Yellow' } else { 'Red' })
     }
-    
+
     # Сохранение результатов в XML (Pester config handles NUnitXml)
     $xmlPath = $config.TestResult.OutputPath
     Write-Host "`n💾 Результаты сохранены: $xmlPath" -ForegroundColor Gray
-    
+
     # Выход с кодом ошибки, если есть проваленные тесты
     if ($results.FailedCount -gt 0) {
         exit 1
     }
-    
+
     exit 0
-    
+
 } catch {
     Write-Host "`n❌ Ошибка при выполнении тестов: $_" -ForegroundColor Red
     Write-Host $_.ScriptStackTrace -ForegroundColor Gray

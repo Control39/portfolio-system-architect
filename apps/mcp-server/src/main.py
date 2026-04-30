@@ -6,8 +6,8 @@ MCP Server for Career Autopilot
 Git, IT-Compass маркерами и выполнения команд.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
 from typing import Dict, List
 
@@ -21,66 +21,63 @@ sys.path.insert(0, str(project_root))
 mcp = FastMCP("Career Autopilot MCP Server")
 
 # Конфигурация
-IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it-compass" / "src" / "data" / "markers"
+IT_COMPASS_MARKERS_PATH = (
+    project_root / "apps" / "it-compass" / "src" / "data" / "markers"
+)
 PROJECT_ROOT = project_root
 
 # Импорт инструментов
 try:
-    from src.tools.file_tools import (
-        read_file_tool,
-        write_file_tool,
-        list_files_tool,
-        search_files_tool
-    )
-    from src.tools.git_tools import (
-        get_git_status_tool,
-        scan_last_commits_for_markers_tool,
-        get_git_history_tool
-    )
+    from src.resources.navigation import generate_tour_tool, search_repo_tool
+    from src.tools.command_tools import execute_command_tool, run_python_script_tool
     from src.tools.compass_tools import (
+        auto_detect_markers_from_code_tool,
         evaluate_by_compass_tool,
         get_markers_by_domain_tool,
-        auto_detect_markers_from_code_tool
     )
-    from src.tools.command_tools import (
-        execute_command_tool,
-        run_python_script_tool
+    from src.tools.file_tools import (
+        list_files_tool,
+        read_file_tool,
+        search_files_tool,
+        write_file_tool,
     )
-    from src.resources.navigation import (
-        generate_tour_tool,
-        search_repo_tool
+    from src.tools.git_tools import (
+        get_git_history_tool,
+        get_git_status_tool,
+        scan_last_commits_for_markers_tool,
     )
 except ImportError:
     # Если модули не найдены, создадим заглушки
     print("Warning: Tool modules not found. Using stub implementations.")
-    
+
     # Заглушки будут заменены при создании реальных модулей
     @mcp.tool()
     def read_file_tool(path: str) -> str:
         """Чтение файла"""
         return f"Stub: read_file({path})"
-    
+
     @mcp.tool()
     def write_file_tool(path: str, content: str) -> bool:
         """Запись файла"""
         return True
-    
+
     @mcp.tool()
     def list_files_tool(path: str, recursive: bool = False) -> List[str]:
         """Список файлов"""
         return []
-    
+
     @mcp.tool()
     def search_files_tool(query: str, file_pattern: str = "*.py") -> List[str]:
         """Поиск файлов"""
         return []
+
 
 # Ресурсы навигации
 @mcp.resource("navigate://{audience}")
 def get_navigation_resource(audience: str = "tech_lead") -> str:
     """
     Навигация по репозиторию для разных аудиторий
-    
+
     Аргументы:
         audience: Целевая аудитория (hr, tech_lead, grant, community)
     """
@@ -160,33 +157,34 @@ def get_navigation_resource(audience: str = "tech_lead") -> str:
 - `.github/workflows/` - готовые CI/CD пайплайны
 - `pre-commit-config.yaml` - автоматические проверки
 - `tests/` - примеры тестирования
-"""
+""",
     }
-    
+
     return tours.get(audience, tours["tech_lead"])
+
 
 # Ресурсы IT-Compass
 @mcp.resource("it-compass://domain/{domain}")
 def get_compass_domain_resource(domain: str = "system_thinking") -> str:
     """
     Получение информации о домене IT-Compass
-    
+
     Аргументы:
         domain: Домен IT-Compass (system_thinking, python, docker, devops и т.д.)
     """
     domain_file = IT_COMPASS_MARKERS_PATH / f"{domain}.json"
-    
+
     if not domain_file.exists():
         return f"Домен '{domain}' не найден в IT-Compass"
-    
+
     try:
-        with open(domain_file, 'r', encoding='utf-8') as f:
+        with open(domain_file, "r", encoding="utf-8") as f:
             data = json.load(f)
-        
+
         skill_name = data.get("skill_name", domain)
         description = data.get("description", "Нет описания")
         levels = list(data.get("levels", {}).keys())
-        
+
         return f"""
 # IT-Compass: {skill_name}
 
@@ -205,24 +203,29 @@ def get_compass_domain_resource(domain: str = "system_thinking") -> str:
     except Exception as e:
         return f"Ошибка при чтении домена '{domain}': {str(e)}"
 
+
 def _get_sample_markers(data: Dict) -> str:
     """Получение примеров маркеров из данных домена"""
     markers = []
     levels = data.get("levels", {})
-    
+
     for level_num, level_markers in levels.items():
         if level_markers and len(level_markers) > 0:
             marker = level_markers[0]
-            markers.append(f"- **Уровень {level_num}**: {marker.get('marker', 'Нет описания')}")
+            markers.append(
+                f"- **Уровень {level_num}**: {marker.get('marker', 'Нет описания')}"
+            )
             if len(markers) >= 3:
                 break
-    
+
     return "\n".join(markers) if markers else "Нет примеров маркеров"
+
 
 @mcp.resource("it-compass://system-thinking")
 def get_system_thinking_resource() -> str:
     """Специальный ресурс для системного мышления"""
     return get_compass_domain_resource("system_thinking")
+
 
 # Инструменты (будут импортированы из модулей или определены как заглушки)
 # Здесь мы регистрируем инструменты, если они были импортированы
@@ -235,11 +238,11 @@ if __name__ == "__main__":
     print(f"IT-Compass markers path: {IT_COMPASS_MARKERS_PATH}")
     print(f"Project root: {PROJECT_ROOT}")
     print("=" * 60)
-    
+
     # Проверяем доступность IT-Compass
     if not IT_COMPASS_MARKERS_PATH.exists():
         print(f"Warning: IT-Compass markers path not found: {IT_COMPASS_MARKERS_PATH}")
         print("Some features may not work correctly.")
-    
+
     # Запускаем сервер
     mcp.run()

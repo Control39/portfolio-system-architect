@@ -49,14 +49,14 @@ start http://localhost:8501
    | Career-Dev | localhost:8000/docs | - |
    | Health Check | `python scripts/healthcheck.py` | - |
    | Ecosystem Sync | `python scripts/sync-from-my-ecosystem.py --preview` | docs/external-ecosystem/ |
-   
+
 7. **Daily Ops**:
    ```
    python scripts/healthcheck.py          # 🟢 All systems healthy
    python tools/generate_pydantic.py      # Refresh schemas
    python tools/benchmark.py              # 🏆 Benchmark report (latency <200ms)
    ```
-   
+
    **Example Healthcheck Output:**
    ```
    🩺 Portfolio System Health Check
@@ -101,5 +101,3 @@ start http://localhost:8501
 ```
 
 Sign-off: Signed-off-by: Name <email>
-
-

@@ -22,4 +22,3 @@
 - endpoint
 
 Requires GCP credentials.
-

@@ -3,4 +3,3 @@ function New-CommandFactory {
 }
 
 Export-ModuleMember -Function New-CommandFactory
-

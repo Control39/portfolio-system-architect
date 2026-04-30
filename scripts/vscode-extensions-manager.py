@@ -42,8 +42,9 @@ class VSCodeExtensionManager:
             ]
             for cmd in code_paths:
                 try:
-                    result = subprocess.run([cmd, "--version"],
-                                         capture_output=True, check=False, shell=True)
+                    result = subprocess.run(
+                        [cmd, "--version"], capture_output=True, check=False, shell=True
+                    )
                     if result.returncode == 0:
                         return cmd
                 except (FileNotFoundError, subprocess.CalledProcessError):
@@ -51,13 +52,16 @@ class VSCodeExtensionManager:
         else:
             # Linux/macOS
             try:
-                subprocess.run(["code", "--version"],
-                             capture_output=True, check=False, shell=True)
+                subprocess.run(
+                    ["code", "--version"], capture_output=True, check=False, shell=True
+                )
                 return "code"
             except (FileNotFoundError, subprocess.CalledProcessError):
                 pass
 
-        logger.warning("VS Code не найден в PATH. Используем 'code' как команду по умолчанию.")
+        logger.warning(
+            "VS Code не найден в PATH. Используем 'code' как команду по умолчанию."
+        )
         return "code"
 
     def _load_config(self) -> dict:
@@ -93,7 +97,9 @@ class VSCodeExtensionManager:
                 check=True,
                 shell=True,
             )
-            extensions = [ext.strip() for ext in result.stdout.split("\n") if ext.strip()]
+            extensions = [
+                ext.strip() for ext in result.stdout.split("\n") if ext.strip()
+            ]
             logger.info(f"Найдено {len(extensions)} установленных расширений")
             return extensions
         except subprocess.CalledProcessError as e:
@@ -171,8 +177,9 @@ class VSCodeExtensionManager:
             ),
         }
 
-    def _calculate_compliance_score(self, installed: int, required: int,
-                                   missing_required: int, excluded: int) -> float:
+    def _calculate_compliance_score(
+        self, installed: int, required: int, missing_required: int, excluded: int
+    ) -> float:
         """Рассчитывает оценку соответствия"""
         if required == 0:
             return 100.0
@@ -223,8 +230,12 @@ class VSCodeExtensionManager:
         report.append("=" * 60)
         report.append(f"Установлено расширений: {compliance_data['installed_count']}")
         report.append(f"Обязательных расширений: {compliance_data['required_count']}")
-        report.append(f"Рекомендуемых расширений: {compliance_data['recommended_count']}")
-        report.append(f"Оценка соответствия: {compliance_data['compliance_score']:.1f}%")
+        report.append(
+            f"Рекомендуемых расширений: {compliance_data['recommended_count']}"
+        )
+        report.append(
+            f"Оценка соответствия: {compliance_data['compliance_score']:.1f}%"
+        )
         report.append("")
 
         if compliance_data["missing_required"]:
@@ -256,15 +267,31 @@ class VSCodeExtensionManager:
 
 def main():
     parser = argparse.ArgumentParser(description="Менеджер расширений VS Code")
-    parser.add_argument("--action", choices=["check", "sync", "report"],
-                       default="check", help="Действие (по умолчанию: check)")
-    parser.add_argument("--dry-run", action="store_true", help="Показать изменения без применения")
-    parser.add_argument("--config", default="config/vscode/vscode-extensions.json",
-                       help="Путь к конфигурационному файлу")
-    parser.add_argument("--output-score", action="store_true",
-                       help="Вывести только оценку соответствия (для CI/CD)")
-    parser.add_argument("--threshold", type=float, default=80.0,
-                       help="Минимальный порог соответствия (по умолчанию: 80%%)")
+    parser.add_argument(
+        "--action",
+        choices=["check", "sync", "report"],
+        default="check",
+        help="Действие (по умолчанию: check)",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Показать изменения без применения"
+    )
+    parser.add_argument(
+        "--config",
+        default="config/vscode/vscode-extensions.json",
+        help="Путь к конфигурационному файлу",
+    )
+    parser.add_argument(
+        "--output-score",
+        action="store_true",
+        help="Вывести только оценку соответствия (для CI/CD)",
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=80.0,
+        help="Минимальный порог соответствия (по умолчанию: 80%%)",
+    )
 
     args = parser.parse_args()
 
@@ -284,7 +311,9 @@ def main():
             # Рекомендации
             if compliance["compliance_score"] < args.threshold:
                 print(f"\n💡 РЕКОМЕНДАЦИИ (оценка ниже {args.threshold}%%):")
-                print("Запустите 'python scripts/vscode-extensions-manager.py --action sync' для синхронизации")
+                print(
+                    "Запустите 'python scripts/vscode-extensions-manager.py --action sync' для синхронизации"
+                )
 
     elif args.action == "sync":
         # Синхронизация расширений

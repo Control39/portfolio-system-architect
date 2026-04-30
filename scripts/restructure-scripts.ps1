@@ -6,7 +6,7 @@
 .DESCRIPTION
 Этот скрипт реализует Фазу 2 реструктуризации папки scripts/:
 1. Перемещает Windows-скрипты в windows/
-2. Перемещает Linux-скрипты в linux/  
+2. Перемещает Linux-скрипты в linux/
 3. Перемещает Python-скрипты в python/
 4. Оставляет кросс-платформенные/общие скрипты в корне
 
@@ -33,17 +33,17 @@ function Move-Script {
         [string]$TargetDir,
         [string]$Reason
     )
-    
+
     $sourcePath = Join-Path $PSScriptRoot $ScriptName
     $targetDirPath = Join-Path $PSScriptRoot $TargetDir
     $targetPath = Join-Path $targetDirPath $ScriptName
-    
+
     if (-not (Test-Path $sourcePath)) {
         Write-ColorOutput "  [SKIP] $ScriptName → не найден в корне" "Yellow"
         $script:TotalSkipped++
         return
     }
-    
+
     # Создаём целевую директорию, если её нет
     if (-not (Test-Path $targetDirPath)) {
         Write-ColorOutput "  [INFO] Создаю директорию: $TargetDir" "Cyan"
@@ -51,14 +51,14 @@ function Move-Script {
             New-Item -ItemType Directory -Path $targetDirPath -Force | Out-Null
         }
     }
-    
+
     if ($WhatIf) {
         Write-ColorOutput "  [WHATIF] $ScriptName → $TargetDir/$ScriptName" "Gray"
         Write-ColorOutput "          Причина: $Reason" "Gray"
         $script:TotalMoved++
         return
     }
-    
+
     try {
         Move-Item -Path $sourcePath -Destination $targetPath -Force:$Force
         Write-ColorOutput "  [OK] $ScriptName → $TargetDir/$ScriptName" "Green"
@@ -127,7 +127,7 @@ Write-ColorOutput ""
 Write-ColorOutput "4. СКРИПТЫ, ОСТАЮЩИЕСЯ В КОРНЕ:" "Magenta"
 $rootScripts = @(
     "check-badges-health.py",
-    "check-dependency-updates.py", 
+    "check-dependency-updates.py",
     "check_badge_urls.py",
     "check_yaml_fixed.py",
     "cleanup-old-branches.ps1",

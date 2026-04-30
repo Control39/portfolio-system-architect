@@ -82,4 +82,3 @@ volumes:
 networks:
   monitoring-network:
     driver: bridge
-

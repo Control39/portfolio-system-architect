@@ -37,7 +37,7 @@ secrets.json
 }
 
 Describe "SecurityScanner Unit Tests" -Tag "Unit", "Security", "Fast" {
-    
+
     Context "Secret Detection Engine" {
         It "Should detect hardcoded secrets in source files" {
             # Act

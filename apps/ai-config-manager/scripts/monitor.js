@@ -118,7 +118,7 @@ app.get('/', (req, res) => {
           <h1>📊 AI Config Monitor</h1>
           <p>Реальное время: <span id="timestamp">-</span></p>
         </div>
-        
+
         <div class="stats-grid">
           <div class="card">
             <h3>🤖 Ollama</h3>
@@ -128,12 +128,12 @@ app.get('/', (req, res) => {
             </div>
             <div id="models-list"></div>
           </div>
-          
+
           <div class="card">
             <h3>📁 Конфиги</h3>
             <div id="configs-status"></div>
           </div>
-          
+
           <div class="card">
             <h3>💾 Память</h3>
             <div class="chart-container">
@@ -141,24 +141,24 @@ app.get('/', (req, res) => {
             </div>
           </div>
         </div>
-        
+
         <div class="card">
           <h3>📈 Метрики</h3>
           <div class="chart-container">
             <canvas id="metricsChart"></canvas>
           </div>
         </div>
-        
+
         <div class="card">
           <h3>📋 Лог</h3>
           <div class="log" id="log"></div>
         </div>
       </div>
-      
+
       <script>
         const socket = io();
         let memoryChart, metricsChart;
-        
+
         function initCharts() {
           const memCtx = document.getElementById('memoryChart').getContext('2d');
           memoryChart = new Chart(memCtx, {
@@ -171,7 +171,7 @@ app.get('/', (req, res) => {
               }]
             }
           });
-          
+
           const metCtx = document.getElementById('metricsChart').getContext('2d');
           metricsChart = new Chart(metCtx, {
             type: 'line',
@@ -193,7 +193,7 @@ app.get('/', (req, res) => {
             }
           });
         }
-        
+
         function addLog(message, type = 'info') {
           const log = document.getElementById('log');
           const entry = document.createElement('div');
@@ -201,19 +201,19 @@ app.get('/', (req, res) => {
           entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
           log.appendChild(entry);
           log.scrollTop = log.scrollHeight;
-          
+
           if (log.children.length > 100) {
             log.removeChild(log.firstChild);
           }
         }
-        
+
         socket.on('connect', () => {
           addLog('✅ Подключено к серверу', 'success');
         });
-        
+
         socket.on('status-update', (status) => {
           document.getElementById('timestamp').textContent = new Date(status.timestamp).toLocaleString();
-          
+
           // Ollama статус
           const ollamaDiv = document.getElementById('ollama-status');
           if (status.ollama.running) {
@@ -224,18 +224,18 @@ app.get('/', (req, res) => {
           } else {
             ollamaDiv.innerHTML = '<span class="status-indicator offline"></span> Не запущен';
           }
-          
+
           // Список моделей
           const modelsList = document.getElementById('models-list');
           if (status.ollama.models.length > 0) {
-            modelsList.innerHTML = '<h4>Модели:</h4>' + 
-              status.ollama.models.map(m => 
+            modelsList.innerHTML = '<h4>Модели:</h4>' +
+              status.ollama.models.map(m =>
                 '<div>📦 ' + m.name + ' <span style="color:#888">(' + m.size + ')</span></div>'
               ).join('');
           } else {
             modelsList.innerHTML = '<div style="color:#888">Нет моделей</div>';
           }
-          
+
           // Конфиги
           const configsDiv = document.getElementById('configs-status');
           let configsHtml = '<table>';
@@ -250,7 +250,7 @@ app.get('/', (req, res) => {
           }
           configsHtml += '</table>';
           configsDiv.innerHTML = configsHtml;
-          
+
           // График памяти
           if (memoryChart && status.memory) {
             const used = status.memory.heapUsed / 1024 / 1024;
@@ -258,7 +258,7 @@ app.get('/', (req, res) => {
             memoryChart.data.datasets[0].data = [used, total - used];
             memoryChart.update();
           }
-          
+
           // График метрик
           if (metricsChart) {
             const time = new Date().toLocaleTimeString();
@@ -271,7 +271,7 @@ app.get('/', (req, res) => {
             metricsChart.update();
           }
         });
-        
+
         initCharts();
         addLog('📊 Мониторинг запущен', 'success');
       </script>
@@ -297,12 +297,12 @@ async function getSystemStatus() {
       memory: os.totalmem()
     }
   };
-  
+
   // Проверка Ollama
   try {
     const { stdout: versionOut } = await execPromise('ollama --version');
     status.ollama.version = versionOut.trim();
-    
+
     const { stdout: listOut } = await execPromise('ollama list');
     status.ollama.running = true;
     status.ollama.models = listOut.split('\n')
@@ -314,7 +314,7 @@ async function getSystemStatus() {
   } catch {
     status.ollama.running = false;
   }
-  
+
   // Проверка конфигов
   const projectPath = path.join(__dirname, '../..');
   const configs = [
@@ -323,7 +323,7 @@ async function getSystemStatus() {
     { name: 'Koda', path: path.join(projectPath, '.koda', 'config.yaml') },
     { name: 'Cline', path: path.join(projectPath, '.cline', 'config.yaml') }
   ];
-  
+
   for (const config of configs) {
     try {
       const exists = await fs.pathExists(config.path);
@@ -341,7 +341,7 @@ async function getSystemStatus() {
       status.configs[config.name] = { exists: false, error: true };
     }
   }
-  
+
   return status;
 }
 

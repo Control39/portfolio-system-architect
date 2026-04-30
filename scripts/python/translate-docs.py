@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """AI-powered documentation translation using DeepSeek.
 Translates Russian .md files from docs/ to en/ subdirectory.
 Preserves structure, creates PR-ready changes.
@@ -12,7 +12,7 @@ import requests
 
 GIGACHAT_URL = "https://gigachat.api.sber.ru/chat/completions"
 PROMPT = """
-Переведи следующий Markdown документ с русского на английский. 
+Переведи следующий Markdown документ с русского на английский.
 Сохрани всю Markdown структуру, кодовые блоки, ссылки, таблицы точно как есть.
 Переведи только русский текст, оставь английский неизменным.
 Если текст смешанный или уже на английском - сделай полный профессиональный английский перевод.
@@ -21,6 +21,7 @@ PROMPT = """
 Документ:
 { content }
 """
+
 
 def translate_text(content: str, api_key: str) -> str:
     headers = {
@@ -37,11 +38,13 @@ def translate_text(content: str, api_key: str) -> str:
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
 
+
 def is_russian(text: str) -> bool:
     """Detect if text is primarily Russian."""
     russian_chars = len(re.findall(r"[а-яё]", text, re.IGNORECASE))
     total_chars = len(text)
     return russian_chars / total_chars > 0.1  # >10% Russian chars
+
 
 def process_file(file_path: Path, api_key: str):
     content = file_path.read_text(encoding="utf-8")
@@ -52,17 +55,22 @@ def process_file(file_path: Path, api_key: str):
     print(f"Translating {file_path}...")
     translated = translate_text(content, api_key)
 
-    en_path = Path("05_DOCUMENTATION/mkdocs-site/docs/en") / file_path.relative_to("05_DOCUMENTATION/mkdocs-site/docs").with_suffix(".en.md")
+    en_path = Path("05_DOCUMENTATION/mkdocs-site/docs/en") / file_path.relative_to(
+        "05_DOCUMENTATION/mkdocs-site/docs"
+    ).with_suffix(".en.md")
     en_path.parent.mkdir(parents=True, exist_ok=True)
 
     en_path.write_text(translated, encoding="utf-8")
     print(f"✓ Translated: {en_path}")
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--api-key", required=True, help="GigaChat API key")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--exclude-website", action="store_true", help="Exclude website folder")
+    parser.add_argument(
+        "--exclude-website", action="store_true", help="Exclude website folder"
+    )
     args = parser.parse_args()
 
     docs_dir = Path("05_DOCUMENTATION/docs")
@@ -84,7 +92,6 @@ def main():
 
     print("Translation complete. Commit en/ changes and create PR.")
 
+
 if __name__ == "__main__":
     main()
-
-

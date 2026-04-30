@@ -1,4 +1,4 @@
-﻿"""Unit тесты для модуля async_helpers.
+"""Unit тесты для модуля async_helpers.
 """
 
 import asyncio
@@ -19,6 +19,7 @@ from src.common.async_helpers import (
 @pytest.mark.asyncio
 async def test_fetch_parallel():
     """Тест параллельного выполнения задач"""
+
     async def task(n):
         await asyncio.sleep(0.1)
         return n * 2
@@ -31,6 +32,7 @@ async def test_fetch_parallel():
 @pytest.mark.asyncio
 async def test_fetch_parallel_safe_with_errors():
     """Тест параллельного выполнения с обработкой ошибок"""
+
     async def passing_task():
         return "success"
 
@@ -51,6 +53,7 @@ async def test_fetch_parallel_safe_with_errors():
 @pytest.mark.asyncio
 async def test_fetch_with_timeout_success():
     """Тест успешного выполнения с таймаутом"""
+
     async def quick_task():
         await asyncio.sleep(0.1)
         return "done"
@@ -63,6 +66,7 @@ async def test_fetch_with_timeout_success():
 @pytest.mark.asyncio
 async def test_fetch_with_timeout_expired():
     """Тест таймаута"""
+
     async def slow_task():
         await asyncio.sleep(2)
         return "done"
@@ -135,6 +139,7 @@ async def test_fetch_with_retry_exhausted():
 @pytest.mark.asyncio
 async def test_batch_async_operations():
     """Тест batch операции"""
+
     async def multiply(n):
         await asyncio.sleep(0.05)
         return n * 2
@@ -152,6 +157,7 @@ async def test_batch_async_operations():
 
 def test_async_timeout_decorator():
     """Тест декоратора async_timeout"""
+
     @async_timeout(1)
     async def quick_task():
         await asyncio.sleep(0.1)
@@ -191,4 +197,3 @@ def test_async_retry_decorator():
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

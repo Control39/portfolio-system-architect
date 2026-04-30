@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Интеграционные тесты для RAG системы (ChromaDB + FastAPI + Streamlit).
 Проверяет полный цикл работы системы от индексации до ответов через API.
 """
@@ -64,7 +64,9 @@ class TestRAGIntegration:
         # Запрос 1: "ChromaDB" - точно есть в третьем документе
         results = chroma_indexer.search("ChromaDB", top_k=1)
         assert len(results) > 0, "Должен найти документ про ChromaDB"
-        assert "ChromaDB" in results[0]["text"], "Найденный документ должен содержать 'ChromaDB'"
+        assert (
+            "ChromaDB" in results[0]["text"]
+        ), "Найденный документ должен содержать 'ChromaDB'"
 
         # Запрос 2: "RAG" - точно есть во втором документе
         results = chroma_indexer.search("RAG", top_k=1)
@@ -139,7 +141,8 @@ class TestRAGIntegration:
         """Тестирует интеграцию с Streamlit UI через скрипты."""
         # Создаем тестовый скрипт Streamlit
         test_script = tmp_path / "test_streamlit.py"
-        test_script.write_text("""
+        test_script.write_text(
+            """
 import streamlit as st
 import sys
 sys.path.insert(0, '.')
@@ -169,13 +172,23 @@ with tempfile.TemporaryDirectory() as tmpdir:
         st.success("✅ Streamlit UI работает корректно")
     else:
         st.error("❌ Не найдено результатов")
-""")
+"""
+        )
 
         # Запускаем скрипт через subprocess
         try:
             result = subprocess.run(
-                [sys.executable, "-m", "streamlit", "run", str(test_script),
-                 "--server.headless", "true", "--server.port", "8502"],
+                [
+                    sys.executable,
+                    "-m",
+                    "streamlit",
+                    "run",
+                    str(test_script),
+                    "--server.headless",
+                    "true",
+                    "--server.port",
+                    "8502",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=30,
@@ -192,6 +205,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
         if compose_file.exists():
             # Проверяем синтаксис YAML
             import yaml
+
             with open(compose_file) as f:
                 config = yaml.safe_load(f)
 
@@ -201,7 +215,9 @@ with tempfile.TemporaryDirectory() as tmpdir:
 
             assert "chromadb" in services, "Сервис ChromaDB должен быть определен"
             assert "rag-api" in services, "Сервис RAG API должен быть определен"
-            assert "streamlit-ui" in services, "Сервис Streamlit UI должен быть определен"
+            assert (
+                "streamlit-ui" in services
+            ), "Сервис Streamlit UI должен быть определен"
 
             # Проверяем настройки сети
             assert "networks" in config
@@ -223,6 +239,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
         for file_path in deployment_files:
             if file_path.exists():
                 import yaml
+
                 with open(file_path) as f:
                     manifest = yaml.safe_load(f)
 
@@ -261,8 +278,10 @@ class TestRAGPerformance:
 
         # Добавляем 100 тестовых документов
         for i in range(100):
-            text = f"Документ номер {i} о когнитивных архитектурах и RAG системах. " \
-                   f"Это тестовый контент для проверки производительности поиска."
+            text = (
+                f"Документ номер {i} о когнитивных архитектурах и RAG системах. "
+                f"Это тестовый контент для проверки производительности поиска."
+            )
             metadata = {"source": f"perf_doc_{i}.md", "index": i}
             indexer.add_document(text, metadata)
 
@@ -290,9 +309,10 @@ class TestRAGPerformance:
             total_time += query_time
 
             # Проверяем, что поиск работает достаточно быстро
-            assert query_time < max_time_per_query, \
-                f"Поиск по запросу '{query}' занял {query_time:.3f} секунд, " \
+            assert query_time < max_time_per_query, (
+                f"Поиск по запросу '{query}' занял {query_time:.3f} секунд, "
                 f"максимум {max_time_per_query} секунд"
+            )
 
             # Проверяем, что возвращаются результаты
             assert len(results) > 0, f"Не найдено результатов для запроса '{query}'"
@@ -313,7 +333,9 @@ class TestRAGPerformance:
         # Выполняем запросы параллельно
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             futures = [executor.submit(search_query, query) for query in queries]
-            results = [future.result() for future in concurrent.futures.as_completed(futures)]
+            results = [
+                future.result() for future in concurrent.futures.as_completed(futures)
+            ]
 
         # Проверяем, что все запросы выполнены
         assert len(results) == len(queries)
@@ -349,7 +371,10 @@ def test_full_rag_pipeline():
         # 5. Проверка качества результатов
         found_monitoring = False
         for result in results:
-            if any(word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]):
+            if any(
+                word in result["text"].lower()
+                for word in ["prometheus", "grafana", "мониторинг"]
+            ):
                 found_monitoring = True
                 break
 
@@ -364,4 +389,5 @@ def test_full_rag_pipeline():
 if __name__ == "__main__":
     """Запуск интеграционных тестов напрямую."""
     import sys
+
     sys.exit(pytest.main([__file__, "-v"]))

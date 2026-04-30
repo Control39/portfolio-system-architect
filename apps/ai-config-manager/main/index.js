@@ -23,7 +23,7 @@ function startMonitorServer() {
 
   io.on('connection', (socket) => {
     console.log('👤 Клиент подключился к мониторингу');
-    
+
     // Отправляем статус каждые 5 секунд
     const interval = setInterval(async () => {
       const status = await getSystemStatus();
@@ -301,10 +301,10 @@ ipcMain.handle('read-config', async (event, projectPath) => {
   try {
     const configPath = path.join(projectPath, '.ai-config', 'master-config.yaml');
     const envPath = path.join(projectPath, '.env');
-    
+
     const config = yaml.load(await fs.readFile(configPath, 'utf8'));
     const env = await fs.pathExists(envPath) ? await fs.readFile(envPath, 'utf8') : '';
-    
+
     return { success: true, config, env };
   } catch (error) {
     return { success: false, error: error.message };
@@ -316,10 +316,10 @@ ipcMain.handle('save-config', async (event, projectPath, config, env) => {
   try {
     const configPath = path.join(projectPath, '.ai-config', 'master-config.yaml');
     const envPath = path.join(projectPath, '.env');
-    
+
     await fs.writeFile(configPath, yaml.dump(config, { indent: 2 }));
     await fs.writeFile(envPath, env);
-    
+
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
@@ -367,10 +367,10 @@ ipcMain.handle('check-ollama', async () => {
         const parts = line.split(/\s+/);
         return { name: parts[0], size: parts[2] + ' ' + (parts[3] || '') };
       });
-    
+
     // Получаем версию
     const { stdout: versionOut } = await execPromise('ollama --version');
-    
+
     return {
       running: true,
       version: versionOut.trim(),

@@ -75,4 +75,3 @@
 - ADR-002: Интеграция компонентов в единую экосистему
 - README.md: Раздел "Architectural Justification"
 - EMPLOYER_ONE_PAGER.md: Обоснование для работодателей
-

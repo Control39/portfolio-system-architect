@@ -47,4 +47,3 @@ metadata:
   name: system-proof
 spec:
   replicas: 1
-

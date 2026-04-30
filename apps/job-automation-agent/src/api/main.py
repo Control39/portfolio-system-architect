@@ -1,18 +1,18 @@
-﻿from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Dict, Any
+﻿import asyncio
 import os
 import sys
-import asyncio
+from typing import Any, Dict
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
+from src.common.async_helpers import fetch_parallel, fetch_with_timeout
 from src.common.health_check import init_health_checks
-from src.common.async_helpers import fetch_parallel
 
-from ..core.orchestrator import run_core_agent
 from ..agents.job_search import search_hh_ru
-from src.common.async_helpers import fetch_with_timeout
+from ..core.orchestrator import run_core_agent
 
 app = FastAPI(title="Job Automation Agent API", version="0.1.0")
 
@@ -67,5 +67,3 @@ if __name__ == \"__main__\":
     import uvicorn
     port = int(os.getenv(\"PORT\", 8001))
     uvicorn.run(\"main:app\", host=\"0.0.0.0\", port=port, reload=True)
-
-

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -15,6 +15,7 @@ def test_get_competency_markers():
         assert "marker" in result[0]
         assert "level" in result[0]
     # Basic smoke test passes
+
 
 def test_empty_skills():
     api = ITCompassAPI()

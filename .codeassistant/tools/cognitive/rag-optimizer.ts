@@ -27,7 +27,7 @@ export const ragOptimizerTool = {
   },
   execute: async (args: any) => {
     const { chunkSize, overlap, embeddingModel } = args;
-    
+
     // Анализ текущей RAG системы
     const currentMetrics = {
       retrievalAccuracy: 75,
@@ -35,7 +35,7 @@ export const ragOptimizerTool = {
       latency: 1200, // мс
       contextUtilization: 65
     };
-    
+
     // Рекомендации по оптимизации
     const optimizations = [
       {
@@ -59,7 +59,7 @@ export const ragOptimizerTool = {
         expectedImprovement: "+30% к качеству финального ответа"
       }
     ];
-    
+
     // Прогнозируемые метрики после оптимизации
     const projectedMetrics = {
       retrievalAccuracy: 90,
@@ -67,7 +67,7 @@ export const ragOptimizerTool = {
       latency: 800, // мс
       contextUtilization: 85
     };
-    
+
     return {
       success: true,
       analysis: "Анализ RAG системы завершен",

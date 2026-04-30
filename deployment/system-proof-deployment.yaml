@@ -52,4 +52,3 @@ spec:
             name: system-proof
             port:
               number: 8005
-

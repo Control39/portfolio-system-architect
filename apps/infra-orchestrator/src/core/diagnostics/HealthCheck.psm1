@@ -1,6 +1,6 @@
 function Test-ArchCompassHealth {
     param([switch]$Detailed)
-    
+
     $checks = @(
         @{
             Name        = 'CoreModules'
@@ -10,7 +10,7 @@ function Test-ArchCompassHealth {
         },
         @{
             Name        = 'ConfigValidity'
-            Check       = { 
+            Check       = {
                 $cfg = Get-Content 'config/settings.json' -Raw | ConvertFrom-Json -ErrorAction SilentlyContinue
                 $null -ne $cfg
             }
@@ -39,7 +39,7 @@ function Test-ArchCompassHealth {
             Severity    = 'Medium'
         }
     )
-    
+
     $results = $checks | ForEach-Object {
         $passed = & $_.Check
         [PSCustomObject]@{
@@ -50,11 +50,11 @@ function Test-ArchCompassHealth {
             Timestamp   = (Get-Date -Format 'o')
         }
     }
-    
+
     if ($Detailed) {
         return $results | Format-Table -AutoSize
     }
-    
+
     $allPassed = ($results | Where-Object { $_.Status -like '*FAIL*' }).Count -eq 0
     return [PSCustomObject]@{
         Healthy      = $allPassed

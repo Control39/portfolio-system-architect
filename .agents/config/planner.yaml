@@ -4,19 +4,19 @@
 planning:
   # Уровень автономности планировщика
   autonomy_level: "high"  # high, medium, low
-  
+
   # Максимальное количество одновременно планируемых задач
   max_concurrent_tasks: 10
-  
+
   # Временной горизонт планирования (в часах)
   planning_horizon: 24
-  
+
   # Интервал перепланирования (в секундах)
   replan_interval: 300
-  
+
   # Включить оптимизацию последовательности задач
   optimize_sequence: true
-  
+
   # Учитывать зависимости между задачами
   consider_dependencies: true
 
@@ -28,10 +28,10 @@ prioritization:
     importance: 0.4
     complexity: 0.1
     dependencies: 0.2
-  
+
   # Минимальный приоритет для автоматического выполнения
   min_auto_execute_priority: 0.7
-  
+
   # Порог для срочных задач
   urgent_threshold: 0.8
 
@@ -39,13 +39,13 @@ prioritization:
 resources:
   # Максимальное использование CPU (в процентах)
   max_cpu_usage: 80
-  
+
   # Максимальное использование памяти (в процентах)
   max_memory_usage: 70
-  
+
   # Максимальное количество параллельных процессов
   max_parallel_processes: 4
-  
+
   # Ограничения по времени выполнения (в секундах)
   time_limits:
     short_task: 60
@@ -57,17 +57,17 @@ resources:
 algorithms:
   # Алгоритм планирования
   scheduling_algorithm: "priority_based"  # priority_based, deadline_based, resource_based
-  
+
   # Алгоритм оптимизации
   optimization_algorithm: "genetic"  # genetic, simulated_annealing, tabu_search
-  
+
   # Параметры генетического алгоритма
   genetic_algorithm:
     population_size: 50
     generations: 100
     mutation_rate: 0.1
     crossover_rate: 0.8
-  
+
   # Включить машинное обучение для улучшения планирования
   enable_ml: true
   ml_model_path: "models/planner_model.pkl"
@@ -77,16 +77,16 @@ algorithms:
 monitoring:
   # Включить мониторинг выполнения задач
   enabled: true
-  
+
   # Интервал сбора метрик (в секундах)
   metrics_interval: 60
-  
+
   # Пороги для предупреждений
   alert_thresholds:
     task_failure_rate: 0.1
     resource_utilization: 0.85
     planning_latency: 5.0  # секунд
-  
+
   # Настройки логирования
   logging:
     level: "INFO"
@@ -100,13 +100,13 @@ integration:
   notifications:
     enabled: true
     channels: ["telegram", "email", "webhook"]
-  
+
   # Интеграция с системой мониторинга
   monitoring_system:
     enabled: true
     endpoint: "http://localhost:9090"
     metrics_prefix: "planner_"
-  
+
   # Интеграция с системой хранения данных
   storage:
     enabled: true
@@ -117,12 +117,12 @@ integration:
 security:
   # Проверять разрешения перед выполнением задач
   check_permissions: true
-  
+
   # Ограничить выполнение определенных типов задач
   restricted_task_types: ["system", "security", "database"]
-  
+
   # Требовать подтверждение для критических задач
   require_confirmation_for_critical: true
-  
+
   # Максимальный уровень привилегий для автоматического выполнения
   max_auto_execute_privilege: "medium"

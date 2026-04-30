@@ -1,14 +1,15 @@
-﻿"""
+"""
 Data classes for analysis results.
 """
+
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
-from datetime import datetime
+from typing import Any, Dict, List
 
 
 @dataclass
 class MicroserviceInfo:
     """Information about a microservice."""
+
     name: str
     path: str
     is_production_ready: bool = False
@@ -22,6 +23,7 @@ class MicroserviceInfo:
 @dataclass
 class SkillMarker:
     """Skill marker from IT-Compass."""
+
     id: str
     category: str
     level: int
@@ -32,6 +34,7 @@ class SkillMarker:
 @dataclass
 class GitStats:
     """Git repository statistics."""
+
     total_commits: int = 0
     recent_activity_days: int = 0
     contributors: List[str] = field(default_factory=list)
@@ -41,13 +44,14 @@ class GitStats:
 @dataclass
 class AnalysisResult:
     """Overall analysis result."""
+
     timestamp: str
     microservices: Dict[str, Any] = field(default_factory=dict)
     skill_markers: Dict[str, Any] = field(default_factory=dict)
     architecture_docs: List[str] = field(default_factory=list)
     git_stats: Dict[str, Any] = field(default_factory=dict)
     dependencies: Dict[str, List[str]] = field(default_factory=dict)
-    
+
     def dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
@@ -58,4 +62,3 @@ class AnalysisResult:
             "git_stats": self.git_stats,
             "dependencies": self.dependencies,
         }
-

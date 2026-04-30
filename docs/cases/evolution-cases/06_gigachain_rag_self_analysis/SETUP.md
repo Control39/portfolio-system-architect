@@ -29,4 +29,3 @@ docker-compose up  # Includes Jupyter for exploration
 Scripts in scripts/ dir. Full watcher for watched/ folder.
 
 *Demo: Query "systemic thinking" finds 111+ evidences.*
-

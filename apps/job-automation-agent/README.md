@@ -31,4 +31,3 @@ python -m cProfile -s time src/core/orchestrator.py
 **Интеграция**: career-development skills → analysis.
 
 See TODO.md for roadmap.
-

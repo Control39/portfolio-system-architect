@@ -1,4 +1,4 @@
-﻿"""
+"""
 Модуль health check для мониторинга состояния сервиса.
 """
 
@@ -7,6 +7,7 @@ from typing import Dict
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.core.database import get_db
 
 router = APIRouter()
@@ -16,7 +17,7 @@ router = APIRouter()
 async def health_check() -> Dict[str, str]:
     """
     Базовый health check endpoint.
-    
+
     Returns:
         Dict с информацией о состоянии сервиса
     """
@@ -32,12 +33,12 @@ async def health_check() -> Dict[str, str]:
 async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
     """
     Readiness check с проверкой зависимостей.
-    
+
     Проверяет доступность базы данных и других критичных зависимостей.
-    
+
     Args:
         db: Сессия базы данных
-        
+
     Returns:
         Dict с информацией о готовности сервиса
     """
@@ -59,9 +60,9 @@ async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
 async def liveness_check() -> Dict[str, str]:
     """
     Liveness check для Kubernetes.
-    
+
     Проверяет, что процесс сервиса работает.
-    
+
     Returns:
         Dict с информацией о жизнеспособности сервиса
     """

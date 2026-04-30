@@ -1,15 +1,16 @@
-﻿"""
+"""
 JWT Auth Service
 Issues and validates JWT tokens for API Gateway
 """
 
-from fastapi import FastAPI, HTTPException, Depends, Security
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel
-import jwt
 import os
 import sys
 from datetime import datetime, timedelta, timezone
+
+import jwt
+from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -20,22 +21,29 @@ security = HTTPBearer()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 if not JWT_SECRET:
-    JWT_SECRET = "development-secret-key-change-in-production"  # Развёртывание по умолчанию
+    raise ValueError(
+        "JWT_SECRET environment variable is required for production. "
+        "Set it via environment variable or secrets manager."
+    )
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 JWT_EXPIRATION_HOURS = 24
+
 
 class TokenRequest(BaseModel):
     username: str
     password: str
+
 
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
     expires_in: int
 
+
 class User(BaseModel):
     username: str
     role: str = "user"
+
 
 def create_token(username: str, role: str = "user") -> dict:
     """Create JWT token"""
@@ -52,13 +60,14 @@ def create_token(username: str, role: str = "user") -> dict:
         "expires_in": JWT_EXPIRATION_HOURS * 3600,
     }
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Security(HTTPBearer())) -> dict:
+
+def verify_token(
+    credentials: HTTPAuthorizationCredentials = Security(HTTPBearer()),
+) -> dict:
     """Verify JWT token"""
     try:
         payload = jwt.decode(
-            credentials.credentials,
-            JWT_SECRET,
-            algorithms=[JWT_ALGORITHM]
+            credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM]
         )
         return payload
     except jwt.ExpiredSignatureError:
@@ -66,25 +75,27 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(HTTPBearer
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
+
 @app.post("/auth/token", response_model=TokenResponse)
 async def login(request: TokenRequest):
     """
     Issue JWT token
-    
+
     For demo purposes, any username/password combination is accepted except demo/demo.
     In production, implement real authentication against a user database.
     """
     # Block demo/demo credentials for security
     if request.username == "demo" and request.password == "demo":
         raise HTTPException(status_code=401, detail="Demo credentials not allowed")
-    
+
     # In production, replace with real auth (e.g., database lookup, LDAP, OAuth)
     if request.username and request.password:
         # For demo: assign admin role to 'admin' username, user role to others
         role = "admin" if request.username == "admin" else "user"
         return create_token(request.username, role=role)
-    
+
     raise HTTPException(status_code=401, detail="Invalid credentials")
+
 
 @app.post("/auth/verify")
 async def verify(payload: dict = Depends(verify_token)):
@@ -97,11 +108,7 @@ async def verify(payload: dict = Depends(verify_token)):
 
 
 # Инициализируем health-check эндпоинты
-init_health_checks(
-    app,
-    service_name="auth-service",
-    version="1.0.0"
-)
+init_health_checks(app, service_name="auth-service", version="1.0.0")
 
 
 @app.get("/")
@@ -119,10 +126,8 @@ async def root():
         },
     }
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8100)
-
-
-
-

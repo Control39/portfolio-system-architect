@@ -36,4 +36,3 @@ Reference screenshots in markdown:
 ## 📝 Note for Reviewers
 
 These screenshots demonstrate **tangible results** of the portfolio system, moving beyond code to show working software with observability, user interfaces, and operational tooling.
-

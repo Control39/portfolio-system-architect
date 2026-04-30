@@ -33,4 +33,3 @@
 ## Ссылки
 - Soft Systems Methodology - Peter Checkland
 - Systems Thinking - Peter Senge
-

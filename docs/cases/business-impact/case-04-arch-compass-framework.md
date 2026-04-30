@@ -137,5 +137,5 @@ Invoke-SecurityScan -Target "./src"
 
 ---
 
-*Кейс основан на реальных данных из проекта Portfolio System Architect*  
+*Кейс основан на реальных данных из проекта Portfolio System Architect*
 *Технологии: PowerShell 7, Pester, Prometheus, Docker, Kubernetes*

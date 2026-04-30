@@ -8,8 +8,8 @@ export const metricsAnalyzerTool: Tool = {
   name: "metrics_analyzer",
   description: "Анализирует метрики производительности, доступности и использования ресурсов системы",
   execute: async (args: any) => {
-    const { 
-      metrics = {}, 
+    const {
+      metrics = {},
       timeRange = '24h',
       thresholds = {
         cpu: 80,
@@ -20,7 +20,7 @@ export const metricsAnalyzerTool: Tool = {
         availability: 99.5
       }
     } = args;
-    
+
     // Примерные метрики, если не предоставлены
     const defaultMetrics = {
       cpu: {
@@ -67,9 +67,9 @@ export const metricsAnalyzerTool: Tool = {
         revenue: 125000
       }
     };
-    
+
     const actualMetrics = Object.keys(metrics).length > 0 ? metrics : defaultMetrics;
-    
+
     // Анализ метрик
     const analysis = {
       performance: analyzePerformance(actualMetrics, thresholds),
@@ -78,13 +78,13 @@ export const metricsAnalyzerTool: Tool = {
       anomalies: detectAnomalies(actualMetrics),
       trends: analyzeTrends(actualMetrics)
     };
-    
+
     // Генерация рекомендаций
     const recommendations = generateRecommendations(analysis, thresholds);
-    
+
     // Расчет общего здоровья системы
     const systemHealth = calculateSystemHealth(analysis);
-    
+
     return {
       success: true,
       data: {
@@ -116,8 +116,8 @@ function analyzePerformance(metrics: any, thresholds: any) {
       status: app.latency.p95 <= thresholds.latency ? 'good' : 'poor',
       value: app.latency.p95,
       threshold: thresholds.latency,
-      description: app.latency.p95 <= thresholds.latency 
-        ? 'Латентность в пределах нормы' 
+      description: app.latency.p95 <= thresholds.latency
+        ? 'Латентность в пределах нормы'
         : 'Высокая латентность, требуется оптимизация'
     },
     throughput: {
@@ -134,7 +134,7 @@ function analyzePerformance(metrics: any, thresholds: any) {
         : 'Высокий уровень ошибок, требуется исследование'
     }
   };
-  
+
   return perf;
 }
 
@@ -155,7 +155,7 @@ function analyzeAvailability(metrics: any, thresholds: any) {
       description: 'Время безотказной работы хорошее'
     }
   };
-  
+
   return avail;
 }
 
@@ -186,13 +186,13 @@ function analyzeResources(metrics: any, thresholds: any) {
         : 'Высокое использование диска'
     }
   };
-  
+
   return resources;
 }
 
 function detectAnomalies(metrics: any) {
   const anomalies = [];
-  
+
   // Проверка на аномалии в CPU
   if (metrics.cpu.current > 90) {
     anomalies.push({
@@ -204,7 +204,7 @@ function detectAnomalies(metrics: any) {
       recommendation: 'Проверьте процессы с высоким использованием CPU'
     });
   }
-  
+
   // Проверка на аномалии в памяти
   if (metrics.memory.trend === 'increasing' && metrics.memory.current > 80) {
     anomalies.push({
@@ -216,7 +216,7 @@ function detectAnomalies(metrics: any) {
       recommendation: 'Проверьте приложение на утечки памяти'
     });
   }
-  
+
   // Проверка на аномалии в латентности
   if (metrics.application.latency.p99 > 2000) {
     anomalies.push({
@@ -228,13 +228,13 @@ function detectAnomalies(metrics: any) {
       recommendation: 'Оптимизируйте медленные запросы'
     });
   }
-  
+
   return anomalies;
 }
 
 function analyzeTrends(metrics: any) {
   const trends = [];
-  
+
   if (metrics.cpu.trend === 'increasing') {
     trends.push({
       metric: 'cpu',
@@ -243,7 +243,7 @@ function analyzeTrends(metrics: any) {
       implication: 'Может потребоваться масштабирование'
     });
   }
-  
+
   if (metrics.memory.trend === 'increasing') {
     trends.push({
       metric: 'memory',
@@ -252,7 +252,7 @@ function analyzeTrends(metrics: any) {
       implication: 'Возможна утечка памяти'
     });
   }
-  
+
   if (metrics.application.errorRate > 5) {
     trends.push({
       metric: 'error_rate',
@@ -261,13 +261,13 @@ function analyzeTrends(metrics: any) {
       implication: 'Требуется отладка приложения'
     });
   }
-  
+
   return trends;
 }
 
 function generateRecommendations(analysis: any, thresholds: any) {
   const recommendations = [];
-  
+
   // Рекомендации по производительности
   if (analysis.performance.latency.status === 'poor') {
     recommendations.push({
@@ -282,7 +282,7 @@ function generateRecommendations(analysis: any, thresholds: any) {
       ]
     });
   }
-  
+
   if (analysis.performance.errorRate.status === 'poor') {
     recommendations.push({
       category: 'reliability',
@@ -296,7 +296,7 @@ function generateRecommendations(analysis: any, thresholds: any) {
       ]
     });
   }
-  
+
   // Рекомендации по ресурсам
   if (analysis.resources.cpu.status === 'warning') {
     recommendations.push({
@@ -311,7 +311,7 @@ function generateRecommendations(analysis: any, thresholds: any) {
       ]
     });
   }
-  
+
   if (analysis.resources.memory.status === 'warning') {
     recommendations.push({
       category: 'resources',
@@ -325,7 +325,7 @@ function generateRecommendations(analysis: any, thresholds: any) {
       ]
     });
   }
-  
+
   // Общие рекомендации
   if (recommendations.length === 0) {
     recommendations.push({
@@ -340,14 +340,14 @@ function generateRecommendations(analysis: any, thresholds: any) {
       ]
     });
   }
-  
+
   return recommendations;
 }
 
 function calculateSystemHealth(analysis: any) {
   let score = 100;
   const components = [];
-  
+
   // Вычитаем баллы за проблемы
   if (analysis.performance.latency.status === 'poor') score -= 20;
   if (analysis.performance.errorRate.status === 'poor') score -= 25;
@@ -355,47 +355,47 @@ function calculateSystemHealth(analysis: any) {
   if (analysis.resources.cpu.status === 'warning') score -= 10;
   if (analysis.resources.memory.status === 'warning') score -= 10;
   if (analysis.resources.disk.status === 'warning') score -= 10;
-  
+
   // Добавляем аномалии
   if (analysis.anomalies.length > 0) {
     score -= analysis.anomalies.length * 5;
   }
-  
+
   // Ограничиваем score
   score = Math.max(0, Math.min(100, score));
-  
+
   // Определяем уровень здоровья
   let level = 'healthy';
   if (score < 60) level = 'critical';
   else if (score < 70) level = 'unhealthy';
   else if (score < 80) level = 'degraded';
   else if (score < 90) level = 'stable';
-  
+
   // Компоненты здоровья
   components.push({
     name: 'performance',
     status: analysis.performance.latency.status === 'poor' || analysis.performance.errorRate.status === 'poor' ? 'poor' : 'good',
     score: analysis.performance.latency.status === 'poor' ? 60 : 100
   });
-  
+
   components.push({
     name: 'availability',
     status: analysis.availability.availability.status,
     score: analysis.availability.availability.status === 'poor' ? 70 : 100
   });
-  
+
   components.push({
     name: 'resources',
     status: analysis.resources.cpu.status === 'warning' || analysis.resources.memory.status === 'warning' ? 'warning' : 'good',
     score: 85
   });
-  
+
   return { score, level, components };
 }
 
 function generateAlerts(analysis: any, thresholds: any) {
   const alerts = [];
-  
+
   if (analysis.performance.latency.status === 'poor') {
     alerts.push({
       type: 'performance',
@@ -405,7 +405,7 @@ function generateAlerts(analysis: any, thresholds: any) {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   if (analysis.availability.availability.status === 'poor') {
     alerts.push({
       type: 'availability',
@@ -415,7 +415,7 @@ function generateAlerts(analysis: any, thresholds: any) {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   if (analysis.anomalies.length > 0) {
     analysis.anomalies.forEach((anomaly: any) => {
       alerts.push({
@@ -427,7 +427,7 @@ function generateAlerts(analysis: any, thresholds: any) {
       });
     });
   }
-  
+
   return alerts;
 }
 

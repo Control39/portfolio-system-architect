@@ -61,5 +61,3 @@ class GigaMCPBridge:
 **Tasks:** See TODO.md. **Responsible:** AI (impl), Human (keys/review). **Readiness:** Plan committed, prototype runs. **Risks:** Deps conflicts (pip freeze check).
 
 **Next:** Update TODO.md after each step.
-
-

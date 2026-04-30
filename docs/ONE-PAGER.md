@@ -30,9 +30,9 @@
 
 ## 🛠️ Стек
 
-**AI/ML:** RAG, ChromaDB, LangChain, MCP, Reasoning  
-**Backend:** Python, FastAPI, Docker, PostgreSQL  
-**DevOps:** Kubernetes, GitHub Actions, Prometheus/Grafana  
+**AI/ML:** RAG, ChromaDB, LangChain, MCP, Reasoning
+**Backend:** Python, FastAPI, Docker, PostgreSQL
+**DevOps:** Kubernetes, GitHub Actions, Prometheus/Grafana
 **Security:** Bandit, pip-audit, Trivy
 
 ---
@@ -51,16 +51,16 @@
 
 ## 💰 Ожидания
 
-**Зарплата:** $2000-4000/month (remote, Россия)  
-**Старт:** 1-2 недели  
+**Зарплата:** $2000-4000/month (remote, Россия)
+**Старт:** 1-2 недели
 **Формат:** Full-time, remote
 
 ---
 
 ## 📞 Контакты
 
-**Email:** leadarchitect@yandex.ru  
-**Telegram:** @leadarchitect_ai  
+**Email:** leadarchitect@yandex.ru
+**Telegram:** @leadarchitect_ai
 **GitHub:** https://github.com/Control39/portfolio-system-architect
 
 ---

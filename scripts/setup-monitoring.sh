@@ -52,22 +52,22 @@ check_docker() {
         echo "❌ Docker not found. Please install Docker."
         exit 1
     fi
-    
+
     if ! docker ps &> /dev/null; then
         echo "❌ Docker is not running. Please start Docker Desktop."
         exit 1
     fi
-    
+
     echo "✅ Docker is running"
 }
 
 # Function to setup Prometheus
 setup_prometheus() {
     echo "📈 Setting up Prometheus..."
-    
+
     # Create Prometheus configuration directory
     mkdir -p monitoring/prometheus
-    
+
     # Create prometheus.yml if it doesn't exist
     if [ ! -f "monitoring/prometheus/prometheus.yml" ]; then
         cat > monitoring/prometheus/prometheus.yml << 'EOF'
@@ -100,24 +100,24 @@ scrape_configs:
 EOF
         echo "✅ Created Prometheus configuration"
     fi
-    
+
     # Copy alert rules
     if [ -f "monitoring/alert-rules.yaml" ]; then
         cp monitoring/alert-rules.yaml monitoring/prometheus/
         echo "✅ Copied alert rules"
     fi
-    
+
     echo "✅ Prometheus setup completed"
 }
 
 # Function to setup Grafana
 setup_grafana() {
     echo "📊 Setting up Grafana..."
-    
+
     # Create Grafana configuration directories
     mkdir -p monitoring/grafana/provisioning/datasources
     mkdir -p monitoring/grafana/provisioning/dashboards
-    
+
     # Create datasource configuration
     cat > monitoring/grafana/provisioning/datasources/prometheus.yml << 'EOF'
 apiVersion: 1
@@ -130,7 +130,7 @@ datasources:
     isDefault: true
     editable: true
 EOF
-    
+
     # Create dashboard configuration
     cat > monitoring/grafana/provisioning/dashboards/portfolio.yml << 'EOF'
 apiVersion: 1
@@ -145,7 +145,7 @@ providers:
     options:
       path: /etc/grafana/dashboards
 EOF
-    
+
     # Create sample dashboard
     mkdir -p monitoring/grafana/dashboards
     cat > monitoring/grafana/dashboards/portfolio-overview.json << 'EOF'
@@ -167,16 +167,16 @@ EOF
   }
 }
 EOF
-    
+
     echo "✅ Grafana setup completed"
 }
 
 # Function to setup Alertmanager
 setup_alertmanager() {
     echo "🚨 Setting up Alertmanager..."
-    
+
     mkdir -p monitoring/alertmanager
-    
+
     # Create Alertmanager configuration based on notification channel
     case $NOTIFICATION_CHANNEL in
         slack)
@@ -265,16 +265,16 @@ receivers:
 EOF
             ;;
     esac
-    
+
     echo "✅ Alertmanager setup completed"
 }
 
 # Function to setup Loki (logs)
 setup_loki() {
     echo "📝 Setting up Loki for logs..."
-    
+
     mkdir -p monitoring/loki
-    
+
     # Create Loki configuration
     cat > monitoring/loki/loki-config.yaml << 'EOF'
 auth_enabled: false
@@ -323,14 +323,14 @@ table_manager:
   retention_deletes_enabled: false
   retention_period: 0s
 EOF
-    
+
     echo "✅ Loki setup completed"
 }
 
 # Function to start monitoring stack
 start_monitoring() {
     echo "🚀 Starting monitoring stack..."
-    
+
     # Check if docker-compose.monitoring.yml exists
     if [ -f "docker-compose.monitoring.yml" ]; then
         echo "Starting monitoring services..."
@@ -338,7 +338,7 @@ start_monitoring() {
     else
         echo "⚠️  docker-compose.monitoring.yml not found"
         echo "Creating basic monitoring stack..."
-        
+
         cat > docker-compose.monitoring.yml << 'EOF'
 version: '3.8'
 
@@ -410,10 +410,10 @@ volumes:
   prometheus_data:
   grafana_data:
 EOF
-        
+
         docker-compose -f docker-compose.monitoring.yml up -d
     fi
-    
+
     echo "✅ Monitoring stack started"
     echo ""
     echo "📊 Monitoring URLs:"
@@ -427,31 +427,31 @@ EOF
 # Function to verify monitoring setup
 verify_monitoring() {
     echo "🔍 Verifying monitoring setup..."
-    
+
     # Wait for services to start
     sleep 10
-    
+
     # Check Prometheus
     if curl -s http://localhost:9090/-/healthy > /dev/null; then
         echo "✅ Prometheus is healthy"
     else
         echo "❌ Prometheus is not responding"
     fi
-    
+
     # Check Grafana
     if curl -s http://localhost:3000/api/health > /dev/null; then
         echo "✅ Grafana is healthy"
     else
         echo "❌ Grafana is not responding"
     fi
-    
+
     # Check Alertmanager
     if curl -s http://localhost:9093/-/healthy > /dev/null; then
         echo "✅ Alertmanager is healthy"
     else
         echo "❌ Alertmanager is not responding"
     fi
-    
+
     echo "✅ Monitoring verification completed"
 }
 
@@ -459,11 +459,11 @@ verify_monitoring() {
 main() {
     echo "Starting monitoring setup..."
     echo ""
-    
+
     # Check Docker
     check_docker
     echo ""
-    
+
     # Setup based on type
     case $SETUP_TYPE in
         all)
@@ -494,13 +494,13 @@ main() {
             exit 1
             ;;
     esac
-    
+
     # Verify setup
     if [[ "$SETUP_TYPE" == "all" ]]; then
         echo ""
         verify_monitoring
     fi
-    
+
     echo ""
     echo "================================================================"
     echo "🎉 Monitoring setup completed!"

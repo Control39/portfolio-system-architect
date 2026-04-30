@@ -18,11 +18,11 @@ find docs -name "*.md" -type f | while read file; do
   # Get relative path and filename without extension
   relative_path="${file#docs/}"
   filename="${relative_path%.md}"
-  
+
   # Create output directory structure
   output_dir="docs/website/$(dirname "$relative_path")"
   mkdir -p "$output_dir"
-  
+
   # Convert markdown to HTML
   # Using basic conversion - in a real scenario, you might want to use a more sophisticated tool
   # like pandoc or a custom script with proper styling
@@ -30,7 +30,7 @@ find docs -name "*.md" -type f | while read file; do
   if [ -z "$title" ]; then
     title="$filename"
   fi
-  
+
   {
     echo "<!DOCTYPE html>"
     echo "<html lang=\"en\">"
@@ -56,7 +56,7 @@ find docs -name "*.md" -type f | while read file; do
     echo "  <a href=\"index.html\">Home</a>"
     echo "</nav>"
     echo "<main>"
-    
+
     # Convert markdown to HTML (basic conversion)
     # This is a simple approach - for production use, consider using a proper markdown parser
     sed -e 's/&/\&/g' -e 's/</\</g' -e 's/>/\>/g' "$file" | \
@@ -68,7 +68,7 @@ find docs -name "*.md" -type f | while read file; do
         -e 's/^- \(.*\)/<li>\1<\/li>/' \
         -e 's/`\([^`]*\)`/<code>\1<\/code>/g' \
         -e 's/^\(.*\)$/  <p>\1<\/p>/'
-    
+
     echo "</main>"
     echo "<footer>"
     echo "  <p>Generated from documentation</p>"
@@ -98,7 +98,7 @@ done
   echo "<body>"
   echo "  <h1>Documentation</h1>"
   echo "  <ul>"
-  
+
   # Generate list of all HTML files
   find docs/website -name "*.html" -type f | while read html_file; do
     relative_path="${html_file#docs/website/}"
@@ -106,7 +106,7 @@ done
       echo "    <li><a href=\"$relative_path\">$relative_path</a></li>"
     fi
   done
-  
+
   echo "  </ul>"
   echo "</body>"
   echo "</html>"

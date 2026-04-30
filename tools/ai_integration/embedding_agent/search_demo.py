@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 import json
 import sys
 from pathlib import Path
@@ -18,6 +18,7 @@ def load_full_index(index_file: str):
     # Для демо будем переиндексировать при поиске
     return index_meta
 
+
 def search_similar_code(query: str, indexer, embedder, top_k: int = 5):
     """Поиск похожего кода"""
     # Получаем эмбеддинг запроса
@@ -31,13 +32,16 @@ def search_similar_code(query: str, indexer, embedder, top_k: int = 5):
     results = []
     for chunk in indexer.index:
         if "embedding" in chunk:
-            similarity = embedder.compute_similarity(query_embedding, chunk["embedding"])
+            similarity = embedder.compute_similarity(
+                query_embedding, chunk["embedding"]
+            )
             results.append((similarity, chunk))
 
     # Сортируем по убыванию сходства
     results.sort(reverse=True, key=lambda x: x[0])
 
     return results[:top_k]
+
 
 def main():
     print("🔍 Поиск по кодовой базе с использованием семантических эмбеддингов")
@@ -58,9 +62,12 @@ def main():
     # Для демо используем простой подход - переиндексируем при поиске
     # В реальном проекте нужно сохранять эмбеддинги отдельно
     from src.embedding_agent.indexer import CodeIndexer
+
     indexer = CodeIndexer(embedder)
 
-    print("🔄 Переиндексация для поиска (в реальном проекте эмбеддинги будут загружаться из базы)...")
+    print(
+        "🔄 Переиндексация для поиска (в реальном проекте эмбеддинги будут загружаться из базы)..."
+    )
     indexer.index_repository(repo_path, extensions=[".py", ".md"])
 
     print("\n✅ Готово к поиску!")
@@ -93,6 +100,7 @@ def main():
             if "start_line" in chunk:
                 print(f"📍 Строка: {chunk['start_line']}")
             print(f"\n📄 Содержимое:\n{chunk['content'][:300]}...")
+
 
 if __name__ == "__main__":
     main()

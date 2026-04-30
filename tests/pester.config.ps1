@@ -11,18 +11,18 @@
         PassThru = $true
         Exit = $false
     }
-    
+
     TestResult = @{
         Enabled = $true
         OutputPath = "$PSScriptRoot\TestResults\TestResults.xml"
         OutputFormat = "NUnitXml"
     }
-    
+
     Filter = @{
         Tag = @()
         ExcludeTag = @()
     }
-    
+
     CodeCoverage = @{
         Enabled = $true
         Path = @(
@@ -32,7 +32,7 @@
         OutputPath = "$PSScriptRoot\TestResults\CodeCoverage.xml"
         OutputFormat = "CoverageGutters"
     }
-    
+
     Output = @{
         Verbosity = "Detailed"
     }

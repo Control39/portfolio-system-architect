@@ -1,4 +1,4 @@
-﻿"""
+"""
 Embedding Agent for RAG search over project documentation.
 """
 

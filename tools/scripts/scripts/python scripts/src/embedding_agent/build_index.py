@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 import sys
 from pathlib import Path
 
@@ -38,6 +38,6 @@ def main():
     for t, count in types.items():
         print(f"  {t}: {count}")
 
+
 if __name__ == "__main__":
     main()
-

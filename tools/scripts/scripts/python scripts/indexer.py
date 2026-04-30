@@ -1,4 +1,4 @@
-﻿import ast
+import ast
 import json
 from pathlib import Path
 from typing import Any
@@ -29,24 +29,28 @@ class CodeIndexer:
                     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                         chunk = ast.unparse(node)
                         if len(chunk) <= self.chunk_size:
-                            chunks.append({
-                                "content": chunk,
-                                "type": "function",
-                                "name": node.name,
-                                "file": str(file_path),
-                                "start_line": node.lineno,
-                            })
+                            chunks.append(
+                                {
+                                    "content": chunk,
+                                    "type": "function",
+                                    "name": node.name,
+                                    "file": str(file_path),
+                                    "start_line": node.lineno,
+                                }
+                            )
 
                     elif isinstance(node, ast.ClassDef):
                         chunk = ast.unparse(node)
                         if len(chunk) <= self.chunk_size:
-                            chunks.append({
-                                "content": chunk,
-                                "type": "class",
-                                "name": node.name,
-                                "file": str(file_path),
-                                "start_line": node.lineno,
-                            })
+                            chunks.append(
+                                {
+                                    "content": chunk,
+                                    "type": "class",
+                                    "name": node.name,
+                                    "file": str(file_path),
+                                    "start_line": node.lineno,
+                                }
+                            )
 
             except SyntaxError:
                 # Если AST не работает, разбиваем по строкам
@@ -56,12 +60,14 @@ class CodeIndexer:
 
                 for i, line in enumerate(lines):
                     if current_size + len(line) > self.chunk_size and current_chunk:
-                        chunks.append({
-                            "content": "\n".join(current_chunk),
-                            "type": "lines",
-                            "file": str(file_path),
-                            "start_line": i - len(current_chunk) + 1,
-                        })
+                        chunks.append(
+                            {
+                                "content": "\n".join(current_chunk),
+                                "type": "lines",
+                                "file": str(file_path),
+                                "start_line": i - len(current_chunk) + 1,
+                            }
+                        )
                         current_chunk = [line]
                         current_size = len(line)
                     else:
@@ -69,35 +75,49 @@ class CodeIndexer:
                         current_size += len(line)
 
                 if current_chunk:
-                    chunks.append({
-                        "content": "\n".join(current_chunk),
-                        "type": "lines",
-                        "file": str(file_path),
-                        "start_line": len(lines) - len(current_chunk) + 1,
-                    })
+                    chunks.append(
+                        {
+                            "content": "\n".join(current_chunk),
+                            "type": "lines",
+                            "file": str(file_path),
+                            "start_line": len(lines) - len(current_chunk) + 1,
+                        }
+                    )
 
             # Если нет чанков, берем весь файл
             if not chunks and len(content) <= self.chunk_size:
-                chunks.append({
-                    "content": content,
-                    "type": "module",
-                    "name": file_path.stem,
-                    "file": str(file_path),
-                    "start_line": 1,
-                })
+                chunks.append(
+                    {
+                        "content": content,
+                        "type": "module",
+                        "name": file_path.stem,
+                        "file": str(file_path),
+                        "start_line": 1,
+                    }
+                )
 
         except Exception as e:
             print(f"Ошибка при обработке {file_path}: {e}")
 
         return chunks
 
-    def index_repository(self, repo_path: str, extensions: list[str] = [".py"]) -> list[dict[str, Any]]:
+    def index_repository(
+        self, repo_path: str, extensions: list[str] = [".py"]
+    ) -> list[dict[str, Any]]:
         """Индексирует весь репозиторий"""
         repo_path = Path(repo_path)
         all_chunks = []
 
         # Игнорируемые директории
-        ignore_dirs = {".git", "__pycache__", "venv", "env", "node_modules", "data", "embeddings"}
+        ignore_dirs = {
+            ".git",
+            "__pycache__",
+            "venv",
+            "env",
+            "node_modules",
+            "data",
+            "embeddings",
+        }
 
         for ext in extensions:
             for file_path in repo_path.rglob(f"*{ext}"):
@@ -134,4 +154,3 @@ class CodeIndexer:
 
         print(f"Индекс сохранен в {file_path}")
         print(f"Всего чанков: {len(self.index)}")
-

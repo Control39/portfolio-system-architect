@@ -7,4 +7,3 @@
 - **Docker**: Daemon not running (start Docker Desktop).
 
 Next: TODO_IMPROVEMENTS.md
-

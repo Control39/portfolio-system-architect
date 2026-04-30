@@ -29,7 +29,9 @@ for file_path in markers_dir.glob("*.json"):
 
         total_markers += skill_marker_count
 
-        print(f"{skill_name:20} | Уровни: {len(levels):2} | Маркеры: {skill_marker_count:2}")
+        print(
+            f"{skill_name:20} | Уровни: {len(levels):2} | Маркеры: {skill_marker_count:2}"
+        )
 
     except Exception as e:
         print(f"Ошибка при чтении {file_path}: {e}")

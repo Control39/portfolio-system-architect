@@ -22,7 +22,7 @@
 param(
     [ValidateSet("install", "configure", "test", "remove")]
     [string]$Mode = "install",
-    
+
     [switch]$Force
 )
 
@@ -59,9 +59,9 @@ function Write-Error {
 
 function Test-Prerequisites {
     Write-Info "Проверка предварительных требований..."
-    
+
     $missing = @()
-    
+
     # Проверка Python
     try {
         $pythonVersion = python --version 2>&1
@@ -73,7 +73,7 @@ function Test-Prerequisites {
     } catch {
         $missing += "Python 3.8+"
     }
-    
+
     # Проверка VS Code
     try {
         $vscodePath = Get-Command code -ErrorAction SilentlyContinue
@@ -85,44 +85,44 @@ function Test-Prerequisites {
     } catch {
         Write-Warning "VS Code CLI (code) не найден в PATH"
     }
-    
+
     # Проверка основного скрипта
     if (-not (Test-Path "$($Config.ScriptsPath)/vscode-extensions-manager.py")) {
         $missing += "Основной скрипт vscode-extensions-manager.py"
     }
-    
+
     # Проверка конфигурации расширений
     if (-not (Test-Path "config/vscode/vscode-extensions.json")) {
         $missing += "Конфигурация расширений config/vscode/vscode-extensions.json"
     }
-    
+
     if ($missing.Count -gt 0) {
         Write-Error "Отсутствуют необходимые компоненты:"
         $missing | ForEach-Object { Write-Error "  - $_" }
         return $false
     }
-    
+
     Write-Success "Все предварительные требования выполнены"
     return $true
 }
 
 function Install-Integration {
     Write-Info "Установка интеграции с CAA..."
-    
+
     # Создание структуры каталогов
     $directories = @(
         $Config.CaaSkillPath,
         $Config.ReportsPath,
         "$($Config.ReportsPath)/vscode-extensions"
     )
-    
+
     foreach ($dir in $directories) {
         if (-not (Test-Path $dir)) {
             New-Item -ItemType Directory -Path $dir -Force | Out-Null
             Write-Info "Создан каталог: $dir"
         }
     }
-    
+
     # Создание скилла для CAA
     $skillContent = @"
 ---
@@ -172,10 +172,10 @@ metadata:
 - Требуется подтверждение для изменений
 - Резервное копирование перед изменениями
 "@
-    
+
     Set-Content -Path "$($Config.CaaSkillPath)/SKILL.md" -Value $skillContent
     Write-Info "Создан скилл для CAA: $($Config.CaaSkillPath)/SKILL.md"
-    
+
     # Создание скрипта активации для CAA
     $activationScript = @"
 #!/usr/bin/env python3
@@ -193,7 +193,7 @@ def check_extensions_compliance():
     """Проверка соответствия расширений"""
     cmd = [sys.executable, "scripts/vscode-extensions-manager.py", "--check", "--json"]
     result = subprocess.run(cmd, capture_output=True, text=True)
-    
+
     if result.returncode == 0:
         data = json.loads(result.stdout)
         return {
@@ -213,9 +213,9 @@ def sync_extensions(dry_run=True):
     cmd = [sys.executable, "scripts/vscode-extensions-manager.py", "--sync"]
     if dry_run:
         cmd.append("--dry-run")
-    
+
     result = subprocess.run(cmd, capture_output=True, text=True)
-    
+
     return {
         "success": result.returncode == 0,
         "output": result.stdout,
@@ -226,12 +226,12 @@ def generate_report():
     """Генерация отчета"""
     cmd = [sys.executable, "scripts/vscode-extensions-manager.py", "--report"]
     result = subprocess.run(cmd, capture_output=True, text=True)
-    
+
     report_path = "reports/vscode-extensions-report.md"
     if os.path.exists(report_path):
         with open(report_path, 'r', encoding='utf-8') as f:
             report_content = f.read()
-        
+
         return {
             "success": True,
             "report_path": report_path,
@@ -248,53 +248,53 @@ if __name__ == "__main__":
         print("Использование: python activate.py <command> [options]")
         print("Команды: check, sync, report")
         sys.exit(1)
-    
+
     command = sys.argv[1]
-    
+
     if command == "check":
         result = check_extensions_compliance()
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    
+
     elif command == "sync":
         dry_run = "--dry-run" in sys.argv
         result = sync_extensions(dry_run)
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    
+
     elif command == "report":
         result = generate_report()
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    
+
     else:
         print(f"Неизвестная команда: {command}")
         sys.exit(1)
 "@
-    
+
     Set-Content -Path "$($Config.CaaSkillPath)/activate.py" -Value $activationScript
     Write-Info "Создан скрипт активации: $($Config.CaaSkillPath)/activate.py"
-    
+
     # Добавление конфигурации в CAA
     if (Test-Path $Config.IntegrationConfig) {
         Write-Info "Конфигурация интеграции уже существует: $($Config.IntegrationConfig)"
     } else {
         Write-Warning "Конфигурационный файл не найден, создан по умолчанию"
     }
-    
+
     Write-Success "Интеграция с CAA установлена"
     Write-Info "Для тестирования запустите: .\activate-vscode-extensions-integration.ps1 -Mode test"
 }
 
 function Test-Integration {
     Write-Info "Тестирование интеграции..."
-    
+
     $tests = @(
         @{Name = "Конфигурация"; Path = $Config.IntegrationConfig},
         @{Name = "Скрипт активации CAA"; Path = "$($Config.CaaSkillPath)/activate.py"},
         @{Name = "Скилл CAA"; Path = "$($Config.CaaSkillPath)/SKILL.md"},
         @{Name = "Основной скрипт"; Path = "$($Config.ScriptsPath)/vscode-extensions-manager.py"}
     )
-    
+
     $allPassed = $true
-    
+
     foreach ($test in $tests) {
         if (Test-Path $test.Path) {
             Write-Success "✓ $($test.Name): $($test.Path)"
@@ -303,7 +303,7 @@ function Test-Integration {
             $allPassed = $false
         }
     }
-    
+
     # Тестирование выполнения скрипта
     Write-Info "Тестирование выполнения скрипта проверки..."
     try {
@@ -319,7 +319,7 @@ function Test-Integration {
         Write-Error "✗ Ошибка при выполнении скрипта проверки: $_"
         $allPassed = $false
     }
-    
+
     if ($allPassed) {
         Write-Success "Все тесты пройдены успешно!"
         return $true
@@ -331,7 +331,7 @@ function Test-Integration {
 
 function Remove-Integration {
     Write-Warning "Удаление интеграции с CAA..."
-    
+
     if (-not $Force) {
         $confirmation = Read-Host "Вы уверены, что хотите удалить интеграцию? (y/N)"
         if ($confirmation -notin @("y", "Y", "yes", "Yes")) {
@@ -339,19 +339,19 @@ function Remove-Integration {
             return
         }
     }
-    
+
     # Удаление скилла CAA
     if (Test-Path $Config.CaaSkillPath) {
         Remove-Item -Path $Config.CaaSkillPath -Recurse -Force
         Write-Info "Удален скилл CAA: $($Config.CaaSkillPath)"
     }
-    
+
     # Удаление конфигурации
     if (Test-Path $Config.IntegrationConfig) {
         Remove-Item -Path $Config.IntegrationConfig -Force
         Write-Info "Удалена конфигурация: $($Config.IntegrationConfig)"
     }
-    
+
     Write-Success "Интеграция удалена"
 }
 
@@ -366,21 +366,21 @@ switch ($Mode) {
             Test-Integration
         }
     }
-    
+
     "configure" {
         Write-Info "Конфигурация интеграции..."
         # Дополнительная конфигурация может быть добавлена здесь
         Write-Success "Конфигурация завершена"
     }
-    
+
     "test" {
         Test-Integration
     }
-    
+
     "remove" {
         Remove-Integration
     }
-    
+
     default {
         Write-Error "Неизвестный режим: $Mode"
         exit 1

@@ -23,5 +23,3 @@
 | Prod | K8s + Postgres HA | 1 month |
 
 Tags: #scaling #roadmap
-
-

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -11,6 +11,7 @@ def test_send_email(capsys):
     service.send_email("Test message")
     captured = capsys.readouterr()
     assert "Email sent: Test message" in captured.out
+
 
 def test_send_email_empty():
     service = NotificationService()

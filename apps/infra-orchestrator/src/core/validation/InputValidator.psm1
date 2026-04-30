@@ -25,4 +25,3 @@ function Test-Configuration {
 }
 
 Export-ModuleMember -Function Test-RepoName, Test-AzureSubscription, Test-ApiKey, Test-Configuration
-

@@ -221,5 +221,5 @@ Savings: $1,000,000/year + $250,000 (audit time)
 
 ---
 
-*Last updated: April 2026*  
+*Last updated: April 2026*
 *Version: 1.0*

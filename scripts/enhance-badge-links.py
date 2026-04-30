@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для улучшения бейджей: добавляет ссылки на детальные отчеты.
 """
 
@@ -11,42 +11,53 @@ def enhance_badge_links(readme_content):
     # Паттерны для поиска бейджей без ссылок
     patterns = [
         # CI бейдж
-        (r'(<img src="https://img.shields.io/github/actions/workflow/status/[^>]+alt="CI Status"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/github/actions/workflow/status/[^>]+alt="CI Status"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml">\1</a>',
+        ),
         # Coverage бейдж
-        (r'(<img src="https://img.shields.io/badge/Code%20Coverage-[^>]+alt="Code Coverage"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/Code%20Coverage-[^>]+alt="Code Coverage"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions/workflows/ci.yml">\1</a>',
+        ),
         # Test status бейдж
-        (r'(<img src="https://img.shields.io/badge/Tests-[^>]+alt="Test Status"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/Tests-[^>]+alt="Test Status"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/actions">\1</a>',
+        ),
         # Security бейджи
-        (r'(<img src="https://img.shields.io/badge/Security-Trivy%20Scan[^>]+alt="Security: Trivy Scan"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning">\1</a>'),
-
-        (r'(<img src="https://img.shields.io/badge/Bandit-Check[^>]+alt="Bandit Security Check"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning">\1</a>'),
-
-        (r'(<img src="https://img.shields.io/badge/Security-Scan[^>]+alt="Security Scan"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/Security-Trivy%20Scan[^>]+alt="Security: Trivy Scan"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning">\1</a>',
+        ),
+        (
+            r'(<img src="https://img.shields.io/badge/Bandit-Check[^>]+alt="Bandit Security Check"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/scanning">\1</a>',
+        ),
+        (
+            r'(<img src="https://img.shields.io/badge/Security-Scan[^>]+alt="Security Scan"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security">\1</a>',
+        ),
         # Dependabot бейдж
-        (r'(<img src="https://img.shields.io/badge/dependabot-enabled[^>]+alt="Dependabot Enabled"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/dependabot-enabled[^>]+alt="Dependabot Enabled"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/security/dependabot">\1</a>',
+        ),
         # Python version бейдж
-        (r'(<img src="https://img.shields.io/badge/Python-[^>]+alt="Python [^"]+"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/pyproject.toml">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/Python-[^>]+alt="Python [^"]+"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/pyproject.toml">\1</a>',
+        ),
         # Dependencies бейдж
-        (r'(<img src="https://img.shields.io/badge/Dependencies-[^>]+alt="Dependencies"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/requirements.txt">\1</a>'),
-
+        (
+            r'(<img src="https://img.shields.io/badge/Dependencies-[^>]+alt="Dependencies"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/requirements.txt">\1</a>',
+        ),
         # License бейдж
-        (r'(<img src="https://img.shields.io/badge/License-MIT[^>]+alt="License: MIT"[^>]*>)',
-         r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/LICENSE">\1</a>'),
+        (
+            r'(<img src="https://img.shields.io/badge/License-MIT[^>]+alt="License: MIT"[^>]*>)',
+            r'<a href="https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/LICENSE">\1</a>',
+        ),
     ]
 
     enhanced_content = readme_content
@@ -55,6 +66,7 @@ def enhance_badge_links(readme_content):
         enhanced_content = re.sub(pattern, replacement, enhanced_content)
 
     return enhanced_content
+
 
 def add_report_links_section(readme_content):
     """Добавить секцию с ссылками на детальные отчеты."""
@@ -84,6 +96,7 @@ For detailed insights behind each badge, explore these reports:
 
     return readme_content
 
+
 def main():
     """Основная функция."""
     readme_path = Path("README.md")
@@ -109,7 +122,9 @@ def main():
         # Показываем статистику
         old_badges = len(re.findall(r"<img[^>]*badge[^>]*>", content))
         new_badges = len(re.findall(r"<img[^>]*badge[^>]*>", final_content))
-        linked_badges = len(re.findall(r"<a[^>]*><img[^>]*badge[^>]*></a>", final_content))
+        linked_badges = len(
+            re.findall(r"<a[^>]*><img[^>]*badge[^>]*></a>", final_content)
+        )
 
         print("📊 Statistics:")
         print(f"  - Total badges: {new_badges}")
@@ -117,6 +132,7 @@ def main():
         print(f"  - Percentage linked: {(linked_badges/new_badges)*100:.1f}%")
     else:
         print("✅ Badge links are already enhanced")
+
 
 if __name__ == "__main__":
     main()

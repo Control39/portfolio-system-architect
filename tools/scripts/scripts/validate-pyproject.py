@@ -14,5 +14,6 @@ def validate_pyproject():
         print(f"❌ Invalid TOML: {e}")
         return False
 
+
 if __name__ == "__main__":
     validate_pyproject()

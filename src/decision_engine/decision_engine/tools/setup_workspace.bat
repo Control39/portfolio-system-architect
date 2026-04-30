@@ -137,24 +137,24 @@ if not exist ".gitignore" (
     echo node_modules/ >> .gitignore
     echo *.bak >> .gitignore
     echo *.tmp >> .gitignore
-    echo 
+    echo
     echo # Системные файлы >> .gitignore
     echo Thumbs.db >> .gitignore
     echo .DS_Store >> .gitignore
-    echo 
+    echo
     echo # IDE >> .gitignore
     echo .idea/ >> .gitignore
     echo *.swp >> .gitignore
     echo *.swo >> .gitignore
-    echo 
+    echo
     echo [INFO] Создан .gitignore
 ) else (
     echo [OK] .gitignore найден
-    
+
     :: Проверка на наличие важных правил
     findstr /c:"logs/" .gitignore >nul
     if %errorlevel% == 1 echo logs/ >> .gitignore
-    
+
     findstr /c:"backups/" .gitignore >nul
     if %errorlevel% == 1 echo backups/ >> .gitignore
 )
@@ -169,9 +169,9 @@ if defined GIT_MISSING (
     git config core.quotepath false
     git config core.autocrlf false
     git config commit.encoding utf-8
-    
+
     echo [OK] Основные настройки Git применены
-    
+
     :: Проверка .gitattributes
     if not exist ".gitattributes" (
         echo Создание .gitattributes...

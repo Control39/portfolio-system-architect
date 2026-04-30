@@ -9,6 +9,7 @@ def load_graph_schema(schema_path: str) -> dict:
     with open(schema_path, encoding="utf-8") as file:
         return json.load(file)
 
+
 def create_route_from_task(task: dict, schema: dict) -> dict:
     """Создает маршрут reasoning на основе задачи и схемы."""
     # Определяем цвет в зависимости от направления
@@ -47,10 +48,13 @@ def create_route_from_task(task: dict, schema: dict) -> dict:
 
     # Обновляем метаданные
     route["metadata"]["title"] = f"Reasoning-граф: {task['task']}"
-    route["metadata"]["description"] = f"Автоматически сгенерированный маршрут для задачи: {task['task']}"
+    route["metadata"][
+        "description"
+    ] = f"Автоматически сгенерированный маршрут для задачи: {task['task']}"
     route["metadata"]["updated"] = datetime.now().strftime("%Y-%m-%d")
 
     return route
+
 
 def save_route(route: dict, output_dir: str, task_id: str):
     """Сохраняет сгенерированный маршрут в файл."""
@@ -60,6 +64,7 @@ def save_route(route: dict, output_dir: str, task_id: str):
     with open(filepath, "w", encoding="utf-8") as file:
         json.dump(route, file, ensure_ascii=False, indent=2)
     print(f"Маршрут сохранен: {filepath}")
+
 
 def main():
     # Пути к файлам
@@ -92,6 +97,7 @@ def main():
         print("Генерация маршрутов завершена.")
     except Exception as e:
         print(f"Ошибка при обработке CSV: {e}")
+
 
 if __name__ == "__main__":
     main()

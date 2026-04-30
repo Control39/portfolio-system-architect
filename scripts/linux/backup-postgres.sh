@@ -32,10 +32,10 @@ if PGPASSWORD=$DB_PASSWORD pg_dump \
   --verbose \
   --format=plain \
   | gzip > $BACKUP_FILE 2>> $LOG_FILE; then
-  
+
   FILE_SIZE=$(du -h $BACKUP_FILE | cut -f1)
   echo "✅ Backup completed successfully: $FILE_SIZE" | tee -a $LOG_FILE
-  
+
   # Upload to GCS
   if gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/; then
     echo "✅ Uploaded to gs://$GCS_BUCKET/" | tee -a $LOG_FILE
@@ -43,11 +43,11 @@ if PGPASSWORD=$DB_PASSWORD pg_dump \
     echo "❌ Upload to GCS failed" | tee -a $LOG_FILE
     exit 1
   fi
-  
+
   # Clean up old backups (local)
   find $BACKUP_DIR -name "portfolio_*.sql.gz" -mtime +$RETENTION_DAYS -delete
   echo "✅ Cleaned up backups older than $RETENTION_DAYS days" | tee -a $LOG_FILE
-  
+
 else
   echo "❌ Backup failed" | tee -a $LOG_FILE
   exit 1

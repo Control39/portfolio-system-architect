@@ -24,7 +24,7 @@ export const workspaceOptimizerTool = {
   },
   execute: async (args: any) => {
     const { workspaceType, cleanupLevel } = args;
-    
+
     // Анализ текущего состояния
     const currentState = {
       desktopFiles: 42,
@@ -33,10 +33,10 @@ export const workspaceOptimizerTool = {
       duplicateFiles: 23,
       unusedApplications: 15
     };
-    
+
     // Рекомендации по оптимизации
     const recommendations = [];
-    
+
     if (cleanupLevel === "light") {
       recommendations.push(
         "Переместить файлы с рабочего стола в соответствующие папки проектов",
@@ -60,7 +60,7 @@ export const workspaceOptimizerTool = {
         "Оптимизировать автозагрузку и фоновые процессы"
       );
     }
-    
+
     // Специфические рекомендации для когнитивного архитектора
     const cognitiveSpecific = [
       "Создать централизованное хранилище знаний (Obsidian vault)",
@@ -68,7 +68,7 @@ export const workspaceOptimizerTool = {
       "Реализовать панель мониторинга когнитивной нагрузки",
       "Создать шаблоны для повторяющихся задач"
     ];
-    
+
     // План действий
     const actionPlan = [
       {
@@ -108,7 +108,7 @@ export const workspaceOptimizerTool = {
         time: "2 часа"
       }
     ];
-    
+
     // Прогнозируемые улучшения
     const projectedImprovements = {
       timeSavedPerDay: "45 минут",
@@ -116,7 +116,7 @@ export const workspaceOptimizerTool = {
       fileSearchTime: "-70%",
       productivityIncrease: "25%"
     };
-    
+
     return {
       success: true,
       workspaceType,

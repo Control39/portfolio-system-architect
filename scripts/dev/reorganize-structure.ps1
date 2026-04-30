@@ -189,7 +189,7 @@ $((requiredDirs | ForEach-Object { "- $_" }) -join "`n")
 ## Созданные файлы:
 $((requiredFiles | Where-Object { !(Test-Path (Join-Path $repoRoot $_.Path)) } | ForEach-Object { "- $($_.Path)" }) -join "`n")
 
-"@ 
+"@
 
 Set-Content -Path $logPath -Value $migrationLog -Encoding UTF8
 Write-Host "📄 Created migration log: $logPath"

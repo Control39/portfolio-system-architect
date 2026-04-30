@@ -98,9 +98,13 @@ class HealthChecker:
         # Проверка skill caa-audit
         caa_audit_path = ".codeassistant/skills/caa-audit/SKILL.md"
         if os.path.exists(caa_audit_path):
-            self.log("success", f"Skill caa-audit существует: {caa_audit_path}", component)
+            self.log(
+                "success", f"Skill caa-audit существует: {caa_audit_path}", component
+            )
         else:
-            self.log("warning", f"Skill caa-audit отсутствует: {caa_audit_path}", component)
+            self.log(
+                "warning", f"Skill caa-audit отсутствует: {caa_audit_path}", component
+            )
 
         return True
 
@@ -127,18 +131,24 @@ class HealthChecker:
 
         workflow_path = ".github/workflows/agents-codeassistant-compatibility.yml"
         if os.path.exists(workflow_path):
-            self.log("success", f"CI/CD workflow существует: {workflow_path}", component)
+            self.log(
+                "success", f"CI/CD workflow существует: {workflow_path}", component
+            )
 
             # Проверка синтаксиса YAML
             try:
                 with open(workflow_path) as f:
                     yaml.safe_load(f)
-                self.log("success", "CI/CD workflow имеет валидный YAML синтаксис", component)
+                self.log(
+                    "success", "CI/CD workflow имеет валидный YAML синтаксис", component
+                )
             except yaml.YAMLError as e:
                 self.log("error", f"Ошибка синтаксиса YAML: {e}", component)
                 return False
         else:
-            self.log("warning", f"CI/CD workflow отсутствует: {workflow_path}", component)
+            self.log(
+                "warning", f"CI/CD workflow отсутствует: {workflow_path}", component
+            )
 
         return True
 
@@ -161,13 +171,27 @@ class HealthChecker:
                     # Проверка наличия ключевых полей
                     if "status" in status:
                         status_value = status["status"]
-                        self.log("success", f"Статус файла {status_file}: {status_value}", component)
+                        self.log(
+                            "success",
+                            f"Статус файла {status_file}: {status_value}",
+                            component,
+                        )
                     else:
-                        self.log("warning", f"Статус файла {status_file} не содержит поле 'status'", component)
+                        self.log(
+                            "warning",
+                            f"Статус файла {status_file} не содержит поле 'status'",
+                            component,
+                        )
                 except json.JSONDecodeError as e:
-                    self.log("error", f"Ошибка чтения JSON файла {status_file}: {e}", component)
+                    self.log(
+                        "error",
+                        f"Ошибка чтения JSON файла {status_file}: {e}",
+                        component,
+                    )
             else:
-                self.log("warning", f"Статус файл отсутствует: {status_file}", component)
+                self.log(
+                    "warning", f"Статус файл отсутствует: {status_file}", component
+                )
 
         return True
 
@@ -177,7 +201,9 @@ class HealthChecker:
 
         changelog_path = ".agents/changelogs/"
         if os.path.exists(changelog_path):
-            changelog_files = [f for f in os.listdir(changelog_path) if f.endswith(".md")]
+            changelog_files = [
+                f for f in os.listdir(changelog_path) if f.endswith(".md")
+            ]
 
             if changelog_files:
                 latest_changelog = max(changelog_files)
@@ -196,9 +222,17 @@ class HealthChecker:
                             missing_sections.append(section)
 
                     if missing_sections:
-                        self.log("warning", f"В changelog отсутствуют разделы: {missing_sections}", component)
+                        self.log(
+                            "warning",
+                            f"В changelog отсутствуют разделы: {missing_sections}",
+                            component,
+                        )
                     else:
-                        self.log("success", f"Changelog {latest_changelog} имеет правильную структуру", component)
+                        self.log(
+                            "success",
+                            f"Changelog {latest_changelog} имеет правильную структуру",
+                            component,
+                        )
                 except Exception as e:
                     self.log("error", f"Ошибка чтения changelog: {e}", component)
             else:
@@ -226,7 +260,9 @@ class HealthChecker:
         report_dir = ".agents/health-reports"
         os.makedirs(report_dir, exist_ok=True)
 
-        report_file = os.path.join(report_dir, f"health-check-{self.start_time.strftime('%Y%m%d-%H%M%S')}.json")
+        report_file = os.path.join(
+            report_dir, f"health-check-{self.start_time.strftime('%Y%m%d-%H%M%S')}.json"
+        )
 
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
@@ -238,15 +274,29 @@ class HealthChecker:
     def run_all_checks(self):
         """Запуск всех проверок"""
         print("=" * 80)
-        print("🚀 ЗАПУСК HEALTH CHECK ДЛЯ COGNITIVE AUTOMATION AGENT И SOURCECRAFT AGENT SKILLS")
+        print(
+            "🚀 ЗАПУСК HEALTH CHECK ДЛЯ COGNITIVE AUTOMATION AGENT И SOURCECRAFT AGENT SKILLS"
+        )
         print("=" * 80)
 
         checks = [
-            ("Проверка структуры Cognitive Automation Agent", self.check_agents_structure),
-            ("Проверка структуры SourceCraft Agent Skills", self.check_codeassistant_structure),
-            ("Проверка архитектурной документации", self.check_architecture_documentation),
+            (
+                "Проверка структуры Cognitive Automation Agent",
+                self.check_agents_structure,
+            ),
+            (
+                "Проверка структуры SourceCraft Agent Skills",
+                self.check_codeassistant_structure,
+            ),
+            (
+                "Проверка архитектурной документации",
+                self.check_architecture_documentation,
+            ),
             ("Проверка CI/CD workflow", self.check_ci_cd_workflow),
-            ("Проверка операционного статуса CAA", self.check_agents_operational_status),
+            (
+                "Проверка операционного статуса CAA",
+                self.check_agents_operational_status,
+            ),
             ("Проверка целостности changelog", self.check_changelog_integrity),
         ]
 
@@ -283,6 +333,7 @@ class HealthChecker:
         print("\n✅ HEALTH CHECK ПРОЙДЕН УСПЕШНО")
         return True
 
+
 def main():
     """Основная функция"""
     checker = HealthChecker()
@@ -296,6 +347,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Непредвиденная ошибка: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

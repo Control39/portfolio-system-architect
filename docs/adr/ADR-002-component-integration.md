@@ -36,4 +36,3 @@
 ## Ссылки
 - Модульная архитектура
 - Git submodules documentation
-

@@ -9,7 +9,7 @@ metadata:
 spec:
   # Daily at 3:00 AM UTC
   schedule: "0 3 * * *"
-  
+
   jobTemplate:
     spec:
       template:
@@ -39,43 +39,43 @@ spec:
               value: "portfolio-backups"
             - name: RETENTION_DAYS
               value: "30"
-            
+
             command:
             - /bin/bash
             - -c
             - |
               apt-get update && apt-get install -y postgresql-client
-              
+
               TIMESTAMP=$(date +%Y%m%d_%H%M%S)
               BACKUP_FILE="/tmp/portfolio_${TIMESTAMP}.sql.gz"
-              
+
               echo "Starting backup at $(date)"
-              
+
               if PGPASSWORD=$DB_PASSWORD pg_dump \
                 -h $DB_HOST \
                 -p $DB_PORT \
                 -U $DB_USER \
                 -d $DB_NAME \
                 | gzip > $BACKUP_FILE; then
-                
+
                 FILE_SIZE=$(du -h $BACKUP_FILE | cut -f1)
                 echo "✅ Backup completed: $FILE_SIZE"
-                
+
                 gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/
                 echo "✅ Uploaded to gs://$GCS_BUCKET/"
               else
                 echo "❌ Backup failed"
                 exit 1
               fi
-            
+
             volumeMounts:
             - name: backup-storage
               mountPath: /backups
-          
+
           volumes:
           - name: backup-storage
             emptyDir: {}
-          
+
           restartPolicy: OnFailure
           backoffLimit: 3
 
@@ -115,4 +115,3 @@ subjects:
 - kind: ServiceAccount
   name: backup-sa
   namespace: portfolio
-

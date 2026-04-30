@@ -6,4 +6,3 @@
 - **Proof**: Automated extraction of thinking patterns from notes/code.
 
 Generated via portfolio-generator integration.
-

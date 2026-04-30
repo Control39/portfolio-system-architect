@@ -46,5 +46,3 @@ Follow [human-ai-workflow.md](../05_DOCUMENTATION/human-ai-workflow.md):
 **Fork, adapt, share! #CognitiveArchitect** `leadarchitect@yandex.ru`
 
 *Template v1.0. MIT License.*
-
-

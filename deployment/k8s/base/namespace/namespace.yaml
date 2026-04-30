@@ -5,4 +5,3 @@ metadata:
   labels:
     app: cognitive-architecture
     managed-by: kustomize
-

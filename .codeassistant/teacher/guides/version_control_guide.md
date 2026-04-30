@@ -187,10 +187,10 @@ def ai_code_review(pull_request):
     """AI-ревью кода"""
     changes = get_changes(pull_request)
     review = ai_model.analyze(changes)
-    
+
     if review.suggestions:
         add_comments(pull_request, review.suggestions)
-    
+
     return review.approved
 ```
 
@@ -296,7 +296,7 @@ def auto_commit(message=None):
     """Автоматический коммит"""
     if message is None:
         message = f"Auto commit {datetime.now().isoformat()}"
-    
+
     subprocess.run(["git", "add", "."])
     subprocess.run(["git", "commit", "-m", message])
     subprocess.run(["git", "push"])

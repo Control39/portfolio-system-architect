@@ -58,7 +58,7 @@ create_backup() {
 
 run_tests() {
     log "Запуск базовых проверок"
-    
+
     # Проверяем синтаксис Python файлов
     local py_errors=0
     while IFS= read -r file; do
@@ -67,7 +67,7 @@ run_tests() {
             ((py_errors++))
         fi
     done < <(find . -name "*.py" -not -path "./.venv/*" -not -path "./.git/*" -not -path "./.archive/*" | head -20)
-    
+
     if [ $py_errors -eq 0 ]; then
         success "Синтаксис Python корректен (выборочная проверка)"
     else
@@ -82,47 +82,47 @@ main() {
     echo "Время: $(date)"
     echo "Резервная ветка: $BACKUP_BRANCH"
     echo ""
-    
+
     check_git_repo
-    
+
     if ! confirm "Создать резервную ветку перед началом?"; then
         warning "Продолжаем без резервной ветки"
     else
         create_backup
     fi
-    
+
     # --- ШАГ 1: ОЧИСТКА CLOUD-REASON ---
     log "ШАГ 1: Работа с дубликатами cloud_reason"
-    
+
     # Проверяем существование обеих версий
     if [ ! -d "src/cloud_reason" ] && [ ! -d "apps/cloud-reason/cloud_reason" ]; then
         warning "Папки cloud_reason не найдены, пропускаем шаг"
     else
         if [ "$KEEP_APPS_CLOUD_REASON" = true ]; then
             log "Выбрано: Основной код в apps/cloud-reason"
-            
+
             if [ -d "src/cloud_reason" ]; then
                 # Создаем архив
                 mkdir -p .archive/src_cloud_reason_$(date +%Y%m%d)
-                
+
                 # Копируем уникальные файлы
                 if [ -f "src/cloud_reason/api/reasoning_api.py" ] && [ ! -f "apps/cloud-reason/cloud_reason/api/reasoning_api.py" ]; then
                     cp -n src/cloud_reason/api/reasoning_api.py apps/cloud-reason/cloud_reason/api/ 2>/dev/null && success "Добавлен reasoning_api.py"
                 fi
-                
+
                 if [ -f "src/cloud_reason/configs/api-gateway.yaml" ] && [ ! -f "apps/cloud-reason/cloud_reason/configs/api-gateway.yaml" ]; then
                     cp -n src/cloud_reason/configs/api-gateway.yaml apps/cloud-reason/cloud_reason/configs/ 2>/dev/null && success "Добавлен api-gateway.yaml"
                 fi
-                
+
                 if [ -f "src/cloud_reason/utils/logger.py" ] && [ ! -f "apps/cloud-reason/cloud_reason/utils/logger.py" ]; then
                     cp -n src/cloud_reason/utils/logger.py apps/cloud-reason/cloud_reason/utils/ 2>/dev/null && success "Добавлен logger.py"
                 fi
-                
+
                 # Перемещаем остальное в архив
                 warning "Перемещение src/cloud_reason в архив..."
                 git mv src/cloud_reason/* .archive/src_cloud_reason_$(date +%Y%m%d)/ 2>/dev/null || mv src/cloud_reason/* .archive/src_cloud_reason_$(date +%Y%m%d)/
                 rmdir src/cloud_reason 2>/dev/null || true
-                
+
                 success "src/cloud_reason очищен"
             else
                 warning "src/cloud_reason не существует"
@@ -137,14 +137,14 @@ main() {
             fi
         fi
     fi
-    
+
     # --- ШАГ 2: РАСПРЯМЛЕНИЕ SCRIPTS ---
     log "ШАГ 2: Устранение вложенности tools/scripts"
-    
+
     # Находим все проблемные вложенности
     find tools -type d -name "scripts" -mindepth 2 2>/dev/null | while read -r nested_scripts; do
         warning "Найдена вложенность: $nested_scripts"
-        
+
         if confirm "Обработать $nested_scripts?"; then
             parent_dir=$(dirname "$nested_scripts")
             # Перемещаем содержимое на уровень выше
@@ -157,29 +157,29 @@ main() {
             success "Обработано: $nested_scripts"
         fi
     done
-    
+
     # Специальная обработка embedding_agent
     if [ -d "tools/scripts/scripts/python scripts/src/embedding_agent" ]; then
         log "Перемещение embedding_agent..."
         mkdir -p tools/ai_integration/embedding_agent
         git mv "tools/scripts/scripts/python scripts/src/embedding_agent"/* tools/ai_integration/embedding_agent/ 2>/dev/null || \
             mv "tools/scripts/scripts/python scripts/src/embedding_agent"/* tools/ai_integration/embedding_agent/
-        
+
         # Очистка пустых папок
         rm -rf "tools/scripts/scripts/python scripts" 2>/dev/null || true
         rmdir "tools/scripts/scripts" 2>/dev/null || true
-        
+
         success "embedding_agent перемещен в tools/ai_integration/"
     fi
-    
+
     # --- ШАГ 3: СТАНДАРТИЗАЦИЯ APPS ---
     log "ШАГ 3: Унификация структуры приложений"
-    
+
     for app_dir in apps/*/; do
         if [ -d "$app_dir" ]; then
             app_name=$(basename "$app_dir")
             log "Проверка: $app_name"
-            
+
             # Проверка на дублирующийся src/src
             if [ -d "$app_dir/src/src" ]; then
                 warning "$app_name: найдена вложенность src/src"
@@ -189,7 +189,7 @@ main() {
                     success "$app_name: структура исправлена"
                 fi
             fi
-            
+
             # Проверка на отсутствие вложенной папки с именем приложения
             if [ ! -d "$app_dir/$app_name" ] && [ -d "$app_dir/src" ]; then
                 warning "$app_name: нет стандартной структуры (нет $app_name/$app_name)"
@@ -200,7 +200,7 @@ main() {
                     success "$app_name: стандартная структура создана"
                 fi
             fi
-            
+
             # Создаем недостающие стандартные папки
             for standard_dir in api utils models services; do
                 if [ ! -d "$app_dir/$app_name/$standard_dir" ] && [ -d "$app_dir/$app_name" ]; then
@@ -219,11 +219,11 @@ main() {
             done
         fi
     done
-    
+
     # --- ФИНАЛЬНЫЕ ПРОВЕРКИ ---
     log "Финальные проверки"
     run_tests
-    
+
     # --- ИТОГО ---
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -239,7 +239,7 @@ main() {
     echo "   3. Если все хорошо: git add . && git commit -m 'refactor: restructure project'"
     echo "   4. Если проблемы: git checkout $BACKUP_BRANCH"
     echo ""
-    
+
     if confirm "Показать git status?"; then
         git status
     fi

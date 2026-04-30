@@ -19,7 +19,7 @@ properties:
       timestamp:
         type: string
         format: date-time
-  
+
   ProofMetadata:
     type: object
     properties:
@@ -34,7 +34,7 @@ properties:
       validated:
         type: boolean
         default: false
-  
+
   SystemProof:
     type: object
     properties:
@@ -56,4 +56,3 @@ definitions:
   - TraceStep
   - ProofMetadata
   - SystemProof
-

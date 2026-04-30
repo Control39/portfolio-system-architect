@@ -315,4 +315,3 @@ async def startup():
 - AWS Secrets Manager: https://docs.aws.amazon.com/secretsmanager/
 - GCP Secret Manager: https://cloud.google.com/secret-manager/docs
 - Sealed Secrets: https://github.com/bitnami-labs/sealed-secrets
-

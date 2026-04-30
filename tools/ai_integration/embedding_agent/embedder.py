@@ -1,10 +1,13 @@
-﻿
 import numpy as np
 import requests
 
 
 class CodeEmbedder:
-    def __init__(self, model_name: str = "nomic-embed-text", base_url: str = "http://localhost:11434"):
+    def __init__(
+        self,
+        model_name: str = "nomic-embed-text",
+        base_url: str = "http://localhost:11434",
+    ):
         self.model_name = model_name
         self.base_url = base_url
 
@@ -34,7 +37,9 @@ class CodeEmbedder:
                 results.append(embedding)
         return results
 
-    def compute_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:
+    def compute_similarity(
+        self, embedding1: list[float], embedding2: list[float]
+    ) -> float:
         """Вычислить косинусное сходство между двумя эмбеддингами"""
         if not embedding1 or not embedding2:
             return 0.0

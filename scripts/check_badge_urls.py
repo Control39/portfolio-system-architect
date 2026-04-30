@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для проверки URL бейджей в README.md
 """
 
@@ -18,6 +18,7 @@ def extract_badge_urls(readme_content):
     urls.extend(re.findall(md_pattern, readme_content))
 
     return list(set(urls))  # Убираем дубликаты
+
 
 def check_url(url):
     """Проверить доступность URL"""
@@ -40,6 +41,7 @@ def check_url(url):
         return False, f"Error: {e}"
     except Exception as e:
         return False, f"Unexpected error: {e}"
+
 
 def main():
     # Читаем README.md
@@ -71,6 +73,7 @@ def main():
             print(f"  - {url[:60]}...: {message}")
     else:
         print("\nВсе бейджи работают корректно!")
+
 
 if __name__ == "__main__":
     main()

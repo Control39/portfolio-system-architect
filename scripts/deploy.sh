@@ -65,21 +65,21 @@ echo ""
 # Function to check prerequisites
 check_prerequisites() {
     echo "🔍 Checking prerequisites..."
-    
+
     # Check Docker
     if ! command -v docker &> /dev/null; then
         echo "❌ Docker not found. Please install Docker."
         exit 1
     fi
     echo "✅ Docker: $(docker --version)"
-    
+
     # Check Docker Compose
     if ! command -v docker-compose &> /dev/null; then
         echo "❌ Docker Compose not found. Please install Docker Compose."
         exit 1
     fi
     echo "✅ Docker Compose: $(docker-compose --version)"
-    
+
     # Check kubectl for Kubernetes deployments
     if [[ "$ENVIRONMENT" == "staging" || "$ENVIRONMENT" == "production" ]]; then
         if ! command -v kubectl &> /dev/null; then
@@ -88,7 +88,7 @@ check_prerequisites() {
         fi
         echo "✅ kubectl: $(kubectl version --client --short)"
     fi
-    
+
     # Check Python and virtual environment
     if [[ "$ENVIRONMENT" == "local" ]]; then
         if [ -z "$VIRTUAL_ENV" ]; then
@@ -109,7 +109,7 @@ check_prerequisites() {
 run_tests() {
     if [[ "$FORCE" == false ]]; then
         echo "🧪 Running tests..."
-        
+
         if [[ "$DRY_RUN" == false ]]; then
             pytest tests/ -v --tb=short
             if [ $? -ne 0 ]; then
@@ -128,16 +128,16 @@ run_tests() {
 # Function to build Docker images
 build_images() {
     echo "🐳 Building Docker images..."
-    
+
     if [[ "$DRY_RUN" == false ]]; then
         # Build gateway image
         echo "  Building gateway image..."
         docker build -t portfolio-gateway:$VERSION -f gateway/Dockerfile gateway/
-        
+
         # Build API image
         echo "  Building API image..."
         docker build -t portfolio-api:$VERSION -f api/Dockerfile api/
-        
+
         echo "✅ Docker images built"
     else
         echo "⚠️  Would build Docker images (dry-run)"
@@ -149,24 +149,24 @@ build_images() {
 # Function to deploy locally
 deploy_local() {
     echo "🏠 Deploying locally..."
-    
+
     if [[ "$DRY_RUN" == false ]]; then
         # Stop existing services
         echo "  Stopping existing services..."
         docker-compose down || true
-        
+
         # Start services
         echo "  Starting services..."
         docker-compose up -d
-        
+
         # Wait for services to be ready
         echo "  Waiting for services to be ready..."
         sleep 10
-        
+
         # Check service health
         echo "  Checking service health..."
         ./scripts/health-check.sh
-        
+
         echo "✅ Local deployment completed"
         echo ""
         echo "📊 Services running:"
@@ -185,15 +185,15 @@ deploy_local() {
 # Function to deploy to Kubernetes
 deploy_kubernetes() {
     local env=$1
-    
+
     echo "☸️  Deploying to Kubernetes ($env)..."
-    
+
     # Check for kubeconfig
     if [[ ! -f "$HOME/.kube/config" ]]; then
         echo "❌ kubeconfig not found. Please configure kubectl."
         exit 1
     fi
-    
+
     # Set Kubernetes context based on environment
     case $env in
         staging)
@@ -209,20 +209,20 @@ deploy_kubernetes() {
             exit 1
             ;;
     esac
-    
+
     echo "  Context: $CONTEXT"
     echo "  Namespace: $NAMESPACE"
-    
+
     if [[ "$DRY_RUN" == false ]]; then
         # Switch to context
         kubectl config use-context $CONTEXT
-        
+
         # Create namespace if it doesn't exist
         kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
-        
+
         # Apply Kubernetes manifests
         echo "  Applying Kubernetes manifests..."
-        
+
         if [ -d "deployment/k8s" ]; then
             # Apply all manifests in order
             for file in deployment/k8s/*.yaml; do
@@ -234,12 +234,12 @@ deploy_kubernetes() {
         else
             echo "⚠️  No Kubernetes manifests found in deployment/k8s/"
         fi
-        
+
         # Wait for deployments
         echo "  Waiting for deployments to be ready..."
         kubectl wait --for=condition=available --timeout=300s deployment/portfolio-gateway -n $NAMESPACE
         kubectl wait --for=condition=available --timeout=300s deployment/portfolio-api -n $NAMESPACE
-        
+
         # Show deployment status
         echo ""
         echo "📊 Deployment status:"
@@ -248,7 +248,7 @@ deploy_kubernetes() {
         kubectl get svc -n $NAMESPACE
         echo ""
         kubectl get ingress -n $NAMESPACE 2>/dev/null || echo "No ingress configured"
-        
+
         echo "✅ Kubernetes deployment completed"
     else
         echo "⚠️  Would deploy to Kubernetes (dry-run)"
@@ -262,7 +262,7 @@ deploy_kubernetes() {
 # Function to verify deployment
 verify_deployment() {
     echo "🔍 Verifying deployment..."
-    
+
     case $ENVIRONMENT in
         local)
             # Check local services
@@ -273,7 +273,7 @@ verify_deployment() {
             echo "  Deployment verification would run here"
             ;;
     esac
-    
+
     echo "✅ Deployment verification completed"
 }
 
@@ -281,19 +281,19 @@ verify_deployment() {
 main() {
     echo "Starting deployment to $ENVIRONMENT..."
     echo ""
-    
+
     # Check prerequisites
     check_prerequisites
     echo ""
-    
+
     # Run tests (unless forced)
     run_tests
     echo ""
-    
+
     # Build images
     build_images
     echo ""
-    
+
     # Deploy based on environment
     case $ENVIRONMENT in
         local)
@@ -309,11 +309,11 @@ main() {
             ;;
     esac
     echo ""
-    
+
     # Verify deployment
     verify_deployment
     echo ""
-    
+
     echo "================================================================"
     echo "🎉 Deployment to $ENVIRONMENT completed successfully!"
     echo ""
@@ -322,11 +322,11 @@ main() {
     echo "  - Version: $VERSION"
     echo "  - Status: ✅ Success"
     echo ""
-    
+
     if [[ "$DRY_RUN" == true ]]; then
         echo "⚠️  This was a dry run. No changes were made."
     fi
-    
+
     echo "================================================================"
 }
 

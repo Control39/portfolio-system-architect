@@ -20,7 +20,7 @@ code --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo [ПРЕДУПРЕЖДЕНИЕ] VS Code не найден в PATH.
     echo Проверяем альтернативные пути...
-    
+
     set FOUND=0
     if exist "%LOCALAPPDATA%\Programs\Microsoft VS Code\bin\code.cmd" (
         set "CODEPATH=%LOCALAPPDATA%\Programs\Microsoft VS Code\bin\code.cmd"
@@ -30,7 +30,7 @@ if %errorlevel% neq 0 (
         set "CODEPATH=%ProgramFiles%\Microsoft VS Code\bin\code.cmd"
         set FOUND=1
     )
-    
+
     if %FOUND%==0 (
         echo [ОШИБКА] VS Code не найден. Установите VS Code.
         pause

@@ -14,4 +14,3 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: &#39;center&#39;, alignItems: &#39;center&#39; },
   title: { fontSize: 20, fontWeight: &#39;bold&#39; },
 });
-

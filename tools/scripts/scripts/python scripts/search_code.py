@@ -1,4 +1,4 @@
-﻿import json
+import json
 
 import requests
 from sklearn.metrics.pairwise import cosine_similarity
@@ -13,6 +13,7 @@ def get_embedding(text):
         },
     )
     return response.json()["embedding"]
+
 
 def search_code(query, index_file="code_index.json"):
     # Загружаем индекс
@@ -40,6 +41,7 @@ def search_code(query, index_file="code_index.json"):
     for sim, file, preview in results[:5]:
         print(f"\n📁 {file} (сходство: {sim:.2f})")
         print(f"📝 {preview}...")
+
 
 if __name__ == "__main__":
     query = input("Что ищем в коде? ")

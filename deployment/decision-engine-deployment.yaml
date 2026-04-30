@@ -52,4 +52,3 @@ spec:
             name: decision-engine
             port:
               number: 8001
-

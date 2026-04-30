@@ -52,4 +52,3 @@ spec:
             name: portfolio-organizer
             port:
               number: 8004
-

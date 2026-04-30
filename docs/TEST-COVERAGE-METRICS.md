@@ -90,7 +90,7 @@
 - name: Run Tests
   run: |
     python -m pytest --cov --cov-report=xml --cov-report=html
-    
+
 - name: Upload Coverage
   uses: codecov/codecov-action@v3
   with:
@@ -101,9 +101,9 @@
 ### Coverage Enforcement
 - **Minimum Threshold**: 80% for new code
 - **PR Blocking**: Coverage decrease > 5% blocks merge
-- **Quality Gates**: 
+- **Quality Gates**:
   - Unit tests: 80% minimum
-  - Integration tests: 70% minimum  
+  - Integration tests: 70% minimum
   - Critical paths: 90% minimum
 
 ### Test Execution Times
@@ -211,8 +211,8 @@ xdg-open htmlcov/index.html  # Linux
 
 ---
 
-*Last Updated: March 2026*  
-*Next Review: April 2026*  
+*Last Updated: March 2026*
+*Next Review: April 2026*
 *Quality Owner: Lead Architect*
 
 [Back to README](../README.md) | [View CI Dashboard](https://github.com/Control39/portfolio-system-architect/actions)

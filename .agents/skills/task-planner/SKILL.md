@@ -39,26 +39,26 @@ metadata:
 ```mermaid
 graph TB
     A[Входные данные] --> B[Анализатор контекста]
-    
+
     B --> C[Исторические данные]
     B --> D[Текущий контекст]
     B --> E[Пользовательские предпочтения]
-    
+
     C --> F[Модель предсказания]
     D --> F
     E --> F
-    
+
     F --> G[Генерация кандидатов задач]
     G --> H[Фильтрация и валидация]
     H --> I[Расчет приоритетов]
-    
+
     I --> J[Оптимизатор последовательности]
     J --> K[Планировщик ресурсов]
     K --> L[Генерация финального плана]
-    
+
     L --> M[Исполнитель задач]
     M --> N[Мониторинг выполнения]
-    
+
     N --> O[Анализ результатов]
     O --> P[Корректировка моделей]
     P --> C
@@ -71,16 +71,16 @@ graph TB
 def analyze_context(project_scan, historical_data, user_preferences):
     # 1. Извлечение технологического стека из сканирования
     tech_stack = extract_tech_stack(project_scan)
-    
+
     # 2. Анализ исторических данных для похожих проектов
     similar_projects = find_similar_projects(historical_data, tech_stack)
-    
+
     # 3. Учет пользовательских предпочтений и ограничений
     constraints = apply_user_constraints(user_preferences)
-    
+
     # 4. Определение бизнес-контекста и целей
     business_context = infer_business_context(project_scan)
-    
+
     return {
         "tech_stack": tech_stack,
         "similar_projects": similar_projects,
@@ -93,23 +93,23 @@ def analyze_context(project_scan, historical_data, user_preferences):
 ```python
 def generate_task_candidates(context_analysis):
     candidates = []
-    
+
     # 1. Задачи на основе технологического стека
     tech_tasks = generate_tech_based_tasks(context_analysis["tech_stack"])
     candidates.extend(tech_tasks)
-    
+
     # 2. Задачи из исторических паттернов
     historical_tasks = extract_tasks_from_history(context_analysis["similar_projects"])
     candidates.extend(historical_tasks)
-    
+
     # 3. Проактивные задачи (предсказание будущих проблем)
     proactive_tasks = predict_proactive_tasks(context_analysis)
     candidates.extend(proactive_tasks)
-    
+
     # 4. Задачи на основе бизнес-контекста
     business_tasks = generate_business_tasks(context_analysis["business_context"])
     candidates.extend(business_tasks)
-    
+
     return deduplicate_tasks(candidates)
 ```
 
@@ -117,23 +117,23 @@ def generate_task_candidates(context_analysis):
 ```python
 def calculate_priorities(task_candidates, context_analysis):
     prioritized_tasks = []
-    
+
     for task in task_candidates:
         # 1. Базовый приоритет на основе категории
         base_priority = get_base_priority(task["category"])
-        
+
         # 2. Корректировка на основе бизнес-критичности
         business_criticality = assess_business_criticality(task, context_analysis["business_context"])
         priority = adjust_for_business_criticality(base_priority, business_criticality)
-        
+
         # 3. Корректировка на основе технической срочности
         technical_urgency = assess_technical_urgency(task, context_analysis["tech_stack"])
         priority = adjust_for_technical_urgency(priority, technical_urgency)
-        
+
         # 4. Учет пользовательских предпочтений
         user_preference = get_user_preference(task, context_analysis["constraints"])
         priority = adjust_for_user_preference(priority, user_preference)
-        
+
         prioritized_tasks.append({
             **task,
             "priority": priority,
@@ -141,7 +141,7 @@ def calculate_priorities(task_candidates, context_analysis):
             "business_criticality": business_criticality,
             "technical_urgency": technical_urgency
         })
-    
+
     return sorted(prioritized_tasks, key=lambda x: x["priority_score"], reverse=True)
 ```
 
@@ -150,19 +150,19 @@ def calculate_priorities(task_candidates, context_analysis):
 def optimize_sequence(prioritized_tasks, available_resources):
     # 1. Выявление зависимостей между задачами
     dependencies = identify_dependencies(prioritized_tasks)
-    
+
     # 2. Группировка независимых задач для параллельного выполнения
     parallel_groups = group_parallel_tasks(prioritized_tasks, dependencies)
-    
+
     # 3. Распределение по ресурсам
     resource_allocation = allocate_resources(parallel_groups, available_resources)
-    
+
     # 4. Создание временного графика
     schedule = create_schedule(resource_allocation, prioritized_tasks)
-    
+
     # 5. Оптимизация для минимизации общего времени
     optimized_schedule = optimize_schedule(schedule)
-    
+
     return {
         "tasks": prioritized_tasks,
         "dependencies": dependencies,
@@ -337,12 +337,12 @@ planning_models:
     model_path: ".agents/models/planner/ml_model.pkl"
     retrain_schedule: "0 3 * * 0"  # Каждое воскресенье в 3:00
     confidence_threshold: 0.7
-    
+
   rule_based:
     enabled: true
     rules_directory: ".agents/config/planner_rules/"
     default_rules: ["tech_stack_rules", "security_rules", "performance_rules"]
-    
+
   hybrid:
     enabled: true
     ml_weight: 0.6
@@ -360,7 +360,7 @@ priority_calculation:
     documentation: 0.5
     refactoring: 0.4
     optimization: 0.3
-    
+
   adjustment_factors:
     business_criticality: 1.5
     technical_urgency: 1.3
@@ -375,13 +375,13 @@ optimization:
     - maximize_parallelization
     - balance_resource_usage
     - minimize_risk
-    
+
   constraints:
     max_parallel_tasks: 5
     max_memory_mb: 2048
     max_cpu_percent: 80
     max_disk_mb: 500
-    
+
   algorithms:
     schedule_optimization: "genetic_algorithm"  # genetic_algorithm, simulated_annealing, greedy
     resource_allocation: "bin_packing"
@@ -395,13 +395,13 @@ autonomy_settings:
     low: 0.5
     medium: 0.7
     high: 0.9
-    
+
   trusted_patterns:
     - "*.test.*"
     - "dependency_update"
     - "code_formatting"
     - "security_patch"
-    
+
   require_approval_for:
     - "production_deployment"
     - "database_migration"
@@ -423,7 +423,7 @@ def integrate_with_scanner(scan_results):
 def integrate_with_learning(task_execution_results):
     # Обучение моделей на основе результатов выполнения
     learning_system.update_models(task_execution_results)
-    
+
 # Интеграция с исполнителем задач
 def integrate_with_executor(plan):
     # Передача плана на выполнение
@@ -439,12 +439,12 @@ def integrate_with_executor(plan):
 def sync_with_jira(plan):
     jira_tasks = convert_plan_to_jira_tasks(plan)
     jira_client.create_tasks(jira_tasks)
-    
+
 # Синхронизация с Trello
 def sync_with_trello(plan):
     trello_cards = convert_plan_to_trello_cards(plan)
     trello_client.create_cards(trello_cards)
-    
+
 # Экспорт в различные форматы
 def export_plan(plan, format):
     if format == "gantt":
@@ -469,12 +469,12 @@ def export_plan(plan, format):
 class CustomPredictionModel:
     def __init__(self, model_path):
         self.model = load_model(model_path)
-        
+
     def predict_tasks(self, context):
         # Кастомная логика предсказания
         predictions = self.model.predict(context)
         return convert_predictions_to_tasks(predictions)
-        
+
     def train(self, training_data):
         # Обучение модели на исторических данных
         self.model.fit(training_data)
@@ -489,7 +489,7 @@ class CustomOptimizationPlugin:
         # Кастомная логика оптимизации
         optimized = custom_optimization_algorithm(schedule, constraints)
         return optimized
-        
+
     def validate(self, schedule):
         # Валидация оптимизированного расписания
         return check_constraints(schedule)
@@ -513,13 +513,13 @@ planner_dashboard:
     - plan_execution_rate
     - resource_utilization
     - schedule_adherence
-    
+
   alerts:
     - low_prediction_accuracy: "< 70%"
     - planning_timeout: "> 60s"
     - high_plan_rejection: "> 20%"
     - resource_overallocation: "> 90%"
-    
+
   visualizations:
     - gantt_chart: "plan_schedule"
     - resource_heatmap: "resource_allocation"
@@ -552,6 +552,6 @@ python -m agents.planner.analyze --plan=plan.json --metrics=all
 
 ---
 
-**Примечание**: Планировщик предназначен для полностью автономной работы. 
-Для критически важных проектов рекомендуется начать с уровня автономности `medium` 
+**Примечание**: Планировщик предназначен для полностью автономной работы.
+Для критически важных проектов рекомендуется начать с уровня автономности `medium`
 и постепенно повышать его по мере накопления доверия к системе.

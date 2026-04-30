@@ -112,11 +112,11 @@ graph LR
 function filterRoutes() {
     const filter = document.getElementById('direction-filter').value;
     const routes = document.getElementsByClassName('route');
-    
+
     for (let i = 0; i < routes.length; i++) {
         const route = routes[i];
         const direction = route.getAttribute('data-direction');
-        
+
         if (filter === 'all' || direction === filter) {
             route.style.display = 'block';
         } else {

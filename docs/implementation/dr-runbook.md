@@ -209,6 +209,5 @@ gsutil du -s gs://portfolio-backups/
 
 ---
 
-**Last Updated:** 2026-03-19  
+**Last Updated:** 2026-03-19
 **Next DR Drill:** 2026-04-19
-

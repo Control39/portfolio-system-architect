@@ -76,18 +76,18 @@ graph TB
         B1[caa-audit] --> B2[Аудит CAA]
         C1[extension-stack-analyzer] --> C2[Анализ окружения]
     end
-    
+
     subgraph "Cognitive Automation Agent (.agents)"
         D1[Project Scanner] --> D2[Сканирование проекта]
         E1[Task Planner] --> E2[Планирование задач]
         F1[Learning System] --> F2[Самообучение]
     end
-    
+
     subgraph "Reasoning System (diagrams/reasoning)"
         R1[Reasoning-визуализация] --> R2[Интерактивные маршруты]
         R3[Цветовая кодировка] --> R4[Фильтрация направлений]
     end
-    
+
     A2 --> D2
     B2 --> E2
     C2 --> F2
@@ -95,7 +95,7 @@ graph TB
     E2 --> G
     F2 --> G
     G --> H[Улучшение обеих систем]
-    
+
     D2 --> R2
     E2 --> R2
     F2 --> R2
@@ -196,6 +196,6 @@ graph TB
 
 ---
 
-*Документ обновлён: 2026-04-10*  
-*Версия: 1.0*  
+*Документ обновлён: 2026-04-10*
+*Версия: 1.0*
 *Статус: Актуально*

@@ -51,4 +51,3 @@ This portfolio demonstrates **systemic thinking** – not just writing code, but
 - **LinkedIn**: [your LinkedIn]
 
 **Ready to lead your AI/cloud transformation. Let’s talk.**
-

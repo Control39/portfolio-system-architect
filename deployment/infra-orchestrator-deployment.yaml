@@ -52,4 +52,3 @@ spec:
             name: infra-orchestrator
             port:
               number: 8502
-

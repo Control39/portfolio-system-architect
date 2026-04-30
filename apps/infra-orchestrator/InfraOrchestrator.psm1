@@ -120,7 +120,7 @@ function Start-InfraOrchestrator {
 
     # Основной запуск
     Write-Host "✅ Infra-Orchestrator запущен в режиме: $Environment" -ForegroundColor Green
-    
+
     if ($RunSecurityTests) {
         Write-Host "🔍 Запуск тестов безопасности..." -ForegroundColor Yellow
         if (Get-Command Invoke-SecurityScan -ErrorAction SilentlyContinue) {
@@ -129,7 +129,7 @@ function Start-InfraOrchestrator {
             Write-Warning "SecurityScanner модуль не загружен"
         }
     }
-    
+
     # Интеграция с IT-Compass (если нужна)
     Write-Host "💡 Совет: Для аудита компетенций выполните: Invoke-CompassAudit -CompassPath '../it-compass'" -ForegroundColor Cyan
 }

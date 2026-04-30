@@ -21,4 +21,3 @@ replicas:
     count: 2
   - name: ml-model-registry
     count: 2
-

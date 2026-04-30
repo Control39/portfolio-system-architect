@@ -26,5 +26,3 @@
 - Resources/links for learning paths.
 
 **Next**: Merge detailed ones (Python/DevOps/Docker) into current apps/it-compass.
-
-

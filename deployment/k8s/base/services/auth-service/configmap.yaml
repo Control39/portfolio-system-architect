@@ -6,4 +6,3 @@ metadata:
 data:
   JWT_ALGORITHM: HS256
   LOG_LEVEL: INFO
-

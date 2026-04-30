@@ -1,0 +1,4 @@
+# Minimal dependencies for repository audit tool
+# These are already satisfied by the project's requirements-dev.txt
+
+# No additional dependencies required

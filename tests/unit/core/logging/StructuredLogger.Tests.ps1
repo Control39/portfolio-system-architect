@@ -5,7 +5,7 @@ Describe 'StructuredLogger' {
         $log = [StructuredLogger]::new()
         { $log.Info('Test message', @{key='value'}) } | Should -Not -Throw
     }
-    
+
     It 'Has expected structure' {
         # Mock Write-Output or file
         # Test JSON structure

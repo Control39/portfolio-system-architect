@@ -21,4 +21,3 @@ API Documentation
 
 .. automodule:: apps.ml_model_registry.ml_model_registry.main
    :members:
-

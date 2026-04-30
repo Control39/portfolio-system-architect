@@ -1,4 +1,4 @@
-﻿"""Модули данных IT Compass
+"""Модули данных IT Compass
 """
 
 from .markers import load_markers

@@ -28,7 +28,7 @@ thinking-cases/
 ### 01. AI Communication Breakthrough
 Анализ взаимодействия с AI-системами и улучшение коммуникации.
 
-### 02. System Analysis Template  
+### 02. System Analysis Template
 Создание универсального шаблона для системного анализа.
 
 ### 03. Bookmark Architecture Design
@@ -66,5 +66,3 @@ thinking-cases/
 - [Presentation Cases](../presentation-cases/) — презентации
 - [Evolution Cases](../evolution-cases/) — эволюция системы
 - [Components](../../components/) — технические компоненты
-
-

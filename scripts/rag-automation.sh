@@ -85,7 +85,7 @@ echo ""
 # Function to check ChromaDB connection
 check_chromadb() {
     echo "🔌 Checking ChromaDB connection..."
-    
+
     if curl -s "http://$CHROMA_HOST:$CHROMA_PORT/api/v1/heartbeat" > /dev/null; then
         echo "✅ ChromaDB is running"
         return 0
@@ -99,7 +99,7 @@ check_chromadb() {
 # Function to check Python dependencies
 check_dependencies() {
     echo "📦 Checking Python dependencies..."
-    
+
     # Check if required packages are installed
     for package in chromadb sentence-transformers langchain; do
         if python -c "import $package" 2>/dev/null; then
@@ -110,26 +110,26 @@ check_dependencies() {
             return 1
         fi
     done
-    
+
     return 0
 }
 
 # Function to get document changes
 get_document_changes() {
     echo "📄 Checking for document changes..."
-    
+
     # Create documents index if it doesn't exist
     if [ ! -f ".rag-documents-index.json" ]; then
         echo "   Creating new document index"
         echo "{}" > .rag-documents-index.json
     fi
-    
+
     # Find all markdown files
     find "$SOURCE_DIR" -name "*.md" -type f | while read -r file; do
         filename=$(basename "$file")
         filepath=$(realpath "$file")
         checksum=$(md5sum "$file" | cut -d' ' -f1)
-        
+
         # Check if file has changed
         if jq -e --arg f "$filepath" --arg c "$checksum" '.[$f] == $c' .rag-documents-index.json > /dev/null 2>&1; then
             echo "   ✓ $filename (unchanged)"
@@ -143,7 +143,7 @@ get_document_changes() {
 # Function to update vector database
 update_vector_db() {
     echo "🔄 Updating vector database..."
-    
+
     # Create Python script for updating ChromaDB
     cat > /tmp/update_chromadb.py << EOF
 import chromadb
@@ -183,23 +183,23 @@ def process_markdown_files():
     documents = []
     metadatas = []
     ids = []
-    
+
     for root, dirs, files in os.walk(source_dir):
         for file in files:
             if file.endswith('.md'):
                 filepath = os.path.join(root, file)
                 relative_path = os.path.relpath(filepath, source_dir)
-                
+
                 # Read file content
                 with open(filepath, 'r', encoding='utf-8') as f:
                     content = f.read()
-                
+
                 # Generate ID from filepath
                 file_id = hashlib.md5(filepath.encode()).hexdigest()
-                
+
                 # Split content into chunks (simple splitting)
                 chunks = split_into_chunks(content, 1000)
-                
+
                 for i, chunk in enumerate(chunks):
                     chunk_id = f"{file_id}_{i}"
                     documents.append(chunk)
@@ -210,14 +210,14 @@ def process_markdown_files():
                         "total_chunks": len(chunks)
                     })
                     ids.append(chunk_id)
-    
+
     return documents, metadatas, ids
 
 def split_into_chunks(text, chunk_size):
     """Split text into chunks of approximately chunk_size characters"""
     chunks = []
     current_chunk = ""
-    
+
     for paragraph in text.split('\n\n'):
         if len(current_chunk) + len(paragraph) < chunk_size:
             current_chunk += paragraph + "\n\n"
@@ -225,10 +225,10 @@ def split_into_chunks(text, chunk_size):
             if current_chunk:
                 chunks.append(current_chunk.strip())
             current_chunk = paragraph + "\n\n"
-    
+
     if current_chunk:
         chunks.append(current_chunk.strip())
-    
+
     return chunks
 
 # Process documents
@@ -254,10 +254,10 @@ print(f"\nCollection info:")
 print(f"  Name: {collection_name}")
 print(f"  Count: {collection.count()} documents")
 EOF
-    
+
     # Run the Python script
     python /tmp/update_chromadb.py
-    
+
     # Update document index
     echo "Updating document index..."
     find "$SOURCE_DIR" -name "*.md" -type f | while read -r file; do
@@ -265,17 +265,17 @@ EOF
         checksum=$(md5sum "$file" | cut -d' ' -f1)
         jq --arg f "$filepath" --arg c "$checksum" '.[$f] = $c' .rag-documents-index.json > /tmp/tmp_index.json && mv /tmp/tmp_index.json .rag-documents-index.json
     done
-    
+
     echo "✅ Vector database updated"
 }
 
 # Function to rebuild vector database
 rebuild_vector_db() {
     echo "🔨 Rebuilding vector database..."
-    
+
     # Reset document index
     rm -f .rag-documents-index.json
-    
+
     # Delete and recreate collection
     cat > /tmp/rebuild_chromadb.py << EOF
 import chromadb
@@ -302,26 +302,26 @@ except:
 collection = client.create_collection(collection_name)
 print(f"Created new collection: {collection_name}")
 EOF
-    
+
     python /tmp/rebuild_chromadb.py
-    
+
     # Update with all documents
     update_vector_db
-    
+
     echo "✅ Vector database rebuilt"
 }
 
 # Function to query vector database
 query_vector_db() {
     local query_text="${QUERY:-$1}"
-    
+
     if [ -z "$query_text" ]; then
         echo "❌ No query provided"
         return 1
     fi
-    
+
     echo "🔎 Querying: \"$query_text\""
-    
+
     cat > /tmp/query_chromadb.py << EOF
 import chromadb
 from chromadb.config import Settings
@@ -362,13 +362,13 @@ for i in range(len(results['documents'][0])):
     doc = results['documents'][0][i]
     metadata = results['metadatas'][0][i]
     distance = results['distances'][0][i]
-    
+
     print(f"\nResult {i+1} (distance: {distance:.4f}):")
     print(f"Source: {metadata['filename']} (chunk {metadata['chunk']+1}/{metadata['total_chunks']})")
     print(f"Content: {doc[:200]}...")
     print("-" * 80)
 EOF
-    
+
     python /tmp/query_chromadb.py
 }
 
@@ -376,11 +376,11 @@ EOF
 check_rag_status() {
     echo "📊 RAG System Status"
     echo "===================="
-    
+
     # Check ChromaDB
     if check_chromadb; then
         echo "✅ ChromaDB: Running"
-        
+
         # Get collection info
         cat > /tmp/status_chromadb.py << EOF
 import chromadb
@@ -396,27 +396,27 @@ try:
         port=chroma_port,
         settings=Settings(allow_reset=True)
     )
-    
+
     collections = client.list_collections()
     print(f"Collections: {[c.name for c in collections]}")
-    
+
     if collection_name in [c.name for c in collections]:
         collection = client.get_collection(collection_name)
         print(f"Collection '{collection_name}': {collection.count()} documents")
     else:
         print(f"Collection '{collection_name}': Not found")
-        
+
 except Exception as e:
     print(f"Error: {e}")
 EOF
-        
+
         python /tmp/status_chromadb.py
     else
         echo "❌ ChromaDB: Not running"
     fi
-    
+
     echo ""
-    
+
     # Check document index
     if [ -f ".rag-documents-index.json" ]; then
         DOC_COUNT=$(jq 'length' .rag-documents-index.json)
@@ -424,9 +424,9 @@ EOF
     else
         echo "❌ Document index: Not found"
     fi
-    
+
     echo ""
-    
+
     # Check source directory
     if [ -d "$SOURCE_DIR" ]; then
         MD_COUNT=$(find "$SOURCE_DIR" -name "*.md" -type f | wc -l)
@@ -440,13 +440,13 @@ EOF
 main() {
     echo "Starting RAG automation..."
     echo ""
-    
+
     # Check dependencies
     if ! check_dependencies; then
         echo "❌ Missing dependencies. Please install required packages."
         exit 1
     fi
-    
+
     # Check ChromaDB connection for most actions
     if [[ "$ACTION" != "status" ]]; then
         if ! check_chromadb; then
@@ -454,7 +454,7 @@ main() {
             exit 1
         fi
     fi
-    
+
     # Execute action
     case $ACTION in
         update)
@@ -479,7 +479,7 @@ main() {
             exit 1
             ;;
     esac
-    
+
     echo ""
     echo "================================================================"
     echo "🎉 RAG automation completed!"

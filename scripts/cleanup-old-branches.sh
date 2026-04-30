@@ -28,7 +28,7 @@ get_branch_age() {
         echo "9999"  # Very old if can't get date
         return
     fi
-    
+
     local last_commit_ts=$(date -d "$last_commit_date" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$last_commit_date" +%s)
     local now_ts=$(date +%s)
     local age_days=$(( (now_ts - last_commit_ts) / 86400 ))
@@ -39,12 +39,12 @@ get_branch_age() {
 delete_remote_branch() {
     local remote="$1"
     local branch="$2"
-    
+
     if [ "$DRY_RUN" = "true" ]; then
         echo "📝 [DRY RUN] Would delete: $remote/$branch"
         return
     fi
-    
+
     echo "🗑️  Deleting: $remote/$branch"
     git push "$remote" --delete "$branch" 2>/dev/null || true
 }
@@ -52,29 +52,29 @@ delete_remote_branch() {
 # Main cleanup logic
 cleanup_remote() {
     local remote="$1"
-    
+
     echo "📡 Checking remote: $remote"
-    
+
     # Fetch all branches from remote
     git fetch "$remote" --prune
-    
+
     # Get list of remote branches
     local remote_branches=$(git branch -r | grep "^  $remote/" | sed "s|^  $remote/||" | grep -v "HEAD")
-    
+
     for branch in $remote_branches; do
         # Skip protected branches
         if is_protected "$branch"; then
             echo "🛡️  Skipping protected branch: $branch"
             continue
         fi
-        
+
         # Check if branch is merged into main
         if git merge-base --is-ancestor "$remote/$branch" "$remote/main" 2>/dev/null; then
             echo "✅ Merged branch: $branch (already in main)"
             delete_remote_branch "$remote" "$branch"
             continue
         fi
-        
+
         # Check branch age
         local age=$(get_branch_age "$remote/$branch")
         if [ "$age" -gt "$DAYS_OLD" ]; then
@@ -82,7 +82,7 @@ cleanup_remote() {
             delete_remote_branch "$remote" "$branch"
             continue
         fi
-        
+
         echo "📌 Active branch ($age days): $branch - keeping"
     done
 }

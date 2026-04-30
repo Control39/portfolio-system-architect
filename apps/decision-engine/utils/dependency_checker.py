@@ -1,9 +1,12 @@
-﻿# components/cloud-reason/utils/dependency_checker.py
-import pkg_resources
+# components/cloud-reason/utils/dependency_checker.py
 import subprocess
 import sys
+
+import pkg_resources
+
 from ..config.loader import COMPONENT_CONFIG
 from ..config.utils import get_env_variables
+
 
 def check_dependencies():
     """Проверяет установленные зависимости против требований конфигурации."""
@@ -23,12 +26,13 @@ def check_dependencies():
 
         # Автоустановка (опционально)
         confirm = input("Установить автоматически? (y/n): ")
-        if confirm.lower() == 'y':
+        if confirm.lower() == "y":
             subprocess.check_call([sys.executable, "-m", "pip", "install"] + missing)
         else:
             sys.exit(1)
     else:
         print("✅ Все зависимости установлены")
+
 
 def print_env_requirements():
     """Выводит список требуемых переменных окружения."""
@@ -37,7 +41,7 @@ def print_env_requirements():
     for var in env_vars:
         print(f"  - {var['name']}: {var['description']}")
 
+
 if __name__ == "__main__":
     check_dependencies()
     print_env_requirements()
-

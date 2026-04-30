@@ -394,4 +394,3 @@ kubectl logs -n portfolio -l app=cloud-reason -f --all-containers=true
 - [Kustomize Guide](https://kustomize.io/)
 - [GKE Documentation](https://cloud.google.com/kubernetes-engine/docs)
 - [Kind Documentation](https://kind.sigs.k8s.io/)
-

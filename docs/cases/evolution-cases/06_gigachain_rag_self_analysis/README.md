@@ -55,4 +55,3 @@ Building this evidences:
 - Links: [IT-Compass Markers](../02_METHODOLOGY/markers/systemic-thinking-markers.md)
 
 *See [ARCHITECTURE_DECISIONS.md], [RESULTS_SANITIZED.md].*
-

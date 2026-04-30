@@ -124,66 +124,66 @@
                         Cognitive Automation Agent • 10.04.2026 10:24
                     </div>
                 </div>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h3>Всего событий</h3>
                         <div class="stat-value stat-info">12</div>
                         <p>За последние 24 часа</p>
                     </div>
-                    
+
                     <div class="stat-card">
                         <h3>Успешность</h3>
                         <div class="stat-value stat-success">33.3%</div>
                         <p>4 успешных из 12</p>
                     </div>
-                    
+
                     <div class="stat-card">
                         <h3>Среднее время</h3>
                         <div class="stat-value">4.62с</div>
                         <p>Среднее время выполнения события</p>
                     </div>
-                    
+
                     <div class="stat-card">
                         <h3>Неудачных событий</h3>
                         <div class="stat-value stat-danger">8</div>
                         <p>Требуют внимания</p>
                     </div>
                 </div>
-                
+
                 <div class="charts">
                     <div class="chart-container">
                         <h3>Распределение по типам событий</h3>
                         <canvas id="eventsChart" width="400" height="300"></canvas>
                     </div>
-                    
+
                     <div class="chart-container">
                         <h3>Успешность по типам событий</h3>
                         <canvas id="successChart" width="400" height="300"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="recommendations">
                     <h3>💡 Рекомендации</h3>
-        
+
                     <div class="recommendation-item">
                         <strong>1.</strong> Низкий процент успешных событий: 33.3%. Рекомендуется проверить логи ошибок и настроить обработку исключений.
                     </div>
-            
+
                 </div>
-                
+
                 <div class="footer">
                     <p>Дашборд обновлен: 10.04.2026 10:24:44</p>
                     <p>Cognitive Automation Agent • Система автоматического мониторинга</p>
                 </div>
             </div>
-            
+
             <script>
                 // Данные для графиков
                 const eventsData = ["post_commit", "validate_agent", "execute_tasks", "generate_report", "git_push", "pre_push", "project_open", "scan_project"];
                 const eventsCount = [3, 3, 1, 1, 1, 1, 1, 1];
                 const successRates = [100.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100.0];
-                
+
                 // График распределения событий
                 const eventsCtx = document.getElementById('eventsChart').getContext('2d');
                 new Chart(eventsCtx, {
@@ -224,7 +224,7 @@
                         }
                     }
                 });
-                
+
                 // График успешности
                 const successCtx = document.getElementById('successChart').getContext('2d');
                 new Chart(successCtx, {
@@ -269,4 +269,3 @@
             </script>
         </body>
         </html>
-        

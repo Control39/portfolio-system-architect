@@ -53,24 +53,24 @@ jobs:
       - name: Rotate API keys
         run: |
           python scripts/rotate_api_keys.py
-          
+
       - name: Rotate database passwords
         run: |
           python scripts/rotate_db_passwords.py
-          
+
       - name: Update Kubernetes secrets
         run: |
           kubectl create secret generic app-secrets \
             --from-literal=api-key=$(cat new_api_key.txt) \
             --from-literal=db-password=$(cat new_db_password.txt) \
             --dry-run=client -o yaml | kubectl apply -f -
-            
+
       - name: Restart deployments
         run: |
           kubectl rollout restart deployment/it-compass
           kubectl rollout restart deployment/cloud-reason
           kubectl rollout restart deployment/ml-model-registry
-          
+
       - name: Commit new secrets to Sealed Secrets
         run: |
           kubeseal --controller-name=sealed-secrets --format=yaml < secret.yaml > sealed-secret.yaml
@@ -130,10 +130,10 @@ import hvac
 class VaultSecretManager:
     def __init__(self, vault_addr, token):
         self.client = hvac.Client(url=vault_addr, token=token)
-    
+
     def get_secret(self, path):
         return self.client.secrets.kv.v2.read_secret_version(path=path)['data']['data']
-    
+
     def rotate_secret(self, path):
         # Логика ротации секрета
         pass
@@ -156,7 +156,7 @@ class SecretAuditLogger:
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.INFO)
-    
+
     def log_access(self, user, secret_name, action):
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -166,7 +166,7 @@ class SecretAuditLogger:
             "ip": self._get_client_ip()
         }
         self.logger.info(json.dumps(log_entry))
-    
+
     def _get_client_ip(self):
         # Получение IP-адреса клиента
         pass

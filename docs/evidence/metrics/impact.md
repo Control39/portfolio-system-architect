@@ -38,5 +38,3 @@ print(f'Annual ecosystem savings: ${career_impact():,.0f}')  # $400,000
 - Grant Tie-in: Democratizes architecture (inclusion/education).
 
 *Updated: 2026-XX. Proves: Scalable, professional, transformative.*
-
-

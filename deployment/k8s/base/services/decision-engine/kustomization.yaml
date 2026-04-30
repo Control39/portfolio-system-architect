@@ -9,4 +9,3 @@ resources:
 commonLabels:
   app: decision-engine
   tier: backend
-

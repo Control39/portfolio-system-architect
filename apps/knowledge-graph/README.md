@@ -86,4 +86,3 @@ pytest --cov=src tests/
 - **Architect Assistant** - улучшение RAG поиска через граф знаний
 - **Unified API Gateway** - единая точка входа
 - **Learning Feedback Loop** - обновление графа на основе feedback
-

@@ -10,5 +10,3 @@ providers:
     allowUiUpdates: true
     options:
       path: /etc/grafana/provisioning/dashboards/portfolio.json  # Existing dashboard
-
-

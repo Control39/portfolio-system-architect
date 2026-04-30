@@ -5,7 +5,7 @@ Describe 'SecretManager' {
         $mgr = [SecretManager]::new()
         $mgr | Should -Not -BeNullOrEmpty
     }
-    
+
     It 'Gets environment secret' -Pending {
         $value = [SecretManager]::GetSecret('TEST_SECRET', 'default')
         $value | Should -Be 'default'

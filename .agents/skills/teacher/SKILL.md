@@ -185,10 +185,10 @@ metadata:
 webhooks:
   - trigger: "task_completed"
     action: "update_status_in_all_systems"
-    
+
   - trigger: "new_email"
     action: "categorize_and_respond"
-    
+
 schedules:
   - cron: "0 9 * * *"
     action: "generate_daily_report"

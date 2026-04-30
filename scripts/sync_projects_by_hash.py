@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для синхронизации файлов между двумя проектами на основе хэшей.
 Сравнивает содержимое файлов и копирует отсутствующие или более новые версии.
 """
@@ -21,6 +21,7 @@ def calculate_file_hash(filepath, chunk_size=8192):
     except Exception as e:
         print(f"  ⚠️  Ошибка чтения {filepath}: {e}")
         return None
+
 
 def scan_directory(directory, relative_to=None):
     """Сканирует директорию рекурсивно, возвращает словарь:
@@ -54,6 +55,7 @@ def scan_directory(directory, relative_to=None):
                 print(f"  ⚠️  Ошибка доступа к {full_path}: {e}")
     return file_map
 
+
 def compare_directories(source_map, target_map):
     """Сравнивает два словаря файлов.
     Возвращает:
@@ -83,6 +85,7 @@ def compare_directories(source_map, target_map):
             extra[rel_path] = tgt_info
 
     return missing, different, extra
+
 
 def copy_file(src_info, target_dir, dry_run=False, backup=True):
     """Копирует файл из source в target с сохранением структуры папок."""
@@ -114,9 +117,11 @@ def copy_file(src_info, target_dir, dry_run=False, backup=True):
         print(f"  ❌ Ошибка копирования {rel_path}: {e}")
         return False
 
-def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_confirm=False):
-    """Синхронизирует один компонент (поддиректорию) из source в target.
-    """
+
+def sync_component(
+    source_dir, target_dir, component_name, dry_run=False, auto_confirm=False
+):
+    """Синхронизирует один компонент (поддиректорию) из source в target."""
     print(f"\n🔍 Синхронизация компонента: {component_name}")
     print(f"   Источник: {source_dir}")
     print(f"   Цель: {target_dir}")
@@ -205,18 +210,34 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
             if copy_file(src_info, target_dir, dry_run=dry_run):
                 success_count += 1
 
-    print(f"\n✅ Синхронизация завершена. Успешно обработано файлов: {success_count}/{total_actions}")
+    print(
+        f"\n✅ Синхронизация завершена. Успешно обработано файлов: {success_count}/{total_actions}"
+    )
     return success_count == total_actions
+
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Синхронизация проектов по хэшам файлов")
+
+    parser = argparse.ArgumentParser(
+        description="Синхронизация проектов по хэшам файлов"
+    )
     parser.add_argument("source", help="Исходная директория (my-ecosystem-FINAL)")
-    parser.add_argument("target", help="Целевая директория (portfolio-system-architect)")
-    parser.add_argument("--component", help="Имя компонента (подпапка) для синхронизации")
-    parser.add_argument("--dry-run", action="store_true", help="Показать план без реальных действий")
-    parser.add_argument("--all", action="store_true", help="Синхронизировать все компоненты")
-    parser.add_argument("--yes", action="store_true", help="Автоматически подтверждать действия")
+    parser.add_argument(
+        "target", help="Целевая директория (portfolio-system-architect)"
+    )
+    parser.add_argument(
+        "--component", help="Имя компонента (подпапка) для синхронизации"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Показать план без реальных действий"
+    )
+    parser.add_argument(
+        "--all", action="store_true", help="Синхронизировать все компоненты"
+    )
+    parser.add_argument(
+        "--yes", action="store_true", help="Автоматически подтверждать действия"
+    )
 
     args = parser.parse_args()
 
@@ -235,7 +256,13 @@ def main():
     if args.component:
         source_dir = os.path.join(source_root, args.component)
         target_dir = os.path.join(target_root, args.component)
-        sync_component(source_dir, target_dir, args.component, dry_run=args.dry_run, auto_confirm=args.yes)
+        sync_component(
+            source_dir,
+            target_dir,
+            args.component,
+            dry_run=args.dry_run,
+            auto_confirm=args.yes,
+        )
     elif args.all:
         # Находим все поддиректории в source, которые являются компонентами
         components = []
@@ -256,6 +283,7 @@ def main():
         return 1
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

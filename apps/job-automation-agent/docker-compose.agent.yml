@@ -23,4 +23,3 @@
       POSTGRES_DB: portfolio_db
       POSTGRES_USER: architect
       POSTGRES_PASSWORD: arch_pass_2024
-

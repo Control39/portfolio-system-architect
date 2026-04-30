@@ -30,7 +30,7 @@ properties:
         type: string
         format: date-time
     required: [id, name, version]
-  
+
   ModelSearchResult:
     type: object
     properties:
@@ -62,4 +62,3 @@ definitions:
   - ModelMetadata
   - ModelSearchResult
   - ModelOperationResult
-

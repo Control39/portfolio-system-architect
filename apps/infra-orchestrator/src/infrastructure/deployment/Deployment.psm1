@@ -5,4 +5,3 @@ function Deploy-ToAzure {
 }
 
 Export-ModuleMember -Function Deploy-ToAzure
-

@@ -2,7 +2,7 @@
 
 ## Q1: How would you approach architecture for a 50-person startup?
 
-**A**: 
+**A**:
 - Start with monolith + clear service boundaries (using DDD)
 - Plan for 3 phases: MVP (monolith), Scale (services), Growth (mesh)
 - Use evidence-based decisions (CoT traces for each major decision)
@@ -130,7 +130,6 @@
 - K8s: `kubectl apply -k deployment/k8s/overlays/staging`
 - Terraform: `terraform apply -var-file=staging.tfvars`
 
-**Test coverage**: 95%+ (pytest-cov)  
-**Audit result**: 92% grant-ready (verified)  
+**Test coverage**: 95%+ (pytest-cov)
+**Audit result**: 92% grant-ready (verified)
 **Enterprise-ready**: 🟢 98%+
-

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Пример использования IT Compass
 Методология "Объективные маркеры компетенций"
@@ -6,7 +6,6 @@
 """
 
 from src.core.tracker import CareerTracker
-from src.utils.portfolio_gen import generate_portfolio
 
 
 def main():
@@ -31,4 +30,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

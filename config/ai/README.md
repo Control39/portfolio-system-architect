@@ -39,37 +39,37 @@ models:
     model: "GigaChat-Pro-Light"
     apiKey: "${GIGACHAT_API_KEY}"
     apiBase: "https://gigachat.devices.sberbank.ru/api/v1"
-  
-  - title: "GigaChat Normal" 
+
+  - title: "GigaChat Normal"
     provider: "gigachat"
     model: "GigaChat"
     apiKey: "${GIGACHAT_API_KEY}"
     apiBase: "https://gigachat.devices.sberbank.ru/api/v1"
-  
+
   # YandexGPT (Яндекс)
   - title: "YandexGPT Lite"
     provider: "yandex"
     model: "yandexgpt-lite"
     apiKey: "${YANDEX_API_KEY}"
     folderId: "${YANDEX_FOLDER_ID}"
-  
+
   - title: "YandexGPT Pro"
     provider: "yandex"
     model: "yandexgpt"
     apiKey: "${YANDEX_API_KEY}"
     folderId: "${YANDEX_FOLDER_ID}"
-  
+
   # Локальные модели (Ollama)
   - title: "Llama 3.1 Russian"
     provider: "ollama"
     model: "llama3.1:latest"
     apiBase: "http://localhost:11434"
-  
+
   - title: "Qwen2.5 Coder"
     provider: "ollama"
     model: "qwen2.5-coder:7b"
     apiBase: "http://localhost:11434"
-  
+
   # SourceCraft агенты
   - title: "SourceCraft Agent"
     provider: "sourcecraft"
@@ -95,10 +95,10 @@ ai_models:
     models:
       - name: "GigaChat-Pro-Light"
         context_window: 8192
-      
+
       - name: "GigaChat"
         context_window: 16384
-  
+
   yandexgpt:
     enabled: true
     api_key_env: "YANDEX_API_KEY"
@@ -106,23 +106,23 @@ ai_models:
     models:
       - name: "yandexgpt-lite"
         context_window: 4096
-      
+
       - name: "yandexgpt"
         context_window: 8192
-  
+
   ollama:
     enabled: true
     base_url: "http://localhost:11434"
     models:
       - name: "llama3.1:latest"
         context_window: 32768
-      
+
       - name: "qwen2.5-coder:7b"
         context_window: 32768
-      
+
       - name: "codellama:7b"
         context_window: 16384
-  
+
   sourcecraft:
     enabled: true
     # Использует встроенную интеграцию
@@ -136,20 +136,20 @@ name: "Career Autopilot MCP Server"
 
 ai_models:
   default: "gigachat-pro-light"
-  
+
   available:
     - name: "gigachat-pro-light"
       provider: "gigachat"
       max_tokens: 4000
-    
+
     - name: "yandexgpt-lite"
       provider: "yandex"
       max_tokens: 2000
-    
+
     - name: "llama3.1"
       provider: "ollama"
       max_tokens: 32768
-    
+
     - name: "sourcecraft-agent"
       provider: "sourcecraft"
       max_tokens: 8000
@@ -189,27 +189,27 @@ from pathlib import Path
 def setup_configs():
     """Настройка конфигураций AI-агентов"""
     project_root = Path(__file__).parent.parent
-    
+
     # 1. Continue.dev конфигурация
     continue_template = project_root / "config" / "ai" / "continue" / "template.yaml"
     continue_dest = project_root / ".continue" / "config.yaml"
-    
+
     if continue_template.exists() and not continue_dest.exists():
         shutil.copy(continue_template, continue_dest)
         print(f"Создана конфигурация Continue.dev: {continue_dest}")
-    
+
     # 2. Code Assistant конфигурация
     ca_template = project_root / "config" / "ai" / "codeassistant" / "ai-models.template.yaml"
     ca_dest = project_root / ".codeassistant" / "ai-models.yaml"
-    
+
     if ca_template.exists() and not ca_dest.exists():
         shutil.copy(ca_template, ca_dest)
         print(f"Создана конфигурация Code Assistant: {ca_dest}")
-    
+
     # 3. Создаем .env.example если нет .env.local
     env_example = project_root / ".env.example"
     env_local = project_root / ".env.local"
-    
+
     if not env_local.exists() and not env_example.exists():
         with open(env_example, 'w', encoding='utf-8') as f:
             f.write("""# Пример файла переменных окружения
@@ -226,7 +226,7 @@ YANDEX_FOLDER_ID=your_folder_id_here
 OLLAMA_BASE_URL=http://localhost:11434
 """)
         print(f"Создан пример файла переменных окружения: {env_example}")
-    
+
     print("\nНастройка завершена!")
     print("1. Заполните .env.local своими API ключами")
     print("2. Запустите MCP сервер: python apps/mcp-server/src/main.py")

@@ -1,10 +1,12 @@
-﻿import requests
-import json
+﻿import json
 from datetime import datetime
+
+import requests
+
 
 class CrisisAPIService:
     """Класс для интеграции с API сервисов психологической помощи"""
-    
+
     def __init__(self):
         self.services = {
             "psyhelp_hotline": {
@@ -24,7 +26,7 @@ class CrisisAPIService:
                 "headers": {"Content-Type": "application/json"}
             }
         }
-    
+
     def get_hotlines(self):
         """Получить список горячих линий психологической помощи"""
         try:
@@ -35,7 +37,7 @@ class CrisisAPIService:
                 return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
-    
+
     def get_meditations(self):
         """Получить список медитаций для снятия стресса"""
         try:
@@ -46,7 +48,7 @@ class CrisisAPIService:
                 return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
-    
+
     def find_psychologists(self, city=None, specialization=None):
         """Найти психологов по городу и специализации"""
         try:
@@ -55,40 +57,40 @@ class CrisisAPIService:
                 payload["city"] = city
             if specialization:
                 payload["specialization"] = specialization
-            
+
             response = requests.post(
                 self.services["psyhelp_find"]["api_url"],
                 json=payload,
                 headers=self.services["psyhelp_find"]["headers"],
                 timeout=30
             )
-            
+
             if response.status_code == 200:
                 return response.json()
             else:
                 return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
-    
+
     def show_available_services(self):
         """Показать доступные сервисы"""
         print("
 " + "="*50)
         print("🌐 ДОСТУПНЫЕ СЕРВИСЫ ПОДДЕРЖКИ")
         print("="*50)
-        
+
         for key, service in self.services.items():
             print(f"
 🔹 {service['name']}")
             print(f"   URL: {service['api_url']}")
             print(f"   Метод: {service['method']}")
-        
+
         print("
 " + "="*50)
         print("💡 Как использовать: Выберите сервис и вызовите соответствующий метод")
         print("   Например: service.get_hotlines() для получения горячих линий")
         print("="*50)
-        
+
         input("
 Нажмите Enter, чтобы продолжить...")
 

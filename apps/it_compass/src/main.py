@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 IT Compass — объективная карта роста в IT через верифицируемые маркеры
 Методология "Объективные маркеры компетенций"
@@ -23,25 +23,28 @@ except ImportError as e:
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('it_compass.log', encoding='utf-8')
-    ]
+        logging.FileHandler("it_compass.log", encoding="utf-8"),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 def show_mental_support_message():
     """
     Отображает сообщение психологической поддержки
     """
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🧠 ПСИХОЛОГИЧЕСКАЯ ПОДДЕРЖКА В ПУТИ РАЗВИТИЯ")
-    print("="*60)
+    print("=" * 60)
     print("Дорогой путешественник в мире IT,")
     print()
     print("Твой путь — это не просто набор маркеров и технологий.")
-    print("Это история твоего роста, преодоления сомнений и открытия своих сильных сторон.")
+    print(
+        "Это история твоего роста, преодоления сомнений и открытия своих сильных сторон."
+    )
     print()
     print("Важно помнить:")
     print("✅ Сравнивай себя не с другими, а с тобой вчерашним")
@@ -54,8 +57,9 @@ def show_mental_support_message():
     print()
     print("Эта система создана, чтобы поддерживать твой прогресс,")
     print("но помни: ты — автор своей карьерной истории. 💪")
-    print("="*60)
+    print("=" * 60)
     input("\nНажмите Enter, чтобы продолжить...")
+
 
 class ITCompassApp:
     def __init__(self):
@@ -73,16 +77,16 @@ class ITCompassApp:
             return False
 
     def show_welcome(self):
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("🧭 IT Compass")
         print("Объективная карта твоего IT-роста")
-        print("="*50)
+        print("=" * 50)
         print("📊 Отслеживай прогресс • 🎯 Получай рекомендации")
         print("📄 Создавай портфолио • 🚀 Развивай карьеру")
-        print("="*50)
+        print("=" * 50)
         print("Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0")
         print("Код: MIT License • Версия: 1.0.0")
-        print("="*50)
+        print("=" * 50)
 
     def show_menu(self):
         print("\n📋 ДОСТУПНЫЕ ДЕЙСТВИЯ:")
@@ -175,13 +179,14 @@ class ITCompassApp:
 
     def _show_motivation_message(self):
         import random
+
         messages = [
             "🎉 Отличная работа! Продолжайте в том же духе!",
             "💪 Каждый маркер приближает вас к цели!",
             "⭐ Вы на правильном пути к успеху!",
             "🚀 Отличный прогресс! Так держать!",
             "🏆 Ещё один шаг к карьерным высотам!",
-            "🌟 Ваш рост впечатляет! Не останавливайтесь!"
+            "🌟 Ваш рост впечатляет! Не останавливайтесь!",
         ]
         print(f"\n{random.choice(messages)}")
 
@@ -260,7 +265,9 @@ class ITCompassApp:
         while self.running:
             try:
                 self.show_menu()
-                choice = input("Выберите действие (1-8): ").strip()  # Обновлен диапазон до 8
+                choice = input(
+                    "Выберите действие (1-8): "
+                ).strip()  # Обновлен диапазон до 8
                 if not self.handle_choice(choice):
                     self.running = False
             except KeyboardInterrupt:
@@ -271,11 +278,17 @@ class ITCompassApp:
                 print(f"❌ Критическая ошибка: {e}")
                 break
 
+
 def main():
     # Парсинг аргументов командной строки
-    parser = argparse.ArgumentParser(description='IT Compass — объективная карта роста в IT')
-    parser.add_argument('--mental-support', action='store_true',
-                        help='Показать сообщение психологической поддержки при запуске')
+    parser = argparse.ArgumentParser(
+        description="IT Compass — объективная карта роста в IT"
+    )
+    parser.add_argument(
+        "--mental-support",
+        action="store_true",
+        help="Показать сообщение психологической поддержки при запуске",
+    )
     args = parser.parse_args()
 
     try:
@@ -294,9 +307,10 @@ def main():
         print(f"❌ Критическая ошибка: {e}")
         sys.exit(1)
 
+
 if __name__ == "__main__":
     main()
-#=======
+# =======
 #!/usr/bin/env python3
 """
 IT Compass — объективная карта роста в IT через верифицируемые маркеры
@@ -319,13 +333,14 @@ except ImportError as e:
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('it_compass.log', encoding='utf-8')
-    ]
+        logging.FileHandler("it_compass.log", encoding="utf-8"),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 def main():
     try:
@@ -338,6 +353,7 @@ def main():
         logger.error(f"Критическая ошибка: {e}")
         print(f"❌ Критическая ошибка: {e}")
         sys.exit(1)
+
 
 class ITCompassApp:
     def __init__(self):
@@ -355,16 +371,16 @@ class ITCompassApp:
             return False
 
     def show_welcome(self):
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("🧭 IT Compass")
         print("Объективная карта твоего IT-роста")
-        print("="*50)
+        print("=" * 50)
         print("📊 Отслеживай прогресс • 🎯 Получай рекомендации")
         print("📄 Создавай портфолио • 🚀 Развивай карьеру")
-        print("="*50)
+        print("=" * 50)
         print("Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0")
         print("Код: MIT License • Версия: 1.0.0")
-        print("="*50)
+        print("=" * 50)
 
     def show_menu(self):
         print("\n📋 ДОСТУПНЫЕ ДЕЙСТВИЯ:")
@@ -454,13 +470,14 @@ class ITCompassApp:
 
     def _show_motivation_message(self):
         import random
+
         messages = [
             "🎉 Отличная работа! Продолжайте в том же духе!",
             "💪 Каждый маркер приближает вас к цели!",
             "⭐ Вы на правильном пути к успеху!",
             "🚀 Отличный прогресс! Так держать!",
             "🏆 Ещё один шаг к карьерным высотам!",
-            "🌟 Ваш рост впечатляет! Не останавливайтесь!"
+            "🌟 Ваш рост впечатляет! Не останавливайтесь!",
         ]
         print(f"\n{random.choice(messages)}")
 
@@ -550,6 +567,6 @@ class ITCompassApp:
                 print(f"❌ Критическая ошибка: {e}")
                 break
 
+
 if __name__ == "__main__":
     main()
-

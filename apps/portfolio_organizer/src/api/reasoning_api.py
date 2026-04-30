@@ -1,20 +1,20 @@
-﻿"""
+"""
 API для анализа и рекомендаций по проектам портфолио
 """
 
-from flask import Flask, jsonify, request
-from flask_wtf.csrf import CSRFProtect
-from typing import Dict, List, Any
-import json
 import os
+from typing import Any, Dict
+
+from flask import Flask, jsonify
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 
 # Требуется установка SECRET_KEY через переменную окружения
-if not os.environ.get('SECRET_KEY'):
+if not os.environ.get("SECRET_KEY"):
     raise RuntimeError("SECRET_KEY environment variable is required")
-    
-app.secret_key = os.environ.get('SECRET_KEY')
+
+app.secret_key = os.environ.get("SECRET_KEY")
 csrf = CSRFProtect(app)
 
 # Демонстрационные данные проектов
@@ -175,17 +175,21 @@ def generate_recommendations(project: Dict[str, Any]) -> Dict[str, Any]:
 def health_check():
     """Проверка состояния API - поддерживает /health, /ready, /live endpoints"""
     from datetime import datetime
-    return jsonify({
-        "service": "Portfolio Organizer Reasoning API",
-        "status": "healthy",
-        "version": "0.1.0",
-        "timestamp": datetime.utcnow().isoformat(),
-        "checks": {
-            "api": {"status": "ok"}
+
+    return jsonify(
+        {
+            "service": "Portfolio Organizer Reasoning API",
+            "status": "healthy",
+            "version": "0.1.0",
+            "timestamp": datetime.utcnow().isoformat(),
+            "checks": {"api": {"status": "ok"}},
         }
-    })
+    )
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
-
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=os.environ.get("FLASK_DEBUG", "False").lower() == "true",
+    )

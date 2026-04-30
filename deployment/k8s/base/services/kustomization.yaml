@@ -19,4 +19,3 @@ resources:
 commonLabels:
   component: microservices
   managed-by: kustomize
-
