@@ -5,11 +5,19 @@ import os
 import sys
 
 # Add project root to sys.path
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+project_root = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 sys.path.insert(0, project_root)
 
-from tools.repo_audit.checker import RepositoryAuditor
-from tools.repo_audit.checks import cicd, code_quality, documentation, security, structure
+from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
+from tools.repo_audit.checks import (  # noqa: E402
+    cicd,
+    code_quality,
+    documentation,
+    security,
+    structure,
+)
 
 
 def main():

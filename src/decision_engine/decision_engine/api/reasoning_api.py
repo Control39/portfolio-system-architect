@@ -3,9 +3,7 @@ import os
 import time
 
 import yandexcloud
-from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import (
-    TextGenerationRequest,
-)
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import TextGenerationRequest
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationServiceStub,
 )
