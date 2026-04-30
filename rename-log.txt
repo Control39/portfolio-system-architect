@@ -1,2 +1,0 @@
-[2026-04-28 14:55:22] START: Rename 'cloud-reason' → 'decision-engine'. WhatIf: True
-[2026-04-28 14:55:22] ❌ Папка не найдена: C:\Users\Z\DeveloperEnvironment\projects\portfolio-system-architect-fresh\apps\cloud-reason
