@@ -1,0 +1,56 @@
+name: Dependabot Auto Merge
+
+on:
+  pull_request:
+    types: [labeled, opened, synchronize, reopened, ready_for_review]
+  check_suite:
+    types: [completed]
+
+jobs:
+  auto-merge:
+    if: |
+      github.event.pull_request.user.login == 'dependabot[bot]' ||
+      github.event.pull_request.user.login == 'dependabot-preview[bot]' ||
+      contains(github.event.pull_request.labels.*.name, 'dependencies')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      checks: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate PR status
+        id: check
+        run: |
+          # Wait a few seconds to ensure statuses are updated
+          sleep 5
+          # Use GitHub CLI to check if PR is mergeable
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          MERGEABLE=$(gh pr view "$PR_NUMBER" --json mergeable --jq '.mergeable')
+          if [[ "$MERGEABLE" != "MERGEABLE" ]]; then
+            echo "PR is not mergeable (status: $MERGEABLE)"
+            exit 0
+          fi
+          # Check that all required status checks are passing
+          STATUS=$(gh pr view "$PR_NUMBER" --json statusCheckRollup --jq '.statusCheckRollup[] | select(.conclusion != "SUCCESS" and .conclusion != "SKIPPED") | .conclusion' | head -1)
+          if [[ -n "$STATUS" ]]; then
+            echo "Some checks are not successful: $STATUS"
+            exit 0
+          fi
+          echo "PR is ready for auto-merge"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge (squash)
+        if: steps.check.outcome == 'success'
+        uses: pascalgn/automerge-action@v0.16.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
+          DELETE_BRANCH: true
+
+      - name: Log if not ready
+        if: steps.check.outcome != 'success'
+        run: echo "PR not ready for auto-merge (checks pending or failing)"
