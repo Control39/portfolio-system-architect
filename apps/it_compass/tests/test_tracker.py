@@ -1,7 +1,8 @@
-﻿import pytest
+import sys
 import tempfile
 from pathlib import Path
-import sys
+
+import pytest
 
 sys.path.append(".")
 
@@ -28,4 +29,3 @@ def test_progress_file_creation():
 
 if __name__ == "__main__":
     pytest.main([__file__])
-

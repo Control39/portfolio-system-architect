@@ -35,14 +35,17 @@ if config.get("gigachat", {}).get("api_key") == "YOUR_GIGACHAT_TOKEN_HERE":
 
 print(f"✅ Активный провайдер: {config['active_provider']}")
 
+
 # === Модели запросов ===
 class Message(BaseModel):
     role: str
     content: str
 
+
 class ChatRequest(BaseModel):
     messages: list[Message]
     model: str | None = None
+
 
 # === Роут для чата ===
 @app.post("/v1/chat/completions")
@@ -98,7 +101,9 @@ async def chat_completions(request: ChatRequest):
                 },
                 json={
                     "model": config["gigachat"]["model"],
-                    "messages": [{"role": m.role, "content": m.content} for m in request.messages],
+                    "messages": [
+                        {"role": m.role, "content": m.content} for m in request.messages
+                    ],
                     "temperature": 0.7,
                 },
             )
@@ -120,7 +125,9 @@ async def chat_completions(request: ChatRequest):
     else:
         return {"error": f"Unknown provider: {provider}"}
 
+
 # === Запуск ===
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8081)

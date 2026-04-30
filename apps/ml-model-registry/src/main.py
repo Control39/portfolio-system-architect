@@ -1,13 +1,15 @@
 ﻿import os
 import sys
+
 from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
+
 from . import portfolio_integration
 
 # Импортируем общие модули
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
-from src.common.health_check import init_health_checks
 from src.common.async_helpers import fetch_parallel, fetch_with_retry
+from src.common.health_check import init_health_checks
 
 app = FastAPI(
     title="ML Model Registry API",
@@ -32,7 +34,7 @@ async def root():
         "version": "1.0.0",
         "endpoints": {
             "GET /health": "Health check",
-            "GET /ready": "Readiness probe", 
+            "GET /ready": "Readiness probe",
             "GET /live": "Liveness probe",
             "GET /api/models": "List all models",
             "POST /portfolio/*": "Portfolio integration endpoints",
@@ -60,4 +62,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
 >>>>>>> upstream/main
-

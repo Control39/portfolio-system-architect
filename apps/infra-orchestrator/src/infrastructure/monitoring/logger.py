@@ -5,8 +5,8 @@ logger = structlog.get_logger()
 def setup_logging(app):
     \"\"\"Configure structured logging with structlog.\"\"\"
     import structlog
+    from structlog.processors import JSONRenderer, TimeStamper
     from structlog.stdlib import LoggerFactory
-    from structlog.processors import TimeStamper, JSONRenderer
 
     timestamper = TimeStamper(fmt="iso")
     processors = [
@@ -37,4 +37,3 @@ async def update_marker(marker_id: str, status: str):
     except Exception as e:
         logger.error("marker_update_failed", marker_id=marker_id, error=str(e))
         raise
-

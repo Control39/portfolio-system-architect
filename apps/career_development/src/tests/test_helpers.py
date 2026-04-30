@@ -1,13 +1,11 @@
-import unittest
 import os
 import tempfile
-import sys
-from pathlib import Path
-from src.utils.helpers import validate_evidence_link, generate_id
+import unittest
+
+from src.utils.helpers import validate_evidence_link
 
 
 class TestHelpers(unittest.TestCase):
-
     def test_validate_email(self):
         """Тест валидации email"""
         # Функция validate_email не определена, используем validate_evidence_link как ближайший аналог
@@ -122,5 +120,3 @@ class TestHelpers(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-

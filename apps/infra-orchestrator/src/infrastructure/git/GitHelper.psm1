@@ -9,4 +9,3 @@ function Get-ChangeReport {
 }
 
 Export-ModuleMember -Function Initialize-GitRepo, Get-ChangeReport
-

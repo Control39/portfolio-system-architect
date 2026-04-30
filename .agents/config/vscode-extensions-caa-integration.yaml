@@ -11,12 +11,12 @@ triggers:
   - event: project_opened
     action: check_extensions_compliance
     priority: medium
-  
+
   - event: config_changed
     file_pattern: "config/vscode/vscode-extensions.json"
     action: sync_extensions
     priority: high
-  
+
   - event: schedule
     cron: "0 9 * * 1"  # Каждый понедельник в 9:00
     action: weekly_extensions_audit
@@ -31,18 +31,18 @@ actions:
       - "compliance_score"
       - "missing_extensions"
       - "recommendations"
-    
+
   sync_extensions:
     description: "Синхронизация расширений с конфигурацией"
     script: "scripts/vscode-extensions-manager.py --sync --dry-run"
     requires_approval: true
     approval_prompt: "Синхронизировать расширения VS Code? Будут установлены/удалены расширения."
-    
+
   weekly_extensions_audit:
     description: "Еженедельный аудит расширений и генерация отчета"
     script: "scripts/vscode-extensions-manager.py --audit --generate-report"
     output_file: "reports/vscode-extensions-audit-{date}.md"
-    
+
   optimize_extensions:
     description: "Оптимизация расширений на основе использования"
     script: "scripts/vscode-extensions-manager.py --optimize --usage-data"
@@ -56,22 +56,22 @@ integration:
       - "синхронизируй расширения"
       - "оптимизируй vs code"
       - "настрой расширения"
-    
+
   with_ci_cd:
     workflow: ".github/workflows/vscode-extensions-check.yml"
     triggers: ["push", "pull_request", "schedule"]
-    
+
   monitoring:
     metrics:
       - name: "extensions_compliance_score"
         type: "gauge"
         description: "Оценка соответствия расширений"
         threshold: 90
-        
+
       - name: "extensions_count"
         type: "counter"
         description: "Количество установленных расширений"
-        
+
       - name: "extensions_optimization_savings"
         type: "gauge"
         description: "Экономия места после оптимизации (MB)"
@@ -80,7 +80,7 @@ notifications:
   on_compliance_below_threshold:
     channels: ["vscode", "slack", "email"]
     message: "Оценка соответствия расширений VS Code ниже порога: {score}%"
-    
+
   on_extensions_changed:
     channels: ["vscode"]
     message: "Расширения VS Code были обновлены. Установлено: {added}, Удалено: {removed}"
@@ -89,11 +89,11 @@ rules:
   - name: "maintain_minimal_compliance"
     condition: "extensions_compliance_score < 90"
     action: "notify_and_suggest_sync"
-    
+
   - name: "prevent_conflicting_extensions"
     condition: "detected_conflicts > 0"
     action: "resolve_conflicts_automatically"
-    
+
   - name: "optimize_performance"
     condition: "extensions_count > 50"
     action: "suggest_optimization"
@@ -108,11 +108,11 @@ platform_specific:
   windows:
     script: "scripts/vscode-extensions-windows.ps1"
     vscode_path: "$env:USERPROFILE/.vscode/extensions"
-    
+
   linux:
     script: "scripts/vscode-extensions-unix.sh"
     vscode_path: "~/.vscode/extensions"
-    
+
   macos:
     script: "scripts/vscode-extensions-unix.sh"
     vscode_path: "~/.vscode/extensions"
@@ -123,12 +123,12 @@ test_scenarios:
     steps:
       - run: "scripts/vscode-extensions-manager.py --check"
       - assert: "compliance_score >= 0"
-      
+
   - name: "dry_run_sync"
     steps:
       - run: "scripts/vscode-extensions-manager.py --sync --dry-run"
       - assert: "no_errors"
-      
+
   - name: "report_generation"
     steps:
       - run: "scripts/vscode-extensions-manager.py --report"

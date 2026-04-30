@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Проверка всех YAML файлов в проекте на валидность с поддержкой multi-document.
 """
 
@@ -29,12 +29,16 @@ def check_yaml_file(filepath):
         if not valid_docs:
             return False, "Нет валидных документов (только комментарии)"
 
-        return True, f"OK ({len(valid_docs)} документов, {len(documents) - len(valid_docs)} пустых)"
+        return (
+            True,
+            f"OK ({len(valid_docs)} документов, {len(documents) - len(valid_docs)} пустых)",
+        )
 
     except yaml.YAMLError as e:
         return False, f"YAML ошибка: {e}"
     except Exception as e:
         return False, f"Ошибка чтения: {e}"
+
 
 def find_yaml_files(root_dir):
     """Найти все YAML/yml файлы в проекте."""
@@ -43,13 +47,21 @@ def find_yaml_files(root_dir):
         for path in Path(root_dir).rglob(ext):
             # Пропускаем некоторые директории
             str_path = str(path)
-            if any(ignore in str_path for ignore in [
-                ".git", "__pycache__", "node_modules",
-                ".venv", "venv", ".pytest_cache",
-            ]):
+            if any(
+                ignore in str_path
+                for ignore in [
+                    ".git",
+                    "__pycache__",
+                    "node_modules",
+                    ".venv",
+                    "venv",
+                    ".pytest_cache",
+                ]
+            ):
                 continue
             yaml_files.append(path)
     return yaml_files
+
 
 def main():
     root_dir = "."
@@ -69,7 +81,7 @@ def main():
             print(f"{i:3d}. ✗ {rel_path}: {message}")
             errors.append((rel_path, message))
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     if errors:
         print(f"НАЙДЕНЫ ОШИБКИ: {len(errors)} файлов с ошибками")
         for rel_path, error in errors[:10]:  # Покажем первые 10 ошибок
@@ -79,6 +91,7 @@ def main():
         return 1
     print("ВСЕ YAML ФАЙЛЫ ВАЛИДНЫ!")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

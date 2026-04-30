@@ -30,7 +30,7 @@ class AIProviderAdapter {
         this.provider = provider;
         this.strategy = this.getStrategy(provider);
     }
-    
+
     getStrategy(provider) {
         switch(provider) {
             case 'ollama': return new OllamaStrategy();
@@ -39,11 +39,11 @@ class AIProviderAdapter {
             default: throw new Error(Unknown provider: );
         }
     }
-    
+
     async checkStatus() {
         return await this.strategy.ping();
     }
-    
+
     async generateConfig() {
         return await this.strategy.export();
     }
@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
         const status = await monitor.getAllStatuses();
         socket.emit('status-update', status);
     }, 5000);
-    
+
     socket.on('disconnect', () => clearInterval(interval));
 });
 \\\

@@ -21,5 +21,3 @@ Date: Current
 - scripts/tools/ ready for tool scripts.
 
 See INVENTORY.md for details.
-
-

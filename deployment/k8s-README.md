@@ -21,5 +21,3 @@ Commands:
 1. kubectl apply -f deployment/
 2. kubectl get pods -A
 3. kubectl port-forward svc/it-compass 8501:8501
-
-

@@ -276,4 +276,3 @@ spec:
 3. **Synthetic monitoring** – blackbox exporter for external checks
 4. **Business metrics** – more portfolio-specific KPIs
 5. **Anomaly detection** – machine learning on metrics
-

@@ -10,4 +10,4 @@ __all__ = ["checks", "cli"]
 
 from .cli import main as audit_main
 
-__all__ += ['audit_main']
+__all__ += ["audit_main"]

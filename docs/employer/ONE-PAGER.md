@@ -1,8 +1,8 @@
 ﻿# Employer One-Pager
 
-**Name**: Ekaterina Kudelia  
-**Role**: Product-minded Cognitive Systems Architect  
-**Location**: Remote  
+**Name**: Ekaterina Kudelia
+**Role**: Product-minded Cognitive Systems Architect
+**Location**: Remote
 **Years of Experience**: 2 years (with evidence-based system design)
 
 ---
@@ -21,11 +21,11 @@
 
 ## 💪 Key Achievements
 
-✅ **95%+ code test coverage** (pytest-cov enforced in CI/CD)  
-✅ **Enterprise-ready infrastructure** (K8s manifests + Terraform IaC)  
-✅ **Automated security** (detect-secrets, Trivy, bandit scanning)  
-✅ **Disaster recovery** (automated backups, restore procedures)  
-✅ **Production patterns** (HPA, service mesh ready, monitoring alerts)  
+✅ **95%+ code test coverage** (pytest-cov enforced in CI/CD)
+✅ **Enterprise-ready infrastructure** (K8s manifests + Terraform IaC)
+✅ **Automated security** (detect-secrets, Trivy, bandit scanning)
+✅ **Disaster recovery** (automated backups, restore procedures)
+✅ **Production patterns** (HPA, service mesh ready, monitoring alerts)
 
 ---
 
@@ -53,6 +53,5 @@
 
 ---
 
-**Available for**: Full-time, contract, consulting  
+**Available for**: Full-time, contract, consulting
 **Preference**: Early-stage startups, deep-tech, AI companies
-

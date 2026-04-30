@@ -23,7 +23,7 @@
 - Git инструменты
 - Качество кода
 
-### 2. Рекомендуемые (recommended)  
+### 2. Рекомендуемые (recommended)
 **Влияние на оценку:** Среднее (отображается в отчете)
 
 Расширения, улучшающие разработку:
@@ -54,24 +54,24 @@
 {
   "//": "Конфигурация расширений VS Code для проекта portfolio-system-architect",
   "//": "Автоматически управляется скриптом scripts/vscode-extensions-manager.py",
-  
+
   "required": [
     "ms-python.python",
     "ms-python.vscode-pylance",
     "ms-python.black-formatter"
   ],
-  
+
   "recommended": [
     "ms-python.isort",
     "njpwerner.autodocstring",
     "tomasz-smykowski.fastapi-snippets"
   ],
-  
+
   "optional": [
     "Continue.continue",
     "yandex.yandex-code-assist"
   ],
-  
+
   "excluded": [
     "vscjava.vscode-java-debug"
   ]
@@ -261,5 +261,5 @@ grep -n "//" config/vscode/vscode-extensions.json
 
 ---
 
-*Конфигурация обновлена: 2026-04-10*  
+*Конфигурация обновлена: 2026-04-10*
 *Основано на анализе технологического стека проекта*

@@ -16,4 +16,3 @@ spec:
   resources:
     requests:
       storage: 5Gi  # Sufficient for GCP Free Tier
-

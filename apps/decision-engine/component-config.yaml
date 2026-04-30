@@ -109,4 +109,3 @@ env_variables:
     description: "API-ключ для внешних сервисов"
   - name: "LOG_LEVEL"
     description: "Уровень логирования (DEBUG, INFO, WARNING, ERROR)"
-

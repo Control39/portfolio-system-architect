@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Unified healthcheck for Portfolio System Architect
 Exports /health, /ready, /live endpoints for all services
 """
@@ -15,12 +15,20 @@ SERVICES = {
     "decision-engine": "localhost:8000/health",
 }
 
+
 def check_tcp(hostport: str) -> bool:
     host, port = hostport.split(":")
-    result = subprocess.run(["powershell", "-Command",
-        f"Test-NetConnection -ComputerName {host} -Port {port} -InformationLevel Quiet"],
-        capture_output=True, text=True)
+    result = subprocess.run(
+        [
+            "powershell",
+            "-Command",
+            f"Test-NetConnection -ComputerName {host} -Port {port} -InformationLevel Quiet",
+        ],
+        capture_output=True,
+        text=True,
+    )
     return result.returncode == 0
+
 
 def main():
     healthy = True
@@ -42,6 +50,6 @@ def main():
         print("\n❌ CRITICAL SERVICES DOWN")
         sys.exit(1)
 
+
 if __name__ == "__main__":
     main()
-

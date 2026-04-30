@@ -10,4 +10,3 @@ function Convert-ToUtf8WithBom {
 
 # Main
 Write-Host 'Encoding fix complete'
-

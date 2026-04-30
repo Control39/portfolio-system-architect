@@ -6,89 +6,89 @@ flowchart TB
     subgraph "Cognitive Automation Agent (.agents/)"
         direction TB
         CAA[<b>Cognitive Automation Agent</b><br/>Автономная система выполнения]
-        
+
         subgraph "Core Components"
             Scanner[Project Scanner<br/>Сканирование технологий]
             Planner[Task Planner<br/>Планирование задач]
             Learning[Learning System<br/>Самообучение]
             Triggers[Trigger System<br/>Автоматические триггеры]
         end
-        
+
         subgraph "Data Storage"
             Metrics[Метрики выполнения]
             Status[Статусы задач]
             Changelogs[Changelogs]
         end
-        
+
         CAA --> Scanner
         CAA --> Planner
         CAA --> Learning
         CAA --> Triggers
-        
+
         Scanner --> Metrics
         Planner --> Status
         Learning --> Metrics
         Triggers --> Status
     end
-    
+
     subgraph "SourceCraft Agent Skills (.codeassistant/)"
         direction TB
         SCA[<b>SourceCraft Agent</b><br/>Аналитическая система]
-        
+
         subgraph "Analytical Skills"
             CAA_Audit[caa-audit<br/>Аудит CAA]
             Architect_Analyze[architect-analize<br/>Анализ архитектуры]
             Extension_Analyzer[extension-stack-analyzer<br/>Анализ окружения]
             Performance_Profiler[performance-profiler<br/>Профилирование]
         end
-        
+
         subgraph "Configuration"
             Context[context.md<br/>Контекст]
             MCP[mcp.json<br/>MCP конфигурация]
             AI_Models[ai-models.yaml<br/>Модели ИИ]
         end
-        
+
         SCA --> CAA_Audit
         SCA --> Architect_Analyze
         SCA --> Extension_Analyzer
         SCA --> Performance_Profiler
-        
+
         CAA_Audit --> Context
         Architect_Analyze --> Context
     end
-    
+
     subgraph "Shared Documentation"
         ARCH[ARCHITECTURE.md<br/>Архитектурная документация]
         README[README.md<br/>Общая документация]
     end
-    
+
     %% Dependencies
     CAA_Audit -- "Анализирует" --> CAA
     Architect_Analyze -- "Использует данные" --> Scanner
     Performance_Profiler -- "Мониторит" --> Metrics
-    
+
     %% Data flow
     Metrics -- "Предоставляет метрики" --> CAA_Audit
     Status -- "Предоставляет статусы" --> Architect_Analyze
     Changelogs -- "История изменений" --> CAA_Audit
-    
+
     %% Documentation references
     ARCH -- "Документирует" --> CAA
     ARCH -- "Документирует" --> SCA
     README -- "Общее описание" --> CAA
     README -- "Общее описание" --> SCA
-    
+
     %% CI/CD Integration
     subgraph "CI/CD (GitHub Actions)"
         Compatibility[agents-codeassistant-compatibility.yml<br/>Проверка совместимости]
         Tests[Интеграционные тесты]
     end
-    
+
     Compatibility -- "Проверяет" --> CAA
     Compatibility -- "Проверяет" --> SCA
     Tests -- "Тестирует взаимодействие" --> CAA
     Tests -- "Тестирует взаимодействие" --> SCA
-    
+
     %% Legend
     subgraph "Легенда"
         direction LR
@@ -96,7 +96,7 @@ flowchart TB
         L3[Анализ] --> L4[Реализация]
         L5[Документация] --> L6[Система]
     end
-    
+
     style CAA fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style SCA fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
     style ARCH fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Safe sync script from my-ecosystem-FINAL to _sync/ with diff previews.
 Inspired by my-ecosystem/scripts/analyze_all.py, git_fix_history.py.
 Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview
@@ -18,11 +18,13 @@ def preview_diff(source_file, target_file):
         diff = difflib.unified_diff(
             target.splitlines(keepends=True),
             source.splitlines(keepends=True),
-            fromfile=target_file, tofile=source_file,
+            fromfile=target_file,
+            tofile=source_file,
         )
         return "".join(diff)
     except FileNotFoundError:
         return f"New file: {source_file}"
+
 
 def sync_file(source, target_dir, preview_only=False):
     target = Path(target_dir) / Path(source).name
@@ -30,14 +32,23 @@ def sync_file(source, target_dir, preview_only=False):
         print(preview_diff(source, target))
     else:
         Path(target).parent.mkdir(parents=True, exist_ok=True)
-        with open(source, encoding="utf-8") as sf, open(target, "w", encoding="utf-8") as tf:
+        with open(source, encoding="utf-8") as sf, open(
+            target, "w", encoding="utf-8"
+        ) as tf:
             tf.write(sf.read())
         print(f"Synced: {target}")
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", required=True, help="Source dir e.g. C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers/")
-    parser.add_argument("--target", default="_sync/it-compass", help="Target _sync subdir")
+    parser.add_argument(
+        "--source",
+        required=True,
+        help="Source dir e.g. C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers/",
+    )
+    parser.add_argument(
+        "--target", default="_sync/it-compass", help="Target _sync subdir"
+    )
     parser.add_argument("--preview", action="store_true", help="Preview diffs only")
     args = parser.parse_args()
 
@@ -48,9 +59,8 @@ def main():
                 sync_file(source_path, args.target, args.preview)
                 print("-" * 80)
 
+
 if __name__ == "__main__":
     main()
 
 # Example: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview
-
-

@@ -54,4 +54,3 @@ make lint
 ## 10. Документация
 ```bash
 mkdocs build --strict
-

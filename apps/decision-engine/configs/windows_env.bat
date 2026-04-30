@@ -4,7 +4,7 @@
 :: Или добавьте в автозагрузку пользователя для локальной настройки
 
 :: Заголовок
-echo. 
+echo.
 echo Установка переменных окружения для UTF-8 поддержки
 echo ==============================================================================
 
@@ -87,7 +87,7 @@ if exist %WT_SETTINGS% (
         echo Windows Terminal: Обновление настроек...
         :: Резервное копирование оригинальных настроек
         copy %WT_SETTINGS% "%LOCALAPPDATA%\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json.bak" >nul
-        
+
         :: Добавляем настройки UTF-8 (упрощенный пример)
         echo {
         echo     "profiles": {
@@ -104,7 +104,7 @@ if exist %WT_SETTINGS% (
         echo         { "command": "paste", "keys": "ctrl+v" }
         echo     ]
         echo } > "%TEMP%\\wt_temp.json"
-        
+
         type "%TEMP%\\wt_temp.json" >> %WT_SETTINGS%
         del "%TEMP%\\wt_temp.json" >nul
         echo Успешно: Настройки Windows Terminal обновлены

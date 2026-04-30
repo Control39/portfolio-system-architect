@@ -1,4 +1,4 @@
-﻿"""FastAPI сервер для AI-консультанта по архитектуре.
+"""FastAPI сервер для AI-консультанта по архитектуре.
 Предоставляет RAG-based API для ответов на вопросы о проекте.
 """
 
@@ -22,10 +22,12 @@ app = FastAPI(
 
 logger = logging.getLogger(__name__)
 
+
 class QuestionRequest(BaseModel):
     query: str
     top_k: int = 3
     min_confidence: float = 0.3
+
 
 class SourceItem(BaseModel):
     file: str
@@ -34,6 +36,7 @@ class SourceItem(BaseModel):
     line_start: int | None = None
     line_end: int | None = None
 
+
 class AnswerResponse(BaseModel):
     question: str
     answer: str
@@ -41,15 +44,17 @@ class AnswerResponse(BaseModel):
     sources: list[SourceItem]
     processing_time_ms: float
 
+
 # Инициализируем RAGAdvisor
 project_root = Path(__file__).parent.parent
 rag_advisor = RAGAdvisor(project_root)
 
+
 @app.post("/ask", response_model=AnswerResponse)
 async def ask_architecture_question(request: QuestionRequest):
-    """Задать вопрос о проекте и получить ответ на основе RAG-поиска.
-    """
+    """Задать вопрос о проекте и получить ответ на основе RAG-поиска."""
     import time
+
     start_time = time.time()
 
     try:
@@ -66,13 +71,15 @@ async def ask_architecture_question(request: QuestionRequest):
         sources = []
         if result.get("sources"):
             for src in result["sources"]:
-                sources.append(SourceItem(
-                    file=src.get("file", "unknown"),
-                    text=src.get("text", ""),
-                    score=src.get("score", 0.0),
-                    line_start=src.get("line_start"),
-                    line_end=src.get("line_end"),
-                ))
+                sources.append(
+                    SourceItem(
+                        file=src.get("file", "unknown"),
+                        text=src.get("text", ""),
+                        score=src.get("score", 0.0),
+                        line_start=src.get("line_start"),
+                        line_end=src.get("line_end"),
+                    )
+                )
 
         return AnswerResponse(
             question=request.query,
@@ -93,10 +100,10 @@ async def ask_architecture_question(request: QuestionRequest):
             processing_time_ms=processing_time_ms,
         )
 
+
 @app.get("/health")
 async def health_check():
-    """Проверка здоровья сервиса.
-    """
+    """Проверка здоровья сервиса."""
     try:
         index_ready = rag_advisor.is_index_ready()
         return {
@@ -112,10 +119,10 @@ async def health_check():
             "service": "architect-assistant-api",
         }
 
+
 @app.get("/stats")
 async def get_stats():
-    """Получить статистику по индексу.
-    """
+    """Получить статистику по индексу."""
     try:
         stats = rag_advisor.get_index_stats()
         return {
@@ -128,6 +135,8 @@ async def get_stats():
             "error": str(e),
         }
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

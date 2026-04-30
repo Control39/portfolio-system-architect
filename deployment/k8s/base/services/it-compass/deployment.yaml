@@ -32,15 +32,15 @@ spec:
         ports:
         - containerPort: 8501
           name: http
-        
+
         envFrom:
         - configMapRef:
             name: it-compass-config
-        
+
         volumeMounts:
         - name: data
           mountPath: /app/data
-        
+
         livenessProbe:
           httpGet:
             path: /_stcore/health
@@ -49,7 +49,7 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
-        
+
         readinessProbe:
           httpGet:
             path: /_stcore/health
@@ -58,7 +58,7 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 3
           failureThreshold: 2
-        
+
         resources:
           requests:
             cpu: 100m
@@ -66,20 +66,20 @@ spec:
           limits:
             cpu: 500m
             memory: 512Mi
-        
+
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
           runAsUser: 1000
-      
+
       volumes:
       - name: data
         persistentVolumeClaim:
           claimName: shared-data-pvc
-       
+
       securityContext:
         fsGroup: 1000
-      
+
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -92,4 +92,3 @@ spec:
                   values:
                   - it-compass
               topologyKey: kubernetes.io/hostname
-

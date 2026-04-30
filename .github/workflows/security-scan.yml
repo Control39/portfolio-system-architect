@@ -13,7 +13,7 @@ jobs:
   trivy-scan:
     name: Trivy Security Scan
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
   bandit-scan:
     name: Bandit Python Security Scan
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
   docker-scan:
     name: Docker Image Security Scan
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -97,7 +97,7 @@ jobs:
   dependency-check:
     name: Dependency Vulnerability Check
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
     name: SonarQube Analysis
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -152,7 +152,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [trivy-scan, bandit-scan, docker-scan, dependency-check]
     if: failure()
-    
+
     steps:
     - name: Send security alert
       run: |

@@ -78,5 +78,5 @@ monitoring/                # Трекинг метрик
 
 ---
 
-*Кейс основан на реальных данных из проекта Portfolio System Architect*  
+*Кейс основан на реальных данных из проекта Portfolio System Architect*
 *Методология: IT-Compass (19 доменов, 83 маркера)*

@@ -92,10 +92,10 @@ function MonitorScreen() {
         </View>
         {Object.entries(status?.configs || {}).map(([name, info]) => (
           <View key={name} style={styles.configRow}>
-            <Icon 
-              name={info.exists ? 'check-circle' : 'error'} 
-              size={20} 
-              color={info.exists ? '#2ecc71' : '#e74c3c'} 
+            <Icon
+              name={info.exists ? 'check-circle' : 'error'}
+              size={20}
+              color={info.exists ? '#2ecc71' : '#e74c3c'}
             />
             <Text style={styles.configName}>{name}</Text>
             <Text style={styles.configSize}>
@@ -271,7 +271,7 @@ function NotificationsScreen() {
             notif.type === 'error' && styles.errorCard,
             notif.type === 'warning' && styles.warningCard
           ]}>
-            <Icon 
+            <Icon
               name={
                 notif.type === 'error' ? 'error' :
                 notif.type === 'warning' ? 'warning' : 'info'

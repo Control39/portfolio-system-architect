@@ -15,7 +15,7 @@ triggers:
       - generate_welcome_plan
     autonomy_level: medium
     priority: high
-    
+
   # Триггер при изменении файлов
   file_change:
     enabled: true
@@ -37,7 +37,7 @@ triggers:
       - update_dependencies
     autonomy_level: low
     priority: medium
-    
+
   # Триггер при коммите в Git
   git_commit:
     enabled: true
@@ -49,7 +49,7 @@ triggers:
       - generate_changelog
     autonomy_level: high
     priority: high
-    
+
   # Триггер при пуше в Git
   git_push:
     enabled: true
@@ -61,7 +61,7 @@ triggers:
       - generate_deployment_plan
     autonomy_level: medium
     priority: high
-    
+
   # Триггер при создании Pull Request
   pull_request:
     enabled: true
@@ -73,7 +73,7 @@ triggers:
       - test_coverage
     autonomy_level: medium
     priority: critical
-    
+
   # Триггер по расписанию (ежедневно)
   daily_schedule:
     enabled: true
@@ -85,7 +85,7 @@ triggers:
       - generate_daily_report
     autonomy_level: high
     priority: medium
-    
+
   # Триггер по расписанию (еженедельно)
   weekly_schedule:
     enabled: true
@@ -97,7 +97,7 @@ triggers:
       - generate_weekly_report
     autonomy_level: medium
     priority: low
-    
+
   # Триггер при ошибках
   error_detected:
     enabled: true
@@ -112,7 +112,7 @@ triggers:
       - create_issue
     autonomy_level: high
     priority: critical
-    
+
   # Триггер при низкой производительности
   performance_issue:
     enabled: true
@@ -126,7 +126,7 @@ triggers:
       - scaling_recommendations
     autonomy_level: medium
     priority: high
-    
+
   # Триггер при проблемах безопасности
   security_issue:
     enabled: true
@@ -148,132 +148,132 @@ actions:
     command: "scanner --mode=deep"
     timeout: 300  # секунд
     allowed_failures: 1
-    
+
   validate_agent:
     command: "validation-test.py"
     timeout: 60
     allowed_failures: 0
-    
+
   generate_welcome_plan:
     command: "planner --generate --type=welcome"
     timeout: 120
-    
+
   analyze_changes:
     command: "analyzer --changes"
     timeout: 30
-    
+
   run_affected_tests:
     command: "test_runner --affected"
     timeout: 180
-    
+
   update_dependencies:
     command: "dependency_manager --update"
     timeout: 300
-    
+
   validate_code:
     command: "validator --code"
     timeout: 60
-    
+
   run_tests:
     command: "test_runner --all"
     timeout: 600
-    
+
   generate_changelog:
     command: "changelog_generator"
     timeout: 30
-    
+
   security_scan:
     command: "security_scanner --full"
     timeout: 600
-    
+
   performance_check:
     command: "performance_analyzer"
     timeout: 300
-    
+
   generate_deployment_plan:
     command: "deployment_planner"
     timeout: 120
-    
+
   code_review:
     command: "code_reviewer --ai"
     timeout: 300
-    
+
   conflict_detection:
     command: "conflict_detector"
     timeout: 60
-    
+
   test_coverage:
     command: "coverage_analyzer"
     timeout: 180
-    
+
   dependency_update_check:
     command: "dependency_checker --updates"
     timeout: 300
-    
+
   security_audit:
     command: "security_auditor"
     timeout: 600
-    
+
   performance_optimization:
     command: "performance_optimizer"
     timeout: 300
-    
+
   generate_daily_report:
     command: "reporter --daily"
     timeout: 60
-    
+
   deep_cleanup:
     command: "cleaner --deep"
     timeout: 600
-    
+
   model_retraining:
     command: "model_trainer --retrain"
     timeout: 3600
-    
+
   knowledge_base_update:
     command: "knowledge_updater"
     timeout: 300
-    
+
   generate_weekly_report:
     command: "reporter --weekly"
     timeout: 120
-    
+
   error_analysis:
     command: "error_analyzer"
     timeout: 180
-    
+
   auto_fix_attempt:
     command: "auto_fixer"
     timeout: 300
-    
+
   notification:
     command: "notifier --alert"
     timeout: 30
-    
+
   create_issue:
     command: "issue_creator"
     timeout: 60
-    
+
   performance_analysis:
     command: "performance_profiler"
     timeout: 300
-    
+
   optimization_suggestions:
     command: "optimization_advisor"
     timeout: 180
-    
+
   scaling_recommendations:
     command: "scaling_advisor"
     timeout: 120
-    
+
   auto_remediation:
     command: "remediator --auto"
     timeout: 300
-    
+
   alert_team:
     command: "alerter --team"
     timeout: 30
-    
+
   update_firewall:
     command: "firewall_updater"
     timeout: 120
@@ -285,14 +285,14 @@ processing:
   retry_delay: 5000  # мс
   queue_size: 100
   log_level: "info"
-  
+
   # Приоритеты обработки
   priority_mapping:
     critical: 100
     high: 75
     medium: 50
     low: 25
-    
+
   # Время жизни результатов
   result_ttl: 86400  # секунд (24 часа)
 
@@ -303,24 +303,24 @@ notifications:
     - vscode
     - console
     - file
-  
+
   # Условия для уведомлений
   conditions:
     - on_success: true
     - on_failure: true
     - on_retry: true
     - on_critical: true
-    
+
   # Форматы уведомлений
   formats:
     vscode:
       type: "notification"
       timeout: 5000
-      
+
     console:
       type: "log"
       level: "info"
-      
+
     file:
       type: "json"
       path: ".agents/logs/notifications.log"
@@ -334,18 +334,18 @@ monitoring:
     - average_processing_time
     - queue_size
     - error_rate
-    
+
   alerts:
     - metric: "error_rate"
       threshold: 0.1  # 10%
       condition: "gt"
       action: "notification"
-      
+
     - metric: "queue_size"
       threshold: 50
       condition: "gt"
       action: "scale_workers"
-      
+
     - metric: "average_processing_time"
       threshold: 300000  # 5 минут в мс
       condition: "gt"
@@ -360,24 +360,24 @@ integrations:
       - post_commit
       - pre_push
       - post_merge
-      
+
   filesystem:
     enabled: true
     watchers:
       - config_files
       - source_code
       - dependencies
-      
+
   schedule:
     enabled: true
     scheduler: "cron"
-    
+
   monitoring:
     enabled: true
     providers:
       - prometheus
       - grafana
-      
+
   notifications:
     enabled: true
     providers:

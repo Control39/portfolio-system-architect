@@ -3,5 +3,3 @@
 ## What Was Fixed ✅
 
 [... full ...]
-
-

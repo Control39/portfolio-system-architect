@@ -5,4 +5,3 @@ function Get-Configuration {
 }
 
 Export-ModuleMember -Function Get-Configuration
-

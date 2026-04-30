@@ -13,15 +13,14 @@
 
 ## Example Markers (Anonymized)
 Query "выявила взаимосвязи" (score 5.02):
-> "Хронология прорыва: 1. Поиск языка 2. Диагностика 3. Решение"  
+> "Хронология прорыва: 1. Поиск языка 2. Диагностика 3. Решение"
 *(Structuring phases reveals connections)*
 
 Query "как я нашла причину" (score 5.76):
-> Self-description as "cognitive architect with diagnostic thinking".  
+> Self-description as "cognitive architect with diagnostic thinking".
 
 These prove non-code architecture: integration, trade-offs, evolution.
 
 Visualization available in Obsidian export.
 
 *Raw data in thinking_patterns_data.json (local only).*
-

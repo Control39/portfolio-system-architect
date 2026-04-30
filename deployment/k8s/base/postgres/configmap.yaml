@@ -12,4 +12,3 @@ data:
   max_connections: "200"
   shared_buffers: "256MB"
   effective_cache_size: "1GB"
-

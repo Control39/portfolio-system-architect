@@ -1,5 +1,6 @@
-﻿from typing import List
-from .models import UserProfile, CompetencyMarker
+from typing import List
+
+from .models import CompetencyMarker, UserProfile
 
 
 class CompetencyTracker:
@@ -41,5 +42,3 @@ class CompetencyTracker:
         for skill in self.profile.skills:
             pending.extend([m for m in skill.markers if m.status != "completed"])
         return pending
-
-

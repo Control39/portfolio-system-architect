@@ -46,7 +46,7 @@ function Test-VSCodeInstalled {
             "$env:ProgramFiles\Microsoft VS Code\bin\code.cmd",
             "$env:ProgramFiles\Microsoft VS Code\Code.exe"
         )
-        
+
         foreach ($path in $possiblePaths) {
             if (Test-Path $path) {
                 Write-Log "VS Code найден по пути: $path"
@@ -55,7 +55,7 @@ function Test-VSCodeInstalled {
             }
         }
     }
-    
+
     Write-ErrorLog "VS Code не найден. Установите VS Code и добавьте в PATH"
     return $false
 }
@@ -76,12 +76,12 @@ function Get-InstalledExtensions {
 # Установка расширения
 function Install-Extension {
     param([string]$ExtensionId)
-    
+
     if ($DryRun) {
         Write-Log "[DRY RUN] Установка расширения: $ExtensionId"
         return $true
     }
-    
+
     try {
         Write-Log "Установка расширения: $ExtensionId"
         & code --install-extension $ExtensionId 2>$null
@@ -101,12 +101,12 @@ function Install-Extension {
 # Удаление расширения
 function Uninstall-Extension {
     param([string]$ExtensionId)
-    
+
     if ($DryRun) {
         Write-Log "[DRY RUN] Удаление расширения: $ExtensionId"
         return $true
     }
-    
+
     try {
         Write-Log "Удаление расширения: $ExtensionId"
         & code --uninstall-extension $ExtensionId 2>$null
@@ -126,12 +126,12 @@ function Uninstall-Extension {
 # Загрузка конфигурации
 function Load-Configuration {
     param([string]$ConfigPath)
-    
+
     if (-not (Test-Path $ConfigPath)) {
         Write-ErrorLog "Конфигурационный файл не найден: $ConfigPath"
         return $null
     }
-    
+
     try {
         $config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
         Write-Log "Конфигурация загружена из: $ConfigPath"
@@ -145,13 +145,13 @@ function Load-Configuration {
 # Проверка соответствия
 function Check-Compliance {
     param([object]$Config)
-    
+
     Write-Log "Проверка соответствия расширений..."
-    
+
     $installed = Get-InstalledExtensions
     $required = @($Config.required)
     $excluded = @($Config.excluded)
-    
+
     # Проверка обязательных расширений
     $missingRequired = @()
     foreach ($ext in $required) {
@@ -159,7 +159,7 @@ function Check-Compliance {
             $missingRequired += $ext
         }
     }
-    
+
     # Проверка исключенных расширений
     $foundExcluded = @()
     foreach ($ext in $excluded) {
@@ -167,12 +167,12 @@ function Check-Compliance {
             $foundExcluded += $ext
         }
     }
-    
+
     # Расчет compliance score
     $totalRequired = $required.Count
     $installedRequired = $totalRequired - $missingRequired.Count
     $complianceScore = if ($totalRequired -gt 0) { [math]::Round(($installedRequired / $totalRequired) * 100, 2) } else { 100 }
-    
+
     # Формирование отчета
     $report = @{
         TotalInstalled = $installed.Count
@@ -184,26 +184,26 @@ function Check-Compliance {
         ComplianceScore = $complianceScore
         Status = if ($complianceScore -eq 100 -and $foundExcluded.Count -eq 0) { "PASS" } else { "FAIL" }
     }
-    
+
     return $report
 }
 
 # Синхронизация расширений
 function Sync-Extensions {
     param([object]$Config)
-    
+
     Write-Log "Синхронизация расширений..."
-    
+
     $installed = Get-InstalledExtensions
     $required = @($Config.required)
     $excluded = @($Config.excluded)
-    
+
     $actions = @{
         Installed = 0
         Uninstalled = 0
         Failed = 0
     }
-    
+
     # Установка отсутствующих обязательных расширений
     foreach ($ext in $required) {
         if ($ext -notin $installed) {
@@ -214,7 +214,7 @@ function Sync-Extensions {
             }
         }
     }
-    
+
     # Удаление исключенных расширений
     foreach ($ext in $excluded) {
         if ($ext -in $installed) {
@@ -225,35 +225,35 @@ function Sync-Extensions {
             }
         }
     }
-    
+
     return $actions
 }
 
 # Генерация отчета
 function Generate-Report {
     param([object]$Report)
-    
+
     Write-Host "`n=== ОТЧЕТ О СООТВЕТСТВИИ РАСШИРЕНИЙ VS CODE ===" -ForegroundColor Cyan
     Write-Host "Всего установлено расширений: $($Report.TotalInstalled)" -ForegroundColor White
     Write-Host "Обязательных расширений: $($Report.RequiredCount)" -ForegroundColor White
     Write-Host "Установлено обязательных: $($Report.InstalledRequired)" -ForegroundColor White
     Write-Host "Оценка соответствия: $($Report.ComplianceScore)%" -ForegroundColor $(if ($Report.ComplianceScore -ge 90) { "Green" } elseif ($Report.ComplianceScore -ge 70) { "Yellow" } else { "Red" })
     Write-Host "Статус: $($Report.Status)" -ForegroundColor $(if ($Report.Status -eq "PASS") { "Green" } else { "Red" })
-    
+
     if ($Report.MissingRequired.Count -gt 0) {
         Write-Host "`nОтсутствующие обязательные расширения:" -ForegroundColor Yellow
         foreach ($ext in $Report.MissingRequired) {
             Write-Host "  - $ext" -ForegroundColor Yellow
         }
     }
-    
+
     if ($Report.FoundExcluded.Count -gt 0) {
         Write-Host "`nНайдены исключенные расширения:" -ForegroundColor Red
         foreach ($ext in $Report.FoundExcluded) {
             Write-Host "  - $ext" -ForegroundColor Red
         }
     }
-    
+
     Write-Host "`n=============================================" -ForegroundColor Cyan
 }
 
@@ -261,37 +261,37 @@ function Generate-Report {
 function Main {
     Write-Log "Запуск скрипта управления расширениями VS Code для Windows"
     Write-Log "Конфигурационный файл: $ConfigPath"
-    
+
     # Проверка VS Code
     if (-not (Test-VSCodeInstalled)) {
         exit 1
     }
-    
+
     # Загрузка конфигурации
     $config = Load-Configuration -ConfigPath $ConfigPath
     if (-not $config) {
         exit 1
     }
-    
+
     # Определение действия
     if ($Check -or (-not $Install -and -not $Sync -and -not $Report)) {
         # Проверка по умолчанию
         $report = Check-Compliance -Config $config
         Generate-Report -Report $report
     }
-    
+
     if ($Install) {
         Write-Log "Режим установки обязательных расширений"
         $required = @($config.required)
         $installed = Get-InstalledExtensions
-        
+
         foreach ($ext in $required) {
             if ($ext -notin $installed) {
                 Install-Extension -ExtensionId $ext
             }
         }
     }
-    
+
     if ($Sync) {
         Write-Log "Режим синхронизации"
         $actions = Sync-Extensions -Config $config
@@ -299,17 +299,17 @@ function Main {
         Write-Log "  Установлено: $($actions.Installed)"
         Write-Log "  Удалено: $($actions.Uninstalled)"
         Write-Log "  Ошибок: $($actions.Failed)"
-        
+
         # Показываем итоговый отчет
         $report = Check-Compliance -Config $config
         Generate-Report -Report $report
     }
-    
+
     if ($Report) {
         $report = Check-Compliance -Config $config
         Generate-Report -Report $report
     }
-    
+
     Write-Log "Скрипт завершен"
 }
 

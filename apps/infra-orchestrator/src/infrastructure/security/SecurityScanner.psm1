@@ -13,4 +13,3 @@ function Get-SecurityScore {
 }
 
 Export-ModuleMember -Function Invoke-SecurityScan, Get-SecurityScore
-

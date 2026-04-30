@@ -4,19 +4,19 @@
 scanning:
   # Режим сканирования
   mode: "deep"  # quick, standard, deep
-  
+
   # Включить рекурсивное сканирование
   recursive: true
-  
+
   # Максимальная глубина рекурсии
   max_depth: 10
-  
+
   # Следить за символическими ссылками
   follow_symlinks: false
-  
+
   # Игнорировать скрытые файлы и директории
   ignore_hidden: true
-  
+
   # Параллельное сканирование
   parallel_scanning: true
   max_workers: 4
@@ -48,7 +48,7 @@ detection:
     - "*.sh"
     - "*.ps1"
     - "*.bat"
-  
+
   # Паттерны для игнорирования
   ignore_patterns:
     - "**/node_modules/**"
@@ -62,10 +62,10 @@ detection:
     - "**/*.log"
     - "**/*.tmp"
     - "**/*.temp"
-  
+
   # Минимальный размер файла для анализа (в байтах)
   min_file_size: 1
-  
+
   # Максимальный размер файла для анализа (в байтах)
   max_file_size: 10485760  # 10 MB
 
@@ -74,7 +74,7 @@ analysis:
   # Анализ зависимостей
   dependency_analysis: true
   dependency_depth: 3
-  
+
   # Анализ архитектурных паттернов
   architectural_patterns: true
   patterns_to_detect:
@@ -88,7 +88,7 @@ analysis:
     - "strategy"
     - "observer"
     - "decorator"
-  
+
   # Анализ безопасности
   security_analysis: true
   security_checks:
@@ -98,7 +98,7 @@ analysis:
     - "xss"
     - "csrf"
     - "insecure_deserialization"
-  
+
   # Анализ качества кода
   code_quality_analysis: true
   quality_metrics:
@@ -108,7 +108,7 @@ analysis:
     - "code_smells"
     - "duplications"
     - "test_coverage"
-  
+
   # Анализ производительности
   performance_analysis: true
   performance_checks:
@@ -121,7 +121,7 @@ analysis:
 tech_stack:
   # Автоматическое определение технологий
   auto_detect: true
-  
+
   # Технологии для поиска
   technologies:
     languages:
@@ -134,7 +134,7 @@ tech_stack:
       - "csharp"
       - "php"
       - "ruby"
-    
+
     frameworks:
       - "django"
       - "flask"
@@ -146,14 +146,14 @@ tech_stack:
       - "express"
       - "laravel"
       - "rails"
-    
+
     databases:
       - "postgresql"
       - "mysql"
       - "mongodb"
       - "redis"
       - "elasticsearch"
-    
+
     tools:
       - "docker"
       - "kubernetes"
@@ -167,25 +167,25 @@ tech_stack:
 output:
   # Формат вывода
   format: "json"  # json, yaml, xml, html
-  
+
   # Уровень детализации
   detail_level: "detailed"  # minimal, standard, detailed
-  
+
   # Включить статистику
   include_statistics: true
-  
+
   # Включить рекомендации
   include_recommendations: true
-  
+
   # Включить графики
   include_charts: false
-  
+
   # Путь для сохранения отчетов
   report_path: "reports/scans/"
-  
+
   # Имя файла отчета
   report_filename: "scan_report_{timestamp}.{format}"
-  
+
   # Сохранять историю сканирований
   save_history: true
   history_size: 10
@@ -194,7 +194,7 @@ output:
 monitoring:
   # Включить мониторинг сканирования
   enabled: true
-  
+
   # Метрики для мониторинга
   metrics:
     - "files_scanned"
@@ -203,10 +203,10 @@ monitoring:
     - "cpu_usage"
     - "issues_found"
     - "vulnerabilities_detected"
-  
+
   # Интервал мониторинга (в секундах)
   monitoring_interval: 30
-  
+
   # Пороги для предупреждений
   alert_thresholds:
     scan_duration_exceeded: 300  # секунд
@@ -217,19 +217,19 @@ monitoring:
 logging:
   # Уровень логирования
   level: "INFO"
-  
+
   # Файлы логов
   files:
     scanner: "logs/scanner.log"
     analysis: "logs/scanner_analysis.log"
     errors: "logs/scanner_errors.log"
-  
+
   # Максимальный размер файла лога
   max_file_size: "10MB"
-  
+
   # Количество резервных копий
   backup_count: 5
-  
+
   # Формат логов
   format: "json"
 
@@ -240,12 +240,12 @@ integration:
     enabled: true
     type: "sqlite"  # sqlite, postgres, mysql
     connection_string: "data/scanner.db"
-  
+
   # Интеграция с системой визуализации
   visualization:
     enabled: true
     dashboard_url: "http://localhost:3000/dashboard/scanner"
-  
+
   # Интеграция с системой уведомлений
   notifications:
     enabled: true

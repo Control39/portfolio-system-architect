@@ -9,10 +9,9 @@ function Write-Log {
         [string]$Message,
         [string]$Level = "Info"
     )
-    
+
     Write-Warning "Write-Log из AsyncLogger устарел. Используйте Write-Log из StructuredLogger"
     Write-Host "[$Level] $Message"
 }
 
 Export-ModuleMember -Function Write-Log
-

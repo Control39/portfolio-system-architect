@@ -56,7 +56,7 @@ echo Найдена последняя резервная копия: %LATEST_BA
 set BACKUP_PATH="backups\\%LATEST_BACKUP%"
 
 echo.
-echo Резервная копия создана: 
+echo Резервная копия создана:
 for /f "tokens=1-3" %%a in ('dir %BACKUP_PATH% ^| findstr "%%LATEST_BACKUP%%"') do (
     echo Дата: %%a Время: %%b
 )
@@ -99,10 +99,10 @@ for /r %BACKUP_PATH% %%f in (*) do (
     set "FILE_PATH=%%f"
     set "RELATIVE_PATH=!FILE_PATH:%BACKUP_PATH%=%!"
     set "TARGET_FILE=!RELATIVE_PATH:~1!"
-    
+
     :: Заменяем обратные слеши на прямые для корректной работы
     set "TARGET_FILE=!TARGET_FILE:\\\=/!"
-    
+
     :: Выполняем восстановление в отдельном блоке для обработки переменных
     call :restore_single_file "%%f" "!TARGET_FILE!"
 )

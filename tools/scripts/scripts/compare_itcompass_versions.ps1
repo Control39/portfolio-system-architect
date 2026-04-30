@@ -19,13 +19,13 @@ $results = @()
 
 foreach ($item in $paths) {
     $exists = Test-Path $item.Path
-    
+
     if ($exists) {
         $fileCount = (Get-ChildItem $item.Path -Recurse -File -ErrorAction SilentlyContinue).Count
         $folderCount = (Get-ChildItem $item.Path -Directory -ErrorAction SilentlyContinue).Count
-        $lastModified = (Get-ChildItem $item.Path -Recurse -ErrorAction SilentlyContinue | 
+        $lastModified = (Get-ChildItem $item.Path -Recurse -ErrorAction SilentlyContinue |
             Sort-Object LastWriteTime -Descending | Select-Object -First 1).LastWriteTime
-        $sizeKB = [math]::Round(((Get-ChildItem $item.Path -Recurse -File -ErrorAction SilentlyContinue | 
+        $sizeKB = [math]::Round(((Get-ChildItem $item.Path -Recurse -File -ErrorAction SilentlyContinue |
             Measure-Object -Property Length -Sum).Sum) / 1KB, 2)
     } else {
         $fileCount = 0
@@ -33,7 +33,7 @@ foreach ($item in $paths) {
         $lastModified = "N/A"
         $sizeKB = 0
     }
-    
+
     $results += [PSCustomObject]@{
         "Version" = $item.Name
         "Exists" = $exists
@@ -59,7 +59,7 @@ foreach ($result in $results | Where-Object { $_."Exists" -eq $true }) {
     Write-Host "   Folders: $($result.Folders)" -ForegroundColor White
     Write-Host "   Size: $($result.SizeKB) KB" -ForegroundColor White
     Write-Host "   Last Modified: $($result.LastModified)" -ForegroundColor White
-    
+
     Write-Host "   Structure:" -ForegroundColor Cyan
     Get-ChildItem $result.Path -Directory -ErrorAction SilentlyContinue | ForEach-Object {
         $count = (Get-ChildItem $_.FullName -Recurse -File -ErrorAction SilentlyContinue).Count
@@ -73,33 +73,33 @@ if ($existingVersions.Count -ge 2) {
     Write-Host "`n" + ("=" * 80) -ForegroundColor Cyan
     Write-Host "=== CONTENT COMPARISON ===" -ForegroundColor Cyan
     Write-Host ("=" * 80) -ForegroundColor Cyan
-    
+
     $v1 = $existingVersions | Select-Object -First 1
     $v2 = $existingVersions | Select-Object -Index 1
-    
+
     Write-Host "`n Comparing: $($v1.Version) vs $($v2.Version)" -ForegroundColor Magenta
-    
-    $files1 = Get-ChildItem $v1.Path -Recurse -File -ErrorAction SilentlyContinue | 
+
+    $files1 = Get-ChildItem $v1.Path -Recurse -File -ErrorAction SilentlyContinue |
         ForEach-Object { $_.FullName.Replace($v1.Path, '').TrimStart('\') } | Sort-Object
-    $files2 = Get-ChildItem $v2.Path -Recurse -File -ErrorAction SilentlyContinue | 
+    $files2 = Get-ChildItem $v2.Path -Recurse -File -ErrorAction SilentlyContinue |
         ForEach-Object { $_.FullName.Replace($v2.Path, '').TrimStart('\') } | Sort-Object
-    
-    $onlyInV1 = Compare-Object -ReferenceObject $files2 -DifferenceObject $files1 | 
+
+    $onlyInV1 = Compare-Object -ReferenceObject $files2 -DifferenceObject $files1 |
         Where-Object { $_.SideIndicator -eq '<=' } | Select-Object -ExpandProperty InputObject
-    $onlyInV2 = Compare-Object -ReferenceObject $files1 -DifferenceObject $files2 | 
+    $onlyInV2 = Compare-Object -ReferenceObject $files1 -DifferenceObject $files2 |
         Where-Object { $_.SideIndicator -eq '=>' } | Select-Object -ExpandProperty InputObject
-    $same = Compare-Object -ReferenceObject $files1 -DifferenceObject $files2 | 
+    $same = Compare-Object -ReferenceObject $files1 -DifferenceObject $files2 |
         Where-Object { $_.SideIndicator -eq '==' } | Select-Object -ExpandProperty InputObject
-    
+
     Write-Host "`n   Same files: $($same.Count)" -ForegroundColor Green
     Write-Host "   Only in $($v1.Version): $($onlyInV1.Count)" -ForegroundColor Yellow
     Write-Host "   Only in $($v2.Version): $($onlyInV2.Count)" -ForegroundColor Yellow
-    
+
     if ($onlyInV1.Count -gt 0 -and $onlyInV1.Count -le 10) {
         Write-Host "`n   Files only in $($v1.Version):" -ForegroundColor Yellow
         $onlyInV1 | ForEach-Object { Write-Host "      - $_" -ForegroundColor Gray }
     }
-    
+
     if ($onlyInV2.Count -gt 0 -and $onlyInV2.Count -le 10) {
         Write-Host "`n   Files only in $($v2.Version):" -ForegroundColor Yellow
         $onlyInV2 | ForEach-Object { Write-Host "      - $_" -ForegroundColor Gray }

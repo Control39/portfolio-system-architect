@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -24,6 +24,7 @@ def test_embedder():
         print(f"✅ {description}: {len(embedding)} размер")
 
     print("🎉 Все тесты пройдены!")
+
 
 if __name__ == "__main__":
     test_embedder()

@@ -1,7 +1,7 @@
 ﻿{
   "//": "Рекомендуемые расширения VS Code для проекта portfolio-system-architect",
   "//": "Установите через: View → Command Palette → 'Extensions: Show Recommended Extensions'",
-  
+
   "recommendations": [
     // Python разработка
     "ms-python.python",
@@ -10,46 +10,46 @@
     "ms-python.isort",
     "LittleFoxTeam.vscode-python-test-adapter",
     "njpwerner.autodocstring",
-    
+
     // FastAPI специфика
     "tomasz-smykowski.fastapi-snippets",
     "tushortz.python-pydantic",
-    
+
     // Контейнеризация и DevOps
     "ms-azuretools.vscode-docker",
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "redhat.vscode-yaml",
     "ms-vscode.makefile-tools",
-    
+
     // Веб и API
     "humao.rest-client",
     "rangav.vscode-thunder-client",
-    
+
     // Документация
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
-    
+
     // Git
     "eamodio.gitlens",
     "mhutchie.git-graph",
-    
+
     // Качество кода
     "charliermarsh.ruff",
     "esbenp.prettier-vscode",
-    
+
     // Мониторинг
     "prometheus.promql",
     "emilast.LogFileHighlighter",
-    
+
     // PowerShell
     "ms-vscode.powershell",
-    
+
     // Дополнительные утилиты
     "usernamehw.errorlens",
     "wix.vscode-import-cost",
     "formulahendry.code-runner"
   ],
-  
+
   "//": "Для установки всех расширений через командную строку:",
   "//": "code --install-extension ms-python.python --install-extension ms-azuretools.vscode-docker ..."
 }

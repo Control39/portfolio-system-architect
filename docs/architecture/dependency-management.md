@@ -72,10 +72,10 @@ graph TD
     C --> E[src/main.py]
     C --> F[.agents/]
     C --> G[apps/*]
-    
+
     H[.agents/requirements.txt] -->|Автономные агенты| F
     I[apps/*/requirements.txt] -->|Специфические модули| G
-    
+
     style A fill:#4CAF50,stroke:#388E3C
     style B fill:#4CAF50,stroke:#388E3C
     style D fill:#4CAF50,stroke:#388E3C

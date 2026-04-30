@@ -1,20 +1,21 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 CLI инструмент для автоматической проверки репозитория по чек-листу.
 """
 
 import argparse
-import yaml
-import json
-from pathlib import Path
-from typing import Dict, List, Any
 import importlib.util
+import json
 import subprocess
+from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
 
 
 def load_checklist(checklist_path: str) -> Dict[str, Any]:
     """Загрузить YAML чек-листа."""
-    with open(checklist_path, 'r', encoding='utf-8') as f:
+    with open(checklist_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
@@ -24,7 +25,7 @@ def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
         spec = importlib.util.spec_from_file_location("check_module", script_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        if hasattr(module, 'run'):
+        if hasattr(module, "run"):
             return module.run(repo_root)
         else:
             return {"passed": False, "error": "Функция run не найдена"}
@@ -36,12 +37,14 @@ def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
     """Выполнить shell команду и вернуть результат."""
     try:
         # shell=False для безопасности, чтобы избежать инъекций команд
-        result = subprocess.run(cmd, shell=False, cwd=cwd, capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            cmd, shell=False, cwd=cwd, capture_output=True, text=True, timeout=30
+        )
         return {
             "passed": result.returncode == 0,
             "stdout": result.stdout,
             "stderr": result.stderr,
-            "returncode": result.returncode
+            "returncode": result.returncode,
         }
     except subprocess.TimeoutExpired:
         return {"passed": False, "error": "Таймаут выполнения"}
@@ -52,11 +55,26 @@ def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
 def check_structure(repo_root: str) -> Dict[str, Any]:
     """Проверка структуры репозитория."""
     required = [
-        "apps", "src", "tests", "docs", "deployment", "diagrams",
-        "scripts", "tools", ".github", ".env.example", ".gitignore",
-        ".dockerignore", ".pre-commit-config.yaml", "README.md",
-        "LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md",
-        "pyproject.toml", "requirements-dev.txt", "Makefile"
+        "apps",
+        "src",
+        "tests",
+        "docs",
+        "deployment",
+        "diagrams",
+        "scripts",
+        "tools",
+        ".github",
+        ".env.example",
+        ".gitignore",
+        ".dockerignore",
+        ".pre-commit-config.yaml",
+        "README.md",
+        "LICENSE",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "pyproject.toml",
+        "requirements-dev.txt",
+        "Makefile",
     ]
     missing = []
     for item in required:
@@ -66,7 +84,7 @@ def check_structure(repo_root: str) -> Dict[str, Any]:
     return {
         "passed": len(missing) == 0,
         "missing": missing,
-        "message": f"Отсутствуют: {missing}" if missing else "Структура соответствует"
+        "message": f"Отсутствуют: {missing}" if missing else "Структура соответствует",
     }
 
 
@@ -77,7 +95,9 @@ def check_git(repo_root: str) -> Dict[str, Any]:
     develop_exists = "develop" in result.get("stdout", "")
     return {
         "passed": develop_exists,
-        "message": "Ветка develop существует" if develop_exists else "Ветка develop отсутствует"
+        "message": "Ветка develop существует"
+        if develop_exists
+        else "Ветка develop отсутствует",
     }
 
 
@@ -97,7 +117,7 @@ def check_linting(repo_root: str) -> Dict[str, Any]:
     return {
         "passed": passed,
         "details": results,
-        "message": "Линтинг пройден" if passed else "Ошибки линтинга"
+        "message": "Линтинг пройден" if passed else "Ошибки линтинга",
     }
 
 
@@ -163,31 +183,37 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
             passed = result.get("passed", False)
             if passed:
                 passed_checks += 1
-            results.append({
-                "level": lvl["id"],
-                "check": check_id,
-                "name": check_name,
-                "passed": passed,
-                "details": result
-            })
+            results.append(
+                {
+                    "level": lvl["id"],
+                    "check": check_id,
+                    "name": check_name,
+                    "passed": passed,
+                    "details": result,
+                }
+            )
 
     return {
         "summary": {
             "total": total_checks,
             "passed": passed_checks,
             "failed": total_checks - passed_checks,
-            "score": (passed_checks / total_checks * 100) if total_checks > 0 else 0
+            "score": (passed_checks / total_checks * 100) if total_checks > 0 else 0,
         },
-        "results": results
+        "results": results,
     }
 
 
 def main():
     parser = argparse.ArgumentParser(description="Аудит репозитория по чек-листу")
-    parser.add_argument("--checklist", default="repo_audit/checklist.yaml", help="Путь к чек-листу")
+    parser.add_argument(
+        "--checklist", default="repo_audit/checklist.yaml", help="Путь к чек-листу"
+    )
     parser.add_argument("--repo", default=".", help="Корень репозитория")
     parser.add_argument("--level", help="Уровень (level1, level2, level3)")
-    parser.add_argument("--output", choices=["text", "json"], default="text", help="Формат вывода")
+    parser.add_argument(
+        "--output", choices=["text", "json"], default="text", help="Формат вывода"
+    )
     args = parser.parse_args()
 
     results = run_audit(args.checklist, args.repo, args.level)
@@ -199,7 +225,13 @@ def main():
         print("АУДИТ РЕПОЗИТОРИЯ")
         print("=" * 60)
         for r in results["results"]:
-            status = "✅ ПРОЙДЕН" if r["passed"] else "❌ НЕ ПРОЙДЕН" if r["passed"] is False else "⚠️  РУЧНАЯ"
+            status = (
+                "✅ ПРОЙДЕН"
+                if r["passed"]
+                else "❌ НЕ ПРОЙДЕН"
+                if r["passed"] is False
+                else "⚠️  РУЧНАЯ"
+            )
             print(f"{r['level']}.{r['check']}: {r['name']} - {status}")
             if "details" in r and r["details"].get("message"):
                 print(f"   {r['details']['message']}")

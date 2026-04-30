@@ -19,13 +19,13 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          
+
           # Удаляем remote, если уже существует
           git remote remove sourcecraft 2>/dev/null || true
-          
+
           # Добавляем remote SourceCraft с токеном
           git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git"
-          
+
           # Пушим все ветки и теги
           git push sourcecraft --all
           git push sourcecraft --tags

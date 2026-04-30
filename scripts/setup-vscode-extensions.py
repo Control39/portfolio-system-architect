@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Универсальный скрипт для установки расширений VS Code
 Поддерживает конфигурацию для разных стеков технологий
 """
@@ -14,10 +14,10 @@ class VSCodeExtensionInstaller:
 
     # Базовые расширения для всех проектов
     BASE_EXTENSIONS = [
-        "eamodio.gitlens",           # Git enhancements
-        "esbenp.prettier-vscode",    # Code formatter
-        "yzhang.markdown-all-in-one", # Markdown support
-        "usernamehw.errorlens",      # Error highlighting
+        "eamodio.gitlens",  # Git enhancements
+        "esbenp.prettier-vscode",  # Code formatter
+        "yzhang.markdown-all-in-one",  # Markdown support
+        "usernamehw.errorlens",  # Error highlighting
     ]
 
     # Конфигурации стеков технологий
@@ -121,7 +121,16 @@ class VSCodeExtensionInstaller:
 
     # Предустановленные конфигурации для популярных стеков
     PRESET_CONFIGS = {
-        "portfolio-system-architect": ["python", "fastapi", "docker", "kubernetes", "devops", "web", "powershell", "monitoring"],
+        "portfolio-system-architect": [
+            "python",
+            "fastapi",
+            "docker",
+            "kubernetes",
+            "devops",
+            "web",
+            "powershell",
+            "monitoring",
+        ],
         "python-backend": ["python", "fastapi", "docker", "devops"],
         "web-fullstack": ["python", "javascript", "docker", "devops", "web"],
         "ai-ml-pipeline": ["python", "ai-ml", "docker", "devops"],
@@ -143,8 +152,12 @@ class VSCodeExtensionInstaller:
             )
             return [ext.strip() for ext in result.stdout.splitlines() if ext.strip()]
         except (subprocess.CalledProcessError, FileNotFoundError):
-            print("⚠️  VS Code CLI (code) не найден. Убедитесь, что VS Code добавлен в PATH.")
-            print("   Инструкция: https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line")
+            print(
+                "⚠️  VS Code CLI (code) не найден. Убедитесь, что VS Code добавлен в PATH."
+            )
+            print(
+                "   Инструкция: https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line"
+            )
             return []
 
     def install_extension(self, extension_id: str) -> bool:
@@ -223,7 +236,9 @@ class VSCodeExtensionInstaller:
 
         return success
 
-    def generate_config_file(self, stacks: list[str], output_path: str = "vscode-extensions-config.json"):
+    def generate_config_file(
+        self, stacks: list[str], output_path: str = "vscode-extensions-config.json"
+    ):
         """Сгенерировать файл конфигурации для быстрой установки"""
         all_extensions = set(self.BASE_EXTENSIONS)
 
@@ -241,7 +256,8 @@ class VSCodeExtensionInstaller:
         config = {
             "stacks": stacks,
             "extensions": sorted(list(all_extensions)),
-            "install_command": "code --install-extension " + " --install-extension ".join(sorted(list(all_extensions))),
+            "install_command": "code --install-extension "
+            + " --install-extension ".join(sorted(list(all_extensions))),
         }
 
         with open(output_path, "w", encoding="utf-8") as f:
@@ -273,7 +289,10 @@ class VSCodeExtensionInstaller:
             if (path / "requirements.txt").exists():
                 with open(path / "requirements.txt") as f:
                     content = f.read()
-                    if any(x in content.lower() for x in ["tensorflow", "pytorch", "scikit-learn", "jupyter"]):
+                    if any(
+                        x in content.lower()
+                        for x in ["tensorflow", "pytorch", "scikit-learn", "jupyter"]
+                    ):
                         detected_stacks.append("ai-ml")
 
         if (path / "Dockerfile").exists() or (path / "docker-compose.yml").exists():
@@ -292,6 +311,7 @@ class VSCodeExtensionInstaller:
             detected_stacks.append("monitoring")
 
         return list(set(detected_stacks))
+
 
 def main():
     """Основная функция"""
@@ -325,7 +345,9 @@ def main():
 
         elif command == "detect":
             stacks = installer.detect_project_stack()
-            print(f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}")
+            print(
+                f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}"
+            )
             if stacks:
                 response = input("Установить обнаруженные стеки? (y/n): ")
                 if response.lower() == "y":
@@ -338,7 +360,9 @@ def main():
                 installer.generate_config_file(stacks)
             else:
                 print("Укажите стеки для генерации конфигурации")
-                print("Пример: python setup-vscode-extensions.py generate python docker devops")
+                print(
+                    "Пример: python setup-vscode-extensions.py generate python docker devops"
+                )
 
         elif command == "custom":
             if len(sys.argv) > 2:
@@ -346,7 +370,9 @@ def main():
                 installer.install_custom(extensions)
             else:
                 print("Укажите расширения для установки")
-                print("Пример: python setup-vscode-extensions.py custom ms-python.python ms-azuretools.vscode-docker")
+                print(
+                    "Пример: python setup-vscode-extensions.py custom ms-python.python ms-azuretools.vscode-docker"
+                )
 
         else:
             print(f"Неизвестная команда: {command}")
@@ -367,7 +393,9 @@ def main():
             for i, (preset, stacks) in enumerate(installer.PRESET_CONFIGS.items(), 1):
                 print(f"  {i}. {preset} ({', '.join(stacks)})")
 
-            preset_choice = input("\nВыберите предустановку (номер или название): ").strip()
+            preset_choice = input(
+                "\nВыберите предустановку (номер или название): "
+            ).strip()
 
             if preset_choice.isdigit():
                 preset_idx = int(preset_choice) - 1
@@ -392,7 +420,9 @@ def main():
 
         elif choice == "3":
             stacks = installer.detect_project_stack()
-            print(f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}")
+            print(
+                f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}"
+            )
 
             if stacks:
                 response = input("\nУстановить обнаруженные стеки? (y/n): ")
@@ -405,10 +435,14 @@ def main():
             for stack_name, stack_info in installer.TECH_STACKS.items():
                 print(f"  {stack_name}: {stack_info['name']}")
 
-            stacks_input = input("\nВведите стеки для конфигурации через пробел: ").strip()
+            stacks_input = input(
+                "\nВведите стеки для конфигурации через пробел: "
+            ).strip()
             stacks = stacks_input.split()
 
-            output_file = input("Имя выходного файла (по умолчанию: vscode-extensions-config.json): ").strip()
+            output_file = input(
+                "Имя выходного файла (по умолчанию: vscode-extensions-config.json): "
+            ).strip()
             if not output_file:
                 output_file = "vscode-extensions-config.json"
 
@@ -420,6 +454,7 @@ def main():
 
         else:
             print("Неверный выбор")
+
 
 if __name__ == "__main__":
     main()

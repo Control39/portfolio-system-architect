@@ -21,7 +21,7 @@ jobs:
       - name: Configure Git for long paths
         run: git config --global core.longpaths true
         shell: bash
-        
+
       - uses: actions/checkout@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -47,7 +47,7 @@ jobs:
           echo "**Run ID:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
           echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "| Branch | SourceCraft Commit | GitHub Commit | Status | Action Needed |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------------------|---------------|--------|---------------|" >> $GITHUB_STEP_SUMMARY
 
@@ -135,20 +135,20 @@ jobs:
           from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
           body: |
             Mirror discrepancies detected in repository: ${{ github.repository }}
-            
+
             Run ID: ${{ github.run_id }}
             Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
+
             Discrepancies found: ${{ env.DIFF_COUNT }}
-            
+
             Summary:
             ${{ env.DIFF_REPORT }}
-            
+
             Action required:
             - Review the discrepancies in the workflow run
             - Manually sync if auto-fix was not enabled
             - Investigate why discrepancies occurred
-            
+
             This is an automated message from GitHub Actions.
           secure: true
 

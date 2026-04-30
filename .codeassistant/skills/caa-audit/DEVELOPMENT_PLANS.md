@@ -2,7 +2,7 @@
 
 ## 📋 Обзор
 
-Этот документ описывает планы развития PMR Agent (Positioning & Methodology Refinement Agent) 
+Этот документ описывает планы развития PMR Agent (Positioning & Methodology Refinement Agent)
 с интеграцией Cognitive Automation Agent (CAA) на три фазы:
 
 - **Фаза 1**: Базовая интеграция (текущая) ✅
@@ -38,7 +38,7 @@
 #### 3. Инфраструктура
 - **Git хуки**: `.codeassistant/skills/caa-audit/git-hooks/`
 - **Скрипты запуска**: `launch-audit.sh`
-- **Директории хранения**: 
+- **Директории хранения**:
   - `.agents/reports/caa-audit/`
   - `.agents/data/caa-metrics/`
   - `.agents/logs/caa-audit/`
@@ -116,23 +116,23 @@ phase2:
       enabled: true
       bot_token: "${TELEGRAM_BOT_TOKEN}"
       chat_id: "${TELEGRAM_CHAT_ID}"
-    
+
     email:
       enabled: false
       smtp_server: "smtp.gmail.com"
       port: 587
-    
+
     webhooks:
       - name: "slack"
         url: "${SLACK_WEBHOOK_URL}"
         events: ["critical", "score_change"]
-  
+
   dashboard:
     enabled: true
     port: 8080
     auth_required: false
     update_interval_sec: 300
-  
+
   analytics:
     prediction_enabled: true
     history_days: 90
@@ -216,23 +216,23 @@ phase3:
     safety_level: "high"
     backup_before_changes: true
     require_approval_for: ["readme_changes", "documentation_updates"]
-  
+
   ecosystem:
     shared_database: "sqlite:///.agents/data/shared.db"
     task_queue: "redis://localhost:6379"
     config_sync_interval_sec: 60
-    
+
   machine_learning:
     enabled: true
     model_path: ".agents/models/caa-predictor/"
     training_interval_days: 7
     features: ["project_size", "tech_stack", "history_score", "team_size"]
-    
+
   security:
     access_control:
       roles: ["viewer", "editor", "admin"]
       default_role: "viewer"
-    
+
     audit:
       enabled: true
       log_all_actions: true

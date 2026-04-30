@@ -1,5 +1,6 @@
-﻿"""Unit tests for skills plugin.
+"""Unit tests for skills plugin.
 """
+
 import json
 import sys
 import tempfile
@@ -34,11 +35,23 @@ def test_analyze_skills_with_markers():
         python_markers = {
             "levels": {
                 "1": [
-                    {"id": "py-basics", "description": "Basic Python syntax", "evidence": []},
-                    {"id": "py-functions", "description": "Define and use functions", "evidence": []},
+                    {
+                        "id": "py-basics",
+                        "description": "Basic Python syntax",
+                        "evidence": [],
+                    },
+                    {
+                        "id": "py-functions",
+                        "description": "Define and use functions",
+                        "evidence": [],
+                    },
                 ],
                 "2": [
-                    {"id": "py-oop", "description": "Object-oriented programming", "evidence": []},
+                    {
+                        "id": "py-oop",
+                        "description": "Object-oriented programming",
+                        "evidence": [],
+                    },
                 ],
             },
         }
@@ -50,7 +63,11 @@ def test_analyze_skills_with_markers():
         devops_markers = {
             "levels": {
                 "1": [
-                    {"id": "devops-ci", "description": "Continuous Integration", "evidence": []},
+                    {
+                        "id": "devops-ci",
+                        "description": "Continuous Integration",
+                        "evidence": [],
+                    },
                 ],
             },
         }

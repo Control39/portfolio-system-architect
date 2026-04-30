@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для мониторинга актуальности бейджей в проекте.
 Проверяет, что бейджи отражают реальное состояние проекта.
 """
@@ -44,6 +44,7 @@ def check_static_badges(readme_content: str) -> dict:
         "coverage_value": coverage_match.group(1) if coverage_match else "unknown",
     }
 
+
 def check_dynamic_badges(readme_content: str) -> dict:
     """Проверить динамические бейджи (ссылки)."""
     issues = []
@@ -72,6 +73,7 @@ def check_dynamic_badges(readme_content: str) -> dict:
         "broken_badges": broken_badges,
         "issues": issues,
     }
+
 
 def check_badge_freshness() -> dict:
     """Проверить свежесть бейджей (когда обновлялись последний раз)."""
@@ -107,6 +109,7 @@ def check_badge_freshness() -> dict:
         "issues": ["No metrics file found"],
     }
 
+
 def generate_health_report() -> dict:
     """Сгенерировать полный отчет о здоровье бейджей."""
     readme_path = Path("README.md")
@@ -121,9 +124,9 @@ def generate_health_report() -> dict:
 
     # Общая оценка здоровья
     total_issues = (
-        len(static_report.get("issues", [])) +
-        len(dynamic_report.get("issues", [])) +
-        len(freshness_report.get("issues", []))
+        len(static_report.get("issues", []))
+        + len(dynamic_report.get("issues", []))
+        + len(freshness_report.get("issues", []))
     )
 
     health_score = 100 - min(total_issues * 10, 100)
@@ -137,9 +140,12 @@ def generate_health_report() -> dict:
             "freshness": freshness_report,
         },
         "recommendations": generate_recommendations(
-            static_report, dynamic_report, freshness_report,
+            static_report,
+            dynamic_report,
+            freshness_report,
         ),
     }
+
 
 def generate_recommendations(static: dict, dynamic: dict, freshness: dict) -> list:
     """Сгенерировать рекомендации по улучшению бейджей."""
@@ -153,7 +159,9 @@ def generate_recommendations(static: dict, dynamic: dict, freshness: dict) -> li
 
     # Рекомендации по динамическим бейджам
     if dynamic.get("broken_badges", 0) > 0:
-        recommendations.append(f"Исправить {dynamic['broken_badges']} сломанных бейджей")
+        recommendations.append(
+            f"Исправить {dynamic['broken_badges']} сломанных бейджей"
+        )
 
     # Рекомендации по свежести
     if freshness.get("days_old", 0) > 7:
@@ -161,9 +169,12 @@ def generate_recommendations(static: dict, dynamic: dict, freshness: dict) -> li
 
     # Общие рекомендации
     if not recommendations:
-        recommendations.append("Бейджи в хорошем состоянии. Продолжайте поддерживать актуальность.")
+        recommendations.append(
+            "Бейджи в хорошем состоянии. Продолжайте поддерживать актуальность."
+        )
 
     return recommendations
+
 
 def main():
     """Основная функция."""
@@ -192,8 +203,10 @@ def main():
 
     # Динамические бейджи
     dynamic = report["summary"]["dynamic_badges"]
-    print(f"\nDynamic Badges: {dynamic.get('working_badges', 0)} working, "
-          f"{dynamic.get('broken_badges', 0)} broken")
+    print(
+        f"\nDynamic Badges: {dynamic.get('working_badges', 0)} working, "
+        f"{dynamic.get('broken_badges', 0)} broken"
+    )
     if dynamic.get("issues"):
         for issue in dynamic["issues"][:3]:  # Показываем только первые 3
             print(f"  ⚠️  {issue}")
@@ -213,7 +226,9 @@ def main():
     # Сохраняем отчет
     report_path = Path("badges/health-report.json")
     report_path.parent.mkdir(exist_ok=True)
-    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     print(f"Report saved to {report_path}")
 
     # Возвращаем код выхода в зависимости от здоровья
@@ -226,6 +241,7 @@ def main():
     else:
         print("Success: Badge health is good")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

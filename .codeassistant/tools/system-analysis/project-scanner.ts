@@ -22,7 +22,7 @@ export const projectScannerTool = {
   },
   execute: async (args: any) => {
     const { path, depth } = args;
-    
+
     // Симуляция анализа технологического стека
     const detectedStack = {
       languages: ["Python", "TypeScript", "PowerShell", "YAML"],
@@ -31,7 +31,7 @@ export const projectScannerTool = {
       tools: ["Git", "VS Code", "Docker Compose", "Terraform"],
       aiComponents: ["RAG", "LLM Integration", "Cognitive Agents"]
     };
-    
+
     // Анализ качества
     const qualityMetrics = {
       documentation: 85,
@@ -40,7 +40,7 @@ export const projectScannerTool = {
       security: 75,
       monitoring: 80
     };
-    
+
     // Рекомендации
     const recommendations = [
       "Добавить автоматическое тестирование для когнитивных агентов",
@@ -48,7 +48,7 @@ export const projectScannerTool = {
       "Добавить документацию по архитектуре в Mermaid формате",
       "Реализовать health checks для всех микросервисов"
     ];
-    
+
     return {
       success: true,
       projectPath: path,

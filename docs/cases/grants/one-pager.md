@@ -14,5 +14,3 @@
 **Status**: 92% test cov, Docker-ready. Grant-ready docs: /06_GRANT/
 
 **Ask**: Support open cognitive tools for non-tech professionals.
-
-

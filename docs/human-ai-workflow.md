@@ -34,5 +34,3 @@ graph TD
 *This process: From chaos → ecosystem. Replicable via noobs-guide.md. My 3-year evolution proves it works for noobs.*
 
 *Updated: 2026-XX.*
-
-

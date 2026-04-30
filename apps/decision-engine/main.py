@@ -1,11 +1,14 @@
-﻿import uvicorn
-from .configs.loader import COMPONENT_CONFIG
+import uvicorn
+
 from .api.endpoints import app
+from .configs.loader import COMPONENT_CONFIG
+
 
 def run_server():
     # Берём команду запуска из конфигурации
     api_script = next(
-        script for script in COMPONENT_CONFIG["automation"]["scripts"]
+        script
+        for script in COMPONENT_CONFIG["automation"]["scripts"]
         if script["name"] == "run_api"
     )
 
@@ -19,6 +22,6 @@ def run_server():
 
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
 
+
 if __name__ == "__main__":
     run_server()
-

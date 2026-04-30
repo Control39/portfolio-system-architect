@@ -29,9 +29,9 @@ declare -A services=(
 # Check each service
 for service in "${!services[@]}"; do
     endpoint=${services[$service]}
-    
+
     echo -n "   $service: "
-    
+
     if [[ $endpoint == http* ]]; then
         # HTTP endpoint
         if curl -s --max-time 5 "$endpoint" > /dev/null; then
@@ -43,7 +43,7 @@ for service in "${!services[@]}"; do
         # TCP endpoint (host:port)
         host=$(echo $endpoint | cut -d: -f1)
         port=$(echo $endpoint | cut -d: -f2)
-        
+
         if nc -z -w5 "$host" "$port" 2>/dev/null; then
             echo "✅ Healthy"
         else

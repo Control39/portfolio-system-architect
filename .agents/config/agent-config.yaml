@@ -6,7 +6,7 @@ autonomy:
   level: high  # high, medium, low
   approval_required: false
   risk_tolerance: medium  # very_low, low, medium, high, very_high
-  
+
   # Доверенные паттерны для автоматического выполнения
   trusted_patterns:
     - "*.test.*"  # Автоматическое выполнение тестов
@@ -26,7 +26,7 @@ scanning:
     file_change: true   # Сканирование при изменении файлов
     git_commit: true    # Сканирование перед коммитом
     schedule: "0 */6 * * *"  # Периодическое сканирование (каждые 6 часов)
-  
+
   levels:
     quick:
       enabled: true
@@ -37,7 +37,7 @@ scanning:
     deep:
       enabled: false  # Включать только при необходимости
       timeout: 300s
-  
+
   output:
     formats: [json, yaml]
     directory: ".agents/scans/"
@@ -48,20 +48,20 @@ scanning:
 task_planner:
   enabled: true
   prediction_model: "ml_based"  # ml_based, rule_based, hybrid
-  
+
   # Настройки предсказания задач
   prediction:
     use_historical_data: true
     use_project_context: true
     use_user_patterns: true
-    
+
   # Приоритеты задач
   priorities:
     critical: ["security", "production_issues"]
     high: ["performance", "dependencies"]
     medium: ["code_quality", "documentation"]
     low: ["refactoring", "optimization"]
-    
+
   # Параллельное выполнение
   parallel_execution:
     enabled: true
@@ -74,18 +74,18 @@ learning:
   model_retraining:
     schedule: "0 2 * * 0"  # Каждое воскресенье в 2:00
     data_retention_days: 90
-    
+
   # Сбор метрик
   metrics_collection:
     enabled: true
     interval: 300  # Секунды
     storage: ".agents/metrics/"
-    
+
   # Анализ эффективности
   effectiveness_analysis:
     enabled: true
     report_frequency: "weekly"
-    
+
   # Корректировка алгоритмов
   algorithm_optimization:
     enabled: true
@@ -95,7 +95,7 @@ learning:
 # Интеграции с внешними системами
 integrations:
   enabled: true
-  
+
   # Системы контроля версий
   version_control:
     git:
@@ -106,75 +106,75 @@ integrations:
         pre_commit: true
         post_merge: true
         pre_push: true
-    
+
   # CI/CD системы
   ci_cd:
     github_actions:
       enabled: true
       auto_setup: true
       optimization: true
-      
+
     gitlab_ci:
       enabled: false
       auto_setup: true
-      
+
     jenkins:
       enabled: false
       auto_setup: true
-  
+
   # Мониторинг
   monitoring:
     prometheus:
       enabled: true
       auto_setup: true
       scrape_interval: "30s"
-      
+
     grafana:
       enabled: true
       auto_dashboards: true
-      
+
     sentry:
       enabled: false
       auto_setup: true
-  
+
   # Облачные платформы
   cloud:
     aws:
       enabled: false
       auto_discovery: true
-      
+
     azure:
       enabled: false
       auto_discovery: true
-      
+
     google_cloud:
       enabled: false
       auto_discovery: true
-  
+
   # Системы управления проектами
   project_management:
     jira:
       enabled: false
       auto_sync: true
-      
+
     trello:
       enabled: false
       auto_sync: true
-      
+
     asana:
       enabled: false
       auto_sync: true
-  
+
   # Коммуникации
   communications:
     slack:
       enabled: false
       notifications: true
-      
+
     teams:
       enabled: false
       notifications: true
-      
+
     telegram:
       enabled: false
       notifications: true
@@ -186,19 +186,19 @@ security:
     enabled: true
     validate_changes: true
     estimate_impact: true
-    
+
   # Механизм отката
   rollback:
     enabled: true
     auto_rollback: true
     rollback_timeout: 300  # Секунды
-    
+
   # Резервное копирование
   backup:
     enabled: true
     before_changes: true
     retention: 7  # Дней
-    
+
   # Ограничения доступа
   access_control:
     allowed_directories: ["/"]  # Все директории
@@ -212,7 +212,7 @@ performance:
     max_memory_mb: 1024
     max_cpu_percent: 50
     max_disk_mb: 100
-    
+
   # Кэширование
   caching:
     enabled: true
@@ -220,7 +220,7 @@ performance:
     dependency_analysis: true
     code_analysis: true
     cache_ttl_hours: 24
-    
+
   # Оптимизация
   optimization:
     incremental_scanning: true
@@ -233,14 +233,14 @@ logging:
   directory: ".agents/logs/"
   retention_days: 30
   rotation: "daily"
-  
+
   # Детальное логирование
   detailed_logs:
     scan_details: false
     task_execution: true
     error_details: true
     performance_metrics: true
-  
+
   # Отчеты
   reports:
     daily_summary: true
@@ -250,7 +250,7 @@ logging:
 # Уведомления
 notifications:
   enabled: true
-  
+
   # Типы уведомлений
   types:
     critical_issues: true
@@ -258,7 +258,7 @@ notifications:
     performance_degradation: true
     task_completion: false  # Только для критических задач
     learning_updates: false
-    
+
   # Каналы уведомлений
   channels:
     console: true
@@ -276,12 +276,12 @@ extensions:
     - git-automation
     - dependency-manager
     - code-optimizer
-    
+
   # Кастомные скиллы
   custom_skills:
     directory: ".agents/skills/custom/"
     auto_load: true
-    
+
   # Плагины сообщества
   community_plugins:
     enabled: false
@@ -294,12 +294,12 @@ environments:
     autonomy_level: high
     risk_tolerance: high
     notifications: false
-    
+
   staging:
     autonomy_level: medium
     risk_tolerance: medium
     notifications: true
-    
+
   production:
     autonomy_level: low
     risk_tolerance: low
@@ -309,13 +309,13 @@ environments:
 # Экспериментальные функции
 experimental:
   enabled: false
-  
+
   features:
     ai_planning: false  # Использование ИИ для планирования
     predictive_maintenance: false  # Предсказательное обслуживание
     autonomous_refactoring: false  # Автономный рефакторинг
     code_generation: false  # Генерация кода
-    
+
   # Ограничения экспериментальных функций
   constraints:
     max_execution_time: 600  # Секунды

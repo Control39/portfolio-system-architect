@@ -1,6 +1,6 @@
 # MCP Server for Career Autopilot
 
-**Версия:** 1.0  
+**Версия:** 1.0
 **Статус:** ✅ Готов к использованию
 
 MCP (Model Context Protocol) сервер для работы с экосистемой Career Autopilot и IT-Compass.
@@ -121,7 +121,7 @@ docker run -it --rm \
 
 Добавьте в конфигурацию Claude Desktop:
 
-**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`  
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
 ```json

@@ -24,4 +24,3 @@
 1. [ ] Add integration tests
 2. [ ] Improve web interface (React SPA)
 3. [ ] Add Think MCP bridge integration
-

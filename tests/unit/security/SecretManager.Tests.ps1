@@ -18,7 +18,7 @@ BeforeAll {
 }
 
 Describe "SecretManager Unit Tests" -Tag "Unit", "Security", "Fast" {
-    
+
     BeforeEach {
         # Очищаем кэш перед каждым тестом
         [SecretManager]::Cache.Clear()

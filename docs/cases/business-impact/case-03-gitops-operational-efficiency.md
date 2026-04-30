@@ -98,5 +98,5 @@ monitoring/                  # Prometheus/Grafana для health checks
 
 ---
 
-*Кейс основан на реальных данных из проекта Portfolio System Architect*  
+*Кейс основан на реальных данных из проекта Portfolio System Architect*
 *Технологии: Kubernetes, GitOps, Kustomize, ArgoCD, Sealed Secrets*

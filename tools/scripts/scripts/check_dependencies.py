@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для проверки и унификации зависимостей в проекте.
 Проверяет соответствие зависимостей в компонентах и корневом requirements.txt.
 """
@@ -192,7 +192,9 @@ class DependencyChecker:
         report.append("1. ОБЩАЯ ИНФОРМАЦИЯ")
         report.append("-" * 40)
         report.append(f"Найдено файлов requirements.txt: {dep_check['total_files']}")
-        report.append(f"Зависимостей в корневом requirements.txt: {dep_check['root_deps_count']}")
+        report.append(
+            f"Зависимостей в корневом requirements.txt: {dep_check['root_deps_count']}"
+        )
         report.append("")
 
         # Раздел 2: Пропущенные зависимости
@@ -223,7 +225,9 @@ class DependencyChecker:
 
         # Раздел 4: Зависимости из project-config.yaml
         if dep_check["config_deps_missing"]:
-            report.append("4. ЗАВИСИМОСТИ ИЗ PROJECT-CONFIG.YAML, ОТСУТСТВУЮЩИЕ В REQUIREMENTS.TXT")
+            report.append(
+                "4. ЗАВИСИМОСТИ ИЗ PROJECT-CONFIG.YAML, ОТСУТСТВУЮЩИЕ В REQUIREMENTS.TXT"
+            )
             report.append("-" * 40)
             for comp_name, deps in dep_check["config_deps_missing"].items():
                 report.append(f"  {comp_name}:")
@@ -250,25 +254,36 @@ class DependencyChecker:
         report.append("-" * 40)
 
         if dep_check["missing_in_root"]:
-            report.append("  - Добавьте отсутствующие зависимости в корневой requirements.txt")
+            report.append(
+                "  - Добавьте отсутствующие зависимости в корневой requirements.txt"
+            )
 
         if dep_check["conflicts"]:
             report.append("  - Унифицируйте версии зависимостей между компонентами")
 
         if dep_check["config_deps_missing"]:
-            report.append("  - Обновите project-config.yaml или добавьте зависимости в requirements.txt")
+            report.append(
+                "  - Обновите project-config.yaml или добавьте зависимости в requirements.txt"
+            )
 
         # Проверяем рекомендации по тестированию
         needs_testing_unification = False
         for comp_name, info in test_check.items():
-            if info["framework"] != info["recommended"] and info["recommended"] != "не определено":
+            if (
+                info["framework"] != info["recommended"]
+                and info["recommended"] != "не определено"
+            ):
                 needs_testing_unification = True
                 break
 
         if needs_testing_unification:
-            report.append("  - Унифицируйте фреймворки тестирования согласно рекомендациям")
+            report.append(
+                "  - Унифицируйте фреймворки тестирования согласно рекомендациям"
+            )
 
-        report.append("  - Запускайте этот скрипт регулярно для поддержания согласованности")
+        report.append(
+            "  - Запускайте этот скрипт регулярно для поддержания согласованности"
+        )
         report.append("")
 
         report.append("=" * 80)
@@ -284,12 +299,13 @@ class DependencyChecker:
         # Возвращаем код выхода в зависимости от найденных проблем
         dep_check = self.check_dependencies_consistency()
         has_problems = (
-            bool(dep_check["missing_in_root"]) or
-            bool(dep_check["conflicts"]) or
-            bool(dep_check["config_deps_missing"])
+            bool(dep_check["missing_in_root"])
+            or bool(dep_check["conflicts"])
+            or bool(dep_check["config_deps_missing"])
         )
 
         return 1 if has_problems else 0
+
 
 def main():
     """Основная функция скрипта."""
@@ -301,6 +317,7 @@ def main():
     exit_code = checker.run_checks()
 
     sys.exit(exit_code)
+
 
 if __name__ == "__main__":
     main()

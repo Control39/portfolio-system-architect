@@ -46,5 +46,3 @@ tree -Force -IncludeHidden
 | `-Modified` | Даты |
 
 **Цвета**: Cyan=папки, Gray=файлы. **Git**: ✅/⚡/🆕
-
-

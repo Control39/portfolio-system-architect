@@ -1,5 +1,6 @@
-﻿from prometheus_client import Counter, Histogram, start_http_server
-from functools import wraps
+﻿from functools import wraps
+
+from prometheus_client import Counter, Histogram, start_http_server
 
 REQUEST_COUNT = Counter('api_requests_total', 'Total API requests', ['method', 'endpoint'])
 REQUEST_LATENCY = Histogram('api_request_duration_seconds', 'Request latency')
@@ -14,7 +15,7 @@ def track_latency(func):
 
 def setup_metrics(app):
     \"\"\"Setup Prometheus metrics server and middleware.\"\"\"
-    from prometheus_client import start_http_server, Counter, Histogram, generate_latest
+    from prometheus_client import Counter, Histogram, generate_latest, start_http_server
 
     # Global metrics (if not already defined)
     global REQUEST_COUNT, REQUEST_LATENCY
@@ -39,4 +40,3 @@ def setup_metrics(app):
             return response
 
     return {"metrics_port": 9090}
-

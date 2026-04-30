@@ -21,13 +21,13 @@ OUTPUT_DIR: Path = Path("docs/obsidian-map")  # Выходная директо�
 
 # Игнорируемые директории
 IGNORED_DIRS: Set[str] = {
-    ".git", "__pycache__", "node_modules", 
+    ".git", "__pycache__", "node_modules",
     "venv", "env", ".vscode", ".idea"
 }
 
 # Включаемые расширения
 INCLUDE_EXTENSIONS: Set[str] = {
-    ".md", ".py", ".ps1", ".sh", 
+    ".md", ".py", ".ps1", ".sh",
     ".yaml", ".yml", ".json", ".toml"
 }
 ```
@@ -76,7 +76,7 @@ sequenceDiagram
     participant Script
     participant GitHub
     participant GitHubPages
-    
+
     User->>Script: Запускает скрипт
     Script->>Script: Сканирует файлы
     Script->>Script: Фильтрует по расширениям
@@ -194,5 +194,3 @@ except Exception as e:
 2. **Новые шаблоны** — изменить `HTML_TEMPLATE`
 3. **Новые скрипты** — создать аналогичные генераторы
 4. **CI/CD** — добавить новые GitHub Actions
-
-

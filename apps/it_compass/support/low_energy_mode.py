@@ -1,6 +1,4 @@
-﻿import time
-import sys
-from typing import Dict, Any, List
+import time
 
 
 class LowEnergyMode:
@@ -161,4 +159,3 @@ if __name__ == "__main__":
     mode = LowEnergyMode()
     mode.activate()
     mode.run()
-

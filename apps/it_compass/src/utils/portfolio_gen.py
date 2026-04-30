@@ -1,4 +1,4 @@
-﻿"""
+"""
 Генератор портфолио для IT Compass.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
@@ -6,9 +6,9 @@
 
 import json
 import logging
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -194,4 +194,3 @@ if __name__ == "__main__":
         print("\n🎉 Портфолио готово! Файл: docs/my_portfolio.md")
     else:
         print("\n❌ Не удалось создать портфолио.")
-

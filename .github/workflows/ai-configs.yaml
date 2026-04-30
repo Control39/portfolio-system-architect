@@ -14,17 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          
+
       - name: Install dependencies
         run: |
           cd .ai-config
           npm install
-          
+
       - name: Validate YAML
         run: |
           cd .ai-config
@@ -34,7 +34,7 @@ jobs:
             const config = yaml.load(fs.readFileSync('master-config.yaml', 'utf8'));
             console.log('✅ Моделей:', config.models.length);
           "
-          
+
       - name: Run tests
         run: |
           cd .ai-config-gui
@@ -47,17 +47,17 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          
+
       - name: Install dependencies
         run: |
           cd .ai-config
           npm install
-          
+
       - name: Generate configs
         env:
           GIGACHAT_API_KEY: ${{ secrets.GIGACHAT_API_KEY }}
@@ -66,7 +66,7 @@ jobs:
         run: |
           cd .ai-config
           npm run generate:all
-          
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -75,20 +75,20 @@ jobs:
             .sourcecraft/
             .koda/
             .cline/
-            
+
   release:
     needs: generate
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Build GUI
         run: |
           cd .ai-config-gui
           npm install
           npm run build
-          
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:

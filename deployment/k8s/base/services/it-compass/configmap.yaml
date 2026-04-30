@@ -8,4 +8,3 @@ data:
   PYTHONPATH: /app
   LOG_LEVEL: INFO
   ENVIRONMENT: production
-

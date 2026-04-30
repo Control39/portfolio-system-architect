@@ -6,21 +6,21 @@
     auth_required: true
     rate_limit: "100/hour"
     description: "Architect Assistant - вопросы по архитектуре"
-    
+
   - path: "/api/v1/architect/health"
     target: "architect"
     methods: ["GET"]
     auth_required: false
     rate_limit: "60/hour"
     description: "Health check Architect Assistant"
-    
+
   - path: "/api/v1/architect/stats"
     target: "architect"
     methods: ["GET"]
     auth_required: true
     rate_limit: "30/hour"
     description: "Статистика Architect Assistant"
-  
+
   # Portfolio Organizer
   - path: "/api/v1/portfolio"
     target: "portfolio"
@@ -28,21 +28,21 @@
     auth_required: true
     rate_limit: "500/hour"
     description: "Управление портфолио проектов"
-    
+
   - path: "/api/v1/portfolio/projects"
     target: "portfolio"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "200/hour"
     description: "Проекты в портфолио"
-    
+
   - path: "/api/v1/portfolio/evidence"
     target: "portfolio"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "300/hour"
     description: "Доказательства компетенций"
-  
+
   # ML Model Registry
   - path: "/api/v1/ml/models"
     target: "ml_registry"
@@ -50,21 +50,21 @@
     auth_required: true
     rate_limit: "200/hour"
     description: "ML модели"
-    
+
   - path: "/api/v1/ml/experiments"
     target: "ml_registry"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "150/hour"
     description: "Эксперименты ML"
-    
+
   - path: "/api/v1/ml/deployments"
     target: "ml_registry"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "100/hour"
     description: "Деплойменты ML моделей"
-  
+
   # IT Compass
   - path: "/api/v1/skills"
     target: "it_compass"
@@ -72,21 +72,21 @@
     auth_required: true
     rate_limit: "300/hour"
     description: "Навыки и компетенции"
-    
+
   - path: "/api/v1/skills/markers"
     target: "it_compass"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "200/hour"
     description: "Маркеры системного мышления"
-    
+
   - path: "/api/v1/skills/assessment"
     target: "it_compass"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "150/hour"
     description: "Оценка навыков"
-  
+
   # Career Development
   - path: "/api/v1/career"
     target: "career"
@@ -94,21 +94,21 @@
     auth_required: true
     rate_limit: "200/hour"
     description: "Развитие карьеры"
-    
+
   - path: "/api/v1/career/plan"
     target: "career"
     methods: ["GET", "POST", "PUT"]
     auth_required: true
     rate_limit: "100/hour"
     description: "План развития карьеры"
-    
+
   - path: "/api/v1/career/goals"
     target: "career"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "150/hour"
     description: "Цели развития"
-  
+
   # System Proof
   - path: "/api/v1/proof"
     target: "system_proof"
@@ -116,21 +116,21 @@
     auth_required: true
     rate_limit: "200/hour"
     description: "Доказательства системного мышления"
-    
+
   - path: "/api/v1/proof/artifacts"
     target: "system_proof"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "150/hour"
     description: "Артефакты доказательств"
-    
+
   - path: "/api/v1/proof/validation"
     target: "system_proof"
     methods: ["POST"]
     auth_required: true
     rate_limit: "100/hour"
     description: "Валидация доказательств"
-  
+
   # Public endpoints (no auth required)
   - path: "/health"
     target: "gateway"
@@ -138,21 +138,21 @@
     auth_required: false
     rate_limit: "60/hour"
     description: "Health check gateway"
-    
+
   - path: "/auth/login"
     target: "gateway"
     methods: ["POST"]
     auth_required: false
     rate_limit: "30/hour"
     description: "Аутентификация пользователя"
-    
+
   - path: "/docs"
     target: "gateway"
     methods: ["GET"]
     auth_required: false
     rate_limit: "unlimited"
     description: "Документация API"
-    
+
   - path: "/redoc"
     target: "gateway"
     methods: ["GET"]
@@ -167,7 +167,7 @@ rate_limits:
   public: "60/hour"
   strict: "30/hour"
   unlimited: "0"  # 0 = без лимита
-  
+
 # Настройки кэширования
 caching:
   enabled: true

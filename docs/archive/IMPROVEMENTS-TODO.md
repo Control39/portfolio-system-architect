@@ -32,4 +32,3 @@
 - [ ] Final audit & completion report update.
 
 **Статус: Ready to start Step 1.**
-

@@ -1,74 +1,74 @@
 ﻿flowchart TD
     Start([Начало работы]) --> Onboarding[Онбординг пользователя]
-    
+
     Onboarding --> ChoosePath{Выбор пути развития}
     ChoosePath --> Path1[Python разработчик]
     ChoosePath --> Path2[DevOps инженер]
     ChoosePath --> Path3[MLOps специалист]
     ChoosePath --> Path4[Системный архитектор]
-    
+
     Path1 --> LoadMarkers1[Загрузка маркеров Python]
     Path2 --> LoadMarkers2[Загрузка маркеров DevOps]
     Path3 --> LoadMarkers3[Загрузка маркеров MLOps]
     Path4 --> LoadMarkers4[Загрузка маркеров Архитектура]
-    
+
     LoadMarkers1 --> TrackProgress[Отслеживание прогресса]
     LoadMarkers2 --> TrackProgress
     LoadMarkers3 --> TrackProgress
     LoadMarkers4 --> TrackProgress
-    
+
     TrackProgress --> DailyCheck[Ежедневная проверка]
     DailyCheck --> CheckMood[Оценка настроения]
     DailyCheck --> CheckStress[Оценка стресса]
     DailyCheck --> CheckEnergy[Оценка энергии]
-    
+
     CheckMood --> RecordMental[Запись ментальных данных]
     CheckStress --> RecordMental
     CheckEnergy --> RecordMental
-    
+
     RecordMental --> Analyze[Анализ прогресса]
-    
+
     Analyze --> CompleteMarker{Выполнен маркер?}
     CompleteMarker -->|Да| UpdateProgress[Обновить прогресс]
     CompleteMarker -->|Нет| SuggestHelp[Предложить помощь]
-    
+
     UpdateProgress --> GenerateEvidence[Создать доказательную базу]
     GenerateEvidence --> SaveArtifact[Сохранить артефакт<br/>GitHub/GitLab]
-    
+
     SaveArtifact --> CheckLevel{Достигнут новый уровень?}
     CheckLevel -->|Да| LevelUp[Повышение уровня]
     CheckLevel -->|Нет| Continue[Продолжить развитие]
-    
+
     LevelUp --> GeneratePortfolio[Сгенерировать портфолио]
     Continue --> DailyCheck
-    
+
     SuggestHelp --> HelpOptions{Тип помощи}
     HelpOptions --> Technical[Техническая помощь<br/>Примеры кода, документация]
     HelpOptions --> Psychological[Психологическая поддержка<br/>Цитаты, контакты]
     HelpOptions --> AIRecommendation[AI рекомендации<br/>Персонализированные советы]
-    
+
     Technical --> ProvideResources[Предоставить ресурсы]
     Psychological --> ShowSupport[Показать поддержку]
     AIRecommendation --> GenerateAdvice[Сгенерировать совет]
-    
+
     ProvideResources --> DailyCheck
     ShowSupport --> DailyCheck
     GenerateAdvice --> DailyCheck
-    
+
     GeneratePortfolio --> PortfolioFormats{Формат портфолио}
     PortfolioFormats --> PDF[PDF документ]
     PortfolioFormats --> Markdown[Markdown резюме]
     PortfolioFormats --> HTML[HTML страница]
-    
+
     PDF --> Share[Поделиться результатами]
     Markdown --> Share
     HTML --> Share
-    
+
     Share --> Feedback[Получить обратную связь]
     Feedback --> Reflect[Рефлексия и планирование]
     Reflect --> SetNewGoals[Установить новые цели]
     SetNewGoals --> TrackProgress
-    
+
     %% Подпроцессы
     subgraph MentalHealth [Ментальное здоровье]
         CheckMood
@@ -78,7 +78,7 @@
         Psychological
         ShowSupport
     end
-    
+
     subgraph TechnicalSkills [Технические навыки]
         Path1
         Path2
@@ -91,14 +91,14 @@
         Technical
         ProvideResources
     end
-    
+
     subgraph AIIntegration [AI интеграция]
         Analyze
         AIRecommendation
         GenerateAdvice
         GeneratePortfolio
     end
-    
+
     subgraph PortfolioGeneration [Генерация портфолио]
         GenerateEvidence
         SaveArtifact
@@ -108,7 +108,7 @@
         HTML
         Share
     end
-    
+
     %% Стилизация
     classDef start fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
     classDef mental fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
@@ -116,7 +116,7 @@
     classDef ai fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
     classDef portfolio fill:#fff3e0,stroke:#f57c00,stroke-width:2px
     classDef decision fill:#ffecb3,stroke:#ff8f00,stroke-width:2px
-    
+
     class Start start
     class MentalHealth mental
     class TechnicalSkills technical

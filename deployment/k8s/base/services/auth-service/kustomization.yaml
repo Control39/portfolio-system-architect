@@ -9,4 +9,3 @@ resources:
 commonLabels:
   app: auth-service
   tier: infrastructure
-

@@ -41,9 +41,9 @@ get_current_version() {
 bump_version() {
     local version=$1
     local bump_type=$2
-    
+
     IFS='.' read -r major minor patch <<< "$version"
-    
+
     case $bump_type in
         major)
             major=$((major + 1))
@@ -63,30 +63,30 @@ bump_version() {
             exit 1
             ;;
     esac
-    
+
     echo "$major.$minor.$patch"
 }
 
 # Function to update version in files
 update_version_files() {
     local new_version=$1
-    
+
     echo "📝 Updating version to $new_version..."
-    
+
     # Update pyproject.toml
     if [ -f "pyproject.toml" ]; then
         sed -i.bak -E "s/^version = \".*\"/version = \"$new_version\"/" pyproject.toml
         rm -f pyproject.toml.bak
         echo "  ✅ Updated pyproject.toml"
     fi
-    
+
     # Update __version__.py if exists
     if [ -f "src/__version__.py" ]; then
         sed -i.bak -E "s/__version__ = \".*\"/__version__ = \"$new_version\"/" src/__version__.py
         rm -f src/__version__.py.bak
         echo "  ✅ Updated src/__version__.py"
     fi
-    
+
     # Update package.json if exists
     if [ -f "package.json" ]; then
         sed -i.bak -E "s/\"version\": \".*\"/\"version\": \"$new_version\"/" package.json
@@ -98,7 +98,7 @@ update_version_files() {
 # Function to generate changelog
 generate_changelog() {
     echo "📋 Generating changelog..."
-    
+
     # Check if git-changelog is available
     if command -v git-changelog &> /dev/null; then
         git-changelog -o CHANGELOG.md
@@ -109,7 +109,7 @@ generate_changelog() {
         echo "" >> CHANGELOG.md.new
         echo "## [Unreleased]" >> CHANGELOG.md.new
         echo "" >> CHANGELOG.md.new
-        
+
         # Get commits since last tag
         last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
         if [ -n "$last_tag" ]; then
@@ -125,12 +125,12 @@ generate_changelog() {
             echo "  ⚠️  No previous tag found. Creating initial changelog."
             echo "### Initial release" >> CHANGELOG.md.new
         fi
-        
+
         # Append existing changelog if it exists
         if [ -f "CHANGELOG.md" ]; then
             tail -n +2 CHANGELOG.md >> CHANGELOG.md.new
         fi
-        
+
         mv CHANGELOG.md.new CHANGELOG.md
         echo "  ✅ Generated CHANGELOG.md from git history"
     fi
@@ -139,19 +139,19 @@ generate_changelog() {
 # Function to create Git tag
 create_git_tag() {
     local version=$1
-    
+
     echo "🏷️  Creating Git tag v$version..."
-    
+
     # Check if tag already exists
     if git rev-parse "v$version" >/dev/null 2>&1; then
         echo "  ⚠️  Tag v$version already exists"
         return
     fi
-    
+
     # Create annotated tag
     git tag -a "v$version" -m "Release v$version"
     echo "  ✅ Created tag v$version"
-    
+
     # Show tag info
     echo ""
     echo "Tag created successfully:"
@@ -161,10 +161,10 @@ create_git_tag() {
 # Function to install Git hooks
 install_git_hooks() {
     echo "🔗 Installing Git hooks..."
-    
+
     # Create hooks directory if it doesn't exist
     mkdir -p .git/hooks
-    
+
     # Pre-commit hook
     cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
@@ -183,10 +183,10 @@ fi
 
 echo "✅ Pre-commit checks passed"
 EOF
-    
+
     chmod +x .git/hooks/pre-commit
     echo "  ✅ Installed pre-commit hook"
-    
+
     # Prepare-commit-msg hook (for conventional commits)
     cat > .git/hooks/prepare-commit-msg << 'EOF'
 #!/bin/bash
@@ -216,10 +216,10 @@ if [ "$COMMIT_SOURCE" = "message" ] || [ "$COMMIT_SOURCE" = "template" ]; then
 TEMPLATE
 fi
 EOF
-    
+
     chmod +x .git/hooks/prepare-commit-msg
     echo "  ✅ Installed prepare-commit-msg hook"
-    
+
     echo ""
     echo "Git hooks installed successfully!"
 }
@@ -228,25 +228,25 @@ EOF
 show_git_status() {
     echo "📊 Git Status Overview"
     echo "======================"
-    
+
     # Current branch
     echo "Current branch: $(git branch --show-current)"
-    
+
     # Status
     echo ""
     echo "Changes:"
     git status --short
-    
+
     # Staged changes
     echo ""
     echo "Staged changes (diff --cached):"
     git diff --cached --stat || echo "  No staged changes"
-    
+
     # Recent commits
     echo ""
     echo "Recent commits:"
     git log --oneline -5
-    
+
     # Tags
     echo ""
     echo "Latest tags:"
@@ -260,61 +260,61 @@ case "${1:-help}" in
             echo "❌ Please specify version bump type: patch, minor, or major"
             exit 1
         fi
-        
+
         current_version=$(get_current_version)
         new_version=$(bump_version "$current_version" "$2")
-        
+
         echo "🔄 Bumping version: $current_version → $new_version"
         update_version_files "$new_version"
-        
+
         # Commit version change
         git add pyproject.toml src/__version__.py package.json 2>/dev/null || true
         git commit -m "chore: bump version to $new_version"
-        
+
         create_git_tag "$new_version"
-        
+
         echo ""
         echo "✅ Version updated to $new_version and tagged"
         ;;
-    
+
     changelog)
         generate_changelog
         git add CHANGELOG.md
         git commit -m "docs: update changelog" || echo "  ⚠️  No changes to commit"
         echo "✅ Changelog updated"
         ;;
-    
+
     release)
         if [ -z "$2" ]; then
             echo "❌ Please specify version bump type: patch, minor, or major"
             exit 1
         fi
-        
+
         echo "🚀 Creating release..."
-        
+
         # Run tests first
         echo "1. Running tests..."
         make test || { echo "❌ Tests failed. Aborting release."; exit 1; }
-        
+
         # Bump version
         echo "2. Bumping version..."
         current_version=$(get_current_version)
         new_version=$(bump_version "$current_version" "$2")
         update_version_files "$new_version"
-        
+
         # Generate changelog
         echo "3. Generating changelog..."
         generate_changelog
-        
+
         # Commit changes
         echo "4. Committing release..."
         git add .
         git commit -m "chore(release): v$new_version"
-        
+
         # Create tag
         echo "5. Creating tag..."
         create_git_tag "$new_version"
-        
+
         echo ""
         echo "🎉 Release v$new_version created successfully!"
         echo ""
@@ -324,19 +324,19 @@ case "${1:-help}" in
         echo "3. Push changes: git push"
         echo "4. Create GitHub release from tag v$new_version"
         ;;
-    
+
     hooks)
         install_git_hooks
         ;;
-    
+
     status)
         show_git_status
         ;;
-    
+
     help|--help|-h)
         usage
         ;;
-    
+
     *)
         echo "❌ Unknown command: $1"
         usage

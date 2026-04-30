@@ -27,7 +27,7 @@ graph TB
     J --> K[ArgoCD Sync]
     B --> L[Collect Metrics]
     B --> M[Notifications]
-    
+
     subgraph "Matrix Testing"
         E1[Ubuntu Python 3.10]
         E2[Ubuntu Python 3.11]
@@ -40,7 +40,7 @@ graph TB
         F3[Ubuntu PowerShell 7.2]
         F4[Ubuntu PowerShell 7.4]
     end
-    
+
     E --> E1
     E --> E2
     E --> E3

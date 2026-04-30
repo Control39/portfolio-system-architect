@@ -1,4 +1,4 @@
-﻿"""Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
+"""Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
 """
 
 from datetime import datetime
@@ -11,15 +11,37 @@ README_PATH: Path = REPO_ROOT / "README.md"
 
 # Игнорируемые директории (точное совпадение через set intersection)
 IGNORED_DIRS: set[str] = {
-    ".git", "__pycache__", "node_modules", "venv", "env",
-    ".vscode", ".idea", ".gigaide", "backups", ".backup",
-    "Lib", ".sourcecraft", ".github", ".vscode-settings",
-    ".vscode-settings-backup", ".continue", ".codeassistant",
+    ".git",
+    "__pycache__",
+    "node_modules",
+    "venv",
+    "env",
+    ".vscode",
+    ".idea",
+    ".gigaide",
+    "backups",
+    ".backup",
+    "Lib",
+    ".sourcecraft",
+    ".github",
+    ".vscode-settings",
+    ".vscode-settings-backup",
+    ".continue",
+    ".codeassistant",
     "data/embeddings",
 }
 
 # Расширения файлов для включения
-INCLUDE_EXTENSIONS: set[str] = {".md", ".py", ".ps1", ".sh", ".yaml", ".yml", ".json", ".toml"}
+INCLUDE_EXTENSIONS: set[str] = {
+    ".md",
+    ".py",
+    ".ps1",
+    ".sh",
+    ".yaml",
+    ".yml",
+    ".json",
+    ".toml",
+}
 
 
 def get_all_files(root: Path) -> list[Path]:
@@ -94,7 +116,9 @@ def main() -> None:
             # Формируем относительный путь
             relative = file.relative_to(REPO_ROOT)
             # Имя заметки: путь без расширения
-            note_name = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
+            note_name = (
+                str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
+            )
             note_name = sanitize_filename(note_name)
             note_path: Path = OUTPUT_DIR / f"{note_name}.md"
 
@@ -126,5 +150,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

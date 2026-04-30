@@ -22,7 +22,7 @@ if ($profileContent -notmatch [regex]::Escape($treeScript)) {
         $response = Read-Host
         if ($response -notmatch '^[Yy]') { exit 0 }
     }
-    
+
     $addLine = "# Tree utility from portfolio-system-architect`n. '$treeScript'`n"
     if ($profileContent) {
         Set-Content -Path $profilePath -Value ($addLine + $profileContent)
@@ -35,4 +35,3 @@ if ($profileContent -notmatch [regex]::Escape($treeScript)) {
 }
 
 Write-Host "Перезагрузите PowerShell или выполните: . `$PROFILE" -ForegroundColor Cyan
-

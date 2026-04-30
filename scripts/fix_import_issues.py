@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для быстрого исправления проблемы reportMissingImports в VS Code.
 """
 
@@ -9,7 +9,7 @@ from pathlib import Path
 
 def main():
     print("🔧 Исправление проблемы reportMissingImports в VS Code")
-    print("="*60)
+    print("=" * 60)
 
     project_root = Path().resolve()
 
@@ -140,15 +140,18 @@ python fix_import_issues.py
         except ImportError:
             print(f"  ❌ {module_name} -> установите: pip install {package_name}")
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("✅ Настройка завершена!")
     print("\n🚀 Следующие шаги:")
     print("1. Перезагрузите VS Code (Ctrl+Shift+P → 'Developer: Reload Window')")
     print("2. Выберите интерпретатор: .venv\\Scripts\\python.exe")
     print("3. Проверьте, что PROBLEMS уменьшились")
-    print("4. Если проблемы остались, следуйте инструкциям в FIX_IMPORT_ISSUES_GUIDE.md")
+    print(
+        "4. Если проблемы остались, следуйте инструкциям в FIX_IMPORT_ISSUES_GUIDE.md"
+    )
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

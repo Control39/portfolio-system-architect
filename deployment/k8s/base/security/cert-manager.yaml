@@ -21,7 +21,7 @@ spec:
     email: your-email@example.com
     privateKeySecretRef:
       name: letsencrypt-prod
-    
+
     # HTTP-01 solver for domain validation
     solvers:
     - http01:
@@ -63,10 +63,10 @@ spec:
     # Add your actual domain:
     # - portfolio.example.com
     # - "*.portfolio.example.com"
-  
+
   # Certificate renewal 30 days before expiration
   renewBefore: 720h
-  
+
   # Duration and renewal period
   duration: 2160h # 90 days
   isCA: false
@@ -90,12 +90,12 @@ metadata:
       more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
 spec:
   ingressClassName: nginx
-  
+
   tls:
   - hosts:
       - portfolio.local
     secretName: portfolio-tls-secret
-  
+
   rules:
   - host: portfolio.local
     http:
@@ -121,4 +121,3 @@ spec:
             name: ml-model-registry
             port:
               number: 8001
-

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Тестовый скрипт для проверки интеграции Yandex GPT с проектом portfolio-system-architect.
 
 Этот скрипт проверяет:
@@ -18,6 +18,7 @@ from typing import Any
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+
 def check_environment_variables() -> dict[str, bool]:
     """Проверка наличия необходимых переменных окружения"""
     print("🔍 Проверка переменных окружения...")
@@ -35,7 +36,9 @@ def check_environment_variables() -> dict[str, bool]:
         if value:
             # Маскируем API ключ для безопасности
             if "API_KEY" in var:
-                masked_value = value[:10] + "..." + value[-4:] if len(value) > 14 else "***"
+                masked_value = (
+                    value[:10] + "..." + value[-4:] if len(value) > 14 else "***"
+                )
                 print(f"  ✅ {var}: {masked_value}")
             else:
                 print(f"  ✅ {var}: {value}")
@@ -55,6 +58,7 @@ def check_environment_variables() -> dict[str, bool]:
 
     return results
 
+
 def check_python_module() -> bool:
     """Проверка возможности импорта Python модуля"""
     print("\n🔍 Проверка Python модуля yandex_gpt.py...")
@@ -68,7 +72,9 @@ def check_python_module() -> bool:
         )
 
         print("  ✅ Модуль yandex_gpt.py успешно импортирован")
-        print("  📦 Доступные классы: YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client, generate_with_yandex_gpt")
+        print(
+            "  📦 Доступные классы: YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client, generate_with_yandex_gpt"
+        )
 
         # Проверка создания конфигурации
         config = YandexGPTConfig()
@@ -85,6 +91,7 @@ def check_python_module() -> bool:
     except Exception as e:
         print(f"  ❌ Ошибка при проверке модуля: {e}")
         return False
+
 
 def check_sourcecraft_config() -> bool:
     """Проверка конфигурации SourceCraft AI skill"""
@@ -125,6 +132,7 @@ def check_sourcecraft_config() -> bool:
         print(f"  ❌ Ошибка при чтении конфигурации: {e}")
         return False
 
+
 async def test_yandex_gpt_connection() -> bool:
     """Тестирование подключения к Yandex GPT API"""
     print("\n🔍 Тестирование подключения к Yandex GPT API...")
@@ -140,10 +148,15 @@ async def test_yandex_gpt_connection() -> bool:
         print("  ⚙️  Конфигурация клиента:")
         print(f"    - API URL: {config.get('base_url')}")
         print(f"    - Модель: {config.get('model')}")
-        print(f"    - API ключ: {'установлен' if config.get('api_key') else 'отсутствует'}")
+        print(
+            f"    - API ключ: {'установлен' if config.get('api_key') else 'отсутствует'}"
+        )
 
         # Проверяем наличие API ключа
-        if not config.get("api_key") or config.get("api_key") == "your_yandex_gpt_api_key_here":
+        if (
+            not config.get("api_key")
+            or config.get("api_key") == "your_yandex_gpt_api_key_here"
+        ):
             print("  ⚠️  API ключ не установлен или имеет значение по умолчанию")
             print("     Установите YANDEX_GPT_API_KEY в .env файле")
             return False
@@ -156,7 +169,9 @@ async def test_yandex_gpt_connection() -> bool:
             test_prompt = "Привет! Ответь коротко: 'Тест подключения успешен'"
 
             # Проверяем, нужно ли выполнять реальный запрос к API
-            test_real_api = os.environ.get("YANDEX_GPT_TEST_REAL_API", "").lower() == "true"
+            test_real_api = (
+                os.environ.get("YANDEX_GPT_TEST_REAL_API", "").lower() == "true"
+            )
 
             if test_real_api:
                 print("  🔧 Режим реального API: выполняется запрос к Yandex GPT...")
@@ -168,7 +183,9 @@ async def test_yandex_gpt_connection() -> bool:
                 print("  ✅ Реальный запрос к API выполнен успешно")
                 return True
             # Режим mock для экономии токенов
-            print("  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов")
+            print(
+                "  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов"
+            )
             print("     Для реального теста установите переменную окружения:")
             print("     export YANDEX_GPT_TEST_REAL_API=true")
 
@@ -191,11 +208,12 @@ async def test_yandex_gpt_connection() -> bool:
         print(f"  ❌ Ошибка при создании клиента: {e}")
         return False
 
+
 def generate_test_report(results: dict[str, Any]) -> None:
     """Генерация отчета о тестировании"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 ОТЧЕТ О ТЕСТИРОВАНИИ ИНТЕГРАЦИИ YANDEX GPT")
-    print("="*60)
+    print("=" * 60)
 
     total_tests = len(results)
     passed_tests = sum(1 for result in results.values() if result)
@@ -228,10 +246,11 @@ def generate_test_report(results: dict[str, Any]) -> None:
     print("  3. Интегрируйте Yandex GPT в свои приложения")
     print("  4. Настройте мониторинг использования API")
 
+
 async def main():
     """Основная функция тестирования"""
     print("🚀 Запуск тестирования интеграции Yandex GPT")
-    print("="*60)
+    print("=" * 60)
 
     results = {}
 
@@ -258,9 +277,11 @@ async def main():
     print("\n⚠️  Некоторые тесты не пройдены. Проверьте рекомендации выше.")
     return 1
 
+
 if __name__ == "__main__":
     # Загружаем переменные окружения из .env файла
     from dotenv import load_dotenv
+
     env_path = project_root / ".env"
 
     if env_path.exists():
@@ -272,4 +293,3 @@ if __name__ == "__main__":
     # Запускаем тестирование
     exit_code = asyncio.run(main())
     sys.exit(exit_code)
-

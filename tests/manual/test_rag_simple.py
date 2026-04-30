@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Simple test for RAG implementation.
 """
 
@@ -12,10 +12,12 @@ try:
     from embedding_agent.embedder import DocumentEmbedder
     from embedding_agent.indexer import DocumentIndexer
     from embedding_agent.search import DocumentSearcher
+
     print("✅ Successfully imported embedding_agent modules")
 except ImportError as e:
     print(f"❌ Import error: {e}")
     sys.exit(1)
+
 
 def test_embedder():
     """Test the document embedder."""
@@ -44,6 +46,7 @@ def test_embedder():
     print("❌ Failed to generate embedding")
     return False
 
+
 def test_indexer():
     """Test the document indexer."""
     print("\n🔧 Testing DocumentIndexer...")
@@ -71,6 +74,7 @@ def test_indexer():
 
     return len(results) > 0
 
+
 def test_searcher():
     """Test the high-level searcher."""
     print("\n🔧 Testing DocumentSearcher...")
@@ -91,6 +95,7 @@ def test_searcher():
         return True
     print("❌ No search results")
     return False
+
 
 def test_rag_advisor():
     """Test the RAG advisor plugin."""
@@ -119,6 +124,7 @@ def test_rag_advisor():
     except Exception as e:
         print(f"❌ Error testing RAGAdvisor: {e}")
         return False
+
 
 def main():
     """Run all tests."""
@@ -157,6 +163,7 @@ def main():
         return 0
     print("⚠️  Some tests failed. Review the implementation.")
     return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

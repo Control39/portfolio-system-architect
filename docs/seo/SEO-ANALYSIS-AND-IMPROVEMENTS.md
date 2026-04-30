@@ -250,7 +250,7 @@ Create `docs/README.md`:
 ### Key Performance Indicators (KPIs)
 
 1. **Repository Views** (GitHub Insights)
-2. **Unique Cloners** 
+2. **Unique Cloners**
 3. **Stars and Forks**
 4. **Traffic Sources** (GitHub referrers)
 5. **Documentation Page Views** (if using GitHub Pages)

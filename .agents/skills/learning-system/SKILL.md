@@ -40,36 +40,36 @@ metadata:
 ```mermaid
 graph TB
     A[Сбор данных] --> B[Хранилище метрик]
-    
+
     B --> C[Предобработка данных]
     C --> D[Анализ эффективности]
-    
+
     D --> E[Выявление паттернов]
     E --> F[Успешные паттерны]
     E --> G[Неудачные паттерны]
-    
+
     F --> H[Усиление стратегий]
     G --> I[Корректировка стратегий]
-    
+
     H --> J[Обновление моделей]
     I --> J
-    
+
     J --> K[Валидация изменений]
     K --> L[A/B тестирование]
-    
+
     L --> M[Внедрение улучшений]
     M --> N[Мониторинг воздействия]
-    
+
     N --> O[Обратная связь]
     O --> A
-    
+
     subgraph "Модели машинного обучения"
         P[Модель предсказания задач]
         Q[Модель оптимизации]
         R[Модель персонализации]
         S[Модель оценки рисков]
     end
-    
+
     J --> P
     J --> Q
     J --> R
@@ -83,16 +83,16 @@ graph TB
 def collect_metrics(task_execution_data, context_data, user_feedback):
     # 1. Метрики выполнения задач
     execution_metrics = extract_execution_metrics(task_execution_data)
-    
+
     # 2. Контекстные метрики
     context_metrics = extract_context_metrics(context_data)
-    
+
     # 3. Метрики пользовательской обратной связи
     feedback_metrics = extract_feedback_metrics(user_feedback)
-    
+
     # 4. Системные метрики
     system_metrics = collect_system_metrics()
-    
+
     return {
         "execution": execution_metrics,
         "context": context_metrics,
@@ -108,19 +108,19 @@ def collect_metrics(task_execution_data, context_data, user_feedback):
 def analyze_effectiveness(metrics_data, historical_data):
     # 1. Расчет ключевых показателей эффективности
     kpis = calculate_kpis(metrics_data)
-    
+
     # 2. Сравнение с историческими данными
     trends = analyze_trends(metrics_data, historical_data)
-    
+
     # 3. Выявление корреляций
     correlations = find_correlations(metrics_data)
-    
+
     # 4. Анализ причинно-следственных связей
     causality = analyze_causality(metrics_data)
-    
+
     # 5. Оценка удовлетворенности пользователя
     user_satisfaction = assess_user_satisfaction(metrics_data["feedback"])
-    
+
     return {
         "kpis": kpis,
         "trends": trends,
@@ -136,23 +136,23 @@ def analyze_effectiveness(metrics_data, historical_data):
 def identify_patterns(effectiveness_analysis, historical_patterns):
     # 1. Кластеризация успешных выполнений
     successful_clusters = cluster_successful_executions(effectiveness_analysis)
-    
+
     # 2. Выявление общих характеристик успешных задач
     success_patterns = extract_success_patterns(successful_clusters)
-    
+
     # 3. Анализ неудачных выполнений
     failure_analysis = analyze_failures(effectiveness_analysis)
-    
+
     # 4. Выявление паттернов неудач
     failure_patterns = extract_failure_patterns(failure_analysis)
-    
+
     # 5. Обновление базы знаний паттернов
     updated_patterns = update_pattern_database(
-        historical_patterns, 
-        success_patterns, 
+        historical_patterns,
+        success_patterns,
         failure_patterns
     )
-    
+
     return {
         "success_patterns": success_patterns,
         "failure_patterns": failure_patterns,
@@ -165,32 +165,32 @@ def identify_patterns(effectiveness_analysis, historical_patterns):
 ```python
 def adjust_algorithms(identified_patterns, current_algorithms):
     adjustments = {}
-    
+
     # 1. Корректировка модели предсказания задач
     if "prediction_improvements" in identified_patterns["success_patterns"]:
         adjustments["prediction_model"] = adjust_prediction_model(
             current_algorithms["prediction_model"],
             identified_patterns["success_patterns"]["prediction_improvements"]
         )
-    
+
     # 2. Корректировка планировщика задач
     if "scheduling_improvements" in identified_patterns["success_patterns"]:
         adjustments["scheduler"] = adjust_scheduler(
             current_algorithms["scheduler"],
             identified_patterns["success_patterns"]["scheduling_improvements"]
         )
-    
+
     # 3. Корректировка оптимизатора ресурсов
     if "resource_improvements" in identified_patterns["success_patterns"]:
         adjustments["resource_optimizer"] = adjust_resource_optimizer(
             current_algorithms["resource_optimizer"],
             identified_patterns["success_patterns"]["resource_improvements"]
         )
-    
+
     # 4. Устранение причин неудач
     for failure_pattern in identified_patterns["failure_patterns"]:
         adjustments = apply_failure_corrections(adjustments, failure_pattern)
-    
+
     return {
         "adjustments": adjustments,
         "expected_improvement": estimate_improvement(adjustments),
@@ -203,20 +203,20 @@ def adjust_algorithms(identified_patterns, current_algorithms):
 def validate_and_deploy(algorithm_adjustments, current_system):
     # 1. Создание тестового окружения
     test_environment = create_test_environment(current_system)
-    
+
     # 2. A/B тестирование изменений
     ab_test_results = run_ab_tests(test_environment, algorithm_adjustments)
-    
+
     # 3. Статистическая значимость улучшений
     statistical_significance = calculate_statistical_significance(ab_test_results)
-    
+
     # 4. Принятие решения о внедрении
     deployment_decision = make_deployment_decision(
-        ab_test_results, 
+        ab_test_results,
         statistical_significance,
         algorithm_adjustments["expected_improvement"]
     )
-    
+
     # 5. Постепенное внедрение (canary deployment)
     if deployment_decision["deploy"]:
         deployment = deploy_gradually(
@@ -225,7 +225,7 @@ def validate_and_deploy(algorithm_adjustments, current_system):
         )
     else:
         deployment = {"deployed": False, "reason": deployment_decision["reason"]}
-    
+
     return {
         "ab_test_results": ab_test_results,
         "statistical_significance": statistical_significance,
@@ -378,14 +378,14 @@ learning_parameters:
   min_data_points: 100
   validation_split: 0.2
   test_split: 0.1
-  
+
   # Скорость обучения для разных компонентов
   rates:
     prediction_model: 0.01
     scheduler: 0.005
     resource_optimizer: 0.008
     risk_assessor: 0.003
-    
+
   # Критерии остановки обучения
   stopping_criteria:
     max_iterations: 1000
@@ -399,14 +399,14 @@ data_collection:
   storage: ".agents/data/"
   retention_days: 365
   compression: true
-  
+
   # Какие данные собирать
   collect:
     execution_metrics: true
     context_data: true
     user_feedback: true
     system_metrics: true
-    
+
   # Частота сбора
   frequency:
     task_completion: true
@@ -420,25 +420,25 @@ effectiveness_analysis:
     - name: "task_success_rate"
       target: 0.95
       weight: 0.3
-      
+
     - name: "time_efficiency"
       target: 0.85
       weight: 0.25
-      
+
     - name: "resource_efficiency"
       target: 0.80
       weight: 0.20
-      
+
     - name: "user_satisfaction"
       target: 0.90
       weight: 0.25
-  
+
   # Тренды и аномалии
   trend_analysis:
     window_size: 30  # дней
     min_change_for_alert: 0.1
     anomaly_detection: true
-    
+
   # Цели улучшения
   improvement_goals:
     monthly_improvement: 0.1  # 10%
@@ -453,13 +453,13 @@ deployment:
   canary_percentage: 10
   evaluation_period: "24h"
   rollback_automatically: true
-  
+
   # Критерии успешного внедрения
   success_criteria:
     - "success_rate_improvement > 0.02"
     - "no_regression_in_other_metrics"
     - "user_feedback_positive"
-    
+
   # A/B тестирование
   ab_testing:
     enabled: true
@@ -476,12 +476,12 @@ deployment:
 def integrate_with_scanner(scan_results):
     # Использование результатов сканирования для контекстуализации обучения
     learning_system.add_context(scan_results)
-    
+
 # Интеграция с планировщиком задач
 def integrate_with_planner(task_execution_data):
     # Обучение на результатах выполнения планов
     learning_system.learn_from_execution(task_execution_data)
-    
+
 # Интеграция с исполнителем задач
 def integrate_with_executor(execution_metrics):
     # Непрерывный сбор метрик выполнения
@@ -498,7 +498,7 @@ def export_to_analytics(learning_data, analytics_system):
         export_to_elasticsearch(learning_data)
     elif analytics_system == "datadog":
         export_to_datadog(learning_data)
-        
+
 # Импорт лучших практик
 def import_best_practices(external_sources):
     for source in external_sources:
@@ -520,15 +520,15 @@ def import_best_practices(external_sources):
 class CustomLearningAlgorithm:
     def __init__(self, parameters):
         self.parameters = parameters
-        
+
     def learn(self, training_data):
         # Кастомная логика обучения
         self.model = train_custom_model(training_data, self.parameters)
-        
+
     def adjust(self, feedback_data):
         # Корректировка на основе обратной связи
         self.model = adjust_model(self.model, feedback_data)
-        
+
     def predict_improvement(self, changes):
         # Предсказание эффекта от изменений
         return predict_improvement_effect(self.model, changes)
@@ -542,11 +542,11 @@ class PatternAnalysisPlugin:
         # Кастомный анализ паттернов
         patterns = custom_pattern_analysis(data, context)
         return patterns
-        
+
     def validate(self, patterns):
         # Валидация обнаруженных паттернов
         return validate_patterns(patterns)
-        
+
     def suggest_improvements(self, patterns):
         # Предложения по улучшению на основе паттернов
         return generate_improvement_suggestions(patterns)
@@ -570,13 +570,13 @@ learning_dashboard:
     - improvement_rate
     - pattern_discovery
     - deployment_success
-    
+
   alerts:
     - learning_stalled: "improvement < 0.01 for 7 days"
     - model_degradation: "accuracy_drop > 0.05"
     - pattern_confidence_low: "confidence < 0.7"
     - deployment_failure: "success_rate < 0.8"
-    
+
   visualizations:
     - learning_curve: "improvement_over_time"
     - pattern_network: "discovered_patterns"
@@ -609,6 +609,6 @@ python -m agents.learning.validate_patterns --patterns=discovered_patterns.json 
 
 ---
 
-**Примечание**: Система самообучения предназначена для непрерывного улучшения агента. 
-Для критически важных систем рекомендуется использовать консервативные настройки обучения 
+**Примечание**: Система самообучения предназначена для непрерывного улучшения агента.
+Для критически важных систем рекомендуется использовать консервативные настройки обучения
 и тщательную валидацию всех изменений перед внедрением в production.

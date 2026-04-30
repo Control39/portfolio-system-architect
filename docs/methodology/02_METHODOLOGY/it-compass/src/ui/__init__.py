@@ -1,4 +1,4 @@
-﻿"""Пользовательский интерфейс IT Compass
+"""Пользовательский интерфейс IT Compass
 """
 
 from .app import create_app

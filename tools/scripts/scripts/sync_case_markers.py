@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 
 """Скрипт автоматической синхронизации кейса с IT-Compass
 Автоматизирует процесс интеграции кейсов с маркерами IT-Compass
@@ -90,8 +90,12 @@ class ITCompassSync:
                 for marker in level_data:
                     if marker.get("id") == marker_id:
                         # Обновление информации о маркере
-                        marker["validation_status"] = marker_mapping.get("validation_status", "pending_review")
-                        marker["auto_verified"] = marker_mapping.get("auto_verified", False)
+                        marker["validation_status"] = marker_mapping.get(
+                            "validation_status", "pending_review"
+                        )
+                        marker["auto_verified"] = marker_mapping.get(
+                            "auto_verified", False
+                        )
                         marker_updated = True
                         updated_markers.append(marker_id)
                         break
@@ -126,7 +130,12 @@ class ITCompassSync:
 
     def _update_portfolio(self, mapping_data: dict):
         """Обновляет портфолио через portfolio-organizer"""
-        portfolio_file = self.portfolio_path / "src" / "generated" / f"{mapping_data.get('case_id')}.md"
+        portfolio_file = (
+            self.portfolio_path
+            / "src"
+            / "generated"
+            / f"{mapping_data.get('case_id')}.md"
+        )
 
         # Создание директории если не существует
         portfolio_file.parent.mkdir(parents=True, exist_ok=True)
@@ -153,27 +162,35 @@ class ITCompassSync:
         ]
 
         for marker in mapping_data.get("mapped_markers", []):
-            content.extend([
-                f"### {marker.get('marker_id', '')}",
-                f"- **Навык:** {marker.get('skill', '')}",
-                f"- **Уровень:** {marker.get('level', '')}",
-                f"- **Статус валидации:** {marker.get('validation_status', '')}",
-                f"- **Описание:** {marker.get('evidence', {}).get('description', '')}",
+            content.extend(
+                [
+                    f"### {marker.get('marker_id', '')}",
+                    f"- **Навык:** {marker.get('skill', '')}",
+                    f"- **Уровень:** {marker.get('level', '')}",
+                    f"- **Статус валидации:** {marker.get('validation_status', '')}",
+                    f"- **Описание:** {marker.get('evidence', {}).get('description', '')}",
+                    "",
+                ]
+            )
+
+        content.extend(
+            [
+                "## Точки интеграции",
                 "",
-            ])
+            ]
+        )
 
-        content.extend([
-            "## Точки интеграции",
-            "",
-        ])
-
-        for point_name, point_path in mapping_data.get("integration_points", {}).items():
+        for point_name, point_path in mapping_data.get(
+            "integration_points", {}
+        ).items():
             content.append(f"- **{point_name}:** {point_path}")
 
         return "\n".join(content)
 
 
-def sync_case_to_it_compass(case_path: str, markers_file: str = "markers-mapping.json") -> bool:
+def sync_case_to_it_compass(
+    case_path: str, markers_file: str = "markers-mapping.json"
+) -> bool:
     """Синхронизирует кейс с маркерами IT-Compass"""
     sync_tool = ITCompassSync(case_path)
     return sync_tool.sync_case_to_it_compass()
@@ -190,8 +207,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Синхронизация кейса с IT-Compass")
     parser.add_argument("case_path", help="Путь к директории кейса")
-    parser.add_argument("--markers-file", default="markers-mapping.json",
-                        help="Имя файла с маппингом маркеров (по умолчанию: markers-mapping.json)")
+    parser.add_argument(
+        "--markers-file",
+        default="markers-mapping.json",
+        help="Имя файла с маппингом маркеров (по умолчанию: markers-mapping.json)",
+    )
 
     args = parser.parse_args()
 

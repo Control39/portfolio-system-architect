@@ -1,4 +1,4 @@
-﻿from ..config.loader import COMPONENT_CONFIG
+from ..config.loader import COMPONENT_CONFIG
 
 
 def generate_api_docs():
@@ -14,7 +14,9 @@ def generate_api_docs():
         if "parameters" in endpoint:
             docs += "**Параметры:**\n"
             for param in endpoint["parameters"]:
-                docs += f"- `{param['name']}` ({param['type']}): {param['description']}\n"
+                docs += (
+                    f"- `{param['name']}` ({param['type']}): {param['description']}\n"
+                )
             docs += "\n"
 
     # Сохраняем в файл
@@ -23,5 +25,5 @@ def generate_api_docs():
 
     print("✅ Документация сгенерирована: docs/API_REFERENCE.md")
 
-generate_api_docs()
 
+generate_api_docs()

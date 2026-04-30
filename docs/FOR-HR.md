@@ -2,8 +2,8 @@
 
 ## 👤 Candidate Profile: Ekaterina Kudelia
 
-**Role**: Cognitive Systems Architect  
-**Experience**: 2+ years of AI-led system architecture  
+**Role**: Cognitive Systems Architect
+**Experience**: 2+ years of AI-led system architecture
 **Specialization**: Transforming non-technical professionals into architects through systematic methodology
 
 ### 🎯 What Makes This Candidate Unique
@@ -58,7 +58,7 @@ This is **not a traditional developer profile**. Instead, it represents a new ty
 Based on demonstrated competencies and Russian market rates:
 
 - **Junior Architect**: $60,000-$80,000
-- **Mid-Level Architect**: $80,000-$120,000  
+- **Mid-Level Architect**: $80,000-$120,000
 - **Senior Architect**: $120,000-$180,000
 - **Lead Cognitive Architect** (this profile): $150,000-$250,000
 
@@ -88,7 +88,7 @@ Based on demonstrated competencies and Russian market rates:
 - Establish AI-assisted development practices
 - Mentor junior architects using IT-Compass methodology
 
-### Medium-Term (6-18 months)  
+### Medium-Term (6-18 months)
 - Director of Architecture or CTO-track position
 - Scale methodology across organization
 - Contribute to industry standards for cognitive architecture

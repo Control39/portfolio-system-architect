@@ -20,9 +20,10 @@ __all__ = [
     "queues",
 ]
 
+import os
+
 # Инициализация путей
 import sys
-import os
 
 # Добавляем src в PYTHONPATH для относительных импортов
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

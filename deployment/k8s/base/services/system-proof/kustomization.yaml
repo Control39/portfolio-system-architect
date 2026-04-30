@@ -9,4 +9,3 @@ resources:
 commonLabels:
   app: system-proof
   tier: backend
-

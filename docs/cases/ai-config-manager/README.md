@@ -87,7 +87,7 @@ models:
     model: llama3.1
   - name: cloud-gigachat
     provider: openai-compatible
-    apiKey: 
+    apiKey:
 \\\
 
 ---

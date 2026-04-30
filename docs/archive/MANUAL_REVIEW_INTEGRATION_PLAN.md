@@ -10,5 +10,3 @@
 - Этап 1 (до демо) - план создан, hide from git
 - Этап 2 (после демо) - merge high-priority
 - Этап 3 - do rework low-priority
-
-

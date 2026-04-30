@@ -1,12 +1,12 @@
 ﻿import asyncio
 import os
-from typing import Dict, Any
+from typing import Any, Dict
+
 from langchain.agents import AgentExecutor, create_react_agent
+from langchain.prompts import PromptTemplate
 from langchain.tools import Tool
-from langchain.prompts import PromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain.prompts import PromptTemplate
 from langchain_core.language_models import FakeListLLM  # Fallback
+from langchain_openai import ChatOpenAI
 
 # LLM with env var (fallback mock)
 api_key = os.getenv("OPENAI_API_KEY")
@@ -17,8 +17,7 @@ else:
 
 # Tools
 def job_search(query: str) -> str:
-    \"\"\"Ищет вакансии на hh.ru.\"\"\" 
+    \"\"\"Ищет вакансии на hh.ru.\"\"\"
     return f\"Найдено вакансии по '{query}' на hh.ru.\"
 
 def generate_resume(job_title
-

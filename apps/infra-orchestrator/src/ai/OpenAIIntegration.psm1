@@ -5,4 +5,3 @@ function Invoke-AICompletion {
 }
 
 Export-ModuleMember -Function Invoke-AICompletion
-

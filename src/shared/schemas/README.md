@@ -5,7 +5,7 @@ Centralized Pydantic/SQLAlchemy schema definitions for all apps.
 ## Structure
 ```
 career.yaml      # UserProfile, Skill, CompetencyMarker
-ml-registry.yaml # ModelMetadata, ModelRegistry ops  
+ml-registry.yaml # ModelMetadata, ModelRegistry ops
 proof.yaml       # SystemProof, TraceStep
 core.yaml        # PortfolioItem, ADR, common types
 ```
@@ -20,5 +20,3 @@ python tools/generate_pydantic.py career.yaml → src/shared/pydantic/career.py
 ```bash
 pydanticgen validate *.yaml
 ```
-
-

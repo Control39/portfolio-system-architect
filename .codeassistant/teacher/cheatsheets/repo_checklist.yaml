@@ -12,17 +12,17 @@ checklist:
       priority: "critical"
       check: "file_exists:README.md"
       fix: "Создать README с описанием проекта, установкой, использованием"
-      
+
     - name: "LICENSE файл присутствует"
       priority: "high"
       check: "file_exists:LICENSE"
       fix: "Выбрать и добавить лицензию (MIT, Apache 2.0, etc.)"
-      
+
     - name: ".gitignore настроен правильно"
       priority: "high"
       check: "file_exists:.gitignore"
       fix: "Добавить .gitignore для языка/фреймворка"
-      
+
     - name: "CONTRIBUTING.md для новых участников"
       priority: "medium"
       check: "file_exists:CONTRIBUTING.md"
@@ -34,12 +34,12 @@ checklist:
       priority: "critical"
       check: "scan_secrets:true"
       fix: "Использовать .env файлы, git-secrets, pre-commit hooks"
-      
+
     - name: ".env.example шаблон существует"
       priority: "high"
       check: "file_exists:.env.example"
       fix: "Создать .env.example с комментариями"
-      
+
     - name: "Зависимости зафиксированы (lock файлы)"
       priority: "high"
       check: "has_lock_files:true"
@@ -51,12 +51,12 @@ checklist:
       priority: "high"
       check: "tests_pass:true"
       fix: "Добавить базовые тесты, настроить CI"
-      
+
     - name: "Pre-commit hooks настроены"
       priority: "medium"
       check: "file_exists:.pre-commit-config.yaml"
       fix: "Настроить pre-commit для форматирования, линтинга"
-      
+
     - name: "Dockerfile для контейнеризации"
       priority: "medium"
       check: "file_exists:Dockerfile"
@@ -68,12 +68,12 @@ checklist:
       priority: "medium"
       check: "has_api_docs:true"
       fix: "Добавить Swagger/OpenAPI спецификацию"
-      
+
     - name: "Архитектурные решения задокументированы"
       priority: "low"
       check: "has_adr:true"
       fix: "Создать папку docs/adr/ с решениями"
-      
+
     - name: "Чек-лист развертывания"
       priority: "medium"
       check: "has_deployment_checklist:true"
@@ -85,12 +85,12 @@ checklist:
       priority: "high"
       check: "has_ci_config:true"
       fix: "Добавить .github/workflows/ или .gitlab-ci.yml"
-      
+
     - name: "Автоматическое тестирование"
       priority: "high"
       check: "ci_includes_tests:true"
       fix: "Добавить шаг тестирования в CI"
-      
+
     - name: "Автоматическое развертывание"
       priority: "medium"
       check: "has_deployment_pipeline:true"
@@ -102,17 +102,17 @@ checklist:
       priority: "high"
       check: "has_model_versioning:true"
       fix: "Использовать MLflow, DVC, или кастомное решение"
-      
+
     - name: "Данные для обучения отделены от кода"
       priority: "high"
       check: "data_separated:true"
       fix: "Использовать .gitignore для данных, внешнее хранилище"
-      
+
     - name: "Конфигурации параметров модели"
       priority: "medium"
       check: "has_model_configs:true"
       fix: "Создать configs/ папку с YAML/JSON конфигами"
-      
+
     - name: "Эксперименты задокументированы"
       priority: "medium"
       check: "has_experiment_tracking:true"
@@ -124,12 +124,12 @@ checklist:
       priority: "high"
       check: "has_linter:true"
       fix: "Добавить ESLint, Pylint, Black и т.д."
-      
+
     - name: "Форматирование кода единообразно"
       priority: "medium"
       check: "has_formatter:true"
       fix: "Настроить Prettier, Black, gofmt"
-      
+
     - name: "Статический анализ"
       priority: "medium"
       check: "has_static_analysis:true"
@@ -148,15 +148,15 @@ tools:
   - name: "trivy"
     purpose: "Сканирование уязвимостей"
     command: "trivy fs ."
-    
+
   - name: "gitleaks"
     purpose: "Поиск секретов"
     command: "gitleaks detect --source . -v"
-    
+
   - name: "pre-commit"
     purpose: "Автоматические проверки"
     command: "pre-commit run --all-files"
-    
+
   - name: "checklist-runner (скрипт)"
     purpose: "Автоматическая проверка этого чек-листа"
     location: ".codeassistant/teacher/scripts/checklist_runner.py"

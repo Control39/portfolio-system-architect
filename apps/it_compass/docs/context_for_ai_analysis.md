@@ -272,7 +272,7 @@ AI Gateway
 
 #### Потоки данных
 ```
-User Data → Preprocessing → Feature Extraction → 
+User Data → Preprocessing → Feature Extraction →
 Model Inference → Postprocessing → Recommendations
 ```
 

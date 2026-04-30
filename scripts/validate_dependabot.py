@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Validate Dependabot YAML configuration."""
 
 import sys
@@ -18,7 +18,9 @@ def main():
         print(f"Number of update entries: {len(updates)}")
 
         for i, update in enumerate(updates):
-            print(f'  {i+1}. {update.get("package-ecosystem")} - {update.get("directory")}')
+            print(
+                f'  {i+1}. {update.get("package-ecosystem")} - {update.get("directory")}'
+            )
 
         # Check for common issues
         if data.get("version") != 2:
@@ -37,6 +39,7 @@ def main():
     except Exception as e:
         print(f"❌ Error: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     sys.exit(main())

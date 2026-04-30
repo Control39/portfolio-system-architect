@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 
 """Скрипт для поиска дублирующихся файлов в директории проекта по хешу содержимого.
 Рекурсивно обходит все поддиректории, игнорируя системные директории.
@@ -15,6 +15,7 @@ from pathlib import Path
 # Установка кодировки для корректного отображения кириллицы в консоли Windows
 if os.name == "nt":
     import ctypes
+
     kernel32 = ctypes.windll.kernel32
     kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 
@@ -22,19 +23,31 @@ if os.name == "nt":
 def get_ignore_patterns():
     """Возвращает список паттернов для игнорирования"""
     return {
-        ".git", "__pycache__", ".vscode", ".idea", "node_modules", ".svn", ".hg",
-        ".tox", ".eggs", "*.egg-info", ".pytest_cache", ".coverage",
-        ".mypy_cache", ".ruff_cache", ".cache",
+        ".git",
+        "__pycache__",
+        ".vscode",
+        ".idea",
+        "node_modules",
+        ".svn",
+        ".hg",
+        ".tox",
+        ".eggs",
+        "*.egg-info",
+        ".pytest_cache",
+        ".coverage",
+        ".mypy_cache",
+        ".ruff_cache",
+        ".cache",
     }
 
 
 def should_ignore(path, ignore_patterns):
     """Проверяет, следует ли игнорировать указанный путь
-    
+
     Args:
         path (str): Путь к файлу или директории
         ignore_patterns (set): Множество паттернов для игнорирования
-        
+
     Returns:
         bool: True, если путь должен быть проигнорирован, иначе False
 
@@ -51,11 +64,11 @@ def should_ignore(path, ignore_patterns):
 
 def scan_directory(root_path, ignore_patterns):
     """Рекурсивно сканирует директорию и возвращает список путей к файлам
-    
+
     Args:
         root_path (str): Корневая директория для сканирования
         ignore_patterns (set): Множество паттернов для игнорирования
-        
+
     Returns:
         list: Список путей к файлам
 
@@ -66,7 +79,11 @@ def scan_directory(root_path, ignore_patterns):
         # Используем os.walk для рекурсивного обхода директорий
         for dirpath, dirnames, filenames in os.walk(root_path):
             # Фильтруем директории для игнорирования
-            dirnames[:] = [d for d in dirnames if not should_ignore(os.path.join(dirpath, d), ignore_patterns)]
+            dirnames[:] = [
+                d
+                for d in dirnames
+                if not should_ignore(os.path.join(dirpath, d), ignore_patterns)
+            ]
 
             # Обрабатываем файлы в текущей директории
             for filename in filenames:
@@ -91,11 +108,11 @@ def scan_directory(root_path, ignore_patterns):
 
 def calculate_file_hash(file_path, block_size=8192):
     """Вычисляет SHA256 хеш содержимого файла
-    
+
     Args:
         file_path (str): Путь к файлу
         block_size (int): Размер блока для чтения файла
-        
+
     Returns:
         str: SHA256 хеш файла или None в случае ошибки
 
@@ -115,10 +132,10 @@ def calculate_file_hash(file_path, block_size=8192):
 
 def find_duplicates(file_paths):
     """Находит дубликаты файлов по хешу содержимого
-    
+
     Args:
         file_paths (list): Список путей к файлам
-        
+
     Returns:
         dict: Словарь {hash: [file_paths]} для файлов-дубликатов
 
@@ -132,18 +149,20 @@ def find_duplicates(file_paths):
             hash_to_files[file_hash].append(file_path)
 
     # Фильтруем только дубликаты (группы с более чем одним файлом)
-    duplicates = {hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1}
+    duplicates = {
+        hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1
+    }
 
     return duplicates
 
 
 def get_file_preview(file_path, max_length=100):
     """Возвращает превью содержимого файла (первые max_length символов)
-    
+
     Args:
         file_path (str): Путь к файлу
         max_length (int): Максимальная длина превью
-        
+
     Returns:
         str: Превью содержимого файла
 
@@ -160,7 +179,7 @@ def get_file_preview(file_path, max_length=100):
 
 def display_duplicates(duplicates):
     """Выводит дубликаты в виде таблицы
-    
+
     Args:
         duplicates (dict): Словарь {hash: [file_paths]} дубликатов
 
@@ -172,7 +191,9 @@ def display_duplicates(duplicates):
     print(f"\nНайдено {len(duplicates)} групп дубликатов:\n")
 
     # Заголовок таблицы
-    print(f"{'Название файла':<30} {'Содержимое (первые 100 символов)':<50} {'Путь к файлу':<50}")
+    print(
+        f"{'Название файла':<30} {'Содержимое (первые 100 символов)':<50} {'Путь к файлу':<50}"
+    )
     print("-" * 130)
 
     # Выводим информацию о каждом дубликате
@@ -198,8 +219,15 @@ def main():
     if sys.stdout.encoding != "utf-8":
         sys.stdout.reconfigure(encoding="utf-8")
 
-    parser = argparse.ArgumentParser(description="Поиск дубликатов файлов по хешу содержимого")
-    parser.add_argument("path", nargs="?", default=".", help="Путь к директории для сканирования (по умолчанию текущая директория)")
+    parser = argparse.ArgumentParser(
+        description="Поиск дубликатов файлов по хешу содержимого"
+    )
+    parser.add_argument(
+        "path",
+        nargs="?",
+        default=".",
+        help="Путь к директории для сканирования (по умолчанию текущая директория)",
+    )
     args = parser.parse_args()
 
     root_path = os.path.abspath(args.path)

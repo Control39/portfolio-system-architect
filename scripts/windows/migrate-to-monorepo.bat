@@ -54,4 +54,3 @@ rmdir /s /q logs 2>nul
 rmdir /s /q monitoring 2>nul
 
 echo ✅ Refactor complete! Run git status.
-

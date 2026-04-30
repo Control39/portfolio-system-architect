@@ -32,4 +32,3 @@ replicas:
 # - Pod Disruption Budgets
 # - Vertical Pod Autoscaler
 # - Monitoring ServiceMonitors
-

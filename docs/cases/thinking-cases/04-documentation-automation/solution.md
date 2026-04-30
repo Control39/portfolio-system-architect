@@ -9,17 +9,17 @@ graph TD
     subgraph Вход
         A[Исходный код] --> B[Скрипты Python]
     end
-    
+
     subgraph Генерация
         B --> C[generate_obsidian_map.py]
         B --> D[generate_website.py]
     end
-    
+
     subgraph Выход
         C --> E[docs/obsidian-map/]
         D --> F[docs/website/]
     end
-    
+
     subgraph Деплой
         E --> G[GitHub Pages]
         F --> G
@@ -119,5 +119,3 @@ graph TD
 - Интеграция с дополнительными инструментами
 - Расширение HTML-шаблонов
 - Добавление новых секций в навигацию
-
-

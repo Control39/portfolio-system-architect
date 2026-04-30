@@ -10,5 +10,3 @@
 - **Repo**: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect
 
 Quick check: `pytest` (90% cov), `pre-commit run --all-files`
-
-

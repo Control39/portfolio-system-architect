@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Скрипт для поиска CJK (китайских, японских, корейских) иероглифов в файлах репозитория.
 Используется для очистки текстовых файлов от случайно попавших иероглифов.
 """
@@ -22,31 +22,94 @@ CJK_PATTERN = re.compile(
 
 # Расширения текстовых файлов для проверки
 TEXT_EXTENSIONS = {
-    ".md", ".txt", ".py", ".js", ".ts", ".java", ".cpp", ".c", ".h", ".hpp",
-    ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".csv", ".tsv",
-    ".rst", ".tex", ".sql", ".sh", ".bash", ".ps1", ".bat", ".cfg", ".ini",
-    ".toml", ".env", ".gitignore", ".dockerignore", ".editorconfig",
+    ".md",
+    ".txt",
+    ".py",
+    ".js",
+    ".ts",
+    ".java",
+    ".cpp",
+    ".c",
+    ".h",
+    ".hpp",
+    ".html",
+    ".css",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".xml",
+    ".csv",
+    ".tsv",
+    ".rst",
+    ".tex",
+    ".sql",
+    ".sh",
+    ".bash",
+    ".ps1",
+    ".bat",
+    ".cfg",
+    ".ini",
+    ".toml",
+    ".env",
+    ".gitignore",
+    ".dockerignore",
+    ".editorconfig",
 }
 
 # Папки для игнорирования
 IGNORE_DIRS = {
-    ".git", "__pycache__", "node_modules", ".venv", "venv",
-    ".idea", ".vscode", "build", "dist", "target", "out",
+    ".git",
+    "__pycache__",
+    "node_modules",
+    ".venv",
+    "venv",
+    ".idea",
+    ".vscode",
+    "build",
+    "dist",
+    "target",
+    "out",
 }
 
 # Файлы для игнорирования
 IGNORE_FILES = {
-    "package-lock.json", "yarn.lock", "pnpm-lock.yaml",
-    "*.pyc", "*.pyo", "*.so", "*.dll", "*.exe",
-    "*.jpg", "*.jpeg", "*.png", "*.gif", "*.bmp", "*.ico",
-    "*.pdf", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx",
-    "*.zip", "*.tar", "*.gz", "*.7z", "*.rar",
+    "package-lock.json",
+    "yarn.lock",
+    "pnpm-lock.yaml",
+    "*.pyc",
+    "*.pyo",
+    "*.so",
+    "*.dll",
+    "*.exe",
+    "*.jpg",
+    "*.jpeg",
+    "*.png",
+    "*.gif",
+    "*.bmp",
+    "*.ico",
+    "*.pdf",
+    "*.doc",
+    "*.docx",
+    "*.xls",
+    "*.xlsx",
+    "*.ppt",
+    "*.pptx",
+    "*.zip",
+    "*.tar",
+    "*.gz",
+    "*.7z",
+    "*.rar",
 }
+
 
 def should_ignore_file(file_path: Path) -> bool:
     """Проверить, нужно ли игнорировать файл"""
     # Игнорируем скрытые файлы (начинающиеся с точки, кроме некоторых)
-    if file_path.name.startswith(".") and file_path.name not in {".gitignore", ".dockerignore", ".editorconfig"}:
+    if file_path.name.startswith(".") and file_path.name not in {
+        ".gitignore",
+        ".dockerignore",
+        ".editorconfig",
+    }:
         return True
 
     # Игнорируем файлы в игнорируемых папках
@@ -55,7 +118,19 @@ def should_ignore_file(file_path: Path) -> bool:
             return True
 
     # Игнорируем файлы с игнорируемыми расширениями
-    if file_path.suffix.lower() in {".pyc", ".pyo", ".so", ".dll", ".exe", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".ico"}:
+    if file_path.suffix.lower() in {
+        ".pyc",
+        ".pyo",
+        ".so",
+        ".dll",
+        ".exe",
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".bmp",
+        ".ico",
+    }:
         return True
 
     # Игнорируем определенные имена файлов
@@ -63,6 +138,7 @@ def should_ignore_file(file_path: Path) -> bool:
         return True
 
     return False
+
 
 def find_cjk_characters(file_path: Path) -> list[dict[str, Any]]:
     """Найти CJK иероглифы в файле"""
@@ -95,15 +171,18 @@ def find_cjk_characters(file_path: Path) -> list[dict[str, Any]]:
             if end < len(line):
                 context = context + "..."
 
-            matches.append({
-                "line": line_num,
-                "column": match.start() + 1,
-                "text": match.group(),
-                "context": context,
-                "full_line": line,
-            })
+            matches.append(
+                {
+                    "line": line_num,
+                    "column": match.start() + 1,
+                    "text": match.group(),
+                    "context": context,
+                    "full_line": line,
+                }
+            )
 
     return matches
+
 
 def scan_repository(root_dir: str = ".") -> dict[str, list[dict[str, Any]]]:
     """Рекурсивно сканировать репозиторий на наличие CJK иероглифов"""
@@ -148,6 +227,7 @@ def scan_repository(root_dir: str = ".") -> dict[str, list[dict[str, Any]]]:
 
     return results
 
+
 def print_results(results: dict[str, list[dict[str, Any]]]) -> None:
     """Вывести результаты поиска"""
     if not results:
@@ -171,20 +251,21 @@ def print_results(results: dict[str, list[dict[str, Any]]]) -> None:
 
         print("-" * 80)
 
+
 def suggest_replacements(text: str) -> str:
     """Предложить замены для часто встречающихся иероглифов"""
     # Часто встречающиеся иероглифы и их возможные замены
     common_replacements = {
         "常见": "распространен",  # китайский: часто встречающийся
-        "问题": "проблема",       # китайский: проблема
-        "答案": "ответ",          # китайский: ответ
-        "帮助": "помощь",         # китайский: помощь
-        "错误": "ошибка",         # китайский: ошибка
-        "成功": "успех",          # китайский: успех
-        "测试": "тест",           # китайский: тест
-        "开发": "разработка",     # китайский: разработка
-        "用户": "пользователь",   # китайский: пользователь
-        "系统": "система",        # китайский: система
+        "问题": "проблема",  # китайский: проблема
+        "答案": "ответ",  # китайский: ответ
+        "帮助": "помощь",  # китайский: помощь
+        "错误": "ошибка",  # китайский: ошибка
+        "成功": "успех",  # китайский: успех
+        "测试": "тест",  # китайский: тест
+        "开发": "разработка",  # китайский: разработка
+        "用户": "пользователь",  # китайский: пользователь
+        "系统": "система",  # китайский: система
     }
 
     for cjk, replacement in common_replacements.items():
@@ -193,7 +274,10 @@ def suggest_replacements(text: str) -> str:
 
     return text
 
-def generate_report(results: dict[str, list[dict[str, Any]]], report_file: str = "cjk_scan_report.md") -> None:
+
+def generate_report(
+    results: dict[str, list[dict[str, Any]]], report_file: str = "cjk_scan_report.md"
+) -> None:
     """Сгенерировать отчет в формате Markdown"""
     if not results:
         return
@@ -213,7 +297,9 @@ def generate_report(results: dict[str, list[dict[str, Any]]], report_file: str =
 
                 suggested = suggest_replacements(match["text"])
                 if suggested != match["text"]:
-                    f.write(f"**Предлагаемая замена:** `{match['text']}` → `{suggested}`\n\n")
+                    f.write(
+                        f"**Предлагаемая замена:** `{match['text']}` → `{suggested}`\n\n"
+                    )
 
             f.write("---\n\n")
 
@@ -224,6 +310,7 @@ def generate_report(results: dict[str, list[dict[str, Any]]], report_file: str =
         f.write("4. Сохраняйте исходный текст в комментариях при необходимости\n")
 
     print(f"📝 Отчет сохранен в файл: {report_file}")
+
 
 def main():
     """Основная функция"""
@@ -264,7 +351,9 @@ def main():
     # Предлагаем исправления если нужно
     if args.fix and results:
         print("\n🔧 Экспериментальная функция автоматических исправлений:")
-        print("   Для каждого файла будут предложены замены часто встречающихся иероглифов")
+        print(
+            "   Для каждого файла будут предложены замены часто встречающихся иероглифов"
+        )
         print("   ВНИМАНИЕ: Всегда проверяйте изменения вручную!\n")
 
         for file_path, matches in sorted(results.items()):
@@ -272,7 +361,9 @@ def main():
             for match in matches[:2]:  # Показываем для первых двух совпадений
                 suggested = suggest_replacements(match["text"])
                 if suggested != match["text"]:
-                    print(f"   '{match['text']}' → '{suggested}' (строка {match['line']})")
+                    print(
+                        f"   '{match['text']}' → '{suggested}' (строка {match['line']})"
+                    )
             if len(matches) > 2:
                 print(f"   ... и еще {len(matches) - 2} совпадений для проверки")
 
@@ -283,6 +374,7 @@ def main():
     else:
         print("\n✅ Проверка завершена успешно. Код выхода: 0")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

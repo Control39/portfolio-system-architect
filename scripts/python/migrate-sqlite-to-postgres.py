@@ -1,4 +1,4 @@
-﻿import logging
+import logging
 import os
 import re
 import sqlite3
@@ -73,7 +73,8 @@ def migrate_table(cur_sqlite, cur_pg, table_name):
         # Создать таблицу в PostgreSQL с валидированными именами
         columns_def = ", ".join([f"{c} TEXT" for c in columns])
         create_table_query = sql.SQL("CREATE TABLE IF NOT EXISTS {} ({})").format(
-            sql.Identifier(table_name), sql.SQL(columns_def),
+            sql.Identifier(table_name),
+            sql.SQL(columns_def),
         )
         cur_pg.execute(create_table_query)
 

@@ -142,11 +142,11 @@ from scripts.vscode_extensions_manager import VSCodeExtensionManager
 class VSCodeExtensionsCAAIntegration:
     def __init__(self):
         self.manager = VSCodeExtensionManager()
-    
+
     def auto_sync(self):
         """Автоматическая синхронизация при запуске проекта"""
         compliance = self.manager.check_compliance()
-        
+
         if compliance['compliance_score'] < 80:
             print("Обнаружены проблемы с расширениями. Запускаю синхронизацию...")
             self.manager.sync_extensions()
@@ -167,18 +167,18 @@ from vscode_extensions_manager import VSCodeExtensionManager
 
 def custom_sync():
     manager = VSCodeExtensionManager()
-    
+
     # Проверяем только обязательные расширения
     installed = set(manager.get_installed_extensions())
     required = set(manager.config.get("required", []))
-    
+
     missing = required - installed
-    
+
     if missing:
         print(f"Установка {len(missing)} отсутствующих расширений...")
         for ext in missing:
             manager.install_extension(ext)
-    
+
     print("Синхронизация завершена")
 
 if __name__ == "__main__":
@@ -336,5 +336,5 @@ RUN if command -v code > /dev/null 2>&1; then \
 
 ---
 
-*Последнее обновление: 2026-04-10*  
+*Последнее обновление: 2026-04-10*
 *Версия системы: 1.0.0*

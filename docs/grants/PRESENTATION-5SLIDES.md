@@ -112,4 +112,3 @@
 5. **Call to Action** (30s): "Join us in democratizing architecture expertise"
 
 **Total**: 5 minutes
-

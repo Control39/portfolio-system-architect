@@ -11,16 +11,16 @@ $script:config = @{
 function Initialize-Provider {
     param(
         [string]$Endpoint = "http://localhost:11434",
-        
+
         [string]$Model = "llama3",
-        
+
         [int]$Timeout = 120
     )
-    
+
     $script:config.Endpoint = $Endpoint
     $script:config.Model = $Model
     $script:config.Timeout = $Timeout
-    
+
     Write-Verbose "LocalLLM Provider initialized: $Endpoint/$Model"
 }
 
@@ -28,12 +28,12 @@ function Invoke-Completion {
     param(
         [Parameter(Mandatory)]
         [string]$Prompt,
-        
+
         [int]$MaxTokens = 2048,
-        
+
         [double]$Temperature = 0.7
     )
-    
+
     $body = @{
         model = $script:config.Model
         prompt = $Prompt
@@ -43,14 +43,14 @@ function Invoke-Completion {
             temperature = $Temperature
         }
     } | ConvertTo-Json -Depth 5
-    
+
     try {
         $response = Invoke-RestMethod -Uri "$($script:config.Endpoint)/api/generate" `
             -Method Post `
             -Body $body `
             -ContentType "application/json" `
             -TimeoutSec $script:config.Timeout
-        
+
         return $response.response
     }
     catch {
@@ -63,19 +63,19 @@ function Invoke-Embedding {
         [Parameter(Mandatory)]
         [string]$Text
     )
-    
+
     $body = @{
         model = $script:config.Model
         prompt = $Text
     } | ConvertTo-Json
-    
+
     try {
         $response = Invoke-RestMethod -Uri "$($script:config.Endpoint)/api/embeddings" `
             -Method Post `
             -Body $body `
             -ContentType "application/json" `
             -TimeoutSec $script:config.Timeout
-        
+
         return $response.embedding
     }
     catch {
@@ -97,12 +97,12 @@ function Get-ProviderInfo {
 
 function Test-Connection {
     param([int]$TimeoutSec = 5)
-    
+
     try {
         $response = Invoke-RestMethod -Uri "$($script:config.Endpoint)/api/tags" `
             -Method Get `
             -TimeoutSec $TimeoutSec
-        
+
         return $null -ne $response.models
     }
     catch {

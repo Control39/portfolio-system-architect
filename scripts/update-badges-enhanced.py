@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Улучшенный скрипт для автоматического обновления бейджей на основе реальных файлов конфигурации.
 Интегрируется в CI/CD для полной автоматизации.
 """
@@ -7,10 +7,9 @@ import json
 import os
 import re
 import subprocess
+import tomllib
 from datetime import datetime
 from pathlib import Path
-
-import tomllib
 
 
 def get_python_version() -> str:
@@ -55,6 +54,7 @@ def get_python_version() -> str:
     print("Warning: Could not determine Python version, using default 3.13.5")
     return "3.13.5"  # default for development
 
+
 def get_coverage_percentage() -> float:
     """Получить процент покрытия тестами из coverage report."""
     try:
@@ -80,6 +80,7 @@ def get_coverage_percentage() -> float:
     print("Warning: Could not determine test coverage, returning 0")
     return 0.0  # indicates measurement failure
 
+
 def get_test_status() -> str:
     """Получить статус тестов (passed/failed)."""
     try:
@@ -93,6 +94,7 @@ def get_test_status() -> str:
     except Exception as e:
         print(f"Error getting test status: {e}")
         return "unknown"
+
 
 def get_last_commit_date() -> str:
     """Получить дату последнего коммита."""
@@ -108,6 +110,7 @@ def get_last_commit_date() -> str:
         print(f"Error getting last commit date: {e}")
         return datetime.now().strftime("%Y-%m-%d")
 
+
 def get_dependency_count() -> int:
     """Получить количество зависимостей."""
     try:
@@ -117,7 +120,9 @@ def get_dependency_count() -> int:
             with open(req_path, encoding="utf-8") as f:
                 lines = f.readlines()
                 # Считаем только непустые строки и не комментарии
-                count = sum(1 for line in lines if line.strip() and not line.startswith("#"))
+                count = sum(
+                    1 for line in lines if line.strip() and not line.startswith("#")
+                )
                 return count
 
         # Пробуем прочитать из pyproject.toml
@@ -132,6 +137,7 @@ def get_dependency_count() -> int:
 
     print("Warning: Could not determine dependency count, returning 0")
     return 0  # indicates unknown count
+
 
 def update_readme_badges():
     """Обновить бейджи в README.md на основе текущих метрик."""
@@ -220,6 +226,7 @@ def update_readme_badges():
     metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     print(f"Metrics saved to {metrics_path}")
 
+
 def main():
     """Основная функция."""
     print("Updating README badges based on current configuration files...")
@@ -237,6 +244,7 @@ def main():
         encoding="utf-8",
     )
     print(f"Coverage badge updated in {coverage_md}")
+
 
 if __name__ == "__main__":
     main()

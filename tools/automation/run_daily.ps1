@@ -23,4 +23,3 @@ git commit -m "[AUTO] Ежедневное обновление: $date"
 git push origin main
 
 Write-Host "[V] Ежедневная автоматизация завершена успешно!" -ForegroundColor Green
-

@@ -52,4 +52,3 @@ spec:
             name: auth-service
             port:
               number: 8000
-

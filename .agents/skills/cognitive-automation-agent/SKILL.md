@@ -39,15 +39,15 @@ graph TB
     B --> C[Определение стека технологий]
     B --> D[Анализ зависимостей]
     B --> E[Распознавание паттернов]
-    
+
     C --> F[Планировщик задач]
     D --> F
     E --> F
-    
+
     F --> G[Генерация плана действий]
     G --> H[Оркестратор скиллов]
     H --> I[Выполнение задач]
-    
+
     I --> J[Сбор метрик]
     J --> K[Анализ эффективности]
     K --> L[Корректировка алгоритмов]
@@ -136,7 +136,7 @@ autonomy_levels:
       - security_fixes
       - performance_optimization
     risk_tolerance: medium
-    
+
   medium:
     approval_required: true
     allowed_actions:
@@ -144,7 +144,7 @@ autonomy_levels:
       - code_formatting
       - test_execution
     risk_tolerance: low
-    
+
   low:
     approval_required: true
     allowed_actions:
@@ -230,13 +230,13 @@ dashboards:
       - autonomy_rate
       - task_success_rate
       - average_execution_time
-      
+
   - name: "Learning Progress"
     metrics:
       - model_accuracy
       - pattern_recognition_rate
       - error_reduction_rate
-      
+
   - name: "Integration Health"
     metrics:
       - active_integrations
@@ -280,6 +280,6 @@ python -m agents.diagnostics.generate_report
 
 ---
 
-**Примечание**: Агент предназначен для максимальной автоматизации рутинных задач. 
-Для критически важных операций рекомендуется использовать уровень автономности `medium` 
+**Примечание**: Агент предназначен для максимальной автоматизации рутинных задач.
+Для критически важных операций рекомендуется использовать уровень автономности `medium`
 с обязательным подтверждением или предварительным тестированием на staging-окружении.

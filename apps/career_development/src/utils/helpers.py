@@ -1,5 +1,5 @@
-﻿import uuid
 import re
+import uuid
 
 
 def generate_id() -> str:
@@ -9,7 +9,5 @@ def generate_id() -> str:
 
 def validate_evidence_link(url: str) -> bool:
     """Быстрая проверка, что ссылка выглядит как URL."""
-    pattern = re.compile(r'^https?://.+')
+    pattern = re.compile(r"^https?://.+")
     return bool(pattern.match(url))
-
-

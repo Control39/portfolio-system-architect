@@ -2,34 +2,34 @@ function Merge-ServiceFolder {
     param(
         [Parameter(Mandatory=$true)]
         [string]$ServicePath,
-        
+
         [Parameter(Mandatory=$true)]
         [string]$NestedFolderName
     )
-    
+
     $nestedPath = Join-Path $ServicePath $NestedFolderName
     $tempPath = Join-Path $ServicePath "$($NestedFolderName)_temp"
-    
+
     # Проверка существования папок
     if (-not (Test-Path $ServicePath)) {
         Write-Host "Путь сервиса не существует: $ServicePath" -ForegroundColor Yellow
         return $false
     }
-    
+
     if (-not (Test-Path $nestedPath)) {
         return $true
     }
-    
+
     try {
         Write-Host "Обработка: $ServicePath" -ForegroundColor Cyan
-        
+
         # Перемещаем файлы
         $files = Get-ChildItem $nestedPath -File
         if ($files.Count -gt 0) {
             $files | Move-Item -Destination $ServicePath -Force
             Write-Host "  -> Файлы перемещены"
         }
-        
+
         # Перемещаем/объединяем папки
         $dirs = Get-ChildItem $nestedPath -Directory
         foreach ($dir in $dirs) {
@@ -41,11 +41,11 @@ function Merge-ServiceFolder {
                 Move-Item -Path $sourceDir -Destination $targetDir -Force
             }
         }
-        
+
         # Удаляем пустую вложенную папку
         Remove-Item $nestedPath -Recurse -Force
         Write-Host "  -> Папка $nestedPath удалена" -ForegroundColor Green
-        
+
     } catch {
         Write-Error "Ошибка при обработке $ServicePath : $_"
         return $false
@@ -76,12 +76,12 @@ foreach ($svc in $servicesToFix) {
     $svcPath = Join-Path $rootApps $svc
     # Пробуем разные варианты написания вложенной папки (с дефисом и подчеркиванием)
     $nestedName = if ($svc -match "-") { $svc -replace "-", "_" } else { $svc -replace "_", "-" }
-    
+
     # Если сервис называется с дефисом, вложенная часто тоже с дефисом (или наоборот)
     # Проверяем стандартный вариант (имя в имени)
     $possibleNested = @($svc)
     if ($svc -match "-") { $possibleNested += $svc -replace "-", "_" }
-    
+
     foreach ($nested in $possibleNested) {
         $nestedFullPath = Join-Path $svcPath $nested
         if (Test-Path $nestedFullPath) {

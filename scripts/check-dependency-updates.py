@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Script to check for dependency updates and generate report.
 Run this script manually to see what dependencies need updating.
 """
@@ -11,7 +11,7 @@ from pathlib import Path
 
 def run_command(cmd):
     """Run a shell command and return output.
-    
+
     Args:
         cmd: Command to run as list of arguments
 
@@ -21,6 +21,7 @@ def run_command(cmd):
         if isinstance(cmd, str):
             # Split string into list for simple commands
             import shlex
+
             cmd = shlex.split(cmd)
         # nosec: B603 - We control the commands, no user input
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
@@ -29,6 +30,7 @@ def run_command(cmd):
         print(f"Error running command: {cmd}")
         print(f"Error: {e.stderr}")
         return ""
+
 
 def check_pip_updates():
     """Check for outdated Python packages."""
@@ -51,12 +53,15 @@ def check_pip_updates():
                 print(f"  - {pkg['name']}: {pkg['version']} → {pkg['latest_version']}")
 
             # Generate update command
-            update_cmd = "pip install --upgrade " + " ".join([pkg["name"] for pkg in packages])
+            update_cmd = "pip install --upgrade " + " ".join(
+                [pkg["name"] for pkg in packages]
+            )
             print(f"\n💡 To update all: {update_cmd}")
         else:
             print("✅ All Python packages are up to date!")
     else:
         print("⚠️  Could not check for outdated packages")
+
 
 def check_security_vulnerabilities():
     """Check for security vulnerabilities using safety."""
@@ -96,6 +101,7 @@ def check_security_vulnerabilities():
     except Exception as e:
         print(f"⚠️  Error running safety: {e}")
 
+
 def check_docker_updates():
     """Check for Docker base image updates."""
     print("\n🐳 Checking Docker base images...")
@@ -116,23 +122,25 @@ def check_docker_updates():
     else:
         print("No Dockerfiles found")
 
+
 def generate_report():
     """Generate a summary report."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 DEPENDENCY UPDATE REPORT")
-    print("="*60)
+    print("=" * 60)
 
     check_pip_updates()
     check_security_vulnerabilities()
     check_docker_updates()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("💡 RECOMMENDATIONS:")
     print("1. Review outdated packages above")
     print("2. Run security checks regularly")
     print("3. Update Docker base images monthly")
     print("4. Enable Dependabot for automatic updates")
-    print("="*60)
+    print("=" * 60)
+
 
 if __name__ == "__main__":
     print("Starting dependency update check...")

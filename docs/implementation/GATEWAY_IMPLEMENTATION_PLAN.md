@@ -92,19 +92,19 @@ services:
     health_check: "/health"
     timeout: 30
     retries: 3
-    
+
   portfolio:
     base_url: "http://portfolio-organizer:3000"
     health_check: "/api/health"
     timeout: 20
     retries: 2
-    
+
   ml_registry:
     base_url: "http://ml-model-registry:5000"
     health_check: "/health"
     timeout: 15
     retries: 2
-    
+
   it_compass:
     base_url: "http://it-compass:4000"
     health_check: "/api/health"
@@ -120,19 +120,19 @@ routes:
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "100/hour"
-    
+
   - path: "/api/v1/portfolio"
     target: "portfolio"
     methods: ["GET", "POST", "PUT", "DELETE"]
     auth_required: true
     rate_limit: "500/hour"
-    
+
   - path: "/api/v1/ml"
     target: "ml_registry"
     methods: ["GET", "POST"]
     auth_required: true
     rate_limit: "200/hour"
-    
+
   - path: "/api/v1/skills"
     target: "it_compass"
     methods: ["GET", "POST"]
@@ -202,19 +202,19 @@ services:
       - redis
       - architect-assistant
       - portfolio-organizer
-      
+
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
-      
+
   architect-assistant:
     build: ./api
     ports:
       - "8000:8000"
-      
+
   portfolio-organizer:
     build: ./apps/portfolio-organizer
     ports:
@@ -363,7 +363,7 @@ k6 run --vus 100 --duration 30s gateway-load-test.js
 ## 🚨 Риски и mitigation
 
 ### Риск 1: Single point of failure
-**Mitigation**: 
+**Mitigation**:
 - Multiple replicas в Kubernetes
 - Circuit breaker pattern
 - Fallback к direct service access при необходимости

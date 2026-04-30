@@ -40,4 +40,3 @@ npm install
 npm start
 📄 Лицензия
 MIT
-

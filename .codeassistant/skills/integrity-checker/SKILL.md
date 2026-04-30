@@ -52,7 +52,7 @@ import requests
 def check_badges(readme_path):
     with open(readme_path) as f:
         content = f.read()
-    
+
     badges = re.findall(r'!\[.*?\]\((.*?)\)', content)
     for badge_url in badges:
         try:

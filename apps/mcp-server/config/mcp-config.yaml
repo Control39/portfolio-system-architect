@@ -31,16 +31,16 @@ tools:
     - command_execution
     - navigation
     - search
-  
+
   file_operations:
     max_file_size: "10MB"
     allowed_extensions: [".py", ".md", ".yaml", ".yml", ".json", ".txt", ".js", ".ts", ".html", ".css"]
     blocked_directories: [".git", "__pycache__", ".venv", "venv", "node_modules"]
-  
+
   git_operations:
     max_commits_to_analyze: 100
     auto_detect_markers: true
-  
+
   command_execution:
     allowed_commands: ["python", "pip", "git", "docker", "docker-compose", "kubectl", "helm"]
     timeout_seconds: 60
@@ -52,11 +52,11 @@ resources:
     - navigation
     - it_compass
     - project_structure
-  
+
   navigation:
     audiences: ["hr", "tech_lead", "grant", "community"]
     default_audience: "tech_lead"
-  
+
   it_compass:
     domains: ["system_thinking", "python", "docker", "devops", "cloud_computing", "data_analysis", "ai_applications"]
     auto_refresh: true
@@ -66,11 +66,11 @@ integrations:
   continue_dev:
     enabled: true
     config_path: "../../../.continue/agents/new-config.yaml"
-  
+
   code_assistant:
     enabled: true
     skills_path: "../../../.codeassistant/skills"
-  
+
   api_gateway:
     enabled: true
     service_name: "mcp-server"
@@ -84,19 +84,19 @@ ai_models:
     - name: "gpt-4"
       provider: "openai"
       max_tokens: 8192
-    
+
     - name: "claude-3-opus"
       provider: "anthropic"
       max_tokens: 100000
-    
+
     - name: "claude-3-sonnet"
       provider: "anthropic"
       max_tokens: 200000
-    
+
     - name: "gemini-1.5-pro"
       provider: "google"
       max_tokens: 1000000
-    
+
     - name: "local/llama-3.1"
       provider: "ollama"
       max_tokens: 32768
@@ -107,7 +107,7 @@ security:
   rate_limit:
     requests_per_minute: 60
     burst_limit: 10
-  
+
   authentication:
     enabled: false
     # В будущем: JWT токены, API ключи
@@ -120,7 +120,7 @@ monitoring:
   prometheus:
     enabled: true
     port: 9090
-  
+
   logging:
     level: "INFO"
     format: "json"
@@ -133,29 +133,29 @@ environments:
       host: "localhost"
       port: 8000
       log_level: "DEBUG"
-    
+
     tools:
       command_execution:
         allowed_commands: ["python", "pip", "git", "docker", "docker-compose"]
-    
+
     monitoring:
       enabled: true
-  
+
   production:
     server:
       host: "0.0.0.0"
       port: 8080
       log_level: "WARNING"
-    
+
     tools:
       command_execution:
         allowed_commands: ["python", "git"]
         timeout_seconds: 30
-    
+
     security:
       authentication:
         enabled: true
-    
+
     monitoring:
       enabled: true
       prometheus:
@@ -168,20 +168,20 @@ career_autopilot:
     enabled: true
     scan_interval_hours: 24
     commits_to_analyze: 50
-  
+
   portfolio_generation:
     enabled: true
     templates:
       - "hr"
       - "technical"
       - "grant"
-    
+
     output_formats: ["md", "pdf", "html"]
-  
+
   job_search:
     enabled: false  # В будущем
     platforms: ["hh.ru", "linkedin", "glassdoor"]
-  
+
   skill_tracking:
     enabled: true
     update_frequency: "weekly"
@@ -193,7 +193,7 @@ deployment:
     image: "mcp-server:latest"
     dockerfile: "Dockerfile"
     build_args: {}
-  
+
   kubernetes:
     enabled: true
     namespace: "mcp"
@@ -205,7 +205,7 @@ deployment:
       limits:
         cpu: "500m"
         memory: "512Mi"
-  
+
   helm:
     enabled: false  # В будущем
 
@@ -226,11 +226,11 @@ documentation:
     path: "/docs"
     title: "Career Autopilot MCP Server API"
     version: "1.0.0"
-  
+
   examples:
     enabled: true
     path: "examples/"
-  
+
   tutorials:
     enabled: true
     path: "tutorials/"

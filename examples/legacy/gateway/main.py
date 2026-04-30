@@ -1,4 +1,4 @@
-﻿"""Unified API Gateway для экосистемы сервисов.
+"""Unified API Gateway для экосистемы сервисов.
 Единая точка входа с аутентификацией, rate limiting и мониторингом.
 
 Security improvements applied:
@@ -55,6 +55,7 @@ http_client: httpx.AsyncClient | None = None
 services_config: dict[str, Any] = {}
 routes_config: list[dict[str, Any]] = []
 
+
 def get_jwt_secret() -> str:
     """Получить JWT секрет с приоритетом переменных окружения.
     Порядок проверки:
@@ -67,7 +68,9 @@ def get_jwt_secret() -> str:
     env_secret = os.getenv("JWT_SECRET")
     if env_secret:
         if len(env_secret) < 32:
-            logger.warning("JWT_SECRET is too short. For production, use at least 32 characters.")
+            logger.warning(
+                "JWT_SECRET is too short. For production, use at least 32 characters."
+            )
         logger.info("Using JWT secret from environment variable")
         return env_secret
 
@@ -84,8 +87,11 @@ def get_jwt_secret() -> str:
 
     # 4. Значение по умолчанию ТОЛЬКО для разработки с явным предупреждением
     logger.error("JWT_SECRET not set! Using insecure default for development only.")
-    logger.error("For production, set JWT_SECRET environment variable with strong secret.")
+    logger.error(
+        "For production, set JWT_SECRET environment variable with strong secret."
+    )
     return "insecure-development-secret-change-in-production"
+
 
 def validate_environment():
     """Проверить обязательные переменные окружения."""
@@ -103,11 +109,16 @@ def validate_environment():
     # Предупреждения для разработки
     if environment == "development":
         if not os.getenv("JWT_SECRET"):
-            logger.warning("JWT_SECRET not set. Using insecure default for development.")
+            logger.warning(
+                "JWT_SECRET not set. Using insecure default for development."
+            )
         if os.getenv("ADMIN_PASSWORD") == "admin":
-            logger.warning("Using default admin password. Change ADMIN_PASSWORD in production.")
+            logger.warning(
+                "Using default admin password. Change ADMIN_PASSWORD in production."
+            )
 
     logger.info(f"Environment validation passed ({environment})")
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -170,6 +181,7 @@ async def lifespan(app: FastAPI):
     if redis_client:
         redis_client.close()
 
+
 # Создаем FastAPI приложение
 app = FastAPI(
     title="Unified API Gateway",
@@ -187,6 +199,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Модели
 class HealthResponse(BaseModel):
     status: str
@@ -194,14 +207,17 @@ class HealthResponse(BaseModel):
     services: dict[str, str]
     metrics: dict[str, Any]
 
+
 class AuthRequest(BaseModel):
     username: str
     password: str
+
 
 class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     expires_in: int
+
 
 # Вспомогательные функции
 def get_service_url(service_name: str) -> str:
@@ -213,7 +229,10 @@ def get_service_url(service_name: str) -> str:
         detail=f"Service {service_name} not configured",
     )
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict[str, Any]:
+
+def verify_token(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> dict[str, Any]:
     """Верифицировать JWT токен."""
     token = credentials.credentials
 
@@ -236,6 +255,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) 
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
         )
+
 
 def extract_user_id_from_token_safely(token: str) -> str | None:
     """Безопасно извлечь user_id из JWT токена для rate limiting.
@@ -272,6 +292,7 @@ def extract_user_id_from_token_safely(token: str) -> str | None:
         logger.debug(f"Failed to extract user_id from token: {e}")
         return None
 
+
 def check_rate_limit(user_id: str, endpoint: str) -> bool:
     """Проверить rate limit для пользователя и endpoint."""
     if not redis_client:
@@ -295,6 +316,7 @@ def check_rate_limit(user_id: str, endpoint: str) -> bool:
         logger.error(f"Rate limit check failed: {e}")
         return True  # Fail open
 
+
 def get_rate_limit_for_endpoint(endpoint: str) -> int:
     """Получить лимит запросов для endpoint из конфигурации."""
     limit = 100  # По умолчанию
@@ -304,6 +326,7 @@ def get_rate_limit_for_endpoint(endpoint: str) -> int:
             limit = int(limit_str.split("/")[0])
             break
     return limit
+
 
 def check_rate_limit_for_request(request: Request) -> JSONResponse | None:
     """Проверить rate limit для запроса. Возвращает JSONResponse если лимит превышен, иначе None."""
@@ -335,6 +358,7 @@ def check_rate_limit_for_request(request: Request) -> JSONResponse | None:
         logger.debug(f"Rate limit check failed: {e}")
 
     return None
+
 
 async def forward_request(
     service_name: str,
@@ -384,7 +408,11 @@ async def forward_request(
 
         # Возвращаем ответ
         return JSONResponse(
-            content=response.json() if response.headers.get("content-type") == "application/json" else response.text,
+            content=(
+                response.json()
+                if response.headers.get("content-type") == "application/json"
+                else response.text
+            ),
             status_code=response.status_code,
             headers=dict(response.headers),
         )
@@ -398,6 +426,7 @@ async def forward_request(
             status_code=502,
             detail=f"Service {service_name} unavailable: {e!s}",
         )
+
 
 # Middleware для логирования и rate limiting
 @app.middleware("http")
@@ -422,9 +451,12 @@ async def gateway_middleware(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     response.headers["X-Request-ID"] = request_id
 
-    logger.info(f"[{request_id}] Completed in {process_time:.3f}s - Status: {response.status_code}")
+    logger.info(
+        f"[{request_id}] Completed in {process_time:.3f}s - Status: {response.status_code}"
+    )
 
     return response
+
 
 # Endpoints
 @app.get("/health")
@@ -438,7 +470,9 @@ async def health_check() -> dict[str, Any]:
             health_url = f"{config['base_url']}{config.get('health_check', '/health')}"
             async with httpx.AsyncClient(timeout=5.0) as client:
                 response = await client.get(health_url)
-                services_status[service_name] = "healthy" if response.status_code == 200 else "unhealthy"
+                services_status[service_name] = (
+                    "healthy" if response.status_code == 200 else "unhealthy"
+                )
         except Exception as e:
             services_status[service_name] = f"error: {e!s}"
 
@@ -448,9 +482,12 @@ async def health_check() -> dict[str, Any]:
         "services": services_status,
         "metrics": {
             "uptime": "0d 0h 0m",  # В production считать от времени старта
-            "request_count": redis_client.get("gateway:request_count") if redis_client else 0,
+            "request_count": redis_client.get("gateway:request_count")
+            if redis_client
+            else 0,
         },
     }
+
 
 @app.post("/auth/login")
 async def login(auth: AuthRequest) -> AuthResponse:
@@ -473,7 +510,9 @@ async def login(auth: AuthRequest) -> AuthResponse:
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Authentication service not configured",
             )
-        logger.warning("Using demo authentication. For production, set ADMIN_PASSWORD environment variable.")
+        logger.warning(
+            "Using demo authentication. For production, set ADMIN_PASSWORD environment variable."
+        )
         admin_password = "demo-admin-password-change-in-production"  # nosec: B105 - This is a demo password for development only
 
     # Проверяем credentials
@@ -499,16 +538,21 @@ async def login(auth: AuthRequest) -> AuthResponse:
         detail="Invalid credentials",
     )
 
+
 def extract_service_path(request_path: str, route_path: str) -> str:
     """Извлечь остаток пути после префикса маршрута."""
     if request_path.startswith(route_path):
-        return request_path[len(route_path):] or "/"
+        return request_path[len(route_path) :] or "/"
     return request_path
+
 
 def create_route_handler(route_path: str, route_target: str, auth_required: bool):
     """Создать обработчик маршрута."""
     if auth_required:
-        async def auth_handler(request: Request, user_payload: dict = Depends(verify_token)):
+
+        async def auth_handler(
+            request: Request, user_payload: dict = Depends(verify_token)
+        ):
             service_path = extract_service_path(request.url.path, route_path)
             return await forward_request(
                 service_name=route_target,
@@ -517,7 +561,9 @@ def create_route_handler(route_path: str, route_target: str, auth_required: bool
                 request=request,
                 user_payload=user_payload,
             )
+
         return auth_handler
+
     async def no_auth_handler(request: Request):
         service_path = extract_service_path(request.url.path, route_path)
         return await forward_request(
@@ -527,7 +573,9 @@ def create_route_handler(route_path: str, route_target: str, auth_required: bool
             request=request,
             user_payload=None,
         )
+
     return no_auth_handler
+
 
 def register_route(path: str, target: str, methods: list, auth_required: bool):
     """Зарегистрировать маршрут для всех указанных методов."""
@@ -540,6 +588,7 @@ def register_route(path: str, target: str, methods: list, auth_required: bool):
             include_in_schema=True,
         )
 
+
 # Динамические routes на основе конфигурации
 def setup_routes():
     """Настроить маршруты на основе конфигурации."""
@@ -551,12 +600,14 @@ def setup_routes():
 
         register_route(path, target, methods, auth_required)
 
+
 # Настраиваем маршруты при старте
 @app.on_event("startup")
 async def startup_event():
     """Событие запуска приложения."""
     setup_routes()
     logger.info(f"Registered {len(routes_config)} routes")
+
 
 # Корневой endpoint
 @app.get("/")
@@ -583,14 +634,18 @@ async def root():
         ],
     }
 
+
 if __name__ == "__main__":
     import uvicorn
+
     # Use environment variable for host binding with safer default
     # In production, set HOST to specific interface or use reverse proxy
     host = os.getenv("GATEWAY_HOST", "127.0.0.1")
     port = int(os.getenv("GATEWAY_PORT", "8080"))
 
     logger.info(f"Starting gateway on {host}:{port}")
-    logger.warning("For production, consider using a reverse proxy (nginx/traefik) and binding to specific interfaces")
+    logger.warning(
+        "For production, consider using a reverse proxy (nginx/traefik) and binding to specific interfaces"
+    )
 
     uvicorn.run(app, host=host, port=port)

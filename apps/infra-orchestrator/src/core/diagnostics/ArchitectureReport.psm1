@@ -4,15 +4,15 @@ function Export-ArchitectureDiagram {
         [string]$Format = 'Mermaid',
         [string]$OutputPath = './docs/architecture-diagram'
     )
-    
+
     # Анализ структуры модулей
     $modules = Get-ChildItem 'src/' -Recurse -Filter '*.psm1' | ForEach-Object {
         $name = $_.BaseName
-        $deps = Select-String -Path $_.FullName -Pattern 'Import-Module.*\.psm1' | 
+        $deps = Select-String -Path $_.FullName -Pattern 'Import-Module.*\.psm1' |
         ForEach-Object { $_.Line -replace '.*Import-Module\s+["'']?([^"''\s]+\.psm1).*', '$1' }
         [PSCustomObject]@{ Name = $name; Dependencies = $deps }
     }
-    
+
     # Генерация Mermaid-диаграммы
     if ($Format -eq 'Mermaid') {
         $diagram = @'
@@ -27,7 +27,7 @@ graph TD
     C --> I[Secrets Backend]
     D --> J[Gitleaks/Trivy]
     E --> K[Prometheus/JSON Logs]
-    
+
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style I fill:#bbf,stroke:#333
     style J fill:#bbf,stroke:#333
@@ -35,7 +35,7 @@ graph TD
 '@
         $diagram | Out-File -FilePath "$OutputPath.mmd" -Encoding utf8
     }
-    
+
     # Генерация Markdown-отчёта
     $report = @"
 # Arch-Compass Architecture Report
@@ -56,7 +56,7 @@ $(Test-ArchCompassHealth -Detailed | Format-Table | Out-String)
 Available: OpenAI, YandexGPT, LocalLLM
 Active: $(Get-AiProvider -Name 'OpenAI' -Config @{} -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name)
 "@
-    
+
     $report | Out-File -FilePath "$OutputPath.md" -Encoding utf8
     Write-Host "✅ Architecture report generated: $OutputPath.{mmd,md}"
 }

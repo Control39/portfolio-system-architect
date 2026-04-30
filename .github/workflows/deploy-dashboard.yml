@@ -18,27 +18,27 @@ jobs:
       contents: write
       pages: write
       id-token: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for git analysis
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
+
       - name: Install dependencies
         run: |
           pip install -e .
           pip install sentence-transformers chromadb
-      
+
       - name: Generate dashboard HTML
         run: |
           python -m assistant_orchestrator --format html --output ./dashboard
-      
+
       - name: Prepare dashboard for deployment
         run: |
           # Create index.html from the generated HTML file
@@ -52,15 +52,15 @@ jobs:
             ls -la
             exit 1
           fi
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dashboard'
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

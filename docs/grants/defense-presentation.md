@@ -25,5 +25,3 @@
 - Open source cognitive architecture for 1000+ architects
 - Integration with Yandex Cloud, GigaChat
 - Grant multiplier: Корпоративный уровень → Production AI
-
-

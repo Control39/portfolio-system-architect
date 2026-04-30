@@ -15,4 +15,3 @@ resources:
 commonLabels:
   app: it-compass
   tier: frontend
-

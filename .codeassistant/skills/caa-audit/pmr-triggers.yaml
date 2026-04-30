@@ -140,18 +140,18 @@ integration:
     config_file: ".agents/config/triggers.yaml"
     sync_enabled: true
     import_triggers: ["git_commit", "git_push", "file_change"]
-  
+
   git_hooks:
     config_file: ".agents/config/git-hooks.yaml"
     hooks_to_add:
       - name: "pre-commit-caa-audit"
         script: ".codeassistant/skills/caa-audit/git-hooks/pre-commit"
         description: "Проверка позиционирования CAA перед коммитом"
-      
+
       - name: "pre-push-caa-audit"
         script: ".codeassistant/skills/caa-audit/git-hooks/pre-push"
         description: "Проверка позиционирования CAA перед пушем"
-  
+
   monitoring:
     metrics_endpoint: "http://localhost:9090/api/v1/write"
     dashboard: "CAA Positioning Audit"
@@ -159,7 +159,7 @@ integration:
       - name: "positioning_score_low"
         condition: "caa_positioning_score < 60"
         severity: "warning"
-        
+
       - name: "positioning_score_critical"
         condition: "caa_positioning_score < 40"
         severity: "critical"
@@ -169,19 +169,19 @@ notifications:
   console:
     enabled: true
     level: "info"  # debug, info, warning, error
-    
+
   log_file:
     enabled: true
     path: ".agents/logs/pmr-triggers.log"
     rotation: "daily"
     max_size_mb: 10
-    
+
   telegram:
     enabled: false  # Включить после настройки бота
     bot_token: "${TELEGRAM_BOT_TOKEN}"
     chat_id: "${TELEGRAM_CHAT_ID}"
     levels: ["warning", "critical"]
-    
+
   email:
     enabled: false  # Включить после настройки SMTP
     smtp_server: "${SMTP_SERVER}"
@@ -194,12 +194,12 @@ storage:
     directory: ".agents/reports/caa-audit/"
     retention_days: 30
     compression: true
-    
+
   metrics:
     directory: ".agents/data/caa-metrics/"
     format: "json"
     retention_days: 90
-    
+
   logs:
     directory: ".agents/logs/caa-audit/"
     retention_days: 60
@@ -210,7 +210,7 @@ performance:
   audit_timeout_sec: 120
   cache_enabled: true
   cache_ttl_sec: 3600  # 1 час
-  
+
   resource_limits:
     cpu_percent: 50
     memory_mb: 512
@@ -226,7 +226,7 @@ security:
     - "*.json"
     - "*.yaml"
     - "*.yml"
-  
+
   forbidden_actions:
     - delete_files
     - modify_source_code
@@ -236,22 +236,22 @@ security:
 metrics:
   collection_enabled: true
   push_to_prometheus: false  # Включить после настройки Prometheus
-  
+
   tracked_metrics:
     - name: "caa_positioning_score"
       description: "Общий score позиционирования CAA"
       type: "gauge"
       range: [0, 100]
-      
+
     - name: "caa_audit_duration_seconds"
       description: "Время выполнения аудита"
       type: "histogram"
-      
+
     - name: "caa_issues_count"
       description: "Количество найденных проблем"
       type: "counter"
       labels: ["severity"]
-      
+
     - name: "caa_artifacts_count"
       description: "Количество найденных артефактов"
       type: "gauge"
@@ -262,7 +262,7 @@ versioning:
   config_version: "1.0.0"
   compatible_caa_versions: [">=1.0.0"]
   last_updated: "2024-04-10"
-  
+
   changelog:
     - version: "1.0.0"
       date: "2024-04-10"
@@ -277,26 +277,26 @@ usage:
   quick_start: |
     # 1. Активировать триггеры
     python .codeassistant/skills/caa-audit/activate-triggers.py
-    
+
     # 2. Проверить конфигурацию
     python .codeassistant/skills/caa-audit/check-config.py
-    
+
     # 3. Запустить тестовый аудит
     python .codeassistant/skills/caa-audit/caa-audit-script.py --quick
-  
+
   integration_with_caa: |
     # Триггеры PMR Agent автоматически интегрируются с CAA через:
     # 1. Общий файл конфигурации триггеров
     # 2. Git хуки
     # 3. Систему мониторинга
     # 4. Базу данных метрик
-  
+
   troubleshooting: |
     # Проблема: Триггеры не срабатывают
     # Решение: Проверить интеграцию с .agents/config/triggers.yaml
-    
+
     # Проблема: Ошибки при выполнении аудита
     # Решение: Проверить зависимости и права доступа
-    
+
     # Проблема: Нет уведомлений
     # Решение: Проверить конфигурацию уведомлений

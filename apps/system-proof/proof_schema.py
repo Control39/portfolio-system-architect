@@ -3,9 +3,11 @@
 CoT traces, tagging: thought-architecture, system-thinking-level, source-link.
 \"\"
 
-from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, Field
+
 
 class TraceStep(BaseModel):
     input: str
@@ -46,5 +48,3 @@ if __name__ == '__main__':
         verification_accuracy=0.95
     )
     print(proof.tag_and_verify(None))  # True
-
-

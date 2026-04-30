@@ -44,4 +44,3 @@ spec:
             claimName: shared-data-pvc
       securityContext:
         fsGroup: 1000
-

@@ -7,4 +7,3 @@ echo "Updating INDEX.md..."
 # pandoc requires install: pip install pypandoc
 # pandoc INDEX.md -o INDEX.pdf
 echo "Ready for pandoc (install pypandoc): INDEX.pdf would be generated."
-

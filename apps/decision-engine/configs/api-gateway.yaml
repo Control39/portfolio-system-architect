@@ -47,7 +47,7 @@ paths:
           - Authorization
         credentials: false
         maxAge: 86400
-  
+
   /health:
     get:
       summary: "Health check endpoint"
@@ -87,7 +87,7 @@ paths:
           - Content-Type
         credentials: false
         maxAge: 86400
-  
+
   /upload:
     post:
       summary: "Загрузка проекта"
@@ -201,4 +201,3 @@ paths:
           - Authorization
         credentials: false
         maxAge: 86400
-

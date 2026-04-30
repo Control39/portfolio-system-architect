@@ -96,5 +96,5 @@ src/ai/                      # Оркестрация AI-агентов
 
 ---
 
-*Кейс основан на реальных данных из проекта Portfolio System Architect*  
+*Кейс основан на реальных данных из проекта Portfolio System Architect*
 *Технологии: MCP Server, RAG, Reasoning, IT-Compass*

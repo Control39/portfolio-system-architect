@@ -3,82 +3,82 @@
   "//": "Автоматически управляется скриптом scripts/vscode-extensions-manager.py",
   "//": "Дата создания: 2026-04-10",
   "//": "Основано на анализе технологического стека проекта",
-  
+
   "required": [
     "ms-python.python",
     "ms-python.vscode-pylance",
     "ms-python.black-formatter",
-    
+
     "ms-azuretools.vscode-docker",
     "redhat.vscode-yaml",
-    
+
     "eamodio.gitlens",
-    
+
     "charliermarsh.ruff",
     "esbenp.prettier-vscode",
     "ms-azuretools.vscode-azureterraform"
   ],
-  
+
   "recommended": [
     "ms-python.isort",
     "njpwerner.autodocstring",
     "LittleFoxTeam.vscode-python-test-adapter",
-    
+
     "tomasz-smykowski.fastapi-snippets",
     "tushortz.python-pydantic",
-    
+
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "ms-vscode.makefile-tools",
-    
+
     "humao.rest-client",
     "rangav.vscode-thunder-client",
-    
+
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
-    
+
     "mhutchie.git-graph",
-    
+
     "prometheus.promql",
     "emilast.LogFileHighlighter",
-    
+
     "ms-vscode.powershell",
-    
+
     "usernamehw.errorlens",
     "wix.vscode-import-cost",
     "formulahendry.code-runner",
-    
+
     "oderwat.indent-rainbow",
     "streetsidesoftware.code-spell-checker",
-    
+
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg"
   ],
-  
+
   "optional": [
     "Continue.continue",
     "yandex.yandex-code-assist",
     "GigaCode.gigacode-vscode",
-    
+
     "akamud.vscode-theme-onedark",
     "PKief.material-icon-theme",
-    
+
     "ms-vscode.cpptools",
     "ms-vscode.vscode-typescript-next",
-    
+
     "naco-siren.gradle-language",
     "vscjava.vscode-java-pack"
   ],
-  
+
   "excluded": [
     "vscjava.vscode-java-debug",
     "vscjava.vscode-maven",
-    
+
     "ms-vscode-remote.remote-wsl",
-    
+
     "ms-vscode.live-server",
     "ritwickdey.LiveServer"
   ],
-  
+
   "metadata": {
     "project_name": "portfolio-system-architect",
     "technology_stack": [

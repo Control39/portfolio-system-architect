@@ -135,7 +135,7 @@ graph TD
     B --> D[Рост процентных расходов (5→11 млрд)]
     D --> E[Отрицательный поток (-27 млрд)]
     E --> F[Дефолт]
-    
+
     style B fill:#ffcccc,stroke:#ff0000,stroke-width:2px
     style D fill:#ff6666,stroke:#000,color:#fff
     style F fill:#cc0000,stroke:#000,color:#fff

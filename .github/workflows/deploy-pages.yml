@@ -16,39 +16,39 @@ jobs:
       - uses: actions/checkout@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           python-version: '3.12'
-      
+
       - name: Install mkdocs and dependencies
         run: |
           pip install mkdocs-material
           pip install mkdocs-git-revision-date-localized-plugin
-      
+
       - name: Configure site_url for GitHub Pages
         run: |
           cd docs/mkdocs-site
           # GitHub mirror: Control39/cognitive-systems-architecture
           SITE_URL="https://control39.github.io/cognitive-systems-architecture/"
-          
+
           # Create backup
           cp mkdocs.yml mkdocs.yml.backup
-          
+
           # Update site_url using sed (GitHub Actions uses Linux)
           sed -i "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
-          
+
           echo "Updated site_url for GitHub Pages: $SITE_URL"
           echo "Original config backed up to mkdocs.yml.backup"
-      
+
       - name: Build mkdocs site
         run: |
           cd docs/mkdocs-site
           mkdocs build --site-dir site
-      
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         env:
@@ -59,12 +59,10 @@ jobs:
           publish_dir: ./docs/mkdocs-site/site
           publish_branch: gh-pages
           force_orphan: true
-      
+
       - name: Build only (for feature branches)
         if: github.ref != 'refs/heads/main'
         run: |
           echo "Site built successfully for feature branch"
           echo "To deploy to GitHub Pages, merge to main branch"
           echo "To deploy to SourceCraft Sites, check .sourcecraft/ci.yaml configuration"
-
-

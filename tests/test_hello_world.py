@@ -3,19 +3,21 @@
 """
 
 import unittest
+
 from hello_world import greet
+
 
 class TestGreet(unittest.TestCase):
     """Тесты для функции greet."""
-    
+
     def test_greet_default(self) -> None:
         """Проверка приветствия по умолчанию."""
         self.assertEqual(greet(), "Hello, World!")
-    
+
     def test_greet_custom_name(self) -> None:
         """Проверка приветствия с именем."""
         self.assertEqual(greet("Alice"), "Hello, Alice!")
-    
+
     def test_greet_empty_name(self) -> None:
         """Проверка приветствия с пустым именем."""
         self.assertEqual(greet("").strip(), "Hello,!")

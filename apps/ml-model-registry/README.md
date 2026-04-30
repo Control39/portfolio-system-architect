@@ -18,4 +18,3 @@ python -m src.api.main
   | GET | /health | Status |
 
 **Coverage**: pytest 95%. SQLite backend.
-

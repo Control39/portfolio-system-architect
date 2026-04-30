@@ -364,7 +364,7 @@ sourcecraft --stats
 
 ---
 
-*Последнее обновление: 2026-04-10*  
-*Автор: SourceCraft Code Assistant*  
-*Для проекта: portfolio-system-architect*  
+*Последнее обновление: 2026-04-10*
+*Автор: SourceCraft Code Assistant*
+*Для проекта: portfolio-system-architect*
 *Для пользователя: Екатерина Куделя, архитектор когнитивных систем*

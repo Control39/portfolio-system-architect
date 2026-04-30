@@ -17,11 +17,11 @@ stringData:
   POSTGRES_DB: portfolio
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ${DB_PASSWORD}  # Will be injected from GitHub Secrets
-  
+
   # JWT & API Security
   JWT_SECRET: ${JWT_SECRET}
   API_KEY_SECRET: ${API_KEY_SECRET}
-  
+
   # Optional: Cloud credentials (for prod deployment)
   # GCP_CREDENTIALS: ${GCP_CREDENTIALS_JSON}
   # AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -32,7 +32,7 @@ stringData:
 # kubeseal -f secret.yaml -w sealed-secret.yaml
 #
 # Then commit sealed-secret.yaml (it's safe - encrypted with cluster key)
-# 
+#
 # Prerequisites:
 # - Install Sealed Secrets controller: https://github.com/bitnami-labs/sealed-secrets
 # - kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.0/controller.yaml
@@ -124,4 +124,3 @@ jobs:
 - Verify the controller's public key matches the one used for sealing.
 - Check namespace matches the one specified in the sealed secret.
 - Use `kubectl get sealedsecret -n portfolio` to inspect sealed secrets.
-

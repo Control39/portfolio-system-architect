@@ -1,11 +1,11 @@
 ﻿# Infra-Orchestrator Framework 🔧
 
-> 🟢 **Status:** Production-ready (core) | 🟡 Beta (AI providers) | 🔴 Alpha (diagnostics)  
-> **Role:** PowerShell as an orchestration language for infrastructure automation  
-> **Approach:** I design modular interfaces, security contracts, and AI-integration points; code is generated under architectural guidance and validated via tests  
+> 🟢 **Status:** Production-ready (core) | 🟡 Beta (AI providers) | 🔴 Alpha (diagnostics)
+> **Role:** PowerShell as an orchestration language for infrastructure automation
+> **Approach:** I design modular interfaces, security contracts, and AI-integration points; code is generated under architectural guidance and validated via tests
 > **Result:** A containerized, self-auditing library for managing AI workflows, secrets, and DevOps processes
 
-**Автор:** Екатерина Куделя, архитектор когнитивных систем  
+**Автор:** Екатерина Куделя, архитектор когнитивных систем
 **Лицензия:** CC BY-ND 4.0 (методология), MIT (код)
 
 ---

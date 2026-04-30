@@ -25,5 +25,3 @@ JSON profiles, Pydantic models: UserProfile, Skill, CompetencyMarker (see src/co
 
 ## Integration Examples
 Cloud-Reason RAG context injection via gigachain_bridge.py.
-
-

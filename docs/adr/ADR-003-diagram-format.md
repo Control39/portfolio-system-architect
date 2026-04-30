@@ -43,4 +43,3 @@
 ## Ссылки
 - Mermaid documentation
 - GitHub documentation on Mermaid support
-

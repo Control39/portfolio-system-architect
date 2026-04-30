@@ -1,4 +1,4 @@
-﻿"""Тестовый скрипт для проверки RAG API системы.
+"""Тестовый скрипт для проверки RAG API системы.
 """
 
 import json
@@ -30,6 +30,7 @@ def test_api_health():
     except Exception as e:
         print(f"❌ Ошибка: {e}")
         return False
+
 
 def test_ask_endpoint():
     """Тестирование эндпоинта /ask."""
@@ -77,6 +78,7 @@ def test_ask_endpoint():
         except Exception as e:
             print(f"❌ Исключение: {e}")
 
+
 def test_stats_endpoint():
     """Тестирование эндпоинта /stats."""
     print("\n🧪 Тестирование эндпоинта /stats...")
@@ -93,6 +95,7 @@ def test_stats_endpoint():
     except Exception as e:
         print(f"❌ Исключение: {e}")
 
+
 def test_streamlit_ui():
     """Проверка доступности Streamlit UI."""
     print("\n🧪 Проверка Streamlit UI...")
@@ -108,6 +111,7 @@ def test_streamlit_ui():
 
     except Exception as e:
         print(f"❌ Ошибка: {e}")
+
 
 def test_rag_components():
     """Проверка компонентов RAG системы."""
@@ -131,6 +135,7 @@ def test_rag_components():
             all_exist = False
 
     return all_exist
+
 
 def main():
     """Основная функция тестирования."""
@@ -182,6 +187,7 @@ def main():
     print("4. Задавайте вопросы о проекте!")
 
     return api_healthy
+
 
 if __name__ == "__main__":
     try:

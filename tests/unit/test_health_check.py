@@ -1,4 +1,4 @@
-﻿"""Unit тесты для модуля health_check.
+"""Unit тесты для модуля health_check.
 """
 
 import asyncio
@@ -154,4 +154,3 @@ class TestInitHealthChecks:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

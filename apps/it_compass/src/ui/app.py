@@ -1,18 +1,20 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 IT Compass - Streamlit Web Interface for Dashboard Visualization
 Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0
 """
 
-import streamlit as st
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import streamlit as st
 
 # Добавляем src в путь для импорта
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from core.tracker import CareerTracker
+
     from utils.portfolio_gen import generate_portfolio
 except ImportError as e:
     st.error(f"❌ Ошибка импорта модулей: {e}")
@@ -24,19 +26,24 @@ st.set_page_config(
     page_title="IT Compass Dashboard",
     page_icon="🧭",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
+
 
 # --- Инициализация Трекера ---
 @st.cache_resource
 def get_tracker():
     """Кэшируем трекер для производительности."""
     try:
-        return CareerTracker(markers_dir="apps/it_compass/src/data/markers", progress_file="apps/it_compass/src/data/user_progress.json")
+        return CareerTracker(
+            markers_dir="apps/it_compass/src/data/markers",
+            progress_file="apps/it_compass/src/data/user_progress.json",
+        )
     except Exception as e:
         st.error(f"❌ Не удалось инициализировать CareerTracker: {e}")
         st.error("Проверьте наличие файлов маркеров в src/data/markers/")
         return None
+
 
 def render_progress_dashboard():
     """Отображает прогресс в виде дашборда."""
@@ -51,7 +58,8 @@ def render_progress_dashboard():
     # Общий прогресс
     total_completed = len(tracker.progress.get("completed_markers", []))
     total_markers = sum(
-        1 for skill_data in tracker.markers.values()
+        1
+        for skill_data in tracker.markers.values()
         for level_markers in skill_data.levels.values()
         for marker in level_markers
     )
@@ -122,8 +130,10 @@ def render_progress_dashboard():
             for skill_name, skill_data in tracker.markers.items():
                 for level_markers in skill_data.levels.values():
                     for marker in level_markers:
-                        if (marker.id not in tracker.progress["completed_markers"]
-                            and marker.priority == "high"):
+                        if (
+                            marker.id not in tracker.progress["completed_markers"]
+                            and marker.priority == "high"
+                        ):
                             high_priority.append((skill_name, marker))
 
             if high_priority:
@@ -131,6 +141,7 @@ def render_progress_dashboard():
                     st.markdown(f"• **{skill_name}**: {marker.marker}")
             else:
                 st.success("🎉 Все high-priority маркеры выполнены!")
+
 
 def render_documentation():
     """Отображает документацию проекта."""
@@ -141,11 +152,13 @@ def render_documentation():
 
     with col1:
         st.subheader("🎯 Методология")
-        st.markdown("""
+        st.markdown(
+            """
         - [🧠 Методология SMART](./docs/METHODOLOGY.md)
         - [💭 Психологическая поддержка](./docs/PSYCHOLOGICAL_SUPPORT.md)
         - [🚀 Готовность к карьере](./docs/CAREER_READINESS.md)
-        """)
+        """
+        )
 
         if st.button("📖 Открыть методологию", use_container_width=True):
             try:
@@ -156,11 +169,13 @@ def render_documentation():
 
     with col2:
         st.subheader("🛠 Утилиты")
-        st.markdown("""
+        st.markdown(
+            """
         - [🤝 Как внести вклад](./docs/CONTRIBUTING.md)
         - [📄 Текущее портфолио](./docs/my_portfolio.md)
         - [⚙️ Настройки проекта](./docs/SETUP.md)
-        """)
+        """
+        )
 
         if st.button("📋 Посмотреть портфолио", use_container_width=True):
             try:
@@ -169,14 +184,17 @@ def render_documentation():
             except:
                 st.warning("Портфолио ещё не сгенерировано")
 
+
 def render_strategy():
     """Отображает стратегическую информацию."""
     st.header("🚀 Стратегия выхода на рынок")
 
-    st.info("""
+    st.info(
+        """
     **Ваша цель** — не просто найти работу, а доказать статус **«Когнитивного Архитектора»** —
     специалиста, который проектирует системы мышления и оценки в IT.
-    """)
+    """
+    )
 
     st.markdown("---")
 
@@ -184,7 +202,8 @@ def render_strategy():
 
     with tab1:
         st.subheader("Питч для собеседования")
-        st.code("""
+        st.code(
+            """
 «Я разработала IT Compass — систему объективной оценки навыков
 на основе верифицируемых артефактов.
 
@@ -194,7 +213,9 @@ def render_strategy():
 
 Вот моё портфолио, подтверждающее X% покрытия рыночных требований
 по ключевым направлениям: Python, Docker, MLOps, DevOps...»
-        """, language="markdown")
+        """,
+            language="markdown",
+        )
 
         st.markdown("**Ключевые тезисы:**")
         st.markdown("✅ Объективность вместо субъективности  ")
@@ -206,7 +227,8 @@ def render_strategy():
         st.warning("Используйте готовый шаблон для продвижения проекта:")
 
         if st.button("📋 Показать шаблон поста"):
-            st.markdown("""
+            st.markdown(
+                """
 **🎯 Я создала IT Compass — систему, которая заменяет "знаю на 4/5" на факты**
 
 После полугода обучения многие IT-специалисты спрашивают:
@@ -236,11 +258,13 @@ def render_strategy():
 🧠 Методология: © Ekaterina Kudelya, CC BY-ND 4.0
 
 #IT #Career #Development #Python #Docker #MLOps #DevOps #OpenSource
-            """)
+            """
+            )
 
     with tab3:
         st.subheader("Следующие шаги развития")
-        st.markdown("""
+        st.markdown(
+            """
         ### 🔄 В разработке:
         - [ ] Веб-интерфейс (Streamlit) ← **мы здесь!**
         - [ ] Интеграция GitHub API
@@ -250,12 +274,16 @@ def render_strategy():
         - [ ] Новые направления: Frontend, Data Engineering
         - [ ] Система менторства
         - [ ] Корпоративная версия
-        """)
+        """
+        )
 
-        st.success("""
+        st.success(
+            """
         **Текущий фокус:** Завершение MVP Streamlit-интерфейса
         для демонстрации на собеседованиях.
-        """)
+        """
+        )
+
 
 def main():
     """Главная функция приложения."""
@@ -265,9 +293,7 @@ def main():
 
     # Навигация
     menu_option = st.sidebar.selectbox(
-        "Навигация",
-        ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"],
-        index=0
+        "Навигация", ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"], index=0
     )
 
     # Информация о проекте
@@ -291,6 +317,7 @@ def main():
         render_documentation()
     elif menu_option == "🚀 Стратегия":
         render_strategy()
+
 
 # Инициализация трекера
 tracker = get_tracker()

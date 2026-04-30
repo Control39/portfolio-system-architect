@@ -123,11 +123,11 @@ python -m automation.job_search.search --keywords "system architecture" --locati
 daily:
   - evidence_collection: "0 8 * * *"  # 8 AM daily
   - job_search_update: "0 9 * * *"    # 9 AM daily
-  
+
 weekly:
   - portfolio_regeneration: "0 10 * * 1"  # Monday 10 AM
   - skill_gap_analysis: "0 11 * * 2"      # Tuesday 11 AM
-  
+
 monthly:
   - performance_review: "0 12 1 * *"      # 1st of month, 12 PM
   - strategy_optimization: "0 13 15 * *"  # 15th of month, 1 PM

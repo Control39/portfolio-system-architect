@@ -17,5 +17,3 @@ portfolio-organizer, cloud-reason, system-proof, thought-architecture
 **Rules**: _sync/ folders, git diff previews, preserve authorship (Ekaterina Kudelya, CC BY-ND 4.0).
 
 **Status**: Applied here.
-
-

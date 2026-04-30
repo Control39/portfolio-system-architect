@@ -154,7 +154,7 @@ export const ollamaChatTool = {
         stream: false
       })
     });
-    
+
     const data = await response.json();
     return { response: data.response, model: args.model };
   }
@@ -208,7 +208,7 @@ export const techStackAnalyzer = {
       databases: ["PostgreSQL", "Redis"],
       tools: ["Docker", "Terraform", "Kubernetes"]
     };
-    
+
     return {
       stack,
       recommendations: [

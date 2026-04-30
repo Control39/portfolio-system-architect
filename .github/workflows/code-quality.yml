@@ -151,7 +151,7 @@ jobs:
             echo "⚠️ No Python directories to scan"
             echo '{"issues": []}' > bandit-report.json
           fi
-          
+
       - name: Count Bandit findings
         id: count-bandit
         run: |
@@ -197,7 +197,7 @@ jobs:
               error_count=$(jq '[.[] | select(.level == "error")] | length' ruff-report.json 2>/dev/null || echo "0")
               warning_count=$(jq '[.[] | select(.level == "warning")] | length' ruff-report.json 2>/dev/null || echo "0")
             fi
-            
+
             echo "📊 Python lint stats: $error_count errors, $warning_count warnings"
             echo "error_count=$error_count" >> $GITHUB_OUTPUT
             echo "warning_count=$warning_count" >> $GITHUB_OUTPUT
@@ -266,7 +266,7 @@ jobs:
               $errorCount = ($report | Where-Object { $_.Severity -eq "Error" }).Count
               $warningCount = ($report | Where-Object { $_.Severity -eq "Warning" }).Count
             }
-            
+
             Write-Host "📊 PowerShell lint stats: $errorCount errors, $warningCount warnings"
             Write-Output "error_count=$errorCount" >> $env:GITHUB_OUTPUT
             Write-Output "warning_count=$warningCount" >> $env:GITHUB_OUTPUT
@@ -632,5 +632,3 @@ jobs:
           if [ $SEC_FINDINGS -gt 0 ] && [ -f gitleaks-report.sarif ]; then
             SECURITY_DETAILS=$(jq -r '.runs[0].results | group_by(.ruleId) | map({ruleId: .[0].ruleId, count: length}) | .[] | "  - \(.ruleId): \(.count) issues"' gitleaks-report.sarif 2>/dev/null || echo "  - Unable to parse security details")
           fi
-
-

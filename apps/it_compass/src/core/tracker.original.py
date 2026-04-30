@@ -1,4 +1,4 @@
-﻿"""
+"""
 Модуль отслеживания карьерного прогресса пользователя.
 Методология "Объективные маркеры компетенций"
 © 2025 Ekaterina Kudelya. CC BY-ND 4.0
@@ -6,9 +6,9 @@
 
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

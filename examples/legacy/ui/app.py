@@ -1,4 +1,4 @@
-﻿"""Streamlit UI для AI-консультанта по архитектуре.
+"""Streamlit UI для AI-консультанта по архитектуре.
 Позволяет не-техническим пользователям задавать вопросы о проекте.
 """
 
@@ -17,7 +17,8 @@ st.set_page_config(
 )
 
 # CSS для улучшения внешнего вида
-st.markdown("""
+st.markdown(
+    """
 <style>
     .main-header {
         font-size: 2.5rem;
@@ -63,11 +64,16 @@ st.markdown("""
         color: #991B1B;
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Заголовок
 st.markdown('<h1 class="main-header">🧠 AI Архитектор</h1>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Задайте вопрос о системе — получите точный ответ с источниками из документации проекта</p>', unsafe_allow_html=True)
+st.markdown(
+    '<p class="sub-header">Задайте вопрос о системе — получите точный ответ с источниками из документации проекта</p>',
+    unsafe_allow_html=True,
+)
 
 # Боковая панель с настройками
 with st.sidebar:
@@ -128,7 +134,9 @@ with col1:
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
 
     with col_btn1:
-        ask_button = st.button("🚀 Задать вопрос", type="primary", use_container_width=True)
+        ask_button = st.button(
+            "🚀 Задать вопрос", type="primary", use_container_width=True
+        )
 
     with col_btn2:
         example_button = st.button("📋 Примеры вопросов", use_container_width=True)
@@ -199,25 +207,41 @@ if ask_button and query:
                     confidence_class = "confidence-low"
                     confidence_text = "Низкая уверенность"
 
-                st.markdown(f'<div class="confidence-badge {confidence_class}">🤖 {confidence_text}: {confidence:.2%}</div>', unsafe_allow_html=True)
+                st.markdown(
+                    f'<div class="confidence-badge {confidence_class}">🤖 {confidence_text}: {confidence:.2%}</div>',
+                    unsafe_allow_html=True,
+                )
 
                 # Ответ
-                st.markdown(f'<div class="answer-box">{data["answer"]}</div>', unsafe_allow_html=True)
+                st.markdown(
+                    f'<div class="answer-box">{data["answer"]}</div>',
+                    unsafe_allow_html=True,
+                )
 
                 # Источники
                 if data.get("sources"):
                     st.markdown("### 📚 Источники")
-                    st.caption(f"Найдено {len(data['sources'])} релевантных документа(ов)")
+                    st.caption(
+                        f"Найдено {len(data['sources'])} релевантных документа(ов)"
+                    )
 
                     for i, source in enumerate(data["sources"]):
-                        with st.expander(f"📄 {source.get('file', 'unknown')} (релевантность: {source.get('score', 0):.2%})", expanded=i < 2):
-                            st.markdown(f'<div class="source-box">{source.get("text", "")}</div>', unsafe_allow_html=True)
+                        with st.expander(
+                            f"📄 {source.get('file', 'unknown')} (релевантность: {source.get('score', 0):.2%})",
+                            expanded=i < 2,
+                        ):
+                            st.markdown(
+                                f'<div class="source-box">{source.get("text", "")}</div>',
+                                unsafe_allow_html=True,
+                            )
 
                             # Метаданные
                             col_s1, col_s2 = st.columns(2)
                             with col_s1:
                                 if source.get("line_start"):
-                                    st.caption(f"Строки: {source.get('line_start')}-{source.get('line_end', source.get('line_start'))}")
+                                    st.caption(
+                                        f"Строки: {source.get('line_start')}-{source.get('line_end', source.get('line_start'))}"
+                                    )
                             with col_s2:
                                 st.caption(f"Уверенность: {source.get('score', 0):.2%}")
 
@@ -225,7 +249,10 @@ if ask_button and query:
                 with st.expander("📊 Статистика запроса"):
                     col_stat1, col_stat2, col_stat3 = st.columns(3)
                     with col_stat1:
-                        st.metric("Время обработки", f"{data.get('processing_time_ms', 0):.0f} мс")
+                        st.metric(
+                            "Время обработки",
+                            f"{data.get('processing_time_ms', 0):.0f} мс",
+                        )
                     with col_stat2:
                         st.metric("Уверенность", f"{confidence:.2%}")
                     with col_stat3:
@@ -235,13 +262,15 @@ if ask_button and query:
                 if "history" not in st.session_state:
                     st.session_state.history = []
 
-                st.session_state.history.append({
-                    "timestamp": datetime.now().isoformat(),
-                    "question": query,
-                    "answer": data["answer"],
-                    "confidence": confidence,
-                    "sources_count": len(data.get("sources", [])),
-                })
+                st.session_state.history.append(
+                    {
+                        "timestamp": datetime.now().isoformat(),
+                        "question": query,
+                        "answer": data["answer"],
+                        "confidence": confidence,
+                        "sources_count": len(data.get("sources", [])),
+                    }
+                )
 
             else:
                 st.error(f"❌ Ошибка API: {response.status_code}")
@@ -249,12 +278,14 @@ if ask_button and query:
 
         except requests.exceptions.ConnectionError:
             st.error("❌ Не удалось подключиться к API серверу.")
-            st.info("""
+            st.info(
+                """
             **Решение:**
             1. Убедитесь, что API сервер запущен: `uvicorn api.main:app --reload`
             2. Проверьте URL в настройках (по умолчанию: http://127.0.0.1:8000)
             3. Убедитесь, что порт 8000 не занят другим приложением
-            """)
+            """
+            )
         except Exception as e:
             st.error(f"❌ Неожиданная ошибка: {e!s}")
 
@@ -263,7 +294,9 @@ if "history" in st.session_state and st.session_state.history:
     st.markdown("---")
     st.markdown("### 📜 История запросов")
 
-    for i, item in enumerate(reversed(st.session_state.history[-5:])):  # Последние 5 запросов
+    for i, item in enumerate(
+        reversed(st.session_state.history[-5:])
+    ):  # Последние 5 запросов
         with st.expander(f"❓ {item['question'][:50]}...", expanded=False):
             st.markdown(f"**Время:** {item['timestamp']}")
             st.markdown(f"**Уверенность:** {item['confidence']:.2%}")
@@ -272,7 +305,8 @@ if "history" in st.session_state and st.session_state.history:
 
 # Инструкция по запуску
 with st.expander("🛠️ Инструкция по запуску", expanded=False):
-    st.markdown("""
+    st.markdown(
+        """
     ### Шаги для запуска системы:
 
     1. **Запустите API сервер:**
@@ -299,8 +333,11 @@ with st.expander("🛠️ Инструкция по запуску", expanded=Fa
     - Python 3.9+
     - Установленные зависимости: `pip install fastapi uvicorn streamlit requests`
     - Построенный RAG-индекс (автоматически при первом запросе)
-    """)
+    """
+    )
 
 # Футер
 st.markdown("---")
-st.caption("🧠 AI Архитектор v1.0 | Система консультаций по архитектуре проекта | [Документация](https://github.com/leadarchitect-ai/portfolio-system-architect)")
+st.caption(
+    "🧠 AI Архитектор v1.0 | Система консультаций по архитектуре проекта | [Документация](https://github.com/leadarchitect-ai/portfolio-system-architect)"
+)

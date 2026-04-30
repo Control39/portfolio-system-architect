@@ -9,14 +9,14 @@ export const securityAuditorTool: Tool = {
   description: "Анализирует код на наличие уязвимостей безопасности и небезопасных практик",
   execute: async (args: any) => {
     const { code, language = 'python', checkLevel = 'standard' } = args;
-    
+
     if (!code) {
       return {
         success: false,
         error: "Не предоставлен код для анализа"
       };
     }
-    
+
     // Правила безопасности для разных языков
     const securityRules = {
       python: [
@@ -80,18 +80,18 @@ export const securityAuditorTool: Tool = {
         }
       ]
     };
-    
+
     // Получаем правила для указанного языка
     const rules = securityRules[language as keyof typeof securityRules] || securityRules.python;
-    
+
     // Анализируем код
     const vulnerabilities = [];
     let lineNumber = 1;
-    
+
     const lines = code.split('\n');
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      
+
       for (const rule of rules) {
         const matches = line.match(rule.pattern);
         if (matches) {
@@ -105,33 +105,33 @@ export const securityAuditorTool: Tool = {
           });
         }
       }
-      
+
       lineNumber++;
     }
-    
+
     // Группируем уязвимости по уровню серьезности
     const highVulns = vulnerabilities.filter(v => v.severity === 'high');
     const mediumVulns = vulnerabilities.filter(v => v.severity === 'medium');
     const lowVulns = vulnerabilities.filter(v => v.severity === 'low');
-    
+
     // Рассчитываем оценку безопасности
     const totalScore = 100;
     const highPenalty = highVulns.length * 20;
     const mediumPenalty = mediumVulns.length * 10;
     const lowPenalty = lowVulns.length * 5;
-    
+
     const securityScore = Math.max(0, totalScore - highPenalty - mediumPenalty - lowPenalty);
-    
+
     // Определяем уровень безопасности
     let securityLevel = 'excellent';
     if (securityScore < 60) securityLevel = 'critical';
     else if (securityScore < 70) securityLevel = 'poor';
     else if (securityScore < 80) securityLevel = 'fair';
     else if (securityScore < 90) securityLevel = 'good';
-    
+
     // Генерируем рекомендации
     const recommendations = [];
-    
+
     if (highVulns.length > 0) {
       recommendations.push({
         priority: 'high',
@@ -139,7 +139,7 @@ export const securityAuditorTool: Tool = {
         details: `Найдено ${highVulns.length} критических уязвимостей`
       });
     }
-    
+
     if (mediumVulns.length > 0) {
       recommendations.push({
         priority: 'medium',
@@ -147,7 +147,7 @@ export const securityAuditorTool: Tool = {
         details: `Найдено ${mediumVulns.length} уязвимостей средней серьезности`
       });
     }
-    
+
     if (lowVulns.length > 0) {
       recommendations.push({
         priority: 'low',
@@ -155,7 +155,7 @@ export const securityAuditorTool: Tool = {
         details: `Найдено ${lowVulns.length} незначительных уязвимостей`
       });
     }
-    
+
     // Добавляем общие рекомендации
     if (vulnerabilities.length === 0) {
       recommendations.push({
@@ -170,7 +170,7 @@ export const securityAuditorTool: Tool = {
         details: 'Используйте статические анализаторы кода (Bandit, ESLint, SonarQube)'
       });
     }
-    
+
     return {
       success: true,
       data: {

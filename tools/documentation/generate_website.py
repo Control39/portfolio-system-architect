@@ -1,4 +1,4 @@
-﻿"""Генерирует профессиональный сайт-портфолио с поддержкой Mermaid и Git-статуса.
+"""Генерирует профессиональный сайт-портфолио с поддержкой Mermaid и Git-статуса.
 """
 
 import subprocess
@@ -12,8 +12,18 @@ OUTPUT_DIR: Path = REPO_ROOT / "docs" / "website"
 LOGO_PATH: str = REPO_ROOT / "assets" / "logo.svg"
 
 # Игнорируемые директории
-IGNORED_DIRS = {".git", "__pycache__", "node_modules", "venv", "env",
-                ".vscode", ".idea", "docs/website", "Lib", "data/embeddings"}
+IGNORED_DIRS = {
+    ".git",
+    "__pycache__",
+    "node_modules",
+    "venv",
+    "env",
+    ".vscode",
+    ".idea",
+    "docs/website",
+    "Lib",
+    "data/embeddings",
+}
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="ru">
@@ -30,10 +40,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <style>
         :root {{ --primary: #1a73e8; }}
         body {{ background: #f8f9fa; color: #212529; font-family: 'Segoe UI', sans-serif; }}
-        .sidebar {{ 
+        .sidebar {{
             background: linear-gradient(to bottom, var(--primary), #0d47a1);
-            height: 100vh; 
-            position: fixed; 
+            height: 100vh;
+            position: fixed;
             color: white;
         }}
         .sidebar h5, .sidebar a {{ color: white; }}
@@ -83,14 +93,18 @@ def generate_nav_links(pages_keys: list[str]) -> str:
     """Генерирует навигацию на основе реальных страниц."""
     links = []
     # Всегда добавляем главную
-    links.append('                        <li><a class="nav-link" href="index.html">[+] Главная</a></li>')
+    links.append(
+        '                        <li><a class="nav-link" href="index.html">[+] Главная</a></li>'
+    )
 
     # Добавляем страницы, которые существуют
     for key in sorted(set(pages_keys)):
         if key == "index":
             continue
         display = key.replace("-", " ").replace("_", " ").title()
-        links.append(f'                        <li><a class="nav-link" href="{key}.html">[{key[0].upper()}] {display}</a></li>')
+        links.append(
+            f'                        <li><a class="nav-link" href="{key}.html">[{key[0].upper()}] {display}</a></li>'
+        )
 
     return "\n".join(links)
 
@@ -138,7 +152,10 @@ def convert() -> None:
     try:
         result = subprocess.run(
             ["git", "log", "-1", "--format=%h %s (%cr)"],
-            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0 and result.stdout.strip():
             index_content += f"\n- **Последний коммит**: `{result.stdout.strip()}`\n"
@@ -161,7 +178,9 @@ def convert() -> None:
         try:
             relative = md_file.relative_to(REPO_ROOT)
             # Имя страницы: путь без расширения
-            filename = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
+            filename = (
+                str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
+            )
             filename = sanitize_filename(filename)
 
             with open(md_file, encoding="utf-8") as f:
@@ -197,5 +216,3 @@ def convert() -> None:
 
 if __name__ == "__main__":
     convert()
-
-

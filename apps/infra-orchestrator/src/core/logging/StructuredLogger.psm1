@@ -32,4 +32,3 @@ function Stop-Logging {
 }
 
 Export-ModuleMember -Function Initialize-Logging, Write-Log, Set-SecretMasker, Stop-Logging
-

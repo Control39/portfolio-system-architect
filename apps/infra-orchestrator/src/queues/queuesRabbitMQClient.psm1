@@ -5,4 +5,3 @@ function Connect-RabbitMQ {
 }
 
 Export-ModuleMember -Function Connect-RabbitMQ
-

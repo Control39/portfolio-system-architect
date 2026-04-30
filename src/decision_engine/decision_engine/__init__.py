@@ -12,4 +12,4 @@ __all__ = ["configs", "core", "utils", "main"]
 from .configs.loader import COMPONENT_CONFIG, load_component_config
 from .main import run_server
 
-__all__ += ['COMPONENT_CONFIG', 'load_component_config', 'run_server']
+__all__ += ["COMPONENT_CONFIG", "load_component_config", "run_server"]

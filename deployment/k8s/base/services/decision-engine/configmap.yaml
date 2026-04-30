@@ -6,4 +6,3 @@ metadata:
 data:
   PYTHONPATH: /app
   LOG_LEVEL: INFO
-

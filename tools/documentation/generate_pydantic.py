@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Pydantic Schema Generator from YAML definitions
 Generates src/shared/pydantic/*.py from src/shared/schemas/*.yaml
 """
@@ -11,6 +11,7 @@ import yaml
 SCHEMAS_DIR = Path("src/shared/schemas")
 PYDANTIC_DIR = Path("src/shared/pydantic")
 PYDANTIC_DIR.mkdir(exist_ok=True)
+
 
 def yaml_to_pydantic(schema_path: Path) -> str:
     """Convert YAML schema to Pydantic models"""
@@ -46,6 +47,7 @@ from datetime import datetime
 {chr(10).join(models)}
 '''
 
+
 def _infer_type(prop_def: dict) -> str:
     """Infer Python type from JSON Schema"""
     type_map = {
@@ -63,6 +65,7 @@ def _infer_type(prop_def: dict) -> str:
 
     return type_map.get(prop_type, "Any")
 
+
 def generate_all():
     """Generate all schemas"""
     for yaml_file in SCHEMAS_DIR.glob("*.yaml"):
@@ -71,6 +74,7 @@ def generate_all():
         with open(py_file, "w") as f:
             f.write(py_content)
         print(f"✅ Generated {py_file}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -83,4 +87,3 @@ if __name__ == "__main__":
         print(py_content)
     else:
         generate_all()
-
