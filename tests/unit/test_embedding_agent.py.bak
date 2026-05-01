@@ -1,0 +1,54 @@
+"""
+Unit tests for embedding_agent module.
+"""
+
+import pytest
+from unittest.mock import patch, MagicMock
+
+
+def test_embedding_agent_import():
+    """Проверяем импорт модуля"""
+    try:
+        import src.embedding_agent.embedder
+        import src.embedding_agent.indexer
+        import src.embedding_agent.search
+        import src.embedding_agent.chroma_indexer
+        assert True
+    except ImportError as e:
+        pytest.fail(f"Import failed: {e}")
+
+
+def test_embedder_module_exists():
+    """Проверяем существование основного модуля embedder"""
+    try:
+        from src.embedding_agent import embedder
+        assert callable(getattr(embedder, "generate_embeddings", None))
+    except (ImportError, AttributeError):
+        pytest.skip("embedder module or generate_embeddings not found")
+
+
+def test_indexer_module_exists():
+    """Проверяем существование модуля indexer"""
+    try:
+        from src.embedding_agent import indexer
+        assert callable(getattr(indexer, "build_index", None))
+    except (ImportError, AttributeError):
+        pytest.skip("indexer module or build_index not found")
+
+
+def test_search_module_exists():
+    """Проверяем существование модуля search"""
+    try:
+        from src.embedding_agent import search
+        assert callable(getattr(search, "semantic_search", None))
+    except (ImportError, AttributeError):
+        pytest.skip("search module or semantic_search not found")
+
+
+def test_chroma_indexer_module_exists():
+    """Проверяем существование модуля chroma_indexer"""
+    try:
+        from src.embedding_agent import chroma_indexer
+        assert hasattr(chroma_indexer, "ChromaIndexer")
+    except (ImportError, AttributeError):
+        pytest.skip("chroma_indexer module or ChromaIndexer not found")

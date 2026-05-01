@@ -7,8 +7,16 @@ import logging
 import os
 from typing import Any, Dict, List, Optional
 
-from langchain.callbacks.base import BaseCallbackHandler
-from langchain.schema import AIMessage, HumanMessage, SystemMessage
+try:
+    from langchain.callbacks.base import BaseCallbackHandler
+except ImportError:
+    # Для совместимости с новыми версиями langchain
+    from langchain_core.callbacks import BaseCallbackHandler
+try:
+    from langchain.schema import AIMessage, HumanMessage, SystemMessage
+except ImportError:
+    # Для совместимости с новыми версиями langchain
+    from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -109,7 +117,8 @@ class YandexGPTClient:
         Чат с историей сообщений.
 
         Args:
-            messages: Список сообщений в формате [{"role": "user/system/assistant", "content": "..."}]
+            messages: Список сообщений в формате
+                [{"role": "user/system/assistant", "content": "..."}]
             **kwargs: Дополнительные параметры
 
         Returns:

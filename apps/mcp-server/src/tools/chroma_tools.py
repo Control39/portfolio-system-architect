@@ -5,7 +5,6 @@ ChromaDB Tools для MCP Server
 Инструменты для работы с векторной базой ChromaDB.
 """
 
-import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -17,8 +16,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
 
     chroma_path = project_root / "chroma_data"
 
-    @mcp_server.tool() # noqa: F821
-    def chroma_get_collections() -> List[str]:
+    @mcp_server.tool()  # noqa: F821
     def chroma_get_collections() -> List[str]:
         """
         Получение списка коллекций ChromaDB
@@ -28,6 +26,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
+
             client = chromadb.PersistentClient(path=str(chroma_path))
             collections = client.list_collections()
             return [col.name for col in collections]
@@ -37,7 +36,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [f"error: {str(e)}"]
 
-    @mcp.tool()
+    @mcp_server.tool()  # noqa: F821
     def chroma_query(
         collection_name: str, query_text: str, n_results: int = 5
     ) -> List[Dict[str, Any]]:
@@ -54,6 +53,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
+
             client = chromadb.PersistentClient(path=str(chroma_path))
             collection = client.get_collection(collection_name)
 
@@ -78,7 +78,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [{"error": f"query error: {str(e)}"}]
 
-    @mcp.tool()
+    @mcp_server.tool()  # noqa: F821
     def chroma_add_document(
         collection_name: str,
         document: str,
@@ -99,6 +99,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
+
             client = chromadb.PersistentClient(path=str(chroma_path))
 
             # Создаём коллекцию если не существует
@@ -121,7 +122,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
-    @mcp.tool()
+    @mcp_server.tool()  # noqa: F821
     def chroma_get_collection_info(collection_name: str) -> Dict[str, Any]:
         """
         Получение информации о коллекции

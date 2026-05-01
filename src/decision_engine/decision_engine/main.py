@@ -4,7 +4,24 @@ import uvicorn
 from dotenv import load_dotenv
 
 from .api.endpoints import app
-from .config.loader import COMPONENT_CONFIG
+
+try:
+    from .config.loader import COMPONENT_CONFIG
+except ImportError:
+    try:
+        from .configs.loader import COMPONENT_CONFIG
+    except ImportError:
+        # Fallback конфигурация
+        COMPONENT_CONFIG = {
+            "automation": {
+                "scripts": [
+                    {
+                        "name": "run_api",
+                        "command": "uvicorn api.endpoints:app --host 0.0.0.0 --port 8000 --reload",
+                    }
+                ]
+            }
+        }
 
 load_dotenv()
 
