@@ -60,7 +60,7 @@ def main():
 
     uvicorn.run(
         app, host="0.0.0.0", port=port, reload=False
-    )  # nosec: bound in container, not exposed externally
+    )  # nosec B104: bound in container, not exposed externally
 
 
 def main_dev():
