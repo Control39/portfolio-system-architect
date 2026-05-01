@@ -11,9 +11,11 @@ repos:
       - id: check-yaml
         args: ['--allow-multiple-documents']
       - id: check-json
+        exclude: '\.vscode/(settings|launch)\.json$'
       - id: check-added-large-files
         args: ['--maxkb=1024']
       - id: detect-private-key
+        exclude: '\.codeassistant/tools/python/secrets-scanner\.py'
       - id: check-merge-conflict
 
   # === Black (форматирование) ===

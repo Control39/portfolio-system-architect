@@ -10,14 +10,19 @@ project_root = os.path.dirname(
 )
 sys.path.insert(0, project_root)
 
+# ruff: noqa: E402
+
 from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
-from tools.repo_audit.checks import (  # noqa: E402
-    cicd,
-    code_quality,
-    documentation,
-    security,
-    structure,
-)
+from tools.repo_audit.checks.automation import AutomationCheck  # noqa: E402
+from tools.repo_audit.checks.cicd import CICDCheck  # noqa: E402
+from tools.repo_audit.checks.code_quality import CodeQualityCheck  # noqa: E402
+from tools.repo_audit.checks.dependencies import DependenciesCheck  # noqa: E402
+from tools.repo_audit.checks.documentation import DocumentationCheck, ReadmeQualityCheck  # noqa: E402
+from tools.repo_audit.checks.licensing import LicensingCheck  # noqa: E402
+from tools.repo_audit.checks.monitoring import MonitoringCheck  # noqa: E402
+from tools.repo_audit.checks.security import DependencySecurityCheck, SecurityCheck  # noqa: E402
+from tools.repo_audit.checks.structure import NamingConventionsCheck, StructureCheck  # noqa: E402
+from tools.repo_audit.checks.testing import TestCoverageCheck, TestingCheck  # noqa: E402
 
 
 def main():
@@ -27,14 +32,30 @@ def main():
     print(f"Testing audit on: {repo_path}")
 
     auditor = RepositoryAuditor(repo_path)
-    auditor.register_check(documentation.DocumentationCheck)
-    auditor.register_check(documentation.ReadmeQualityCheck)
-    auditor.register_check(security.SecurityCheck)
-    auditor.register_check(security.DependencySecurityCheck)
-    auditor.register_check(structure.StructureCheck)
-    auditor.register_check(structure.NamingConventionsCheck)
-    auditor.register_check(cicd.CICDCheck)
-    auditor.register_check(code_quality.CodeQualityCheck)
+    # Documentation (2)
+    auditor.register_check(DocumentationCheck)
+    auditor.register_check(ReadmeQualityCheck)
+    # Security (2)
+    auditor.register_check(SecurityCheck)
+    auditor.register_check(DependencySecurityCheck)
+    # Structure (2)
+    auditor.register_check(StructureCheck)
+    auditor.register_check(NamingConventionsCheck)
+    # CI/CD (1)
+    auditor.register_check(CICDCheck)
+    # Code Quality (1)
+    auditor.register_check(CodeQualityCheck)
+    # Testing (2)
+    auditor.register_check(TestingCheck)
+    auditor.register_check(TestCoverageCheck)
+    # Licensing (1)
+    auditor.register_check(LicensingCheck)
+    # Dependencies (1) - use DependenciesCheck, skip DependencySecurityCheck (already in security)
+    auditor.register_check(DependenciesCheck)
+    # Monitoring (1)
+    auditor.register_check(MonitoringCheck)
+    # Automation (1)
+    auditor.register_check(AutomationCheck)
 
     results = auditor.run_all()
     print(f"Total checks: {len(results)}")
