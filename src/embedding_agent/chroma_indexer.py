@@ -266,7 +266,7 @@ class ChromaDocumentIndexer:
             count = self.collection.count()
             return {
                 "total_documents": count,
-                "total_chunks": count,  # For compatibility with tests expecting total_chunks
+                "total_chunks": count,
                 "collection_name": self.collection_name,
                 "persist_directory": str(self.persist_directory),
                 "embedding_model": self.embedder.model_name,
