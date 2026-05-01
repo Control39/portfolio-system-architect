@@ -120,9 +120,7 @@ def get_dependency_count() -> int:
             with open(req_path, encoding="utf-8") as f:
                 lines = f.readlines()
                 # Считаем только непустые строки и не комментарии
-                count = sum(
-                    1 for line in lines if line.strip() and not line.startswith("#")
-                )
+                count = sum(1 for line in lines if line.strip() and not line.startswith("#"))
                 return count
 
         # Пробуем прочитать из pyproject.toml

@@ -28,9 +28,7 @@ def analyze_desktop():
                 {
                     "name": item.name,
                     "size_mb": round(size / (1024 * 1024), 2),
-                    "modified": datetime.fromtimestamp(item.stat().st_mtime).strftime(
-                        "%Y-%m-%d"
-                    ),
+                    "modified": datetime.fromtimestamp(item.stat().st_mtime).strftime("%Y-%m-%d"),
                     "extension": item.suffix.lower(),
                 }
             )
@@ -58,19 +56,13 @@ def analyze_desktop():
 
     report.append("ТОП-10 самых больших файлов:")
     for i, f in enumerate(files[:10], 1):
-        report.append(
-            f"{i:2}. {f['name'][:40]:40} {f['size_mb']:6.1f} MB ({f['modified']})"
-        )
+        report.append(f"{i:2}. {f['name'][:40]:40} {f['size_mb']:6.1f} MB ({f['modified']})")
 
     report.append("")
     report.append("РАСПРЕДЕЛЕНИЕ ПО РАСШИРЕНИЯМ:")
-    for ext, data in sorted(
-        extensions.items(), key=lambda x: x[1]["total_size"], reverse=True
-    ):
+    for ext, data in sorted(extensions.items(), key=lambda x: x[1]["total_size"], reverse=True):
         if data["count"] > 0:
-            report.append(
-                f"  {ext:10} {data['count']:3} файлов, {data['total_size']:6.1f} MB"
-            )
+            report.append(f"  {ext:10} {data['count']:3} файлов, {data['total_size']:6.1f} MB")
 
     report.append("")
     report.append("РЕКОМЕНДАЦИИ:")

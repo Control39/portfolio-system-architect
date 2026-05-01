@@ -95,9 +95,7 @@ def check_git(repo_root: str) -> Dict[str, Any]:
     develop_exists = "develop" in result.get("stdout", "")
     return {
         "passed": develop_exists,
-        "message": "Ветка develop существует"
-        if develop_exists
-        else "Ветка develop отсутствует",
+        "message": "Ветка develop существует" if develop_exists else "Ветка develop отсутствует",
     }
 
 
@@ -206,14 +204,10 @@ def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[st
 
 def main():
     parser = argparse.ArgumentParser(description="Аудит репозитория по чек-листу")
-    parser.add_argument(
-        "--checklist", default="repo_audit/checklist.yaml", help="Путь к чек-листу"
-    )
+    parser.add_argument("--checklist", default="repo_audit/checklist.yaml", help="Путь к чек-листу")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
     parser.add_argument("--level", help="Уровень (level1, level2, level3)")
-    parser.add_argument(
-        "--output", choices=["text", "json"], default="text", help="Формат вывода"
-    )
+    parser.add_argument("--output", choices=["text", "json"], default="text", help="Формат вывода")
     args = parser.parse_args()
 
     results = run_audit(args.checklist, args.repo, args.level)
@@ -228,9 +222,7 @@ def main():
             status = (
                 "✅ ПРОЙДЕН"
                 if r["passed"]
-                else "❌ НЕ ПРОЙДЕН"
-                if r["passed"] is False
-                else "⚠️  РУЧНАЯ"
+                else "❌ НЕ ПРОЙДЕН" if r["passed"] is False else "⚠️  РУЧНАЯ"
             )
             print(f"{r['level']}.{r['check']}: {r['name']} - {status}")
             if "details" in r and r["details"].get("message"):

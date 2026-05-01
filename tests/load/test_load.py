@@ -46,9 +46,7 @@ class PortfolioSystemUser(HttpUser):
                 "/infra-orchestrator/analyze",
                 headers=self.headers,
                 params={
-                    "project_type": random.choice(
-                        ["microservice", "monolith", "serverless"]
-                    ),
+                    "project_type": random.choice(["microservice", "monolith", "serverless"]),
                 },
             )
             if response.status_code != 200:
@@ -100,9 +98,7 @@ class PortfolioSystemUser(HttpUser):
         """
         try:
             # Generate random project name
-            project_name = "project_" + "".join(
-                random.choices(string.ascii_lowercase, k=8)
-            )
+            project_name = "project_" + "".join(random.choices(string.ascii_lowercase, k=8))
 
             response = self.client.post(
                 "/portfolio-organizer/projects",
@@ -110,15 +106,11 @@ class PortfolioSystemUser(HttpUser):
                 json={
                     "name": project_name,
                     "description": f"Automated test project {project_name}",
-                    "tags": random.sample(
-                        ["ai", "cloud", "security", "devops", "ml", "data"], k=3
-                    ),
+                    "tags": random.sample(["ai", "cloud", "security", "devops", "ml", "data"], k=3),
                 },
             )
             if response.status_code != 201:
-                print(
-                    f"POST /portfolio-organizer/projects failed: {response.status_code}"
-                )
+                print(f"POST /portfolio-organizer/projects failed: {response.status_code}")
         except Exception as e:
             print(f"POST /portfolio-organizer/projects exception: {e}")
 

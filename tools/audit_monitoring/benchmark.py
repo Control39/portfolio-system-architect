@@ -51,9 +51,7 @@ def run_benchmark():
             latency = 0
         else:
             latency = measure_latency(endpoint + "/")
-            status = (
-                "🟢 OK" if latency < 200 else "🟡 SLOW" if latency < 500 else "🔴 DOWN"
-            )
+            status = "🟢 OK" if latency < 200 else "🟡 SLOW" if latency < 500 else "🔴 DOWN"
 
         results[name] = {"status": status, "latency_ms": round(latency, 2)}
         print(f"{name:15} {status} {latency:.2f}ms")
@@ -66,11 +64,7 @@ def run_benchmark():
     report_path.write_text(json.dumps(report, indent=2))
 
     print(f"\n📊 Report: {report_path}")
-    print(
-        "✅ PASSED (latencies OK)"
-        if passed
-        else "⚠️  Some services DOWN - start docker compose"
-    )
+    print("✅ PASSED (latencies OK)" if passed else "⚠️  Some services DOWN - start docker compose")
     return passed
 
 

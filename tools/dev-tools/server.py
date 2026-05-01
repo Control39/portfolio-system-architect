@@ -101,9 +101,7 @@ async def chat_completions(request: ChatRequest):
                 },
                 json={
                     "model": config["gigachat"]["model"],
-                    "messages": [
-                        {"role": m.role, "content": m.content} for m in request.messages
-                    ],
+                    "messages": [{"role": m.role, "content": m.content} for m in request.messages],
                     "temperature": 0.7,
                 },
             )

@@ -146,9 +146,7 @@ class Phase1Tester:
         """Тест скрипта аудита"""
         print("🔍 Тест скрипта аудита...")
 
-        audit_script = (
-            self.project_root / ".codeassistant/skills/caa-audit/caa-audit-script.py"
-        )
+        audit_script = self.project_root / ".codeassistant/skills/caa-audit/caa-audit-script.py"
 
         if audit_script.exists():
             # Тест 1: Проверка синтаксиса Python
@@ -338,9 +336,7 @@ class Phase1Tester:
         print("⚡ Тест производительности...")
 
         # Тест времени выполнения быстрого аудита
-        audit_script = (
-            self.project_root / ".codeassistant/skills/caa-audit/caa-audit-script.py"
-        )
+        audit_script = self.project_root / ".codeassistant/skills/caa-audit/caa-audit-script.py"
 
         if audit_script.exists():
             import time
@@ -455,9 +451,7 @@ class Phase1Tester:
 
         self.test_results["recommendations"] = recommendations
 
-    def generate_report(
-        self, output_format: str = "markdown", output_path: str = None
-    ) -> str:
+    def generate_report(self, output_format: str = "markdown", output_path: str = None) -> str:
         """Генерация отчёта о тестировании"""
 
         if output_format == "markdown":
@@ -502,9 +496,7 @@ class Phase1Tester:
 ### ✅ Успешные тесты ({summary['passed_tests']})
 """
 
-        passed_tests = [
-            t for t in self.test_results["tests"] if t["status"] == "passed"
-        ]
+        passed_tests = [t for t in self.test_results["tests"] if t["status"] == "passed"]
         for test in passed_tests[:10]:  # Показываем первые 10 успешных тестов
             report += f"- **{test['name']}**: {test['message']}\n"
             if test.get("details"):
@@ -512,9 +504,7 @@ class Phase1Tester:
 
         if summary["failed_tests"] > 0:
             report += f"\n### ❌ Проваленные тесты ({summary['failed_tests']})\n"
-            failed_tests = [
-                t for t in self.test_results["tests"] if t["status"] == "failed"
-            ]
+            failed_tests = [t for t in self.test_results["tests"] if t["status"] == "failed"]
             for test in failed_tests:
                 report += f"- **{test['name']}**: {test['message']}\n"
                 if test.get("details"):
@@ -523,12 +513,8 @@ class Phase1Tester:
                     report += f"  💡 **Рекомендация**: {test['recommendation']}\n"
 
         if summary["warning_tests"] > 0:
-            report += (
-                f"\n### ⚠️  Тесты с предупреждениями ({summary['warning_tests']})\n"
-            )
-            warning_tests = [
-                t for t in self.test_results["tests"] if t["status"] == "warning"
-            ]
+            report += f"\n### ⚠️  Тесты с предупреждениями ({summary['warning_tests']})\n"
+            warning_tests = [t for t in self.test_results["tests"] if t["status"] == "warning"]
             for test in warning_tests:
                 report += f"- **{test['name']}**: {test['message']}\n"
                 if test.get("details"):
@@ -540,14 +526,10 @@ class Phase1Tester:
             report += "\n## 🎯 Рекомендации по улучшению\n"
 
             high_priority = [
-                r
-                for r in self.test_results["recommendations"]
-                if r["priority"] == "high"
+                r for r in self.test_results["recommendations"] if r["priority"] == "high"
             ]
             medium_priority = [
-                r
-                for r in self.test_results["recommendations"]
-                if r["priority"] == "medium"
+                r for r in self.test_results["recommendations"] if r["priority"] == "medium"
             ]
 
             if high_priority:
@@ -592,9 +574,7 @@ class Phase1Tester:
 
 def main():
     parser = argparse.ArgumentParser(description="Тестер реализации Фазы 1 PMR Agent")
-    parser.add_argument(
-        "--project-root", default=".", help="Корневая директория проекта"
-    )
+    parser.add_argument("--project-root", default=".", help="Корневая директория проекта")
     parser.add_argument("--output", help="Путь для сохранения отчёта")
     parser.add_argument(
         "--format",

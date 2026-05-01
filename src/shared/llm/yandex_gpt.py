@@ -28,21 +28,13 @@ class YandexGPTConfig(BaseSettings):
         description="Базовый URL API Yandex Cloud AI",
     )
     model: str = Field(
-        default=os.getenv(
-            "YANDEX_GPT_MODEL", "gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest"
-        ),
+        default=os.getenv("YANDEX_GPT_MODEL", "gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest"),
         description="Идентификатор модели Yandex GPT",
     )
-    temperature: float = Field(
-        default=0.7, description="Температура для генерации (0.0-1.0)"
-    )
-    max_tokens: int = Field(
-        default=2000, description="Максимальное количество токенов в ответе"
-    )
+    temperature: float = Field(default=0.7, description="Температура для генерации (0.0-1.0)")
+    max_tokens: int = Field(default=2000, description="Максимальное количество токенов в ответе")
     timeout: int = Field(default=30, description="Таймаут запроса в секундах")
-    max_retries: int = Field(
-        default=3, description="Максимальное количество повторных попыток"
-    )
+    max_retries: int = Field(default=3, description="Максимальное количество повторных попыток")
 
     class Config:
         env_file = ".env"

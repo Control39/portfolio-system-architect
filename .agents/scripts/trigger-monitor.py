@@ -83,12 +83,8 @@ class TriggerMetricsCollector:
         cursor.execute(
             "CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)"
         )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)")
         cursor.execute(
             "CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)"
         )
@@ -324,9 +320,7 @@ class TriggerMetricsCollector:
             "period_hours": hours,
             "event_statistics": event_stats,
             "metrics_summary": metrics_summary,
-            "recommendations": self._generate_recommendations(
-                event_stats, metrics_summary
-            ),
+            "recommendations": self._generate_recommendations(event_stats, metrics_summary),
         }
 
         # Сохраняем отчет
@@ -346,9 +340,7 @@ class TriggerMetricsCollector:
         logger.info(f"Сгенерирован отчет: {report_file}")
         return report
 
-    def _generate_recommendations(
-        self, event_stats: Dict, metrics_summary: Dict
-    ) -> List[str]:
+    def _generate_recommendations(self, event_stats: Dict, metrics_summary: Dict) -> List[str]:
         """Генерация рекомендаций на основе статистики"""
         recommendations = []
 
@@ -387,9 +379,7 @@ class TriggerMetricsCollector:
             )
 
         if not recommendations:
-            recommendations.append(
-                "Система работает стабильно. Рекомендации не требуются."
-            )
+            recommendations.append("Система работает стабильно. Рекомендации не требуются.")
 
         return recommendations
 
@@ -735,8 +725,7 @@ class TriggerDashboard:
         dashboard_dir.mkdir(parents=True, exist_ok=True)
 
         dashboard_file = (
-            dashboard_dir
-            / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+            dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
         )
         with open(dashboard_file, "w", encoding="utf-8") as f:
             f.write(html)

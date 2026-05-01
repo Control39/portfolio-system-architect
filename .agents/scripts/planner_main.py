@@ -41,9 +41,7 @@ class TaskPlanner:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def load_tasks(
-        self, tasks_file: str = ".agents/data/tasks.json"
-    ) -> List[Dict[str, Any]]:
+    def load_tasks(self, tasks_file: str = ".agents/data/tasks.json") -> List[Dict[str, Any]]:
         """Загрузка задач из файла"""
         try:
             tasks_path = Path(tasks_file)
@@ -174,9 +172,7 @@ class TaskPlanner:
 
         logger.info("Задачи приоритизированы. Топ-3:")
         for i, task in enumerate(self.tasks[:3]):
-            logger.info(
-                f"  {i+1}. {task['title']} (приоритет: {task['final_priority']:.2f})"
-            )
+            logger.info(f"  {i+1}. {task['title']} (приоритет: {task['final_priority']:.2f})")
 
         return self.tasks
 
@@ -190,9 +186,7 @@ class TaskPlanner:
 
         # Настройки из конфигурации
         max_concurrent = self.config.get("planning", {}).get("max_concurrent_tasks", 5)
-        planning_horizon = self.config.get("planning", {}).get(
-            "planning_horizon", 24
-        )  # часы
+        planning_horizon = self.config.get("planning", {}).get("planning_horizon", 24)  # часы
 
         # Группировка задач по категориям
         tasks_by_category = {}
@@ -231,9 +225,7 @@ class TaskPlanner:
 
             # Поиск свободного слота
             slot_found = False
-            for hour_offset in range(
-                0, planning_horizon * 60, 30
-            ):  # Проверка каждые 30 минут
+            for hour_offset in range(0, planning_horizon * 60, 30):  # Проверка каждые 30 минут
                 check_time = current_time + timedelta(minutes=hour_offset)
                 time_key = check_time.strftime("%Y-%m-%d %H:%M")
 
@@ -294,9 +286,7 @@ class TaskPlanner:
                 for dep_id in deps:
                     dep_exists = any(t.get("id") == dep_id for t in self.tasks)
                     if not dep_exists:
-                        logger.warning(
-                            f"Зависимость {dep_id} для задачи {task_id} не найдена"
-                        )
+                        logger.warning(f"Зависимость {dep_id} для задачи {task_id} не найдена")
 
         # Построение графа зависимостей
         dependency_graph = self._build_dependency_graph(dependencies)
@@ -313,9 +303,7 @@ class TaskPlanner:
             "cycles": cycles,
         }
 
-    def _build_dependency_graph(
-        self, dependencies: Dict[str, List[str]]
-    ) -> Dict[str, List[str]]:
+    def _build_dependency_graph(self, dependencies: Dict[str, List[str]]) -> Dict[str, List[str]]:
         """Построение графа зависимостей"""
         graph = {}
 
@@ -381,9 +369,7 @@ class TaskPlanner:
         for category, group_data in groups.items():
             tasks = group_data["tasks"]
             if tasks:
-                avg_priority = sum(t.get("final_priority", 0) for t in tasks) / len(
-                    tasks
-                )
+                avg_priority = sum(t.get("final_priority", 0) for t in tasks) / len(tasks)
                 group_data["avg_priority"] = avg_priority
 
         # Сортировка групп по среднему приоритету (по убыванию)
@@ -423,13 +409,9 @@ class TaskPlanner:
             "total_tasks": len(self.tasks),
             "tasks_prioritized": len([t for t in self.tasks if "final_priority" in t]),
             "schedule_generated": bool(self.schedule),
-            "schedule_tasks": self.schedule.get("tasks_scheduled", 0)
-            if self.schedule
-            else 0,
+            "schedule_tasks": self.schedule.get("tasks_scheduled", 0) if self.schedule else 0,
             "total_duration_hours": (
-                self.schedule.get("total_duration_minutes", 0) / 60
-                if self.schedule
-                else 0
+                self.schedule.get("total_duration_minutes", 0) / 60 if self.schedule else 0
             ),
             "report_files": {
                 "tasks": str(tasks_file),
@@ -480,18 +462,14 @@ def main():
 
         if schedule:
             print(f"Запланировано: {schedule.get('tasks_scheduled', 0)}")
-            print(
-                f"Общая длительность: {schedule.get('total_duration_minutes', 0) / 60:.1f} часов"
-            )
+            print(f"Общая длительность: {schedule.get('total_duration_minutes', 0) / 60:.1f} часов")
 
         if dependencies.get("has_cycles"):
             print("⚠️  Обнаружены циклические зависимости!")
 
         print("\nТоп-5 задач по приоритету:")
         for i, task in enumerate(prioritized[:5]):
-            print(
-                f"  {i+1}. {task['title']} (приоритет: {task.get('final_priority', 0):.2f})"
-            )
+            print(f"  {i+1}. {task['title']} (приоритет: {task.get('final_priority', 0):.2f})")
 
         print("=" * 60)
 
@@ -505,11 +483,7 @@ def main():
                     "status": "success",
                     "timestamp": time.time(),
                     "tasks_processed": len(tasks),
-                    "plan_id": (
-                        timestamp
-                        if "timestamp" in locals()
-                        else datetime.now().strftime("%Y%m%d_%H%M%S")
-                    ),
+                    "plan_id": datetime.now().strftime("%Y%m%d_%H%M%S"),
                 },
                 f,
                 indent=2,

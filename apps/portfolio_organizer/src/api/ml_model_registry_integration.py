@@ -22,18 +22,14 @@ def list_models():
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        return jsonify(
-            {"error": f"Failed to fetch models from ML Model Registry: {str(e)}"}
-        ), 500
+        return jsonify({"error": f"Failed to fetch models from ML Model Registry: {str(e)}"}), 500
 
 
 @bp.route("/models/<model_id>", methods=["GET"])
 def get_model(model_id):
     """Получение информации о конкретной модели"""
     try:
-        response = requests.get(
-            f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}", timeout=60
-        )
+        response = requests.get(f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}", timeout=60)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:

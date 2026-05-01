@@ -30,13 +30,9 @@ class DependenciesCheck(BaseCheck):
 
         # 2. requirements-dev.txt
         if self.check_file_exists("requirements-dev.txt"):
-            self._add_result(
-                "PASS", "requirements-dev.txt exists", "requirements-dev.txt"
-            )
+            self._add_result("PASS", "requirements-dev.txt exists", "requirements-dev.txt")
         else:
-            self._add_result(
-                "WARNING", "requirements-dev.txt missing", "requirements-dev.txt"
-            )
+            self._add_result("WARNING", "requirements-dev.txt missing", "requirements-dev.txt")
 
         # 3. pyproject.toml (modern Python)
         if self.check_file_exists("pyproject.toml"):
@@ -62,30 +58,20 @@ class DependenciesCheck(BaseCheck):
         elif self.check_file_exists("runtime.txt"):
             self._add_result("PASS", "runtime.txt exists", "runtime.txt")
         else:
-            self._add_result(
-                "INFO", "Python version file missing (optional)", ".python-version"
-            )
+            self._add_result("INFO", "Python version file missing (optional)", ".python-version")
 
         # 7. Dependabot configuration
         dependabot_dir = self.repo_path / ".github/dependabot.yml"
         if dependabot_dir.exists():
-            self._add_result(
-                "PASS", "Dependabot config exists", ".github/dependabot.yml"
-            )
+            self._add_result("PASS", "Dependabot config exists", ".github/dependabot.yml")
         else:
-            self._add_result(
-                "WARNING", "Dependabot config missing", ".github/dependabot.yml"
-            )
+            self._add_result("WARNING", "Dependabot config missing", ".github/dependabot.yml")
 
         # 8. Renovate configuration
-        if self.check_file_exists("renovate.json") or self.check_file_exists(
-            ".renovaterc"
-        ):
+        if self.check_file_exists("renovate.json") or self.check_file_exists(".renovaterc"):
             self._add_result("PASS", "Renovate config exists", "renovate.json")
         else:
-            self._add_result(
-                "INFO", "Renovate config missing (optional)", "renovate.json"
-            )
+            self._add_result("INFO", "Renovate config missing (optional)", "renovate.json")
 
         # 9. pip-audit in dev requirements (already checked in security, but repeat)
         if self.check_file_exists("requirements-dev.txt"):
@@ -93,9 +79,7 @@ class DependenciesCheck(BaseCheck):
                 encoding="utf-8", errors="ignore"
             )
             if "pip-audit" in content.lower():
-                self._add_result(
-                    "PASS", "pip-audit in dev requirements", "requirements-dev.txt"
-                )
+                self._add_result("PASS", "pip-audit in dev requirements", "requirements-dev.txt")
             else:
                 self._add_result(
                     "WARNING",
@@ -107,9 +91,7 @@ class DependenciesCheck(BaseCheck):
         if self.check_file_content(".gitignore", ".venv") or self.check_file_content(
             ".gitignore", "venv"
         ):
-            self._add_result(
-                "PASS", ".gitignore excludes virtual environments", ".gitignore"
-            )
+            self._add_result("PASS", ".gitignore excludes virtual environments", ".gitignore")
         else:
             self._add_result(
                 "WARNING",

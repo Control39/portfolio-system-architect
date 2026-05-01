@@ -55,9 +55,7 @@ def get_git_status_tool() -> Dict[str, Any]:
             encoding="utf-8",
         )
 
-        status_lines = (
-            status_result.stdout.strip().split("\n") if status_result.stdout else []
-        )
+        status_lines = status_result.stdout.strip().split("\n") if status_result.stdout else []
 
         # Анализируем изменения
         changes = {
@@ -119,9 +117,7 @@ def get_git_status_tool() -> Dict[str, Any]:
         )
 
         commit_count = (
-            int(commit_count_result.stdout.strip())
-            if commit_count_result.returncode == 0
-            else 0
+            int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
         )
 
         return {
@@ -244,9 +240,7 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
         detected = []
 
         for commit in commits:
-            commit_text = (
-                f"{commit.get('subject', '')} {commit.get('body', '')}".lower()
-            )
+            commit_text = f"{commit.get('subject', '')} {commit.get('body', '')}".lower()
 
             for marker in all_markers:
                 # Проверяем по ключевым словам
@@ -270,9 +264,7 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
                             "marker_text": marker["marker"],
                             "marker_id": marker["id"],
                             "matched_keywords": matches,
-                            "confidence": min(
-                                len(matches) * 20, 100
-                            ),  # Простая оценка уверенности
+                            "confidence": min(len(matches) * 20, 100),  # Простая оценка уверенности
                         }
                     )
 
@@ -293,9 +285,7 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
             "commits_analyzed": len(commits),
             "markers_available": len(all_markers),
             "detected_markers": detected[:50],  # Ограничиваем вывод
-            "domains_summary": {
-                domain: len(markers) for domain, markers in domains.items()
-            },
+            "domains_summary": {domain: len(markers) for domain, markers in domains.items()},
             "total_detected": len(detected),
         }
 
@@ -403,9 +393,7 @@ def get_git_history_tool(days: int = 30) -> Dict[str, Any]:
                 file_changes[file] += 1
 
         # Сортируем файлы по изменениям
-        sorted_files = sorted(file_changes.items(), key=lambda x: x[1], reverse=True)[
-            :20
-        ]
+        sorted_files = sorted(file_changes.items(), key=lambda x: x[1], reverse=True)[:20]
 
         return {
             "success": True,
@@ -415,9 +403,7 @@ def get_git_history_tool(days: int = 30) -> Dict[str, Any]:
             "commits": commits[:100],  # Ограничиваем вывод
             "activity_summary": {
                 "authors": dict(sorted_authors[:10]),
-                "most_active_author": sorted_authors[0][0]
-                if sorted_authors
-                else "none",
+                "most_active_author": sorted_authors[0][0] if sorted_authors else "none",
                 "most_changed_files": dict(sorted_files),
                 "commits_per_day": len(commits) / days if days > 0 else 0,
             },

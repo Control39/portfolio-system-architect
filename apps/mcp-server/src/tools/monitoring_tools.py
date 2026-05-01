@@ -41,9 +41,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                     targets.append(
                         {
                             "job": target.get("labels", {}).get("job", "unknown"),
-                            "instance": target.get("labels", {}).get(
-                                "instance", "unknown"
-                            ),
+                            "instance": target.get("labels", {}).get("instance", "unknown"),
                             "health": target.get("health", "unknown"),
                             "last_scrape": target.get("lastScrape", ""),
                             "last_error": target.get("lastError", ""),

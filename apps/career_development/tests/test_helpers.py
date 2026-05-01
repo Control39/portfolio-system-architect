@@ -26,12 +26,8 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(calculate_skill_progress(5, 10), 50.0)
         self.assertEqual(calculate_skill_progress(0, 10), 0.0)
         self.assertEqual(calculate_skill_progress(10, 10), 100.0)
-        self.assertEqual(
-            calculate_skill_progress(15, 10), 100.0
-        )  # Не должно превышать 100%
-        self.assertEqual(
-            calculate_skill_progress(-5, 10), 0.0
-        )  # Не должно быть меньше 0%
+        self.assertEqual(calculate_skill_progress(15, 10), 100.0)  # Не должно превышать 100%
+        self.assertEqual(calculate_skill_progress(-5, 10), 0.0)  # Не должно быть меньше 0%
 
     def test_get_competency_level_name(self):
         """Тест получения названия уровня компетенции"""
@@ -55,9 +51,7 @@ class TestHelpers(unittest.TestCase):
     def test_json_file_operations(self):
         """Тест операций с JSON файлами"""
         # Создаем временный файл для теста
-        with tempfile.NamedTemporaryFile(
-            mode="w", delete=False, suffix=".json"
-        ) as temp_file:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as temp_file:
             temp_filename = temp_file.name
             test_data = {"test": "data", "number": 42}
             json.dump(test_data, temp_file)

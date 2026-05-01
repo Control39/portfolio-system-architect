@@ -46,9 +46,7 @@ def test_integration():
             print(
                 f"   Найдено соответствий: {result['career_integration']['matched_markers_count']}"
             )
-            print(
-                f"   Проставлено отметок: {result['career_integration']['marked_as_completed']}"
-            )
+            print(f"   Проставлено отметок: {result['career_integration']['marked_as_completed']}")
 
             if result["career_integration"]["matched_markers_count"] > 0:
                 print("   ID найденных маркеров:")
@@ -74,9 +72,7 @@ def test_integration():
                 )
 
         else:
-            print(
-                "❌ Интеграция не сработала - отсутствует career_integration в результате"
-            )
+            print("❌ Интеграция не сработала - отсутствует career_integration в результате")
             return False
 
         print("\n")
@@ -106,9 +102,7 @@ def test_integration():
 
         # Тест 3: Проверка через process_request_sync
         print("3. Проверка через основной интерфейс агента...")
-        agent_result = process_request_sync(
-            "Проанализируй требования для Python разработчика"
-        )
+        agent_result = process_request_sync("Проанализируй требования для Python разработчика")
 
         if agent_result["success"]:
             print("✅ Агент успешно обработал запрос")

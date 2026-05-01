@@ -118,9 +118,7 @@ def copy_file(src_info, target_dir, dry_run=False, backup=True):
         return False
 
 
-def sync_component(
-    source_dir, target_dir, component_name, dry_run=False, auto_confirm=False
-):
+def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_confirm=False):
     """Синхронизирует один компонент (поддиректорию) из source в target."""
     print(f"\n🔍 Синхронизация компонента: {component_name}")
     print(f"   Источник: {source_dir}")
@@ -219,25 +217,15 @@ def sync_component(
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Синхронизация проектов по хэшам файлов"
-    )
+    parser = argparse.ArgumentParser(description="Синхронизация проектов по хэшам файлов")
     parser.add_argument("source", help="Исходная директория (my-ecosystem-FINAL)")
-    parser.add_argument(
-        "target", help="Целевая директория (portfolio-system-architect)"
-    )
-    parser.add_argument(
-        "--component", help="Имя компонента (подпапка) для синхронизации"
-    )
+    parser.add_argument("target", help="Целевая директория (portfolio-system-architect)")
+    parser.add_argument("--component", help="Имя компонента (подпапка) для синхронизации")
     parser.add_argument(
         "--dry-run", action="store_true", help="Показать план без реальных действий"
     )
-    parser.add_argument(
-        "--all", action="store_true", help="Синхронизировать все компоненты"
-    )
-    parser.add_argument(
-        "--yes", action="store_true", help="Автоматически подтверждать действия"
-    )
+    parser.add_argument("--all", action="store_true", help="Синхронизировать все компоненты")
+    parser.add_argument("--yes", action="store_true", help="Автоматически подтверждать действия")
 
     args = parser.parse_args()
 

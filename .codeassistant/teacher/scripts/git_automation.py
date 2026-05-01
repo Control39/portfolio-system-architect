@@ -35,14 +35,8 @@ class GitAutomation:
         """Получить статус репозитория"""
         status = self.run_git("status --porcelain")
         branch = self.run_git("branch --show-current")
-        ahead = (
-            self.run_git("rev-list --count HEAD..origin/" + branch) if branch else "0"
-        )
-        behind = (
-            self.run_git("rev-list --count origin/" + branch + "..HEAD")
-            if branch
-            else "0"
-        )
+        ahead = self.run_git("rev-list --count HEAD..origin/" + branch) if branch else "0"
+        behind = self.run_git("rev-list --count origin/" + branch + "..HEAD") if branch else "0"
 
         return {
             "branch": branch,

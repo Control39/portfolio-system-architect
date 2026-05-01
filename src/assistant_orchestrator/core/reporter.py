@@ -38,9 +38,7 @@ class Reporter:
         """Save as JSON file."""
         try:
             with open(path, "w", encoding="utf-8") as f:
-                json.dump(
-                    self.result.dict(), f, indent=2, ensure_ascii=False, default=str
-                )
+                json.dump(self.result.dict(), f, indent=2, ensure_ascii=False, default=str)
             logger.info(f"JSON report saved to {path}")
         except Exception as e:
             logger.error(f"Failed to save JSON report: {e}")
@@ -116,9 +114,7 @@ class Reporter:
 
         # Score interpretation
         if maturity_score >= 4.0:
-            lines.append(
-                "✅ Высокий уровень зрелости — архитектура соответствует лучшим практикам"
-            )
+            lines.append("✅ Высокий уровень зрелости — архитектура соответствует лучшим практикам")
         elif maturity_score >= 3.0:
             lines.append("⚠️  Средний уровень зрелости — есть потенциал для улучшений")
         elif maturity_score >= 2.0:
@@ -137,9 +133,7 @@ class Reporter:
             for i, rec in enumerate(recommendations[:5], 1):
                 lines.append(f"  {i}. {rec['title']}")
                 lines.append(f"     📝 {rec['description']}")
-                lines.append(
-                    f"     🎯 Потенциальный рост: +{rec['potential_gain']} баллов"
-                )
+                lines.append(f"     🎯 Потенциальный рост: +{rec['potential_gain']} баллов")
                 lines.append(f"     🛠️  Действие: {rec['action']}")
                 lines.append("")
 

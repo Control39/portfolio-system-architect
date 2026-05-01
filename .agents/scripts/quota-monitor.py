@@ -121,8 +121,7 @@ class QuotaMonitor:
                     alerts.append(alert)
 
                     logger.warning(
-                        f"Превышен порог для {quota_name}: {percentage}% "
-                        f"(порог: {threshold}%)"
+                        f"Превышен порог для {quota_name}: {percentage}% " f"(порог: {threshold}%)"
                     )
 
         return alerts
@@ -212,9 +211,7 @@ class QuotaMonitor:
             "summary": {
                 "total_quotas": len(quota_data),
                 "alerts_count": len(alerts),
-                "critical_alerts": len(
-                    [a for a in alerts if a["severity"] == "critical"]
-                ),
+                "critical_alerts": len([a for a in alerts if a["severity"] == "critical"]),
                 "recommendations_count": len(recommendations),
             },
         }
@@ -287,9 +284,7 @@ def main():
         default=3600,
         help="Интервал мониторинга в секундах (по умолчанию: 3600)",
     )
-    parser.add_argument(
-        "--continuous", "-c", action="store_true", help="Непрерывный мониторинг"
-    )
+    parser.add_argument("--continuous", "-c", action="store_true", help="Непрерывный мониторинг")
     parser.add_argument(
         "--threshold",
         "-t",
@@ -304,9 +299,7 @@ def main():
     monitor.thresholds = {k: args.threshold for k in monitor.thresholds}
 
     if args.continuous:
-        logger.info(
-            f"Запуск непрерывного мониторинга с интервалом {args.interval} секунд"
-        )
+        logger.info(f"Запуск непрерывного мониторинга с интервалом {args.interval} секунд")
         try:
             while True:
                 monitor.run_monitoring(args.output)

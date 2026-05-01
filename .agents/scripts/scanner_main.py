@@ -425,9 +425,7 @@ class ProjectScanner:
         deps = []
         if (path / "Dockerfile").exists():
             deps.append("Найден Dockerfile")
-        if (path / "docker-compose.yml").exists() or (
-            path / "docker-compose.yaml"
-        ).exists():
+        if (path / "docker-compose.yml").exists() or (path / "docker-compose.yaml").exists():
             deps.append("Найден docker-compose файл")
         return deps
 
@@ -565,9 +563,7 @@ class ProjectScanner:
                                 f"Опасные права в {dockerfile.relative_to(path)}: 777"
                             )
                         if "USER root" in content and "USER nonroot" not in content:
-                            permissions.append(
-                                f"Запуск от root в {dockerfile.relative_to(path)}"
-                            )
+                            permissions.append(f"Запуск от root в {dockerfile.relative_to(path)}")
                 except:
                     continue
 
@@ -594,9 +590,7 @@ class ProjectScanner:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read().lower()
                         if any(keyword in content for keyword in encryption_keywords):
-                            encryption.append(
-                                f"Шифрование в {file_path.relative_to(path)}"
-                            )
+                            encryption.append(f"Шифрование в {file_path.relative_to(path)}")
                 except:
                     continue
 
@@ -615,9 +609,7 @@ class ProjectScanner:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read().lower()
                         if any(keyword in content for keyword in auth_keywords):
-                            auth.append(
-                                f"Аутентификация в {file_path.relative_to(path)}"
-                            )
+                            auth.append(f"Аутентификация в {file_path.relative_to(path)}")
                 except:
                     continue
 
@@ -637,9 +629,7 @@ class ProjectScanner:
             "test_files_count": len(list(path.rglob("test_*.py")))
             + len(list(path.rglob("*_test.py"))),
             "coverage_estimated": "medium",
-            "test_framework": "pytest"
-            if (path / "pytest.ini").exists()
-            else "unittest",
+            "test_framework": "pytest" if (path / "pytest.ini").exists() else "unittest",
         }
 
     def _check_documentation(self, path: Path) -> Dict[str, Any]:
@@ -701,9 +691,7 @@ class ProjectScanner:
                         content = f.read()
                         for pattern, description in bottleneck_patterns:
                             if pattern in content:
-                                bottlenecks.append(
-                                    f"{description} в {file_path.relative_to(path)}"
-                                )
+                                bottlenecks.append(f"{description} в {file_path.relative_to(path)}")
                 except:
                     continue
 
@@ -754,9 +742,7 @@ class ProjectScanner:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read().lower()
                         if any(keyword in content for keyword in cache_keywords):
-                            caching.append(
-                                f"Кэширование в {file_path.relative_to(path)}"
-                            )
+                            caching.append(f"Кэширование в {file_path.relative_to(path)}")
                 except:
                     continue
 
@@ -838,9 +824,7 @@ def main():
                     "status": "success",
                     "timestamp": time.time(),
                     "scan_id": (
-                        timestamp
-                        if "timestamp" in locals()
-                        else time.strftime("%Y%m%d_%H%M%S")
+                        timestamp if "timestamp" in locals() else time.strftime("%Y%m%d_%H%M%S")
                     ),
                 },
                 f,

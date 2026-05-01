@@ -95,10 +95,7 @@ class PortfolioMCP:
                 markers_path = project_root / "apps" / "it-compass"
                 if markers_path.exists():
                     for item in markers_path.rglob("*.json"):
-                        if (
-                            "marker" in item.name.lower()
-                            or "system" in item.name.lower()
-                        ):
+                        if "marker" in item.name.lower() or "system" in item.name.lower():
                             domains.append(str(item.relative_to(project_root)))
 
                 if not domains:
@@ -107,9 +104,7 @@ class PortfolioMCP:
                 return [
                     TextContent(
                         type="text",
-                        text=json.dumps(
-                            {"domains": domains}, indent=2, ensure_ascii=False
-                        ),
+                        text=json.dumps({"domains": domains}, indent=2, ensure_ascii=False),
                     )
                 ]
             except Exception as e:
@@ -119,9 +114,7 @@ class PortfolioMCP:
         async def get_professional_journey() -> list[TextContent]:
             """Получить профессиональный путь автора"""
             try:
-                readme_path = (
-                    project_root / "docs" / "professional-journey" / "README.md"
-                )
+                readme_path = project_root / "docs" / "professional-journey" / "README.md"
                 content = readme_path.read_text(encoding="utf-8")
                 return [TextContent(type="text", text=content)]
             except Exception as e:
@@ -133,11 +126,7 @@ class PortfolioMCP:
             try:
                 target_path = project_root / directory
                 if not target_path.exists():
-                    return [
-                        TextContent(
-                            type="text", text=f"Директория не существует: {directory}"
-                        )
-                    ]
+                    return [TextContent(type="text", text=f"Директория не существует: {directory}")]
 
                 files = []
                 for item in target_path.iterdir():
@@ -203,9 +192,7 @@ class PortfolioMCP:
                 return [
                     TextContent(
                         type="text",
-                        text=json.dumps(
-                            {"health_checks": checks}, indent=2, ensure_ascii=False
-                        ),
+                        text=json.dumps({"health_checks": checks}, indent=2, ensure_ascii=False),
                     )
                 ]
             except Exception as e:
@@ -217,15 +204,9 @@ class PortfolioMCP:
             try:
                 file_path = project_root / path
                 if not file_path.exists():
-                    return [
-                        TextContent(type="text", text=f"Файл не существует: {path}")
-                    ]
+                    return [TextContent(type="text", text=f"Файл не существует: {path}")]
                 if file_path.is_dir():
-                    return [
-                        TextContent(
-                            type="text", text=f"Это директория, а не файл: {path}"
-                        )
-                    ]
+                    return [TextContent(type="text", text=f"Это директория, а не файл: {path}")]
 
                 content = file_path.read_text(encoding="utf-8", errors="ignore")
                 return [TextContent(type="text", text=content)]
@@ -241,10 +222,7 @@ class PortfolioMCP:
 
                 if markers_path.exists():
                     for item in markers_path.rglob("*.json"):
-                        if (
-                            "system" in item.name.lower()
-                            or "thinking" in item.name.lower()
-                        ):
+                        if "system" in item.name.lower() or "thinking" in item.name.lower():
                             try:
                                 content = json.loads(item.read_text(encoding="utf-8"))
                                 marker_files.append(
@@ -271,9 +249,7 @@ class PortfolioMCP:
                     for sp in search_paths:
                         if sp.exists():
                             for item in sp.rglob("system_thinking*.json"):
-                                marker_files.append(
-                                    {"file": str(item.relative_to(project_root))}
-                                )
+                                marker_files.append({"file": str(item.relative_to(project_root))})
 
                 return [
                     TextContent(
@@ -333,9 +309,7 @@ class PortfolioMCP:
                 return [TextContent(type="text", text=f"Ошибка: {e!s}")]
 
         @self.server.tool()
-        async def search_in_project(
-            query: str, file_pattern: str = "*.py"
-        ) -> list[TextContent]:
+        async def search_in_project(query: str, file_pattern: str = "*.py") -> list[TextContent]:
             """Поиск текста в файлах проекта"""
             try:
                 import fnmatch
@@ -350,18 +324,12 @@ class PortfolioMCP:
                         if fnmatch.fnmatch(file, file_pattern):
                             file_path = Path(root) / file
                             try:
-                                content = file_path.read_text(
-                                    encoding="utf-8", errors="ignore"
-                                )
+                                content = file_path.read_text(encoding="utf-8", errors="ignore")
                                 if query.lower() in content.lower():
                                     results.append(
                                         {
-                                            "file": str(
-                                                file_path.relative_to(project_root)
-                                            ),
-                                            "matches": content.lower().count(
-                                                query.lower()
-                                            ),
+                                            "file": str(file_path.relative_to(project_root)),
+                                            "matches": content.lower().count(query.lower()),
                                         }
                                     )
                             except:
@@ -427,8 +395,7 @@ class PortfolioMCP:
                         elif path.is_dir():
                             py_files = list(path.rglob("*.py"))
                             files = [
-                                {"name": f.name, "size": f.stat().st_size}
-                                for f in py_files[:5]
+                                {"name": f.name, "size": f.stat().st_size} for f in py_files[:5]
                             ]
 
                     status[name] = {
@@ -441,9 +408,7 @@ class PortfolioMCP:
                 return [
                     TextContent(
                         type="text",
-                        text=json.dumps(
-                            {"services_status": status}, indent=2, ensure_ascii=False
-                        ),
+                        text=json.dumps({"services_status": status}, indent=2, ensure_ascii=False),
                     )
                 ]
             except Exception as e:

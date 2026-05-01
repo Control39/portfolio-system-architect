@@ -104,9 +104,7 @@ class MentalSupport:
             {
                 "title": "Простая активность",
                 "description": (
-                    report["simple_activities"][0]
-                    if report["simple_activities"]
-                    else ""
+                    report["simple_activities"][0] if report["simple_activities"] else ""
                 ),
                 "type": "activity",
             },
@@ -124,9 +122,7 @@ class MentalSupport:
 
         latest = self.mood_history[-1]
         avg_mood = sum(m.mood_level for m in self.mood_history) / len(self.mood_history)
-        avg_stress = sum(m.stress_level for m in self.mood_history) / len(
-            self.mood_history
-        )
+        avg_stress = sum(m.stress_level for m in self.mood_history) / len(self.mood_history)
 
         return {
             "latest_record": latest.to_dict(),

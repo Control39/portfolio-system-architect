@@ -55,9 +55,7 @@ class DocumentEmbedder:
         embeddings = self.model.encode(valid_texts, convert_to_numpy=True)
         return embeddings.tolist()
 
-    def compute_similarity(
-        self, embedding1: List[float], embedding2: List[float]
-    ) -> float:
+    def compute_similarity(self, embedding1: List[float], embedding2: List[float]) -> float:
         """Compute cosine similarity between two embeddings."""
         if not embedding1 or not embedding2:
             return 0.0

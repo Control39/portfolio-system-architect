@@ -110,13 +110,9 @@ class BaseCheck(abc.ABC):
         full_path = self.repo_path / relative_path
         exists = full_path.is_dir()
         if exists:
-            self._add_result(
-                "PASS", f"Directory exists: {relative_path}", relative_path
-            )
+            self._add_result("PASS", f"Directory exists: {relative_path}", relative_path)
         else:
-            self._add_result(
-                "FAIL", f"Directory missing: {relative_path}", relative_path
-            )
+            self._add_result("FAIL", f"Directory missing: {relative_path}", relative_path)
         return exists
 
     def check_file_content(
@@ -213,9 +209,7 @@ class RepositoryAuditor:
 
         category_scores = {}
         for cat, data in by_category.items():
-            cat_pct = (
-                (data["earned"] / data["total"] * 100) if data["total"] > 0 else 0.0
-            )
+            cat_pct = (data["earned"] / data["total"] * 100) if data["total"] > 0 else 0.0
             category_scores[cat] = {
                 "score": data["earned"],
                 "total": data["total"],

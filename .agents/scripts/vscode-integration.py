@@ -336,8 +336,7 @@ if __name__ == "__main__":
                 # Добавляем наши конфигурации в начало
                 if "configurations" in existing_config:
                     existing_config["configurations"] = (
-                        launch_config["configurations"]
-                        + existing_config["configurations"]
+                        launch_config["configurations"] + existing_config["configurations"]
                     )
                 else:
                     existing_config["configurations"] = launch_config["configurations"]
@@ -362,9 +361,7 @@ if __name__ == "__main__":
         if success:
             print("\n✅ Интеграция успешно настроена!")
             print("\nДоступные команды в VS Code:")
-            print(
-                "1. Ctrl+Shift+P → 'Tasks: Run Task' → Выберите Cognitive Agent задачу"
-            )
+            print("1. Ctrl+Shift+P → 'Tasks: Run Task' → Выберите Cognitive Agent задачу")
             print("2. Используйте сниппеты: cog-activate, cog-scan, cog-task")
             print("3. Автоматическая активация при открытии проекта")
             print("\nФайлы конфигурации созданы в директории .vscode/")

@@ -41,9 +41,7 @@ def handler(event, context):
 
     except Exception as e:
         error_msg = f"Ошибка при обработке запроса: {str(e)}"
-        logger.log_error(
-            "api_error", error_msg, {"event": "exception", "exception": str(e)}
-        )
+        logger.log_error("api_error", error_msg, {"event": "exception", "exception": str(e)})
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
@@ -57,9 +55,7 @@ def chat_handler(event, context):
     """
     try:
         # Логирование входящего запроса
-        logger.log_analysis(
-            "reasoning-api", 0, {"event": "request_received", "request": event}
-        )
+        logger.log_analysis("reasoning-api", 0, {"event": "request_received", "request": event})
 
         # Парсинг тела запроса
         if isinstance(event.get("body"), str):
@@ -96,9 +92,7 @@ def chat_handler(event, context):
         service = sdk.client(TextGenerationServiceStub)
 
         # Подготовка запроса к модели
-        request = TextGenerationRequest(
-            model_uri=model_uri, prompt=message, max_tokens=1000
-        )
+        request = TextGenerationRequest(model_uri=model_uri, prompt=message, max_tokens=1000)
 
         # Вызов модели с обработкой таймаутов и повторами
         response = call_model_with_retry(service, request, max_retries=3, timeout=300)
@@ -128,9 +122,7 @@ def chat_handler(event, context):
 
     except Exception as e:
         error_msg = f"Ошибка при обработке запроса чата: {str(e)}"
-        logger.log_error(
-            "chat_api_error", error_msg, {"event": "exception", "exception": str(e)}
-        )
+        logger.log_error("chat_api_error", error_msg, {"event": "exception", "exception": str(e)})
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
@@ -170,9 +162,7 @@ def call_model_with_retry(service, request, max_retries=3, timeout=300):
             response = service.TextGeneration(request, timeout=timeout)
             return response
         except Exception as e:
-            logger.log_error(
-                "model_call_error", f"Попытка {attempt + 1} не удалась: {str(e)}"
-            )
+            logger.log_error("model_call_error", f"Попытка {attempt + 1} не удалась: {str(e)}")
             if attempt < max_retries - 1:
                 # Ждем перед повторной попыткой
                 time.sleep(2**attempt)  # Экспоненциальная задержка

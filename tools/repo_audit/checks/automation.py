@@ -42,20 +42,14 @@ class AutomationCheck(BaseCheck):
 
         # 4. Pre-commit hooks
         if self.check_file_exists(".pre-commit-config.yaml"):
-            self._add_result(
-                "PASS", "Pre‑commit config exists", ".pre-commit-config.yaml"
-            )
+            self._add_result("PASS", "Pre‑commit config exists", ".pre-commit-config.yaml")
         else:
-            self._add_result(
-                "WARNING", "Pre‑commit config missing", ".pre-commit-config.yaml"
-            )
+            self._add_result("WARNING", "Pre‑commit config missing", ".pre-commit-config.yaml")
 
         # 5. CI/CD automation (GitHub Actions, GitLab CI, etc.)
         workflows_dir = self.repo_path / ".github/workflows"
         if workflows_dir.is_dir():
-            workflows = list(workflows_dir.glob("*.yml")) + list(
-                workflows_dir.glob("*.yaml")
-            )
+            workflows = list(workflows_dir.glob("*.yml")) + list(workflows_dir.glob("*.yaml"))
             if workflows:
                 self._add_result(
                     "PASS",
@@ -65,9 +59,7 @@ class AutomationCheck(BaseCheck):
             else:
                 self._add_result("WARNING", "No CI/CD workflows", ".github/workflows")
         else:
-            self._add_result(
-                "WARNING", "GitHub Actions directory missing", ".github/workflows"
-            )
+            self._add_result("WARNING", "GitHub Actions directory missing", ".github/workflows")
 
         # 6. Docker automation
         if self.check_file_exists("docker-compose.yml"):
@@ -125,8 +117,6 @@ class AutomationCheck(BaseCheck):
                     "README.md",
                 )
             else:
-                self._add_result(
-                    "INFO", "README does not mention automation", "README.md"
-                )
+                self._add_result("INFO", "README does not mention automation", "README.md")
 
         return self.results

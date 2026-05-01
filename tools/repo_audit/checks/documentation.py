@@ -28,9 +28,7 @@ class DocumentationCheck(BaseCheck):
         if (self.repo_path / "README.ru.md").exists():
             self._add_result("PASS", "Russian README exists", "README.ru.md")
         else:
-            self._add_result(
-                "WARNING", "Russian README missing (optional)", "README.ru.md"
-            )
+            self._add_result("WARNING", "Russian README missing (optional)", "README.ru.md")
         # 3. CONTRIBUTING
         self.check_file_exists("CONTRIBUTING.md")
         # 4. CODE_OF_CONDUCT
@@ -47,9 +45,7 @@ class DocumentationCheck(BaseCheck):
         self.check_directory_exists("docs")
         # 10. docs/architecture/decisions/ (ADR)
         if (self.repo_path / "docs/architecture/decisions").is_dir():
-            self._add_result(
-                "PASS", "ADR directory exists", "docs/architecture/decisions"
-            )
+            self._add_result("PASS", "ADR directory exists", "docs/architecture/decisions")
         else:
             self._add_result(
                 "WARNING",

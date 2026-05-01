@@ -226,9 +226,7 @@ def is_valid_utf8_file(file_path: Path) -> Dict:
             "ÿ\n",
         ]
 
-        result["has_mojibake"] = any(
-            pattern in content for pattern in mojibake_patterns
-        )
+        result["has_mojibake"] = any(pattern in content for pattern in mojibake_patterns)
 
         # Проверка детектирования кодировки
         detection = chardet.detect(content.encode("utf-8", errors="ignore"))

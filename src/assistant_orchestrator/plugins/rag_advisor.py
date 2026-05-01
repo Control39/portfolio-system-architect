@@ -46,9 +46,7 @@ class RAGAdvisor:
                 logger.info(f"Loaded RAG index from {self.index_path}")
             else:
                 self.searcher = DocumentSearcher()
-                logger.info(
-                    "Created new RAG searcher (index will be built on first use)"
-                )
+                logger.info("Created new RAG searcher (index will be built on first use)")
         except Exception as e:
             logger.error(f"Failed to initialize RAG searcher: {e}")
             self.searcher = None
@@ -72,9 +70,7 @@ class RAGAdvisor:
 
         try:
             # Build index from markdown files
-            stats = self.searcher.build_index(
-                file_pattern="**/*.md", root_dir=str(self.root)
-            )
+            stats = self.searcher.build_index(file_pattern="**/*.md", root_dir=str(self.root))
 
             # Save index
             save_path = self.searcher.save_index(str(self.index_path))
@@ -316,9 +312,7 @@ if __name__ == "__main__":
         results = advisor.search("microservices architecture", top_k=2)
         for i, result in enumerate(results):
             if "error" not in result:
-                print(
-                    f"{i+1}. {result.get('source')} (score: {result.get('score'):.3f})"
-                )
+                print(f"{i+1}. {result.get('source')} (score: {result.get('score'):.3f})")
                 print(f"   {result.get('text')[:100]}...")
 
         # Test advice

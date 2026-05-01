@@ -74,9 +74,7 @@ def run_detect_secrets_scan() -> int:
             print("No new secrets found.")
         return 0
     except FileNotFoundError:
-        print(
-            "Error: detect-secrets not installed. Install via 'pip install detect-secrets'"
-        )
+        print("Error: detect-secrets not installed. Install via 'pip install detect-secrets'")
         return 1
 
 

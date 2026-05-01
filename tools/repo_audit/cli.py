@@ -18,9 +18,7 @@ from tools.repo_audit.report import ReportGenerator  # noqa: E402
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Audit repository for best‑practice compliance."
-    )
+    parser = argparse.ArgumentParser(description="Audit repository for best‑practice compliance.")
     parser.add_argument(
         "path",
         nargs="?",

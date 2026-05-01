@@ -31,7 +31,7 @@ def run_server():
     # Для продакшена всегда используем localhost
     # В режиме отладки можно разрешить доступ с других интерфейсов через DEBUG_BIND_ALL=true
     bind_all = os.getenv("DEBUG_BIND_ALL", "false").lower() == "true"
-    host = "0.0.0.0" if debug_mode and bind_all else "127.0.0.1"
+    host = "0.0.0.0" if debug_mode and bind_all else "127.0.0.1"  # nosec B104
     reload = debug_mode  # reload только для разработки
 
     print(f"🔒 Host: {host} ({'development' if debug_mode else 'production'} mode)")

@@ -88,9 +88,7 @@ async def process_prompt(request: PromptRequest):
 
         logger.info(f"Prompt processed successfully with {len(applied_rules)} rules")
 
-        return PromptResponse(
-            result=result, processed_rules=applied_rules, metadata=metadata
-        )
+        return PromptResponse(result=result, processed_rules=applied_rules, metadata=metadata)
 
     except Exception as e:
         logger.error(f"Error processing prompt: {e}")

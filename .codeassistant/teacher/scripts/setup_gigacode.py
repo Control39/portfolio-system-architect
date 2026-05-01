@@ -20,9 +20,7 @@ class GigaCodeSetup:
         self.project_root = Path(project_root).resolve()
         self.vscode_dir = self.project_root / ".vscode"
         self.settings_file = self.vscode_dir / "settings.json"
-        self.extensions_file = (
-            self.project_root / "config" / "vscode" / "vscode-extensions.json"
-        )
+        self.extensions_file = self.project_root / "config" / "vscode" / "vscode-extensions.json"
 
     def check_vscode_installed(self) -> bool:
         """Проверяет, установлен ли VS Code"""
@@ -227,9 +225,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
                 success_count += 1
 
         report_lines.append("=" * 60)
-        report_lines.append(
-            f"ИТОГ: {success_count}/{total_count} шагов выполнено успешно"
-        )
+        report_lines.append(f"ИТОГ: {success_count}/{total_count} шагов выполнено успешно")
 
         if success_count == total_count:
             report_lines.append("🎉 Настройка GigaCode завершена успешно!")
@@ -242,9 +238,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
 
         return "\n".join(report_lines)
 
-    def run_setup(
-        self, api_key: Optional[str] = None, auto_install: bool = True
-    ) -> bool:
+    def run_setup(self, api_key: Optional[str] = None, auto_install: bool = True) -> bool:
         """Запускает полную настройку GigaCode"""
 
         steps = []
@@ -277,9 +271,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
         if not gigacode_installed and auto_install:
             print("\n3. Установка расширения GigaCode...")
             install_success, install_msg = self.install_gigacode_extension()
-            steps.append(
-                ("Установка расширения GigaCode", install_success, install_msg)
-            )
+            steps.append(("Установка расширения GigaCode", install_success, install_msg))
 
             if install_success:
                 gigacode_installed = True
@@ -294,9 +286,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
 
         if not gigacode_installed:
             print("❌ Расширение GigaCode не установлено.")
-            print(
-                "   Установите вручную: code --install-extension GigaCode.gigacode-vscode"
-            )
+            print("   Установите вручную: code --install-extension GigaCode.gigacode-vscode")
 
         # Шаг 4: Загрузка текущих настроек
         print("\n4. Загрузка текущих настроек VS Code...")
@@ -323,9 +313,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
         # Шаг 6: Объединение настроек
         print("\n6. Объединение настроек...")
         merged_settings = self.merge_settings(current_settings, gigacode_config)
-        steps.append(
-            ("Объединение настроек", True, f"Итоговых настроек: {len(merged_settings)}")
-        )
+        steps.append(("Объединение настроек", True, f"Итоговых настроек: {len(merged_settings)}"))
 
         # Шаг 7: Сохранение настроек
         print("\n7. Сохранение настроек...")
@@ -334,9 +322,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
             (
                 "Сохранение настроек",
                 save_success,
-                f"Сохранено в {self.settings_file}"
-                if save_success
-                else "Ошибка сохранения",
+                f"Сохранено в {self.settings_file}" if save_success else "Ошибка сохранения",
             )
         )
 
@@ -357,12 +343,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
         print(report)
 
         # Сохранение отчета в файл
-        report_file = (
-            self.project_root
-            / ".codeassistant"
-            / "reports"
-            / "gigacode_setup_report.md"
-        )
+        report_file = self.project_root / ".codeassistant" / "reports" / "gigacode_setup_report.md"
         report_file.parent.mkdir(parents=True, exist_ok=True)
 
         try:
@@ -393,9 +374,7 @@ def main():
         help="Не устанавливать расширение автоматически",
     )
 
-    parser.add_argument(
-        "--project-root", default=".", help="Корневая директория проекта"
-    )
+    parser.add_argument("--project-root", default=".", help="Корневая директория проекта")
 
     args = parser.parse_args()
 
@@ -403,9 +382,7 @@ def main():
     setup = GigaCodeSetup(args.project_root)
 
     # Запускаем настройку
-    success = setup.run_setup(
-        api_key=args.api_key, auto_install=not args.no_auto_install
-    )
+    success = setup.run_setup(api_key=args.api_key, auto_install=not args.no_auto_install)
 
     # Возвращаем код выхода
     sys.exit(0 if success else 1)

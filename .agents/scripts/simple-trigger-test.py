@@ -58,9 +58,7 @@ class CommonTriggers:
         )
 
     @staticmethod
-    def create_git_commit_trigger(
-        commit_hash, message, author=None, files_changed=None
-    ):
+    def create_git_commit_trigger(commit_hash, message, author=None, files_changed=None):
         return TriggerEvent(
             "git_commit",
             "git",
@@ -150,9 +148,7 @@ def test_event_creation():
         log_dir = Path(".agents/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
-        log_file = (
-            log_dir / f"test_events_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        log_file = log_dir / f"test_events_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(log_file, "w", encoding="utf-8") as f:
             json.dump(events_data, f, indent=2, ensure_ascii=False)
 
@@ -174,9 +170,7 @@ def test_processor_queue():
         # Добавляем события с разными приоритетами
         events = [
             TriggerEvent("high_priority", "test", {"value": 1}, TriggerPriority.HIGH),
-            TriggerEvent(
-                "medium_priority", "test", {"value": 2}, TriggerPriority.MEDIUM
-            ),
+            TriggerEvent("medium_priority", "test", {"value": 2}, TriggerPriority.MEDIUM),
             TriggerEvent("low_priority", "test", {"value": 3}, TriggerPriority.LOW),
         ]
 
@@ -186,9 +180,7 @@ def test_processor_queue():
         print(f"✓ Всего событий в очереди: {len(processor.event_queue)}")
 
         # Сортируем по приоритету
-        sorted_events = sorted(
-            processor.event_queue, key=lambda e: e.priority.value, reverse=True
-        )
+        sorted_events = sorted(processor.event_queue, key=lambda e: e.priority.value, reverse=True)
         print("✓ Очередь отсортирована по приоритету:")
         for event in sorted_events:
             print(f"  - {event.name}: {event.priority.name} ({event.priority.value})")
@@ -216,9 +208,7 @@ def test_integration():
         missing_files = []
         for file_path in required_files:
             if not file_path.exists():
-                missing_files.append(
-                    str(file_path.relative_to(base_path.parent.parent))
-                )
+                missing_files.append(str(file_path.relative_to(base_path.parent.parent)))
 
         if missing_files:
             print(f"✗ Отсутствуют файлы: {missing_files}")
@@ -247,9 +237,7 @@ def test_integration():
             missing_files = []
             for file_path in required_files:
                 if not file_path.exists():
-                    missing_files.append(
-                        str(file_path.relative_to(base_path.parent.parent))
-                    )
+                    missing_files.append(str(file_path.relative_to(base_path.parent.parent)))
 
             if missing_files:
                 return False
@@ -265,9 +253,7 @@ def test_integration():
 
         for dir_path in required_dirs:
             dir_path.mkdir(parents=True, exist_ok=True)
-            print(
-                f"✓ Директория проверена: {dir_path.relative_to(base_path.parent.parent)}"
-            )
+            print(f"✓ Директория проверена: {dir_path.relative_to(base_path.parent.parent)}")
 
         return True
     except Exception as e:
@@ -287,9 +273,7 @@ def simulate_real_scenario():
         processor.add_event(project_event)
 
         print("2. Пользователь создает новый файл...")
-        file_event = CommonTriggers.create_file_change_trigger(
-            "new_feature.py", "created"
-        )
+        file_event = CommonTriggers.create_file_change_trigger("new_feature.py", "created")
         processor.add_event(file_event)
 
         print("3. Пользователь делает коммит...")

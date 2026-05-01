@@ -36,9 +36,7 @@ def check_environment_variables() -> dict[str, bool]:
         if value:
             # Маскируем API ключ для безопасности
             if "API_KEY" in var:
-                masked_value = (
-                    value[:10] + "..." + value[-4:] if len(value) > 14 else "***"
-                )
+                masked_value = value[:10] + "..." + value[-4:] if len(value) > 14 else "***"
                 print(f"  ✅ {var}: {masked_value}")
             else:
                 print(f"  ✅ {var}: {value}")
@@ -148,15 +146,10 @@ async def test_yandex_gpt_connection() -> bool:
         print("  ⚙️  Конфигурация клиента:")
         print(f"    - API URL: {config.get('base_url')}")
         print(f"    - Модель: {config.get('model')}")
-        print(
-            f"    - API ключ: {'установлен' if config.get('api_key') else 'отсутствует'}"
-        )
+        print(f"    - API ключ: {'установлен' if config.get('api_key') else 'отсутствует'}")
 
         # Проверяем наличие API ключа
-        if (
-            not config.get("api_key")
-            or config.get("api_key") == "your_yandex_gpt_api_key_here"
-        ):
+        if not config.get("api_key") or config.get("api_key") == "your_yandex_gpt_api_key_here":
             print("  ⚠️  API ключ не установлен или имеет значение по умолчанию")
             print("     Установите YANDEX_GPT_API_KEY в .env файле")
             return False
@@ -169,9 +162,7 @@ async def test_yandex_gpt_connection() -> bool:
             test_prompt = "Привет! Ответь коротко: 'Тест подключения успешен'"
 
             # Проверяем, нужно ли выполнять реальный запрос к API
-            test_real_api = (
-                os.environ.get("YANDEX_GPT_TEST_REAL_API", "").lower() == "true"
-            )
+            test_real_api = os.environ.get("YANDEX_GPT_TEST_REAL_API", "").lower() == "true"
 
             if test_real_api:
                 print("  🔧 Режим реального API: выполняется запрос к Yandex GPT...")
@@ -183,9 +174,7 @@ async def test_yandex_gpt_connection() -> bool:
                 print("  ✅ Реальный запрос к API выполнен успешно")
                 return True
             # Режим mock для экономии токенов
-            print(
-                "  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов"
-            )
+            print("  ⚠️  Режим mock: реальный запрос к API отключен для экономии токенов")
             print("     Для реального теста установите переменную окружения:")
             print("     export YANDEX_GPT_TEST_REAL_API=true")
 

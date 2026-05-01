@@ -52,16 +52,12 @@ class VSCodeExtensionManager:
         else:
             # Linux/macOS
             try:
-                subprocess.run(
-                    ["code", "--version"], capture_output=True, check=False, shell=True
-                )
+                subprocess.run(["code", "--version"], capture_output=True, check=False, shell=True)
                 return "code"
             except (FileNotFoundError, subprocess.CalledProcessError):
                 pass
 
-        logger.warning(
-            "VS Code не найден в PATH. Используем 'code' как команду по умолчанию."
-        )
+        logger.warning("VS Code не найден в PATH. Используем 'code' как команду по умолчанию.")
         return "code"
 
     def _load_config(self) -> dict:
@@ -97,9 +93,7 @@ class VSCodeExtensionManager:
                 check=True,
                 shell=True,
             )
-            extensions = [
-                ext.strip() for ext in result.stdout.split("\n") if ext.strip()
-            ]
+            extensions = [ext.strip() for ext in result.stdout.split("\n") if ext.strip()]
             logger.info(f"Найдено {len(extensions)} установленных расширений")
             return extensions
         except subprocess.CalledProcessError as e:
@@ -230,12 +224,8 @@ class VSCodeExtensionManager:
         report.append("=" * 60)
         report.append(f"Установлено расширений: {compliance_data['installed_count']}")
         report.append(f"Обязательных расширений: {compliance_data['required_count']}")
-        report.append(
-            f"Рекомендуемых расширений: {compliance_data['recommended_count']}"
-        )
-        report.append(
-            f"Оценка соответствия: {compliance_data['compliance_score']:.1f}%"
-        )
+        report.append(f"Рекомендуемых расширений: {compliance_data['recommended_count']}")
+        report.append(f"Оценка соответствия: {compliance_data['compliance_score']:.1f}%")
         report.append("")
 
         if compliance_data["missing_required"]:
@@ -273,9 +263,7 @@ def main():
         default="check",
         help="Действие (по умолчанию: check)",
     )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Показать изменения без применения"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Показать изменения без применения")
     parser.add_argument(
         "--config",
         default="config/vscode/vscode-extensions.json",

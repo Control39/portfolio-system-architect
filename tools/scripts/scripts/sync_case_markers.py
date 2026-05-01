@@ -93,9 +93,7 @@ class ITCompassSync:
                         marker["validation_status"] = marker_mapping.get(
                             "validation_status", "pending_review"
                         )
-                        marker["auto_verified"] = marker_mapping.get(
-                            "auto_verified", False
-                        )
+                        marker["auto_verified"] = marker_mapping.get("auto_verified", False)
                         marker_updated = True
                         updated_markers.append(marker_id)
                         break
@@ -131,10 +129,7 @@ class ITCompassSync:
     def _update_portfolio(self, mapping_data: dict):
         """Обновляет портфолио через portfolio-organizer"""
         portfolio_file = (
-            self.portfolio_path
-            / "src"
-            / "generated"
-            / f"{mapping_data.get('case_id')}.md"
+            self.portfolio_path / "src" / "generated" / f"{mapping_data.get('case_id')}.md"
         )
 
         # Создание директории если не существует
@@ -180,17 +175,13 @@ class ITCompassSync:
             ]
         )
 
-        for point_name, point_path in mapping_data.get(
-            "integration_points", {}
-        ).items():
+        for point_name, point_path in mapping_data.get("integration_points", {}).items():
             content.append(f"- **{point_name}:** {point_path}")
 
         return "\n".join(content)
 
 
-def sync_case_to_it_compass(
-    case_path: str, markers_file: str = "markers-mapping.json"
-) -> bool:
+def sync_case_to_it_compass(case_path: str, markers_file: str = "markers-mapping.json") -> bool:
     """Синхронизирует кейс с маркерами IT-Compass"""
     sync_tool = ITCompassSync(case_path)
     return sync_tool.sync_case_to_it_compass()

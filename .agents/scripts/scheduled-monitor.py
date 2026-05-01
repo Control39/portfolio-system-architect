@@ -45,9 +45,7 @@ class ScheduledMonitor:
             cmd = [sys.executable, str(self.script_path), f"--{report_type}"]
 
             with open(log_file, "w") as f:
-                result = subprocess.run(
-                    cmd, capture_output=True, text=True, cwd=Path.cwd()
-                )
+                result = subprocess.run(cmd, capture_output=True, text=True, cwd=Path.cwd())
 
                 # Записываем вывод в лог-файл
                 f.write(f"Команда: {' '.join(cmd)}\n")
@@ -62,9 +60,7 @@ class ScheduledMonitor:
                 logger.info(f"Мониторинг ({report_type}) успешно завершен")
                 return True
             else:
-                logger.error(
-                    f"Мониторинг ({report_type}) завершился с ошибкой: {result.stderr}"
-                )
+                logger.error(f"Мониторинг ({report_type}) завершился с ошибкой: {result.stderr}")
                 return False
 
         except Exception as e:

@@ -59,9 +59,7 @@ class CareerTracker:
                     with open(file_path, "r", encoding="utf-8-sig") as f:
                         skill_data_raw = json.load(f)
 
-                    skill_name = skill_data_raw.get(
-                        "skill_name", file_path.stem.capitalize()
-                    )
+                    skill_name = skill_data_raw.get("skill_name", file_path.stem.capitalize())
                     levels = self._parse_skill_levels(skill_data_raw.get("levels", {}))
 
                     markers[skill_name] = SkillData(
@@ -81,9 +79,7 @@ class CareerTracker:
 
         return markers
 
-    def _parse_skill_levels(
-        self, levels_data: Dict[str, Any]
-    ) -> Dict[str, List[Marker]]:
+    def _parse_skill_levels(self, levels_data: Dict[str, Any]) -> Dict[str, List[Marker]]:
         levels = {}
         for level_key, markers_list in levels_data.items():
             levels[level_key] = []
@@ -100,9 +96,7 @@ class CareerTracker:
                         methodology_author=marker_data.get(
                             "methodology_author", "Ekaterina Kudelya"
                         ),
-                        methodology_license=marker_data.get(
-                            "methodology_license", "CC BY-ND 4.0"
-                        ),
+                        methodology_license=marker_data.get("methodology_license", "CC BY-ND 4.0"),
                     )
                     levels[level_key].append(marker)
                 except KeyError as e:
@@ -126,9 +120,7 @@ class CareerTracker:
             completed = data.get("completed_markers", [])
             in_progress = data.get("in_progress_markers", [])
 
-            if not isinstance(completed, list) or not all(
-                isinstance(x, str) for x in completed
-            ):
+            if not isinstance(completed, list) or not all(isinstance(x, str) for x in completed):
                 logger.warning("Некорректные данные completed_markers")
                 completed = []
 

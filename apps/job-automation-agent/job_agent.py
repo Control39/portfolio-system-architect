@@ -21,9 +21,7 @@ from apps.it_compass.src.utils.marker_export import MarkerExporter
 # Настройка LLM
 api_key = os.getenv("OPENAI_API_KEY")
 if api_key:
-    llm = ChatOpenAI(
-        model="gpt-4o-mini", api_key=api_key, temperature=0.1, max_retries=2
-    )
+    llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.1, max_retries=2)
     USE_MOCK = False
 else:
     llm = FakeListLLM(
@@ -208,16 +206,12 @@ def analyze_requirements(job_description: str) -> Dict[str, Any]:
         matching_markers = _find_matching_markers(analysis_result["skills"])
 
         if matching_markers:
-            print(
-                f"🎯 Найдено {len(matching_markers)} соответствующих маркеров компетенций"
-            )
+            print(f"🎯 Найдено {len(matching_markers)} соответствующих маркеров компетенций")
 
             # Автоматическое проставление отметок о выполнении
             mark_results = _auto_mark_completed(matching_markers)
 
-            print(
-                f"✅ Автоматически отмечено {mark_results['marked']} маркеров как выполненные"
-            )
+            print(f"✅ Автоматически отмечено {mark_results['marked']} маркеров как выполненные")
             if mark_results["failed"] > 0:
                 print(f"⚠️ Не удалось отметить {mark_results['failed']} маркеров")
 

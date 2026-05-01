@@ -37,9 +37,7 @@ class CodeEmbedder:
                 results.append(embedding)
         return results
 
-    def compute_similarity(
-        self, embedding1: list[float], embedding2: list[float]
-    ) -> float:
+    def compute_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:
         """Вычислить косинусное сходство между двумя эмбеддингами"""
         if not embedding1 or not embedding2:
             return 0.0

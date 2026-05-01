@@ -138,9 +138,7 @@ async def fetch_with_retry(
             if jitter:
                 delay *= 0.5 + random.random()
 
-            logger.warning(
-                f"Attempt {attempt + 1} failed: {e}. " f"Retrying in {delay:.2f}s..."
-            )
+            logger.warning(f"Attempt {attempt + 1} failed: {e}. " f"Retrying in {delay:.2f}s...")
 
             await asyncio.sleep(delay)
 
@@ -242,8 +240,7 @@ def async_retry(max_retries: int = 3, delay: float = 1.0):
 
                     if attempt < max_retries - 1:
                         logger.warning(
-                            f"Attempt {attempt + 1} failed: {e}. "
-                            f"Retrying in {delay}s..."
+                            f"Attempt {attempt + 1} failed: {e}. " f"Retrying in {delay}s..."
                         )
                         await asyncio.sleep(delay)
 

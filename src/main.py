@@ -55,12 +55,12 @@ def main():
             port_str = api_script["command"].split("--port")[1].strip().split()[0]
             port = int(port_str)
     except (KeyError, StopIteration):
-        print(
-            "Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000"
-        )
+        print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # nosec: bound in container, not exposed externally
+    uvicorn.run(
+        app, host="0.0.0.0", port=port, reload=False
+    )  # nosec: bound in container, not exposed externally
 
 
 def main_dev():
@@ -79,9 +79,7 @@ def main_dev():
             port_str = api_script["command"].split("--port")[1].strip().split()[0]
             port = int(port_str)
     except (KeyError, StopIteration):
-        print(
-            "Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000"
-        )
+        print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)  # nosec: dev mode, bound in container

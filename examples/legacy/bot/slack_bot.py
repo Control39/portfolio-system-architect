@@ -35,9 +35,7 @@ class SlackArchitectBot:
             self.SocketModeHandler = SocketModeHandler
         except ImportError:
             self.SLACK_AVAILABLE = False
-            logger.warning(
-                "Slack SDK not available. Install with: pip install slack_bolt"
-            )
+            logger.warning("Slack SDK not available. Install with: pip install slack_bolt")
 
     def create_app(self) -> Any:
         """Создать Slack приложение."""
@@ -49,9 +47,7 @@ class SlackArchitectBot:
         slack_app_token = os.environ.get("SLACK_APP_TOKEN")
 
         if not slack_bot_token or not slack_app_token:
-            logger.error(
-                "SLACK_BOT_TOKEN and SLACK_APP_TOKEN must be set in environment"
-            )
+            logger.error("SLACK_BOT_TOKEN and SLACK_APP_TOKEN must be set in environment")
             raise ValueError("Missing Slack tokens")
 
         # Создаем приложение
@@ -69,9 +65,7 @@ class SlackArchitectBot:
                 logger.info(f"Question from {user}: {question}")
 
                 # Отправляем сообщение о обработке
-                say(
-                    f"🧠 *{user} спрашивает:* {question}\n_Ищу ответ в документации..._"
-                )
+                say(f"🧠 *{user} спрашивает:* {question}\n_Ищу ответ в документации..._")
 
                 # Получаем ответ от RAG
                 result = self.rag_advisor.ask(
@@ -95,9 +89,7 @@ class SlackArchitectBot:
                 else:
                     confidence_emoji = "❓"
 
-                response_text += (
-                    f"{confidence_emoji} *Уверенность:* {confidence:.1%}\n\n"
-                )
+                response_text += f"{confidence_emoji} *Уверенность:* {confidence:.1%}\n\n"
 
                 if sources:
                     response_text += f"📚 *Источники ({len(sources)}):*\n"
@@ -109,9 +101,7 @@ class SlackArchitectBot:
                 # Отправляем ответ
                 say(response_text)
 
-                logger.info(
-                    f"Answered question from {user} with confidence {confidence:.1%}"
-                )
+                logger.info(f"Answered question from {user} with confidence {confidence:.1%}")
 
             except Exception as e:
                 logger.error(f"Error processing question: {e}")
@@ -175,9 +165,7 @@ class SlackArchitectBot:
                 health_text += f"• Индекс готов: {'Да' if index_ready else 'Нет'}\n"
 
                 if stats:
-                    health_text += (
-                        f"• Документов в индексе: {stats.get('total_documents', 0)}\n"
-                    )
+                    health_text += f"• Документов в индексе: {stats.get('total_documents', 0)}\n"
                     health_text += f"• Модель: {stats.get('model_name', 'unknown')}\n"
 
                 health_text += "\n💡 Используйте `/architect <вопрос>` для консультаций"

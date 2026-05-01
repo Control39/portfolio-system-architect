@@ -36,9 +36,7 @@ class TestModelRegistry(unittest.TestCase):
 
     def test_update_model(self):
         # Регистрация модели
-        self.registry.register_model(
-            "test_model", {"name": "Test Model", "version": "1.0"}
-        )
+        self.registry.register_model("test_model", {"name": "Test Model", "version": "1.0"})
 
         # Обновление модели
         update_data = {"version": "2.0", "description": "Updated model"}
@@ -68,15 +66,9 @@ class TestModelRegistry(unittest.TestCase):
 
     def test_search_models(self):
         # Регистрация тестовых моделей
-        self.registry.register_model(
-            "model_1", {"name": "Image Classifier", "type": "CNN"}
-        )
-        self.registry.register_model(
-            "model_2", {"name": "Text Analyzer", "type": "NLP"}
-        )
-        self.registry.register_model(
-            "model_3", {"name": "Data Predictor", "type": "Regression"}
-        )
+        self.registry.register_model("model_1", {"name": "Image Classifier", "type": "CNN"})
+        self.registry.register_model("model_2", {"name": "Text Analyzer", "type": "NLP"})
+        self.registry.register_model("model_3", {"name": "Data Predictor", "type": "Regression"})
 
         # Поиск по имени
         results = self.registry.search_models("Image")

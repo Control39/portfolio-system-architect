@@ -88,21 +88,12 @@ def portfolio_analysis():
     """Анализ всего портфолио"""
     analysis = {
         "total_projects": len(SAMPLE_PROJECTS),
-        "completed_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "completed"]
-        ),
-        "in_progress_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"]
-        ),
-        "pending_projects": len(
-            [p for p in SAMPLE_PROJECTS if p["status"] == "pending"]
-        ),
+        "completed_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "completed"]),
+        "in_progress_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"]),
+        "pending_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "pending"]),
         "total_budget": sum(p["budget"] for p in SAMPLE_PROJECTS),
-        "average_team_size": sum(p["team_size"] for p in SAMPLE_PROJECTS)
-        / len(SAMPLE_PROJECTS),
-        "technologies": list(
-            set(tech for p in SAMPLE_PROJECTS for tech in p["technologies"])
-        ),
+        "average_team_size": sum(p["team_size"] for p in SAMPLE_PROJECTS) / len(SAMPLE_PROJECTS),
+        "technologies": list(set(tech for p in SAMPLE_PROJECTS for tech in p["technologies"])),
     }
 
     return jsonify(analysis)

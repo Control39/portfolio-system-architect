@@ -54,9 +54,7 @@ class LicensingCheck(BaseCheck):
             if "license" in content.lower():
                 self._add_result("PASS", "README mentions license", "README.md")
             else:
-                self._add_result(
-                    "WARNING", "README does not mention license", "README.md"
-                )
+                self._add_result("WARNING", "README does not mention license", "README.md")
 
         # 3. NOTICE file (optional)
         if self.check_file_exists("NOTICE"):
@@ -98,9 +96,7 @@ class LicensingCheck(BaseCheck):
         if pyproject_path.exists():
             content = pyproject_path.read_text(encoding="utf-8", errors="ignore")
             if "license" in content.lower():
-                self._add_result(
-                    "PASS", "pyproject.toml contains license field", "pyproject.toml"
-                )
+                self._add_result("PASS", "pyproject.toml contains license field", "pyproject.toml")
             else:
                 self._add_result(
                     "WARNING", "pyproject.toml missing license field", "pyproject.toml"

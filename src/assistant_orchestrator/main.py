@@ -65,9 +65,7 @@ def main():
         action="store_true",
         help="Подробный вывод (debug уровень логирования)",
     )
-    parser.add_argument(
-        "--version", action="store_true", help="Показать версию и выйти"
-    )
+    parser.add_argument("--version", action="store_true", help="Показать версию и выйти")
 
     args = parser.parse_args()
 

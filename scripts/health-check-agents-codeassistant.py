@@ -98,13 +98,9 @@ class HealthChecker:
         # Проверка skill caa-audit
         caa_audit_path = ".codeassistant/skills/caa-audit/SKILL.md"
         if os.path.exists(caa_audit_path):
-            self.log(
-                "success", f"Skill caa-audit существует: {caa_audit_path}", component
-            )
+            self.log("success", f"Skill caa-audit существует: {caa_audit_path}", component)
         else:
-            self.log(
-                "warning", f"Skill caa-audit отсутствует: {caa_audit_path}", component
-            )
+            self.log("warning", f"Skill caa-audit отсутствует: {caa_audit_path}", component)
 
         return True
 
@@ -131,24 +127,18 @@ class HealthChecker:
 
         workflow_path = ".github/workflows/agents-codeassistant-compatibility.yml"
         if os.path.exists(workflow_path):
-            self.log(
-                "success", f"CI/CD workflow существует: {workflow_path}", component
-            )
+            self.log("success", f"CI/CD workflow существует: {workflow_path}", component)
 
             # Проверка синтаксиса YAML
             try:
                 with open(workflow_path) as f:
                     yaml.safe_load(f)
-                self.log(
-                    "success", "CI/CD workflow имеет валидный YAML синтаксис", component
-                )
+                self.log("success", "CI/CD workflow имеет валидный YAML синтаксис", component)
             except yaml.YAMLError as e:
                 self.log("error", f"Ошибка синтаксиса YAML: {e}", component)
                 return False
         else:
-            self.log(
-                "warning", f"CI/CD workflow отсутствует: {workflow_path}", component
-            )
+            self.log("warning", f"CI/CD workflow отсутствует: {workflow_path}", component)
 
         return True
 
@@ -189,9 +179,7 @@ class HealthChecker:
                         component,
                     )
             else:
-                self.log(
-                    "warning", f"Статус файл отсутствует: {status_file}", component
-                )
+                self.log("warning", f"Статус файл отсутствует: {status_file}", component)
 
         return True
 
@@ -201,9 +189,7 @@ class HealthChecker:
 
         changelog_path = ".agents/changelogs/"
         if os.path.exists(changelog_path):
-            changelog_files = [
-                f for f in os.listdir(changelog_path) if f.endswith(".md")
-            ]
+            changelog_files = [f for f in os.listdir(changelog_path) if f.endswith(".md")]
 
             if changelog_files:
                 latest_changelog = max(changelog_files)
@@ -274,9 +260,7 @@ class HealthChecker:
     def run_all_checks(self):
         """Запуск всех проверок"""
         print("=" * 80)
-        print(
-            "🚀 ЗАПУСК HEALTH CHECK ДЛЯ COGNITIVE AUTOMATION AGENT И SOURCECRAFT AGENT SKILLS"
-        )
+        print("🚀 ЗАПУСК HEALTH CHECK ДЛЯ COGNITIVE AUTOMATION AGENT И SOURCECRAFT AGENT SKILLS")
         print("=" * 80)
 
         checks = [

@@ -297,9 +297,7 @@ def generate_report(
 
                 suggested = suggest_replacements(match["text"])
                 if suggested != match["text"]:
-                    f.write(
-                        f"**Предлагаемая замена:** `{match['text']}` → `{suggested}`\n\n"
-                    )
+                    f.write(f"**Предлагаемая замена:** `{match['text']}` → `{suggested}`\n\n")
 
             f.write("---\n\n")
 
@@ -351,9 +349,7 @@ def main():
     # Предлагаем исправления если нужно
     if args.fix and results:
         print("\n🔧 Экспериментальная функция автоматических исправлений:")
-        print(
-            "   Для каждого файла будут предложены замены часто встречающихся иероглифов"
-        )
+        print("   Для каждого файла будут предложены замены часто встречающихся иероглифов")
         print("   ВНИМАНИЕ: Всегда проверяйте изменения вручную!\n")
 
         for file_path, matches in sorted(results.items()):
@@ -361,9 +357,7 @@ def main():
             for match in matches[:2]:  # Показываем для первых двух совпадений
                 suggested = suggest_replacements(match["text"])
                 if suggested != match["text"]:
-                    print(
-                        f"   '{match['text']}' → '{suggested}' (строка {match['line']})"
-                    )
+                    print(f"   '{match['text']}' → '{suggested}' (строка {match['line']})")
             if len(matches) > 2:
                 print(f"   ... и еще {len(matches) - 2} совпадений для проверки")
 

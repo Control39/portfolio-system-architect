@@ -169,9 +169,7 @@ class ChromaDocumentIndexer:
             except Exception as e:
                 logger.error(f"Error processing file {file_path}: {e}")
 
-        logger.info(
-            f"Added {len(doc_ids)} document chunks from {len(file_paths)} files"
-        )
+        logger.info(f"Added {len(doc_ids)} document chunks from {len(file_paths)} files")
         return doc_ids
 
     def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> List[str]:
@@ -238,9 +236,7 @@ class ChromaDocumentIndexer:
                 for i in range(len(results["ids"][0])):
                     doc_id = results["ids"][0][i]
                     distance = results["distances"][0][i]
-                    metadata = (
-                        results["metadatas"][0][i] if results["metadatas"] else {}
-                    )
+                    metadata = results["metadatas"][0][i] if results["metadatas"] else {}
                     text = results["documents"][0][i] if results["documents"] else ""
 
                     # Convert distance to similarity score (ChromaDB uses distance, not similarity)
@@ -342,9 +338,7 @@ class ChromaDocumentIndexer:
                     )
                     migrated_ids.append(doc_id)
 
-            logger.info(
-                f"Successfully migrated {len(migrated_ids)} documents to ChromaDB"
-            )
+            logger.info(f"Successfully migrated {len(migrated_ids)} documents to ChromaDB")
             return migrated_ids
 
         except Exception as e:

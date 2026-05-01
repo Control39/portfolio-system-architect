@@ -90,11 +90,7 @@ class ConfigValidator:
             },
             # AI Config Manager
             {
-                "path": project_root
-                / "apps"
-                / "ai-config-manager"
-                / "config"
-                / "default.yaml",
+                "path": project_root / "apps" / "ai-config-manager" / "config" / "default.yaml",
                 "type": "yaml",
                 "description": "AI Config Manager конфигурация",
             },
@@ -106,11 +102,7 @@ class ConfigValidator:
             },
             # MCP сервер конфигурация
             {
-                "path": project_root
-                / "apps"
-                / "mcp-server"
-                / "config"
-                / "mcp-config.yaml",
+                "path": project_root / "apps" / "mcp-server" / "config" / "mcp-config.yaml",
                 "type": "yaml",
                 "description": "MCP сервер конфигурация",
             },
@@ -169,9 +161,7 @@ class ConfigValidator:
             if config["type"] == "yaml":
                 with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
-                    result["content"] = (
-                        yaml.safe_load(content) if content.strip() else {}
-                    )
+                    result["content"] = yaml.safe_load(content) if content.strip() else {}
             elif config["type"] == "json":
                 with open(file_path, "r", encoding="utf-8") as f:
                     result["content"] = json.load(f)
@@ -189,9 +179,7 @@ class ConfigValidator:
 
                 # Если есть проблемы, предлагаем исправления
                 if problems and config["type"] in ["yaml", "json"]:
-                    fixes = self.fix_outdated_models(
-                        file_path, config["type"], content_str
-                    )
+                    fixes = self.fix_outdated_models(file_path, config["type"], content_str)
                     result["fixes_applied"].extend(fixes)
 
             # Проверяем другие проблемы

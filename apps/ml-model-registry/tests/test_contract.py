@@ -131,9 +131,7 @@ class TestModelRegistryContract(unittest.TestCase):
         self.registry.register_model(
             "image_classifier", {"name": "Image Classifier", "type": "CNN"}
         )
-        self.registry.register_model(
-            "text_analyzer", {"name": "Text Analyzer", "type": "NLP"}
-        )
+        self.registry.register_model("text_analyzer", {"name": "Text Analyzer", "type": "NLP"})
 
         # Вызов тестируемого метода
         result = self.registry.search_models("Image")
@@ -152,12 +150,8 @@ class TestModelRegistryContract(unittest.TestCase):
         model_name = "Versioned Model"
 
         # Регистрация версий модели
-        self.registry.register_model(
-            "versioned_model_v1", {"name": model_name, "version": "1.0"}
-        )
-        self.registry.register_model(
-            "versioned_model_v2", {"name": model_name, "version": "2.0"}
-        )
+        self.registry.register_model("versioned_model_v1", {"name": model_name, "version": "1.0"})
+        self.registry.register_model("versioned_model_v2", {"name": model_name, "version": "2.0"})
 
         # Вызов тестируемого метода
         result = self.registry.get_model_versions(model_name)

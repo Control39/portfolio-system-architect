@@ -14,9 +14,7 @@ except ImportError:
 
 
 try:
-    from apps.decision_engine.decision_engine.utils.dependency_checker import (
-        check_dependencies,
-    )
+    from apps.decision_engine.decision_engine.utils.dependency_checker import check_dependencies
 except ImportError:
 
     def check_dependencies():

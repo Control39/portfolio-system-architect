@@ -14,9 +14,7 @@ def generate_api_docs():
         if "parameters" in endpoint:
             docs += "**Параметры:**\n"
             for param in endpoint["parameters"]:
-                docs += (
-                    f"- `{param['name']}` ({param['type']}): {param['description']}\n"
-                )
+                docs += f"- `{param['name']}` ({param['type']}): {param['description']}\n"
             docs += "\n"
 
     # Сохраняем в файл

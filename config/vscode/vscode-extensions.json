@@ -1,9 +1,4 @@
 {
-  "//": "Конфигурация расширений VS Code для проекта portfolio-system-architect",
-  "//": "Автоматически управляется скриптом scripts/vscode-extensions-manager.py",
-  "//": "Дата создания: 2026-04-10",
-  "//": "Основано на анализе технологического стека проекта",
-
   "required": [
     "ms-python.python",
     "ms-python.vscode-pylance",

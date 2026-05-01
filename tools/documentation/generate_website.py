@@ -178,9 +178,7 @@ def convert() -> None:
         try:
             relative = md_file.relative_to(REPO_ROOT)
             # Имя страницы: путь без расширения
-            filename = (
-                str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
-            )
+            filename = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
             filename = sanitize_filename(filename)
 
             with open(md_file, encoding="utf-8") as f:

@@ -152,9 +152,7 @@ class VSCodeExtensionInstaller:
             )
             return [ext.strip() for ext in result.stdout.splitlines() if ext.strip()]
         except (subprocess.CalledProcessError, FileNotFoundError):
-            print(
-                "⚠️  VS Code CLI (code) не найден. Убедитесь, что VS Code добавлен в PATH."
-            )
+            print("⚠️  VS Code CLI (code) не найден. Убедитесь, что VS Code добавлен в PATH.")
             print(
                 "   Инструкция: https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line"
             )
@@ -345,9 +343,7 @@ def main():
 
         elif command == "detect":
             stacks = installer.detect_project_stack()
-            print(
-                f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}"
-            )
+            print(f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}")
             if stacks:
                 response = input("Установить обнаруженные стеки? (y/n): ")
                 if response.lower() == "y":
@@ -360,9 +356,7 @@ def main():
                 installer.generate_config_file(stacks)
             else:
                 print("Укажите стеки для генерации конфигурации")
-                print(
-                    "Пример: python setup-vscode-extensions.py generate python docker devops"
-                )
+                print("Пример: python setup-vscode-extensions.py generate python docker devops")
 
         elif command == "custom":
             if len(sys.argv) > 2:
@@ -393,9 +387,7 @@ def main():
             for i, (preset, stacks) in enumerate(installer.PRESET_CONFIGS.items(), 1):
                 print(f"  {i}. {preset} ({', '.join(stacks)})")
 
-            preset_choice = input(
-                "\nВыберите предустановку (номер или название): "
-            ).strip()
+            preset_choice = input("\nВыберите предустановку (номер или название): ").strip()
 
             if preset_choice.isdigit():
                 preset_idx = int(preset_choice) - 1
@@ -420,9 +412,7 @@ def main():
 
         elif choice == "3":
             stacks = installer.detect_project_stack()
-            print(
-                f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}"
-            )
+            print(f"\n🔍 Обнаруженные стеки: {', '.join(stacks) if stacks else 'не обнаружено'}")
 
             if stacks:
                 response = input("\nУстановить обнаруженные стеки? (y/n): ")
@@ -435,9 +425,7 @@ def main():
             for stack_name, stack_info in installer.TECH_STACKS.items():
                 print(f"  {stack_name}: {stack_info['name']}")
 
-            stacks_input = input(
-                "\nВведите стеки для конфигурации через пробел: "
-            ).strip()
+            stacks_input = input("\nВведите стеки для конфигурации через пробел: ").strip()
             stacks = stacks_input.split()
 
             output_file = input(

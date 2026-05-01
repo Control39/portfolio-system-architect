@@ -37,9 +37,7 @@ def get_stats(root: Path) -> Dict[str, Any]:
         # Get branches
         branches = _get_branches(root)
 
-        logger.info(
-            f"Git stats: {total_commits} commits, {len(contributors)} contributors"
-        )
+        logger.info(f"Git stats: {total_commits} commits, {len(contributors)} contributors")
 
         return {
             "total_commits": total_commits,
@@ -87,9 +85,7 @@ def _get_total_commits(root: Path) -> int:
 def _get_recent_commits(root: Path, days: int = 30) -> int:
     """Get number of commits in the last N days."""
     since_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-    output = _run_git_command(
-        root, ["rev-list", "--count", f"--since={since_date}", "--all"]
-    )
+    output = _run_git_command(root, ["rev-list", "--count", f"--since={since_date}", "--all"])
     if output:
         try:
             return int(output)

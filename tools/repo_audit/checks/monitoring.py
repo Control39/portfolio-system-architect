@@ -66,9 +66,7 @@ class MonitoringCheck(BaseCheck):
             self._add_result("INFO", "Alerting rules missing", "monitoring/")
 
         # 5. Logging configuration
-        if self.check_file_exists("logging.conf") or self.check_file_exists(
-            "log_config.yaml"
-        ):
+        if self.check_file_exists("logging.conf") or self.check_file_exists("log_config.yaml"):
             self._add_result("PASS", "Logging config exists", "logging.conf")
         else:
             self._add_result("INFO", "Logging config missing", "logging.conf")

@@ -53,9 +53,7 @@ def check_pip_updates():
                 print(f"  - {pkg['name']}: {pkg['version']} → {pkg['latest_version']}")
 
             # Generate update command
-            update_cmd = "pip install --upgrade " + " ".join(
-                [pkg["name"] for pkg in packages]
-            )
+            update_cmd = "pip install --upgrade " + " ".join([pkg["name"] for pkg in packages])
             print(f"\n💡 To update all: {update_cmd}")
         else:
             print("✅ All Python packages are up to date!")

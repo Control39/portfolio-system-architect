@@ -12,7 +12,5 @@ def test_it_compass_ui(page):
 
 @pytest.mark.e2e
 def test_it_compass_api(page):
-    response = requests.get(
-        "http://localhost:8501/health", timeout=5
-    )  # Assume endpoint
+    response = requests.get("http://localhost:8501/health", timeout=5)  # Assume endpoint
     assert response.status_code == 200

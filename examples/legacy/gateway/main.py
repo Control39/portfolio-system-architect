@@ -68,9 +68,7 @@ def get_jwt_secret() -> str:
     env_secret = os.getenv("JWT_SECRET")
     if env_secret:
         if len(env_secret) < 32:
-            logger.warning(
-                "JWT_SECRET is too short. For production, use at least 32 characters."
-            )
+            logger.warning("JWT_SECRET is too short. For production, use at least 32 characters.")
         logger.info("Using JWT secret from environment variable")
         return env_secret
 
@@ -87,9 +85,7 @@ def get_jwt_secret() -> str:
 
     # 4. Значение по умолчанию ТОЛЬКО для разработки с явным предупреждением
     logger.error("JWT_SECRET not set! Using insecure default for development only.")
-    logger.error(
-        "For production, set JWT_SECRET environment variable with strong secret."
-    )
+    logger.error("For production, set JWT_SECRET environment variable with strong secret.")
     return "insecure-development-secret-change-in-production"
 
 
@@ -102,20 +98,18 @@ def validate_environment():
         missing = [var for var in required_vars if not os.getenv(var)]
 
         if missing:
-            error_msg = f"Missing required environment variables in production: {', '.join(missing)}"
+            error_msg = (
+                f"Missing required environment variables in production: {', '.join(missing)}"
+            )
             logger.error(error_msg)
             raise RuntimeError(error_msg)
 
     # Предупреждения для разработки
     if environment == "development":
         if not os.getenv("JWT_SECRET"):
-            logger.warning(
-                "JWT_SECRET not set. Using insecure default for development."
-            )
+            logger.warning("JWT_SECRET not set. Using insecure default for development.")
         if os.getenv("ADMIN_PASSWORD") == "admin":
-            logger.warning(
-                "Using default admin password. Change ADMIN_PASSWORD in production."
-            )
+            logger.warning("Using default admin password. Change ADMIN_PASSWORD in production.")
 
     logger.info(f"Environment validation passed ({environment})")
 
@@ -451,9 +445,7 @@ async def gateway_middleware(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     response.headers["X-Request-ID"] = request_id
 
-    logger.info(
-        f"[{request_id}] Completed in {process_time:.3f}s - Status: {response.status_code}"
-    )
+    logger.info(f"[{request_id}] Completed in {process_time:.3f}s - Status: {response.status_code}")
 
     return response
 
@@ -482,9 +474,7 @@ async def health_check() -> dict[str, Any]:
         "services": services_status,
         "metrics": {
             "uptime": "0d 0h 0m",  # В production считать от времени старта
-            "request_count": redis_client.get("gateway:request_count")
-            if redis_client
-            else 0,
+            "request_count": redis_client.get("gateway:request_count") if redis_client else 0,
         },
     }
 
@@ -550,9 +540,7 @@ def create_route_handler(route_path: str, route_target: str, auth_required: bool
     """Создать обработчик маршрута."""
     if auth_required:
 
-        async def auth_handler(
-            request: Request, user_payload: dict = Depends(verify_token)
-        ):
+        async def auth_handler(request: Request, user_payload: dict = Depends(verify_token)):
             service_path = extract_service_path(request.url.path, route_path)
             return await forward_request(
                 service_name=route_target,
