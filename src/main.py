@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 try:
     # Пробуем импортировать из decision_engine.decision_engine.configs.loader
-    from decision_engine.decision_engine.configs.loader import COMPONENT_CONFIG
+    from decision_engine.configs.loader import COMPONENT_CONFIG
 except ImportError:
     # Fallback: создаем простую конфигурацию
     COMPONENT_CONFIG = {
