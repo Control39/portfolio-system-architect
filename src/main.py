@@ -58,9 +58,7 @@ def main():
         print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
-    uvicorn.run(
-        app, host="0.0.0.0", port=port, reload=False
-    )  # nosec B104: bound in container, not exposed externally
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # nosec B104: bound in container, not exposed externally
 
 
 def main_dev():

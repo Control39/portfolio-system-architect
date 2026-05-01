@@ -9,13 +9,13 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-        args: ['--allow-multiple-documents']
+        args: [ "--allow-multiple-documents" ]
       - id: check-json
-        exclude: '\.vscode/(settings|launch)\.json$'
+        exclude: "\\.vscode/(settings|launch)\\.json$"
       - id: check-added-large-files
-        args: ['--maxkb=1024']
+        args: [ "--maxkb=1024" ]
       - id: detect-private-key
-        exclude: '\.codeassistant/tools/python/secrets-scanner\.py'
+        exclude: "\\.codeassistant/tools/python/secrets-scanner\\.py"
       - id: check-merge-conflict
 
   # === Black (форматирование) ===
@@ -24,21 +24,21 @@ repos:
     hooks:
       - id: black
         language_version: python3.12
-        args: [--line-length=100]
+        args: [ --line-length=100 ]
 
   # === isort (сортировка импортов) ===
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
       - id: isort
-        args: [--profile=black, --line-length=100]
+        args: [ --profile=black, --line-length=100 ]
 
   # === Ruff (быстрый линтер) ===
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.14
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [ --fix, --exit-non-zero-on-fix ]
       - id: ruff-format
 
   # === Security ===
@@ -46,7 +46,7 @@ repos:
     rev: 1.7.7
     hooks:
       - id: bandit
-        args: ['-r', 'src/', '-ll']
+        args: [ "-r", "src/", "-ll" ]
         exclude: ^tests/
         pass_filenames: false
 
@@ -57,4 +57,4 @@ repos:
         name: Check branch name
         entry: python scripts/check_branch_name.py
         language: python
-        stages: [commit-msg]
+        stages: [ commit-msg ]

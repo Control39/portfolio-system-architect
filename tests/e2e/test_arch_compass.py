@@ -9,7 +9,7 @@ def test_arch_compass_module():
         [
             "pwsh",
             "-Command",
-            "Import-Module ./apps/infra-orchestrator/InfraOrchestrator.psm1; Get-Command InfraOrchestrator",
+            "Import-Module ./apps/infra-orchestrator/InfraOrchestrator.psm1; Get-Command Start-InfraOrchestrator",
         ],
         capture_output=True,
     )
