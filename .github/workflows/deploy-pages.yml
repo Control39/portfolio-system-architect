@@ -32,8 +32,8 @@ jobs:
       - name: Configure site_url for GitHub Pages
         run: |
           cd docs/mkdocs-site
-          # GitHub mirror: Control39/cognitive-systems-architecture
-          SITE_URL="https://control39.github.io/cognitive-systems-architecture/"
+          # GitHub mirror: Control39/portfolio-system-architect
+          SITE_URL="https://control39.github.io/portfolio-system-architect/"
 
           # Create backup
           cp mkdocs.yml mkdocs.yml.backup
