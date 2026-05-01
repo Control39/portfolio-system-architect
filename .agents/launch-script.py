@@ -250,7 +250,9 @@ if __name__ == "__main__":
 
         # Запускаем заглушку
         cmd = [sys.executable, str(stub_path)]
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
 
         self.processes[component] = process
         logger.info(f"Заглушка компонента запущена: {component}")
@@ -430,7 +432,9 @@ if __name__ == "__main__":
             status["components"][component] = {
                 "pid": process.pid,
                 "alive": process.poll() is None,
-                "returncode": process.returncode if process.poll() is not None else None,
+                "returncode": process.returncode
+                if process.poll() is not None
+                else None,
             }
 
         # Информация о ресурсах
@@ -444,7 +448,7 @@ if __name__ == "__main__":
                 "threads": process.num_threads(),
                 "open_files": len(process.open_files()),
             }
-        except:
+        except Exception:
             status["resources"] = {"error": "psutil not available"}
 
         # Производительность
@@ -460,7 +464,7 @@ if __name__ == "__main__":
                         "last_measurement": latest["timestamp"],
                         "scanner_success_rate": latest.get("success_rate", 0),
                     }
-            except:
+            except Exception:
                 status["performance"] = {"error": "could not read performance log"}
 
         return status
