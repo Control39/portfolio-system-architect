@@ -21,9 +21,8 @@ except ImportError:
             ]
         }
     }
-    print(
-        "Внимание: Используется fallback конфигурация. Убедитесь, что component-config.yaml существует."
-    )
+    print("Внимание: Используется fallback конфигурация.")
+    print("Убедитесь, что component-config.yaml существует.")
 
 try:
     from apps.portfolio_organizer.src.endpoints import app
@@ -47,7 +46,8 @@ def main():
             for script in COMPONENT_CONFIG["automation"]["scripts"]
             if script["name"] == "run_api"
         )
-        print(f"Запуск API: {api_script['command']}")
+        # Логируем запуск API
+        print(f"Запуск API: {api_script['command'][:50]}...")
 
         # Извлекаем порт из команды (если указан)
         port = 8000  # дефолтный порт
@@ -58,7 +58,9 @@ def main():
         print("Внимание: Конфигурация run_api не найдена, используем порт по умолчанию 8000")
         port = 8000
 
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)  # nosec B104: bound in container, not exposed externally
+    uvicorn.run(
+        app, host="0.0.0.0", port=port, reload=False
+    )  # nosec B104: bound in container, not exposed externally
 
 
 def main_dev():
@@ -69,7 +71,8 @@ def main_dev():
             for script in COMPONENT_CONFIG["automation"]["scripts"]
             if script["name"] == "run_api"
         )
-        print(f"Запуск API: {api_script['command']}")
+        # Логируем запуск API
+        print(f"Запуск API: {api_script['command'][:50]}...")
 
         # Извлекаем порт из команды (если указан)
         port = 8000  # дефолтный порт
