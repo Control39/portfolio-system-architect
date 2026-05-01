@@ -5,6 +5,7 @@ ChromaDB Tools для MCP Server
 Инструменты для работы с векторной базой ChromaDB.
 """
 
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -16,7 +17,8 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
 
     chroma_path = project_root / "chroma_data"
 
-    @mcp.tool()
+    @mcp_server.tool() # noqa: F821
+    def chroma_get_collections() -> List[str]:
     def chroma_get_collections() -> List[str]:
         """
         Получение списка коллекций ChromaDB
@@ -26,8 +28,6 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
-            from chromadb.config import Settings
-
             client = chromadb.PersistentClient(path=str(chroma_path))
             collections = client.list_collections()
             return [col.name for col in collections]
@@ -54,8 +54,6 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
-            from chromadb.config import Settings
-
             client = chromadb.PersistentClient(path=str(chroma_path))
             collection = client.get_collection(collection_name)
 
@@ -101,14 +99,12 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         """
         try:
             import chromadb
-            from chromadb.config import Settings
-
             client = chromadb.PersistentClient(path=str(chroma_path))
 
             # Создаём коллекцию если не существует
             try:
                 collection = client.get_collection(collection_name)
-            except:
+            except Exception:
                 collection = client.create_collection(collection_name)
 
             # Генерируем ID если не указан
@@ -148,6 +144,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 return {
                     "name": collection_name,
                     "document_count": count,
+                    "total_chunks": count,
                     "status": "exists",
                 }
             except Exception:
