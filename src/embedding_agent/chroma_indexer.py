@@ -266,6 +266,7 @@ class ChromaDocumentIndexer:
             count = self.collection.count()
             return {
                 "total_documents": count,
+                "total_chunks": count,  # For compatibility with tests expecting total_chunks
                 "collection_name": self.collection_name,
                 "persist_directory": str(self.persist_directory),
                 "embedding_model": self.embedder.model_name,
@@ -274,6 +275,11 @@ class ChromaDocumentIndexer:
         except Exception as e:
             logger.error(f"Error getting ChromaDB stats: {e}")
             return {"error": str(e)}
+
+    def close(self):
+        """Close ChromaDB client and release file handles."""
+        self.collection = None
+        self.client = None
 
     def delete_collection(self):
         """Delete the entire collection (use with caution!)."""

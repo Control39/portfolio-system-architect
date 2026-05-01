@@ -237,28 +237,37 @@ with tempfile.TemporaryDirectory() as tmpdir:
                 import yaml
 
                 with open(file_path) as f:
-                    manifest = yaml.safe_load(f)
+                    documents = list(yaml.safe_load_all(f))
 
-                # Проверяем базовую структуру
-                assert "apiVersion" in manifest
-                assert "kind" in manifest
-                assert "metadata" in manifest
-                assert "spec" in manifest
+                # Ищем Deployment среди всех документов
+                deployment_found = False
+                for manifest in documents:
+                    if manifest is None:
+                        continue
+                    # Проверяем базовую структуру
+                    assert "apiVersion" in manifest
+                    assert "kind" in manifest
+                    assert "metadata" in manifest
 
-                if manifest["kind"] == "Deployment":
-                    # Проверяем спецификацию deployment
-                    spec = manifest["spec"]
-                    assert "template" in spec
-                    assert "spec" in spec["template"]
-                    assert "containers" in spec["template"]["spec"]
+                    if manifest["kind"] == "Deployment":
+                        deployment_found = True
+                        # Проверяем спецификацию deployment
+                        assert "spec" in manifest
+                        spec = manifest["spec"]
+                        assert "template" in spec
+                        assert "spec" in spec["template"]
+                        assert "containers" in spec["template"]["spec"]
 
-                    # Проверяем health checks
-                    containers = spec["template"]["spec"]["containers"]
-                    for container in containers:
-                        if "livenessProbe" in container:
-                            assert "httpGet" in container["livenessProbe"]
-                        if "readinessProbe" in container:
-                            assert "httpGet" in container["readinessProbe"]
+                        # Проверяем health checks
+                        containers = spec["template"]["spec"]["containers"]
+                        for container in containers:
+                            if "livenessProbe" in container:
+                                assert "httpGet" in container["livenessProbe"]
+                            if "readinessProbe" in container:
+                                assert "httpGet" in container["readinessProbe"]
+                # Убедимся, что хотя бы один Deployment найден
+                if not deployment_found:
+                    pytest.skip(f"В файле {file_path} не найден ресурс Deployment")
             else:
                 pytest.skip(f"Файл {file_path} не найден")
 
@@ -339,7 +348,7 @@ class TestRAGPerformance:
 
 def test_full_rag_pipeline():
     """Полный интеграционный тест RAG пайплайна."""
-    with tempfile.TemporaryDirectory() as tmpdir:
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
         # 1. Инициализация компонентов
         DocumentEmbedder()
         indexer = ChromaDocumentIndexer(persist_directory=tmpdir)
@@ -377,6 +386,9 @@ def test_full_rag_pipeline():
         print(f"   - Индексировано документов: {stats['total_documents']}")
         print(f"   - Найдено чанков: {stats['total_chunks']}")
         print(f"   - Результатов поиска: {len(results)}")
+
+        # Явно закрываем индексатор, чтобы освободить файлы на Windows
+        indexer.close()
 
 
 if __name__ == "__main__":

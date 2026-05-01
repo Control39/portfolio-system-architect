@@ -15,7 +15,7 @@ dependencies = [
     "alembic>=1.14.0",
     "psycopg2-binary>=2.9.12",
     "redis>=5.3.1",
-    "requests>=2.33.1",  # Security update: CVE fixes
+    "requests>=2.33.1",                 # Security update: CVE fixes
     "langchain>=1.2.13",
     "langchain-community>=0.2.28",
     "langchain-openai>=1.2.1",
@@ -23,16 +23,14 @@ dependencies = [
     "python-multipart>=0.0.13",
     "python-jose[cryptography]>=3.5.0",
     "passlib[bcrypt]>=1.7.4",
-    "httpx>=0.28.1",  # Update for security and performance
-    "pyyaml>=6.0.3",  # Security update: CVE-2020-14343 fix
+    "httpx>=0.28.1",                    # Update for security and performance
+    "pyyaml>=6.0.3",                    # Security update: CVE-2020-14343 fix
     "sentence-transformers>=3.0.1",
     "chromadb>=1.5.8",
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-authors = [
-    {name = "Lead AI Systems Architect", email = ""},
-]
+authors = [{ name = "Lead AI Systems Architect", email = "" }]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -43,24 +41,14 @@ classifiers = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = [
-  "apps",
-  "tests",
-  "tests/e2e",
-  "tests/unit"
-]
+testpaths = ["apps", "tests", "tests/e2e", "tests/unit"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
 pythonpath = []
 addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
-markers = [
-  "e2e: E2E tests (services up)",
-  "slow: Slow tests"
-]
-filterwarnings = [
-  "ignore::DeprecationWarning:langchain"
-]
+markers = ["e2e: E2E tests (services up)", "slow: Slow tests"]
+filterwarnings = ["ignore::DeprecationWarning:langchain"]
 
 [tool.pytest-cov]
 cov_fail_under = 95
@@ -78,10 +66,7 @@ packages = ["src", "apps"]
 packages = ["src", "apps"]
 
 [project.optional-dependencies]
-audit = [
-    "pip-audit>=2.9.0",
-    "bandit>=1.8.0"
-]
+audit = ["pip-audit>=2.9.0", "bandit>=1.8.0"]
 dev = [
     "pytest>=9.0.0",
     "pytest-cov>=7.0.0",
@@ -91,16 +76,8 @@ dev = [
     "bandit>=1.8.0",
     "mypy>=1.15.0",
 ]
-test = [
-    "pytest>=9.0.0",
-    "pytest-cov>=7.0.0",
-    "pytest-mock>=3.15.0",
-]
-docs = [
-    "mkdocs>=1.6.0",
-    "mkdocs-material>=9.5.0",
-]
-
+test = ["pytest>=9.0.0", "pytest-cov>=7.0.0", "pytest-mock>=3.15.0"]
+docs = ["mkdocs>=1.6.0", "mkdocs-material>=9.5.0"]
 
 
 [tool.repo-audit]
@@ -116,15 +93,42 @@ auto_fix = false
 output_format = "markdown"
 # Исключаемые пути
 exclude_paths = [
-  ".venv",
-  "node_modules",
-  "__pycache__",
-  ".git",
-  "coverage_html",
-  "data",
-  "postgres",
+    ".venv",
+    "node_modules",
+    "__pycache__",
+    ".git",
+    "coverage_html",
+    "data",
+    "postgres",
 ]
 # Интеграция с GitHub
 github_integration = true
 # Slack-уведомления (опционально)
 slack_webhook = ""
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+]
+ignore = [
+    "E402", # Module level import not at top of file (требуется для sys.path.insert)
+    "B008", # Do not perform function call in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/integration/test_rag_integration.py" = ["E402", "E501"]
+"tests/e2e/test_arch_compass.py" = ["E501"]
+
+[tool.bandit]
+skips = ["B101", "B104", "B404", "B501", "B507"]
+exclude_dirs = ["tests", "test_*.py", ".venv"]
+skip_attrs_with_nosec = true

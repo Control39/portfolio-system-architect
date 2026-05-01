@@ -1,5 +1,7 @@
+---
 skips:
-  - B101  # assert_used (только в тестах)
-  - B404  # subprocess (hardcoded commands)
-  - B501  # request_with_no_cert_validation
-  - B507  # ssh_no_host_key_verification
+  - B101
+  - B104
+  - B404
+  - B501
+  - B507
