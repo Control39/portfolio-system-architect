@@ -9,6 +9,8 @@ from src.main import app
 
 client = TestClient(app)
 
+# Используем asyncio_mode = auto из pytest.ini
+
 
 def test_health_check():
     """Тест базового health check endpoint."""

@@ -13,7 +13,6 @@ from .scripts.planner_main import Planner
 
 # Импорт основных компонентов для удобного доступа
 from .scripts.scanner_main import Scanner
-from .scripts.trigger_processor import TriggerProcessor
 
 # Экспорт основных классов
 __all__ = [
