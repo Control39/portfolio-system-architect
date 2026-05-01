@@ -177,9 +177,7 @@ class TestMetricsGeneratorV2:
                             value = random.uniform(0.0, 100.0)
 
                         period = "hourly"
-                        tags = json.dumps(
-                            {"test_data": True, "source": "test_generator"}
-                        )
+                        tags = json.dumps({"test_data": True, "source": "test_generator"})
 
                         cursor.execute(
                             """
@@ -245,9 +243,7 @@ class TestMetricsGeneratorV2:
             print("\n📊 Статистика событий:")
 
             # Распределение по статусам
-            cursor.execute(
-                "SELECT status, COUNT(*) FROM trigger_events GROUP BY status"
-            )
+            cursor.execute("SELECT status, COUNT(*) FROM trigger_events GROUP BY status")
             status_counts = cursor.fetchall()
 
             cursor.execute("SELECT COUNT(*) FROM trigger_events")
@@ -276,9 +272,7 @@ class TestMetricsGeneratorV2:
 
             if total_events > 0:
                 success_rate = successful / total_events * 100
-                print(
-                    f"\n  Успешность: {success_rate:.1f}% ({successful}/{total_events})"
-                )
+                print(f"\n  Успешность: {success_rate:.1f}% ({successful}/{total_events})")
 
             # Временной диапазон
             cursor.execute("SELECT MIN(timestamp), MAX(timestamp) FROM trigger_events")
@@ -303,16 +297,10 @@ def main():
         default=50,
         help="Количество тестовых событий для генерации",
     )
-    parser.add_argument(
-        "--metrics", action="store_true", help="Добавить тестовые метрики"
-    )
-    parser.add_argument(
-        "--stats", action="store_true", help="Добавить статистические данные"
-    )
+    parser.add_argument("--metrics", action="store_true", help="Добавить тестовые метрики")
+    parser.add_argument("--stats", action="store_true", help="Добавить статистические данные")
     parser.add_argument("--all", action="store_true", help="Добавить все типы данных")
-    parser.add_argument(
-        "--show", action="store_true", help="Показать статистику базы данных"
-    )
+    parser.add_argument("--show", action="store_true", help="Показать статистику базы данных")
     parser.add_argument(
         "--reset", action="store_true", help="Очистить базу данных перед добавлением"
     )
@@ -343,25 +331,17 @@ def main():
     if args.show or args.events > 0 or args.metrics or args.stats or args.all:
         generator.show_statistics()
 
-    if not any(
-        [args.events > 0, args.metrics, args.stats, args.all, args.show, args.reset]
-    ):
+    if not any([args.events > 0, args.metrics, args.stats, args.all, args.show, args.reset]):
         print("Использование:")
         print(
             "  python add-test-metrics-v2.py --events 100          # Добавить 100 тестовых событий"
         )
-        print(
-            "  python add-test-metrics-v2.py --metrics             # Добавить тестовые метрики"
-        )
+        print("  python add-test-metrics-v2.py --metrics             # Добавить тестовые метрики")
         print(
             "  python add-test-metrics-v2.py --stats               # Добавить статистические данные"
         )
-        print(
-            "  python add-test-metrics-v2.py --all                 # Добавить все типы данных"
-        )
-        print(
-            "  python add-test-metrics-v2.py --show                # Показать статистику"
-        )
+        print("  python add-test-metrics-v2.py --all                 # Добавить все типы данных")
+        print("  python add-test-metrics-v2.py --show                # Показать статистику")
         print(
             "  python add-test-metrics-v2.py --reset --events 50   # Очистить и добавить 50 событий"
         )

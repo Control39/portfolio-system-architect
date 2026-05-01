@@ -67,9 +67,7 @@ class TestModelRegistrySecurity(unittest.TestCase):
     def test_sql_injection_in_search(self):
         """Проверка попытки SQL-инъекции через поиск"""
         # Регистрация тестовой модели
-        self.registry.register_model(
-            "test_model", {"name": "Test Model", "version": "1.0"}
-        )
+        self.registry.register_model("test_model", {"name": "Test Model", "version": "1.0"})
 
         # Попытка SQL-инъекции через поиск
         malicious_query = "test' OR '1'='1"

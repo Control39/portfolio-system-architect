@@ -1,7 +1,4 @@
-﻿import json
-from datetime import datetime
-
-import requests
+﻿import requests
 
 
 class CrisisAPIService:
@@ -12,19 +9,19 @@ class CrisisAPIService:
             "psyhelp_hotline": {
                 "name": "Психологическая помощь",
                 "api_url": "https://api.psyhelp.ru/v1/hotlines",
-                "method": "GET"
+                "method": "GET",
             },
             "mindful_meditations": {
                 "name": "Mindful",
                 "api_url": "https://mindful.ru/api/meditations",
-                "method": "GET"
+                "method": "GET",
             },
             "psyhelp_find": {
                 "name": "Психологи России",
                 "api_url": "https://api.psyhelp.ru/v1/find",
                 "method": "POST",
-                "headers": {"Content-Type": "application/json"}
-            }
+                "headers": {"Content-Type": "application/json"},
+            },
         }
 
     def get_hotlines(self):
@@ -62,7 +59,7 @@ class CrisisAPIService:
                 self.services["psyhelp_find"]["api_url"],
                 json=payload,
                 headers=self.services["psyhelp_find"]["headers"],
-                timeout=30
+                timeout=30,
             )
 
             if response.status_code == 200:
@@ -74,25 +71,22 @@ class CrisisAPIService:
 
     def show_available_services(self):
         """Показать доступные сервисы"""
-        print("
-" + "="*50)
+        print("\n" + "=" * 50)
         print("🌐 ДОСТУПНЫЕ СЕРВИСЫ ПОДДЕРЖКИ")
-        print("="*50)
+        print("=" * 50)
 
         for key, service in self.services.items():
-            print(f"
-🔹 {service['name']}")
+            print(f"\n🔹 {service['name']}")
             print(f"   URL: {service['api_url']}")
             print(f"   Метод: {service['method']}")
 
-        print("
-" + "="*50)
+        print("\n" + "=" * 50)
         print("💡 Как использовать: Выберите сервис и вызовите соответствующий метод")
         print("   Например: service.get_hotlines() для получения горячих линий")
-        print("="*50)
+        print("=" * 50)
 
-        input("
-Нажмите Enter, чтобы продолжить...")
+        input("\nНажмите Enter, чтобы продолжить...")
+
 
 # Пример использования
 if __name__ == "__main__":

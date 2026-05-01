@@ -58,8 +58,7 @@ def scan_directory(base_path: Path, max_depth: int = 5) -> List[AuditResult]:
         if any(part.startswith(".") for part in current_path.parts):
             continue
         if any(
-            part in ["__pycache__", "node_modules", ".venv", "venv"]
-            for part in current_path.parts
+            part in ["__pycache__", "node_modules", ".venv", "venv"] for part in current_path.parts
         ):
             continue
 

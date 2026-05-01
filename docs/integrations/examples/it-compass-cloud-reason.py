@@ -63,9 +63,7 @@ class ITCompassDecisionEngineIntegration:
             "Kubernetes": "Certified Kubernetes Administrator",
         }
 
-        return [
-            learning_paths.get(skill, f"Изучение {skill}") for skill in missing_skills
-        ]
+        return [learning_paths.get(skill, f"Изучение {skill}") for skill in missing_skills]
 
     def display_recommendations(self):
         """Отображение рекомендаций"""

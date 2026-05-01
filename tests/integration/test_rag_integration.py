@@ -64,9 +64,7 @@ class TestRAGIntegration:
         # Запрос 1: "ChromaDB" - точно есть в третьем документе
         results = chroma_indexer.search("ChromaDB", top_k=1)
         assert len(results) > 0, "Должен найти документ про ChromaDB"
-        assert (
-            "ChromaDB" in results[0]["text"]
-        ), "Найденный документ должен содержать 'ChromaDB'"
+        assert "ChromaDB" in results[0]["text"], "Найденный документ должен содержать 'ChromaDB'"
 
         # Запрос 2: "RAG" - точно есть во втором документе
         results = chroma_indexer.search("RAG", top_k=1)
@@ -215,9 +213,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
 
             assert "chromadb" in services, "Сервис ChromaDB должен быть определен"
             assert "rag-api" in services, "Сервис RAG API должен быть определен"
-            assert (
-                "streamlit-ui" in services
-            ), "Сервис Streamlit UI должен быть определен"
+            assert "streamlit-ui" in services, "Сервис Streamlit UI должен быть определен"
 
             # Проверяем настройки сети
             assert "networks" in config
@@ -333,9 +329,7 @@ class TestRAGPerformance:
         # Выполняем запросы параллельно
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             futures = [executor.submit(search_query, query) for query in queries]
-            results = [
-                future.result() for future in concurrent.futures.as_completed(futures)
-            ]
+            results = [future.result() for future in concurrent.futures.as_completed(futures)]
 
         # Проверяем, что все запросы выполнены
         assert len(results) == len(queries)
@@ -372,8 +366,7 @@ def test_full_rag_pipeline():
         found_monitoring = False
         for result in results:
             if any(
-                word in result["text"].lower()
-                for word in ["prometheus", "grafana", "мониторинг"]
+                word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]
             ):
                 found_monitoring = True
                 break

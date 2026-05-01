@@ -25,9 +25,7 @@ class CodeQualityCheck(BaseCheck):
         # Ruff
         if self.check_file_exists("pyproject.toml"):
             if self.check_file_content("pyproject.toml", "ruff"):
-                self._add_result(
-                    "PASS", "Ruff configured in pyproject.toml", "pyproject.toml"
-                )
+                self._add_result("PASS", "Ruff configured in pyproject.toml", "pyproject.toml")
             else:
                 self._add_result(
                     "WARNING", "Ruff not configured in pyproject.toml", "pyproject.toml"
@@ -63,9 +61,7 @@ class CodeQualityCheck(BaseCheck):
 
         # pre‑commit hooks for quality
         if self.check_file_exists(".pre-commit-config.yaml"):
-            content = (self.repo_path / ".pre-commit-config.yaml").read_text(
-                encoding="utf-8"
-            )
+            content = (self.repo_path / ".pre-commit-config.yaml").read_text(encoding="utf-8")
             if "ruff" in content or "black" in content or "isort" in content:
                 self._add_result(
                     "PASS",

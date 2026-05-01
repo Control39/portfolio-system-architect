@@ -63,9 +63,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             else:
                 result["levels"] = all_levels
 
-            result["total_markers"] = sum(
-                len(markers) for markers in result["levels"].values()
-            )
+            result["total_markers"] = sum(len(markers) for markers in result["levels"].values())
 
             return result
 
@@ -194,12 +192,8 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
                     file_type = detect_file_type(file)
 
                     if file_type in marker_patterns:
-                        for marker_name, marker_info in marker_patterns[
-                            file_type
-                        ].items():
-                            if any(
-                                pattern in content for pattern in marker_info["pattern"]
-                            ):
+                        for marker_name, marker_info in marker_patterns[file_type].items():
+                            if any(pattern in content for pattern in marker_info["pattern"]):
                                 detected.append(
                                     {
                                         "domain": file_type,

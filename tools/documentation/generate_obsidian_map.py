@@ -116,9 +116,7 @@ def main() -> None:
             # Формируем относительный путь
             relative = file.relative_to(REPO_ROOT)
             # Имя заметки: путь без расширения
-            note_name = (
-                str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
-            )
+            note_name = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
             note_name = sanitize_filename(note_name)
             note_path: Path = OUTPUT_DIR / f"{note_name}.md"
 

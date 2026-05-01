@@ -271,14 +271,9 @@ class TriggerProcessor:
                 logger.error(f"Действие завершилось с ошибкой: {action_name}")
 
                 # Проверяем, разрешены ли ошибки
-                if (
-                    action.allowed_failures > 0
-                    and action.retry_count < action.allowed_failures
-                ):
+                if action.allowed_failures > 0 and action.retry_count < action.allowed_failures:
                     action.retry_count += 1
-                    logger.info(
-                        f"Повторная попытка {action.retry_count}/{action.allowed_failures}"
-                    )
+                    logger.info(f"Повторная попытка {action.retry_count}/{action.allowed_failures}")
                     # Повторяем действие
                     result = action.execute()
                     if result["success"]:
@@ -311,9 +306,7 @@ class TriggerProcessor:
 
         return True
 
-    def _log_results(
-        self, event: TriggerEvent, results: List[Dict[str, Any]], success: bool
-    ):
+    def _log_results(self, event: TriggerEvent, results: List[Dict[str, Any]], success: bool):
         """Логирование результатов"""
         log_entry = {
             "timestamp": datetime.now().isoformat(),
@@ -326,10 +319,7 @@ class TriggerProcessor:
         log_dir = Path(".agents/logs/triggers")
         log_dir.mkdir(exist_ok=True, parents=True)
 
-        log_file = (
-            log_dir
-            / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        log_file = log_dir / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(log_file, "w", encoding="utf-8") as f:
             json.dump(log_entry, f, indent=2, ensure_ascii=False)
 
@@ -363,9 +353,7 @@ class TriggerProcessor:
 
         # Запускаем воркеры
         for i in range(num_workers):
-            worker = threading.Thread(
-                target=self.worker_loop, name=f"TriggerWorker-{i}"
-            )
+            worker = threading.Thread(target=self.worker_loop, name=f"TriggerWorker-{i}")
             worker.daemon = True
             worker.start()
             self.workers.append(worker)
@@ -476,9 +464,7 @@ def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Обработчик триггеров Cognitive Automation Agent"
-    )
+    parser = argparse.ArgumentParser(description="Обработчик триггеров Cognitive Automation Agent")
     parser.add_argument(
         "--config", default=".agents/config/triggers.yaml", help="Путь к конфигурации"
     )

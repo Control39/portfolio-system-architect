@@ -77,9 +77,7 @@ class TestingCheck(BaseCheck):
                     ".github/workflows",
                 )
             else:
-                self._add_result(
-                    "WARNING", "No dedicated test workflow", ".github/workflows"
-                )
+                self._add_result("WARNING", "No dedicated test workflow", ".github/workflows")
         # 7. tox configuration (optional)
         if self.check_file_exists("tox.ini"):
             self._add_result("PASS", "tox.ini exists", "tox.ini")
@@ -117,9 +115,7 @@ class TestCoverageCheck(BaseCheck):
             if "coverage" in content.lower() or "codecov" in content.lower():
                 self._add_result("PASS", "README mentions coverage", "README.md")
             else:
-                self._add_result(
-                    "INFO", "README does not mention coverage", "README.md"
-                )
+                self._add_result("INFO", "README does not mention coverage", "README.md")
         # 3. coverage report directory
         if (self.repo_path / "htmlcov").is_dir():
             self._add_result(
@@ -131,7 +127,5 @@ class TestCoverageCheck(BaseCheck):
         if self.check_file_content(".gitignore", "htmlcov"):
             self._add_result("PASS", ".gitignore excludes htmlcov", ".gitignore")
         else:
-            self._add_result(
-                "WARNING", ".gitignore does not exclude htmlcov", ".gitignore"
-            )
+            self._add_result("WARNING", ".gitignore does not exclude htmlcov", ".gitignore")
         return self.results

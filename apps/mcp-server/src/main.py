@@ -21,9 +21,7 @@ sys.path.insert(0, str(project_root))
 mcp = FastMCP("Career Autopilot MCP Server")
 
 # Конфигурация
-IT_COMPASS_MARKERS_PATH = (
-    project_root / "apps" / "it-compass" / "src" / "data" / "markers"
-)
+IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it-compass" / "src" / "data" / "markers"
 PROJECT_ROOT = project_root
 
 # Импорт инструментов
@@ -212,9 +210,7 @@ def _get_sample_markers(data: Dict) -> str:
     for level_num, level_markers in levels.items():
         if level_markers and len(level_markers) > 0:
             marker = level_markers[0]
-            markers.append(
-                f"- **Уровень {level_num}**: {marker.get('marker', 'Нет описания')}"
-            )
+            markers.append(f"- **Уровень {level_num}**: {marker.get('marker', 'Нет описания')}")
             if len(markers) >= 3:
                 break
 

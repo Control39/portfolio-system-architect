@@ -134,9 +134,7 @@ with col1:
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
 
     with col_btn1:
-        ask_button = st.button(
-            "🚀 Задать вопрос", type="primary", use_container_width=True
-        )
+        ask_button = st.button("🚀 Задать вопрос", type="primary", use_container_width=True)
 
     with col_btn2:
         example_button = st.button("📋 Примеры вопросов", use_container_width=True)
@@ -221,9 +219,7 @@ if ask_button and query:
                 # Источники
                 if data.get("sources"):
                     st.markdown("### 📚 Источники")
-                    st.caption(
-                        f"Найдено {len(data['sources'])} релевантных документа(ов)"
-                    )
+                    st.caption(f"Найдено {len(data['sources'])} релевантных документа(ов)")
 
                     for i, source in enumerate(data["sources"]):
                         with st.expander(
@@ -294,9 +290,7 @@ if "history" in st.session_state and st.session_state.history:
     st.markdown("---")
     st.markdown("### 📜 История запросов")
 
-    for i, item in enumerate(
-        reversed(st.session_state.history[-5:])
-    ):  # Последние 5 запросов
+    for i, item in enumerate(reversed(st.session_state.history[-5:])):  # Последние 5 запросов
         with st.expander(f"❓ {item['question'][:50]}...", expanded=False):
             st.markdown(f"**Время:** {item['timestamp']}")
             st.markdown(f"**Уверенность:** {item['confidence']:.2%}")

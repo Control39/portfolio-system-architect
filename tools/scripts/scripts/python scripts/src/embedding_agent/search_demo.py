@@ -32,9 +32,7 @@ def search_similar_code(query: str, indexer, embedder, top_k: int = 5):
     results = []
     for chunk in indexer.index:
         if "embedding" in chunk:
-            similarity = embedder.compute_similarity(
-                query_embedding, chunk["embedding"]
-            )
+            similarity = embedder.compute_similarity(query_embedding, chunk["embedding"])
             results.append((similarity, chunk))
 
     # Сортируем по убыванию сходства

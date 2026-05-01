@@ -142,8 +142,7 @@ def list_files_tool(path: str = ".", recursive: bool = False) -> Dict[str, Any]:
                 dirs[:] = [
                     d
                     for d in dirs
-                    if not d.startswith(".")
-                    and d not in ["__pycache__", ".venv", "venv"]
+                    if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]
                 ]
 
                 for filename in filenames:
@@ -207,9 +206,7 @@ def list_files_tool(path: str = ".", recursive: bool = False) -> Dict[str, Any]:
                     continue
 
         # Сортируем: сначала директории, потом файлы, по имени
-        files.sort(
-            key=lambda x: (0 if x["type"] == "directory" else 1, x["name"].lower())
-        )
+        files.sort(key=lambda x: (0 if x["type"] == "directory" else 1, x["name"].lower()))
 
         return {
             "success": True,
@@ -271,9 +268,7 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
                 # Если query пустой, добавляем все файлы по шаблону
                 if not query.strip():
                     rel_path = file_path.relative_to(PROJECT_ROOT)
-                    results.append(
-                        {"file": str(rel_path), "matches": [], "line_count": 0}
-                    )
+                    results.append({"file": str(rel_path), "matches": [], "line_count": 0})
                     continue
 
                 # Ищем query в содержимом файла
@@ -296,9 +291,7 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
                         results.append(
                             {
                                 "file": str(rel_path),
-                                "matches": matches[
-                                    :10
-                                ],  # Ограничиваем количество совпадений
+                                "matches": matches[:10],  # Ограничиваем количество совпадений
                                 "line_count": len(lines),
                                 "match_count": len(matches),
                             }

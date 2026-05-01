@@ -17,9 +17,7 @@ class AssistantOrchestrator:
     def __init__(self, project_root: str = "."):
         self.project_root = project_root
         self.collector = EvidenceCollector(project_root)
-        logger.info(
-            f"Initialized AssistantOrchestrator for project root: {project_root}"
-        )
+        logger.info(f"Initialized AssistantOrchestrator for project root: {project_root}")
 
     def run_full_analysis(self) -> AnalysisResult:
         """Собирает все доказательства и возвращает результат"""
@@ -27,18 +25,14 @@ class AssistantOrchestrator:
 
         try:
             microservices = self.collector.collect_microservices()
-            logger.info(
-                f"Collected microservices: {len(microservices.get('services', []))}"
-            )
+            logger.info(f"Collected microservices: {len(microservices.get('services', []))}")
         except Exception as e:
             logger.error(f"Failed to collect microservices: {e}")
             microservices = {"error": str(e), "services": []}
 
         try:
             skill_markers = self.collector.collect_skill_markers()
-            logger.info(
-                f"Collected skill markers: {skill_markers.get('total_count', 0)}"
-            )
+            logger.info(f"Collected skill markers: {skill_markers.get('total_count', 0)}")
         except Exception as e:
             logger.error(f"Failed to collect skill markers: {e}")
             skill_markers = {"error": str(e), "total_count": 0, "categories": []}
@@ -52,9 +46,7 @@ class AssistantOrchestrator:
 
         try:
             git_stats = self.collector.collect_git_stats()
-            logger.info(
-                f"Collected git stats: {git_stats.get('total_commits', 0)} commits"
-            )
+            logger.info(f"Collected git stats: {git_stats.get('total_commits', 0)} commits")
         except Exception as e:
             logger.error(f"Failed to collect git stats: {e}")
             git_stats = {"error": str(e)}

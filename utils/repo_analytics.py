@@ -52,22 +52,14 @@ def main():
     # 1. Просмотры
     views = fetch_github("traffic/views")
     if views:
-        save_csv(
-            views["views"], f"views_{today}.csv", ["timestamp", "count", "uniques"]
-        )
-        print(
-            f"👁️ Просмотров за 14 дней: {views['count']} | Уникальных: {views['uniques']}"
-        )
+        save_csv(views["views"], f"views_{today}.csv", ["timestamp", "count", "uniques"])
+        print(f"👁️ Просмотров за 14 дней: {views['count']} | Уникальных: {views['uniques']}")
 
     # 2. Клоны
     clones = fetch_github("traffic/clones")
     if clones:
-        save_csv(
-            clones["clones"], f"clones_{today}.csv", ["timestamp", "count", "uniques"]
-        )
-        print(
-            f"📥 Клонов за 14 дней: {clones['count']} | Уникальных: {clones['uniques']}"
-        )
+        save_csv(clones["clones"], f"clones_{today}.csv", ["timestamp", "count", "uniques"])
+        print(f"📥 Клонов за 14 дней: {clones['count']} | Уникальных: {clones['uniques']}")
 
     # 3. Источники (referrers)
     refs = fetch_github("traffic/popular/referrers")

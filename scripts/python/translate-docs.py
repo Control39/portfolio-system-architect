@@ -68,9 +68,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--api-key", required=True, help="GigaChat API key")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument(
-        "--exclude-website", action="store_true", help="Exclude website folder"
-    )
+    parser.add_argument("--exclude-website", action="store_true", help="Exclude website folder")
     args = parser.parse_args()
 
     docs_dir = Path("05_DOCUMENTATION/docs")

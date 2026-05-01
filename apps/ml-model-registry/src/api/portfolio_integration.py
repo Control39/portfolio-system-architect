@@ -15,9 +15,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 # Импортируем async helpers
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from src.common.async_helpers import fetch_parallel
 
 # Настройка логирования
@@ -27,9 +25,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/portfolio", tags=["portfolio-integration"])
 
 # Конфигурация из переменных окружения
-ML_MODEL_REGISTRY_URL = os.environ.get(
-    "ML_MODEL_REGISTRY_URL", "http://ml-model-registry:8000"
-)
+ML_MODEL_REGISTRY_URL = os.environ.get("ML_MODEL_REGISTRY_URL", "http://ml-model-registry:8000")
 
 PORTFOLIO_ORGANIZER_URL = os.environ.get(
     "PORTFOLIO_ORGANIZER_URL", "http://portfolio-organizer:8001"
@@ -84,9 +80,7 @@ async def fetch_from_registry(endpoint: str, method: str = "GET", data: Dict = N
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к реестру моделей: {e}")
-            raise HTTPException(
-                status_code=503, detail="ML Model Registry is not accessible"
-            )
+            raise HTTPException(status_code=503, detail="ML Model Registry is not accessible")
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к реестру моделей: {e}")
             raise HTTPException(
@@ -112,9 +106,7 @@ async def send_to_portfolio(endpoint: str, data: Dict):
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к Portfolio Organizer: {e}")
-            raise HTTPException(
-                status_code=503, detail="Portfolio Organizer is not accessible"
-            )
+            raise HTTPException(status_code=503, detail="Portfolio Organizer is not accessible")
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к Portfolio Organizer: {e}")
             raise HTTPException(

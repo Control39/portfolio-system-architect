@@ -84,11 +84,7 @@ class AlertSystem:
         """Рекурсивное объединение конфигураций"""
         result = default.copy()
         for key, value in user.items():
-            if (
-                key in result
-                and isinstance(result[key], dict)
-                and isinstance(value, dict)
-            ):
+            if key in result and isinstance(result[key], dict) and isinstance(value, dict):
                 result[key] = self._merge_configs(result[key], value)
             else:
                 result[key] = value
@@ -225,12 +221,8 @@ class AlertSystem:
             error_count = cursor.fetchone()[0]
 
             # Расчет процентов
-            success_rate = (
-                (successful_events / total_events * 100) if total_events > 0 else 0
-            )
-            failure_rate = (
-                (failed_events / total_events * 100) if total_events > 0 else 0
-            )
+            success_rate = (successful_events / total_events * 100) if total_events > 0 else 0
+            failure_rate = (failed_events / total_events * 100) if total_events > 0 else 0
 
             return {
                 "total_events": total_events,
@@ -407,9 +399,7 @@ class AlertSystem:
         # Локальное сохранение оповещений
         self._save_alerts_locally(alerts)
 
-        logger.info(
-            f"Отправлено {notifications_sent} уведомлений о {len(alerts)} оповещениях"
-        )
+        logger.info(f"Отправлено {notifications_sent} уведомлений о {len(alerts)} оповещениях")
 
     def _format_alert_message(self, high: List, medium: List, low: List) -> str:
         """Форматирование сообщения об оповещениях"""
@@ -511,9 +501,7 @@ class AlertSystem:
                 logger.info("Telegram оповещение отправлено")
                 return True
             else:
-                logger.error(
-                    f"Ошибка Telegram: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Ошибка Telegram: {response.status_code} - {response.text}")
                 return False
 
         except Exception as e:
@@ -574,9 +562,7 @@ class AlertSystem:
         print("=" * 60)
 
         for alert in filtered_alerts:
-            severity_icon = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(
-                alert["severity"], "⚪"
-            )
+            severity_icon = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(alert["severity"], "⚪")
 
             print(f"{severity_icon} [{alert['severity'].upper()}] {alert['message']}")
 
@@ -587,15 +573,9 @@ def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Система оповещений для мониторинга триггеров"
-    )
-    parser.add_argument(
-        "--hours", type=int, default=24, help="Период для анализа (в часах)"
-    )
-    parser.add_argument(
-        "--no-notify", action="store_true", help="Не отправлять уведомления"
-    )
+    parser = argparse.ArgumentParser(description="Система оповещений для мониторинга триггеров")
+    parser.add_argument("--hours", type=int, default=24, help="Период для анализа (в часах)")
+    parser.add_argument("--no-notify", action="store_true", help="Не отправлять уведомления")
     parser.add_argument("--test", action="store_true", help="Тестовый запуск")
     parser.add_argument("--config", help="Путь к файлу конфигурации")
 
@@ -631,9 +611,7 @@ def main():
             print(f"  {alert['severity']}: {alert['message']}")
 
         print("\nФорматированное сообщение:")
-        print(
-            alert_system._format_alert_message([test_alerts[0]], [test_alerts[1]], [])
-        )
+        print(alert_system._format_alert_message([test_alerts[0]], [test_alerts[1]], []))
 
         return
 

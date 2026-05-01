@@ -32,9 +32,7 @@ def sync_file(source, target_dir, preview_only=False):
         print(preview_diff(source, target))
     else:
         Path(target).parent.mkdir(parents=True, exist_ok=True)
-        with open(source, encoding="utf-8") as sf, open(
-            target, "w", encoding="utf-8"
-        ) as tf:
+        with open(source, encoding="utf-8") as sf, open(target, "w", encoding="utf-8") as tf:
             tf.write(sf.read())
         print(f"Synced: {target}")
 
@@ -46,9 +44,7 @@ def main():
         required=True,
         help="Source dir e.g. C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers/",
     )
-    parser.add_argument(
-        "--target", default="_sync/it-compass", help="Target _sync subdir"
-    )
+    parser.add_argument("--target", default="_sync/it-compass", help="Target _sync subdir")
     parser.add_argument("--preview", action="store_true", help="Preview diffs only")
     args = parser.parse_args()
 

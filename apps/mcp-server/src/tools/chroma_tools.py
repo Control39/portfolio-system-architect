@@ -66,12 +66,8 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 for i, doc in enumerate(results["documents"][0]):
                     result = {
                         "document": doc,
-                        "distance": results["distances"][0][i]
-                        if "distances" in results
-                        else None,
-                        "metadata": results["metadatas"][0][i]
-                        if "metadatas" in results
-                        else None,
+                        "distance": results["distances"][0][i] if "distances" in results else None,
+                        "metadata": results["metadatas"][0][i] if "metadatas" in results else None,
                     }
                     if results.get("ids"):
                         result["id"] = results["ids"][0][i]
@@ -120,9 +116,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
 
             doc_id = document_id or hashlib.md5(document.encode()).hexdigest()
 
-            collection.add(
-                documents=[document], metadatas=[metadata or {}], ids=[doc_id]
-            )
+            collection.add(documents=[document], metadatas=[metadata or {}], ids=[doc_id])
 
             return {"status": "success", "collection": collection_name, "id": doc_id}
 

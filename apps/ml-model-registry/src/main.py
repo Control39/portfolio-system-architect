@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 
 from fastapi import FastAPI
@@ -8,13 +8,12 @@ from . import portfolio_integration
 
 # Импортируем общие модули
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
-from src.common.async_helpers import fetch_parallel, fetch_with_retry
 from src.common.health_check import init_health_checks
 
 app = FastAPI(
     title="ML Model Registry API",
     version="1.0.0",
-    description="Registry for machine learning models with portfolio integration"
+    description="Registry for machine learning models with portfolio integration",
 )
 
 # Инициализируем health-check
@@ -25,6 +24,7 @@ Instrumentator().instrument(app).expose(app)
 
 # Включаем роутеры
 app.include_router(portfolio_integration.router)
+
 
 @app.get("/")
 async def root():
@@ -38,27 +38,18 @@ async def root():
             "GET /live": "Liveness probe",
             "GET /api/models": "List all models",
             "POST /portfolio/*": "Portfolio integration endpoints",
-        }
+        },
     }
 
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
-
-# Instrument for Prometheus metrics
-Instrumentator().instrument(app).expose(app)
 
 @app.get("/health")
 async def health():
     """Health check endpoint for Docker healthcheck"""
     return {"status": "healthy", "service": "ml-model-registry"}
 
-@app.get("/")
-async def root():
-    return {"message": "ML Model Registry API", "version": "1.0.0"}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
->>>>>>> upstream/main
+
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

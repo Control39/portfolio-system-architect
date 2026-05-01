@@ -54,9 +54,7 @@ class MarkerExporter:
                             "resources": marker.resources,
                             "smart_criteria": marker.smart_criteria,
                             "tags": self._generate_tags(marker, skill_name, level_name),
-                            "estimated_time": marker.smart_criteria.get(
-                                "time_bound", ""
-                            ),
+                            "estimated_time": marker.smart_criteria.get("time_bound", ""),
                             "methodology": {
                                 "author": marker.methodology_author,
                                 "license": marker.methodology_license,
@@ -111,20 +109,14 @@ class MarkerExporter:
                         # Создаем документ для RAG
                         document = {
                             "id": f"{marker.id}",
-                            "content": self._create_rag_content(
-                                marker, skill_name, level_name
-                            ),
+                            "content": self._create_rag_content(marker, skill_name, level_name),
                             "metadata": {
                                 "marker_id": marker.id,
                                 "skill": skill_name,
                                 "level": level_name,
                                 "priority": marker.priority,
-                                "tags": self._generate_tags(
-                                    marker, skill_name, level_name
-                                ),
-                                "estimated_time": marker.smart_criteria.get(
-                                    "time_bound", ""
-                                ),
+                                "tags": self._generate_tags(marker, skill_name, level_name),
+                                "estimated_time": marker.smart_criteria.get("time_bound", ""),
                                 "complexity": self._estimate_complexity(marker),
                                 "author": marker.methodology_author,
                                 "license": marker.methodology_license,
@@ -156,9 +148,7 @@ class MarkerExporter:
             logger.error(f"Ошибка при экспорте маркеров для RAG-поиска: {e}")
             return False
 
-    def _generate_tags(
-        self, marker: Marker, skill_name: str, level_name: str
-    ) -> List[str]:
+    def _generate_tags(self, marker: Marker, skill_name: str, level_name: str) -> List[str]:
         """Генерирует теги для маркера."""
         tags = [
             f"skill:{skill_name.lower()}",
@@ -197,9 +187,7 @@ class MarkerExporter:
         else:
             return "low"
 
-    def _create_rag_content(
-        self, marker: Marker, skill_name: str, level_name: str
-    ) -> str:
+    def _create_rag_content(self, marker: Marker, skill_name: str, level_name: str) -> str:
         """Создает контент документа для RAG-поиска."""
         content = (
             f"""
@@ -218,9 +206,7 @@ class MarkerExporter:
 
 ## SMART критерии
 """
-            + "\n".join(
-                [f"- {key}: {value}" for key, value in marker.smart_criteria.items()]
-            )
+            + "\n".join([f"- {key}: {value}" for key, value in marker.smart_criteria.items()])
             + f"""
 
 ## Метаданные

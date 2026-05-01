@@ -54,9 +54,7 @@ def activate_cognitive_agent():
 
 if __name__ == "__main__":
     # Проверяем, запущено ли в VS Code
-    vs_code_env = (
-        os.environ.get("VSCODE_PID") or os.environ.get("TERM_PROGRAM") == "vscode"
-    )
+    vs_code_env = os.environ.get("VSCODE_PID") or os.environ.get("TERM_PROGRAM") == "vscode"
 
     if vs_code_env:
         print("🔍 Обнаружена среда VS Code")

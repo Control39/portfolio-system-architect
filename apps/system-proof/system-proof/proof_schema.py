@@ -1,7 +1,7 @@
-﻿#!/usr/bin/env python3
-\"\"\"System-Proof Schema: Verification + Metadata Tagging for GigaChain.
+#!/usr/bin/env python3
+"""System-Proof Schema: Verification + Metadata Tagging for GigaChain.
 CoT traces, tagging: thought-architecture, system-thinking-level, source-link.
-\"\"
+"""
 
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -14,12 +14,14 @@ class TraceStep(BaseModel):
     output: str
     metadata: Dict[str, Any]
 
+
 class ProofMetadata(BaseModel):
     thought_architecture: str = Field(..., description="Architecture pattern used")
     system_thinking_level: int = Field(..., ge=1, le=5, description="1=Basic, 5=Advanced")
     source_link: Optional[str] = Field(None, description="Source repo/link")
     timestamp: datetime = Field(default_factory=datetime.now)
     verified: bool = False
+
 
 class SystemProof(BaseModel):
     id: str
@@ -29,10 +31,11 @@ class SystemProof(BaseModel):
     verification_accuracy: float = Field(..., ge=0, le=1)  # Target >0.9
 
     def tag_and_verify(self, chroma_collection: Any) -> bool:
-        \"\"\"Verification step (integrate Chroma Cross-Check).\"\"\"
+        """Verification step (integrate Chroma Cross-Check)."""
         # Stub: Query Chroma for sources, compute accuracy
         self.metadata.verified = self.verification_accuracy > 0.9
         return self.metadata.verified
+
 
 # Example usage
 if __name__ == '__main__':

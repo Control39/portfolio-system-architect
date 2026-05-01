@@ -102,9 +102,7 @@ class TriggerActivator:
                 }
             )
         except ImportError:
-            results["errors"].append(
-                "PyYAML не установлен. Установите: pip install pyyaml"
-            )
+            results["errors"].append("PyYAML не установлен. Установите: pip install pyyaml")
 
     def _load_pmr_config(self, results: Dict) -> Optional[Dict]:
         """Загрузка конфигурации PMR триггеров"""
@@ -164,9 +162,7 @@ class TriggerActivator:
 
             caa_config["integration"]["pmr_agent"] = {
                 "enabled": True,
-                "config_source": str(
-                    self.pmr_triggers_path.relative_to(self.project_root)
-                ),
+                "config_source": str(self.pmr_triggers_path.relative_to(self.project_root)),
                 "integrated_triggers": integrated_count,
                 "integration_date": datetime.now().isoformat(),
             }
@@ -273,9 +269,7 @@ exit 0
                     [
                         {
                             "name": "pre-commit-caa-audit",
-                            "script": str(
-                                pre_commit_hook.relative_to(self.project_root)
-                            ),
+                            "script": str(pre_commit_hook.relative_to(self.project_root)),
                             "description": "Проверка позиционирования CAA перед коммитом",
                             "enabled": True,
                         },
@@ -365,9 +359,7 @@ exit 0
         print("  🚀 Генерация скриптов запуска...")
 
         # Скрипт для ручного запуска аудита
-        launch_script = (
-            self.project_root / ".codeassistant/skills/caa-audit/launch-audit.sh"
-        )
+        launch_script = self.project_root / ".codeassistant/skills/caa-audit/launch-audit.sh"
         launch_content = """#!/bin/bash
 # Скрипт запуска аудита позиционирования CAA
 
@@ -459,9 +451,7 @@ exit $EXIT_CODE
         launch_script.chmod(0o755)
 
         # Скрипт для проверки конфигурации
-        check_script = (
-            self.project_root / ".codeassistant/skills/caa-audit/check-config.py"
-        )
+        check_script = self.project_root / ".codeassistant/skills/caa-audit/check-config.py"
         check_content = """#!/usr/bin/env python3
 """
         # Продолжение скрипта check-config.py будет в следующем сообщении из-за ограничения длины
@@ -478,15 +468,9 @@ exit $EXIT_CODE
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Активатор проактивных триггеров PMR Agent"
-    )
-    parser.add_argument(
-        "--project-root", default=".", help="Корневая директория проекта"
-    )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Проверка без внесения изменений"
-    )
+    parser = argparse.ArgumentParser(description="Активатор проактивных триггеров PMR Agent")
+    parser.add_argument("--project-root", default=".", help="Корневая директория проекта")
+    parser.add_argument("--dry-run", action="store_true", help="Проверка без внесения изменений")
     parser.add_argument("--verbose", action="store_true", help="Подробный вывод")
 
     args = parser.parse_args()
@@ -526,9 +510,7 @@ def main():
     else:
         print("🎯 АКТИВАЦИЯ ЗАВЕРШЕНА УСПЕШНО")
         print("\n📋 СЛЕДУЮЩИЕ ШАГИ:")
-        print(
-            "1. Проверить интеграцию: python .codeassistant/skills/caa-audit/check-config.py"
-        )
+        print("1. Проверить интеграцию: python .codeassistant/skills/caa-audit/check-config.py")
         print("2. Запустить тестовый аудит: ./launch-audit.sh --quick")
         print("3. Проверить Git хуки: git commit --allow-empty -m 'test'")
         print("\n📚 ДОКУМЕНТАЦИЯ:")

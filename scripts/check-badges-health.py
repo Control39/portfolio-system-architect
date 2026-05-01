@@ -159,9 +159,7 @@ def generate_recommendations(static: dict, dynamic: dict, freshness: dict) -> li
 
     # Рекомендации по динамическим бейджам
     if dynamic.get("broken_badges", 0) > 0:
-        recommendations.append(
-            f"Исправить {dynamic['broken_badges']} сломанных бейджей"
-        )
+        recommendations.append(f"Исправить {dynamic['broken_badges']} сломанных бейджей")
 
     # Рекомендации по свежести
     if freshness.get("days_old", 0) > 7:
@@ -169,9 +167,7 @@ def generate_recommendations(static: dict, dynamic: dict, freshness: dict) -> li
 
     # Общие рекомендации
     if not recommendations:
-        recommendations.append(
-            "Бейджи в хорошем состоянии. Продолжайте поддерживать актуальность."
-        )
+        recommendations.append("Бейджи в хорошем состоянии. Продолжайте поддерживать актуальность.")
 
     return recommendations
 
@@ -226,9 +222,7 @@ def main():
     # Сохраняем отчет
     report_path = Path("badges/health-report.json")
     report_path.parent.mkdir(exist_ok=True)
-    report_path.write_text(
-        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Report saved to {report_path}")
 
     # Возвращаем код выхода в зависимости от здоровья

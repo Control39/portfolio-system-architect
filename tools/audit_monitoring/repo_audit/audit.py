@@ -66,9 +66,7 @@ class RepositoryAudit:
         )
         return False
 
-    def check_file_content(
-        self, path: str, description: str, keyword: str = None
-    ) -> bool:
+    def check_file_content(self, path: str, description: str, keyword: str = None) -> bool:
         """Check if file contains specific keyword."""
         full_path = self.repo_path / path
         if not full_path.exists():
@@ -131,9 +129,7 @@ class RepositoryAudit:
 
     def run_professional_checks(self):
         """Professional level checks (CI/CD, testing)."""
-        self.check_file_exists(
-            ".github/workflows/ci.yml", "GitHub Actions CI workflow exists"
-        )
+        self.check_file_exists(".github/workflows/ci.yml", "GitHub Actions CI workflow exists")
         self.check_file_exists("Makefile", "Makefile exists")
         self.check_directory_exists("tests", "Tests directory exists")
         self.check_file_exists(
@@ -141,9 +137,7 @@ class RepositoryAudit:
             "pyproject.toml contains pytest config",
             keyword="[tool.pytest.ini_options]",
         )
-        self.check_file_exists(
-            "docker-compose.monitoring.yml", "Monitoring compose file exists"
-        )
+        self.check_file_exists("docker-compose.monitoring.yml", "Monitoring compose file exists")
         self.check_directory_exists("deployment/k8s", "Kubernetes manifests exist")
 
     def run_enterprise_checks(self):
@@ -152,9 +146,7 @@ class RepositoryAudit:
             "deployment/secrets/sealed-secrets/portfolio-secrets.example.yaml",
             "Sealed secrets example exists",
         )
-        self.check_file_exists(
-            "monitoring/prometheus/prometheus.yml", "Prometheus config exists"
-        )
+        self.check_file_exists("monitoring/prometheus/prometheus.yml", "Prometheus config exists")
         self.check_file_exists(
             "monitoring/grafana/provisioning/dashboards/portfolio.yml",
             "Grafana dashboard exists",

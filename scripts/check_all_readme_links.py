@@ -72,9 +72,7 @@ def is_internal_link(url: str) -> bool:
 def check_external_link(url: str) -> Tuple[bool, int, str]:
     """Проверяет доступность внешней ссылки."""
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        }
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
 
         # Для GitHub API используем GET
         if "api.github.com" in url:
@@ -202,9 +200,7 @@ def main():
 
     # Используем многопоточность для ускорения
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        future_to_link = {
-            executor.submit(check_link, link): link for link in filtered_external
-        }
+        future_to_link = {executor.submit(check_link, link): link for link in filtered_external}
 
         for future in concurrent.futures.as_completed(future_to_link):
             link = future_to_link[future]
@@ -216,9 +212,7 @@ def main():
                     )
                 else:
                     external_broken.append(link)
-                    print(
-                        f"❌ {link['file']}:{link['line']} - {link['url']} - {link['error']}"
-                    )
+                    print(f"❌ {link['file']}:{link['line']} - {link['url']} - {link['error']}")
             except Exception as e:
                 print(f"⚠️  Ошибка при проверке {link['url']}: {e}")
 

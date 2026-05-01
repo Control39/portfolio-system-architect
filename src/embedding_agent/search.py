@@ -30,9 +30,7 @@ class DocumentSearcher:
         else:
             logger.info("Starting with empty index")
 
-    def build_index(
-        self, file_pattern: str = "**/*.md", root_dir: str = "."
-    ) -> Dict[str, Any]:
+    def build_index(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> Dict[str, Any]:
         """
         Build index from files.
 

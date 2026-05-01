@@ -55,9 +55,7 @@ except ImportError as e:
                 "name": self.name,
                 "source": self.source,
                 "data": self.data,
-                "priority": self.priority.value
-                if hasattr(self.priority, "value")
-                else 50,
+                "priority": self.priority.value if hasattr(self.priority, "value") else 50,
             }
 
     class CommonTriggers:
@@ -80,9 +78,7 @@ except ImportError as e:
             )
 
         @staticmethod
-        def create_git_commit_trigger(
-            commit_hash, message, author=None, files_changed=None
-        ):
+        def create_git_commit_trigger(commit_hash, message, author=None, files_changed=None):
             return TriggerEvent(
                 "git_commit",
                 "git",
@@ -196,15 +192,9 @@ def test_processor_queue():
 
         # Добавляем события в очередь
         events = [
-            TriggerEvent(
-                "test_event_1", "test", {"value": 1}, priority=TriggerPriority.HIGH
-            ),
-            TriggerEvent(
-                "test_event_2", "test", {"value": 2}, priority=TriggerPriority.MEDIUM
-            ),
-            TriggerEvent(
-                "test_event_3", "test", {"value": 3}, priority=TriggerPriority.LOW
-            ),
+            TriggerEvent("test_event_1", "test", {"value": 1}, priority=TriggerPriority.HIGH),
+            TriggerEvent("test_event_2", "test", {"value": 2}, priority=TriggerPriority.MEDIUM),
+            TriggerEvent("test_event_3", "test", {"value": 3}, priority=TriggerPriority.LOW),
         ]
 
         for event in events:
@@ -214,9 +204,7 @@ def test_processor_queue():
         print(f"✓ Размер очереди: {len(processor.event_queue)}")
 
         # Проверяем приоритетную сортировку
-        sorted_events = sorted(
-            processor.event_queue, key=lambda e: e.priority.value, reverse=True
-        )
+        sorted_events = sorted(processor.event_queue, key=lambda e: e.priority.value, reverse=True)
         print("✓ Очередь отсортирована по приоритету:")
         for event in sorted_events:
             print(f"  - {event.name}: приоритет {event.priority.name}")
@@ -403,9 +391,7 @@ def simulate_real_scenario():
         log_dir = Path(".agents/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
-        log_file = (
-            log_dir / f"simulation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        log_file = log_dir / f"simulation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
         events_data = [event.to_dict() for event in processor.event_queue]
         with open(log_file, "w", encoding="utf-8") as f:

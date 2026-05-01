@@ -13,8 +13,7 @@ class MentalSupportSystem:
 
     def show_main_menu(self):
         """Основное меню психологической поддержки"""
-        print("
-" + "="*50)
+        print("\n" + "="*50)
         print("🧠 IT COMPASS: ПСИХОЛОГИЧЕСКАЯ ПОДДЕРЖКА")
         print("="*50)
         print("1. 💬 Случайная мотивационная цитата")
@@ -24,8 +23,7 @@ class MentalSupportSystem:
         print("5. 🏠 Вернуться в главное меню")
         print("="*50)
 
-        choice = input("
-Выберите опцию (1-5): ")
+        choice = input("\nВыберите опцию (1-5): ")
         return choice
 
     def show_motivational_quote(self):
@@ -35,13 +33,11 @@ class MentalSupportSystem:
                 quotes = json.load(f)
 
             quote = random.choice(quotes)
-            print(f"
-🌟 {quote['quote']}")
+            print(f"\n🌟 {quote['quote']}")
             print(f"   — {quote['author']}")
 
             if quote['action']:
-                print(f"
-💡 Действие: {quote['action']}")
+                print(f"\n💡 Действие: {quote['action']}")
 
         except Exception as e:
             print(f"❌ Ошибка загрузки цитат: {e}")
@@ -53,35 +49,30 @@ class MentalSupportSystem:
             with open(self.contacts_file, 'r', encoding='utf-8') as f:
                 contacts = json.load(f)
 
-            print("
-" + "="*50)
+            print("\n" + "="*50)
             print("🆘 ЭКСТРЕННЫЕ КОНТАКТЫ ПОМОЩИ")
             print("="*50)
 
             for contact in contacts:
-                print(f"
-📍 {contact['name']}")
+                print(f"\n📍 {contact['name']}")
                 print(f"📞 {contact['phone']}")
                 print(f"🌐 {contact['website']}")
                 print(f"ℹ️ {contact['description']}")
 
-            print("
-" + "="*50)
+            print("\n" + "="*50)
             print("❗ Если вы или кто-то рядом с вами в опасности - немедленно обратитесь за помощью")
             print("="*50)
 
         except Exception as e:
             print(f"❌ Ошибка загрузки контактов: {e}")
-            print("
-🆘 Срочные номера для России:")
+            print("\n🆘 Срочные номера для России:")
             print("   📞 112 - единая служба спасения")
             print("   📞 8-800-333-44-34 - доверенная служба для детей и подростков")
             print("   📞 8-800-2000-122 - детский телефон доверия")
 
     def activate_low_energy_mode(self):
         """Активировать режим 'низкой энергии'"""
-        print("
-" + "="*50)
+        print("\n" + "="*50)
         print("😴 АКТИВИРОВАН РЕЖИМ 'НИЗКОЙ ЭНЕРГИИ'")
         print("="*50)
         print("В этом режиме доступны только базовые функции:")
@@ -91,13 +82,11 @@ class MentalSupportSystem:
         print("🚫 Сложные задачи")
         print("🚫 Анализ компетенций")
         print("🚫 Настройки")
-        print("
-💡 Совет: Включите этот режим, когда чувствуете усталость или выгорание.")
+        print("\n💡 Совет: Включите этот режим, когда чувствуете усталость или выгорание.")
         print("Сосредоточьтесь на маленьких победах и восстановлении ресурсов.")
         print("="*50)
 
-        input("
-Нажмите Enter, чтобы продолжить...")
+        input("\nНажмите Enter, чтобы продолжить...")
 
     def show_community_guide(self):
         """Показать руководство сообщества"""

@@ -86,9 +86,7 @@ class TestFileTools(unittest.TestCase):
         """Тест получения списка файлов"""
         result = list_files_tool(self.test_dir, recursive=False)
         self.assertTrue(result["success"])
-        self.assertGreaterEqual(
-            result["count"], 3
-        )  # test.txt, test.py, test.md, subdir
+        self.assertGreaterEqual(result["count"], 3)  # test.txt, test.py, test.md, subdir
 
     @unittest.skipIf(not HAS_MCP_TOOLS, "MCP tools not available")
     def test_search_files_tool(self):
@@ -167,9 +165,7 @@ class TestGitTools(unittest.TestCase):
         new_callable=lambda: Path(__file__).parent.parent.parent.parent,
     )
     @patch("apps.mcp_server.src.tools.git_tools.IT_COMPASS_MARKERS_PATH")
-    def test_scan_last_commits_for_markers_tool(
-        self, mock_markers_path, mock_project_root
-    ):
+    def test_scan_last_commits_for_markers_tool(self, mock_markers_path, mock_project_root):
         """Тест анализа коммитов на маркеры"""
         mock_project_root.return_value = self.repo_dir
 
@@ -234,9 +230,7 @@ class TestMCPIntegration(unittest.TestCase):
 
     def test_config_validation(self):
         """Тест валидации конфигурации"""
-        config_path = (
-            project_root / "apps" / "mcp-server" / "config" / "mcp-config.yaml"
-        )
+        config_path = project_root / "apps" / "mcp-server" / "config" / "mcp-config.yaml"
 
         if config_path.exists():
             import yaml

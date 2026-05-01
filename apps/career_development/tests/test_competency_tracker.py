@@ -39,9 +39,7 @@ class TestCompetencyTracker(unittest.TestCase):
     def test_add_user(self):
         """Тест добавления пользователя"""
         self.assertIn(self.user_id, self.tracker.users)
-        self.assertEqual(
-            self.tracker.users[self.user_id]["username"], "Тестовый Пользователь"
-        )
+        self.assertEqual(self.tracker.users[self.user_id]["username"], "Тестовый Пользователь")
         self.assertEqual(self.tracker.users[self.user_id]["email"], "test@example.com")
 
     def test_add_skill(self):
@@ -62,9 +60,7 @@ class TestCompetencyTracker(unittest.TestCase):
             self.tracker.competency_markers["marker_001"]["title"],
             "Основы программирования",
         )
-        self.assertEqual(
-            self.tracker.competency_markers["marker_001"]["required_level"], 2
-        )
+        self.assertEqual(self.tracker.competency_markers["marker_001"]["required_level"], 2)
 
     def test_update_skill_level(self):
         """Тест обновления уровня навыка"""

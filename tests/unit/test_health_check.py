@@ -7,11 +7,7 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from src.common.health_check import (
-    HealthCheckResponse,
-    HealthCheckService,
-    init_health_checks,
-)
+from src.common.health_check import HealthCheckResponse, HealthCheckService, init_health_checks
 
 
 @pytest.fixture

@@ -105,9 +105,7 @@ class DocumentIndexer:
             except Exception as e:
                 logger.error(f"Error processing file {file_path}: {e}")
 
-        logger.info(
-            f"Added {len(doc_ids)} document chunks from {len(file_paths)} files"
-        )
+        logger.info(f"Added {len(doc_ids)} document chunks from {len(file_paths)} files")
         return doc_ids
 
     def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> List[str]:
@@ -162,9 +160,7 @@ class DocumentIndexer:
         # Compute similarities
         similarities = []
         for i, doc_embedding in enumerate(self.embeddings):
-            similarity = self.embedder.compute_similarity(
-                query_embedding, doc_embedding
-            )
+            similarity = self.embedder.compute_similarity(query_embedding, doc_embedding)
             similarities.append((i, similarity))
 
         # Sort by similarity (descending)
@@ -211,16 +207,14 @@ class DocumentIndexer:
         self.index_path = load_path
 
         # Recreate embedder if model name doesn't match
-        if hasattr(
-            self.embedder, "model_name"
-        ) and self.embedder.model_name != index_data.get("model_name"):
+        if hasattr(self.embedder, "model_name") and self.embedder.model_name != index_data.get(
+            "model_name"
+        ):
             logger.warning(
                 f"Model mismatch: loaded {index_data.get('model_name')}, current {self.embedder.model_name}"
             )
 
-        logger.info(
-            f"Index loaded from {load_path} with {len(self.documents)} documents"
-        )
+        logger.info(f"Index loaded from {load_path} with {len(self.documents)} documents")
 
     def get_stats(self) -> Dict[str, Any]:
         """Get index statistics."""

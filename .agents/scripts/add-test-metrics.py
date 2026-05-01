@@ -47,15 +47,11 @@ class TestMetricsGenerator:
             )
 
             # Создание индексов для быстрого поиска
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_timestamp ON trigger_events(timestamp)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON trigger_events(timestamp)")
             cursor.execute(
                 "CREATE INDEX IF NOT EXISTS idx_trigger_name ON trigger_events(trigger_name)"
             )
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_status ON trigger_events(status)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_status ON trigger_events(status)")
 
             conn.commit()
             logger.info(f"База данных инициализирована: {self.db_path}")
@@ -98,9 +94,7 @@ class TestMetricsGenerator:
                 )
 
                 duration_ms = (
-                    random.randint(50, 5000)
-                    if status == "success"
-                    else random.randint(100, 10000)
+                    random.randint(50, 5000) if status == "success" else random.randint(100, 10000)
                 )
 
                 error_message = None
@@ -244,9 +238,7 @@ class TestMetricsGenerator:
             total_events = cursor.fetchone()[0]
 
             # Количество событий по статусам
-            cursor.execute(
-                "SELECT status, COUNT(*) FROM trigger_events GROUP BY status"
-            )
+            cursor.execute("SELECT status, COUNT(*) FROM trigger_events GROUP BY status")
             status_counts = cursor.fetchall()
 
             # Количество событий по триггерам
@@ -291,12 +283,8 @@ def main():
         default=50,
         help="Количество тестовых событий для генерации",
     )
-    parser.add_argument(
-        "--scenarios", action="store_true", help="Добавить реалистичные сценарии"
-    )
-    parser.add_argument(
-        "--stats", action="store_true", help="Показать статистику базы данных"
-    )
+    parser.add_argument("--scenarios", action="store_true", help="Добавить реалистичные сценарии")
+    parser.add_argument("--stats", action="store_true", help="Показать статистику базы данных")
     parser.add_argument(
         "--reset", action="store_true", help="Очистить базу данных перед добавлением"
     )
@@ -324,16 +312,10 @@ def main():
 
     if not any([args.count > 0, args.scenarios, args.stats, args.reset]):
         print("Использование:")
-        print(
-            "  python add-test-metrics.py --count 100          # Добавить 100 тестовых событий"
-        )
-        print(
-            "  python add-test-metrics.py --scenarios          # Добавить реалистичные сценарии"
-        )
+        print("  python add-test-metrics.py --count 100          # Добавить 100 тестовых событий")
+        print("  python add-test-metrics.py --scenarios          # Добавить реалистичные сценарии")
         print("  python add-test-metrics.py --stats              # Показать статистику")
-        print(
-            "  python add-test-metrics.py --reset --count 50   # Очистить и добавить 50 событий"
-        )
+        print("  python add-test-metrics.py --reset --count 50   # Очистить и добавить 50 событий")
 
 
 if __name__ == "__main__":

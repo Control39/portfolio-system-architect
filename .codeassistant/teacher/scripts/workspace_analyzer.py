@@ -89,9 +89,7 @@ class WorkspaceAnalyzer:
                     "name": item.name,
                     "path": str(item),
                     "size_mb": round(file_size / (1024 * 1024), 2),
-                    "modified": datetime.fromtimestamp(
-                        item.stat().st_mtime
-                    ).isoformat(),
+                    "modified": datetime.fromtimestamp(item.stat().st_mtime).isoformat(),
                 }
 
                 # Классификация
@@ -164,8 +162,7 @@ class WorkspaceAnalyzer:
                             "name": item.name,
                             "path": str(item),
                             "days_old": int(
-                                (datetime.now().timestamp() - item.stat().st_mtime)
-                                / (24 * 3600)
+                                (datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)
                             ),
                             "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
                         }
@@ -279,9 +276,7 @@ class WorkspaceAnalyzer:
         for i, rec in enumerate(self.analysis["recommendations"], 1):
             report.append(f"{i}. {rec['action'].upper()} - {rec['reason']}")
             if "files" in rec:
-                report.append(
-                    f"   Файлов: {rec['files']}, Размер: {rec.get('size_mb', 'N/A')} MB"
-                )
+                report.append(f"   Файлов: {rec['files']}, Размер: {rec.get('size_mb', 'N/A')} MB")
 
         report.append("")
 

@@ -115,11 +115,7 @@ class NamingConventionsCheck(BaseCheck):
         self.results = []
         # Check for uppercase directories (should be lowercase)
         for d in self.repo_path.iterdir():
-            if (
-                d.is_dir()
-                and d.name.isupper()
-                and d.name not in {"LICENSES", "DEPLOYMENT", "DOCS"}
-            ):
+            if d.is_dir() and d.name.isupper() and d.name not in {"LICENSES", "DEPLOYMENT", "DOCS"}:
                 self._add_result(
                     "WARNING",
                     f"Directory name is uppercase: {d.name}",

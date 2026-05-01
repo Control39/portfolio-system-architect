@@ -189,9 +189,7 @@ def convert() -> None:
             relative = Path(*normalized_parts)
 
             # Имя страницы: путь без расширения
-            filename = (
-                str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
-            )
+            filename = str(relative.with_suffix("")).replace("/", "_").replace("\\", "_")
             filename = sanitize_filename(filename)
 
             with open(md_file, encoding="utf-8") as f:

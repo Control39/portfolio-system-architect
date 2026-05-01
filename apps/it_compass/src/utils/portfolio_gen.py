@@ -87,9 +87,7 @@ class PortfolioGenerator:
                     with open(json_path, "r", encoding="utf-8") as f:
                         skill_data = json.load(f)
 
-                    skill_name = skill_data.get(
-                        "skill_name", json_path.stem.capitalize()
-                    )
+                    skill_name = skill_data.get("skill_name", json_path.stem.capitalize())
 
                     for level_data in skill_data.get("levels", {}).values():
                         for marker in level_data:
@@ -133,13 +131,9 @@ class PortfolioGenerator:
                 if marker.get("priority") == "high":
                     lines.append(" > ⭐ Высокий приоритет для трудоустройства")
 
-                methodology_author = marker.get(
-                    "methodology_author", "Ekaterina Kudelya"
-                )
+                methodology_author = marker.get("methodology_author", "Ekaterina Kudelya")
                 methodology_license = marker.get("methodology_license", "CC BY-ND 4.0")
-                lines.append(
-                    f" > 📋 Методология: © {methodology_author}, {methodology_license}"
-                )
+                lines.append(f" > 📋 Методология: © {methodology_author}, {methodology_license}")
             lines.append("")
 
         lines.extend(

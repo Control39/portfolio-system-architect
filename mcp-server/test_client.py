@@ -60,9 +60,7 @@ class MCPTestClient:
         try:
             payload = {"prompt": prompt, "variables": variables, "rules": rules}
 
-            response = self.session.post(
-                f"{self.base_url}/process-prompt", json=payload
-            )
+            response = self.session.post(f"{self.base_url}/process-prompt", json=payload)
             response.raise_for_status()
             result = response.json()
             print("✓ Process prompt passed:")

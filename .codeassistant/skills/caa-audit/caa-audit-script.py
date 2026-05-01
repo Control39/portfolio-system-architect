@@ -141,9 +141,7 @@ class CaaAudit:
             full_path = self.project_root / file_path
             if full_path.exists():
                 try:
-                    content = full_path.read_text(
-                        encoding="utf-8", errors="ignore"
-                    ).lower()
+                    content = full_path.read_text(encoding="utf-8", errors="ignore").lower()
 
                     # Проверка терминов
                     for category, terms in positioning_terms.items():
@@ -311,21 +309,15 @@ class CaaAudit:
 
         for category, weight in categories.items():
             # Подсчёт успешных проверок в категории
-            category_findings = [
-                f for f in self.results["findings"] if f["category"] == category
-            ]
+            category_findings = [f for f in self.results["findings"] if f["category"] == category]
             if not category_findings:
                 scores[category] = 0
                 continue
 
-            success_count = len(
-                [f for f in category_findings if f["type"] == "success"]
-            )
+            success_count = len([f for f in category_findings if f["type"] == "success"])
             total_count = len(category_findings)
 
-            category_score = (
-                (success_count / total_count) * 100 if total_count > 0 else 0
-            )
+            category_score = (success_count / total_count) * 100 if total_count > 0 else 0
             scores[category] = round(category_score, 1)
             total_score += category_score * weight
 
@@ -333,9 +325,7 @@ class CaaAudit:
         self.results["total_score"] = round(total_score, 1)
 
         # Генерация рекомендаций на основе findings
-        critical_issues = [
-            f for f in self.results["findings"] if f["type"] == "critical"
-        ]
+        critical_issues = [f for f in self.results["findings"] if f["type"] == "critical"]
         warnings = [f for f in self.results["findings"] if f["type"] == "warning"]
 
         if critical_issues:
@@ -344,9 +334,7 @@ class CaaAudit:
                     "priority": "critical",
                     "message": f"Найдено {len(critical_issues)} критических проблем",
                     "actions": [
-                        f["recommendation"]
-                        for f in critical_issues
-                        if "recommendation" in f
+                        f["recommendation"] for f in critical_issues if "recommendation" in f
                     ],
                 }
             )
@@ -356,9 +344,7 @@ class CaaAudit:
                 {
                     "priority": "high",
                     "message": f"Найдено {len(warnings)} предупреждений",
-                    "actions": [
-                        f["recommendation"] for f in warnings if "recommendation" in f
-                    ],
+                    "actions": [f["recommendation"] for f in warnings if "recommendation" in f],
                 }
             )
 
@@ -400,9 +386,7 @@ class CaaAudit:
             status = (
                 "🟢 Отлично"
                 if score >= 80
-                else "🟡 Средне"
-                if score >= 60
-                else "🔴 Требует улучшений"
+                else "🟡 Средне" if score >= 60 else "🔴 Требует улучшений"
             )
             report += f"| {category.capitalize()} | {score}/100 | {status} |\n"
 
@@ -422,17 +406,13 @@ class CaaAudit:
         report += "\n### Проблемы ⚠️\n"
 
         issues = [
-            f
-            for f in self.results["findings"]
-            if f["type"] in ["warning", "critical", "error"]
+            f for f in self.results["findings"] if f["type"] in ["warning", "critical", "error"]
         ]
         for finding in issues[:10]:  # Показываем первые 10 проблем
             icon = (
                 "🔴"
                 if finding["type"] == "critical"
-                else "🟡"
-                if finding["type"] == "warning"
-                else "⚫"
+                else "🟡" if finding["type"] == "warning" else "⚫"
             )
             report += f"- {icon} **{finding['message']}**\n"
             if finding.get("details"):
@@ -457,13 +437,9 @@ class CaaAudit:
                 priority_icon = (
                     "🔴"
                     if rec["priority"] == "critical"
-                    else "🟡"
-                    if rec["priority"] == "high"
-                    else "🟢"
+                    else "🟡" if rec["priority"] == "high" else "🟢"
                 )
-                report += (
-                    f"### {priority_icon} {rec['priority'].upper()}: {rec['message']}\n"
-                )
+                report += f"### {priority_icon} {rec['priority'].upper()}: {rec['message']}\n"
                 if rec.get("actions"):
                     for action in rec["actions"]:
                         report += f"- {action}\n"
@@ -497,9 +473,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="CAA Audit Script - Аудит позиционирования Cognitive Automation Agent"
     )
-    parser.add_argument(
-        "--project-root", default=".", help="Корневая директория проекта"
-    )
+    parser.add_argument("--project-root", default=".", help="Корневая директория проекта")
     parser.add_argument(
         "--focus",
         help="Фокусные области (implementation,positioning,integration,evidence)",

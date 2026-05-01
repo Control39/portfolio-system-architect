@@ -43,9 +43,7 @@ def create_hooks_directory():
 def backup_existing_hook(hook_path):
     """Создаем резервную копию существующего хука"""
     if hook_path.exists():
-        backup_path = hook_path.with_suffix(
-            f".backup.{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        backup_path = hook_path.with_suffix(f".backup.{datetime.now().strftime('%Y%m%d_%H%M%S')}")
         shutil.copy2(hook_path, backup_path)
         print(f"✓ Создана резервная копия: {backup_path}")
         return backup_path
@@ -661,9 +659,7 @@ def main():
     print(f"✓ Создано хуков: {len(created_hooks)}")
     print(f"✓ Конфигурация: {config_path}")
 
-    successful_tests = sum(
-        1 for _, is_exec, has_agent in test_results if is_exec and has_agent
-    )
+    successful_tests = sum(1 for _, is_exec, has_agent in test_results if is_exec and has_agent)
     print(f"✓ Успешно протестировано: {successful_tests}/{len(test_results)}")
 
     print("\n📋 Созданные хуки:")

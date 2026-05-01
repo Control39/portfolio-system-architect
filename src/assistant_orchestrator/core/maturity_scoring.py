@@ -100,9 +100,7 @@ class MaturityScorer:
             )
 
         # Check recent activity
-        recent_commits = self.analysis.get("git_stats", {}).get(
-            "recent_activity_days", 0
-        )
+        recent_commits = self.analysis.get("git_stats", {}).get("recent_activity_days", 0)
         if recent_commits < 10:
             recommendations.append(
                 {
@@ -232,9 +230,7 @@ class MaturityScorer:
     def _score_dependencies(self) -> float:
         """Score based on dependencies management."""
         deps = self.analysis.get("dependencies", {})
-        has_docker_compose = self.analysis.get("microservices", {}).get(
-            "has_docker_compose", False
-        )
+        has_docker_compose = self.analysis.get("microservices", {}).get("has_docker_compose", False)
 
         score = 0.0
 

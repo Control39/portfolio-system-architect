@@ -153,11 +153,7 @@ class LearningSystem:
         """Рекурсивное объединение словарей."""
         result = dict1.copy()
         for key, value in dict2.items():
-            if (
-                key in result
-                and isinstance(result[key], dict)
-                and isinstance(value, dict)
-            ):
+            if key in result and isinstance(result[key], dict) and isinstance(value, dict):
                 result[key] = self._deep_merge(result[key], value)
             else:
                 result[key] = value
@@ -227,9 +223,7 @@ class LearningSystem:
             recent_metrics = [
                 m
                 for m in self.historical_metrics
-                if datetime.fromisoformat(
-                    m.get("timestamp", datetime.now().isoformat())
-                )
+                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat()))
                 > cutoff_time
             ]
 
@@ -251,9 +245,7 @@ class LearningSystem:
             period_metrics = [
                 m
                 for m in self.historical_metrics
-                if datetime.fromisoformat(
-                    m.get("timestamp", datetime.now().isoformat())
-                )
+                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat()))
                 > cutoff_time
             ]
 
@@ -277,9 +269,7 @@ class LearningSystem:
             # Расчет эффективности
             success_rate = successful_tasks / total_tasks if total_tasks > 0 else 0
             efficiency_score = (
-                success_rate * 0.4
-                + avg_quality * 0.3
-                + (1 - min(avg_duration / 3600, 1)) * 0.3
+                success_rate * 0.4 + avg_quality * 0.3 + (1 - min(avg_duration / 3600, 1)) * 0.3
             )  # нормализованная оценка
 
             # Генерация предложений по улучшению
@@ -300,9 +290,7 @@ class LearningSystem:
                 improvement_suggestions=improvement_suggestions,
             )
 
-            logger.info(
-                f"Анализ метрик завершен. Эффективность: {efficiency_score:.2f}"
-            )
+            logger.info(f"Анализ метрик завершен. Эффективность: {efficiency_score:.2f}")
             return metrics
 
         except Exception as e:
@@ -384,10 +372,7 @@ class LearningSystem:
         training_results = {}
 
         try:
-            if (
-                len(self.historical_metrics)
-                < self.config["learning"]["min_samples_for_learning"]
-            ):
+            if len(self.historical_metrics) < self.config["learning"]["min_samples_for_learning"]:
                 logger.warning(
                     f"Недостаточно данных для обучения. Требуется: {self.config['learning']['min_samples_for_learning']}, есть: {len(self.historical_metrics)}"
                 )
@@ -434,9 +419,7 @@ class LearningSystem:
             with open(results_file, "w", encoding="utf-8") as f:
                 json.dump(training_results, f, indent=2, default=str)
 
-            logger.info(
-                f"Обучение моделей завершено. Обучено моделей: {len(training_results)}"
-            )
+            logger.info(f"Обучение моделей завершено. Обучено моделей: {len(training_results)}")
             return {
                 "status": "success",
                 "models_trained": len(training_results),
@@ -447,9 +430,7 @@ class LearningSystem:
             logger.error(f"Ошибка обучения моделей: {e}")
             return {"status": "error", "error": str(e)}
 
-    def generate_improvements(
-        self, agent_metrics: AgentMetrics
-    ) -> List[Dict[str, Any]]:
+    def generate_improvements(self, agent_metrics: AgentMetrics) -> List[Dict[str, Any]]:
         """Генерация конкретных улучшений на основе анализа метрик."""
         improvements = []
 
@@ -511,10 +492,7 @@ class LearningSystem:
 
         # Добавление предложений из анализа метрик
         for suggestion in agent_metrics.improvement_suggestions:
-            if (
-                "улучшить" in suggestion.lower()
-                or "оптимизировать" in suggestion.lower()
-            ):
+            if "улучшить" in suggestion.lower() or "оптимизировать" in suggestion.lower():
                 improvements.append(
                     {
                         "id": f"sugg_{hashlib.md5(suggestion.encode()).hexdigest()[:8]}",
@@ -540,9 +518,7 @@ class LearningSystem:
                 logger.info(f"Применение улучшения: {improvement['title']}")
 
                 # Сохранение информации об улучшении
-                improvement_file = (
-                    self.reports_dir / f"improvement_{improvement['id']}.json"
-                )
+                improvement_file = self.reports_dir / f"improvement_{improvement['id']}.json"
                 with open(improvement_file, "w", encoding="utf-8") as f:
                     json.dump(improvement, f, indent=2, default=str)
 
@@ -646,14 +622,10 @@ class LearningSystem:
                     f"- **Успешных задач:** {metrics['successful_tasks']} ({metrics['successful_tasks']/metrics['total_tasks']*100:.1f}%)\n"
                 )
                 f.write(f"- **Неудачных задач:** {metrics['failed_tasks']}\n")
-                f.write(
-                    f"- **Средняя длительность:** {metrics['avg_duration']:.1f} сек\n"
-                )
+                f.write(f"- **Средняя длительность:** {metrics['avg_duration']:.1f} сек\n")
                 f.write(f"- **Средний приоритет:** {metrics['avg_priority']:.2f}\n")
                 f.write(f"- **Среднее качество:** {metrics['avg_quality']:.2f}\n")
-                f.write(
-                    f"- **Оценка эффективности:** {metrics['efficiency_score']:.2f}\n\n"
-                )
+                f.write(f"- **Оценка эффективности:** {metrics['efficiency_score']:.2f}\n\n")
 
                 # Предложения по улучшению
                 f.write("## Предложения по улучшению\n\n")
@@ -679,9 +651,7 @@ class LearningSystem:
                 f.write("## Статус моделей машинного обучения\n\n")
                 f.write(f"- **Всего моделей:** {models['total_models']}\n")
                 f.write(f"- **Загруженные модели:** {', '.join(models['models'])}\n")
-                f.write(
-                    f"- **Исторических данных:** {models['historical_data_points']} точек\n"
-                )
+                f.write(f"- **Исторических данных:** {models['historical_data_points']} точек\n")
 
                 # Конфигурация
                 config = report["config_summary"]
@@ -689,9 +659,7 @@ class LearningSystem:
                 f.write(
                     f"- **Самообучение включено:** {'Да' if config['learning_enabled'] else 'Нет'}\n"
                 )
-                f.write(
-                    f"- **Отслеживаемые метрики:** {', '.join(config['metrics_tracked'])}\n"
-                )
+                f.write(f"- **Отслеживаемые метрики:** {', '.join(config['metrics_tracked'])}\n")
 
             logger.info(f"Читаемый отчет сгенерирован: {md_report_path}")
 
@@ -721,10 +689,7 @@ class LearningSystem:
             )
 
             # Шаг 2: Обучение моделей (если достаточно данных)
-            if (
-                len(self.historical_metrics)
-                >= self.config["learning"]["min_samples_for_learning"]
-            ):
+            if len(self.historical_metrics) >= self.config["learning"]["min_samples_for_learning"]:
                 cycle_results["steps"]["model_training"] = {
                     "started": datetime.now().isoformat(),
                     "status": "running",
@@ -822,9 +787,7 @@ def main():
         with open(status_file, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, default=str)
 
-        logger.info(
-            f"Система самообучения завершила работу. Статус: {results['status']}"
-        )
+        logger.info(f"Система самообучения завершила работу. Статус: {results['status']}")
 
     except Exception as e:
         logger.error(f"Критическая ошибка в системе самообучения: {e}")

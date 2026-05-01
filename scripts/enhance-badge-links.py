@@ -122,9 +122,7 @@ def main():
         # Показываем статистику
         old_badges = len(re.findall(r"<img[^>]*badge[^>]*>", content))
         new_badges = len(re.findall(r"<img[^>]*badge[^>]*>", final_content))
-        linked_badges = len(
-            re.findall(r"<a[^>]*><img[^>]*badge[^>]*></a>", final_content)
-        )
+        linked_badges = len(re.findall(r"<a[^>]*><img[^>]*badge[^>]*></a>", final_content))
 
         print("📊 Statistics:")
         print(f"  - Total badges: {new_badges}")

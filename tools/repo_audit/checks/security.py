@@ -88,9 +88,7 @@ class DependencySecurityCheck(BaseCheck):
         # 1. pip-audit in requirements-dev.txt
         if self.check_file_exists("requirements-dev.txt"):
             if self.check_file_content("requirements-dev.txt", "pip-audit"):
-                self._add_result(
-                    "PASS", "pip‑audit in dev requirements", "requirements-dev.txt"
-                )
+                self._add_result("PASS", "pip‑audit in dev requirements", "requirements-dev.txt")
             else:
                 self._add_result(
                     "WARNING",

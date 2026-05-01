@@ -146,9 +146,7 @@ python fix_import_issues.py
     print("1. Перезагрузите VS Code (Ctrl+Shift+P → 'Developer: Reload Window')")
     print("2. Выберите интерпретатор: .venv\\Scripts\\python.exe")
     print("3. Проверьте, что PROBLEMS уменьшились")
-    print(
-        "4. Если проблемы остались, следуйте инструкциям в FIX_IMPORT_ISSUES_GUIDE.md"
-    )
+    print("4. Если проблемы остались, следуйте инструкциям в FIX_IMPORT_ISSUES_GUIDE.md")
 
     return 0
 

@@ -80,9 +80,7 @@ def scan_directory(root_path, ignore_patterns):
         for dirpath, dirnames, filenames in os.walk(root_path):
             # Фильтруем директории для игнорирования
             dirnames[:] = [
-                d
-                for d in dirnames
-                if not should_ignore(os.path.join(dirpath, d), ignore_patterns)
+                d for d in dirnames if not should_ignore(os.path.join(dirpath, d), ignore_patterns)
             ]
 
             # Обрабатываем файлы в текущей директории
@@ -149,9 +147,7 @@ def find_duplicates(file_paths):
             hash_to_files[file_hash].append(file_path)
 
     # Фильтруем только дубликаты (группы с более чем одним файлом)
-    duplicates = {
-        hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1
-    }
+    duplicates = {hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1}
 
     return duplicates
 
@@ -191,9 +187,7 @@ def display_duplicates(duplicates):
     print(f"\nНайдено {len(duplicates)} групп дубликатов:\n")
 
     # Заголовок таблицы
-    print(
-        f"{'Название файла':<30} {'Содержимое (первые 100 символов)':<50} {'Путь к файлу':<50}"
-    )
+    print(f"{'Название файла':<30} {'Содержимое (первые 100 символов)':<50} {'Путь к файлу':<50}")
     print("-" * 130)
 
     # Выводим информацию о каждом дубликате
@@ -219,9 +213,7 @@ def main():
     if sys.stdout.encoding != "utf-8":
         sys.stdout.reconfigure(encoding="utf-8")
 
-    parser = argparse.ArgumentParser(
-        description="Поиск дубликатов файлов по хешу содержимого"
-    )
+    parser = argparse.ArgumentParser(description="Поиск дубликатов файлов по хешу содержимого")
     parser.add_argument(
         "path",
         nargs="?",

@@ -332,9 +332,7 @@ def main():
     print(f"💾 Report saved: {report_path}")
 
     # Exit with error if secrets found
-    has_critical_or_high = any(
-        f["severity"] in ["critical", "high"] for f in report.findings
-    )
+    has_critical_or_high = any(f["severity"] in ["critical", "high"] for f in report.findings)
     sys.exit(1 if has_critical_or_high else 0)
 
 

@@ -1,9 +1,10 @@
-﻿import structlog
+import structlog
 
 logger = structlog.get_logger()
 
+
 def setup_logging(app):
-    \"\"\"Configure structured logging with structlog.\"\"\"
+    """Configure structured logging with structlog."""
     import structlog
     from structlog.processors import JSONRenderer, TimeStamper
     from structlog.stdlib import LoggerFactory
@@ -14,7 +15,7 @@ def setup_logging(app):
         structlog.stdlib.add_log_level,
         timestamper,
         structlog.processors.format_exc_info,
-        JSONRenderer()
+        JSONRenderer(),
     ]
 
     structlog.configure(
@@ -26,7 +27,11 @@ def setup_logging(app):
 
     # Bind app context
     logger = structlog.get_logger("arch-compass")
-    logger.info("structured_logging_configured", app_name=app.__class__.__name__ if app else "unknown")
+    logger.info(
+        "structured_logging_configured",
+        app_name=app.__class__.__name__ if app else "unknown",
+    )
+
 
 # Example usage (unchanged, now functional)
 async def update_marker(marker_id: str, status: str):

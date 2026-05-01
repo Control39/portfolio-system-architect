@@ -42,9 +42,7 @@ def show_mental_support_message():
     print("Дорогой путешественник в мире IT,")
     print()
     print("Твой путь — это не просто набор маркеров и технологий.")
-    print(
-        "Это история твоего роста, преодоления сомнений и открытия своих сильных сторон."
-    )
+    print("Это история твоего роста, преодоления сомнений и открытия своих сильных сторон.")
     print()
     print("Важно помнить:")
     print("✅ Сравнивай себя не с другими, а с тобой вчерашним")
@@ -265,9 +263,7 @@ class ITCompassApp:
         while self.running:
             try:
                 self.show_menu()
-                choice = input(
-                    "Выберите действие (1-8): "
-                ).strip()  # Обновлен диапазон до 8
+                choice = input("Выберите действие (1-8): ").strip()  # Обновлен диапазон до 8
                 if not self.handle_choice(choice):
                     self.running = False
             except KeyboardInterrupt:
@@ -281,9 +277,7 @@ class ITCompassApp:
 
 def main():
     # Парсинг аргументов командной строки
-    parser = argparse.ArgumentParser(
-        description="IT Compass — объективная карта роста в IT"
-    )
+    parser = argparse.ArgumentParser(description="IT Compass — объективная карта роста в IT")
     parser.add_argument(
         "--mental-support",
         action="store_true",
