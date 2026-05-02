@@ -80,7 +80,7 @@ kubectl get svc -n portfolio
 
 ```bash
 # 1. Identify corruption point
-kubectl logs -n portfolio cloud-reason-0 | tail -100
+kubectl logs -n portfolio decision-engine-0 | tail -100
 
 # 2. Find backup timestamp before corruption
 gsutil ls -l gs://portfolio-backups/ | grep "portfolio_"

@@ -8,7 +8,7 @@ Complete K8s manifests for deploying the Portfolio System Architect ecosystem.
 
 ✅ **All 8 Microservices**: Full Deployment + Service + ConfigMap for each app
 ✅ **PostgreSQL Database**: StatefulSet with persistent storage
-✅ **Horizontal Pod Autoscaling (HPA)**: cloud-reason + ml-model-registry scale automatically
+✅ **Horizontal Pod Autoscaling (HPA)**: decision-engine + ml-model-registry scale automatically
 ✅ **Ingress Routing**: Single entry point for all services
 ✅ **Network Policies**: Least-privilege security (frontend ↔ backend ↔ DB)
 ✅ **Kustomize Structure**: base + overlays for dev/staging/prod
@@ -37,7 +37,7 @@ deployment/k8s/
 ├── base/
 │   ├── namespace/          # portfolio namespace
 │   ├── postgres/           # PostgreSQL database
-│   ├── services/           # 6 microservices (it-compass, cloud-reason, etc.)
+│   ├── services/           # 6 microservices (it-compass, decision-engine, etc.)
 │   ├── ingress/            # Ingress + Network Policies
 │   └── kustomization.yaml  # base kustomization
 ├── overlays/
@@ -133,7 +133,7 @@ echo "<LOAD_BALANCER_IP> portfolio.local" | sudo tee -a /etc/hosts
 #### Step 6: Access
 ```bash
 http://portfolio.local/it-compass
-http://portfolio.local/cloud-reason
+http://portfolio.local/decision-engine
 http://portfolio.local/ml-registry
 ```
 
@@ -214,7 +214,7 @@ kubectl get ingress -n portfolio
 kubectl get hpa -n portfolio
 
 # View logs
-kubectl logs -n portfolio -l app=cloud-reason -f
+kubectl logs -n portfolio -l app=decision-engine -f
 
 # Check resource usage
 kubectl top pods -n portfolio
@@ -256,7 +256,7 @@ kubectl top nodes
 **To monitor HPA**:
 ```bash
 kubectl get hpa -n portfolio -w
-kubectl describe hpa cloud-reason-hpa -n portfolio
+kubectl describe hpa decision-engine-hpa -n portfolio
 ```
 
 ---
@@ -339,7 +339,7 @@ kubectl run -it --rm debug --image=busybox --restart=Never -- wget http://it-com
 kubectl get deployment metrics-server -n kube-system
 
 # Check HPA status
-kubectl describe hpa cloud-reason-hpa -n portfolio
+kubectl describe hpa decision-engine-hpa -n portfolio
 
 # View current metrics
 kubectl get --raw /apis/metrics.k8s.io/v1beta1/pods -n portfolio
@@ -360,7 +360,7 @@ kubectl delete -k deployment/k8s/overlays/staging
 kubectl rollout restart deployment/it-compass -n portfolio
 
 # Scale manually (overrides HPA)
-kubectl scale deployment/cloud-reason --replicas=3 -n portfolio
+kubectl scale deployment/decision-engine --replicas=3 -n portfolio
 
 # Get resource usage
 kubectl top pods -n portfolio --sort-by memory
@@ -372,7 +372,7 @@ kubectl rollout history deployment/it-compass -n portfolio
 kubectl rollout undo deployment/it-compass -n portfolio
 
 # Stream logs from all pods
-kubectl logs -n portfolio -l app=cloud-reason -f --all-containers=true
+kubectl logs -n portfolio -l app=decision-engine -f --all-containers=true
 ```
 
 ---

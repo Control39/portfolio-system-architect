@@ -83,7 +83,7 @@ set -e
 echo "Deploying Portfolio System..."
 kubectl apply -k deployment/k8s/overlays/staging
 kubectl rollout status deployment/it-compass -n portfolio --timeout=300s
-kubectl rollout status deployment/cloud-reason -n portfolio --timeout=300s
+kubectl rollout status deployment/decision-engine -n portfolio --timeout=300s
 kubectl rollout status deployment/ml-model-registry -n portfolio --timeout=300s
 echo "Deployment completed."
 ```

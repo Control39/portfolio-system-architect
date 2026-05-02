@@ -41,7 +41,7 @@ grep -r "from src\.cloud_reason" --include="*.py" . 2>/dev/null || echo "✅ OK"
 
 ## 8. Docker сборка
 ```bash
-docker build -f apps/cloud-reason/Dockerfile -t test-cloud-reason . --no-cache --dry-run
+docker build -f apps/decision-engine/Dockerfile -t test-decision-engine . --no-cache --dry-run
 docker-compose config
 ```
 

@@ -46,7 +46,7 @@
 ### 4.1. Выбор эндпоинтов
 
 1. `GET /api/v1/portfolio` (основной эндпоинт портфолио).
-2. `POST /api/v1/analyze` (анализ через cloud-reason).
+2. `POST /api/v1/analyze` (анализ через decision-engine).
 3. `GET /api/v1/health` (лёгкий эндпоинт для базовой проверки).
 
 ### 4.2. Сценарий Locust
@@ -72,10 +72,10 @@ class PortfolioUser(HttpUser):
 
 ## 5. Профилирование кода
 
-### 5.1. Профилирование cloud-reason
+### 5.1. Профилирование decision-engine
 
 ```bash
-python -m cProfile -o profile.stats apps/cloud-reason/cloud_reason/main.py
+python -m cProfile -o profile.stats apps/decision-engine/cloud_reason/main.py
 ```
 
 **Вывод:** (будут заполнены после выполнения)

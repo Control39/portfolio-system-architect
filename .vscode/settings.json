@@ -8,7 +8,7 @@
   ],
   "python.analysis.diagnosticMode": "workspace",
   // ================================
-  // GigaCode - основные настройки
+  // GigaCode - ПРИОРИТЕТ (основной инструмент)
   // ================================
   "gigacode.enabled": true,
   "gigacode.apiKey": "${env:GIGACODE_API_KEY}",
@@ -17,53 +17,44 @@
   "gigacode.temperature": 0.7,
   "gigacode.contextWindow": 8000,
   "gigacode.language": "ru",
-  // GigaCode - функции
   "gigacode.enableCodeCompletion": true,
   "gigacode.enableChat": true,
   "gigacode.autoSuggest": true,
-  "gigacode.suggestDelay": 300,
+  "gigacode.suggestDelay": 500, // 💰 Чуть увеличил задержку: меньше ложных срабатываний = экономия токенов
   "gigacode.useWorkerForCommands": false,
   "gigacode.experimental.workerEnabled": false,
   "gigacode.inlineCompletions.enabled": true,
-  // GigaCode - модели для чата
   "gigacode.chat.agentModel": "CodeChat",
   "gigacode.chat.askModel": "CodeChat",
-  // GigaCode - языки
   "gigacode.python.enabled": true,
   "gigacode.typescript.enabled": true,
   "gigacode.javascript.enabled": true,
   "gigacode.yaml.enabled": true,
   "gigacode.markdown.enabled": true,
-  // GigaCode - интеграция
   "gigacode.integrateWithCopilot": false,
-  "gigacode.fallbackToSourceCraft": true,
+  "gigacode.fallbackToSourceCraft": false, // 💰 ОТКЛЮЧЕНО: не тратить кредиты, если GigaCode не ответил
   "gigacode.showTokenUsage": true,
-  // GigaCode - оптимизация
   "gigacode.notifyOnLowTokens": true,
   "gigacode.lowTokenThreshold": 50,
   "gigacode.cache_responses": true,
   // ================================
-  // SourceCraft - настройки
+  // SourceCraft - РЕЖЕМ ФОН (только по запросу)
   // ================================
   "sourcecraft-code-assist.account": "leadarchitect@yandex.ru",
+  // 💰 Отключаем авто-комплиты и фоновый анализ, чтобы не жег кредиты
+  "sourcecraft-code-assist.enableAutoCompletion": false,
+  "sourcecraft-code-assist.enableBackgroundAnalysis": false,
+  // Оставляем safe-команды, но запуск только вручную
   "sourcecraft-code-assist.allowedCommands": [
-    "npm test",
-    "npm install",
-    "tsc",
     "git log",
     "git diff",
     "git show",
-    "pip",
-    "pip install",
-    "python",
-    "pytest",
     "git status",
     "git branch",
     "git pull",
-    "ls",
-    "pwd",
-    "echo",
-    "cat"
+    "pip list",
+    "python --version",
+    "pytest --collect-only"
   ],
   "sourcecraft-code-assist.deniedCommands": [
     "rm -rf",
@@ -73,12 +64,16 @@
     "dd",
     "mkfs",
     "chmod 777",
-    "git push --force"
+    "git push --force",
+    "npm install",
+    "pip install" // 💰 Блокируем установку пакетов через ИИ для безопасности
   ],
   "sourcecraft-code-assist.useWorker": false,
   "sourcecraft-code-assist.runInTerminal": true,
+  // 💰 Явный запрет на авто-запросы
+  "sourcecraft-code-assist.autoTrigger": false,
   // ================================
-  // Python - форматирование и линтинг
+  // Python - локальное форматирование (БЕСПЛАТНО ✅)
   // ================================
   "python.formatting.provider": "black",
   "python.linting.ruffEnabled": true,
@@ -86,11 +81,14 @@
     "--fix"
   ],
   // ================================
-  // Редактор - автоформатирование
+  // Редактор - автоформатирование (локальное)
   // ================================
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
   "editor.trimAutoWhitespace": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
   "[python]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
@@ -102,11 +100,27 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[yaml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[powershell]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vscode.powershell"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
   "[markdown]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   // ================================
-  // Файлы - что исключить из поиска
+  // Файлы - исключения (без изменений)
   // ================================
   "files.exclude": {
     "**/.git": true,
@@ -149,7 +163,7 @@
     "${workspaceFolder}/tests"
   ],
   // ================================
-  // Прочие полезные настройки
+  // Прочие настройки
   // ================================
   "editor.rulers": [
     80,
@@ -159,5 +173,7 @@
   "editor.renderWhitespace": "selection",
   "editor.minimap.enabled": true,
   "workbench.editor.enablePreview": false,
-  "explorer.confirmDragAndDrop": false
+  "explorer.confirmDragAndDrop": false,
+  "chat.mcp.autostart": "never",
+  "chat.viewProgressBadge.enabled": true
 }

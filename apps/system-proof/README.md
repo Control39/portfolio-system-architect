@@ -42,7 +42,7 @@ pip install chromadb pydantic
 
 **Metrics:** Verification accuracy >90%, Coverage 92%.
 
-Integrates with GigaChain RAG (cloud-reason).
+Integrates with GigaChain RAG (decision-engine).
 
 ### Автоматическая загрузка документов
 

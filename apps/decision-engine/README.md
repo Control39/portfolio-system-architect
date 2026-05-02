@@ -38,13 +38,13 @@ git push origin main
 ```
 
 ### 2. Эндпоинты после деплоя
-- API Gateway: https://cloud-reason.api.yandexcloud.net
-- Веб-интерфейс: https://cloud-reason-web.storage.yandexcloud.net
+- API Gateway: https://decision-engine.api.yandexcloud.net
+- Веб-интерфейс: https://decision-engine-web.storage.yandexcloud.net
 
 ### 3. Настройка секретов (требуется вручную)
 Yandex Cloud Console → Lockbox
 
-Создать секрет `cloud-reason-secrets` с ключами:
+Создать секрет `decision-engine-secrets` с ключами:
 - `API_KEY` (ваш API-ключ Yandex Cloud)
 - `FOLDER_ID` (ID каталога Yandex Cloud)
 
@@ -57,7 +57,7 @@ Yandex Cloud Console → Lockbox
 ### Health Check
 ```bash
 GET /health
-# Ответ: {"status": "ok", "service": "cloud-reason"}
+# Ответ: {"status": "ok", "service": "decision-engine"}
 ```
 
 ### Reasoning Chat
@@ -181,7 +181,7 @@ curl -X POST http://localhost:8000/api/v1/reason -d '{"query": "IT-Compass marke
 
 ```bash
 # Клонирование
-git clone https://sourcecraft.dev/ваш-профиль/cloud-reason.git
+git clone https://sourcecraft.dev/ваш-профиль/decision-engine.git
 
 # Установка зависимостей
 pip install -r requirements.txt

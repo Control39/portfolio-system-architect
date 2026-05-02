@@ -150,7 +150,7 @@
 - **deploy.yml:** Развёртывание на продакшн (K8s, GitHub Pages).
 - **code-quality.yml:** Проверка качества кода.
 - **sync-to-github.yml:** Синхронизация с внешними репозиториями.
-- **Другие:** Множество специализированных workflow (test-cloud-reason, duplicate-check и т.д.).
+- **Другие:** Множество специализированных workflow (test-decision-engine, duplicate-check и т.д.).
 
 **Наблюдения:**
 - Пайплайн включает security scanning (Trivy), линтинг (Ruff, Black), тесты с покрытием, сборку Docker-образов и уведомления в Telegram.

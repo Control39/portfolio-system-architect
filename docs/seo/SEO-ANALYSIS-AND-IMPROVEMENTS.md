@@ -222,7 +222,7 @@ Create `docs/README.md`:
 
 ### Core Components
 - [IT-Compass](it-compass.md) - Objective competency measurement system
-- [Cloud-Reason](cloud-reason.md) - AI-assisted decision making engine
+- [Cloud-Reason](decision-engine.md) - AI-assisted decision making engine
 - [Portfolio-Organizer](portfolio-organizer.md) - Automated evidence collection
 - [System-Proof](system-proof.md) - Architecture validation framework
 

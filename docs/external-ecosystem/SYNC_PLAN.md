@@ -12,7 +12,7 @@ Full copy/adapt from SYNC_PLAN.md (Priority order).
 2. Config: defaults.yaml, schemas
 
 ## Phase 5: Others
-portfolio-organizer, cloud-reason, system-proof, thought-architecture
+portfolio-organizer, decision-engine, system-proof, thought-architecture
 
 **Rules**: _sync/ folders, git diff previews, preserve authorship (Ekaterina Kudelya, CC BY-ND 4.0).
 

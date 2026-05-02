@@ -29,9 +29,9 @@
 **Проблема**: Ручное рассуждение над кодом/доками для валидации архитектуры.
 **Решение**: RAG API на FastAPI.
 **Артефакт**:
-- Код: `apps/cloud-reason/cloud_reason/`
-- Демо: `docker compose up cloud-reason` → localhost:8000/docs
-- Документация: `apps/cloud-reason/README.md`
+- Код: `apps/decision-engine/cloud_reason/`
+- Демо: `docker compose up decision-engine` → localhost:8000/docs
+- Документация: `apps/decision-engine/README.md`
 **Компетенция**: AI RAG, API design ⭐⭐⭐⭐.
 **Уверенность**: 🟢92% — OpenAPI ready.
 

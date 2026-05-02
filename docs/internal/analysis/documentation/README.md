@@ -118,7 +118,7 @@ docs/
 | `docs/ARCHITECTURE.md` | Частично | Некоторые сервисы (например, auth-service) описаны, но их реализация изменилась. |
 | `deployment/k8s-README.md` | Да | Актуально. |
 | `apps/portfolio-organizer/README.md` | Да | Актуально. |
-| `apps/cloud-reason/README.md` | Нет | Устарело (описывает старую версию). |
+| `apps/decision-engine/README.md` | Нет | Устарело (описывает старую версию). |
 
 ### 5.2. Устаревшие документы
 
@@ -149,7 +149,7 @@ docs/
 
 1. **Отсутствие руководства пользователя** — новые пользователи не знают, как использовать систему.
 2. **Дублирование архитектурной документации** — приводит к рассинхронизации.
-3. **Устаревшая документация по некоторым сервисам** (cloud-reason → decision-engine, arch-compass-framework → infra-orchestrator - переименованы, требуется обновление ссылок).
+3. **Устаревшая документация по некоторым сервисам** (decision-engine → decision-engine, arch-compass-framework → infra-orchestrator - переименованы, требуется обновление ссылок).
 
 ### 7.2. Высокие
 
@@ -176,7 +176,7 @@ docs/
 ### 8.1. Немедленные действия (1-2 дня)
 
 1. **Создать навигационный индекс** (`docs/INDEX.md`) с картой документации.
-2. **Обновить устаревшие README** (cloud-reason, arch-compass-framework).
+2. **Обновить устаревшие README** (decision-engine, arch-compass-framework).
 3. **Удалить дубликаты** (оставить один `ARCHITECTURE.md` в `docs/`).
 
 ### 8.2. Краткосрочные (1-2 недели)
@@ -201,7 +201,7 @@ docs/
 | Действие | Срок | Ответственный |
 |----------|------|---------------|
 | Создание навигационного индекса | 1 день | Technical Writer |
-| Обновление README cloud-reason | 2 дня | Backend Dev |
+| Обновление README decision-engine | 2 дня | Backend Dev |
 | Удаление дубликатов ARCHITECTURE.md | 1 день | DevOps |
 | Написание руководства пользователя | 1 неделя | Technical Writer |
 | Дополнение API документации | 1 неделя | Backend Dev |

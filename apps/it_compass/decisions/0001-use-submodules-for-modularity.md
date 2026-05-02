@@ -5,7 +5,7 @@
 Принято
 ## 🧩 Контекст
 Нужно управлять несколькими связанными проектами:
-- cloud-reason
+- decision-engine
 - portfolio-organizer
 - system-proof
 Требуется:

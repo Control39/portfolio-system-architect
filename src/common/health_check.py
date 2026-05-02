@@ -7,12 +7,20 @@
 
 import asyncio
 import logging
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional, TypedDict
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
+
+
+class CheckInfo(TypedDict):
+    """Типизированный словарь для информации о проверке."""
+
+    fn: Callable
+    timeout: int
+    required: bool
 
 
 class HealthCheckResponse(BaseModel):
@@ -31,8 +39,8 @@ class HealthCheckService:
     def __init__(self, service_name: str, version: str = "1.0.0"):
         self.service_name = service_name
         self.version = version
-        self.checks: Dict[str, Callable] = {}
-        self.required_checks: set = set()  # Checks that must pass for "healthy" status
+        self.checks: Dict[str, CheckInfo] = {}
+        self.required_checks: set[str] = set()  # Checks that must pass for "healthy" status
 
     def register_check(
         self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5

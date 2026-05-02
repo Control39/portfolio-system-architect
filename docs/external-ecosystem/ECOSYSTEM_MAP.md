@@ -16,7 +16,7 @@ graph TD
 
     C --> C1[portfolio-organizer]
 
-    D --> D1[cloud-reason]
+    D --> D1[decision-engine]
     D --> D2[system-proof]
 
     E --> E1[thought-architecture]

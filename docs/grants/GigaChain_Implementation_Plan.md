@@ -10,7 +10,7 @@ Structured roadmap for GigaChain integration into portfolio-system-architect. Fo
 ## 1. Infrastructure Preparation
 - [ ] venv setup: `python -m venv venv && source venv/bin/activate` (or Windows equiv).
 - [ ] .env: GIGACHAT_API_KEY, YANDEX_CLOUD_CREDS.
-- [ ] Yandex Cloud (cloud-reason) for embeddings.
+- [ ] Yandex Cloud (decision-engine) for embeddings.
 - [ ] Chroma DB indexing (repos, logs, dialogs).
 **Criteria:** `chroma run` indexes 10+ docs, latency <2s/query.
 **Risks:** API quotas; fallback: local Chroma.
@@ -21,7 +21,7 @@ Structured roadmap for GigaChain integration into portfolio-system-architect. Fo
 - [ ] Auth protocol for MCP servers.
 **Code Stub Example:**
 ```python
-# 02_MODULES/cloud-reason/cloud_reason/gigachain_bridge.py
+# 02_MODULES/decision-engine/cloud_reason/gigachain_bridge.py
 from langchain import LLMChain
 class GigaMCPBridge:
     def inject_context(self, prompt: str, mcp_history: list) -> str:
@@ -31,7 +31,7 @@ class GigaMCPBridge:
 **Risks:** MCP downtime; mock mode.
 
 ## 3. RAG-Chain & Proof Storage
-- [ ] Index repos/dialogs in Chroma (via cloud-reason).
+- [ ] Index repos/dialogs in Chroma (via decision-engine).
 - [ ] Inferences-verification pre-save to system-proof.
 - [ ] Metadata Tagging: `thought-architecture`, `system-thinking-level`, `source-link`.
 **Criteria:** 95% verification pass rate.

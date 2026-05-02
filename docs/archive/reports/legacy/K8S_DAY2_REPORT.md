@@ -9,19 +9,19 @@
 - ✅ `deployment/k8s/base/postgres/` - Database (Deployment + PVC + Service + ConfigMap)
 - ✅ `deployment/k8s/base/services/` - 6 microservices:
   - it-compass (Streamlit UI, replicas: 2)
-  - cloud-reason (RAG API, replicas: 2, + HPA)
+  - decision-engine (RAG API, replicas: 2, + HPA)
   - ml-model-registry (Model storage, replicas: 2, + HPA)
   - career-development (Career tracking, replicas: 1)
   - portfolio-organizer (Portfolio gen, replicas: 1)
   - system-proof (CoT storage, replicas: 1)
 
 **2. Horizontal Pod Autoscaling (HPA)** 📈
-- ✅ cloud-reason-hpa: min 2, max 5 replicas (CPU 70%, Memory 80%)
+- ✅ decision-engine-hpa: min 2, max 5 replicas (CPU 70%, Memory 80%)
 - ✅ ml-model-registry-hpa: min 2, max 4 replicas (CPU 75%, Memory 85%)
 - ✅ Configured for GCP Free Tier (metrics-server ready)
 
 **3. Networking & Security** 🔒
-- ✅ Ingress routing: `/it-compass`, `/cloud-reason`, `/ml-registry`, `/career-dev`, `/portfolio-organizer`, `/system-proof`
+- ✅ Ingress routing: `/it-compass`, `/decision-engine`, `/ml-registry`, `/career-dev`, `/portfolio-organizer`, `/system-proof`
 - ✅ 6 NetworkPolicy rules:
   - Default deny all ingress
   - Allow Ingress → Frontend
@@ -62,7 +62,7 @@ deployment/k8s/
 │   ├── postgres/(kustomization, configmap, pvc, deployment, service)
 │   ├── services/
 │   │   ├── it-compass/(kustomization, deployment, service, configmap)
-│   │   ├── cloud-reason/(kustomization, deployment, service, configmap, hpa)
+│   │   ├── decision-engine/(kustomization, deployment, service, configmap, hpa)
 │   │   ├── ml-model-registry/(kustomization, deployment, service, configmap, hpa)
 │   │   ├── career-development/(3 files)
 │   │   ├── portfolio-organizer/(3 files)
@@ -90,7 +90,7 @@ Total: 41 YAML files + 1 README = 42 files
 | Все 8 сервисов имеют Deployment + Service + ConfigMap | ✅ | 6 микросервисов + postgres + namespace |
 | Kustomize overlays работают (dev/staging) | ✅ | 3 overlays, replica patching, namePrefix |
 | Ingress маршрутизирует на 3+ сервиса | ✅ | 6 сервисов на одном Ingress |
-| HPA для cloud-reason + ml-model-registry | ✅ | Оба с CPU/Memory metrics |
+| HPA для decision-engine + ml-model-registry | ✅ | Оба с CPU/Memory metrics |
 | Resource limits указаны для всех | ✅ | Requests + limits на каждый pod |
 | Network Policies настроены | ✅ | 6 policies (deny-all + allow-specific) |
 | Документация готова | ✅ | 9.6KB README с всеми сценариями |
@@ -107,7 +107,7 @@ Total: 41 YAML files + 1 README = 42 files
 - Ingress как единая точка входа
 
 ### HPA: 2
-- cloud-reason: 2-5 replicas
+- decision-engine: 2-5 replicas
 - ml-model-registry: 2-4 replicas
 
 ### Network Policies: 6
@@ -149,7 +149,7 @@ Total: 41 YAML files + 1 README = 42 files
 
 ## 📈 Scalability Evidence for Grant
 
-1. **HPA demonstrates cloud-native scaling**: Auto-scales cloud-reason & ml-registry based on demand
+1. **HPA demonstrates cloud-native scaling**: Auto-scales decision-engine & ml-registry based on demand
 2. **Multi-environment manifests**: Same code works on dev/staging/prod
 3. **Resource-aware**: Tuned for GCP Free Tier (max 6GB memory, 2-3 vCPU)
 4. **GKE-first design**: Optimized for GCP Cloud Platform (grant evaluator sees cloud readiness)

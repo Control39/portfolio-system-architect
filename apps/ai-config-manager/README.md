@@ -11,8 +11,7 @@
 - Мобильное приложение для удалённого мониторинга
 
 ## 📦 Установка
-
-`ash
+bash
 cd 07_apps/ai-config-manager
 npm install
 npm start

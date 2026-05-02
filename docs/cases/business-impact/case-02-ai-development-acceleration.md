@@ -67,7 +67,7 @@
 
 ```
 apps/mcp-server/             # Единый доступ к инструментам
-apps/cloud-reason/           # Reasoning-движок для принятия решений
+apps/decision-engine/           # Reasoning-движок для принятия решений
 apps/portfolio-organizer/    # Сбор доказательств эффективности
 src/ai/                      # Оркестрация AI-агентов
 ```

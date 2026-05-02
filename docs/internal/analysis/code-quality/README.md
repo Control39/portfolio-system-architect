@@ -88,7 +88,7 @@ pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing
 | Модуль | Coverage % | Непокрытые строки |
 |--------|------------|-------------------|
 | apps/it-compass | | |
-| apps/cloud-reason | | |
+| apps/decision-engine | | |
 | apps/ml-model-registry | | |
 | apps/auth-service | | |
 | apps/career-development | | |
@@ -121,7 +121,7 @@ radon cc . -a -s
 ## 7. Ручной обзор ключевых модулей
 
 Выбраны для анализа:
-- `apps/cloud-reason/cloud_reason/main.py`
+- `apps/decision-engine/cloud_reason/main.py`
 - `apps/it-compass/src/core/tracker.py`
 - `apps/portfolio-organizer/src/core/ITCompassAPI.py`
 - `src/infrastructure/security/SecretManager.psm1`

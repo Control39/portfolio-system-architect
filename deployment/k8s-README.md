@@ -8,7 +8,7 @@
 Standalone manifests created:
 - it-compass-deployment.yaml
 - auth-deployment.yaml
-- cloud-reason-deployment.yaml
+- decision-engine-deployment.yaml
 - ml-model-registry-deployment.yaml
 - career-development-deployment.yaml
 - portfolio-organizer-deployment.yaml
