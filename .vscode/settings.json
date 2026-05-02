@@ -70,30 +70,44 @@
   "sourcecraft-code-assist.runInTerminal": true,
   "sourcecraft-code-assist.autoTrigger": false,
   // ================================
-  // Python - линтинг и форматирование (Ruff + Black)
+  // Python - линтинг (Ruff)
   // ================================
   "python.linting.ruffEnabled": true,
   "python.linting.ruffArgs": [
     "--fix"
   ],
   // ================================
-  // Редактор - автоформатирование (локальное)
+  // Редактор - глобальные настройки
   // ================================
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
   "editor.trimAutoWhitespace": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": true,
+  "workbench.editor.enablePreview": false,
+  "explorer.confirmDragAndDrop": false,
+  // ================================
+  // Python - специфичные настройки
+  // ================================
   "[python]": {
     "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
       "source.fixAll": "explicit"
-    },
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    }
   },
+  // ================================
+  // Другие языки
+  // ================================
   "[json]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -118,7 +132,7 @@
     "editor.formatOnSave": false
   },
   // ================================
-  // Файлы - исключения
+  // Файлы - исключения из проводника
   // ================================
   "files.exclude": {
     "**/.git": true,
@@ -138,6 +152,9 @@
     "**/*.so": true,
     "**/*.local": true
   },
+  // ================================
+  // Файлы - исключения из наблюдателя
+  // ================================
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -161,15 +178,6 @@
   // ================================
   // Прочие настройки
   // ================================
-  "editor.rulers": [
-    80,
-    100,
-    120
-  ],
-  "editor.renderWhitespace": "selection",
-  "editor.minimap.enabled": true,
-  "workbench.editor.enablePreview": false,
-  "explorer.confirmDragAndDrop": false,
   "chat.mcp.autostart": "never",
   "chat.viewProgressBadge.enabled": true
 }
