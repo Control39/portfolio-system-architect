@@ -68,7 +68,7 @@
 repo_quality:
   structure:
     status: "✅/❌"
-    issues: ["найдена матрешка docs/docs/", "отсутствует README в apps/cloud-reason"]
+    issues: ["найдена матрешка docs/docs/", "отсутствует README в apps/decision-engine"]
 
   links:
     total: 156

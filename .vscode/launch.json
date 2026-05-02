@@ -34,12 +34,12 @@
             "justMyCode": true
         },
         {
-            "name": "Python: FastAPI - Cloud Reason",
+            "name": "Python: FastAPI - Decision Engine",
             "type": "python",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "apps.cloud_reason.main:app",
+                "apps.decision_engine.main:app",
                 "--host",
                 "0.0.0.0",
                 "--port",

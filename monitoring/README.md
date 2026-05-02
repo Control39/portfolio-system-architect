@@ -203,15 +203,25 @@ To demonstrate the monitoring stack in action, here are example screenshots of G
     description: "AI service pod {{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory limit for more than 5 minutes."
     runbook_url: "https://github.com/leadarchitect-ai/portfolio-system-architect/blob/main/docs/runbooks/high-memory.md"
 ```
+# monitoring/
 
 #### Что происходит при срабатывании:
+Конфигурации мониторинга и наблюдаемости.
 
 1. **Prometheus** обнаруживает, что использование памяти превышает 95% в течение 5 минут
 2. **Alertmanager** получает алерт, группирует его с другими алертами AI-сервиса
 3. **Уведомление отправляется в Telegram**:
+## Назначение
+- Настройка систем мониторинга для отслеживания состояния приложений
+- Сбор метрик, логов и трейсов
+- Настройка алертов и уведомлений
 
 ```
 [WARNING] Memory usage >95% for pod ai-service-7d8f9b
+## Структура
+- `prometheus/` - конфигурации для сбора метрик
+- `grafana/` - дашборды и конфигурации визуализации
+- `alertmanager/` - конфигурации уведомлений и алертов
 
 📊 **Метрика**: container_memory_usage_bytes
 📈 **Текущее значение**: 97.3%
@@ -276,3 +286,5 @@ spec:
 3. **Synthetic monitoring** – blackbox exporter for external checks
 4. **Business metrics** – more portfolio-specific KPIs
 5. **Anomaly detection** – machine learning on metrics
+
+Этот каталог обеспечивает наблюдаемость системы, позволяя отслеживать производительность, выявлять проблемы и реагировать на инциденты. Он критически важен для поддержания стабильности и надежности production-окружения.

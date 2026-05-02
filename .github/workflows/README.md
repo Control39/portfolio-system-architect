@@ -122,10 +122,10 @@ graph TB
 
 Синхронизация с удаленными репозиториями GitHub.
 
-### 9. Test Cloud Reason (test-cloud-reason.yml)
-**Файл**: `.github/workflows/test-cloud-reason.yml`
+### 9. Test Cloud Reason (test-decision-engine.yml)
+**Файл**: `.github/workflows/test-decision-engine.yml`
 
-Тестирование cloud-reason компонента.
+Тестирование decision-engine компонента.
 
 ### 10. Update (update.yml)
 **Файл**: `.github/workflows/update.yml`

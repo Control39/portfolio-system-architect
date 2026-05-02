@@ -44,7 +44,7 @@
 **Ключевые проекты:**
 - `apps/mcp-server/` — MCP Server для AI-интеграции
 - `apps/it-compass/` — методология оценки компетенций
-- `apps/cloud-reason/` — reasoning-движок
+- `apps/decision-engine/` — reasoning-движок
 - `deployment/k8s/` — Kubernetes манифесты
 
 ---

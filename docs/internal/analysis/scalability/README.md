@@ -25,7 +25,7 @@
 | Компонент | Тип | Масштабируемость |
 |-----------|-----|------------------|
 | auth-service | Stateless | ✅ Горизонтально |
-| cloud-reason | Stateless | ✅ Горизонтально |
+| decision-engine | Stateless | ✅ Горизонтально |
 | portfolio-organizer | Stateless | ✅ Горизонтально |
 | ml-model-registry | Stateful (модели в памяти) | ⚠️ Ограниченно |
 | system-proof | Stateful (файлы на диске) | ⚠️ Ограниченно |
@@ -129,7 +129,7 @@
 ### 7.2. Высокие
 
 4. **Отсутствие кэширования** — излишняя нагрузка на БД.
-5. **Нет HPA для ключевых сервисов** (auth-service, cloud-reason, portfolio-organizer).
+5. **Нет HPA для ключевых сервисов** (auth-service, decision-engine, portfolio-organizer).
 6. **RabbitMQ без кластеризации** — single point of failure.
 
 ### 7.3. Средние

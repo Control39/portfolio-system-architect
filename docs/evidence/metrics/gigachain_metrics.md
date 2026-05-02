@@ -12,4 +12,4 @@
 - Traces → system-proof/.
 - Self-improve suggestions logged.
 
-**Update:** Run after `docker compose up cloud-reason`.
+**Update:** Run after `docker compose up decision-engine`.

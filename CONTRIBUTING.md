@@ -294,7 +294,7 @@ portfolio-system-architect/
 portfolio-organizer
     ├──→ it-compass (использует методологию маркеров)
     ├──→ infra-orchestrator (использует для архитектурных решений)
-    └──→ cloud-reason (использует для RAG-системы)
+    └──→ decision_engine (использует для RAG-системы)
 
 cognitive-architect-manifesto
     ├──→ docs/ (документация)

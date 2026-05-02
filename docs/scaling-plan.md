@@ -13,7 +13,7 @@
 
 ## Вертикальное (immediate)
 - ml-model-registry memory 4G → 8G
-- Cache: Redis for RAG queries (cloud-reason)
+- Cache: Redis for RAG queries (decision-engine)
 
 ## Roadmap
 | Phase | Action | Timeline |

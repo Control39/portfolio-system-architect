@@ -54,7 +54,7 @@ architecture_analysis:
 
     - marker: "Обратная связь"
       evidence: "Feedback loop через RAG + Reasoning и Self-audit в Arch-Compass (Start-ArchCompass -Health)"
-      location: "apps/cloud-reason/, apps/arch-compass-framework/src/core/diagnostics/"
+      location: "apps/decision-engine/, apps/arch-compass-framework/src/core/diagnostics/"
 
     - marker: "Trade-offs"
       evidence: "ADR документируют выбор между скоростью разработки на Python и производительностью Go для критических путей"

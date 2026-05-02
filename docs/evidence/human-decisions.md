@@ -20,7 +20,7 @@
 - **Evidence**: `docker-compose.yml` exposes :8501.
 
 ## Decision #4: Modular Monorepo (no microservices)
-- **AI Proposal**: Separate repos per module (it-compass, cloud-reason).
+- **AI Proposal**: Separate repos per module (it-compass, decision-engine).
 - **My Rejection**: Fragmented journey proof. Monorepo enables evolution-cases tracking.
 - **Trade-off**: Larger repo but single CI/CD, shared evidence.
 - **Evidence**: Root `docker-compose.yml` orchestrates all.

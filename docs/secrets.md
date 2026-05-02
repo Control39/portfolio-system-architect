@@ -68,7 +68,7 @@ jobs:
       - name: Restart deployments
         run: |
           kubectl rollout restart deployment/it-compass
-          kubectl rollout restart deployment/cloud-reason
+          kubectl rollout restart deployment/decision-engine
           kubectl rollout restart deployment/ml-model-registry
 
       - name: Commit new secrets to Sealed Secrets

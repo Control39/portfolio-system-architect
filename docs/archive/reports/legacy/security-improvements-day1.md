@@ -21,7 +21,7 @@ All 5 Dockerfiles updated:
 | App | Status | Port | Health Check |
 |-----|--------|------|--------------|
 | it-compass | ✅ | 8501 | Streamlit health |
-| cloud-reason | ✅ | 8001 | /api/v1/status |
+| decision-engine | ✅ | 8001 | /api/v1/status |
 | ml-model-registry | ✅ | 8002 | /health |
 | career-development | ✅ | 8005 | Root endpoint |
 | portfolio-organizer | ✅ | 8004 | Root endpoint |

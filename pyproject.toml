@@ -40,18 +40,19 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-[tool.pytest.ini_options]
-testpaths = ["apps", "tests", "tests/e2e", "tests/unit"]
-python_files = "test_*.py"
-python_classes = "Test*"
-python_functions = "test_*"
-pythonpath = []
-addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
-markers = ["e2e: E2E tests (services up)", "slow: Slow tests"]
-filterwarnings = ["ignore::DeprecationWarning:langchain"]
-
-[tool.pytest-cov]
-cov_fail_under = 95
+# [tool.pytest.ini_options] and [tool.pytest-cov] removed - configuration moved to pytest.ini
+#
+# testpaths = ["apps", "tests", "tests/e2e", "tests/unit"]
+# python_files = "test_*.py"
+# python_classes = "Test*"
+# python_functions = "test_*"
+# pythonpath = []
+# addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
+# markers = ["e2e: E2E tests (services up)", "slow: Slow tests"]
+# filterwarnings = ["ignore::DeprecationWarning:langchain"]
+#
+# [tool.pytest-cov]
+# cov_fail_under = 95
 
 [tool.hatch]
 package-format = ["sdist", "wheel"]

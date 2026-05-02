@@ -13,7 +13,7 @@
 
 ### case-studies
 1. [case-1-it-compass-portfolio-organizer](case-studies/case-1-it-compass-portfolio-organizer/README.md) — кейс по IT‑Compass и организации портфолио.
-2. [case-2-arch-compass-cloud-reason](case-studies/case-2-arch-compass-cloud-reason/README.md) — кейс по Arch‑Compass и облачному reasoning.
+2. [case-2-arch-compass-decision-engine](case-studies/case-2-arch-compass-decision-engine/README.md) — кейс по Arch‑Compass и облачному reasoning.
 3. [case-3-system-proof-thought-architecture](case-studies/case-3-system-proof-thought-architecture/README.md) — кейс по System‑Proof и архитектуре мышления.
 
 ### pitch

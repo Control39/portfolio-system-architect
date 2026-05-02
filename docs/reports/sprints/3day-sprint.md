@@ -52,7 +52,7 @@ curl -X POST http://localhost/auth/token \
 | **API Gateway** | http://localhost:80 | 80 | Traefik router |
 | **Traefik Dashboard** | http://localhost:8080 | 8080 | Управление маршрутами |
 | **IT-Compass** | http://localhost/it-compass | 8501 | UI для трекинга скилов |
-| **Cloud-Reason** | http://localhost/cloud-reason | 8001 | RAG API |
+| **Cloud-Reason** | http://localhost/decision-engine | 8001 | RAG API |
 | **ML-Registry** | http://localhost/ml-registry | 8002 | Хранилище моделей |
 | **Career-Dev** | http://localhost/career-dev | 8005 | Карьерный трекинг |
 | **Portfolio-Organizer** | http://localhost/portfolio-organizer | 8004 | Генератор портфолио |
@@ -140,7 +140,7 @@ GKE Cluster (1.27+)
 ├── Namespace: portfolio
 ├── Deployments (8):
 │   ├── it-compass (2 replicas)
-│   ├── cloud-reason (2 replicas, HPA 2-5)
+│   ├── decision-engine (2 replicas, HPA 2-5)
 │   ├── ml-model-registry (2 replicas, HPA 2-4)
 │   ├── career-development (1 replica)
 │   ├── portfolio-organizer (1 replica)
@@ -152,7 +152,7 @@ GKE Cluster (1.27+)
 ├── NetworkPolicies (6, least-privilege)
 ├── ConfigMaps (8)
 ├── Secrets (portfolio-secrets)
-└── HPA (cloud-reason, ml-model-registry)
+└── HPA (decision-engine, ml-model-registry)
 ```
 
 [... full content truncated for brevity, matches exactly the read content ...]
