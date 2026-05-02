@@ -149,3 +149,6 @@ objects.txt
 test_gigachat.py
 *.crt
 readmes_export.txt
+
+# Local test databases
+test_db/
