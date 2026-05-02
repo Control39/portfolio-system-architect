@@ -20,7 +20,7 @@
   "gigacode.enableCodeCompletion": true,
   "gigacode.enableChat": true,
   "gigacode.autoSuggest": true,
-  "gigacode.suggestDelay": 500, // 💰 Чуть увеличил задержку: меньше ложных срабатываний = экономия токенов
+  "gigacode.suggestDelay": 500,
   "gigacode.useWorkerForCommands": false,
   "gigacode.experimental.workerEnabled": false,
   "gigacode.inlineCompletions.enabled": true,
@@ -32,19 +32,17 @@
   "gigacode.yaml.enabled": true,
   "gigacode.markdown.enabled": true,
   "gigacode.integrateWithCopilot": false,
-  "gigacode.fallbackToSourceCraft": false, // 💰 ОТКЛЮЧЕНО: не тратить кредиты, если GigaCode не ответил
+  "gigacode.fallbackToSourceCraft": false,
   "gigacode.showTokenUsage": true,
   "gigacode.notifyOnLowTokens": true,
   "gigacode.lowTokenThreshold": 50,
   "gigacode.cache_responses": true,
   // ================================
-  // SourceCraft - РЕЖЕМ ФОН (только по запросу)
+  // SourceCraft - РЕЖИМ ФОН (только по запросу)
   // ================================
   "sourcecraft-code-assist.account": "leadarchitect@yandex.ru",
-  // 💰 Отключаем авто-комплиты и фоновый анализ, чтобы не жег кредиты
   "sourcecraft-code-assist.enableAutoCompletion": false,
   "sourcecraft-code-assist.enableBackgroundAnalysis": false,
-  // Оставляем safe-команды, но запуск только вручную
   "sourcecraft-code-assist.allowedCommands": [
     "git log",
     "git diff",
@@ -66,16 +64,14 @@
     "chmod 777",
     "git push --force",
     "npm install",
-    "pip install" // 💰 Блокируем установку пакетов через ИИ для безопасности
+    "pip install"
   ],
   "sourcecraft-code-assist.useWorker": false,
   "sourcecraft-code-assist.runInTerminal": true,
-  // 💰 Явный запрет на авто-запросы
   "sourcecraft-code-assist.autoTrigger": false,
   // ================================
-  // Python - локальное форматирование (БЕСПЛАТНО ✅)
+  // Python - линтинг и форматирование (Ruff + Black)
   // ================================
-  "python.formatting.provider": "black",
   "python.linting.ruffEnabled": true,
   "python.linting.ruffArgs": [
     "--fix"
@@ -87,12 +83,14 @@
   "editor.formatOnPaste": false,
   "editor.trimAutoWhitespace": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
   },
   "[python]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
     },
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
@@ -120,7 +118,7 @@
     "editor.formatOnSave": false
   },
   // ================================
-  // Файлы - исключения (без изменений)
+  // Файлы - исключения
   // ================================
   "files.exclude": {
     "**/.git": true,
@@ -138,8 +136,6 @@
     "**/*.exe": true,
     "**/*.dll": true,
     "**/*.so": true,
-    "**/.env": true,
-    "**/.env.*": true,
     "**/*.local": true
   },
   "files.watcherExclude": {
