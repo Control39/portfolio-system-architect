@@ -4,9 +4,11 @@ Job Automation Agent
 """
 
 import asyncio
+import json
 import os
 from typing import Any, Dict, List, Optional, Set
 
+from langchain.agents import AgentExecutor
 from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
@@ -52,7 +54,9 @@ def job_search(query: str) -> str:
     """Поиск вакансий на hh.ru."""
     # TODO: Интеграция с реальным API hh.ru
     if USE_MOCK:
-        return f"🔍 Найдено вакансии по запросу '{query}' (mock).\nПример: Senior Python Developer в Москве"
+        msg = f"🔍 Найдено вакансии по запросу '{query}' (mock)."
+        msg += "\nПример: Senior Python Developer в Москве"
+        return msg
 
     # Здесь будет реальная логика
     return f"Результаты поиска по '{query}': реализация в разработке"
@@ -189,7 +193,7 @@ def analyze_requirements(job_description: str) -> Dict[str, Any]:
         response = llm.invoke(prompt)
         try:
             analysis_result = json.loads(response.content)
-        except:
+        except json.JSONDecodeError:
             analysis_result = {
                 "skills": [],
                 "experience_years": 0,
@@ -287,9 +291,11 @@ async def process_request(query: str) -> Dict[str, Any]:
                 "mock": True,
             }
         else:
+            msg = "Я могу помочь с поиском вакансий, генерацией резюме"
+            msg += " и анализом требований. Что вас интересует?"
             return {
                 "success": True,
-                "result": "Я могу помочь с поиском вакансий, генерацией резюме и анализом требований. Что вас интересует?",
+                "result": msg,
                 "mock": True,
             }
 

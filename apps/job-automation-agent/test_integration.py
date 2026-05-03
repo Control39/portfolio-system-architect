@@ -34,28 +34,28 @@ def test_integration():
     try:
         # Тест 1: Анализ вакансии с Python
         print("1. Анализ вакансии Python разработчика...")
-        job_description_python = """
-        Требуется Senior Python Developer. Необходимые навыки: Python, FastAPI, PostgreSQL, Docker, Git.
-        Опыт работы: 3+ года. Ответственности: разработка REST API, оптимизация запросов к БД, написание unit-тестов.
-        """
+        job_description_python = (
+            "Требуется Senior Python Developer. "
+            "Необходимые навыки: Python, FastAPI, PostgreSQL, Docker, Git. "
+            "Опыт работы: 3+ года."
+        )
 
         result = analyze_requirements(job_description_python)
 
         if "career_integration" in result:
             print("✅ Интеграция успешна")
-            print(
-                f"   Найдено соответствий: {result['career_integration']['matched_markers_count']}"
-            )
-            print(f"   Проставлено отметок: {result['career_integration']['marked_as_completed']}")
+            matched = result["career_integration"]["matched_markers_count"]
+            marked = result["career_integration"]["marked_as_completed"]
+            print(f"   Найдено соответствий: {matched}")
+            print(f"   Проставлено отметок: {marked}")
 
             if result["career_integration"]["matched_markers_count"] > 0:
                 print("   ID найденных маркеров:")
                 for marker_id in result["career_integration"]["matched_marker_ids"][:5]:
                     print(f"   - {marker_id}")
                 if len(result["career_integration"]["matched_marker_ids"]) > 5:
-                    print(
-                        f"   ... и ещё {len(result['career_integration']['matched_marker_ids']) - 5}"
-                    )
+                    count = len(result["career_integration"]["matched_marker_ids"]) - 5
+                    print(f"   ... и ещё {count}")
 
             # Проверяем, что прогресс обновился
             new_completed = career_tracker.progress["completed_markers"]
@@ -63,13 +63,11 @@ def test_integration():
             print(f"\n   Новых выполненных маркеров: {new_markers}")
 
             if new_markers != result["career_integration"]["marked_as_completed"]:
-                print(
-                    f"⚠️ Количество новых маркеров ({new_markers}) не совпадает с отчетом интеграции ({result['career_integration']['marked_as_completed']})"
-                )
+                msg = f"⚠️ Количество новых маркеров ({new_markers}) не совпадает"
+                msg += f" с отчетом ({result['career_integration']['marked_as_completed']})"
+                print(msg)
             else:
-                print(
-                    f"✅ Количество новых маркеров ({new_markers}) совпадает с отчетом интеграции"
-                )
+                print(f"✅ Количество новых маркеров ({new_markers}) совпадает")
 
         else:
             print("❌ Интеграция не сработала - отсутствует career_integration в результате")
@@ -90,9 +88,8 @@ def test_integration():
             if result_unknown["career_integration"]["matched_markers_count"] == 0:
                 print("✅ Корректно обработана вакансия без соответствий")
             else:
-                print(
-                    f"⚠️ Найдены ложные соответствия: {result_unknown['career_integration']['matched_markers_count']}"
-                )
+                count = result_unknown["career_integration"]["matched_markers_count"]
+                print(f"⚠️ Найдены ложные соответствия: {count}")
                 return False
         else:
             print("❌ Интеграция не сработала для вакансии без навыков")
@@ -135,7 +132,7 @@ def test_integration():
             career_tracker.progress["completed_markers"] = original_completed
             career_tracker._save_progress()
             print("✅ Прогресс восстановлен после ошибки")
-        except:
+        except Exception:
             print("❌ Не удалось восстановить прогресс")
         return False
 

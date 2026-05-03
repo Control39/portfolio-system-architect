@@ -63,9 +63,9 @@ def main():
     print(f"Overall score: {score['score']:.1f}/{score['total']:.1f} ({score['percentage']:.2f}%)")
 
     for cat, cat_score in score.get("by_category", {}).items():
-        print(
-            f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)"
-        )
+        msg = f"{cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f}"
+        msg += f" ({cat_score['percentage']:.2f}%)"
+        print(msg)
 
     # Show failures
     fails = [r for r in results if r.status == "FAIL"]

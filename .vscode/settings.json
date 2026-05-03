@@ -206,5 +206,6 @@
   // Прочие настройки
   // ================================
   "chat.mcp.autostart": "never",
-  "chat.viewProgressBadge.enabled": true
+  "chat.viewProgressBadge.enabled": true,
+  "editor.defaultFormatter": "ms-python.black-formatter"
 }
