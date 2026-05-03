@@ -196,14 +196,14 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
     success_count = 0
     if missing:
         print("\n📤 Копирование отсутствующих файлов...")
-        for rel_path, info in missing.items():
+        for _rel_path, info in missing.items():
             if copy_file(info, target_dir, dry_run=dry_run):
                 success_count += 1
 
     # Перезаписываем различающиеся файлы (опционально)
     if different:
         print("\n🔄 Перезапись файлов с различиями...")
-        for rel_path, diff in different.items():
+        for _rel_path, diff in different.items():
             src_info = diff["source"]
             if copy_file(src_info, target_dir, dry_run=dry_run):
                 success_count += 1

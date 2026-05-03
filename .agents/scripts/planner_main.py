@@ -366,7 +366,7 @@ class TaskPlanner:
             groups[category]["total_duration"] += task.get("estimated_duration", 0)
 
         # Расчет среднего приоритета для каждой группы
-        for category, group_data in groups.items():
+        for _category, group_data in groups.items():
             tasks = group_data["tasks"]
             if tasks:
                 avg_priority = sum(t.get("final_priority", 0) for t in tasks) / len(tasks)

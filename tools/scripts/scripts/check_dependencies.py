@@ -262,7 +262,7 @@ class DependencyChecker:
 
         # Проверяем рекомендации по тестированию
         needs_testing_unification = False
-        for comp_name, info in test_check.items():
+        for _comp_name, info in test_check.items():
             if info["framework"] != info["recommended"] and info["recommended"] != "не определено":
                 needs_testing_unification = True
                 break

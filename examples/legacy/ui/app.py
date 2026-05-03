@@ -290,7 +290,7 @@ if "history" in st.session_state and st.session_state.history:
     st.markdown("---")
     st.markdown("### 📜 История запросов")
 
-    for i, item in enumerate(reversed(st.session_state.history[-5:])):  # Последние 5 запросов
+    for _i, item in enumerate(reversed(st.session_state.history[-5:])):  # Последние 5 запросов
         with st.expander(f"❓ {item['question'][:50]}...", expanded=False):
             st.markdown(f"**Время:** {item['timestamp']}")
             st.markdown(f"**Уверенность:** {item['confidence']:.2%}")
