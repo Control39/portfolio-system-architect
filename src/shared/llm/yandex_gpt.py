@@ -19,13 +19,15 @@ except ImportError:
     from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
 
 
 class YandexGPTConfig(BaseSettings):
     """Конфигурация Yandex GPT"""
+
+    model_config = SettingsConfigDict(extra="ignore", env_file=".env", env_file_encoding="utf-8")
 
     api_key: str = Field(
         default=os.getenv("YANDEX_GPT_API_KEY", ""),
@@ -43,10 +45,6 @@ class YandexGPTConfig(BaseSettings):
     max_tokens: int = Field(default=2000, description="Максимальное количество токенов в ответе")
     timeout: int = Field(default=30, description="Таймаут запроса в секундах")
     max_retries: int = Field(default=3, description="Максимальное количество повторных попыток")
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
 
 
 class YandexGPTClient:

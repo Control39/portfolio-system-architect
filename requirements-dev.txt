@@ -52,8 +52,6 @@ babel==2.18.0
     # via
     #   jupyterlab-server
     #   mkdocs-material
-backports-asyncio-runner==1.2.0
-    # via pytest-asyncio
 backrefs==6.2
     # via mkdocs-material
 bandit==1.9.4
@@ -906,7 +904,7 @@ uvicorn[standard]==0.45.0
     #   fastapi
     #   fastapi-cli
     #   fastapi-cloud-cli
-uvloop==0.22.1
+uvloop==0.22.1; sys_platform != 'win32'
     # via uvicorn
 virtualenv==21.2.4
     # via pre-commit
