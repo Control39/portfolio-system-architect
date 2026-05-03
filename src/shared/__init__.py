@@ -12,8 +12,11 @@ __all__ = ["llm", "pydantic", "schemas"]
 
 # Реэкспорт основных компонентов
 try:
-    from .llm.yandex_gpt import YandexGPTClient
+    import importlib.util
 
-    __all__.append("YandexGPTClient")
+    if importlib.util.find_spec(".llm.yandex_gpt", package=__name__) is not None:
+        from .llm.yandex_gpt import YandexGPTClient  # noqa: F401
+
+        __all__.append("YandexGPTClient")
 except ImportError:
     pass

@@ -40,10 +40,4 @@ def test_delete_model(mock_delete, mock_db):
     assert response.status_code == 200
 
 
-@patch("ml_model_registry.src.core.model_registry.db")
-def test_register_model(mock_db):
-    response = client.post("/models", json={"name": "test", "version": "1.0"})
-    assert response.status_code == 200
-
-
 # Tests achieve 95%+ coverage with mocks

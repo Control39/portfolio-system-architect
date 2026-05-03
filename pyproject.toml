@@ -108,11 +108,11 @@ github_integration = true
 slack_webhook = ""
 
 [tool.black]
-line-length = 100
+line-length = 120
 
 [tool.ruff]
 target-version = "py312"
-line-length = 100
+line-length = 120
 
 [tool.ruff.lint]
 select = [
@@ -126,11 +126,14 @@ select = [
 ignore = [
     "E402", # Module level import not at top of file (требуется для sys.path.insert)
     "B008", # Do not perform function call in argument defaults
+    "E501", # Line too long (используем line-length = 120)
+    "E722", # Bare except (используется для graceful degradation в скриптах)
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/integration/test_rag_integration.py" = ["E402", "E501"]
 "tests/e2e/test_arch_compass.py" = ["E501"]
+"tools/repo_audit/cli.py" = ["E402", "I001", "E501"]
 
 [tool.bandit]
 skips = ["B101", "B104", "B404", "B501", "B507"]

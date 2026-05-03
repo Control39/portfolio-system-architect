@@ -92,7 +92,7 @@ class TriggerActivator:
 
         # Проверка Python и зависимостей
         try:
-            import yaml
+            import yaml  # noqa: F401 - проверяем доступность
 
             results["steps"].append(
                 {
