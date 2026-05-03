@@ -18,6 +18,6 @@ async def get_db():
 
 async def analyze_career_progress(user_id: str) -> Dict:
     """Analysis Agent."""
-    async with get_db() as session:
-        skills_df = pd.DataFrame()
+    async with get_db():
+        pd.DataFrame()
         return {"status": "ok", "user_id": user_id}

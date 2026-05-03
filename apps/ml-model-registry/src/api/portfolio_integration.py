@@ -80,18 +80,20 @@ async def fetch_from_registry(endpoint: str, method: str = "GET", data: Dict = N
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к реестру моделей: {e}")
-            raise HTTPException(status_code=503, detail="ML Model Registry is not accessible")
+            raise HTTPException(
+                status_code=503, detail="ML Model Registry is not accessible"
+            ) from e
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к реестру моделей: {e}")
             raise HTTPException(
                 status_code=504,
                 detail=f"ML Model Registry did not respond within {API_TIMEOUT}s",
-            )
+            ) from e
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP ошибка от реестра моделей: {e}")
             raise HTTPException(
                 status_code=e.response.status_code, detail=f"Registry error: {str(e)}"
-            )
+            ) from e
 
 
 async def send_to_portfolio(endpoint: str, data: Dict):
@@ -106,18 +108,20 @@ async def send_to_portfolio(endpoint: str, data: Dict):
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к Portfolio Organizer: {e}")
-            raise HTTPException(status_code=503, detail="Portfolio Organizer is not accessible")
+            raise HTTPException(
+                status_code=503, detail="Portfolio Organizer is not accessible"
+            ) from e
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к Portfolio Organizer: {e}")
             raise HTTPException(
                 status_code=504,
                 detail=f"Portfolio Organizer did not respond within {API_TIMEOUT}s",
-            )
+            ) from e
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP ошибка от Portfolio Organizer: {e}")
             raise HTTPException(
                 status_code=e.response.status_code, detail=f"Portfolio error: {str(e)}"
-            )
+            ) from e
 
 
 # Мок-данные для разработки (когда реестр недоступен)
@@ -284,7 +288,7 @@ async def register_model_for_portfolio(model_id: str):
                     "success": True,
                     "model": model,
                 }
-        raise HTTPException(status_code=404, detail="Модель не найдена")
+        raise HTTPException(status_code=404, detail="Модель не найдена")  # noqa: B904
 
     # Регистрируем в портфолио
     portfolio_response = await send_to_portfolio(

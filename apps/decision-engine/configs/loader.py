@@ -17,7 +17,7 @@ def load_component_config():
             config = yaml.safe_load(f)
         return config
     except yaml.YAMLError as e:
-        raise ValueError(f"Ошибка парсинга YAML: {e}")
+        raise ValueError(f"Ошибка парсинга YAML: {e}") from e
 
 
 # Глобальная переменная конфигурации

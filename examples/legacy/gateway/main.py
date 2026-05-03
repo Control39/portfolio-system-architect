@@ -239,16 +239,16 @@ def verify_token(
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[algorithm])
         return payload
-    except jwt.ExpiredSignatureError:
+    except jwt.ExpiredSignatureError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token expired",
-        )
-    except jwt.InvalidTokenError:
+        ) from e
+    except jwt.InvalidTokenError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
-        )
+        ) from e
 
 
 def extract_user_id_from_token_safely(token: str) -> str | None:
@@ -410,16 +410,16 @@ async def forward_request(
             status_code=response.status_code,
             headers=dict(response.headers),
         )
-    except httpx.TimeoutException:
+    except httpx.TimeoutException as e:
         raise HTTPException(
             status_code=504,
             detail=f"Service {service_name} timeout",
-        )
+        ) from e
     except httpx.RequestError as e:
         raise HTTPException(
             status_code=502,
             detail=f"Service {service_name} unavailable: {e!s}",
-        )
+        ) from e
 
 
 # Middleware для логирования и rate limiting
