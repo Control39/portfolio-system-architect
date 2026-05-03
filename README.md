@@ -4,6 +4,9 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github&style=flat-square)](https://github.com/Control39/portfolio-system-architect/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?logo=codecov&style=flat-square)](https://app.codecov.io/github/Control39/portfolio-system-architect)
+[![K8s](https://img.shields.io/badge/Kubernetes-ready-326CE5?logo=kubernetes&style=flat-square)](deployment/k8s/README.md)
+[![GitOps](https://img.shields.io/badge/GitOps-ArgoCD-EF7B4D?logo=argo&style=flat-square)](deployment/gitops/README.md)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&style=flat-square)](docker-compose.yml)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg?logo=python&style=flat-square)](https://python.org)
 [![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?style=flat-square)](LICENSE)
 
@@ -44,6 +47,8 @@
 ### Инфраструктура
 
 - **CI/CD:** GitHub Actions + GitOps (Kustomize)
+- **Деплой:** [Docker Compose → Kustomize → GitOps (ArgoCD)](deployment/README.md)
+- **Dev Environment:** [Dev Container](.devcontainer/) — полная среда разработки в VS Code (Python 3.12, Docker-in-Docker, Terraform, все extensions)
 - **Оркестрация:** Kubernetes (Kustomize overlays: dev/staging/prod)
 - **Мониторинг:** Prometheus + Grafana + AlertManager
 - **Безопасность:** Trivy, Bandit, Sealed Secrets, network policies
@@ -57,7 +62,7 @@
 # Установка
 make install
 
-# Запуск всех сервисов
+# Запуск всех сервисов локально
 make dev
 
 # Тесты (95%+ покрытие)
@@ -65,9 +70,17 @@ make test
 
 # CI/CD проверка
 make ci
+
+# Деплой в Kubernetes (staging)
+kubectl apply -k deployment/k8s/overlays/staging
+```
+
+> 💡 **Dev Container:** Открой проект в VS Code → «Reopen in Container» — получишь полностью настроенную среду (Python 3.12, Docker, Terraform, все extensions) без установки зависимостей на хост. Подробности в [`.devcontainer/README.md`](.devcontainer/README.md).
 ```
 
 📖 **Полная документация:** [`docs/QUICKSTART.md`](docs/QUICKSTART.md)
+🚀 **Стратегия деплоя:** [`deployment/README.md`](deployment/README.md)
+💬 **Питч для собеседований:** [`docs/interview/deployment-pitch.md`](docs/interview/deployment-pitch.md)
 
 ---
 
@@ -111,16 +124,27 @@ make ci
 ## 📁 Структура проекта
 
 ```
+```
 portfolio-system-architect/
-├── apps/cognitive-agent/                 # Cognitive Automation Agent (автономная автоматизация)
-├── .codeassistant/          # AI валидация и анализ
-├── apps/                    # 14 микросервисов (it_compass, decision-engine, и др.)
-├── mcp-server/              # AI Integration Platform
-├── src/                     # Общие ядра, AI оркестрация
-├── deployment/              # Kubernetes, GitOps, Sealed Secrets
+├── apps/                    # 14 микросервисов — независимые deployable-юниты [правила](apps/README.md)
+│   ├── auth_service/        # JWT аутентификация
+│   ├── decision-engine/     # RAG + reasoning API
+│   ├── it_compass/          # IT Compass UI
+│   ├── ml-model-registry/   # Реестр ML моделей
+│   └── ... (ещё 10 сервисов)
+├── src/                     # Общие ядра и библиотеки — импортируются apps/ [правила](src/README.md)
+│   ├── common/              # health_check, async_helpers
+│   ├── config/              # загрузка конфигураций
+│   ├── embedding_agent/     # RAG/эмбеддинги
+│   └── security/            # компоненты безопасности
+├── deployment/              # Kubernetes, GitOps, Sealed Secrets — [стратегия деплоя](deployment/README.md)
 ├── monitoring/              # Prometheus, Grafana
 ├── docs/                    # Документация, кейсы, методология
-└── tools/                   # Утилиты аудита, CI/CD, security
+├── tools/                   # Утилиты аудита, CI/CD, security
+└── .codeassistant/          # AI валидация и анализ
+```
+
+> 📋 **Граница `src/` vs `apps/`:** `src/` — общие библиотеки (2+ импортёра), `apps/` — независимые сервисы с Dockerfile. Подробности в [ADR-015](docs/architecture/decisions/ADR-015-monorepo-boundary.md).
 ```
 
 ---
