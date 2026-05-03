@@ -69,7 +69,7 @@ jobs:
 
     - name: Send alert if services are down
       if: steps.health-check.outputs.failed == 'true'
-      uses: rtCamp/action-slack-notify@v3
+      uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_CHANNEL: '#alerts'
