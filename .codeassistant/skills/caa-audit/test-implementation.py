@@ -235,7 +235,10 @@ class Phase1Tester:
         print("🔗 Тест интеграции с CAA...")
 
         # Проверка существования конфигурации CAA
-        caa_configs = [".agents/config/triggers.yaml", ".agents/config/git-hooks.yaml"]
+        caa_configs = [
+            "apps/cognitive-agent/config/triggers.yaml",
+            "apps/cognitive-agent/config/git-hooks.yaml",
+        ]
 
         for config_file in caa_configs:
             full_path = self.project_root / config_file
@@ -258,7 +261,7 @@ class Phase1Tester:
                     }
                 )
 
-        # Проверка директории .agents/
+        # Проверка директории apps/cognitive-agent/
         agents_dir = self.project_root / ".agents"
         if agents_dir.exists():
             subdirs = [d.name for d in agents_dir.iterdir() if d.is_dir()]
@@ -266,7 +269,7 @@ class Phase1Tester:
                 {
                     "name": "caa_structure_exists",
                     "status": "passed",
-                    "message": "Директория .agents/ существует",
+                    "message": "Директория apps/cognitive-agent/ существует",
                     "details": f"Поддиректории: {', '.join(subdirs[:5])}",
                 }
             )
@@ -275,7 +278,7 @@ class Phase1Tester:
                 {
                     "name": "caa_structure_exists",
                     "status": "failed",
-                    "message": "Директория .agents/ не найдена",
+                    "message": "Директория apps/cognitive-agent/ не найдена",
                     "recommendation": "Создать структуру CAA или настроить интеграцию",
                 }
             )

@@ -31,7 +31,7 @@
 
 | Компонент | Описание | Статус |
 |-----------|----------|--------|
-| **Cognitive Automation Agent** (`.agents/`) | Автономная автоматизация DevOps: тесты, деплои, сканы безопасности | ✅ |
+| **Cognitive Automation Agent** (`apps/cognitive-agent/`) | Автономная автоматизация DevOps: тесты, деплои, сканы безопасности | ✅ |
 | **IT-Compass** (`apps/it_compass/`) | Методология измерения компетенций: 83 маркера в 19 доменах | ✅ |
 | **Decision Engine** (`apps/decision-engine/`) | AI-принятие решений с объяснимой логикой (RAG + reasoning) | ✅ |
 | **Portfolio Organizer** (`apps/portfolio_organizer/`) | Автоматический сбор доказательств компетенций | ✅ |
@@ -112,7 +112,7 @@ make ci
 
 ```
 portfolio-system-architect/
-├── .agents/                 # Cognitive Automation Agent (автономная автоматизация)
+├── apps/cognitive-agent/                 # Cognitive Automation Agent (автономная автоматизация)
 ├── .codeassistant/          # AI валидация и анализ
 ├── apps/                    # 14 микросервисов (it_compass, decision-engine, и др.)
 ├── mcp-server/              # AI Integration Platform

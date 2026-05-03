@@ -10,7 +10,6 @@ build/
 .venv/
 venv/
 env/
-# Исключаем вложенные виртуальные окружения
 **/venv/
 **/.venv/
 **/env/
@@ -70,22 +69,24 @@ Desktop.ini
 !.gigacode/config.yaml
 !.gigacode/README.md
 !.gigacode/examples.md
+.agents/  # Старая скрытая папка (игнорируем после миграции)
 
 # ==========================================
 # Project Specific: Logs, Reports & Generated
 # ==========================================
-
 # Логи
 logs/
 *.log
-agents/logs/*.log
-agents/*.log
+apps/cognitive-agent/logs/*.log
+apps/cognitive-agent/*.log
 
 # Кэши и временные папки
 cache/
 tmp/
 temp/
 .tmp/
+apps/cognitive-agent/cache/
+apps/cognitive-agent/tmp/
 
 # Отчёты и аналитика
 test_reports/
@@ -103,6 +104,7 @@ my-repo-map*.txt
 health-report.json
 project_health_report.json
 mcp_settings.json
+apps/cognitive-agent/reports/
 
 # Генерируемые файлы и сайты
 docs/_build/
@@ -115,27 +117,36 @@ docs/obsidian-map/
 **/obsidian-vault/
 **/obsidian-map/
 *.db
+apps/cognitive-agent/*.db
 /site/
 
-# Node.js
+# ==========================================
+# Node.js & Frontend
+# ==========================================
 node_modules/
 *.js.map
 *.css.map
 
-# Резервные копии
+# ==========================================
+# Резервные копии и персональные инструменты
+# ==========================================
 README.md.backup
 tools/.ai-config-gui-backup-*/
-
-# Персональные инструменты
 personal-tools/
 10_BACKUPS/
 manual-review/
 
+# ==========================================
 # Локальные конфиги агентов
+# ==========================================
 agents/local/config/*.local.yaml
 agents/gigacode/config/*.local.yaml
+apps/cognitive-agent/local/config/*.local.yaml
+apps/cognitive-agent/gigacode/config/*.local.yaml
 
-# Временные файлы
+# ==========================================
+# Временные файлы и артефакты сборки
+# ==========================================
 trivy.zip
 *.tmpcache/
 site/
@@ -144,21 +155,21 @@ plans/
 .gigacode/
 objects.txt
 .private/
+apps/cognitive-agent/.venv/
+apps/cognitive-agent/__pycache__/
 
-# Отчёты покрытия (генерируются pytest)
+# ==========================================
+# Отчёты покрытия и тестовые артефакты
+# ==========================================
 coverage_html/
-
-# Сгенерированные маршруты агента
 generated_routes/
-
-# Temporary test files
 test_gigachat.py
 *.crt
-
-# Local test databases
 test_db/
 
-# Удалённые файлы (для предотвращения повторного добавления)
+# ==========================================
+# Удалённые/исторические файлы (блокировка повторного добавления)
+# ==========================================
 new-files.txt
 old-files.txt
 readmes_export.txt

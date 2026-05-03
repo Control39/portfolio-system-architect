@@ -1,0 +1,614 @@
+# Автоматический рабочий процесс настройки проекта
+# Cognitive Automation Agent - Workflow v1.0
+
+name: "Автоматическая настройка проекта"
+description: |
+  Полностью автоматизированный процесс настройки нового или существующего проекта.
+  Включает сканирование, анализ, оптимизацию и настройку всех необходимых компонентов.
+version: "1.0"
+autonomy_level: "high"
+estimated_duration: "15-45 minutes"
+requires_approval: false
+
+# Триггеры запуска
+triggers:
+  - type: "project_open"
+    description: "Автоматический запуск при открытии проекта в VS Code"
+    enabled: true
+
+  - type: "git_clone"
+    description: "Запуск после клонирования репозитория"
+    enabled: true
+
+  - type: "manual"
+    command: "python -m agents.workflows.run --workflow=project-setup"
+    enabled: true
+
+  - type: "schedule"
+    cron: "0 9 * * 1"  # Каждый понедельник в 9:00
+    description: "Еженедельная проверка и оптимизация"
+    enabled: true
+
+# Фазы выполнения
+phases:
+
+  ## Фаза 1: Предварительная подготовка
+  - phase_id: "preparation"
+    name: "Подготовка среды"
+    description: "Подготовка необходимых ресурсов и проверка предварительных условий"
+    estimated_duration: "2-5 минут"
+    parallel_execution: true
+
+    tasks:
+      - task_id: "prep_001"
+        name: "Проверка системных требований"
+        description: "Проверка доступности необходимых инструментов и ресурсов"
+        skill: "system-checker"
+        priority: "critical"
+
+        checks:
+          - check: "python_version"
+            min_version: "3.9"
+            action_if_failed: "warn_and_continue"
+
+          - check: "git_available"
+            required: true
+            action_if_failed: "fail_workflow"
+
+          - check: "disk_space"
+            min_gb: 1
+            action_if_failed: "warn_and_continue"
+
+          - check: "network_connectivity"
+            required: false
+            action_if_failed: "degraded_mode"
+
+        resources:
+          cpu: "low"
+          memory: "256MB"
+          timeout: "30s"
+
+      - task_id: "prep_002"
+        name: "Инициализация агента"
+        description: "Загрузка конфигурации и инициализация компонентов агента"
+        skill: "agent-initializer"
+        priority: "high"
+
+        actions:
+          - "load_configuration: apps/cognitive-agent/config/agent-config.yaml"
+          - "initialize_logging: apps/cognitive-agent/logs/setup.log"
+          - "setup_cache: apps/cognitive-agent/cache/"
+          - "validate_environment"
+
+        resources:
+          cpu: "low"
+          memory: "512MB"
+          timeout: "60s"
+
+      - task_id: "prep_003"
+        name: "Создание резервной копии"
+        description: "Создание резервной копии критических файлов перед изменениями"
+        skill: "backup-manager"
+        priority: "medium"
+
+        backup_targets:
+          - "package.json"
+          - "requirements.txt"
+          - "pyproject.toml"
+          - ".gitignore"
+          - ".vscode/"
+
+        backup_location: "apps/cognitive-agent/backups/project_setup_${TIMESTAMP}/"
+        retention: "7 days"
+
+        resources:
+          cpu: "low"
+          memory: "128MB"
+          disk: "100MB"
+          timeout: "120s"
+
+  ## Фаза 2: Глубокое сканирование проекта
+  - phase_id: "scanning"
+    name: "Анализ проекта"
+    description: "Полное сканирование проекта для понимания технологического стека и выявления проблем"
+    estimated_duration: "3-10 минут"
+    parallel_execution: true
+    depends_on: ["preparation"]
+
+    tasks:
+      - task_id: "scan_001"
+        name: "Быстрое сканирование технологий"
+        description: "Определение основных языков, фреймворков и инструментов"
+        skill: "project-scanner"
+        priority: "high"
+
+        scan_level: "quick"
+        scan_targets:
+          - "file_extensions"
+          - "config_files"
+          - "package_managers"
+          - "build_tools"
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/scans/tech_stack_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "medium"
+          memory: "1GB"
+          timeout: "60s"
+
+      - task_id: "scan_002"
+        name: "Анализ зависимостей"
+        description: "Анализ зависимостей проекта и проверка на уязвимости"
+        skill: "dependency-analyzer"
+        priority: "high"
+
+        analyzers:
+          - "python: safety, pip-audit"
+          - "javascript: npm audit, snyk"
+          - "docker: trivy"
+          - "os: osv-scanner"
+
+        checks:
+          - "security_vulnerabilities"
+          - "outdated_packages"
+          - "license_compliance"
+          - "dependency_conflicts"
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/scans/dependencies_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "high"
+          memory: "2GB"
+          timeout: "300s"
+
+      - task_id: "scan_003"
+        name: "Анализ кода и архитектуры"
+        description: "Статический анализ кода и оценка архитектурных решений"
+        skill: "code-analyzer"
+        priority: "medium"
+
+        analyzers:
+          - "python: pylint, mypy, bandit"
+          - "javascript: eslint, typescript"
+          - "general: sonarqube, codeclimate"
+
+        metrics:
+          - "code_complexity"
+          - "test_coverage"
+          - "security_issues"
+          - "performance_bottlenecks"
+          - "architecture_smells"
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/scans/code_analysis_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "high"
+          memory: "1.5GB"
+          timeout: "240s"
+
+      - task_id: "scan_004"
+        name: "Анализ Git истории"
+        description: "Анализ истории коммитов для выявления паттернов разработки"
+        skill: "git-analyzer"
+        priority: "low"
+
+        analyses:
+          - "commit_frequency"
+          - "hotspots_analysis"
+          - "contributor_patterns"
+          - "branching_strategy"
+          - "merge_conflicts"
+
+        timeframe: "last 90 days"
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/scans/git_analysis_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "medium"
+          memory: "512MB"
+          timeout: "180s"
+
+  ## Фаза 3: Генерация плана оптимизации
+  - phase_id: "planning"
+    name: "Планирование оптимизаций"
+    description: "Анализ результатов сканирования и генерация плана улучшений"
+    estimated_duration: "1-3 минуты"
+    parallel_execution: false
+    depends_on: ["scanning"]
+
+    tasks:
+      - task_id: "plan_001"
+        name: "Консолидация результатов сканирования"
+        description: "Объединение результатов всех сканирований в единый отчет"
+        skill: "report-consolidator"
+        priority: "high"
+
+        inputs:
+          - "apps/cognitive-agent/scans/tech_stack_*.json"
+          - "apps/cognitive-agent/scans/dependencies_*.json"
+          - "apps/cognitive-agent/scans/code_analysis_*.json"
+          - "apps/cognitive-agent/scans/git_analysis_*.json"
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/scans/consolidated_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "low"
+          memory: "512MB"
+          timeout: "60s"
+
+      - task_id: "plan_002"
+        name: "Генерация рекомендаций"
+        description: "Создание рекомендаций по оптимизации на основе анализа"
+        skill: "recommendation-engine"
+        priority: "high"
+
+        recommendation_categories:
+          - "security"
+          - "performance"
+          - "maintainability"
+          - "developer_experience"
+          - "cost_optimization"
+
+        priority_calculation:
+          business_impact: 0.4
+          technical_urgency: 0.3
+          implementation_effort: 0.2
+          risk_level: 0.1
+
+        output:
+          format: "json"
+          location: "apps/cognitive-agent/recommendations/project_${TIMESTAMP}.json"
+
+        resources:
+          cpu: "medium"
+          memory: "1GB"
+          timeout: "120s"
+
+      - task_id: "plan_003"
+        name: "Создание плана автоматизации"
+        description: "Генерация детального плана автоматических улучшений"
+        skill: "task-planner"
+        priority: "critical"
+
+        planning_strategy: "ml_based"
+        optimization_goals:
+          - "minimize_manual_effort"
+          - "maximize_impact"
+          - "minimize_risk"
+          - "optimize_sequence"
+
+        output:
+          format: "yaml"
+          location: "apps/cognitive-agent/plans/automation_${TIMESTAMP}.yaml"
+
+        resources:
+          cpu: "high"
+          memory: "2GB"
+          timeout: "180s"
+
+  ## Фаза 4: Выполнение оптимизаций
+  - phase_id: "execution"
+    name: "Автоматические улучшения"
+    description: "Выполнение запланированных оптимизаций и улучшений"
+    estimated_duration: "5-20 минут"
+    parallel_execution: true
+    depends_on: ["planning"]
+
+    # Динамические задачи генерируются на основе плана
+    # Ниже приведены примеры типичных задач
+
+    task_templates:
+
+      # Шаблон для обновления зависимостей
+      - template_id: "update_dependencies"
+        name: "Обновление зависимостей ${package}"
+        description: "Безопасное обновление зависимостей с проверкой совместимости"
+        skill: "dependency-updater"
+
+        conditions:
+          - "package_has_update: true"
+          - "security_vulnerability: true OR outdated_by_days > 30"
+
+        actions:
+          - "check_compatibility"
+          - "update_to_latest_safe"
+          - "run_tests"
+          - "rollback_if_failed"
+
+        resources:
+          cpu: "medium"
+          memory: "512MB"
+          timeout: "300s"
+
+      # Шаблон для настройки инструментов разработки
+      - template_id: "setup_dev_tools"
+        name: "Настройка ${tool}"
+        description: "Настройка инструментов разработки и интеграция в workflow"
+        skill: "dev-tools-setup"
+
+        tools:
+          - "pre-commit hooks"
+          - "linters"
+          - "formatters"
+          - "testing_frameworks"
+          - "debugging_tools"
+
+        actions:
+          - "install_tool"
+          - "configure_tool"
+          - "integrate_with_workflow"
+          - "verify_functionality"
+
+        resources:
+          cpu: "low"
+          memory: "256MB"
+          timeout: "180s"
+
+      # Шаблон для оптимизации конфигураций
+      - template_id: "optimize_configs"
+        name: "Оптимизация ${config_type}"
+        description: "Оптимизация конфигурационных файлов для улучшения производительности"
+        skill: "config-optimizer"
+
+        config_types:
+          - "docker"
+          - "ci_cd"
+          - "monitoring"
+          - "deployment"
+          - "development"
+
+        optimizations:
+          - "remove_redundancies"
+          - "apply_best_practices"
+          - "improve_performance"
+          - "enhance_security"
+
+        resources:
+          cpu: "low"
+          memory: "128MB"
+          timeout: "120s"
+
+      # Шаблон для настройки мониторинга
+      - template_id: "setup_monitoring"
+        name: "Настройка мониторинга ${component}"
+        description: "Настройка мониторинга для компонентов проекта"
+        skill: "monitoring-setup"
+
+        components:
+          - "application"
+          - "database"
+          - "infrastructure"
+          - "business_metrics"
+
+        monitoring_stack:
+          - "metrics: prometheus"
+          - "logs: loki"
+          - "traces: jaeger"
+          - "alerts: alertmanager"
+          - "dashboards: grafana"
+
+        resources:
+          cpu: "medium"
+          memory: "1GB"
+          timeout: "600s"
+
+  ## Фаза 5: Валидация и отчетность
+  - phase_id: "validation"
+    name: "Проверка и отчет"
+    description: "Валидация выполненных изменений и генерация отчетов"
+    estimated_duration: "2-5 минут"
+    parallel_execution: true
+    depends_on: ["execution"]
+
+    tasks:
+      - task_id: "valid_001"
+        name: "Валидация изменений"
+        description: "Проверка корректности выполненных изменений"
+        skill: "change-validator"
+        priority: "high"
+
+        validation_types:
+          - "syntax_validation"
+          - "functionality_tests"
+          - "performance_benchmarks"
+          - "security_scans"
+          - "compatibility_checks"
+
+        success_criteria:
+          - "all_tests_pass: true"
+          - "no_regressions: true"
+          - "performance_improved_or_equal: true"
+          - "security_improved_or_equal: true"
+
+        resources:
+          cpu: "high"
+          memory: "2GB"
+          timeout: "300s"
+
+      - task_id: "valid_002"
+        name: "Генерация отчета"
+        description: "Создание детального отчета о выполненных изменениях"
+        skill: "report-generator"
+        priority: "medium"
+
+        report_formats:
+          - "html: interactive_dashboard"
+          - "markdown: summary_readme"
+          - "json: machine_readable"
+          - "pdf: formal_report"
+
+        sections:
+          - "executive_summary"
+          - "detailed_changes"
+          - "performance_impact"
+          - "security_improvements"
+          - "next_recommendations"
+
+        output_location: "apps/cognitive-agent/reports/project_setup_${TIMESTAMP}/"
+
+        resources:
+          cpu: "low"
+          memory: "512MB"
+          timeout: "120s"
+
+      - task_id: "valid_003"
+        name: "Обновление базы знаний"
+        description: "Сохранение извлеченных уроков и паттернов для будущих проектов"
+        skill: "learning-system"
+        priority: "low"
+
+        knowledge_types:
+          - "successful_patterns"
+          - "failure_analysis"
+          - "performance_metrics"
+          - "user_feedback"
+          - "improvement_opportunities"
+
+        storage:
+          - "database: apps/cognitive-agent/knowledge/"
+          - "models: apps/cognitive-agent/models/"
+          - "configs: apps/cognitive-agent/config/templates/"
+
+        resources:
+          cpu: "medium"
+          memory: "1GB"
+          timeout: "180s"
+
+# Настройки выполнения
+execution_settings:
+  max_parallel_tasks: 3
+  resource_limits:
+    cpu: "80%"
+    memory: "4GB"
+    disk: "10GB"
+
+  retry_policy:
+    max_attempts: 3
+    backoff_strategy: "exponential"
+    initial_delay: "5s"
+    max_delay: "60s"
+
+  rollback_policy:
+    enabled: true
+    automatic: true
+    checkpoint_frequency: "after_each_phase"
+    backup_retention: "7 days"
+
+  notification_settings:
+    on_start: true
+    on_completion: true
+    on_failure: true
+    on_phase_completion: false
+
+    channels:
+      - "console"
+      - "log_file"
+      - "vscode_notifications"
+
+# Мониторинг и метрики
+monitoring:
+  metrics_to_collect:
+    - "phase_duration"
+    - "task_success_rate"
+    - "resource_utilization"
+    - "user_satisfaction"
+    - "improvement_metrics"
+
+  health_checks:
+    - check: "workflow_progress"
+      interval: "30s"
+      timeout: "10s"
+
+    - check: "resource_availability"
+      interval: "60s"
+      timeout: "5s"
+
+    - check: "external_dependencies"
+      interval: "120s"
+      timeout: "15s"
+
+  alerts:
+    - alert: "workflow_stalled"
+      condition: "no_progress_for > 300s"
+      severity: "critical"
+
+    - alert: "high_resource_usage"
+      condition: "cpu > 90% OR memory > 90%"
+      severity: "warning"
+
+    - alert: "multiple_failures"
+      condition: "consecutive_failures > 3"
+      severity: "critical"
+
+# Кастомизация
+customization:
+  skip_phases: []
+  skip_tasks: []
+
+  overrides:
+    autonomy_level: null  # null = use default
+    resource_limits: null
+    notification_settings: null
+
+  user_preferences:
+    preferred_tools: {}  # tool-specific preferences
+    coding_standards: "project_default"
+    security_level: "balanced"
+    performance_focus: "development"
+
+# Выходные данные
+outputs:
+  artifacts:
+    - name: "consolidated_scan_report"
+      path: "apps/cognitive-agent/scans/consolidated_${TIMESTAMP}.json"
+      description: "Консолидированный отчет сканирования"
+
+    - name: "automation_plan"
+      path: "apps/cognitive-agent/plans/automation_${TIMESTAMP}.yaml"
+      description: "План автоматических улучшений"
+
+    - name: "execution_report"
+      path: "apps/cognitive-agent/reports/project_setup_${TIMESTAMP}/"
+      description: "Полный отчет о выполнении"
+
+    - name: "knowledge_update"
+      path: "apps/cognitive-agent/knowledge/project_${TIMESTAMP}/"
+      description: "Обновления базы знаний"
+
+  metrics:
+    - name: "total_improvements_applied"
+      description: "Общее количество примененных улучшений"
+
+    - name: "estimated_time_saved"
+      description: "Оценка сэкономленного времени"
+
+    - name: "overall_impact_score"
+      description: "Общая оценка воздействия"
+
+  next_steps:
+    - description: "Регулярное сканирование для поддержания оптимального состояния"
+      schedule: "weekly"
+
+    - description: "Интеграция с CI/CD для автоматической проверки изменений"
+      priority: "high"
+
+    - description: "Расширение автоматизации на дополнительные аспекты проекта"
+      priority: "medium"
+
+# Версия и метаданные
+metadata:
+  workflow_version: "1.0"
+  created_at: "2024-01-01T00:00:00Z"
+  last_updated: "2024-01-01T00:00:00Z"
+  compatible_agent_version: ">=2.0"
+  tags: ["project-setup", "automation", "optimization", "onboarding"]

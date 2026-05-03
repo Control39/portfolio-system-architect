@@ -4,7 +4,7 @@
 
 ```
 portfolio-system-architect/
-├── .agents/                    # Cognitive Automation Agent (CAA) - продукт
+├── apps/cognitive-agent/                    # Cognitive Automation Agent (CAA) - продукт
 │   ├── skills/                # Навыки CAA (автономное выполнение)
 │   ├── config/                # Конфигурации автономной системы
 │   ├── scripts/               # Скрипты для автоматизации
@@ -23,7 +23,7 @@ portfolio-system-architect/
     └── graph-schema.json     # Схема графа
 ```
 
-## 1. Cognitive Automation Agent (.agents/)
+## 1. Cognitive Automation Agent (apps/cognitive-agent/)
 
 ### Назначение
 Автономная система для управления проектами с интеллектуальными возможностями.
@@ -59,7 +59,7 @@ portfolio-system-architect/
 
 ### Skill "caa-audit" → Cognitive Automation Agent
 ```
-.codeassistant/skills/caa-audit/           .agents/
+.codeassistant/skills/caa-audit/           apps/cognitive-agent/
          │                                       │
          ▼                                       ▼
 [Анализ позиционирования]           [Реализация автономной системы]
@@ -108,14 +108,14 @@ graph TB
 ### Разделение ответственности
 | Система | Ответственность | Уровень абстракции |
 |---------|----------------|-------------------|
-| **CAA (.agents/)** | Автономное выполнение | Уровень реализации |
+| **CAA (apps/cognitive-agent/)** | Автономное выполнение | Уровень реализации |
 | **SourceCraft Skills (.codeassistant/)** | Анализ и рекомендации | Уровень анализа |
 | **Reasoning System (diagrams/reasoning)** | Визуализация логических цепочек | Уровень архитектурного мышления |
 
 ### Направление зависимостей
 ```
-.codeassistant/ → .agents/   (Анализ зависит от реализации)
-.agents/ ↛ .codeassistant/   (Реализация не зависит от анализа)
+.codeassistant/ → apps/cognitive-agent/   (Анализ зависит от реализации)
+apps/cognitive-agent/ ↛ .codeassistant/   (Реализация не зависит от анализа)
 ```
 
 ### Интерфейсы взаимодействия
@@ -130,7 +130,7 @@ graph TB
 **Контекст:** Необходимость разделить автономное выполнение и аналитические возможности.
 
 **Решение:** Создать две независимые системы:
-- `.agents/` для автономного выполнения (Cognitive Automation Agent)
+- `apps/cognitive-agent/` для автономного выполнения (Cognitive Automation Agent)
 - `.codeassistant/` для аналитических skills (SourceCraft Agent)
 
 **Последствия:**
@@ -142,7 +142,7 @@ graph TB
 ### ADR-002: Skill "caa-audit" как мост между системами
 **Контекст:** Необходимость анализировать работу Cognitive Automation Agent.
 
-**Решение:** Создать skill в `.codeassistant/`, который анализирует `.agents/`.
+**Решение:** Создать skill в `.codeassistant/`, который анализирует `apps/cognitive-agent/`.
 
 **Последствия:**
 - ✅ Возможность аудита CAA без изменения его кода
@@ -186,12 +186,12 @@ graph TB
 ## 8. Контакты и ответственность
 
 ### Владельцы систем
-- **Cognitive Automation Agent (.agents/)**: Архитектор когнитивных систем
+- **Cognitive Automation Agent (apps/cognitive-agent/)**: Архитектор когнитивных систем
 - **SourceCraft Agent Skills (.codeassistant/)**: SourceCraft команда
 
 ### Контакты для вопросов
 - Вопросы по архитектуре: создатель репозитория
-- Вопросы по CAA: issues в `.agents/`
+- Вопросы по CAA: issues в `apps/cognitive-agent/`
 - Вопросы по skills: issues в `.codeassistant/`
 
 ---

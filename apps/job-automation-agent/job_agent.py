@@ -7,12 +7,13 @@ import asyncio
 import os
 from typing import Any, Dict, List, Optional, Set
 
-# LangChain imports
-from langchain.agents.factory import create_agent
 from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
+
+# LangChain imports
+from langchainapps.cognitive_agent.factory import create_agent
 
 # Импорт компонентов для интеграции с системой отслеживания карьеры
 from apps.it_compass.src.core.tracker import CareerTracker

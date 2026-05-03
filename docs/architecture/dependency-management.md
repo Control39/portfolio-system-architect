@@ -12,7 +12,7 @@ portfolio-system-architect/
 ├── .venv/                       # Изолированное окружение
 ├── src/                         # Основной код приложения
 │   └── main.py
-├── .agents/                     # Автономные агенты
+├── apps/cognitive-agent/                     # Автономные агенты
 │   └── requirements.txt
 ├── apps/                        # Микросервисы/модули
 │   ├── portfolio-organizer/
@@ -43,7 +43,7 @@ portfolio-system-architect/
 
 Зависимости для специализированных систем и агентов.
 
-**.agents/ (Cognitive Automation Agent)**:
+**apps/cognitive-agent/ (Cognitive Automation Agent)**:
 - Имеет собственный `requirements.txt` для автономных функций
 - Зависимости сфокусированы на автоматизации и интеллектуальных возможностях
 - Может использовать подмножество глобальных зависимостей
@@ -70,10 +70,10 @@ graph TD
     B --> C[Установка в .venv]
     D[requirements-dev.txt] --> C
     C --> E[src/main.py]
-    C --> F[.agents/]
+    C --> F[apps/cognitive-agent/]
     C --> G[apps/*]
 
-    H[.agents/requirements.txt] -->|Автономные агенты| F
+    H[apps/cognitive-agent/requirements.txt] -->|Автономные агенты| F
     I[apps/*/requirements.txt] -->|Специфические модули| G
 
     style A fill:#4CAF50,stroke:#388E3C
@@ -153,10 +153,10 @@ pytest
 ### Взаимодействие с Cognitive Automation Agent (.agents)
 
 ```python
-# .agents/ может использовать зависимости из глобального окружения
+# apps/cognitive-agent/ может использовать зависимости из глобального окружения
 # или иметь свои специфические зависимости
 
-# Пример использования в .agents/launch-script.py
+# Пример использования в apps/cognitive-agent/launch-script.py
 from apps.career_development.src.main import app  # Использование основного приложения
 import requests  # Использование глобальной зависимости
 import click     # Использование глобальной зависимости

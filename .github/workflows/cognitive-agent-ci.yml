@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - '.agents/**'
+      - 'apps/cognitive-agent/**'
       - '.github/workflows/cognitive-agent-ci.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - '.agents/**'
+      - 'apps/cognitive-agent/**'
   schedule:
     # Запускать ежедневно в 2:00 UTC для мониторинга квот
     - cron: '0 2 * * *'
@@ -42,15 +42,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pyyaml jsonschema
-          if [ -f ".agents/requirements.txt" ]; then
-            pip install -r .agents/requirements.txt
+          if [ -f "apps/cognitive-agent/requirements.txt" ]; then
+            pip install -r apps/cognitive-agent/requirements.txt
           fi
 
       - name: Validate configuration files
         run: |
-          python .agents/scripts/validate-config.py --config .agents/config/agent-config.yaml
-          python .agents/scripts/validate-config.py --config .agents/config/triggers.yaml
-          python .agents/scripts/validate-config.py --config .agents/config/learning.yaml
+          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/config/agent-config.yaml
+          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/config/triggers.yaml
+          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/config/learning.yaml
 
   test-agent:
     name: Test Agent Components
@@ -76,7 +76,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: .agents/coverage.xml
+          file: apps/cognitive-agent/coverage.xml
           flags: cognitive-agent
 
   run-scanner:
@@ -98,7 +98,7 @@ jobs:
 
       - name: Run scanner in safe mode
         run: |
-          python -m agents.scripts.scanner_main --mode=safe --output=.agents/reports/ci-scan-report.json
+          python -m agents.scripts.scanner_main --mode=safe --output=apps/cognitive-agent/reports/ci-scan-report.json
         env:
           AGENT_MODE: ci
           SOURCECRAFT_QUOTA_SAVING: true
@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scan-report
-          path: .agents/reports/ci-scan-report.json
+          path: apps/cognitive-agent/reports/ci-scan-report.json
 
   monitor-quotas:
     name: Monitor SourceCraft Quotas
@@ -128,20 +128,20 @@ jobs:
 
       - name: Run quota monitor
         run: |
-          python .agents/scripts/check-db.py --quota-check --output=.agents/reports/quota-report.json
+          python apps/cognitive-agent/scripts/check-db.py --quota-check --output=apps/cognitive-agent/reports/quota-report.json
         env:
           SOURCECRAFT_API_KEY: ${{ secrets.SOURCECRAFT_API_KEY }}
 
       - name: Check quota thresholds
         run: |
-          python .agents/scripts/alert-system.py --report=.agents/reports/quota-report.json --threshold=80
+          python apps/cognitive-agent/scripts/alert-system.py --report=apps/cognitive-agent/reports/quota-report.json --threshold=80
         continue-on-error: true
 
       - name: Upload quota report
         uses: actions/upload-artifact@v4
         with:
           name: quota-report
-          path: .agents/reports/quota-report.json
+          path: apps/cognitive-agent/reports/quota-report.json
 
   deploy-agent:
     name: Deploy Agent Updates
@@ -172,10 +172,10 @@ jobs:
 
       - name: Update documentation
         run: |
-          python .agents/scripts/add-test-metrics.py --update-docs
+          python apps/cognitive-agent/scripts/add-test-metrics.py --update-docs
           git config --global user.name "Cognitive Agent CI"
           git config --global user.email "agent-ci@example.com"
-          git add .agents/IMPLEMENTATION_REPORT.md .agents/USAGE.md
+          git add apps/cognitive-agent/IMPLEMENTATION_REPORT.md apps/cognitive-agent/USAGE.md
           git commit -m "docs: update agent documentation [skip ci]" || echo "No changes to commit"
           git push origin main || echo "Nothing to push"
 
@@ -190,7 +190,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          scan-ref: '.agents/'
+          scan-ref: 'apps/cognitive-agent/'
           format: 'sarif'
           output: 'trivy-results.sarif'
 

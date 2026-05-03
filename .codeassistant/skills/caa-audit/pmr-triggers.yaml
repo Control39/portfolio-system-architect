@@ -18,7 +18,7 @@ triggers:
       - "docs/presentations/**/*.md"
       - "docs/professional-journey/*.json"
       - "docs/professional-journey/*.md"
-      - ".agents/USAGE.md"
+      - "apps/cognitive-agent/USAGE.md"
       - ".codeassistant/skills/caa-audit/*.md"
     debounce_ms: 3000  # Задержка 3 секунды для batch изменений
     actions:
@@ -34,7 +34,7 @@ triggers:
       - type: "console"
         on: ["score_change", "critical_issue"]
       - type: "log"
-        path: ".agents/logs/pmr-triggers.log"
+        path: "apps/cognitive-agent/logs/pmr-triggers.log"
 
   # Триггер при коммите в Git (интеграция с Git хуками CAA)
   git_commit_positioning:
@@ -42,10 +42,10 @@ triggers:
     description: "Аудит позиционирования при коммите"
     conditions:
       - git_operation: "commit"
-      - file_changed: ["README.md", "docs/employer/*", ".agents/USAGE.md"]
+      - file_changed: ["README.md", "docs/employer/*", "apps/cognitive-agent/USAGE.md"]
     actions:
       - name: "pre_commit_caa_audit"
-        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --focus=positioning,evidence --format=markdown --output=.agents/reports/pre-commit-caa-audit-{timestamp}.md"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --focus=positioning,evidence --format=markdown --output=apps/cognitive-agent/reports/pre-commit-caa-audit-{timestamp}.md"
         timeout_sec: 60
       - name: "validate_positioning_score"
         command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --quick"
@@ -54,7 +54,7 @@ triggers:
     autonomy_level: high
     priority: critical
     integration:
-      with: ".agents/config/git-hooks.yaml"
+      with: "apps/cognitive-agent/config/git-hooks.yaml"
       hook: "pre-commit"
 
   # Триггер при пуше в основную ветку
@@ -66,17 +66,17 @@ triggers:
       - branch: "main"
     actions:
       - name: "full_caa_audit"
-        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/caa-audit-{timestamp}.md"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=apps/cognitive-agent/reports/caa-audit-{timestamp}.md"
         timeout_sec: 120
       - name: "generate_positioning_report"
-        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=json --output=.agents/data/caa-audit-latest.json"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=json --output=apps/cognitive-agent/data/caa-audit-latest.json"
         timeout_sec: 30
     autonomy_level: medium
     priority: high
     notifications:
       - type: "telegram"
         on: ["score_below_60", "critical_issue_found"]
-        config: ".agents/config/notifications.yaml"
+        config: "apps/cognitive-agent/config/notifications.yaml"
 
   # Триггер по расписанию (ежедневная проверка)
   daily_schedule:
@@ -87,7 +87,7 @@ triggers:
       timezone: "Europe/Kaliningrad"
     actions:
       - name: "daily_caa_audit"
-        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/daily/caa-audit-{date}.md"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=apps/cognitive-agent/reports/daily/caa-audit-{date}.md"
         timeout_sec: 90
       - name: "update_positioning_metrics"
         command: "python .codeassistant/skills/caa-audit/update-metrics.py"
@@ -107,10 +107,10 @@ triggers:
       - pr_state: "open"
     actions:
       - name: "pr_caa_audit"
-        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/pr/caa-audit-pr-{pr_number}.md"
+        command: "python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=apps/cognitive-agent/reports/pr/caa-audit-pr-{pr_number}.md"
         timeout_sec: 60
       - name: "add_audit_comment"
-        command: "python .codeassistant/skills/caa-audit/add-pr-comment.py --report=.agents/reports/pr/caa-audit-pr-{pr_number}.md"
+        command: "python .codeassistant/skills/caa-audit/add-pr-comment.py --report=apps/cognitive-agent/reports/pr/caa-audit-pr-{pr_number}.md"
         timeout_sec: 30
     autonomy_level: medium
     priority: high
@@ -137,12 +137,12 @@ triggers:
 # Интеграция с существующей системой CAA
 integration:
   caa_system:
-    config_file: ".agents/config/triggers.yaml"
+    config_file: "apps/cognitive-agent/config/triggers.yaml"
     sync_enabled: true
     import_triggers: ["git_commit", "git_push", "file_change"]
 
   git_hooks:
-    config_file: ".agents/config/git-hooks.yaml"
+    config_file: "apps/cognitive-agent/config/git-hooks.yaml"
     hooks_to_add:
       - name: "pre-commit-caa-audit"
         script: ".codeassistant/skills/caa-audit/git-hooks/pre-commit"
@@ -172,7 +172,7 @@ notifications:
 
   log_file:
     enabled: true
-    path: ".agents/logs/pmr-triggers.log"
+    path: "apps/cognitive-agent/logs/pmr-triggers.log"
     rotation: "daily"
     max_size_mb: 10
 
@@ -191,17 +191,17 @@ notifications:
 # Настройки хранения данных
 storage:
   reports:
-    directory: ".agents/reports/caa-audit/"
+    directory: "apps/cognitive-agent/reports/caa-audit/"
     retention_days: 30
     compression: true
 
   metrics:
-    directory: ".agents/data/caa-metrics/"
+    directory: "apps/cognitive-agent/data/caa-metrics/"
     format: "json"
     retention_days: 90
 
   logs:
-    directory: ".agents/logs/caa-audit/"
+    directory: "apps/cognitive-agent/logs/caa-audit/"
     retention_days: 60
 
 # Настройки производительности
@@ -293,7 +293,7 @@ usage:
 
   troubleshooting: |
     # Проблема: Триггеры не срабатывают
-    # Решение: Проверить интеграцию с .agents/config/triggers.yaml
+    # Решение: Проверить интеграцию с apps/cognitive-agent/config/triggers.yaml
 
     # Проблема: Ошибки при выполнении аудита
     # Решение: Проверить зависимости и права доступа

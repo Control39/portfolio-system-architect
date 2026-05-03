@@ -59,14 +59,14 @@ class CaaAudit:
         """Аудит технической реализации CAA"""
         print("  📋 Проверка технической реализации...")
 
-        # Проверка структуры .agents/
+        # Проверка структуры apps/cognitive-agent/
         agents_dir = self.project_root / ".agents"
         if agents_dir.exists():
             self.results["findings"].append(
                 {
                     "category": "implementation",
                     "type": "success",
-                    "message": "Директория .agents/ существует",
+                    "message": "Директория apps/cognitive-agent/ существует",
                     "details": f"Найдено: {len(list(agents_dir.iterdir()))} элементов",
                 }
             )
@@ -80,7 +80,7 @@ class CaaAudit:
                         {
                             "category": "implementation",
                             "type": "success",
-                            "message": f"Директория .agents/{dir_name}/ существует",
+                            "message": f"Директория apps/cognitive-agent/{dir_name}/ существует",
                             "details": "Обязательная структура присутствует",
                         }
                     )
@@ -89,7 +89,7 @@ class CaaAudit:
                         {
                             "category": "implementation",
                             "type": "warning",
-                            "message": f"Директория .agents/{dir_name}/ отсутствует",
+                            "message": f"Директория apps/cognitive-agent/{dir_name}/ отсутствует",
                             "recommendation": f"Создать директорию для {dir_name}",
                         }
                     )
@@ -98,8 +98,8 @@ class CaaAudit:
                 {
                     "category": "implementation",
                     "type": "critical",
-                    "message": "Директория .agents/ не найдена",
-                    "recommendation": "Создать структуру CAA в .agents/",
+                    "message": "Директория apps/cognitive-agent/ не найдена",
+                    "recommendation": "Создать структуру CAA в apps/cognitive-agent/",
                 }
             )
 
@@ -112,7 +112,7 @@ class CaaAudit:
             "README.md",
             "docs/employer/ONE-PAGER.md",
             "docs/employer/PRESENTATION-2MIN.md",
-            ".agents/USAGE.md",
+            "apps/cognitive-agent/USAGE.md",
         ]
 
         positioning_terms = {
@@ -179,7 +179,7 @@ class CaaAudit:
         print("  🔗 Проверка интеграций...")
 
         # Проверка Git хуков
-        git_hooks_path = self.project_root / ".agents/config/git-hooks.yaml"
+        git_hooks_path = self.project_root / "apps/cognitive-agent/config/git-hooks.yaml"
         if git_hooks_path.exists():
             self.results["findings"].append(
                 {
@@ -213,7 +213,7 @@ class CaaAudit:
                 )
 
         # Проверка триггеров
-        triggers_path = self.project_root / ".agents/config/triggers.yaml"
+        triggers_path = self.project_root / "apps/cognitive-agent/config/triggers.yaml"
         if triggers_path.exists():
             self.results["findings"].append(
                 {
@@ -225,7 +225,11 @@ class CaaAudit:
             )
 
         # Проверка мониторинга
-        monitoring_dirs = ["monitoring", ".agents/dashboards", ".agents/data"]
+        monitoring_dirs = [
+            "monitoring",
+            "apps/cognitive-agent/dashboards",
+            "apps/cognitive-agent/data",
+        ]
         for dir_name in monitoring_dirs:
             dir_path = self.project_root / dir_name
             if dir_path.exists():
@@ -244,9 +248,9 @@ class CaaAudit:
 
         # Поиск артефактов
         artifact_patterns = [
-            ("reports", ".agents/reports/", "Отчёты CAA"),
-            ("logs", ".agents/logs/", "Логи выполнения"),
-            ("dashboards", ".agents/dashboards/", "Дашборды мониторинга"),
+            ("reports", "apps/cognitive-agent/reports/", "Отчёты CAA"),
+            ("logs", "apps/cognitive-agent/logs/", "Логи выполнения"),
+            ("dashboards", "apps/cognitive-agent/dashboards/", "Дашборды мониторинга"),
             ("test_reports", "test_reports/", "Отчёты тестирования"),
             ("metrics", "badges/metrics.json", "Метрики проекта"),
         ]

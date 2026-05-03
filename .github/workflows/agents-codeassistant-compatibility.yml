@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - '.agents/**'
+      - 'apps/cognitive-agent/**'
       - '.codeassistant/**'
       - '.github/workflows/agents-codeassistant-compatibility.yml'
   pull_request:
     branches: [ main, develop ]
     paths:
-      - '.agents/**'
+      - 'apps/cognitive-agent/**'
       - '.codeassistant/**'
   schedule:
     # Ежедневная проверка в 6:00 UTC
@@ -37,19 +37,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f .agents/requirements.txt ]; then pip install -r .agents/requirements.txt; fi
+          if [ -f apps/cognitive-agent/requirements.txt ]; then pip install -r apps/cognitive-agent/requirements.txt; fi
 
       - name: Validate Cognitive Automation Agent structure
         run: |
-          echo "🔍 Проверка структуры Cognitive Automation Agent (.agents/)"
+          echo "🔍 Проверка структуры Cognitive Automation Agent (apps/cognitive-agent/)"
 
           # Проверка обязательных директорий
           required_dirs=("config" "skills" "scripts" "changelogs")
           for dir in "${required_dirs[@]}"; do
-            if [ -d ".agents/$dir" ]; then
-              echo "✅ Директория .agents/$dir существует"
+            if [ -d "apps/cognitive-agent/$dir" ]; then
+              echo "✅ Директория apps/cognitive-agent/$dir существует"
             else
-              echo "❌ Директория .agents/$dir отсутствует"
+              echo "❌ Директория apps/cognitive-agent/$dir отсутствует"
               exit 1
             fi
           done
@@ -57,10 +57,10 @@ jobs:
           # Проверка обязательных файлов
           required_files=("config/agent-config.yaml" "config/triggers.yaml" "README.md")
           for file in "${required_files[@]}"; do
-            if [ -f ".agents/$file" ]; then
-              echo "✅ Файл .agents/$file существует"
+            if [ -f "apps/cognitive-agent/$file" ]; then
+              echo "✅ Файл apps/cognitive-agent/$file существует"
             else
-              echo "⚠️ Файл .agents/$file отсутствует"
+              echo "⚠️ Файл apps/cognitive-agent/$file отсутствует"
             fi
           done
 
@@ -93,11 +93,11 @@ jobs:
           if [ -f ".codeassistant/skills/caa-audit/SKILL.md" ]; then
             echo "✅ Skill caa-audit существует"
 
-            # Проверка, что skill ссылается на .agents/
-            if grep -q "\.agents/" ".codeassistant/skills/caa-audit/SKILL.md"; then
+            # Проверка, что skill ссылается на apps/cognitive-agent/
+            if grep -q "\apps/cognitive-agent/" ".codeassistant/skills/caa-audit/SKILL.md"; then
               echo "✅ Skill caa-audit ссылается на Cognitive Automation Agent"
             else
-              echo "⚠️ Skill caa-audit не ссылается на .agents/"
+              echo "⚠️ Skill caa-audit не ссылается на apps/cognitive-agent/"
             fi
           else
             echo "❌ Skill caa-audit отсутствует"
@@ -122,7 +122,7 @@ jobs:
 
           def test_agents_structure():
               """Проверка структуры Cognitive Automation Agent"""
-              print("🔍 Тестирование структуры .agents/")
+              print("🔍 Тестирование структуры apps/cognitive-agent/")
 
               # Проверка существования директорий
               required_dirs = ['config', 'skills', 'changelogs']
@@ -134,7 +134,7 @@ jobs:
                   print(f"✅ Директория существует: {path}")
 
               # Проверка конфигурационного файла
-              config_path = '.agents/config/agent-config.yaml'
+              config_path = 'apps/cognitive-agent/config/agent-config.yaml'
               if os.path.exists(config_path):
                   try:
                       with open(config_path, 'r') as f:
@@ -174,13 +174,13 @@ jobs:
               if os.path.exists(caa_audit_path):
                   print(f"✅ Skill caa-audit существует: {caa_audit_path}")
 
-                  # Проверка, что skill ссылается на .agents/
+                  # Проверка, что skill ссылается на apps/cognitive-agent/
                   with open(caa_audit_path, 'r') as f:
                       content = f.read()
-                  if '.agents/' in content:
+                  if 'apps/cognitive-agent/' in content:
                       print("✅ Skill caa-audit ссылается на Cognitive Automation Agent")
                   else:
-                      print("⚠️ Skill caa-audit не ссылается на .agents/")
+                      print("⚠️ Skill caa-audit не ссылается на apps/cognitive-agent/")
               else:
                   print(f"❌ Отсутствует skill caa-audit: {caa_audit_path}")
                   return False
@@ -276,11 +276,11 @@ jobs:
 
           ## Проверенные компоненты
 
-          ### Cognitive Automation Agent (.agents/)
-          - Структура директорий: $([ -d ".agents/config" ] && echo "✅" || echo "❌")
-          - Конфигурационные файлы: $([ -f ".agents/config/agent-config.yaml" ] && echo "✅" || echo "❌")
-          - Навыки (skills): $([ -d ".agents/skills" ] && echo "✅" || echo "❌")
-          - Changelogs: $([ -d ".agents/changelogs" ] && echo "✅" || echo "❌")
+          ### Cognitive Automation Agent (apps/cognitive-agent/)
+          - Структура директорий: $([ -d "apps/cognitive-agent/config" ] && echo "✅" || echo "❌")
+          - Конфигурационные файлы: $([ -f "apps/cognitive-agent/config/agent-config.yaml" ] && echo "✅" || echo "❌")
+          - Навыки (skills): $([ -d "apps/cognitive-agent/skills" ] && echo "✅" || echo "❌")
+          - Changelogs: $([ -d "apps/cognitive-agent/changelogs" ] && echo "✅" || echo "❌")
 
           ### SourceCraft Agent Skills (.codeassistant/)
           - Структура директорий: $([ -d ".codeassistant/skills" ] && echo "✅" || echo "❌")

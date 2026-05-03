@@ -74,8 +74,8 @@ SKIP_PATTERNS = [
     r"\.map$",
     r"\.gigacode/reports/",
     r"\.koda/logs/",
-    r"\.agents/data/",
-    r"\.agents/scans/",
+    r"\apps/cognitive-agent/data/",
+    r"\apps/cognitive-agent/scans/",
 ]
 
 # Directories to skip entirely

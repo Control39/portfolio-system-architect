@@ -38,10 +38,10 @@ class HealthChecker:
 
         # Проверка обязательных директорий
         required_dirs = [
-            ".agents/config",
-            ".agents/skills",
-            ".agents/changelogs",
-            ".agents/scripts",
+            "apps/cognitive-agent/config",
+            "apps/cognitive-agent/skills",
+            "apps/cognitive-agent/changelogs",
+            "apps/cognitive-agent/scripts",
         ]
 
         for dir_path in required_dirs:
@@ -53,9 +53,9 @@ class HealthChecker:
 
         # Проверка обязательных файлов
         required_files = [
-            ".agents/config/agent-config.yaml",
-            ".agents/config/triggers.yaml",
-            ".agents/README.md",
+            "apps/cognitive-agent/config/agent-config.yaml",
+            "apps/cognitive-agent/config/triggers.yaml",
+            "apps/cognitive-agent/README.md",
         ]
 
         for file_path in required_files:
@@ -147,8 +147,8 @@ class HealthChecker:
 
         # Проверка статусов планировщика и сканера
         status_files = [
-            ".agents/plans/last_plan_status.json",
-            ".agents/scans/last_scan_status.json",
+            "apps/cognitive-agent/plans/last_plan_status.json",
+            "apps/cognitive-agent/scans/last_scan_status.json",
         ]
 
         for status_file in status_files:
@@ -186,7 +186,7 @@ class HealthChecker:
         """Проверка целостности changelog"""
         component = "Changelog Integrity"
 
-        changelog_path = ".agents/changelogs/"
+        changelog_path = "apps/cognitive-agent/changelogs/"
         if os.path.exists(changelog_path):
             changelog_files = [f for f in os.listdir(changelog_path) if f.endswith(".md")]
 
@@ -242,7 +242,7 @@ class HealthChecker:
         }
 
         # Сохранение отчета в файл
-        report_dir = ".agents/health-reports"
+        report_dir = "apps/cognitive-agent/health-reports"
         os.makedirs(report_dir, exist_ok=True)
 
         report_file = os.path.join(
