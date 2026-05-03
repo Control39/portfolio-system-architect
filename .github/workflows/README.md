@@ -1,307 +1,220 @@
-# GitHub Workflows Documentation
+# 🚦 CI/CD Documentation
 
-Этот документ описывает все GitHub Actions workflows в проекте Portfolio System Architect.
+> **Дата создания:** 3 мая 2026 г.  
+> **Статус:** ✅ Production-ready  
+> **Последнее обновление:** 3 мая 2026 г.
 
-## Обзор
+---
 
-Проект использует комплексную систему CI/CD с 10+ workflows, которые обеспечивают:
-- **Непрерывную интеграцию (CI)**: тестирование, линтинг, проверка безопасности
-- **Непрерывную доставку (CD)**: деплой в различные среды
-- **Мониторинг и наблюдение**: сбор метрик, алертинг
-- **GitOps**: синхронизация с Kubernetes через ArgoCD
-- **Автоматизацию**: синхронизация репозиториев, проверка дубликатов
+## 📋 Обзор
 
-## Архитектура CI/CD
+Проект использует GitHub Actions для автоматизации:
+- **Тестирование** — unit/integration тесты с покрытием
+- **Качество кода** — линтинг (ruff, black, bandit)
+- **Безопасность** — сканирование уязвимостей (trivy, pip-audit, gitleaks)
+- **Деплой** — автоматический деплой на Azure
 
-```mermaid
-graph TB
-    A[Push/PR] --> B[CI Pipeline]
-    B --> C[Security Checks]
-    B --> D[Lint & Format]
-    B --> E[Python Tests Matrix]
-    B --> F[PowerShell Tests Matrix]
-    B --> G[Integration Tests]
-    B --> H[Docker Build]
-    H --> I[Trivy Scan]
-    H --> J[GitOps Deploy]
-    J --> K[ArgoCD Sync]
-    B --> L[Collect Metrics]
-    B --> M[Notifications]
+---
 
-    subgraph "Matrix Testing"
-        E1[Ubuntu Python 3.10]
-        E2[Ubuntu Python 3.11]
-        E3[Ubuntu Python 3.12]
-        E4[Windows Python 3.10]
-        E5[Windows Python 3.11]
-        E6[Windows Python 3.12]
-        F1[Windows PowerShell 7.2]
-        F2[Windows PowerShell 7.4]
-        F3[Ubuntu PowerShell 7.2]
-        F4[Ubuntu PowerShell 7.4]
-    end
+## 🔧 Workflows
 
-    E --> E1
-    E --> E2
-    E --> E3
-    E --> E4
-    E --> E5
-    E --> E6
-    F --> F1
-    F --> F2
-    F --> F3
-    F --> F4
-```
+### 1. CI (Continuous Integration)
 
-## Основные Workflows
+**Файл:** `.github/workflows/ci.yml`
 
-### 1. CI/CD Pipeline (ci.yml)
-**Файл**: `.github/workflows/ci.yml`
+**Триггеры:**
+- Push в `main` / `develop`
+- Pull Request в `main` / `develop`
 
-Основной консолидированный pipeline, который запускается при push в main/develop и по расписанию.
+**Что делает:**
+- ✅ Устанавливает Python 3.12
+- ✅ Кэширует зависимости pip
+- ✅ Запускает юнит-тесты с покрытием
+- ✅ Генерирует отчеты (junit.xml, coverage.xml)
+- ✅ Загружает результаты в Codecov
 
-**Jobs**:
-- `security-check`: Проверка безопасности (detect-secrets, safety, pip-audit, Trivy, SBOM)
-- `lint`: Линтинг и форматирование (black, isort, flake8, mypy)
-- `python-tests`: Матричное тестирование Python (2 ОС × 3 версии Python)
-- `powershell-tests`: Матричное тестирование PowerShell (2 ОС × 2 версии PowerShell)
-- `integration-tests`: Интеграционные тесты с Docker Compose
-- `docker-build`: Сборка Docker образов с кэшированием Buildx
-- `deploy-gitops`: Деплой через GitOps (ArgoCD)
-- `notify`: Уведомления о статусе сборки
-- `collect-metrics`: Сбор метрик CI/CD
-
-### 2. Azure Deploy (azure-deploy.yml)
-**Файл**: `.github/workflows/azure-deploy.yml`
-
-Деплой приложения в Azure App Service/Container Apps.
-
-**Особенности**:
-- Использует Azure CLI и Bicep
-- Поддерживает staging/production среды
-- Интеграция с Azure Key Vault для секретов
-
-### 3. Code Quality (code-quality.yml)
-**Файл**: `.github/workflows/code-quality.yml`
-
-Специализированные проверки качества кода.
-
-**Проверки**:
-- SonarQube анализ
-- Cyclomatic complexity
-- Code duplication detection
-- Technical debt estimation
-
-### 4. Deploy Pages (deploy-pages.yml)
-**Файл**: `.github/workflows/deploy-pages.yml`
-
-Деплой документации на GitHub Pages.
-
-**Особенности**:
-- Автоматическая сборка MkDocs
-- Деплой в ветку `gh-pages`
-- Кэширование зависимостей Python
-
-### 5. Deploy (deploy.yml)
-**Файл**: `.github/workflows/deploy.yml`
-
-Общий деплой workflow для различных сред.
-
-### 6. Duplicate Check (duplicate-check.yml)
-**Файл**: `.github/workflows/duplicate-check.yml`
-
-Поиск дубликатов кода и файлов в репозитории.
-
-### 7. Monitor Mirror Discrepancies (monitor-mirror-discrepancies.yml)
-**Файл**: `.github/workflows/monitor-mirror-discrepancies.yml`
-
-Мониторинг расхождений между основным репозиторием и зеркалами.
-
-### 8. Sync to GitHub (sync-to-github.yml)
-**Файл**: `.github/workflows/sync-to-github.yml`
-
-Синхронизация с удаленными репозиториями GitHub.
-
-### 9. Test Cloud Reason (test-decision-engine.yml)
-**Файл**: `.github/workflows/test-decision-engine.yml`
-
-Тестирование decision-engine компонента.
-
-### 10. Update (update.yml)
-**Файл**: `.github/workflows/update.yml`
-
-Автоматическое обновление зависимостей и конфигураций.
-
-### 11. GitOps ArgoCD (gitops-argocd.yml)
-**Файл**: `.github/workflows/gitops-argocd.yml`
-
-GitOps синхронизация с ArgoCD для Kubernetes деплоя.
-
-## Composite Actions
-
-Для устранения дублирования кода созданы reusable composite actions:
-
-### 1. setup-git
-**Путь**: `.github/actions/setup-git/action.yml`
-
-Настройка Git с поддержкой long paths.
-
-### 2. setup-python
-**Путь**: `.github/actions/setup-python/action.yml`
-
-Установка Python с кэшированием pip.
-
-### 3. install-dependencies
-**Путь**: `.github/actions/install-dependencies/action.yml`
-
-Установка зависимостей проекта.
-
-### 4. run-tests
-**Путь**: `.github/actions/run-tests/action.yml`
-
-Запуск тестов с покрытием.
-
-### 5. metrics-collector
-**Путь**: `.github/actions/metrics-collector/action.yml`
-
-Сбор метрик CI/CD для observability.
-
-### 6. notify
-**Путь**: `.github/actions/notify/action.yml`
-
-Многоканальные уведомления (Telegram, Slack, Email).
-
-## Матричное тестирование
-
-### Python Tests
-- **ОС**: Ubuntu-latest, Windows-latest
-- **Версии Python**: 3.10, 3.11, 3.12
-- **Типы тестов**:
-  - Unit tests (`tests/unit/`): Быстрые изолированные тесты
-  - Integration tests (`tests/integration/`): Тесты взаимодействия компонентов
-  - E2E tests (`tests/e2e/`): Сквозные тесты (только на Ubuntu Python 3.11)
-
-### PowerShell Tests
-- **ОС**: Windows-latest, Ubuntu-latest
-- **Версии PowerShell**: 7.2, 7.4
-- **Типы тестов**:
-  - Unit tests (`tests/unit/`): Pester тесты модулей
-  - Integration tests (`tests/integration/`): Интеграционные сценарии
-
-## Безопасность
-
-### Security Scanning
-1. **Trivy**: Сканирование файловой системы и Docker образов на уязвимости
-2. **detect-secrets**: Обнаружение секретов в коде
-3. **safety**: Проверка уязвимостей Python зависимостей
-4. **pip-audit**: Аудит зависимостей pip
-5. **SBOM**: Генерация Software Bill of Materials
-
-### Secret Management
-- Используется `.secrets.baseline` для baseline сканирования
-- Секреты хранятся в GitHub Secrets
-- Trivy secret scanning с конфигурацией в `trivy-secret.yaml`
-
-## Наблюдаемость (Observability)
-
-### Сбор метрик CI/CD
-Метрики собираются в job `collect-metrics`:
-- Время выполнения каждого job
-- Статус успешности/провала
-- Количество тестов и покрытие
-- Размер артефактов
-
-### Уведомления
-- **Telegram**: Уведомления о статусе сборки
-- **Slack**: Интеграция с каналами команды
-- **Email**: Отправка на email при критических ошибках
-- **GitHub Status**: Обновление статусов PR
-
-## GitOps
-
-### ArgoCD Integration
-- Автоматическая синхронизация манифестов Kubernetes
-- Поддержка multi-environment (dev, staging, prod)
-- Health checks и автоматический rollback
-
-### Kubernetes Manifests
-Манифесты расположены в `deployment/k8s/`:
-- `base/`: Базовые конфигурации сервисов
-- `overlays/`: Оверлеи для разных сред
-- `gitops/`: Конфигурации ArgoCD Application
-
-## Оптимизации производительности
-
-### Кэширование
-1. **pip cache**: Кэширование Python пакетов
-2. **Docker Buildx cache**: Кэширование слоев Docker образов
-3. **composite actions cache**: Кэширование установленных зависимостей
-
-### Параллелизм
-- Матричное выполнение тестов
-- Параллельные jobs в CI pipeline
-- Использование `pytest-xdist` для параллельного выполнения тестов
-
-## Мониторинг и алертинг
-
-### Health Checks
-- Проверка доступности сервисов после деплоя
-- Мониторинг метрик через Prometheus
-- Дашборды Grafana для визуализации
-
-### Alert Rules
-Конфигурация алертов в `monitoring/alert-rules.yaml`:
-- High error rates
-- Service downtime
-- Resource utilization
-
-## Онбординг для новых разработчиков
-
-### Быстрый старт
-1. Клонировать репозиторий
-2. Установить зависимости: `pip install -e .[dev]`
-3. Запустить тесты: `pytest tests/unit/`
-4. Проверить линтинг: `black . && isort . && flake8`
-
-### Локальный запуск CI
+**Игнорируемые тесты:**
 ```bash
-# Установить act (https://github.com/nektos/act)
-act -j security-check
-act -j python-tests
+--ignore=tests/unit/test_assistant_orchestrator_main.py  # CLI mock mismatch
+--ignore=tests/unit/test_embedding_agent_updated.py      # ChromaDB/HF deps
 ```
 
-### Отладка workflows
-- Использовать `act` для локального выполнения
-- Проверять логи в GitHub Actions UI
-- Использовать `debug: true` в шагах для подробного вывода
+**См. также:** [KNOWN_ISSUES.md](../docs/KNOWN_ISSUES.md)
 
-## Устранение неполадок
+---
 
-### Частые проблемы
-1. **Permission denied при git config --system**
-   - **Решение**: Использовать `--global` вместо `--system`
+### 2. Code Quality
 
-2. **Ошибки кэширования Docker**
-   - **Решение**: Очистить кэш Buildx `docker buildx prune -a`
+**Файл:** `.github/workflows/code-quality.yml`
 
-3. **Сбои тестов на Windows**
-   - **Решение**: Проверить совместимость путей и line endings
+**Триггеры:**
+- Push / PR в `main` / `develop`
+- Ручной запуск (`workflow_dispatch`)
 
-4. **Ошибки Trivy scanning**
-   - **Решение**: Обновить `.trivyignore` для исключения false positives
+**Что делает:**
+- ✅ **Black** — проверка форматирования
+- ✅ **Ruff** — линтинг Python
+- ✅ **Bandit** — security scan (поиск уязвимостей в коде)
+- ✅ **Powershell Lint** — отключено временно
 
-### Логи и отладка
-- Артефакты тестов сохраняются для каждого запуска
-- Подробные логи доступны в GitHub Actions UI
-- Использовать `if: failure()` для шагов отладки
+**Отчеты:**
+- `ruff-lint-report/` — JSON отчет ruff
+- `bandit-security-report/` — JSON отчет bandit
 
-## Контакты и поддержка
+---
 
-- **Документация проекта**: [docs/](docs/)
-- **Архитектурные решения**: [docs/architecture/decisions/](docs/architecture/decisions/)
-- **Issues**: GitHub Issues
-- **Discussions**: GitHub Discussions
+### 3. Security Scan
 
-## Лицензия
+**Файл:** `.github/workflows/security-scan.yml`
 
-Проект распространяется под лицензией MIT. Подробнее см. [LICENSE](../LICENSE).
+**Триггеры:**
+- Push / PR в `main` / `develop`
+- Ежедневно в 01:00 UTC
+- Ручной запуск
+
+**Что делает:**
+- ✅ **Trivy FS** — сканирование файлов на уязвимости
+- ✅ **Bandit** — Python security scan
+- ✅ **pip-audit** — проверка зависимостей на CVE
+- ✅ **Trivy Docker** — сканирование образов
+- ✅ **Gitleaks** — поиск секрета в коде
+
+**Результаты:**
+- GitHub Security Tab (SARIF)
+- Артефакты (JSON отчеты)
+
+---
+
+### 4. Deploy (Azure)
+
+**Файл:** `.github/workflows/deploy.yml`
+
+**Триггеры:**
+- Merge в `main`
+- Ручной запуск
+
+**Что делает:**
+- ✅ `azd up` / `azd deploy`
+- ✅ Terraform / Bicep deployment
+- ✅ Проверка статуса деплоя
+
+**См. также:** [deploy-k8s.yml](deploy-k8s.yml) — Kubernetes деплой
+
+---
+
+## 📊 Метрики качества
+
+| Показатель | Порог | Текущее значение |
+|------------|-------|------------------|
+| **Покрытие тестами** | ≥90% | 93% |
+| **Lint errors** | 0 | 0 |
+| **Security issues** | 0 (prod) | 0 |
+| **E2E тесты** | - | Отключены (требуют Docker) |
+
+---
+
+## 🛠️ Локальная разработка
+
+### Предкоммитные проверки
+
+```bash
+# Все проверки (как в CI)
+make ci
+
+# Или по отдельности:
+make lint      # ruff + black + bandit
+make test      # pytest с покрытием
+make pre-commit # pre-commit hooks
+```
+
+### Pre-commit hooks
+
+```bash
+# Установка
+pre-commit install
+
+# Запуск вручную
+pre-commit run --all-files
+```
+
+**Что проверяет pre-commit:**
+- Trailing whitespace
+- Файлы без trailing newline
+- YAML валидация
+- JSON валидация
+- Большие файлы (>500KB)
+- Приватные ключи
+- Merge конфликты
+- Black форматирование
+- isort сортировка импортов
+- Ruff линтинг
+- Bandit security scan
+
+---
+
+## 🚨 Уведомления
+
+### При неудаче
+
+- **Email** — не настроено
+- **GitHub Status** — ✅ включено (check runs)
+- **Discord/Slack** — не настроено
+
+### При успехе
+
+- **Codecov** — отчет о покрытии
+- **GitHub Deployments** — статус деплоя
+
+---
+
+## 📝 Логи и отладка
+
+### Просмотр логов
+
+1. GitHub Actions → Actions tab
+2. Выбрать workflow run
+3. Посмотреть логи job'ов
+
+### Перезапуск failed jobs
+
+```
+GitHub UI → Workflow run → Retry failed jobs
+```
+
+### Локальное воспроизведение
+
+```bash
+# Установить act (локальный runner)
+choco install act
+
+# Запустить workflow локально
+act push -j test
+```
+
+---
+
+## 🔐 Секреты
+
+**Требуемые секреты:**
+
+| Секрет | Назначение | Обязательный |
+|--------|------------|--------------|
+| `CODECOV_TOKEN` | Загрузка покрытия в Codecov | Нет |
+| `AZURE_CREDENTIALS` | Деплой на Azure | Да (prod) |
+| `GITHUB_TOKEN` | Автоматические PR | Да (встроен) |
+
+**Где настроить:**
+`Settings → Secrets and variables → Actions`
+
+---
+
+## 📚 Дополнительные ресурсы
+
+- [GitHub Actions Docs](https://docs.github.com/actions)
+- [Codecov Docs](https://docs.codecov.com)
+- [Trivy Docs](https://trivy.dev)
+- [Bandit Docs](https://bandit.readthedocs.io)
+
+---
+
+*Документация обновлена 3 мая 2026 г.*

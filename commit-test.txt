@@ -1,8 +1,0 @@
-chore(tests): stabilize suite (93% pass), document known pre-existing failures
-
-- Fixed 7 LLM config tests (pydantic-settings extra='ignore')
-- Added KNOWN_ISSUES.md documenting 6 pre-existing failures:
-  - 3 CLI tests (test_assistant_orchestrator_main.py) - mock mismatch
-  - 6 ChromaDB/HF tests (test_embedding_agent_updated.py) - env dependencies
-- Current status: 82 passed / 6 failed (93%)
-- Non-blocking issues, scheduled for infrastructure stabilization phase

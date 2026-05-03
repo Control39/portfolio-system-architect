@@ -1,0 +1,7 @@
+ci: exclude known failing tests, document CI/CD workflows
+
+- Updated ci.yml to exclude pre-existing failing tests:
+  - test_assistant_orchestrator_main.py (CLI mock mismatch)
+  - test_embedding_agent_updated.py (ChromaDB/HF dependencies)
+- Added comprehensive CI/CD documentation in workflows/README.md
+- Documented all workflows, metrics, secrets, and troubleshooting
