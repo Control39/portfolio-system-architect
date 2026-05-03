@@ -1,0 +1,8 @@
+refactor(linting): fix B904 and B007 violations
+
+- Added exception chaining (raise ... from e) for better debugging
+- Renamed unused loop variables with underscore prefix
+- 19 tests collected (13 pre-existing failures unrelated to changes)
+
+Remaining linting issues (E722, E501) will be addressed separately
+as they require manual analysis and may be intentional.
