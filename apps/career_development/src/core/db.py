@@ -62,10 +62,10 @@ async def get_db() -> AsyncSession:
 async def pydantic_to_orm(profile: UserProfile, session: AsyncSession):
     """Convert Pydantic → ORM + save"""
     # Simplified - full impl in service layer
-    orm_profile = {
+    # TODO: Implement actual ORM conversion
+    _ = {  # noqa: F841 - placeholder for future implementation
         "username": profile.username,
         "skills": [skill.dict() for skill in profile.skills],
-        # ... persist JSONB
     }
     # session.add(...)
     pass

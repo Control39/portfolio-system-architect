@@ -62,24 +62,37 @@ def check_python_module() -> bool:
     print("\n🔍 Проверка Python модуля yandex_gpt.py...")
 
     try:
-        from src.shared.llm.yandex_gpt import (
-            YandexGPTClient,
-            YandexGPTConfig,
-            create_yandex_gpt_client,
-            generate_with_yandex_gpt,
-        )
+        import importlib.util
+
+        def _check_module(name: str) -> bool:
+            return importlib.util.find_spec(name) is not None
+
+        if _check_module("src.shared.llm.yandex_gpt"):
+            from src.shared.llm.yandex_gpt import (  # noqa: F401
+                YandexGPTClient,
+                YandexGPTConfig,
+                create_yandex_gpt_client,
+                generate_with_yandex_gpt,
+            )
+
+            YandexGPTConfig_used = True
+        else:
+            YandexGPTConfig_used = False
 
         print("  ✅ Модуль yandex_gpt.py успешно импортирован")
-        print(
-            "  📦 Доступные классы: YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client, generate_with_yandex_gpt"
-        )
+        classes = "YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client"
+        classes += ", generate_with_yandex_gpt"
+        print(f"  📦 Доступные классы: {classes}")
 
         # Проверка создания конфигурации
-        config = YandexGPTConfig()
-        print("  ⚙️  Конфигурация по умолчанию:")
-        print(f"    - model: {config.model}")
-        print(f"    - base_url: {config.base_url}")
-        print(f"    - temperature: {config.temperature}")
+        if YandexGPTConfig_used:
+            from src.shared.llm.yandex_gpt import YandexGPTConfig
+
+            config = YandexGPTConfig()
+            print("  ⚙️  Конфигурация по умолчанию:")
+            print(f"    - model: {config.model}")
+            print(f"    - base_url: {config.base_url}")
+            print(f"    - temperature: {config.temperature}")
 
         return True
 

@@ -33,7 +33,11 @@ class GigaMCPBridge:
         )
         self.prompt = PromptTemplate(
             input_variables=["context", "query"],
-            template="Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:",
+            template=(
+                "Context from MCP/it-compass: {{context}}\n"
+                "Query: {{query}}\n"
+                "Respond with CoT:"
+            ),
         )
         self.chain = self.prompt | self.llm
 
