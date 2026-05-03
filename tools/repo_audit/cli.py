@@ -9,13 +9,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
-from tools.repo_audit.checks import (
-    cicd,  # noqa: E402
-    code_quality,  # noqa: E402
-    documentation,  # noqa: E402
-    security,  # noqa: E402
-    structure,  # noqa: E402; noqa: E402
-)
+from tools.repo_audit.checks import cicd  # noqa: E402
+from tools.repo_audit.checks import code_quality  # noqa: E402
+from tools.repo_audit.checks import documentation  # noqa: E402
+from tools.repo_audit.checks import security  # noqa: E402
+from tools.repo_audit.checks import structure  # noqa: E402
 from tools.repo_audit.report import ReportGenerator  # noqa: E402
 
 

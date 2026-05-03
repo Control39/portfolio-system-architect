@@ -139,7 +139,7 @@ class WorkspaceAnalyzer:
                         hashes[file_hash].append(str(item))
                     else:
                         hashes[file_hash] = [str(item)]
-                except:
+                except Exception:
                     continue
 
         # Фильтруем только дубликаты
@@ -186,35 +186,39 @@ class WorkspaceAnalyzer:
         cats = self.analysis["categories"]
 
         if cats["temporary"]["count"] > 0:
+            count = cats["temporary"]["count"]
+            size = cats["temporary"]["total_size_mb"]
             recs.append(
                 {
                     "action": "delete",
                     "category": "temporary",
-                    "files": cats["temporary"]["count"],
-                    "size_mb": cats["temporary"]["total_size_mb"],
+                    "files": count,
+                    "size_mb": size,
                     "reason": "Временные файлы можно безопасно удалить",
                 }
             )
 
         if cats["backups"]["count"] > 5:
+            msg = f"Много backup файлов ({cats['backups']['count']}), можно заархивировать"
             recs.append(
                 {
                     "action": "archive",
                     "category": "backups",
                     "files": cats["backups"]["count"],
                     "size_mb": cats["backups"]["total_size_mb"],
-                    "reason": "Много backup файлов, можно заархивировать",
+                    "reason": msg,
                 }
             )
 
         if cats["archives"]["count"] > 10:
+            msg = f"Много архивов ({cats['archives']['count']}), переместить в отдельную папку"
             recs.append(
                 {
                     "action": "move",
                     "category": "archives",
                     "files": cats["archives"]["count"],
                     "size_mb": cats["archives"]["total_size_mb"],
-                    "reason": "Много архивов, переместить в отдельную папку",
+                    "reason": msg,
                 }
             )
 
@@ -229,22 +233,26 @@ class WorkspaceAnalyzer:
             )
 
         if self.analysis["old_files_count"] > 20:
+            count = self.analysis["old_files_count"]
+            msg = f"Много старых файлов ({count}+), нужна проверка"
             recs.append(
                 {
                     "action": "review",
                     "category": "old_files",
                     "files": self.analysis["old_files_count"],
-                    "reason": f"Много старых файлов ({self.analysis['old_files_count']}+)",
+                    "reason": msg,
                 }
             )
 
         # Общие рекомендации
         if self.analysis["total_files"] > 50:
+            count = self.analysis["total_files"]
+            msg = f"На рабочем столе {count} файлов, нужна организация"
             recs.append(
                 {
                     "action": "organize",
                     "category": "general",
-                    "reason": f"На рабочем столе {self.analysis['total_files']} файлов, нужна организация",
+                    "reason": msg,
                 }
             )
 
@@ -265,18 +273,22 @@ class WorkspaceAnalyzer:
         report.append("КАТЕГОРИИ ФАЙЛОВ:")
         for cat_name, cat_data in self.analysis["categories"].items():
             if cat_data["count"] > 0:
-                report.append(
-                    f"  {cat_name}: {cat_data['count']} файлов ({cat_data['total_size_mb']} MB)"
-                )
+                count = cat_data["count"]
+                size = cat_data["total_size_mb"]
+                report.append(f"  {cat_name}: {count} файлов ({size} MB)")
 
         report.append("")
 
         # Рекомендации
         report.append("РЕКОМЕНДАЦИИ:")
         for i, rec in enumerate(self.analysis["recommendations"], 1):
-            report.append(f"{i}. {rec['action'].upper()} - {rec['reason']}")
+            action = rec["action"].upper()
+            reason = rec["reason"]
+            report.append(f"{i}. {action} - {reason}")
             if "files" in rec:
-                report.append(f"   Файлов: {rec['files']}, Размер: {rec.get('size_mb', 'N/A')} MB")
+                files = rec["files"]
+                size = rec.get("size_mb", "N/A")
+                report.append(f"   Файлов: {files}, Размер: {size} MB")
 
         report.append("")
 

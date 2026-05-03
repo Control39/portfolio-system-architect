@@ -13,12 +13,21 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 try:
-    from mcp import Server, StdioServerTransport, Tool
-    from mcp.types import TextContent
-    from mcp.types import Tool as ToolType
-    from pydantic import BaseModel, Field
+    import importlib.util
 
-    HAS_MCP = True
+    if importlib.util.find_spec("mcp") is not None:
+        from mcp import Server, StdioServerTransport, Tool  # noqa: F401
+        from mcp.types import TextContent
+        from mcp.types import Tool as ToolType  # noqa: F401
+
+        HAS_MCP = True
+    else:
+        HAS_MCP = False
+
+    if importlib.util.find_spec("pydantic") is not None:
+        from pydantic import BaseModel, Field  # noqa: F401
+    else:
+        HAS_MCP = False
 except ImportError:
     HAS_MCP = False
     print("MCP библиотека не установлена. Установите: pip install mcp", file=sys.stderr)

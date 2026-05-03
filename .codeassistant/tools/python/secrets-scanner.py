@@ -36,7 +36,10 @@ SECRET_PATTERNS = {
     "twilio_auth": r"AC[a-zA-Z0-9_]{32}",
     "ssh_private_key": r"-----BEGIN (?:RSA|DSA|EC|OPENSSH) PRIVATE KEY-----",
     "pgp_private_key": r"-----BEGIN PGP PRIVATE KEY BLOCK-----",
-    "generic_secret": r"(?i)(password|passwd|pwd|secret|api_key|apikey|auth|token|access_token|refresh_token|private_key)\s*[:=]\s*['\"][^'\"]{8,}['\"]",
+    "generic_secret": (
+        r"(?i)(password|passwd|pwd|secret|api_key|apikey|auth|token|"
+        r"access_token|refresh_token|private_key)\s*[:=]\s*['\"][^'\"]{8,}['\"]"
+    ),
     "jwt_token": r"eyJ[A-Za-z0-9-_]+\.eyJ[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+",
     "base64_encoded": r"(?i)(?:^|[^a-zA-Z0-9+/])([A-Za-z0-9+/]{40,}={0,2})(?:[^a-zA-Z0-9+/]|$)",
 }
@@ -160,58 +163,46 @@ def scan_file(file_path: Path, base_path: Path) -> List[SecretFinding]:
                     secret = match.group(0)
 
                     # Skip if it looks like a test/example
-                    if any(
-                        x in line.lower()
-                        for x in [
-                            "example",
-                            "test",
-                            "fake",
-                            "dummy",
-                            "placeholder",
-                            "your_",
-                        ]
-                    ):
+                    skip_words = ["example", "test", "fake", "dummy", "placeholder", "your_"]
+                    if any(x in line.lower() for x in skip_words):
                         continue
 
                     # Skip common false positives for base64
                     if pattern_name == "base64_encoded":
                         # Skip if it looks like a path, URL, or common string
-                        if any(
-                            x in line
-                            for x in [
-                                "src/",
-                                "src\\",
-                                ".com",
-                                ".org",
-                                ".net",
-                                "http",
-                                "import",
-                                "from",
-                                "def ",
-                                "class ",
-                            ]
-                        ):
+                        skip_patterns = [
+                            "src/",
+                            "src\\",
+                            ".com",
+                            ".org",
+                            ".net",
+                            "http",
+                            "import",
+                            "from",
+                            "def ",
+                            "class ",
+                        ]
+                        if any(x in line for x in skip_patterns):
                             continue
                         # Skip if too short or too long
                         if len(secret) < 40 or len(secret) > 200:
                             continue
 
                     # Determine severity
-                    if pattern_name in [
+                    critical_patterns = [
                         "ssh_private_key",
                         "pgp_private_key",
                         "aws_access_key",
                         "github_token",
-                    ]:
+                    ]
+                    high_patterns = ["aws_secret_key", "google_api", "stripe_api", "generic_secret"]
+                    medium_patterns = ["jwt_token", "slack_token", "sendgrid_api"]
+
+                    if pattern_name in critical_patterns:
                         severity = "critical"
-                    elif pattern_name in [
-                        "aws_secret_key",
-                        "google_api",
-                        "stripe_api",
-                        "generic_secret",
-                    ]:
+                    elif pattern_name in high_patterns:
                         severity = "high"
-                    elif pattern_name in ["jwt_token", "slack_token", "sendgrid_api"]:
+                    elif pattern_name in medium_patterns:
                         severity = "medium"
                     else:
                         severity = "low"
@@ -233,7 +224,8 @@ def scan_file(file_path: Path, base_path: Path) -> List[SecretFinding]:
                     )
 
     except Exception as e:
-        print(f"  ⚠️  Error reading {file_path}: {e}", file=sys.stderr)
+        msg = f"⚠️ Error reading {file_path}: {e}"
+        print(msg, file=sys.stderr)
 
     return findings
 
@@ -272,7 +264,9 @@ def scan_directory(base_path: Path) -> ScanReport:
         high = sum(1 for f in all_findings if f.severity == "high")
         medium = sum(1 for f in all_findings if f.severity == "medium")
         low = sum(1 for f in all_findings if f.severity == "low")
-        summary = f"❌ Found {len(all_findings)} potential secrets ({critical} critical, {high} high, {medium} medium, {low} low)"
+        msg = f"Found {len(all_findings)} potential secrets "
+        msg += f"({critical} critical, {high} high, {medium} medium, {low} low)"
+        summary = f"❌ {msg}"
 
     return ScanReport(
         files_scanned=files_scanned,
@@ -315,9 +309,10 @@ def main():
                 "low": "🟢",
             }
             icon = severity_icon.get(finding["severity"], "⚪")
-            print(
-                f"    {icon} Line {finding['line']}: {finding['pattern_name']} ({finding['secret_preview']})"
-            )
+            line_num = finding["line"]
+            pattern = finding["pattern_name"]
+            preview = finding["secret_preview"]
+            print(f"    {icon} Line {line_num}: {pattern} ({preview})")
         print()
     else:
         print("✅ No real secrets found in source code!")
