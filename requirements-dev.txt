@@ -52,6 +52,8 @@ babel==2.18.0
     # via
     #   jupyterlab-server
     #   mkdocs-material
+backports-asyncio-runner==1.2.0
+    # via pytest-asyncio
 backrefs==6.2
     # via mkdocs-material
 bandit==1.9.4
@@ -569,7 +571,7 @@ pydantic-core==2.46.3
     # via pydantic
 pydantic-extra-types==2.11.1
     # via fastapi
-pydantic-settings==2.5.2
+pydantic-settings==2.14.0
     # via
     #   -r requirements-dev.in
     #   fastapi
@@ -588,6 +590,8 @@ pygments==2.20.0
     #   nbconvert
     #   pytest
     #   rich
+pyjwt==2.12.1
+    # via -r requirements-dev.in
 pymdown-extensions==10.21.2
     # via
     #   mkdocs-material
@@ -860,6 +864,7 @@ typing-extensions==4.15.0
     #   pydantic-core
     #   pydantic-extra-types
     #   pyee
+    #   pyjwt
     #   pyright
     #   pytest-asyncio
     #   python-on-whales
@@ -880,6 +885,7 @@ typing-inspection==0.4.2
     # via
     #   fastapi
     #   pydantic
+    #   pydantic-settings
 tzdata==2026.1
     # via
     #   arrow
@@ -904,7 +910,7 @@ uvicorn[standard]==0.45.0
     #   fastapi
     #   fastapi-cli
     #   fastapi-cloud-cli
-uvloop==0.22.1; sys_platform != 'win32'
+uvloop==0.22.1
     # via uvicorn
 virtualenv==21.2.4
     # via pre-commit
@@ -939,4 +945,3 @@ zstandard==0.25.0
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
-PyJWT==2.12.1
