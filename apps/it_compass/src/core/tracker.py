@@ -281,7 +281,7 @@ class CareerTracker:
         completed = []
         total = 0
 
-        for level_key, level_markers in skill_data.levels.items():
+        for _level_key, level_markers in skill_data.levels.items():
             len(level_markers)
             level_completed = 0
 

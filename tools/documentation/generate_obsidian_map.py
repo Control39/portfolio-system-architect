@@ -1,5 +1,4 @@
-"""Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect.
-"""
+"""Генерирует Obsidian-карту знаний из структуры репозитория portfolio-system-architect."""
 
 from datetime import datetime
 from pathlib import Path

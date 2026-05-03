@@ -3,6 +3,7 @@
 Скрипт интеграции Reasoning-модели с IT Compass.
 Позволяет анализировать заметки/диалоги и автоматически сопоставлять с маркерами.
 """
+
 import json
 import os
 import sys
@@ -135,7 +136,7 @@ class ReasoningIntegrator:
         markers_text = []
         for skill_name, skill_data in self.tracker.markers.items():
             markers_text.append(f"\n{skill_name}:")
-            for level, level_markers in skill_data.levels.items():
+            for _level, level_markers in skill_data.levels.items():
                 for marker in level_markers:
                     markers_text.append(f"  - {marker.id}: {marker.marker}")
 

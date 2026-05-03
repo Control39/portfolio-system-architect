@@ -2,6 +2,7 @@
 """
 Assistant Orchestrator — система анализа зрелости архитектуры
 """
+
 import argparse
 import logging
 import sys

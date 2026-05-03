@@ -1,4 +1,4 @@
-﻿import requests
+import requests
 
 
 class CrisisAPIService:
@@ -75,7 +75,7 @@ class CrisisAPIService:
         print("🌐 ДОСТУПНЫЕ СЕРВИСЫ ПОДДЕРЖКИ")
         print("=" * 50)
 
-        for key, service in self.services.items():
+        for _key, service in self.services.items():
             print(f"\n🔹 {service['name']}")
             print(f"   URL: {service['api_url']}")
             print(f"   Метод: {service['method']}")

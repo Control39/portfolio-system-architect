@@ -20,7 +20,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
     prometheus_path = monitoring_path / "prometheus"
     grafana_path = monitoring_path / "grafana"
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_prometheus_targets() -> List[Dict[str, Any]]:
         """
         Получение списка target'ов Prometheus
@@ -57,7 +57,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [{"error": f"Prometheus not available: {str(e)}"}]
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_prometheus_metrics(query: str = "up") -> List[Dict[str, Any]]:
         """
         Запрос метрик Prometheus
@@ -95,7 +95,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [{"error": f"Prometheus query failed: {str(e)}"}]
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_grafana_dashboards() -> List[Dict[str, Any]]:
         """
         Получение списка дашбордов Grafana
@@ -129,7 +129,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [{"error": f"Grafana not available: {str(e)}"}]
 
-    @mcp.tool()
+    @mcp_server.tool()
     def check_monitoring_stack_status() -> Dict[str, Any]:
         """
         Проверка статуса стека мониторинга
@@ -165,7 +165,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return {"error": f"Status check failed: {str(e)}"}
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_docker_container_stats() -> List[Dict[str, Any]]:
         """
         Получение статистики Docker контейнеров
@@ -209,7 +209,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return [{"error": f"Docker stats failed: {str(e)}"}]
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_monitoring_config() -> Dict[str, Any]:
         """
         Получение конфигурации мониторинга

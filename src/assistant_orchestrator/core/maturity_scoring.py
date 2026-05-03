@@ -42,7 +42,7 @@ class MaturityScorer:
     def get_recommendations(self) -> List[Dict[str, Any]]:
         """Get recommendations for improving maturity score."""
         recommendations = []
-        current_score = self.calculate_score()
+        self.calculate_score()
 
         # Check microservices
         services = self.analysis.get("microservices", {}).get("services", [])

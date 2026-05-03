@@ -1,4 +1,4 @@
-"""
+r"""
 career - Generated Pydantic Models
 Source: src\shared\schemas\career.yaml
 """

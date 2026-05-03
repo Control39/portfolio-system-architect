@@ -24,7 +24,7 @@ for file_path in markers_dir.glob("*.json"):
 
         # Считаем маркеры в каждом уровне
         skill_marker_count = 0
-        for level_num, level_markers in levels.items():
+        for _level_num, level_markers in levels.items():
             skill_marker_count += len(level_markers)
 
         total_markers += skill_marker_count
@@ -38,4 +38,4 @@ print("=" * 50)
 print("ИТОГО:")
 print(f"Файлов (доменов):     {total_files}")
 print(f"Всего маркеров:       {total_markers}")
-print(f"Среднее на домен:     {total_markers/total_files:.1f}")
+print(f"Среднее на домен:     {total_markers / total_files:.1f}")

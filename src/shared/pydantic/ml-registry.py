@@ -1,4 +1,4 @@
-"""
+r"""
 ml-registry - Generated Pydantic Models
 Source: src\shared\schemas\ml-registry.yaml
 """

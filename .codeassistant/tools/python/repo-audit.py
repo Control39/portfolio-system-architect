@@ -50,7 +50,7 @@ def scan_directory(base_path: Path, max_depth: int = 5) -> List[AuditResult]:
     """Scan directory structure and find violations."""
     results = []
 
-    for root, dirs, files in os.walk(base_path):
+    for root, _dirs, _files in os.walk(base_path):
         current_path = Path(root)
         depth = get_directory_depth(base_path, current_path)
 

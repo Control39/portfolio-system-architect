@@ -92,7 +92,7 @@ def codelist():
 # System
 def disk():
     total = 0
-    for root, dirs, files in os.walk("."):
+    for root, _dirs, files in os.walk("."):
         for f in files:
             fp = os.path.join(root, f)
             if os.path.exists(fp):

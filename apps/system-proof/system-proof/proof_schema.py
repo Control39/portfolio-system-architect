@@ -38,16 +38,16 @@ class SystemProof(BaseModel):
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     proof = SystemProof(
-        id='proof_001',
-        chain_id='giga_001',
-        steps=[TraceStep(input='query', output='response', metadata={})],
+        id="proof_001",
+        chain_id="giga_001",
+        steps=[TraceStep(input="query", output="response", metadata={})],
         metadata=ProofMetadata(
-            thought_architecture='RAG-CoT',
+            thought_architecture="RAG-CoT",
             system_thinking_level=4,
-            source_link='https://github.com/leadarchitect-ai/portfolio-system-architect'
+            source_link="https://github.com/leadarchitect-ai/portfolio-system-architect",
         ),
-        verification_accuracy=0.95
+        verification_accuracy=0.95,
     )
     print(proof.tag_and_verify(None))  # True

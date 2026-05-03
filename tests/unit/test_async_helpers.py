@@ -1,5 +1,4 @@
-"""Unit тесты для модуля async_helpers.
-"""
+"""Unit тесты для модуля async_helpers."""
 
 import asyncio
 

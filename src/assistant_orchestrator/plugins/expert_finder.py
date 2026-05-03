@@ -1,11 +1,12 @@
-﻿"""
+"""
 Expert finder plugin for identifying domain experts in the codebase.
 """
+
 import logging
 import subprocess
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -74,26 +75,30 @@ class ExpertFinder:
             for contributor in contributors:
                 percentage = (contributor["commits"] / total_commits) * 100
                 if percentage > 50:  # More than 50% of commits
-                    bottlenecks.append({
-                        "contributor": contributor["name"],
-                        "percentage": round(percentage, 1),
-                        "modules": contributor.get("modules", []),
-                        "risk": "high",
-                        "recommendation": "Consider knowledge sharing and cross-training"
-                    })
+                    bottlenecks.append(
+                        {
+                            "contributor": contributor["name"],
+                            "percentage": round(percentage, 1),
+                            "modules": contributor.get("modules", []),
+                            "risk": "high",
+                            "recommendation": "Consider knowledge sharing and cross-training",
+                        }
+                    )
 
             # Find modules with single expert
             module_experts = self.find_experts_by_module(min_commits=1)
             single_expert_modules = []
             for module, experts in module_experts.items():
                 if len(experts) == 1:
-                    single_expert_modules.append({
-                        "module": module,
-                        "expert": experts[0]["name"],
-                        "commits": experts[0]["commits"],
-                        "risk": "medium",
-                        "recommendation": "Add at least one more contributor to this module"
-                    })
+                    single_expert_modules.append(
+                        {
+                            "module": module,
+                            "expert": experts[0]["name"],
+                            "commits": experts[0]["commits"],
+                            "risk": "medium",
+                            "recommendation": "Add at least one more contributor to this module",
+                        }
+                    )
 
             return {
                 "bottlenecks": bottlenecks,
@@ -114,13 +119,16 @@ class ExpertFinder:
                 cwd=self.root,
                 capture_output=True,
                 text=True,
-                encoding='utf-8',
+                encoding="utf-8",
                 check=False,
             )  # nosec: safe command with hardcoded arguments
 
             if result.returncode == 0:
-                files = [Path(line.strip()) for line in result.stdout.splitlines()
-                        if line.strip() and self._is_source_file(line.strip())]
+                files = [
+                    Path(line.strip())
+                    for line in result.stdout.splitlines()
+                    if line.strip() and self._is_source_file(line.strip())
+                ]
                 return files
         except Exception as e:
             logger.debug(f"Error getting source files: {e}")
@@ -129,7 +137,18 @@ class ExpertFinder:
 
     def _is_source_file(self, filename: str) -> bool:
         """Check if file is a source code file."""
-        source_extensions = {'.py', '.js', '.ts', '.java', '.go', '.rs', '.cpp', '.c', '.cs', '.php'}
+        source_extensions = {
+            ".py",
+            ".js",
+            ".ts",
+            ".java",
+            ".go",
+            ".rs",
+            ".cpp",
+            ".c",
+            ".cs",
+            ".php",
+        }
         return Path(filename).suffix.lower() in source_extensions
 
     def _extract_module_name(self, filepath: Path) -> str:
@@ -139,26 +158,26 @@ class ExpertFinder:
 
         # Look for common source directories
         for i, part in enumerate(parts):
-            if part in {'src', 'app', 'apps', 'lib', 'packages'} and i + 1 < len(parts):
-                return '/'.join(parts[i:i+2])
+            if part in {"src", "app", "apps", "lib", "packages"} and i + 1 < len(parts):
+                return "/".join(parts[i : i + 2])
 
         # Fallback to first two parts or filename
         if len(parts) >= 2:
-            return '/'.join(parts[:2])
+            return "/".join(parts[:2])
         return str(filepath)
 
     def _analyze_file_experts(self, filepath: Path, min_commits: int) -> List[Dict[str, Any]]:
         """Analyze git blame to find experts for a specific file."""
         try:
             # Get git blame output
-                result = subprocess.run(
-                    ["git", "blame", "--line-porcelain", str(filepath)],
-                    cwd=self.root,
-                    capture_output=True,
-                    text=True,
-                    encoding='utf-8',
-                    check=False,
-                )  # nosec: safe command with hardcoded arguments
+            result = subprocess.run(
+                ["git", "blame", "--line-porcelain", str(filepath)],
+                cwd=self.root,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                check=False,
+            )  # nosec: safe command with hardcoded arguments
 
             if result.returncode != 0:
                 return []
@@ -168,9 +187,9 @@ class ExpertFinder:
             current_author = None
 
             for line in result.stdout.splitlines():
-                if line.startswith('author '):
+                if line.startswith("author "):
                     current_author = line[7:].strip()
-                elif line.startswith('author-mail '):
+                elif line.startswith("author-mail "):
                     # Count this line for the current author
                     if current_author:
                         author_counts[current_author] += 1
@@ -182,12 +201,14 @@ class ExpertFinder:
             for author, lines in author_counts.items():
                 if lines >= min_commits:  # Use lines as proxy for contribution
                     percentage = (lines / total_lines) * 100 if total_lines > 0 else 0
-                    experts.append({
-                        "name": author,
-                        "lines": lines,
-                        "percentage": round(percentage, 1),
-                        "file": str(filepath),
-                    })
+                    experts.append(
+                        {
+                            "name": author,
+                            "lines": lines,
+                            "percentage": round(percentage, 1),
+                            "file": str(filepath),
+                        }
+                    )
 
             return experts
 
@@ -209,13 +230,15 @@ class ExpertFinder:
         # Convert to ranked list
         ranked = []
         for name, data in expert_contributions.items():
-            ranked.append({
-                "name": name,
-                "total_lines": data["lines"],
-                "file_count": len(data["files"]),
-                "files": list(data["files"])[:3],  # Top 3 files
-                "details": data["details"][:3],
-            })
+            ranked.append(
+                {
+                    "name": name,
+                    "total_lines": data["lines"],
+                    "file_count": len(data["files"]),
+                    "files": list(data["files"])[:3],  # Top 3 files
+                    "details": data["details"][:3],
+                }
+            )
 
         # Sort by total lines (descending)
         ranked.sort(key=lambda x: x["total_lines"], reverse=True)
@@ -225,29 +248,31 @@ class ExpertFinder:
         """Get contributor statistics from git log."""
         try:
             # Get commit count per author
-                result = subprocess.run(
-                    ["git", "shortlog", "-s", "-n", "--all"],
-                    cwd=self.root,
-                    capture_output=True,
-                    text=True,
-                    encoding='utf-8',
-                    check=False,
-                )  # nosec: safe command with hardcoded arguments
+            result = subprocess.run(
+                ["git", "shortlog", "-s", "-n", "--all"],
+                cwd=self.root,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                check=False,
+            )  # nosec: safe command with hardcoded arguments
 
             if result.returncode != 0:
                 return []
 
             contributors = []
             for line in result.stdout.splitlines():
-                parts = line.strip().split('\t')
+                parts = line.strip().split("\t")
                 if len(parts) >= 2:
                     commits = int(parts[0].strip())
                     name = parts[1].strip()
-                    contributors.append({
-                        "name": name,
-                        "commits": commits,
-                        "modules": [],  # Would need more analysis
-                    })
+                    contributors.append(
+                        {
+                            "name": name,
+                            "commits": commits,
+                            "modules": [],  # Would need more analysis
+                        }
+                    )
 
             return contributors
 
@@ -269,5 +294,5 @@ def find_experts(root: Path) -> Dict[str, Any]:
             "total_modules_with_experts": len(experts),
             "total_bottlenecks": len(bottlenecks.get("bottlenecks", [])),
             "single_expert_modules": len(bottlenecks.get("single_expert_modules", [])),
-        }
+        },
     }

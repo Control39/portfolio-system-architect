@@ -2,6 +2,7 @@
 """Unified healthcheck for Portfolio System Architect
 Exports /health, /ready, /live endpoints for all services
 """
+
 import subprocess
 import sys
 

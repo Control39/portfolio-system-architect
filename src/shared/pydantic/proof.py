@@ -1,4 +1,4 @@
-"""
+r"""
 proof - Generated Pydantic Models
 Source: src\shared\schemas\proof.yaml
 """

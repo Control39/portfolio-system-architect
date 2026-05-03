@@ -253,9 +253,9 @@ class VSCodeExtensionInstaller:
 
         config = {
             "stacks": stacks,
-            "extensions": sorted(list(all_extensions)),
+            "extensions": sorted(all_extensions),
             "install_command": "code --install-extension "
-            + " --install-extension ".join(sorted(list(all_extensions))),
+            + " --install-extension ".join(sorted(all_extensions)),
         }
 
         with open(output_path, "w", encoding="utf-8") as f:

@@ -4,6 +4,7 @@
 Массовая конвертация файлов в UTF-8 с резервным копированием.
 Сохраняет оригинальные файлы в директории backups.
 """
+
 import datetime
 import json
 import logging
@@ -186,7 +187,6 @@ def should_process_file(file_path: Path) -> bool:
         ".vscode",
         "logs",
         "backups",
-        "backups",
     }
 
     if file_path.suffix.lower() not in text_extensions:
@@ -216,7 +216,7 @@ def convert_all(start_path: str = ".") -> Dict:
 
     # Создаем директории
     backup_dir = (
-        Path("backups") / f'pre_utf8_conversion_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
+        Path("backups") / f"pre_utf8_conversion_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
     )
     backup_dir.mkdir(parents=True, exist_ok=True)
 

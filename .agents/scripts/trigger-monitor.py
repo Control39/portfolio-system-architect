@@ -437,7 +437,7 @@ class TriggerDashboard:
         """Генерация HTML дашборда"""
         # Получаем статистику
         stats = self.collector.get_event_stats(24)
-        metrics = self.collector.get_metrics_summary(24)
+        self.collector.get_metrics_summary(24)
 
         # Генерируем HTML
         html = f"""
@@ -563,32 +563,32 @@ class TriggerDashboard:
                 <div class="header">
                     <h1>📊 Дашборд мониторинга триггеров</h1>
                     <div class="subtitle">
-                        Cognitive Automation Agent • {datetime.now().strftime('%d.%m.%Y %H:%M')}
+                        Cognitive Automation Agent • {datetime.now().strftime("%d.%m.%Y %H:%M")}
                     </div>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h3>Всего событий</h3>
-                        <div class="stat-value stat-info">{stats['total_events']}</div>
+                        <div class="stat-value stat-info">{stats["total_events"]}</div>
                         <p>За последние 24 часа</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Успешность</h3>
-                        <div class="stat-value stat-success">{stats['success_rate']:.1f}%</div>
-                        <p>{stats['successful_events']} успешных из {stats['total_events']}</p>
+                        <div class="stat-value stat-success">{stats["success_rate"]:.1f}%</div>
+                        <p>{stats["successful_events"]} успешных из {stats["total_events"]}</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Среднее время</h3>
-                        <div class="stat-value">{stats['avg_execution_time']:.2f}с</div>
+                        <div class="stat-value">{stats["avg_execution_time"]:.2f}с</div>
                         <p>Среднее время выполнения события</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Неудачных событий</h3>
-                        <div class="stat-value stat-danger">{stats['failed_events']}</div>
+                        <div class="stat-value stat-danger">{stats["failed_events"]}</div>
                         <p>Требуют внимания</p>
                     </div>
                 </div>
@@ -622,16 +622,16 @@ class TriggerDashboard:
                 </div>
 
                 <div class="footer">
-                    <p>Дашборд обновлен: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}</p>
+                    <p>Дашборд обновлен: {datetime.now().strftime("%d.%m.%Y %H:%M:%S")}</p>
                     <p>Cognitive Automation Agent • Система автоматического мониторинга</p>
                 </div>
             </div>
 
             <script>
                 // Данные для графиков
-                const eventsData = {json.dumps([e['event_name'] for e in stats['events_by_type']])};
-                const eventsCount = {json.dumps([e['count'] for e in stats['events_by_type']])};
-                const successRates = {json.dumps([e['success_rate'] for e in stats['events_by_type']])};
+                const eventsData = {json.dumps([e["event_name"] for e in stats["events_by_type"]])};
+                const eventsCount = {json.dumps([e["count"] for e in stats["events_by_type"]])};
+                const successRates = {json.dumps([e["success_rate"] for e in stats["events_by_type"]])};
 
                 // График распределения событий
                 const eventsCtx = document.getElementById('eventsChart').getContext('2d');

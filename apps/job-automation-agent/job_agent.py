@@ -67,7 +67,7 @@ def generate_resume(job_title: str, skills: Optional[List[str]] = None) -> str:
 📄 *Резюме для позиции: {job_title}*
 
 **Ключевые навыки:**
-{', '.join(skills)}
+{", ".join(skills)}
 
 **Опыт работы:**
 • Senior Python Developer (2022-н.в.) - Разработка высоконагруженных API
@@ -80,7 +80,7 @@ def generate_resume(job_title: str, skills: Optional[List[str]] = None) -> str:
 
     prompt = f"""
     Создай профессиональное резюме для позиции {job_title}.
-    Ключевые навыки: {', '.join(skills)}.
+    Ключевые навыки: {", ".join(skills)}.
     Опыт работы: 5+ лет в разработке.
     Формат: структурированное, 200-300 слов.
     """
@@ -107,7 +107,7 @@ def _find_matching_markers(skills: List[str]) -> Set[str]:
     try:
         # Поиск маркеров, соответствующих навыкам
         for skill_name, skill_data in career_tracker.markers.items():
-            for level_name, level_markers in skill_data.levels.items():
+            for _level_name, level_markers in skill_data.levels.items():
                 for marker in level_markers:
                     # Проверяем соответствие по навыку
                     if skill_name.lower() in skill_lower:

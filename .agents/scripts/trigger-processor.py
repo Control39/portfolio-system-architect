@@ -244,7 +244,7 @@ class TriggerProcessor:
 
         # Получаем действия
         action_names = trigger_config.get("actions", [])
-        autonomy_level = trigger_config.get("autonomy_level", "medium")
+        trigger_config.get("autonomy_level", "medium")
 
         # Выполняем действия
         success = True
@@ -299,7 +299,7 @@ class TriggerProcessor:
             return True
 
         # Простая реализация проверки условий
-        for condition in conditions:
+        for _condition in conditions:
             # TODO: Реализовать полноценную проверку условий
             # Сейчас просто возвращаем True для всех условий
             pass

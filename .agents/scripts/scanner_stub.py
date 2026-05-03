@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     """Основная функция компонента"""
+    component = "scanner"
     logger.info(f"Компонент {component} запущен")
 
     # Имитация работы компонента

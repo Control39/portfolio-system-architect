@@ -121,7 +121,7 @@ class QuotaMonitor:
                     alerts.append(alert)
 
                     logger.warning(
-                        f"Превышен порог для {quota_name}: {percentage}% " f"(порог: {threshold}%)"
+                        f"Превышен порог для {quota_name}: {percentage}% (порог: {threshold}%)"
                     )
 
         return alerts
@@ -296,7 +296,7 @@ def main():
     args = parser.parse_args()
 
     monitor = QuotaMonitor()
-    monitor.thresholds = {k: args.threshold for k in monitor.thresholds}
+    monitor.thresholds = dict.fromkeys(monitor.thresholds, args.threshold)
 
     if args.continuous:
         logger.info(f"Запуск непрерывного мониторинга с интервалом {args.interval} секунд")

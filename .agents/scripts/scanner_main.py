@@ -818,14 +818,13 @@ def main():
         status_file = Path(".agents/scans/last_scan_status.json")
         status_file.parent.mkdir(exist_ok=True)
 
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
         with open(status_file, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     "status": "success",
                     "timestamp": time.time(),
-                    "scan_id": (
-                        timestamp if "timestamp" in locals() else time.strftime("%Y%m%d_%H%M%S")
-                    ),
+                    "scan_id": timestamp,
                 },
                 f,
                 indent=2,

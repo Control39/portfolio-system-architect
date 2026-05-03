@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Скрипт для улучшения бейджей: добавляет ссылки на детальные отчеты.
-"""
+"""Скрипт для улучшения бейджей: добавляет ссылки на детальные отчеты."""
 
 import re
 from pathlib import Path
@@ -120,14 +119,14 @@ def main():
         print("✅ README.md updated with enhanced badge links and reports section")
 
         # Показываем статистику
-        old_badges = len(re.findall(r"<img[^>]*badge[^>]*>", content))
+        len(re.findall(r"<img[^>]*badge[^>]*>", content))
         new_badges = len(re.findall(r"<img[^>]*badge[^>]*>", final_content))
         linked_badges = len(re.findall(r"<a[^>]*><img[^>]*badge[^>]*></a>", final_content))
 
         print("📊 Statistics:")
         print(f"  - Total badges: {new_badges}")
         print(f"  - Badges with links: {linked_badges}")
-        print(f"  - Percentage linked: {(linked_badges/new_badges)*100:.1f}%")
+        print(f"  - Percentage linked: {(linked_badges / new_badges) * 100:.1f}%")
     else:
         print("✅ Badge links are already enhanced")
 

@@ -312,7 +312,7 @@ if __name__ == "__main__":
         results = advisor.search("microservices architecture", top_k=2)
         for i, result in enumerate(results):
             if "error" not in result:
-                print(f"{i+1}. {result.get('source')} (score: {result.get('score'):.3f})")
+                print(f"{i + 1}. {result.get('source')} (score: {result.get('score'):.3f})")
                 print(f"   {result.get('text')[:100]}...")
 
         # Test advice

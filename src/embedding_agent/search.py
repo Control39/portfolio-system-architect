@@ -150,7 +150,7 @@ def search_demo():
 
             print(f"\nFound {len(results)} results:")
             for i, result in enumerate(results):
-                print(f"\n{i+1}. Score: {result['score']:.3f}")
+                print(f"\n{i + 1}. Score: {result['score']:.3f}")
                 print(f"   Source: {result['metadata'].get('source', 'Unknown')}")
                 if "chunk" in result["metadata"]:
                     print(

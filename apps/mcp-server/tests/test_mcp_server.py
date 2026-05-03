@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -281,7 +282,7 @@ class TestCareerAutopilotFeatures(unittest.TestCase):
         if mcp_dir.exists():
             # Проверяем глубину вложенности
             max_depth = 0
-            for root, dirs, files in os.walk(mcp_dir):
+            for root, _dirs, _files in os.walk(mcp_dir):
                 depth = root.count(os.sep) - str(mcp_dir).count(os.sep)
                 max_depth = max(max_depth, depth)
 
