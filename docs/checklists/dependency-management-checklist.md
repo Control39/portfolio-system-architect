@@ -20,7 +20,7 @@ portfolio-system-architect/
 ├── requirements.in               # Основные зависимости ("что нужно")
 ├── requirements.txt             # Полный снимок ("что установлено")
 ├── requirements-dev.txt         # Зависимости для разработки
-├── .agents/                     # Автономные агенты
+├── apps/cognitive-agent/                     # Автономные агенты
 │   └── requirements.txt         # Специфические зависимости агентов
 └── apps/                        # Модульные приложения
 └── */requirements.txt       # Зависимости отдельных приложений

@@ -1,0 +1,386 @@
+# Конфигурация автоматических триггеров Cognitive Automation Agent
+version: "1.0.0"
+
+# Основные триггеры
+triggers:
+  # Триггер при открытии проекта
+  project_open:
+    enabled: true
+    conditions:
+      - file_exists: "apps/cognitive-agent/config/agent-config.yaml"
+      - file_exists: ".git"
+    actions:
+      - scan_project
+      - validate_agent
+      - generate_welcome_plan
+    autonomy_level: medium
+    priority: high
+
+  # Триггер при изменении файлов
+  file_change:
+    enabled: true
+    watch_patterns:
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "**/*.json"
+      - "**/requirements*.txt"
+      - "**/package.json"
+      - "**/Dockerfile*"
+      - "**/.github/workflows/*"
+    debounce_ms: 5000  # Задержка перед обработкой
+    actions:
+      - analyze_changes
+      - run_affected_tests
+      - update_dependencies
+    autonomy_level: low
+    priority: medium
+
+  # Триггер при коммите в Git
+  git_commit:
+    enabled: true
+    conditions:
+      - git_operation: "commit"
+    actions:
+      - validate_code
+      - run_tests
+      - generate_changelog
+    autonomy_level: high
+    priority: high
+
+  # Триггер при пуше в Git
+  git_push:
+    enabled: true
+    conditions:
+      - git_operation: "push"
+    actions:
+      - security_scan
+      - performance_check
+      - generate_deployment_plan
+    autonomy_level: medium
+    priority: high
+
+  # Триггер при создании Pull Request
+  pull_request:
+    enabled: true
+    conditions:
+      - git_operation: "pull_request"
+    actions:
+      - code_review
+      - conflict_detection
+      - test_coverage
+    autonomy_level: medium
+    priority: critical
+
+  # Триггер по расписанию (ежедневно)
+  daily_schedule:
+    enabled: true
+    schedule: "0 9 * * *"  # Каждый день в 9:00
+    actions:
+      - dependency_update_check
+      - security_audit
+      - performance_optimization
+      - generate_daily_report
+    autonomy_level: high
+    priority: medium
+
+  # Триггер по расписанию (еженедельно)
+  weekly_schedule:
+    enabled: true
+    schedule: "0 10 * * 1"  # Каждый понедельник в 10:00
+    actions:
+      - deep_cleanup
+      - model_retraining
+      - knowledge_base_update
+      - generate_weekly_report
+    autonomy_level: medium
+    priority: low
+
+  # Триггер при ошибках
+  error_detected:
+    enabled: true
+    conditions:
+      - log_contains: "ERROR"
+      - log_contains: "Exception"
+      - test_failure: true
+    actions:
+      - error_analysis
+      - auto_fix_attempt
+      - notification
+      - create_issue
+    autonomy_level: high
+    priority: critical
+
+  # Триггер при низкой производительности
+  performance_issue:
+    enabled: true
+    conditions:
+      - response_time_gt: 1000  # мс
+      - memory_usage_gt: 80     # %
+      - cpu_usage_gt: 70        # %
+    actions:
+      - performance_analysis
+      - optimization_suggestions
+      - scaling_recommendations
+    autonomy_level: medium
+    priority: high
+
+  # Триггер при проблемах безопасности
+  security_issue:
+    enabled: true
+    conditions:
+      - vulnerability_detected: true
+      - secret_leak: true
+      - permission_issue: true
+    actions:
+      - security_scan
+      - auto_remediation
+      - alert_team
+      - update_firewall
+    autonomy_level: high
+    priority: critical
+
+# Действия, доступные для триггеров
+actions:
+  scan_project:
+    command: "scanner --mode=deep"
+    timeout: 300  # секунд
+    allowed_failures: 1
+
+  validate_agent:
+    command: "validation-test.py"
+    timeout: 60
+    allowed_failures: 0
+
+  generate_welcome_plan:
+    command: "planner --generate --type=welcome"
+    timeout: 120
+
+  analyze_changes:
+    command: "analyzer --changes"
+    timeout: 30
+
+  run_affected_tests:
+    command: "test_runner --affected"
+    timeout: 180
+
+  update_dependencies:
+    command: "dependency_manager --update"
+    timeout: 300
+
+  validate_code:
+    command: "validator --code"
+    timeout: 60
+
+  run_tests:
+    command: "test_runner --all"
+    timeout: 600
+
+  generate_changelog:
+    command: "changelog_generator"
+    timeout: 30
+
+  security_scan:
+    command: "security_scanner --full"
+    timeout: 600
+
+  performance_check:
+    command: "performance_analyzer"
+    timeout: 300
+
+  generate_deployment_plan:
+    command: "deployment_planner"
+    timeout: 120
+
+  code_review:
+    command: "code_reviewer --ai"
+    timeout: 300
+
+  conflict_detection:
+    command: "conflict_detector"
+    timeout: 60
+
+  test_coverage:
+    command: "coverage_analyzer"
+    timeout: 180
+
+  dependency_update_check:
+    command: "dependency_checker --updates"
+    timeout: 300
+
+  security_audit:
+    command: "security_auditor"
+    timeout: 600
+
+  performance_optimization:
+    command: "performance_optimizer"
+    timeout: 300
+
+  generate_daily_report:
+    command: "reporter --daily"
+    timeout: 60
+
+  deep_cleanup:
+    command: "cleaner --deep"
+    timeout: 600
+
+  model_retraining:
+    command: "model_trainer --retrain"
+    timeout: 3600
+
+  knowledge_base_update:
+    command: "knowledge_updater"
+    timeout: 300
+
+  generate_weekly_report:
+    command: "reporter --weekly"
+    timeout: 120
+
+  error_analysis:
+    command: "error_analyzer"
+    timeout: 180
+
+  auto_fix_attempt:
+    command: "auto_fixer"
+    timeout: 300
+
+  notification:
+    command: "notifier --alert"
+    timeout: 30
+
+  create_issue:
+    command: "issue_creator"
+    timeout: 60
+
+  performance_analysis:
+    command: "performance_profiler"
+    timeout: 300
+
+  optimization_suggestions:
+    command: "optimization_advisor"
+    timeout: 180
+
+  scaling_recommendations:
+    command: "scaling_advisor"
+    timeout: 120
+
+  auto_remediation:
+    command: "remediator --auto"
+    timeout: 300
+
+  alert_team:
+    command: "alerter --team"
+    timeout: 30
+
+  update_firewall:
+    command: "firewall_updater"
+    timeout: 120
+
+# Настройки обработки триггеров
+processing:
+  max_concurrent_triggers: 3
+  retry_attempts: 3
+  retry_delay: 5000  # мс
+  queue_size: 100
+  log_level: "info"
+
+  # Приоритеты обработки
+  priority_mapping:
+    critical: 100
+    high: 75
+    medium: 50
+    low: 25
+
+  # Время жизни результатов
+  result_ttl: 86400  # секунд (24 часа)
+
+# Уведомления
+notifications:
+  enabled: true
+  channels:
+    - vscode
+    - console
+    - file
+
+  # Условия для уведомлений
+  conditions:
+    - on_success: true
+    - on_failure: true
+    - on_retry: true
+    - on_critical: true
+
+  # Форматы уведомлений
+  formats:
+    vscode:
+      type: "notification"
+      timeout: 5000
+
+    console:
+      type: "log"
+      level: "info"
+
+    file:
+      type: "json"
+      path: "apps/cognitive-agent/logs/notifications.log"
+
+# Мониторинг триггеров
+monitoring:
+  enabled: true
+  metrics:
+    - trigger_count
+    - success_rate
+    - average_processing_time
+    - queue_size
+    - error_rate
+
+  alerts:
+    - metric: "error_rate"
+      threshold: 0.1  # 10%
+      condition: "gt"
+      action: "notification"
+
+    - metric: "queue_size"
+      threshold: 50
+      condition: "gt"
+      action: "scale_workers"
+
+    - metric: "average_processing_time"
+      threshold: 300000  # 5 минут в мс
+      condition: "gt"
+      action: "optimize"
+
+# Интеграции для триггеров
+integrations:
+  git:
+    enabled: true
+    hooks:
+      - pre_commit
+      - post_commit
+      - pre_push
+      - post_merge
+
+  filesystem:
+    enabled: true
+    watchers:
+      - config_files
+      - source_code
+      - dependencies
+
+  schedule:
+    enabled: true
+    scheduler: "cron"
+
+  monitoring:
+    enabled: true
+    providers:
+      - prometheus
+      - grafana
+
+  notifications:
+    enabled: true
+    providers:
+      - slack
+      - email
+      - telegram

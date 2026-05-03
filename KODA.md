@@ -34,7 +34,7 @@
 
 ```
 portfolio-system-architect/
-├── .agents/                    # Cognitive Automation Agent (продукт)
+├── apps/cognitive-agent/                    # Cognitive Automation Agent (продукт)
 │   ├── skills/                # Навыки CAA (автономное выполнение)
 │   ├── config/                # Конфигурации автономной системы
 │   ├── workflows/             # Автономные рабочие процессы
@@ -67,7 +67,7 @@ portfolio-system-architect/
 
 ### Основные компоненты
 
-#### 1. Cognitive Automation Agent (.agents/)
+#### 1. Cognitive Automation Agent (apps/cognitive-agent/)
 Автономная система для управления проектами с интеллектуальными возможностями:
 - **Project Scanner** — интеллектуальное сканирование технологического стека
 - **Task Planner** — проактивное планирование задач
@@ -325,7 +325,7 @@ make lint && make test
 ### Архитектурные принципы
 
 1. **Разделение ответственности**:
-   - `.agents/` — автономное выполнение (уровень реализации)
+   - `apps/cognitive-agent/` — автономное выполнение (уровень реализации)
    - `.codeassistant/` — аналитические skills (уровень анализа)
    - Чёткие границы между микросервисами
 

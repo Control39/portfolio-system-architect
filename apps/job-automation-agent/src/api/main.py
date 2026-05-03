@@ -10,8 +10,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 from src.common.async_helpers import fetch_with_timeout
 from src.common.health_check import init_health_checks
 
-from ..agents.job_search import search_hh_ru
 from ..core.orchestrator import run_core_agent
+from .apps.cognitive_agent.job_search import search_hh_ru
 
 app = FastAPI(title="Job Automation Agent API", version="0.1.0")
 
@@ -60,7 +60,7 @@ async def gen_resume(job: Dict[str, str]):
     """Resume Agent."""
     # Stub profile from career DB (integrate later)
     profile = {"skills": ["Python", "FastAPI", "PostgreSQL"], "name": "Architect"}
-    from ..agents.resume import generate_resume
+    from .apps.cognitive_agent.resume import generate_resume
 
     resume_md = await generate_resume(profile, job)
     return {"resume": resume_md}

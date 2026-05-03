@@ -22,8 +22,8 @@ class TriggerActivator:
         self.pmr_triggers_path = (
             self.project_root / ".codeassistant/skills/caa-audit/pmr-triggers.yaml"
         )
-        self.caa_triggers_path = self.project_root / ".agents/config/triggers.yaml"
-        self.caa_git_hooks_path = self.project_root / ".agents/config/git-hooks.yaml"
+        self.caa_triggers_path = self.project_root / "apps/cognitive-agent/config/triggers.yaml"
+        self.caa_git_hooks_path = self.project_root / "apps/cognitive-agent/config/git-hooks.yaml"
 
     def activate_all(self, dry_run: bool = False) -> Dict:
         """Активация всех триггеров"""
@@ -238,7 +238,7 @@ exit 0
 echo "🔍 Полная проверка позиционирования CAA перед пушем..."
 
 # Запуск полного аудита
-python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=.agents/reports/pre-push-caa-audit-$(date +%Y%m%d-%H%M%S).md
+python .codeassistant/skills/caa-audit/caa-audit-script.py --format=markdown --output=apps/cognitive-agent/reports/pre-push-caa-audit-$(date +%Y%m%d-%H%M%S).md
 
 SCORE=$(python .codeassistant/skills/caa-audit/caa-audit-script.py --format=json 2>/dev/null | grep -o '"total_score":[0-9]*' | cut -d: -f2)
 
@@ -317,32 +317,32 @@ exit 0
 
         # Директории для отчётов
         reports_dir = self.project_root / storage_config.get("reports", {}).get(
-            "directory", ".agents/reports/caa-audit/"
+            "directory", "apps/cognitive-agent/reports/caa-audit/"
         )
         reports_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(reports_dir.relative_to(self.project_root)))
 
         # Директории для метрик
         metrics_dir = self.project_root / storage_config.get("metrics", {}).get(
-            "directory", ".agents/data/caa-metrics/"
+            "directory", "apps/cognitive-agent/data/caa-metrics/"
         )
         metrics_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(metrics_dir.relative_to(self.project_root)))
 
         # Директории для логов
         logs_dir = self.project_root / storage_config.get("logs", {}).get(
-            "directory", ".agents/logs/caa-audit/"
+            "directory", "apps/cognitive-agent/logs/caa-audit/"
         )
         logs_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(logs_dir.relative_to(self.project_root)))
 
         # Директория для ежедневных отчётов
-        daily_dir = self.project_root / ".agents/reports/daily"
+        daily_dir = self.project_root / "apps/cognitive-agent/reports/daily"
         daily_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(daily_dir.relative_to(self.project_root)))
 
         # Директория для PR отчётов
-        pr_dir = self.project_root / ".agents/reports/pr"
+        pr_dir = self.project_root / "apps/cognitive-agent/reports/pr"
         pr_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(pr_dir.relative_to(self.project_root)))
 
@@ -374,7 +374,7 @@ echo "=========================================================="
 # Параметры по умолчанию
 MODE="full"
 FORMAT="markdown"
-OUTPUT=".agents/reports/caa-audit-$(date +%Y%m%d-%H%M%S).md"
+OUTPUT="apps/cognitive-agent/reports/caa-audit-$(date +%Y%m%d-%H%M%S).md"
 FOCUS=""
 
 # Парсинг аргументов

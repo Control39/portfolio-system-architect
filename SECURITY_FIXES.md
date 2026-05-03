@@ -30,8 +30,8 @@ SKIP_PATTERNS = [
     r"[/\\]\.venv[/\\]",
     r"\.gigacode/reports/",
     r"\.koda/logs/",
-    r"\.agents/data/",
-    r"\.agents/scans/",
+    r"\apps/cognitive-agent/data/",
+    r"\apps/cognitive-agent/scans/",
 ]
 
 SKIP_DIRS = [

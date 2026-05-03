@@ -39,9 +39,9 @@
 - **Git хуки**: `.codeassistant/skills/caa-audit/git-hooks/`
 - **Скрипты запуска**: `launch-audit.sh`
 - **Директории хранения**:
-  - `.agents/reports/caa-audit/`
-  - `.agents/data/caa-metrics/`
-  - `.agents/logs/caa-audit/`
+  - `apps/cognitive-agent/reports/caa-audit/`
+  - `apps/cognitive-agent/data/caa-metrics/`
+  - `apps/cognitive-agent/logs/caa-audit/`
 
 ### 📊 Метрики успешности Фазы 1:
 - **Score позиционирования CAA**: ≥60/100
@@ -218,13 +218,13 @@ phase3:
     require_approval_for: ["readme_changes", "documentation_updates"]
 
   ecosystem:
-    shared_database: "sqlite:///.agents/data/shared.db"
+    shared_database: "sqlite:///apps/cognitive-agent/data/shared.db"
     task_queue: "redis://localhost:6379"
     config_sync_interval_sec: 60
 
   machine_learning:
     enabled: true
-    model_path: ".agents/models/caa-predictor/"
+    model_path: "apps/cognitive-agent/models/caa-predictor/"
     training_interval_days: 7
     features: ["project_size", "tech_stack", "history_score", "team_size"]
 
