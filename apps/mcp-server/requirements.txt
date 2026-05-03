@@ -12,7 +12,7 @@ pydantic>=2.8.0
 python-dotenv>=1.0.1
 
 # Vector database
-chromadb>=0.5.0
+chromadb>=1.5.8
 
 # Git operations
 gitpython>=3.1.43
