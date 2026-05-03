@@ -904,7 +904,7 @@ uuid-utils==0.14.1
     # via
     #   langchain-core
     #   langsmith
-uvicorn[standard]==0.45.0
+uvicorn[standard]==0.46.0
     # via
     #   -r requirements-dev.in
     #   fastapi
