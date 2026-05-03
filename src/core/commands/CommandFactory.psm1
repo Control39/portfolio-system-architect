@@ -50,33 +50,33 @@ class CommandFactory {
 # === Регистрация команд ===
 
 [CommandFactory]::RegisterCommand("init", {
-    param([hashtable]$Config)
+        param([hashtable]$Config)
 
-    if (-not (Test-RepoName -Name $Config.Repository.Name)) {
-        throw "Invalid repository name: $($Config.Repository.Name)"
-    }
+        if (-not (Test-RepoName -Name $Config.Repository.Name)) {
+            throw "Invalid repository name: $($Config.Repository.Name)"
+        }
 
-    [StructuredLogger]::Log("Initializing repository: $($Config.Repository.Name)", "INFO")
-    # Логика инициализации репозитория
-    # ...
-    return @{ Status = "Initialized"; Name = $Config.Repository.Name }
-}, @{
-    Description = "Initialize a new Arch-Compass project"
-    Usage = "init -Config @{ Repository = @{ Name = 'my-app' } }"
-})
+        [StructuredLogger]::Log("Initializing repository: $($Config.Repository.Name)", "INFO")
+        # Логика инициализации репозитория
+        # ...
+        return @{ Status = "Initialized"; Name = $Config.Repository.Name }
+    }, @{
+        Description = "Initialize a new Arch-Compass project"
+        Usage       = "init -Config @{ Repository = @{ Name = 'my-app' } }"
+    })
 
 [CommandFactory]::RegisterCommand("deploy", {
-    param([hashtable]$Config)
+        param([hashtable]$Config)
 
-    $provider = $Config.Cloud.Provider
-    if (-not [CommandFactory]::HasCommand("deploy-$provider")) {
-        throw "Unsupported cloud provider: $provider"
-    }
+        $provider = $Config.Cloud.Provider
+        if (-not [CommandFactory]::HasCommand("deploy-$provider")) {
+            throw "Unsupported cloud provider: $provider"
+        }
 
-    [StructuredLogger]::Log("Deploying to $provider", "INFO")
-    # Логика деплоя
-    return @{ Status = "Deployed"; Provider = $provider }
-}, @{
-    Description = "Deploy infrastructure to cloud"
-    Usage = "deploy -Config @{ Cloud = @{ Provider = 'azure' } }"
-})
+        [StructuredLogger]::Log("Deploying to $provider", "INFO")
+        # Логика деплоя
+        return @{ Status = "Deployed"; Provider = $provider }
+    }, @{
+        Description = "Deploy infrastructure to cloud"
+        Usage       = "deploy -Config @{ Cloud = @{ Provider = 'azure' } }"
+    })
