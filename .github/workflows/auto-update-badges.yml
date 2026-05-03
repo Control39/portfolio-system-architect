@@ -1,4 +1,4 @@
-﻿name: Auto Update Badges
+name: Auto Update Badges
 
 on:
   schedule:
@@ -102,7 +102,7 @@ jobs:
       - name: Create Pull Request for badge updates
         id: create-pr
         if: steps.update-badges.outputs.readme_modified == 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: auto-update badges based on current metrics"
