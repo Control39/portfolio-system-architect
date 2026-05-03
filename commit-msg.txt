@@ -1,9 +1,0 @@
-fix(linting): rename unused loop variables to prefixed underscore (B007)
-
-Renamed 5 unused loop control variables to follow Python convention:
-- .agents/scripts/planner_main.py: category -> _category
-- examples/legacy/ui/app.py: i -> _i
-- scripts/sync_projects_by_hash.py: rel_path -> _rel_path (2 occurrences)
-- tools/scripts/scripts/check_dependencies.py: comp_name -> _comp_name
-
-This suppresses B007 warnings and clarifies intent that variables are unused.
