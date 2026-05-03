@@ -1,5 +1,9 @@
 ﻿# Dependabot configuration for automatic dependency updates
 # Documentation: https://docs.github.com/en/code-security/dependabot
+#
+# NOTE: legacy/ directory contains archived code preserved for history.
+# Dependabot alerts for legacy/ paths should be dismissed as "won't fix"
+# or "false positive" — active versions are in apps/ and tools/.
 
 version: 2
 updates:
@@ -20,11 +24,40 @@ updates:
       prefix: "chore(deps)"
     ignore:
       - dependency-name: "pydantic"
-        versions: ["3.0.0"]
+        versions: [ "3.0.0" ]
       - dependency-name: "fastapi"
-        versions: ["1.0.0"]
+        versions: [ "1.0.0" ]
       - dependency-name: "langchain"
-        update-types: ["version-update:semver-major"]
+        update-types: [ "version-update:semver-major" ]
+
+  # Python dependencies - active apps
+  - package-ecosystem: "pip"
+    directory: "/apps/decision-engine"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "python"
+
+  - package-ecosystem: "pip"
+    directory: "/apps/mcp-server"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "python"
+
+  # Node.js dependencies - active apps
+  - package-ecosystem: "npm"
+    directory: "/apps/ai-config-manager"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "javascript"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
