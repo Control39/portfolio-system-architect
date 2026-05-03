@@ -1,9 +1,0 @@
-fix(linting): add exception chaining for proper error context (B904)
-
-Added 'raise ... from e' to preserve exception chain in 15 places:
-- apps/ml-model-registry: 12 fixes (HTTP exceptions in portfolio_integration)
-- examples/legacy/gateway: 4 fixes (JWT and httpx exceptions)
-- mcp-server: 2 fixes (general HTTP exceptions)
-- apps/decision-engine: 1 fix (YAML parsing error)
-
-This improves debugging by maintaining the full exception traceback.
