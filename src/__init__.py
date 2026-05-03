@@ -10,10 +10,9 @@ __author__ = "Lead AI Systems Architect"
 __email__ = ""
 
 # Экспорт основных компонентов
+# Removed legacy modules (decision_engine_v1, repo_audit_v1), moved to /legacy.
 __all__ = [
     "main",
-    "decision_engine",
-    "repo_audit",
     "shared",
     "ai",
     "security",
