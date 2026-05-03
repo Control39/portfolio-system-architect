@@ -92,7 +92,7 @@ async def process_prompt(request: PromptRequest):
 
     except Exception as e:
         logger.error(f"Error processing prompt: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.get("/rules")
@@ -103,7 +103,7 @@ async def get_rules():
         return rules
     except Exception as e:
         logger.error(f"Error retrieving rules: {e}")
-        raise HTTPException(status_code=500, detail="Unable to retrieve rules")
+        raise HTTPException(status_code=500, detail="Unable to retrieve rules") from e
 
 
 if __name__ == "__main__":
