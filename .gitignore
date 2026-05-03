@@ -116,8 +116,8 @@ docs/obsidian-map/
 *.excalidraw/
 **/obsidian-vault/
 **/obsidian-map/
-*.db
 apps/cognitive-agent/*.db
+apps/cognitive-agent/*.sqlite
 /site/
 
 # ==========================================
