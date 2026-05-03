@@ -32,6 +32,7 @@ pytest-playwright
 pytest-cov
 coverage
 requests
+PyJWT
 
 # AI/ML development
 langchain-core<1.0.0,>=0.3.73
