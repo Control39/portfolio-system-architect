@@ -67,15 +67,18 @@ jobs:
           echo "failed=false" >> $GITHUB_OUTPUT
         fi
 
-    - name: Send alert if services are down
+    - name: Send Email alert if services are down
       if: steps.health-check.outputs.failed == 'true'
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_CHANNEL: '#alerts'
-        SLACK_TITLE: 'Service Health Alert'
-        SLACK_MESSAGE: 'The following services are down: ${{ steps.health-check.outputs.failed_services }}'
-        SLACK_COLOR: 'danger'
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.yandex.ru
+        server_port: 465
+        username: ${{ secrets.SMTP_USERNAME }}
+        password: ${{ secrets.SMTP_PASSWORD }}
+        subject: Service Health Alert
+        body: "The following services are down: ${{ steps.health-check.outputs.failed_services }}"
+        to: ops-team@company.ru
+        from: github-actions@company.ru
 
   metrics-collection:
     name: Collect Metrics
