@@ -730,7 +730,7 @@ ruamel-yaml==0.19.1
     # via
     #   safety
     #   safety-schemas
-ruff==0.15.11
+ruff==0.15.12
     # via -r requirements-dev.in
 safety==3.7.0
     # via -r requirements-dev.in
