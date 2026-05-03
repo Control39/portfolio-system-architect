@@ -3,7 +3,7 @@
 > **Cognitive Systems Architect** | 14 микросервисов | 83 маркера компетенций | Production-ready
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github&style=flat-square)](https://github.com/Control39/portfolio-system-architect/actions)
-[![Coverage](https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?logo=codecov&style=flat-square)](https://codecov.io/gh/Control39/portfolio-system-architect)
+[![Coverage](https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?logo=codecov&style=flat-square)](https://app.codecov.io/github/Control39/portfolio-system-architect)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg?logo=python&style=flat-square)](https://python.org)
 [![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?style=flat-square)](LICENSE)
 
