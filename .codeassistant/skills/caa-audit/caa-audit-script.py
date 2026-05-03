@@ -373,8 +373,8 @@ class CaaAudit:
 
         report = f"""# Отчёт аудита Cognitive Automation Agent
 
-**Дата аудита**: {self.results['audit_date']}
-**Общий score**: {self.results.get('total_score', 0)}/100
+**Дата аудита**: {self.results["audit_date"]}
+**Общий score**: {self.results.get("total_score", 0)}/100
 
 ## 📊 Оценки по категориям
 
@@ -384,9 +384,7 @@ class CaaAudit:
 
         for category, score in self.results.get("scores", {}).items():
             status = (
-                "🟢 Отлично"
-                if score >= 80
-                else "🟡 Средне" if score >= 60 else "🔴 Требует улучшений"
+                "🟢 Отлично" if score >= 80 else "🟡 Средне" if score >= 60 else "🔴 Требует улучшений"
             )
             report += f"| {category.capitalize()} | {score}/100 | {status} |\n"
 
@@ -412,7 +410,9 @@ class CaaAudit:
             icon = (
                 "🔴"
                 if finding["type"] == "critical"
-                else "🟡" if finding["type"] == "warning" else "⚫"
+                else "🟡"
+                if finding["type"] == "warning"
+                else "⚫"
             )
             report += f"- {icon} **{finding['message']}**\n"
             if finding.get("details"):
@@ -437,7 +437,9 @@ class CaaAudit:
                 priority_icon = (
                     "🔴"
                     if rec["priority"] == "critical"
-                    else "🟡" if rec["priority"] == "high" else "🟢"
+                    else "🟡"
+                    if rec["priority"] == "high"
+                    else "🟢"
                 )
                 report += f"### {priority_icon} {rec['priority'].upper()}: {rec['message']}\n"
                 if rec.get("actions"):
@@ -450,16 +452,36 @@ class CaaAudit:
 
 ## 📈 Итоговая оценка позиционирования CAA
 
-**{self.results.get('total_score', 0)}/100** - {
-    "Отличное позиционирование" if self.results.get('total_score', 0) >= 80 else
-    "Хорошее позиционирование" if self.results.get('total_score', 0) >= 60 else
-    "Требует значительных улучшений"
-}
+**{self.results.get("total_score", 0)}/100** - {
+            "Отличное позиционирование"
+            if self.results.get("total_score", 0) >= 80
+            else "Хорошее позиционирование"
+            if self.results.get("total_score", 0) >= 60
+            else "Требует значительных улучшений"
+        }
 
 ### Ключевые сильные стороны:
-1. **Автономность**: {'✅ Высокая' if self.results.get('scores', {}).get('implementation', 0) >= 70 else '⚠️ Средняя' if self.results.get('scores', {}).get('implementation', 0) >= 50 else '❌ Низкая'}
-2. **Интеграция**: {'✅ Полная' if self.results.get('scores', {}).get('integration', 0) >= 70 else '⚠️ Частичная' if self.results.get('scores', {}).get('integration', 0) >= 50 else '❌ Слабая'}
-3. **Доказательная база**: {'✅ Богатая' if self.results.get('scores', {}).get('evidence', 0) >= 70 else '⚠️ Умеренная' if self.results.get('scores', {}).get('evidence', 0) >= 50 else '❌ Скудная'}
+1. **Автономность**: {
+            "✅ Высокая"
+            if self.results.get("scores", {}).get("implementation", 0) >= 70
+            else "⚠️ Средняя"
+            if self.results.get("scores", {}).get("implementation", 0) >= 50
+            else "❌ Низкая"
+        }
+2. **Интеграция**: {
+            "✅ Полная"
+            if self.results.get("scores", {}).get("integration", 0) >= 70
+            else "⚠️ Частичная"
+            if self.results.get("scores", {}).get("integration", 0) >= 50
+            else "❌ Слабая"
+        }
+3. **Доказательная база**: {
+            "✅ Богатая"
+            if self.results.get("scores", {}).get("evidence", 0) >= 70
+            else "⚠️ Умеренная"
+            if self.results.get("scores", {}).get("evidence", 0) >= 50
+            else "❌ Скудная"
+        }
 
 ---
 

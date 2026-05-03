@@ -20,6 +20,4 @@ class TestModelRegistryResilience(unittest.TestCase):
     def test_get_model_with_empty_registry(self):
         """Проверка получения модели из пустого реестра"""
         result = self.registry.get_model("nonexistent_model")
-
-
-self.assertEqual(result["error"], "Model not found")
+        self.assertEqual(result["error"], "Model not found")

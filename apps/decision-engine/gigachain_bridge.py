@@ -37,8 +37,10 @@ class GigaMCPBridge:
         )
         self.chain = self.prompt | self.llm
 
-    def giga_request(self, query: str, mcp_history: list = []) -> dict:
+    def giga_request(self, query: str, mcp_history: list = None) -> dict:
         """Giga-Request with session context (Step 2). Cross-Check stub."""
+        if mcp_history is None:
+            mcp_history = []
         context = "\\n".join([h.get("content", "") for h in mcp_history[-5:]])  # Last 5
         response = self.chain.invoke({"context": context, "query": query}).content
 

@@ -1,5 +1,4 @@
-"""Unit tests for skills plugin.
-"""
+"""Unit tests for skills plugin."""
 
 import json
 import sys

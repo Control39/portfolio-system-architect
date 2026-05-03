@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Скрипт для быстрого исправления проблемы reportMissingImports в VS Code.
-"""
+"""Скрипт для быстрого исправления проблемы reportMissingImports в VS Code."""
 
 import json
 import sys

@@ -58,7 +58,7 @@ class GitAutomation:
             return {"success": False, "message": "Нет изменений для коммита"}
 
         # Добавляем все изменения
-        add_result = self.run_git("add .")
+        self.run_git("add .")
 
         # Создаем коммит
         commit_result = self.run_git(f'commit -m "{message}"')
@@ -102,13 +102,13 @@ class GitAutomation:
 
         # Коммитим
         commit_message = f"Merge feature: {feature_name}"
-        commit_result = self.run_git(f'commit -m "{commit_message}"')
+        self.run_git(f'commit -m "{commit_message}"')
 
         # Пушим
         push_result = self.run_git("push origin main")
 
         # Удаляем feature ветку
-        delete_result = self.run_git(f"branch -d {branch_name}")
+        self.run_git(f"branch -d {branch_name}")
 
         return {
             "success": "error" not in merge_result.lower(),

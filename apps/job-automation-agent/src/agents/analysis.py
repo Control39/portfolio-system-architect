@@ -1,4 +1,3 @@
-import asyncio
 from typing import Dict
 
 import pandas as pd
@@ -19,7 +18,7 @@ async def get_db():
 
 async def analyze_career_progress(user_id: str) -> Dict:
     """Analysis Agent."""
-    async with get_db() as session:
+    async with get_db():
         # Placeholder analysis
         skills_df = pd.DataFrame({"skill": ["Python", "FastAPI"], "level": [5, 4]})
         return {

@@ -3,6 +3,7 @@
 Требует: pip install requests
 GitHub Token с правами: repo
 """
+
 import csv
 import os
 import sys

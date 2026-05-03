@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Health check для проверки работоспособности Cognitive Automation Agent и SourceCraft Agent Skills
-"""
+"""Health check для проверки работоспособности Cognitive Automation Agent и SourceCraft Agent Skills"""
 
 import json
 import os
@@ -293,7 +292,7 @@ class HealthChecker:
                 self.log("error", f"Ошибка выполнения проверки: {e}", check_name)
 
         # Генерация отчета
-        report_file = self.generate_report()
+        self.generate_report()
 
         # Итоговый вывод
         print("\n" + "=" * 80)

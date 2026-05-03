@@ -19,7 +19,7 @@ def yaml_to_pydantic(schema_path: Path) -> str:
         data = yaml.safe_load(f)
 
     models = []
-    title = data.get("title", "GeneratedModels")
+    data.get("title", "GeneratedModels")
 
     # Extract definitions
     definitions = data.get("definitions", [])

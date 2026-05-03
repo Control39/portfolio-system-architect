@@ -59,6 +59,6 @@ def analyze(root: Path) -> Dict[str, Any]:
 
     return {
         "total_count": total_markers,
-        "categories": sorted(list(categories)),
+        "categories": sorted(categories),
         "markers": markers[:100],  # Limit to first 100 for performance
     }

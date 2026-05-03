@@ -72,7 +72,7 @@ def main():
     args = parser.parse_args()
 
     docs_dir = Path("05_DOCUMENTATION/docs")
-    mkdocs_en_dir = Path("05_DOCUMENTATION/mkdocs-site/docs/en")
+    Path("05_DOCUMENTATION/mkdocs-site/docs/en")
     md_files = []
     for md in docs_dir.rglob("*.md"):
         if args.exclude_website and "website" in str(md):

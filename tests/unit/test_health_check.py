@@ -1,5 +1,4 @@
-"""Unit тесты для модуля health_check.
-"""
+"""Unit тесты для модуля health_check."""
 
 import asyncio
 

@@ -187,7 +187,7 @@ pause
 def main():
     """Основная функция"""
     print("Анализ рабочего пространства...")
-    data = analyze_desktop()
+    analyze_desktop()
 
     print("\nСоздание скрипта организации...")
     script_path = create_organization_script()

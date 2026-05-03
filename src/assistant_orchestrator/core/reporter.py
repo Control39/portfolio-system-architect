@@ -168,7 +168,9 @@ class Reporter:
         .metric-label {{ color: #718096; }}
         .metric-value {{ font-weight: bold; color: #2d3748; }}
         .score-container {{ text-align: center; padding: 2rem; }}
-        .score-circle {{ width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#10b981 {maturity_score/5*100}%, #e2e8f0 0%); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; }}
+        .score-circle {{ width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#10b981 {
+            maturity_score / 5 * 100
+        }%, #e2e8f0 0%); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; }}
         .score-value {{ font-size: 3rem; color: white; font-weight: bold; }}
         .score-label {{ font-size: 1.2rem; color: #4a5568; }}
         .recommendations {{ margin-top: 2rem; }}
@@ -195,19 +197,33 @@ class Reporter:
                 <h2>🏗️ Микросервисы</h2>
                 <div class="metric">
                     <span class="metric-label">Всего сервисов</span>
-                    <span class="metric-value">{len(self.result.microservices.get('services', []))}</span>
+                    <span class="metric-value">{
+            len(self.result.microservices.get("services", []))
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Production-ready</span>
-                    <span class="metric-value">{len([s for s in self.result.microservices.get('services', []) if s.get('is_production_ready')])}</span>
+                    <span class="metric-value">{
+            len(
+                [
+                    s
+                    for s in self.result.microservices.get("services", [])
+                    if s.get("is_production_ready")
+                ]
+            )
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">С тестами</span>
-                    <span class="metric-value">{sum(1 for s in self.result.microservices.get('services', []) if s.get('has_tests'))}</span>
+                    <span class="metric-value">{
+            sum(1 for s in self.result.microservices.get("services", []) if s.get("has_tests"))
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">С Docker</span>
-                    <span class="metric-value">{sum(1 for s in self.result.microservices.get('services', []) if s.get('has_docker'))}</span>
+                    <span class="metric-value">{
+            sum(1 for s in self.result.microservices.get("services", []) if s.get("has_docker"))
+        }</span>
                 </div>
             </div>
 
@@ -215,11 +231,15 @@ class Reporter:
                 <h2>🎯 Навыки</h2>
                 <div class="metric">
                     <span class="metric-label">Маркеров</span>
-                    <span class="metric-value">{self.result.skill_markers.get('total_count', 0)}</span>
+                    <span class="metric-value">{
+            self.result.skill_markers.get("total_count", 0)
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Категорий</span>
-                    <span class="metric-value">{len(self.result.skill_markers.get('categories', []))}</span>
+                    <span class="metric-value">{
+            len(self.result.skill_markers.get("categories", []))
+        }</span>
                 </div>
             </div>
 
@@ -227,15 +247,21 @@ class Reporter:
                 <h2>📈 Активность</h2>
                 <div class="metric">
                     <span class="metric-label">Всего коммитов</span>
-                    <span class="metric-value">{self.result.git_stats.get('total_commits', 0)}</span>
+                    <span class="metric-value">{
+            self.result.git_stats.get("total_commits", 0)
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Контрибьюторов</span>
-                    <span class="metric-value">{len(self.result.git_stats.get('contributors', []))}</span>
+                    <span class="metric-value">{
+            len(self.result.git_stats.get("contributors", []))
+        }</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Активность (30 дней)</span>
-                    <span class="metric-value">{self.result.git_stats.get('recent_activity_days', 0)} коммитов</span>
+                    <span class="metric-value">{
+            self.result.git_stats.get("recent_activity_days", 0)
+        } коммитов</span>
                 </div>
             </div>
 
@@ -246,9 +272,13 @@ class Reporter:
                 </div>
                 <div class="score-label">из 5.0</div>
                 <div style="margin-top: 1rem;">
-                    {"<span class='badge badge-success'>Высокий уровень</span>" if maturity_score >= 4.0 else
-                     "<span class='badge badge-warning'>Средний уровень</span>" if maturity_score >= 3.0 else
-                     "<span class='badge badge-info'>Базовый уровень</span>"}
+                    {
+            "<span class='badge badge-success'>Высокий уровень</span>"
+            if maturity_score >= 4.0
+            else "<span class='badge badge-warning'>Средний уровень</span>"
+            if maturity_score >= 3.0
+            else "<span class='badge badge-info'>Базовый уровень</span>"
+        }
                 </div>
             </div>
         </div>
@@ -262,10 +292,10 @@ class Reporter:
             for rec in recommendations[:5]:
                 html += f"""
                 <div class="recommendation">
-                    <h3>{rec['title']}</h3>
-                    <p>{rec['description']}</p>
-                    <p><strong>Потенциальный рост:</strong> +{rec['potential_gain']} баллов</p>
-                    <p><strong>Действие:</strong> {rec['action']}</p>
+                    <h3>{rec["title"]}</h3>
+                    <p>{rec["description"]}</p>
+                    <p><strong>Потенциальный рост:</strong> +{rec["potential_gain"]} баллов</p>
+                    <p><strong>Действие:</strong> {rec["action"]}</p>
                 </div>
 """
         else:

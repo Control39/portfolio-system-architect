@@ -190,7 +190,7 @@ def get_compass_domain_resource(domain: str = "system_thinking") -> str:
 {description}
 
 ## Уровни: {len(levels)}
-{', '.join([f'Уровень {lvl}' for lvl in levels])}
+{", ".join([f"Уровень {lvl}" for lvl in levels])}
 
 ## Примеры маркеров:
 {_get_sample_markers(data)}

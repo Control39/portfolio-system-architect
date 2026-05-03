@@ -4,6 +4,7 @@
 Проверка режима caa-audit и проактивных триггеров
 """
 
+import argparse
 import json
 import os
 import subprocess
@@ -343,7 +344,7 @@ class Phase1Tester:
 
             try:
                 start_time = time.time()
-                result = subprocess.run(
+                subprocess.run(
                     [sys.executable, str(audit_script), "--quick", "--format=text"],
                     capture_output=True,
                     text=True,
@@ -476,24 +477,24 @@ class Phase1Tester:
 
         report = f"""# Отчёт тестирования реализации Фазы 1 PMR Agent
 
-**Дата тестирования**: {self.test_results['test_date']}
-**Фаза**: {self.test_results['phase']}
+**Дата тестирования**: {self.test_results["test_date"]}
+**Фаза**: {self.test_results["phase"]}
 
 ## 📊 Итоговая оценка
 
 | Метрика | Значение |
 |---------|----------|
-| Всего тестов | {summary['total_tests']} |
-| Пройдено успешно | {summary['passed_tests']} |
-| Провалено | {summary['failed_tests']} |
-| Предупреждения | {summary['warning_tests']} |
-| **Оценка** | **{summary['score_percentage']}%** |
-| **Статус реализации** | **{summary['implementation_status']}** |
-| **Статус фазы** | **{summary['phase_status']}** |
+| Всего тестов | {summary["total_tests"]} |
+| Пройдено успешно | {summary["passed_tests"]} |
+| Провалено | {summary["failed_tests"]} |
+| Предупреждения | {summary["warning_tests"]} |
+| **Оценка** | **{summary["score_percentage"]}%** |
+| **Статус реализации** | **{summary["implementation_status"]}** |
+| **Статус фазы** | **{summary["phase_status"]}** |
 
 ## 🔍 Результаты тестов
 
-### ✅ Успешные тесты ({summary['passed_tests']})
+### ✅ Успешные тесты ({summary["passed_tests"]})
 """
 
         passed_tests = [t for t in self.test_results["tests"] if t["status"] == "passed"]
@@ -547,19 +548,41 @@ class Phase1Tester:
 ## 📈 Заключение
 
 ### Оценка реализации Фазы 1:
-**{summary['score_percentage']}%** - {
-    "Отличная реализация" if summary['score_percentage'] >= 80 else
-    "Хорошая реализация с незначительными проблемами" if summary['score_percentage'] >= 60 else
-    "Требует значительных доработок"
-}
+**{summary["score_percentage"]}%** - {
+            "Отличная реализация"
+            if summary["score_percentage"] >= 80
+            else "Хорошая реализация с незначительными проблемами"
+            if summary["score_percentage"] >= 60
+            else "Требует значительных доработок"
+        }
 
 ### Ключевые сильные стороны:
-1. **Структура файлов**: {'✅ Полная' if summary['passed_tests'] > summary['total_tests'] * 0.8 else '⚠️ Частичная' if summary['passed_tests'] > summary['total_tests'] * 0.6 else '❌ Неполная'}
-2. **Интеграция с CAA**: {'✅ Настроена' if 'caa_config_exists_triggers.yaml' in [t['name'] for t in passed_tests] else '⚠️ Частичная' if 'caa_structure_exists' in [t['name'] for t in passed_tests] else '❌ Отсутствует'}
-3. **Производительность**: {'✅ Оптимальная' if 'performance_quick_audit' in [t['name'] for t in passed_tests] else '⚠️ Приемлемая' if 'performance_quick_audit' in [t['name'] for t in warning_tests] else '❌ Требует оптимизации'}
+1. **Структура файлов**: {
+            "✅ Полная"
+            if summary["passed_tests"] > summary["total_tests"] * 0.8
+            else "⚠️ Частичная"
+            if summary["passed_tests"] > summary["total_tests"] * 0.6
+            else "❌ Неполная"
+        }
+2. **Интеграция с CAA**: {
+            "✅ Настроена"
+            if "caa_config_exists_triggers.yaml" in [t["name"] for t in passed_tests]
+            else "⚠️ Частичная"
+            if "caa_structure_exists" in [t["name"] for t in passed_tests]
+            else "❌ Отсутствует"
+        }
+3. **Производительность**: {
+            "✅ Оптимальная"
+            if "performance_quick_audit" in [t["name"] for t in passed_tests]
+            else "⚠️ Приемлемая"
+            if "performance_quick_audit" in [t["name"] for t in warning_tests]
+            else "❌ Требует оптимизации"
+        }
 
 ### Следующие шаги:
-1. **Исправить критические проблемы**: {len([t for t in self.test_results['tests'] if t['status'] == 'failed'])} шт.
+1. **Исправить критические проблемы**: {
+            len([t for t in self.test_results["tests"] if t["status"] == "failed"])
+        } шт.
 2. **Активировать триггеры**: `python .codeassistant/skills/caa-audit/activate-triggers.py`
 3. **Запустить тестовый аудит**: `python .codeassistant/skills/caa-audit/caa-audit-script.py --quick`
 4. **Перейти к Фазе 2**: После достижения оценки ≥80%

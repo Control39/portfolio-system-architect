@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Simple test for RAG implementation.
-"""
+"""Simple test for RAG implementation."""
 
 import sys
 from pathlib import Path
@@ -70,7 +69,7 @@ def test_indexer():
     print(f"✅ Search results: {len(results)}")
 
     for i, result in enumerate(results):
-        print(f"  {i+1}. Score: {result['score']:.3f}, Text: {result['text'][:50]}...")
+        print(f"  {i + 1}. Score: {result['score']:.3f}, Text: {result['text'][:50]}...")
 
     return len(results) > 0
 

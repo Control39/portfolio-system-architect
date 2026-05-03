@@ -222,7 +222,9 @@ def main():
             status = (
                 "✅ ПРОЙДЕН"
                 if r["passed"]
-                else "❌ НЕ ПРОЙДЕН" if r["passed"] is False else "⚠️  РУЧНАЯ"
+                else "❌ НЕ ПРОЙДЕН"
+                if r["passed"] is False
+                else "⚠️  РУЧНАЯ"
             )
             print(f"{r['level']}.{r['check']}: {r['name']} - {status}")
             if "details" in r and r["details"].get("message"):

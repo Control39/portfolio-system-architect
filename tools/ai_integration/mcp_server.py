@@ -442,7 +442,7 @@ class PortfolioMCP:
 
                 # Подсчет файлов по типам
                 file_types = {}
-                for root, dirs, files in os.walk(project_root):
+                for _root, dirs, files in os.walk(project_root):
                     # Пропускаем скрытые директории
                     dirs[:] = [d for d in dirs if not d.startswith(".")]
 

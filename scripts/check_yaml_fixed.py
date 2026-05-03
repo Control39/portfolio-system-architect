@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Проверка всех YAML файлов в проекте на валидность с поддержкой multi-document.
-"""
+"""Проверка всех YAML файлов в проекте на валидность с поддержкой multi-document."""
 
 import os
 import sys

@@ -2,6 +2,7 @@
 """Benchmark script for Portfolio System Architect validation (Phase 4.2)
 Tests service latency and generates report.
 """
+
 import json
 import socket
 import time

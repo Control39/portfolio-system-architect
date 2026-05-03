@@ -250,9 +250,7 @@ if __name__ == "__main__":
 
         # Запускаем заглушку
         cmd = [sys.executable, str(stub_path)]
-        process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         self.processes[component] = process
         logger.info(f"Заглушка компонента запущена: {component}")
@@ -432,9 +430,7 @@ if __name__ == "__main__":
             status["components"][component] = {
                 "pid": process.pid,
                 "alive": process.poll() is None,
-                "returncode": process.returncode
-                if process.poll() is not None
-                else None,
+                "returncode": process.returncode if process.poll() is not None else None,
             }
 
         # Информация о ресурсах

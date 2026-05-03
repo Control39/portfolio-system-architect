@@ -126,9 +126,10 @@ def test_main_parser_defaults():
 
 def test_main_version_flag():
     """Проверяем, что флаг --version работает"""
-    with patch("argparse.ArgumentParser") as mock_parser_class, patch(
-        "src.assistant_orchestrator.main.sys"
-    ) as mock_sys:
+    with (
+        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("src.assistant_orchestrator.main.sys") as mock_sys,
+    ):
         mock_parser = MagicMock()
         mock_parser_class.return_value = mock_parser
         mock_parser.parse_args.return_value = MagicMock(version=True)
@@ -155,19 +156,17 @@ def test_main_version_flag():
 
 def test_main_with_valid_root():
     """Проверяем запуск main с валидной директорией"""
-    with patch("argparse.ArgumentParser") as mock_parser_class, patch(
-        "src.assistant_orchestrator.main.setup_logging"
-    ), patch(
-        "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
-    ) as mock_orchestrator_class, patch(
-        "src.assistant_orchestrator.core.reporter.Reporter"
-    ) as mock_reporter_class, patch(
-        "pathlib.Path"
-    ) as mock_path, patch(
-        "src.assistant_orchestrator.main.logging"
-    ), patch(
-        "src.assistant_orchestrator.main.sys"
-    ) as mock_sys:
+    with (
+        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("src.assistant_orchestrator.main.setup_logging"),
+        patch(
+            "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
+        ) as mock_orchestrator_class,
+        patch("src.assistant_orchestrator.core.reporter.Reporter") as mock_reporter_class,
+        patch("pathlib.Path") as mock_path,
+        patch("src.assistant_orchestrator.main.logging"),
+        patch("src.assistant_orchestrator.main.sys") as mock_sys,
+    ):
         # Настройка моков
         mock_parser = MagicMock()
         mock_parser_class.return_value = mock_parser
@@ -270,11 +269,13 @@ def test_main_with_valid_root():
 
 def test_main_with_invalid_root():
     """Проверяем поведение при несуществующей директории"""
-    with patch("argparse.ArgumentParser") as mock_parser_class, patch(
-        "src.assistant_orchestrator.main.setup_logging"
-    ), patch("pathlib.Path") as mock_path, patch("src.assistant_orchestrator.main.logging"), patch(
-        "src.assistant_orchestrator.main.sys"
-    ) as mock_sys:
+    with (
+        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("src.assistant_orchestrator.main.setup_logging"),
+        patch("pathlib.Path") as mock_path,
+        patch("src.assistant_orchestrator.main.logging"),
+        patch("src.assistant_orchestrator.main.sys") as mock_sys,
+    ):
         mock_parser = MagicMock()
         mock_parser_class.return_value = mock_parser
         mock_parser.parse_args.return_value = MagicMock(root="./nonexistent")
@@ -297,15 +298,15 @@ def test_main_with_invalid_root():
 
 def test_main_keyboard_interrupt():
     """Проверяем обработку KeyboardInterrupt"""
-    with patch("argparse.ArgumentParser") as mock_parser_class, patch(
-        "src.assistant_orchestrator.main.setup_logging"
-    ), patch(
-        "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
-    ) as mock_orchestrator_class, patch(
-        "src.assistant_orchestrator.main.logging"
-    ), patch(
-        "src.assistant_orchestrator.main.sys"
-    ) as mock_sys:
+    with (
+        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("src.assistant_orchestrator.main.setup_logging"),
+        patch(
+            "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
+        ) as mock_orchestrator_class,
+        patch("src.assistant_orchestrator.main.logging"),
+        patch("src.assistant_orchestrator.main.sys") as mock_sys,
+    ):
         mock_parser = MagicMock()
         mock_parser_class.return_value = mock_parser
         mock_parser.parse_args.return_value = MagicMock(root=".", version=False)

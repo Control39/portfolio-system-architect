@@ -172,7 +172,7 @@ class TaskPlanner:
 
         logger.info("Задачи приоритизированы. Топ-3:")
         for i, task in enumerate(self.tasks[:3]):
-            logger.info(f"  {i+1}. {task['title']} (приоритет: {task['final_priority']:.2f})")
+            logger.info(f"  {i + 1}. {task['title']} (приоритет: {task['final_priority']:.2f})")
 
         return self.tasks
 
@@ -215,7 +215,7 @@ class TaskPlanner:
             dependencies = task.get("dependencies", [])
             if dependencies:
                 # Проверяем, выполнены ли зависимости
-                for dep_id in dependencies:
+                for _dep_id in dependencies:
                     # В реальной реализации здесь была бы проверка выполнения
                     pass
 
@@ -444,7 +444,7 @@ def main():
         dependencies = planner.identify_dependencies()
 
         # Группировка для параллельного выполнения
-        groups = planner.group_parallel_tasks()
+        planner.group_parallel_tasks()
 
         # Оптимизация расписания
         schedule = planner.optimize_schedule()
@@ -469,7 +469,7 @@ def main():
 
         print("\nТоп-5 задач по приоритету:")
         for i, task in enumerate(prioritized[:5]):
-            print(f"  {i+1}. {task['title']} (приоритет: {task.get('final_priority', 0):.2f})")
+            print(f"  {i + 1}. {task['title']} (приоритет: {task.get('final_priority', 0):.2f})")
 
         print("=" * 60)
 

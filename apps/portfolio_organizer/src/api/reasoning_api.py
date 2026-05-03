@@ -93,7 +93,7 @@ def portfolio_analysis():
         "pending_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "pending"]),
         "total_budget": sum(p["budget"] for p in SAMPLE_PROJECTS),
         "average_team_size": sum(p["team_size"] for p in SAMPLE_PROJECTS) / len(SAMPLE_PROJECTS),
-        "technologies": list(set(tech for p in SAMPLE_PROJECTS for tech in p["technologies"])),
+        "technologies": list({tech for p in SAMPLE_PROJECTS for tech in p["technologies"]}),
     }
 
     return jsonify(analysis)

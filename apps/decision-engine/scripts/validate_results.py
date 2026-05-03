@@ -4,6 +4,7 @@
 Проверка корректности конвертации файлов в UTF-8.
 Валидирует, что все файлы действительно в UTF-8 и читаются без ошибок.
 """
+
 import json
 import logging
 from pathlib import Path

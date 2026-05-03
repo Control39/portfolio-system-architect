@@ -379,7 +379,7 @@ class LearningSystem:
                 return {"status": "insufficient_data", "models_trained": 0}
 
             # Преобразование данных в DataFrame
-            df = pd.DataFrame(self.historical_metrics)
+            pd.DataFrame(self.historical_metrics)
 
             # Обучение моделей (заглушки - в реальной реализации здесь будет ML)
             models_to_train = self.config["models"]
@@ -619,7 +619,7 @@ class LearningSystem:
                 f.write("## Метрики эффективности агента\n\n")
                 f.write(f"- **Всего задач:** {metrics['total_tasks']}\n")
                 f.write(
-                    f"- **Успешных задач:** {metrics['successful_tasks']} ({metrics['successful_tasks']/metrics['total_tasks']*100:.1f}%)\n"
+                    f"- **Успешных задач:** {metrics['successful_tasks']} ({metrics['successful_tasks'] / metrics['total_tasks'] * 100:.1f}%)\n"
                 )
                 f.write(f"- **Неудачных задач:** {metrics['failed_tasks']}\n")
                 f.write(f"- **Средняя длительность:** {metrics['avg_duration']:.1f} сек\n")

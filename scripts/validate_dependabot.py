@@ -12,13 +12,13 @@ def main():
             data = yaml.safe_load(f)
 
         print("✅ YAML is valid")
-        print(f'Version: {data.get("version")}')
+        print(f"Version: {data.get('version')}")
 
         updates = data.get("updates", [])
         print(f"Number of update entries: {len(updates)}")
 
         for i, update in enumerate(updates):
-            print(f'  {i+1}. {update.get("package-ecosystem")} - {update.get("directory")}')
+            print(f"  {i + 1}. {update.get('package-ecosystem')} - {update.get('directory')}")
 
         # Check for common issues
         if data.get("version") != 2:

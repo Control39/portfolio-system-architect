@@ -107,7 +107,7 @@ class VSCodeExtensionManager:
         """Устанавливает расширение"""
         logger.info(f"Установка расширения: {extension_id}")
         try:
-            result = subprocess.run(
+            subprocess.run(
                 [self.code_cmd, "--install-extension", extension_id],
                 capture_output=True,
                 text=True,
@@ -124,7 +124,7 @@ class VSCodeExtensionManager:
         """Удаляет расширение"""
         logger.info(f"Удаление расширения: {extension_id}")
         try:
-            result = subprocess.run(
+            subprocess.run(
                 [self.code_cmd, "--uninstall-extension", extension_id],
                 capture_output=True,
                 text=True,
@@ -341,19 +341,19 @@ def main():
 
         report_content = rf"""# VS Code Extensions Compliance Report
 
-**Дата:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Дата:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Конфигурация:** {args.config}
 
 ## Результаты проверки
 
-{manager.generate_report(compliance).replace('=', '#')}
+{manager.generate_report(compliance).replace("=", "#")}
 
 ## Детали
 
-- **Всего установлено:** {compliance['installed_count']}
-- **Обязательных расширений:** {compliance['required_count']}
-- **Рекомендуемых расширений:** {compliance['recommended_count']}
-- **Оценка соответствия:** {compliance['compliance_score']:.1f}%
+- **Всего установлено:** {compliance["installed_count"]}
+- **Обязательных расширений:** {compliance["required_count"]}
+- **Рекомендуемых расширений:** {compliance["recommended_count"]}
+- **Оценка соответствия:** {compliance["compliance_score"]:.1f}%
 
 ## Рекомендации
 
