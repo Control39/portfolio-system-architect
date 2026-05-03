@@ -66,16 +66,16 @@ clean:
 	find . -type f -name "*.pyc" -delete
 
 docker-up:
-	docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
+	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up -d
 
 docker-down:
-	docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml down
+	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml down
 
 docker-build:
-	docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml build
+	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml build
 
 docker-logs:
-	docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml logs -f
+	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml logs -f
 
 pre-commit:
 	$(VENV_ACTIVATE) && pre-commit run --all-files

@@ -65,7 +65,7 @@ services:
   # Route: /it-compass
   # ============================================================
   it-compass:
-    build: ./apps/it-compass
+    build: ./apps/it_compass
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -159,7 +159,9 @@ services:
   # Route: /career-dev
   # ============================================================
   career-development:
-    build: ./apps/career-development/career-development-system
+    build:
+      context: ./apps/career_development
+      dockerfile: Dockerfile  # TODO: добавить Dockerfile
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -180,7 +182,7 @@ services:
   # Route: /portfolio-organizer
   # ============================================================
   portfolio_organizer:
-    build: ./apps/portfolio_organizer/portfolio_organizer
+    build: ./apps/portfolio_organizer
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}

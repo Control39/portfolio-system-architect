@@ -207,5 +207,8 @@
   // ================================
   "chat.mcp.autostart": "never",
   "chat.viewProgressBadge.enabled": true,
-  "editor.defaultFormatter": "ms-python.black-formatter"
+  "editor.defaultFormatter": "ms-python.black-formatter",
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+  }
 }
