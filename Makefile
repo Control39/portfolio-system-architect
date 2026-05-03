@@ -1,22 +1,23 @@
 # Makefile for Portfolio System Architect
 # Provides common development commands
 
-.PHONY: help install dev test lint format clean docker-up docker-down docker-build docker-logs
+.PHONY: help install dev test lint format clean docker-up docker-down docker-build docker-logs update-badge
 
 # Default target
 help:
 	@echo "Available commands:"
-	@echo "  make install      Install dependencies (create virtual environment if missing)"
-	@echo "  make dev          Start development environment (Docker Compose)"
-	@echo "  make test         Run unit and integration tests with coverage"
-	@echo "  make lint         Run linters (ruff, black, mypy)"
-	@echo "  make format       Format code with black and isort"
-	@echo "  make clean        Remove temporary files and caches"
-	@echo "  make docker-up    Start all services with Docker Compose"
-	@echo "  make docker-down  Stop all services"
-	@echo "  make docker-build Build Docker images"
-	@echo "  make docker-logs  Follow logs from all services"
-	@echo "  make pre-commit   Run pre-commit hooks on all files"
+	@echo "  make install        Install dependencies (create virtual environment if missing)"
+	@echo "  make dev            Start development environment (Docker Compose)"
+	@echo "  make test           Run unit and integration tests with coverage"
+	@echo "  make lint           Run linters (ruff, black, mypy)"
+	@echo "  make format         Format code with black and isort"
+	@echo "  make clean          Remove temporary files and caches"
+	@echo "  make docker-up      Start all services with Docker Compose"
+	@echo "  make docker-down    Stop all services"
+	@echo "  make docker-build   Build Docker images"
+	@echo "  make docker-logs    Follow logs from all services"
+	@echo "  make pre-commit     Run pre-commit hooks on all files"
+	@echo "  make update-badge   Update coverage badge in README (auto-runs tests)"
 
 # Detect Python and virtual environment
 PYTHON ?= python3
@@ -86,3 +87,8 @@ ci: lint test
 # Generate documentation locally
 docs:
 	$(VENV_ACTIVATE) && mkdocs serve
+
+# Update coverage badge in README
+update-badge:
+	@echo "Updating coverage badge..."
+	@python scripts/update-coverage-badge.py
