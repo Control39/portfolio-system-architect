@@ -148,7 +148,15 @@ objects.txt
 # Temporary test files
 test_gigachat.py
 *.crt
-readmes_export.txt
 
 # Local test databases
 test_db/
+
+# Удалённые файлы (для предотвращения повторного добавления)
+new-files.txt
+old-files.txt
+readmes_export.txt
+bfg-1.13.0.jar
+0.19.3
+commit-ci.txt
+old-repo-check/

@@ -6,7 +6,34 @@
     "${workspaceFolder}/apps",
     "${workspaceFolder}/src"
   ],
-  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.exclude": [
+    "**/__pycache__",
+    "**/.venv",
+    "**/venv",
+    "**/.pytest_cache",
+    "**/.mypy_cache",
+    "**/.ruff_cache",
+    "**/.cache",
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/*.egg-info",
+    "**/postgres",
+    "**/migrations",
+    "**/coverage_html",
+    "**/reports",
+    "**/examples",
+    "**/generated_routes",
+    "**/.private",
+    "**/tests/**",
+    "**/apps/*/tests/**"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.ignore": [
+    "tests/*",
+    "apps/*/tests/*"
+  ],
   // ================================
   // GigaCode - ПРИОРИТЕТ (основной инструмент)
   // ================================
