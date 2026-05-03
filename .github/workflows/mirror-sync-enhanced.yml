@@ -124,15 +124,15 @@ jobs:
 
       - name: Send email notification on discrepancies
         if: env.HAS_DIFF == 'true'
-        uses: dawidd6/action-send-mail@v16
+        uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.yandex.ru
           server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
           subject: "🚨 Mirror Discrepancies Detected: ${{ github.repository }}"
           to: leadarchitect@yandex.ru
-          from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
+          from: github-actions@company.ru
           body: |
             Mirror discrepancies detected in repository: ${{ github.repository }}
 
