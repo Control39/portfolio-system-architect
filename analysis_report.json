@@ -1,0 +1,587 @@
+{
+  "total_dirs": 504,
+  "total_files": 1838,
+  "max_depth": 6,
+  "avg_depth": 4.0,
+  "deep_paths": [],
+  "duplicate_dirs": {
+    ".github": [
+      ".github",
+      "docs\\methodology\\.github"
+    ],
+    ".sourcecraft": [
+      ".sourcecraft",
+      "tools\\utilities\\configs\\.sourcecraft"
+    ],
+    "config": [
+      "config",
+      "src\\config",
+      "scripts\\dev\\config",
+      "examples\\legacy\\gateway\\config",
+      "apps\\cognitive-agent\\config",
+      "apps\\infra-orchestrator\\config",
+      "apps\\it_compass\\config",
+      "apps\\mcp-server\\config"
+    ],
+    "deployment": [
+      "deployment",
+      "scripts\\deployment",
+      "src\\infrastructure\\deployment",
+      "apps\\infra-orchestrator\\src\\infrastructure\\deployment"
+    ],
+    "docs": [
+      "docs",
+      "scripts\\dev\\docs",
+      "legacy\\decision_engine_v1\\docs",
+      "apps\\career_development\\docs",
+      "apps\\decision-engine\\docs",
+      "apps\\it_compass\\docs",
+      "apps\\career_development\\src\\docs"
+    ],
+    "examples": [
+      "examples",
+      "examples\\legacy\\packages\\terraform\\examples",
+      "docs\\integrations\\examples",
+      "apps\\it_compass\\examples"
+    ],
+    "legacy": [
+      "legacy",
+      "examples\\legacy",
+      "docs\\archive\\reports\\legacy"
+    ],
+    "mcp-server": [
+      "mcp-server",
+      "apps\\mcp-server",
+      "docs\\mcp-server"
+    ],
+    "monitoring": [
+      "monitoring",
+      "src\\infrastructure\\monitoring",
+      "docs\\screenshots\\monitoring",
+      "codeassistant\\tools\\monitoring",
+      "apps\\infra-orchestrator\\src\\infrastructure\\monitoring"
+    ],
+    "postgres": [
+      "postgres",
+      "deployment\\k8s\\base\\postgres"
+    ],
+    "scripts": [
+      "scripts",
+      "tools\\scripts",
+      "tools\\scripts\\scripts",
+      "legacy\\decision_engine_v1\\scripts",
+      "codeassistant\\teacher\\scripts",
+      "apps\\ai-config-manager\\scripts",
+      "apps\\cognitive-agent\\scripts",
+      "apps\\decision-engine\\scripts",
+      "apps\\it_compass\\scripts",
+      "apps\\mcp-server\\scripts",
+      "apps\\system-proof\\scripts"
+    ],
+    "src": [
+      "src",
+      "client\\src",
+      "tools\\scripts\\scripts\\python scripts\\src",
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src",
+      "apps\\ai-config-manager\\src",
+      "apps\\career_development\\src",
+      "apps\\infra-orchestrator\\src",
+      "apps\\it_compass\\src",
+      "apps\\job-automation-agent\\src",
+      "apps\\knowledge-graph\\src",
+      "apps\\mcp-server\\src",
+      "apps\\ml-model-registry\\src",
+      "apps\\portfolio_organizer\\src",
+      "apps\\template-service\\src"
+    ],
+    "tests": [
+      "tests",
+      "python_server\\tests",
+      "legacy\\decision_engine_v1\\tests",
+      "apps\\ai-config-manager\\tests",
+      "apps\\career_development\\tests",
+      "apps\\cognitive-agent\\tests",
+      "apps\\decision-engine\\tests",
+      "apps\\infra-orchestrator\\tests",
+      "apps\\it_compass\\tests",
+      "apps\\knowledge-graph\\tests",
+      "apps\\mcp-server\\tests",
+      "apps\\ml-model-registry\\tests",
+      "apps\\template-service\\tests",
+      "apps\\career_development\\src\\tests"
+    ],
+    "tools": [
+      "tools",
+      "codeassistant\\tools",
+      "legacy\\decision_engine_v1\\tools",
+      "apps\\decision-engine\\tools",
+      "apps\\thought-architecture\\tools",
+      "apps\\mcp-server\\src\\tools"
+    ],
+    "utils": [
+      "utils",
+      "src\\assistant_orchestrator\\utils",
+      "legacy\\decision_engine_v1\\utils",
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\utils",
+      "client\\src\\utils",
+      "apps\\ai-config-manager\\utils",
+      "apps\\career_development\\utils",
+      "apps\\decision-engine\\utils",
+      "apps\\ml-model-registry\\src\\utils",
+      "apps\\knowledge-graph\\src\\utils",
+      "apps\\it_compass\\src\\utils",
+      "apps\\infra-orchestrator\\src\\utils",
+      "apps\\career_development\\src\\utils"
+    ],
+    "agents": [
+      ".continue\\agents",
+      "apps\\job-automation-agent\\src\\agents"
+    ],
+    "workflows": [
+      ".github\\workflows",
+      "docs\\methodology\\.github\\workflows",
+      "apps\\cognitive-agent\\workflows"
+    ],
+    "rules": [
+      ".koda\\rules",
+      "codeassistant\\rules",
+      "apps\\cognitive-agent\\rules"
+    ],
+    "skills": [
+      ".koda\\skills",
+      ".sourcecraft\\skills",
+      "codeassistant\\skills",
+      "apps\\cognitive-agent\\skills"
+    ],
+    "ai-config-manager": [
+      "apps\\ai-config-manager",
+      "docs\\cases\\ai-config-manager"
+    ],
+    "decision-engine": [
+      "apps\\decision-engine",
+      "deployment\\k8s\\base\\services\\decision-engine"
+    ],
+    "ml-model-registry": [
+      "apps\\ml-model-registry",
+      "deployment\\k8s\\base\\services\\ml-model-registry"
+    ],
+    "system-proof": [
+      "apps\\system-proof",
+      "deployment\\k8s\\base\\services\\system-proof",
+      "apps\\system-proof\\system-proof"
+    ],
+    "public": [
+      "client\\public",
+      "apps\\ai-config-manager\\public"
+    ],
+    "teacher": [
+      "codeassistant\\teacher",
+      "codeassistant\\skills\\teacher",
+      "apps\\cognitive-agent\\skills\\teacher"
+    ],
+    "ai": [
+      "config\\ai",
+      "src\\ai",
+      "apps\\infra-orchestrator\\src\\ai"
+    ],
+    "secrets": [
+      "deployment\\secrets",
+      "scripts\\dev\\config\\secrets"
+    ],
+    "reasoning": [
+      "diagrams\\reasoning",
+      "docs\\reasoning"
+    ],
+    "analysis": [
+      "docs\\analysis",
+      "docs\\internal\\analysis"
+    ],
+    "api": [
+      "docs\\api",
+      "legacy\\decision_engine_v1\\api",
+      "examples\\legacy\\api",
+      "apps\\ai-config-manager\\api",
+      "apps\\career_development\\api",
+      "apps\\decision-engine\\api",
+      "apps\\portfolio_organizer\\api",
+      "apps\\portfolio_organizer\\src\\api",
+      "apps\\ml-model-registry\\src\\api",
+      "apps\\knowledge-graph\\src\\api",
+      "apps\\job-automation-agent\\src\\api",
+      "apps\\infra-orchestrator\\src\\api",
+      "apps\\career_development\\src\\api"
+    ],
+    "architecture": [
+      "docs\\architecture",
+      "docs\\methodology\\architecture"
+    ],
+    "cases": [
+      "docs\\cases",
+      "docs\\cases\\cases"
+    ],
+    "grants": [
+      "docs\\grants",
+      "docs\\cases\\grants",
+      "docs\\reports\\grants",
+      "docs\\methodology\\04_ARTIFACTS\\grants"
+    ],
+    "integrations": [
+      "docs\\integrations",
+      "apps\\cognitive-agent\\integrations",
+      "apps\\infra-orchestrator\\src\\core\\integrations"
+    ],
+    "quickstart": [
+      "docs\\quickstart",
+      "examples\\samples\\quickstart"
+    ],
+    "reports": [
+      "docs\\reports",
+      "docs\\archive\\reports",
+      "apps\\cognitive-agent\\reports"
+    ],
+    "security": [
+      "docs\\security",
+      "scripts\\security",
+      "src\\security",
+      "tests\\unit\\security",
+      "tests\\unit\\core\\security",
+      "src\\core\\security",
+      "src\\infrastructure\\security",
+      "docs\\internal\\analysis\\security",
+      "deployment\\k8s\\security",
+      "deployment\\k8s\\base\\security",
+      "codeassistant\\skills\\security",
+      "codeassistant\\tools\\security",
+      "apps\\infra-orchestrator\\src\\infrastructure\\security"
+    ],
+    "seo": [
+      "docs\\seo",
+      "codeassistant\\skills\\seo"
+    ],
+    "visualization": [
+      "docs\\visualization",
+      "tools\\visualization"
+    ],
+    "templates": [
+      "examples\\templates",
+      "apps\\job-automation-agent\\templates"
+    ],
+    "core": [
+      "python_server\\core",
+      "src\\core",
+      "tests\\unit\\core",
+      "src\\assistant_orchestrator\\core",
+      "legacy\\decision_engine_v1\\core",
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\core",
+      "apps\\career_development\\core",
+      "apps\\decision-engine\\core",
+      "apps\\template-service\\src\\core",
+      "apps\\portfolio_organizer\\src\\core",
+      "apps\\ml-model-registry\\src\\core",
+      "apps\\knowledge-graph\\src\\core",
+      "apps\\job-automation-agent\\src\\core",
+      "apps\\it_compass\\src\\core",
+      "apps\\infra-orchestrator\\src\\core",
+      "apps\\career_development\\src\\core"
+    ],
+    "dev": [
+      "scripts\\dev",
+      "deployment\\k8s\\overlays\\dev"
+    ],
+    "python": [
+      "scripts\\python",
+      "docker\\base-images\\python",
+      "codeassistant\\tools\\python"
+    ],
+    "embedding_agent": [
+      "src\\embedding_agent",
+      "tools\\ai_integration\\embedding_agent",
+      "tools\\scripts\\scripts\\python scripts\\src\\embedding_agent"
+    ],
+    "infrastructure": [
+      "src\\infrastructure",
+      "apps\\infra-orchestrator\\src\\infrastructure"
+    ],
+    "queues": [
+      "src\\queues",
+      "apps\\infra-orchestrator\\src\\queues"
+    ],
+    "automation": [
+      "tools\\automation",
+      "examples\\legacy\\automation"
+    ],
+    "documentation": [
+      "tools\\documentation",
+      "docs\\integrations\\documentation",
+      "docs\\internal\\analysis\\documentation"
+    ],
+    "repo_audit": [
+      "tools\\repo_audit",
+      "tools\\audit_monitoring\\repo_audit",
+      "docs\\internal\\repo_audit"
+    ],
+    "utilities": [
+      "tools\\utilities",
+      "src\\core\\utilities",
+      "apps\\infra-orchestrator\\src\\core\\utilities"
+    ],
+    "checks": [
+      "tools\\repo_audit\\checks",
+      "legacy\\repo_audit_v1\\checks"
+    ],
+    "configs": [
+      "tools\\utilities\\configs",
+      "legacy\\decision_engine_v1\\configs",
+      "apps\\decision-engine\\configs"
+    ],
+    "commands": [
+      "tests\\unit\\core\\commands",
+      "src\\core\\commands",
+      "apps\\infra-orchestrator\\src\\core\\commands"
+    ],
+    "configuration": [
+      "tests\\unit\\core\\configuration",
+      "src\\core\\configuration"
+    ],
+    "logging": [
+      "tests\\unit\\core\\logging",
+      "src\\core\\logging",
+      "apps\\infra-orchestrator\\src\\core\\logging"
+    ],
+    "validation": [
+      "tests\\unit\\core\\validation",
+      "src\\core\\validation",
+      "apps\\infra-orchestrator\\src\\core\\validation"
+    ],
+    "providers": [
+      "src\\ai\\providers",
+      "client\\src\\providers",
+      "apps\\infra-orchestrator\\src\\ai\\providers"
+    ],
+    "models": [
+      "src\\assistant_orchestrator\\models",
+      "apps\\ai-config-manager\\models",
+      "apps\\cognitive-agent\\models",
+      "apps\\knowledge-graph\\src\\models",
+      "apps\\infra-orchestrator\\src\\models"
+    ],
+    "git": [
+      "src\\infrastructure\\git",
+      "apps\\infra-orchestrator\\src\\infrastructure\\git"
+    ],
+    "dashboards": [
+      "monitoring\\grafana\\dashboards",
+      "monitoring\\grafana\\provisioning\\dashboards",
+      "apps\\cognitive-agent\\dashboards"
+    ],
+    "ui": [
+      "examples\\legacy\\ui",
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\ui",
+      "apps\\it_compass\\src\\ui"
+    ],
+    "tutorials": [
+      "examples\\samples\\tutorials",
+      "apps\\ai-config-manager\\public\\tutorials"
+    ],
+    "decisions": [
+      "docs\\architecture\\decisions",
+      "apps\\it_compass\\decisions"
+    ],
+    "evolution-cases": [
+      "docs\\cases\\evolution-cases",
+      "docs\\cases\\cases\\evolution-cases",
+      "apps\\it_compass\\portfolio\\evolution-cases"
+    ],
+    "thinking-cases": [
+      "docs\\cases\\thinking-cases",
+      "docs\\cases\\cases\\thinking-cases"
+    ],
+    "it-compass": [
+      "docs\\methodology\\02_METHODOLOGY\\it-compass",
+      "deployment\\k8s\\base\\services\\it-compass",
+      "codeassistant\\skills\\it-compass"
+    ],
+    "data": [
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\data",
+      "apps\\cognitive-agent\\data",
+      "apps\\it_compass\\src\\data"
+    ],
+    "01_knowledge_management": [
+      "docs\\cases\\evolution-cases\\01_knowledge_management",
+      "docs\\cases\\cases\\evolution-cases\\01_knowledge_management",
+      "apps\\it_compass\\portfolio\\evolution-cases\\01_knowledge_management"
+    ],
+    "04-documentation-automation": [
+      "docs\\cases\\thinking-cases\\04-documentation-automation",
+      "docs\\cases\\cases\\thinking-cases\\04-documentation-automation"
+    ],
+    "services": [
+      "deployment\\k8s\\base\\services",
+      "apps\\ai-config-manager\\services",
+      "apps\\infra-orchestrator\\src\\services"
+    ],
+    "code-security-auditor": [
+      "codeassistant\\skills\\code-security-auditor",
+      ".koda\\skills\\code-security-auditor"
+    ],
+    "devops-ci-cd": [
+      "codeassistant\\skills\\devops-ci-cd",
+      ".koda\\skills\\devops-ci-cd"
+    ],
+    "git-health-check": [
+      "codeassistant\\skills\\git-health-check",
+      ".koda\\skills\\git-health-check"
+    ],
+    "knowledge": [
+      "codeassistant\\skills\\knowledge",
+      "apps\\cognitive-agent\\knowledge"
+    ],
+    "performance-profiler": [
+      "codeassistant\\skills\\performance-profiler",
+      ".koda\\skills\\performance-profiler"
+    ],
+    "repo-quality-auditor": [
+      "codeassistant\\skills\\repo-quality-auditor",
+      ".koda\\skills\\repo-quality-auditor"
+    ],
+    "components": [
+      "client\\src\\components",
+      "apps\\ai-config-manager\\components",
+      "apps\\ai-config-manager\\src\\components"
+    ],
+    "__tests__": [
+      "client\\src\\__tests__",
+      "apps\\ai-config-manager\\__tests__",
+      "apps\\ai-config-manager\\src\\__tests__"
+    ],
+    "adapters": [
+      "apps\\ai-config-manager\\adapters",
+      "apps\\ai-config-manager\\src\\adapters"
+    ],
+    "main": [
+      "apps\\ai-config-manager\\main",
+      "apps\\ai-config-manager\\src\\main"
+    ],
+    "renderer": [
+      "apps\\ai-config-manager\\renderer",
+      "apps\\ai-config-manager\\src\\renderer"
+    ],
+    "mobile": [
+      "apps\\career_development\\mobile",
+      "apps\\career_development\\src\\mobile"
+    ],
+    "web": [
+      "apps\\career_development\\web",
+      "apps\\portfolio_organizer\\src\\web",
+      "apps\\career_development\\src\\web"
+    ],
+    "scans": [
+      "apps\\cognitive-agent\\scans",
+      "apps\\cognitive-agent\\reports\\scans"
+    ],
+    "diagnostics": [
+      "apps\\decision-engine\\diagnostics",
+      "apps\\infra-orchestrator\\src\\core\\diagnostics"
+    ],
+    "portfolio": [
+      "apps\\it_compass\\portfolio",
+      "apps\\it_compass\\portfolio\\portfolio"
+    ]
+  },
+  "suspicious_patterns": {
+    "config": [
+      "config",
+      "src\\config",
+      "scripts\\dev\\config",
+      "examples\\legacy\\gateway\\config",
+      "apps\\cognitive-agent\\config",
+      "apps\\infra-orchestrator\\config",
+      "apps\\it_compass\\config",
+      "apps\\mcp-server\\config"
+    ],
+    "tools": [
+      "tools",
+      "codeassistant\\tools",
+      "legacy\\decision_engine_v1\\tools",
+      "apps\\decision-engine\\tools",
+      "apps\\thought-architecture\\tools",
+      "apps\\mcp-server\\src\\tools"
+    ],
+    "utils": [
+      "utils",
+      "src\\assistant_orchestrator\\utils",
+      "legacy\\decision_engine_v1\\utils",
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\utils",
+      "client\\src\\utils",
+      "apps\\ai-config-manager\\utils",
+      "apps\\career_development\\utils",
+      "apps\\decision-engine\\utils",
+      "apps\\ml-model-registry\\src\\utils",
+      "apps\\knowledge-graph\\src\\utils",
+      "apps\\it_compass\\src\\utils",
+      "apps\\infra-orchestrator\\src\\utils",
+      "apps\\career_development\\src\\utils"
+    ],
+    "agents": [
+      ".continue\\agents",
+      "apps\\job-automation-agent\\src\\agents"
+    ],
+    "rules": [
+      ".koda\\rules",
+      "codeassistant\\rules",
+      "apps\\cognitive-agent\\rules"
+    ],
+    "skills": [
+      ".koda\\skills",
+      ".sourcecraft\\skills",
+      "codeassistant\\skills",
+      "apps\\cognitive-agent\\skills"
+    ],
+    "ai-config-manager": [
+      "apps\\ai-config-manager",
+      "docs\\cases\\ai-config-manager"
+    ],
+    "dev-tools": [
+      "tools\\dev-tools"
+    ],
+    "configs": [
+      "tools\\utilities\\configs",
+      "legacy\\decision_engine_v1\\configs",
+      "apps\\decision-engine\\configs"
+    ],
+    "configuration": [
+      "tests\\unit\\core\\configuration",
+      "src\\core\\configuration"
+    ],
+    "models": [
+      "src\\assistant_orchestrator\\models",
+      "apps\\ai-config-manager\\models",
+      "apps\\cognitive-agent\\models",
+      "apps\\knowledge-graph\\src\\models",
+      "apps\\infra-orchestrator\\src\\models"
+    ],
+    "datasources": [
+      "monitoring\\grafana\\provisioning\\datasources"
+    ],
+    "cleanup-logs": [
+      "docs\\archive\\cleanup-logs"
+    ],
+    "data": [
+      "docs\\methodology\\02_METHODOLOGY\\it-compass\\src\\data",
+      "apps\\cognitive-agent\\data",
+      "apps\\it_compass\\src\\data"
+    ],
+    "ai-config-mobile": [
+      "apps\\ai-config-manager\\ai-config-mobile"
+    ],
+    "cache": [
+      "apps\\cognitive-agent\\cache"
+    ],
+    "changelogs": [
+      "apps\\cognitive-agent\\changelogs"
+    ],
+    "logs": [
+      "apps\\cognitive-agent\\logs"
+    ]
+  }
+}
