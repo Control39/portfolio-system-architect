@@ -1,179 +1,19 @@
-﻿# ==========================================
-# Python & Virtual Environments
-# ==========================================
-__pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-dist/
-build/
-.venv/
-venv/
-env/
-**/venv/
-**/.venv/
-**/env/
-.Python
-.python-version
-
-# ==========================================
-# Caches, Testing & Coverage
-# ==========================================
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
-htmlcov/
-.coverage*
-.coverage
-.tox/
-.cache/
-
-# ==========================================
-# Secrets & Environment Variables
-# ==========================================
 .env
-.env.*
-!.env.example
-*.key
-*.pem
-*.p12
-*.pfx
-kubeconfig
-*credentials*.json
-secrets/sealed-secrets/*.yaml
-!secrets/sealed-secrets/*.example.yaml
+__pycache__/
+.vscode/
+python_server/static/
+.azure/
 
-# ==========================================
-# IDE & OS Files
-# ==========================================
-.idea/
-*.swp
-*.swo
-*~
-*.bak
-*.orig
-.DS_Store
-**/.DS_Store
-Thumbs.db
-Desktop.ini
-
-# ==========================================
-# AI Agent & Tool Configs (PRIVATE)
-# ==========================================
-.gigaide/
-.ai-config/
-.ai-config-gui/
-.gigacode/.env
-!.gigacode/.env.example
-.gigacode/*.local.yaml
-!.gigacode/config.yaml
-!.gigacode/README.md
-!.gigacode/examples.md
-.agents/  # Старая скрытая папка (игнорируем после миграции)
-
-# ==========================================
-# Project Specific: Logs, Reports & Generated
-# ==========================================
-# Логи
-logs/
-*.log
-apps/cognitive-agent/logs/*.log
-apps/cognitive-agent/*.log
-
-# Кэши и временные папки
-cache/
-tmp/
-temp/
-.tmp/
-apps/cognitive-agent/cache/
-apps/cognitive-agent/tmp/
-
-# Отчёты и аналитика
-test_reports/
-reports/
-*-REPORT.md
-*-ANALYSIS.md
-*-SUMMARY.md
-IMPROVEMENTS-TODO.md
-TODO*.md
-.ai-config/tasks-*.md
-my-repo-map*.csv
-my-repo-map*.txt
-*-report.json
-*-analysis-report.txt
-health-report.json
-project_health_report.json
-mcp_settings.json
-apps/cognitive-agent/reports/
-
-# Генерируемые файлы и сайты
-docs/_build/
-docs/mkdocs-site/
-docs/obsidian-map/
-.obsidian/
-*.canvas
-*.excalidraw.md
-*.excalidraw/
-**/obsidian-vault/
-**/obsidian-map/
-apps/cognitive-agent/*.db
-apps/cognitive-agent/*.sqlite
-/site/
-
-# ==========================================
-# Node.js & Frontend
-# ==========================================
-node_modules/
-*.js.map
-*.css.map
-
-# ==========================================
-# Резервные копии и персональные инструменты
-# ==========================================
-README.md.backup
-tools/.ai-config-gui-backup-*/
-personal-tools/
-10_BACKUPS/
-manual-review/
-
-# ==========================================
-# Локальные конфиги агентов
-# ==========================================
-agents/local/config/*.local.yaml
-agents/gigacode/config/*.local.yaml
-apps/cognitive-agent/local/config/*.local.yaml
-apps/cognitive-agent/gigacode/config/*.local.yaml
-
-# ==========================================
-# Временные файлы и артефакты сборки
-# ==========================================
-trivy.zip
-*.tmpcache/
-site/
-plans/
-*.tmp
-.gigacode/
-objects.txt
-.private/
-apps/cognitive-agent/.venv/
-apps/cognitive-agent/__pycache__/
-
-# ==========================================
-# Отчёты покрытия и тестовые артефакты
-# ==========================================
-coverage_html/
-generated_routes/
+# Large scan reports (exclude from repo)
+bandit-report.json
 test_gigachat.py
-*.crt
-test_db/
+apps/cognitive-agent/reports/
+.coverage
+htmlcov/
+coverage.xml
+junit.xml
 
-# ==========================================
-# Удалённые/исторические файлы (блокировка повторного добавления)
-# ==========================================
-new-files.txt
-old-files.txt
-readmes_export.txt
-bfg-1.13.0.jar
-0.19.3
-commit-ci.txt
-old-repo-check/
+# Generated files
+*.log
+*.tmp
+.env.*
