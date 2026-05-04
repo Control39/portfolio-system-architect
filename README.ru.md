@@ -20,10 +20,10 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=flat-square&logo=github" alt="CI: GitHub Actions">
-  <img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square" alt="Покрытие тестами">
+  <a href="https://app.codecov.io/github/Control39/portfolio-system-architect"><img src="https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?logo=codecov&style=flat-square" alt="Покрытие тестами"></a>
   <img src="https://img.shields.io/badge/Security-Trivy%20Scan-blue?style=flat-square&logo=trivy" alt="Безопасность: Trivy Scan">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="Лицензия: MIT">
-  <img src="https://img.shields.io/badge/Python-3.13.5-blue?style=flat-square&logo=python" alt="Python 3.13.5">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python" alt="Python 3.10+">
 </p>
 
 <p align="center">
