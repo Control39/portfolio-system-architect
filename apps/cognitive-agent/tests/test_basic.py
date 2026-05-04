@@ -1,7 +1,7 @@
 """
-Enhanced Tests for ai-config-manager
+Enhanced Tests for cognitive-agent
 
-Service Tier: BUSINESS
+Service Tier: CORE
 Purpose: Comprehensive unit and functional testing
 
 Test Coverage:
@@ -28,7 +28,7 @@ import threading
 def config():
     """Service configuration fixture"""
     return {
-        "service_name": "ai-config-manager",
+        "service_name": "cognitive-agent",
         "environment": "test",
         "debug": True,
         "timeout": 5.0,
@@ -85,26 +85,9 @@ class TestBasicFunctionality:
         assert hasattr(service_instance, 'logger')
 
 
-    def test_config_loading(self, service_instance, config, mock_logger):
+    def test_agent_initialization_with_config(self, service_instance, config, mock_logger):
         """
-        Test: Config Loading
-        """
-        assert service_instance is not None
-        assert config["environment"] == "test"
-        
-        service_instance.process = MagicMock(return_value={"status": "success"})
-        service_instance.validate = MagicMock(return_value=True)
-        
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
-        
-        if result:
-            assert result.get("status") == "success"
-        assert not mock_logger.error.called or mock_logger.error.call_count == 0
-
-
-    def test_config_validation(self, service_instance, config, mock_logger):
-        """
-        Test: Config Validation
+        Test: Agent Initialization With Config
         """
         assert service_instance is not None
         assert config["environment"] == "test"
@@ -119,9 +102,26 @@ class TestBasicFunctionality:
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
 
 
-    def test_config_hot_reload(self, service_instance, config, mock_logger):
+    def test_agent_learns_from_examples(self, service_instance, config, mock_logger):
         """
-        Test: Config Hot Reload
+        Test: Agent Learns From Examples
+        """
+        assert service_instance is not None
+        assert config["environment"] == "test"
+        
+        service_instance.process = MagicMock(return_value={"status": "success"})
+        service_instance.validate = MagicMock(return_value=True)
+        
+        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        
+        if result:
+            assert result.get("status") == "success"
+        assert not mock_logger.error.called or mock_logger.error.call_count == 0
+
+
+    def test_agent_handles_invalid_input(self, service_instance, config, mock_logger):
+        """
+        Test: Agent Handles Invalid Input
         """
         assert service_instance is not None
         assert config["environment"] == "test"

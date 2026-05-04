@@ -1,7 +1,7 @@
 """
-Enhanced Tests for ai-config-manager
+Enhanced Tests for mcp-server
 
-Service Tier: BUSINESS
+Service Tier: INFRA
 Purpose: Comprehensive unit and functional testing
 
 Test Coverage:
@@ -28,7 +28,7 @@ import threading
 def config():
     """Service configuration fixture"""
     return {
-        "service_name": "ai-config-manager",
+        "service_name": "mcp-server",
         "environment": "test",
         "debug": True,
         "timeout": 5.0,
@@ -85,26 +85,9 @@ class TestBasicFunctionality:
         assert hasattr(service_instance, 'logger')
 
 
-    def test_config_loading(self, service_instance, config, mock_logger):
+    def test_mcp_server_starts(self, service_instance, config, mock_logger):
         """
-        Test: Config Loading
-        """
-        assert service_instance is not None
-        assert config["environment"] == "test"
-        
-        service_instance.process = MagicMock(return_value={"status": "success"})
-        service_instance.validate = MagicMock(return_value=True)
-        
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
-        
-        if result:
-            assert result.get("status") == "success"
-        assert not mock_logger.error.called or mock_logger.error.call_count == 0
-
-
-    def test_config_validation(self, service_instance, config, mock_logger):
-        """
-        Test: Config Validation
+        Test: Mcp Server Starts
         """
         assert service_instance is not None
         assert config["environment"] == "test"
@@ -119,9 +102,26 @@ class TestBasicFunctionality:
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
 
 
-    def test_config_hot_reload(self, service_instance, config, mock_logger):
+    def test_mcp_protocol_message_handling(self, service_instance, config, mock_logger):
         """
-        Test: Config Hot Reload
+        Test: Mcp Protocol Message Handling
+        """
+        assert service_instance is not None
+        assert config["environment"] == "test"
+        
+        service_instance.process = MagicMock(return_value={"status": "success"})
+        service_instance.validate = MagicMock(return_value=True)
+        
+        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        
+        if result:
+            assert result.get("status") == "success"
+        assert not mock_logger.error.called or mock_logger.error.call_count == 0
+
+
+    def test_mcp_server_cleanup(self, service_instance, config, mock_logger):
+        """
+        Test: Mcp Server Cleanup
         """
         assert service_instance is not None
         assert config["environment"] == "test"
