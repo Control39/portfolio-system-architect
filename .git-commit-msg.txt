@@ -1,1 +1,0 @@
-docs: add Codecov integration guide and update plan
