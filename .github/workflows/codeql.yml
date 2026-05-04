@@ -21,8 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'python' ]  # ✅ Оставляем только основной язык проекта
-
+        language: [ 'python', 'javascript', 'typescript' ]  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
