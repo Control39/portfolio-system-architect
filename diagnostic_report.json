@@ -1,0 +1,377 @@
+{
+  "timestamp": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect",
+  "sections": {
+    "structure": {
+      "total_directories": 475,
+      "total_files": 1345,
+      "root_dirs": [
+        "apps",
+        "client",
+        "codeassistant",
+        "config",
+        "deployment",
+        "diagrams",
+        "docker",
+        "docs",
+        "examples",
+        "infra",
+        "legacy",
+        "mcp-server",
+        "migrations",
+        "monitoring",
+        "postgres",
+        "python_server",
+        "scripts",
+        "settings",
+        "src",
+        "tests",
+        "tools",
+        "utils"
+      ],
+      "largest_dirs": [
+        [
+          "docs",
+          53
+        ],
+        [
+          "scripts",
+          46
+        ],
+        [
+          "apps\\cognitive-agent\\scripts",
+          21
+        ],
+        [
+          "apps\\it_compass\\src\\data\\markers",
+          19
+        ],
+        [
+          "tests\\unit",
+          16
+        ],
+        [
+          "client",
+          14
+        ],
+        [
+          "deployment",
+          13
+        ],
+        [
+          "docs\\adr",
+          13
+        ],
+        [
+          "docs\\architecture\\decisions",
+          12
+        ],
+        [
+          "tools\\scripts\\scripts",
+          12
+        ]
+      ]
+    },
+    "services": {
+      "total_count": 15,
+      "services": {
+        "ai-config-manager": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\ai-config-manager",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 48,
+          "tier": "Tier 3 (Business)"
+        },
+        "auth_service": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\auth_service",
+          "has_src": false,
+          "has_config": false,
+          "has_tests": false,
+          "has_readme": false,
+          "has_docs": false,
+          "file_count": 5,
+          "tier": "Tier 2 (Infrastructure)"
+        },
+        "career_development": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\career_development",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": true,
+          "file_count": 53,
+          "tier": "Tier 3 (Business)"
+        },
+        "cognitive-agent": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\cognitive-agent",
+          "has_src": false,
+          "has_config": true,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 84,
+          "tier": "Tier 1 (Core)"
+        },
+        "decision-engine": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\decision-engine",
+          "has_src": false,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": true,
+          "file_count": 47,
+          "tier": "Tier 1 (Core)"
+        },
+        "infra-orchestrator": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\infra-orchestrator",
+          "has_src": true,
+          "has_config": true,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 66,
+          "tier": "Tier 2 (Infrastructure)"
+        },
+        "it_compass": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\it_compass",
+          "has_src": true,
+          "has_config": true,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": true,
+          "file_count": 90,
+          "tier": "Tier 1 (Core)"
+        },
+        "job-automation-agent": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\job-automation-agent",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": false,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 24,
+          "tier": "Tier 3 (Business)"
+        },
+        "knowledge-graph": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\knowledge-graph",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 18,
+          "tier": "Tier 1 (Core)"
+        },
+        "mcp-server": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\mcp-server",
+          "has_src": true,
+          "has_config": true,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 23,
+          "tier": "Tier 2 (Infrastructure)"
+        },
+        "ml-model-registry": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\ml-model-registry",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 36,
+          "tier": "Tier 2 (Infrastructure)"
+        },
+        "portfolio_organizer": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\portfolio_organizer",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": false,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 18,
+          "tier": "Tier 3 (Business)"
+        },
+        "system-proof": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\system-proof",
+          "has_src": false,
+          "has_config": false,
+          "has_tests": false,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 11,
+          "tier": "Tier 3 (Business)"
+        },
+        "template-service": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\template-service",
+          "has_src": true,
+          "has_config": false,
+          "has_tests": true,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 17,
+          "tier": "Tier 3 (Business)"
+        },
+        "thought-architecture": {
+          "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\thought-architecture",
+          "has_src": false,
+          "has_config": false,
+          "has_tests": false,
+          "has_readme": true,
+          "has_docs": false,
+          "file_count": 4,
+          "tier": "Other"
+        }
+      },
+      "by_tier": {
+        "tier1_core": [
+          "cognitive-agent",
+          "decision-engine",
+          "it_compass",
+          "knowledge-graph"
+        ],
+        "tier2_infra": [
+          "auth_service",
+          "infra-orchestrator",
+          "mcp-server",
+          "ml-model-registry"
+        ],
+        "tier3_business": [
+          "ai-config-manager",
+          "career_development",
+          "job-automation-agent",
+          "portfolio_organizer",
+          "system-proof",
+          "template-service"
+        ],
+        "other": [
+          "thought-architecture"
+        ]
+      }
+    },
+    "code_metrics": {
+      "python_files": 411,
+      "javascript_files": 21,
+      "typescript_files": 26,
+      "total_lines": 0,
+      "by_extension": {
+        ".md": 411,
+        ".py": 411,
+        ".yaml": 107,
+        ".ps1": 58,
+        ".json": 55,
+        ".psm1": 50,
+        ".ts": 26,
+        ".sh": 25,
+        ".tsx": 22,
+        ".js": 21,
+        ".yml": 19,
+        ".txt": 19,
+        ".html": 11,
+        ".bat": 11,
+        ".tf": 8
+      }
+    },
+    "testing": {
+      "services_with_tests": 8,
+      "services_without_tests": 7,
+      "test_files_count": 23,
+      "total_tests": 0,
+      "by_service": {
+        "ai-config-manager": 0,
+        "auth_service": 0,
+        "career_development": 3,
+        "cognitive-agent": 1,
+        "decision-engine": 3,
+        "infra-orchestrator": 0,
+        "it_compass": 2,
+        "job-automation-agent": 0,
+        "knowledge-graph": 1,
+        "mcp-server": 1,
+        "ml-model-registry": 11,
+        "portfolio_organizer": 0,
+        "system-proof": 0,
+        "template-service": 1,
+        "thought-architecture": 0
+      }
+    },
+    "documentation": {
+      "readme_files": 14,
+      "md_files": 432,
+      "services_with_readme": 14,
+      "services_without_readme": 1,
+      "by_service": {
+        "ai-config-manager": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "auth_service": {
+          "has_readme": false,
+          "has_docs_dir": false
+        },
+        "career_development": {
+          "has_readme": true,
+          "has_docs_dir": true
+        },
+        "cognitive-agent": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "decision-engine": {
+          "has_readme": true,
+          "has_docs_dir": true
+        },
+        "infra-orchestrator": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "it_compass": {
+          "has_readme": true,
+          "has_docs_dir": true
+        },
+        "job-automation-agent": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "knowledge-graph": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "mcp-server": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "ml-model-registry": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "portfolio_organizer": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "system-proof": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "template-service": {
+          "has_readme": true,
+          "has_docs_dir": false
+        },
+        "thought-architecture": {
+          "has_readme": true,
+          "has_docs_dir": false
+        }
+      }
+    },
+    "infrastructure": {
+      "deployment_files": 102,
+      "docker_files": 12,
+      "k8s_files": 79,
+      "config_files": 7,
+      "ci_cd_files": 30,
+      "monitoring_files": 16
+    }
+  }
+}
