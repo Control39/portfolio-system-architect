@@ -72,7 +72,7 @@
 ├── deployment/              # Kubernetes, GitOps, Sealed Secrets
 ├── monitoring/              # Prometheus, Grafana, AlertManager
 ├── docs/                    # Архитектурные решения, гайд для работодателя, методология
-├── .codeassistant/skills/   # Стандарты валидации ИИ и архитектура промптов
+├── codeassistant/skills/   # Стандарты валидации ИИ и архитектура промптов
 └── tools/                   # Аудит репо, CI/CD, сканеры безопасности
 ```
 

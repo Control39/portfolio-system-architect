@@ -109,10 +109,10 @@ agents/gigacode/config/*.local.yaml
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.codeassistant/context.md
-!.codeassistant/mcp.json
-!.codeassistant/ai-models.yaml
-!.agents/README.md
-!.agents/config/
-!.agents/skills/
-!.agents/workflows/
+!codeassistant/context.md
+!codeassistant/mcp.json
+!codeassistant/ai-models.yaml
+!apps/cognitive-agent/README.md
+!apps/cognitive-agent/config/
+!apps/cognitive-agent/skills/
+!apps/cognitive-agent/workflows/

@@ -3,6 +3,8 @@ import os
 import tempfile
 import unittest
 
+from src.utils.helpers import validate_evidence_link
+
 from apps.career_development.utils.helpers import (
     calculate_skill_progress,
     convert_bytes_to_human_readable,
@@ -15,7 +17,6 @@ from apps.career_development.utils.helpers import (
     save_json_file,
     validate_email,
 )
-from src.utils.helpers import validate_evidence_link
 
 
 class TestHelpers(unittest.TestCase):

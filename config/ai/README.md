@@ -253,7 +253,7 @@ cp .env.example .env.local
 
 ### Шаг 3: Настройте инструменты
 1. **Continue.dev**: Конфигурация автоматически скопируется в `.continue/config.yaml`
-2. **Code Assistant**: Конфигурация в `.codeassistant/ai-models.yaml`
+2. **Code Assistant**: Конфигурация в `codeassistant/ai-models.yaml`
 3. **MCP сервер**: Использует конфигурацию из `config/ai/mcp/`
 
 ### Шаг 4: Запустите MCP сервер

@@ -30,8 +30,8 @@ $ErrorActionPreference = "Stop"
 
 # Конфигурация
 $Config = @{
-    IntegrationConfig = ".agents/config/vscode-extensions-caa-integration.yaml"
-    CaaSkillPath = ".agents/skills/vscode-extensions-manager"
+    IntegrationConfig = "apps/cognitive-agent/config/vscode-extensions-caa-integration.yaml"
+    CaaSkillPath = "apps/cognitive-agent/skills/vscode-extensions-manager"
     ScriptsPath = "scripts"
     ReportsPath = "reports"
 }

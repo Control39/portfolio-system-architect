@@ -3,12 +3,11 @@ import os
 import time
 
 import yandexcloud
+from src.decision_engine.decision_engine.utils.logger import PortfolioLogger
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import TextGenerationRequest
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationServiceStub,
 )
-
-from src.decision_engine.decision_engine.utils.logger import PortfolioLogger
 
 # Инициализация логгера
 logger = PortfolioLogger()

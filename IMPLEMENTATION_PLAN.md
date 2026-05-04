@@ -185,7 +185,7 @@
 ## 2.2 Унификация AI-конфигураций
 
 - [ ] **2.2.1** Аудит AI-конфигов
-  - Файлы: .gigacode/, .koda/, .codeassistant/, apps/cognitive-agent/
+  - Файлы: .gigacode/, .koda/, codeassistant/, apps/cognitive-agent/
   - Статус: ✅ Выполнено
   - Приоритет: 🟡 Средний
 

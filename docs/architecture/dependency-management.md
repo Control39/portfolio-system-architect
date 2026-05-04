@@ -48,7 +48,7 @@ portfolio-system-architect/
 - Зависимости сфокусированы на автоматизации и интеллектуальных возможностях
 - Может использовать подмножество глобальных зависимостей
 
-**.codeassistant/ (SourceCraft Agent)**:
+**codeassistant/ (SourceCraft Agent)**:
 - Не имеет явных файлов requirements (использует конфигурации в YAML)
 - Зависимости управляются через `ai-models.yaml` и `mcp.json`
 - Фокус на конфигурации и навыках (skills), а не на коде

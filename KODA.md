@@ -39,7 +39,7 @@ portfolio-system-architect/
 │   ├── config/                # Конфигурации автономной системы
 │   ├── workflows/             # Автономные рабочие процессы
 │   └── tests/                 # Тесты для CAA
-├── .codeassistant/            # SourceCraft Agent Skills
+├── codeassistant/            # SourceCraft Agent Skills
 │   ├── skills/                # Skills для анализа и работы
 │   ├── context.md             # Контекст для ИИ-ассистента
 │   └── mcp.json               # MCP конфигурация
@@ -326,7 +326,7 @@ make lint && make test
 
 1. **Разделение ответственности**:
    - `apps/cognitive-agent/` — автономное выполнение (уровень реализации)
-   - `.codeassistant/` — аналитические skills (уровень анализа)
+   - `codeassistant/` — аналитические skills (уровень анализа)
    - Чёткие границы между микросервисами
 
 2. **Contract-first design**:

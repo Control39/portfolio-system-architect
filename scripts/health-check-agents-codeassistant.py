@@ -72,7 +72,7 @@ class HealthChecker:
 
         # Проверка обязательных директорий
         required_dirs = [
-            ".codeassistant/skills",
+            "codeassistant/skills",
         ]
 
         for dir_path in required_dirs:
@@ -84,8 +84,8 @@ class HealthChecker:
 
         # Проверка обязательных файлов
         required_files = [
-            ".codeassistant/context.md",
-            ".codeassistant/mcp.json",
+            "codeassistant/context.md",
+            "codeassistant/mcp.json",
         ]
 
         for file_path in required_files:
@@ -95,7 +95,7 @@ class HealthChecker:
                 self.log("warning", f"Файл отсутствует: {file_path}", component)
 
         # Проверка skill caa-audit
-        caa_audit_path = ".codeassistant/skills/caa-audit/SKILL.md"
+        caa_audit_path = "codeassistant/skills/caa-audit/SKILL.md"
         if os.path.exists(caa_audit_path):
             self.log("success", f"Skill caa-audit существует: {caa_audit_path}", component)
         else:
