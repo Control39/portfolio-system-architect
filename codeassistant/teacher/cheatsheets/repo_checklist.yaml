@@ -1,0 +1,188 @@
+# Чек-лист проверки репозитория для когнитивного архитектора
+
+version: "1.0"
+created: "2026-04-10"
+author: "Екатерина Куделя"
+purpose: "Быстрая проверка качества и готовности репозитория"
+
+## 📋 Общая структура
+checklist:
+  structure:
+    - name: "README.md существует и информативен"
+      priority: "critical"
+      check: "file_exists:README.md"
+      fix: "Создать README с описанием проекта, установкой, использованием"
+
+    - name: "LICENSE файл присутствует"
+      priority: "high"
+      check: "file_exists:LICENSE"
+      fix: "Выбрать и добавить лицензию (MIT, Apache 2.0, etc.)"
+
+    - name: ".gitignore настроен правильно"
+      priority: "high"
+      check: "file_exists:.gitignore"
+      fix: "Добавить .gitignore для языка/фреймворка"
+
+    - name: "CONTRIBUTING.md для новых участников"
+      priority: "medium"
+      check: "file_exists:CONTRIBUTING.md"
+      fix: "Создать руководство по внесению вклада"
+
+## 🔒 Безопасность
+  security:
+    - name: "Нет секретов в репозитории"
+      priority: "critical"
+      check: "scan_secrets:true"
+      fix: "Использовать .env файлы, git-secrets, pre-commit hooks"
+
+    - name: ".env.example шаблон существует"
+      priority: "high"
+      check: "file_exists:.env.example"
+      fix: "Создать .env.example с комментариями"
+
+    - name: "Зависимости зафиксированы (lock файлы)"
+      priority: "high"
+      check: "has_lock_files:true"
+      fix: "Запустить npm install --save или pip freeze > requirements.txt"
+
+## 🛠️ Разработка
+  development:
+    - name: "Есть тесты и они проходят"
+      priority: "high"
+      check: "tests_pass:true"
+      fix: "Добавить базовые тесты, настроить CI"
+
+    - name: "Pre-commit hooks настроены"
+      priority: "medium"
+      check: "file_exists:.pre-commit-config.yaml"
+      fix: "Настроить pre-commit для форматирования, линтинга"
+
+    - name: "Dockerfile для контейнеризации"
+      priority: "medium"
+      check: "file_exists:Dockerfile"
+      fix: "Создать минимальный Dockerfile"
+
+## 📊 Документация
+  documentation:
+    - name: "Документация API (если есть API)"
+      priority: "medium"
+      check: "has_api_docs:true"
+      fix: "Добавить Swagger/OpenAPI спецификацию"
+
+    - name: "Архитектурные решения задокументированы"
+      priority: "low"
+      check: "has_adr:true"
+      fix: "Создать папку docs/adr/ с решениями"
+
+    - name: "Чек-лист развертывания"
+      priority: "medium"
+      check: "has_deployment_checklist:true"
+      fix: "Добавить DEPLOYMENT.md"
+
+## 🤖 Автоматизация
+  automation:
+    - name: "CI/CD конфигурация"
+      priority: "high"
+      check: "has_ci_config:true"
+      fix: "Добавить .github/workflows/ или .gitlab-ci.yml"
+
+    - name: "Автоматическое тестирование"
+      priority: "high"
+      check: "ci_includes_tests:true"
+      fix: "Добавить шаг тестирования в CI"
+
+    - name: "Автоматическое развертывание"
+      priority: "medium"
+      check: "has_deployment_pipeline:true"
+      fix: "Настроить CD для staging/production"
+
+## 🎯 Для когнитивных систем
+  cognitive_specific:
+    - name: "Модели версионированы"
+      priority: "high"
+      check: "has_model_versioning:true"
+      fix: "Использовать MLflow, DVC, или кастомное решение"
+
+    - name: "Данные для обучения отделены от кода"
+      priority: "high"
+      check: "data_separated:true"
+      fix: "Использовать .gitignore для данных, внешнее хранилище"
+
+    - name: "Конфигурации параметров модели"
+      priority: "medium"
+      check: "has_model_configs:true"
+      fix: "Создать configs/ папку с YAML/JSON конфигами"
+
+    - name: "Эксперименты задокументированы"
+      priority: "medium"
+      check: "has_experiment_tracking:true"
+      fix: "Использовать MLflow, Weights & Biases, или простой лог"
+
+## 📈 Качество кода
+  code_quality:
+    - name: "Линтер настроен"
+      priority: "high"
+      check: "has_linter:true"
+      fix: "Добавить ESLint, Pylint, Black и т.д."
+
+    - name: "Форматирование кода единообразно"
+      priority: "medium"
+      check: "has_formatter:true"
+      fix: "Настроить Prettier, Black, gofmt"
+
+    - name: "Статический анализ"
+      priority: "medium"
+      check: "has_static_analysis:true"
+      fix: "Добавить SonarQube, CodeQL, или аналоги"
+
+## 🚀 Быстрый старт
+quick_start_checks:
+  - "README.md читаем и понятен"
+  - "Можно запустить за 5 команд или меньше"
+  - "Нет скрытых зависимостей"
+  - "Окружение воспроизводимо (Docker/venv)"
+  - "Есть пример использования"
+
+## 🔧 Инструменты для проверки
+tools:
+  - name: "trivy"
+    purpose: "Сканирование уязвимостей"
+    command: "trivy fs ."
+
+  - name: "gitleaks"
+    purpose: "Поиск секретов"
+    command: "gitleaks detect --source . -v"
+
+  - name: "pre-commit"
+    purpose: "Автоматические проверки"
+    command: "pre-commit run --all-files"
+
+  - name: "checklist-runner (скрипт)"
+    purpose: "Автоматическая проверка этого чек-листа"
+    location: "codeassistant/teacher/scripts/checklist_runner.py"
+
+## 📝 Шаблоны файлов
+file_templates:
+  - ".gitignore (язык-специфичный)"
+  - ".env.example (с комментариями)"
+  - "Dockerfile (минимальный)"
+  - ".pre-commit-config.yaml (базовый)"
+  - "docker-compose.yml (для разработки)"
+
+## ⚡ Быстрые команды для исправления
+quick_fixes:
+  - "Добавить README: `echo '# Project Name' > README.md`"
+  - "Добавить лицензию MIT: `curl -s https://opensource.org/licenses/MIT > LICENSE`"
+  - "Инициализировать pre-commit: `pre-commit install`"
+  - "Проверить секреты: `gitleaks detect --source .`"
+  - "Запустить все тесты: `pytest` или `npm test`"
+
+## 🎯 Идеальный репозиторий когнитивного архитектора
+ideal_state:
+  - "Можно клонировать и запустить одной командой"
+  - "Все зависимости явно указаны"
+  - "Тесты покрывают критическую функциональность"
+  - "Документация актуальна и полезна"
+  - "Безопасность встроена, а не добавлена"
+  - "Автоматизация делает рутинную работу"
+  - "Качество кода поддерживается автоматически"

@@ -160,7 +160,7 @@ Total issues: 21
 | File | Change | Status |
 |------|--------|--------|
 | `.gigacode/tools/secrets-scanner.py` | Exclude venv/, improve detection | ✅ |
-| `.codeassistant/tools/python/secrets-scanner.py` | Sync update | ✅ |
+| `codeassistant/tools/python/secrets-scanner.py` | Sync update | ✅ |
 | `src/decision_engine/decision_engine/main.py` | Secure host binding | ✅ |
 | `scripts/update-dependencies.py` | Created | ✅ |
 | `scripts/update-dependencies.ps1` | Created | ✅ |

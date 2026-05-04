@@ -69,7 +69,7 @@ integrations:
 
   code_assistant:
     enabled: true
-    skills_path: "../../../.codeassistant/skills"
+    skills_path: "../../../codeassistant/skills"
 
   api_gateway:
     enabled: true

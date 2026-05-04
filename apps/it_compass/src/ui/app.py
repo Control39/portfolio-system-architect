@@ -14,7 +14,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from core.tracker import CareerTracker
-
     from utils.portfolio_gen import generate_portfolio
 except ImportError as e:
     st.error(f"❌ Ошибка импорта модулей: {e}")

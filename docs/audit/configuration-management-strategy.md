@@ -16,7 +16,7 @@
 
 | Директория | Содержимое | Должна ли быть в Git? |
 |------------|------------|----------------------|
-| `.codeassistant/` | Навыки (skills) для Code Assistant (9 директорий) | **Да** (навыки — это переиспользуемые инструкции) |
+| `codeassistant/` | Навыки (skills) для Code Assistant (9 директорий) | **Да** (навыки — это переиспользуемые инструкции) |
 | `.continue/` | Конфигурации Continue.dev (агенты) | **Да** (шаблоны конфигураций без секретов) |
 | `.sourcecraft/` | Конфигурации SourceCraft Sites (ci.yaml, sites.yaml) | **Да** (конфигурации CI/CD) |
 | `.gigaide/` | Конфигурации GigaIDE (gigaide.properties) | **Нет** (локальные настройки IDE) |
@@ -27,7 +27,7 @@
 
 1. **Устаревшая модель GPT-5** в `.continue/agents/new-config.yaml` — исправлено на GigaChat Pro Light.
 2. **Отсутствие конфигураций для российского стека** — в примерах используются OpenAI и Anthropic, хотя пользователь использует GigaChat, YandexGPT, Ollama.
-3. **Полное исключение навыков из Git** — навыки `.codeassistant/skills/` должны быть версионированы.
+3. **Полное исключение навыков из Git** — навыки `codeassistant/skills/` должны быть версионированы.
 4. **Смешение секретов и конфигураций** — API ключи хранятся в виде плейсхолдеров, что допустимо, но нужно обеспечить безопасность.
 
 ## 3. Предлагаемая стратегия
@@ -53,7 +53,7 @@ agents/local/config/*.local.yaml
 agents/gigacode/config/*.local.yaml
 
 # Включаем в Git (убрать из исключений):
-# .codeassistant/          <- навыки и правила
+# codeassistant/          <- навыки и правила
 # .continue/               <- шаблоны конфигураций
 # .sourcecraft/            <- конфигурации CI/CD
 ```
@@ -71,7 +71,7 @@ agents/gigacode/config/*.local.yaml
 ├── new-config.yaml            # Основная конфигурация (без секретов)
 └── templates/                 # Шаблоны для разных моделей
 
-.codeassistant/                # Навыки Code Assistant (в Git)
+codeassistant/                # Навыки Code Assistant (в Git)
 ├── skills/
 │   ├── architect-analize/
 │   ├── code/
@@ -90,7 +90,7 @@ agents/gigacode/config/*.local.yaml
 
 ### 3.4 Миграция
 
-1. **Восстановить `.codeassistant/` и `.continue/` в Git**:
+1. **Восстановить `codeassistant/` и `.continue/` в Git**:
    ```bash
    git add .codeassistant .continue .sourcecraft
    git commit -m "feat: add AI agent configurations to Git"
@@ -114,7 +114,7 @@ agents/gigacode/config/*.local.yaml
 
 - [x] Аудит существующих конфигураций
 - [x] Исправление устаревших моделей (GPT-5 → GigaChat)
-- [ ] Восстановление `.codeassistant/` и `.continue/` в Git
+- [ ] Восстановление `codeassistant/` и `.continue/` в Git
 - [ ] Создание PR с изменениями `.gitignore`
 - [ ] Обновление README с инструкциями по настройке
 

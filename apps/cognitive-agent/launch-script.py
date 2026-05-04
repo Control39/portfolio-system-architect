@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 class CognitiveAgentLauncher:
     """Запускатель и менеджер Cognitive Automation Agent"""
 
-    def __init__(self, agent_root: str = ".agents"):
+    def __init__(self, agent_root: str = "apps/cognitive-agent"):
         self.agent_root = Path(agent_root)
         self.processes: Dict[str, subprocess.Popen] = {}
         self.monitoring_threads: Dict[str, threading.Thread] = {}
@@ -299,9 +299,7 @@ if __name__ == "__main__":
 
             for component, process in list(self.processes.items()):
                 if process.poll() is not None:
-                    logger.warning(
-                        f"Компонент {component} завершился с кодом: {process.returncode}"
-                    )
+                    logger.warning(f"Компонент {component} завершился с кодом: {process.returncode}")
 
                     # Попытка перезапуска
                     if self.config.get("autonomy", {}).get("level") == "high":
@@ -401,9 +399,7 @@ if __name__ == "__main__":
                         process.wait(timeout=10)
                         logger.info(f"Компонент {component} корректно остановлен")
                     except subprocess.TimeoutExpired:
-                        logger.warning(
-                            f"Компонент {component} не ответил на terminate, принудительная остановка"
-                        )
+                        logger.warning(f"Компонент {component} не ответил на terminate, принудительная остановка")
                         process.kill()
                 else:
                     process.kill()
@@ -509,9 +505,7 @@ if __name__ == "__main__":
 
         # Сохранение результатов
         result_file = (
-            self.agent_root
-            / "reports"
-            / f"workflow_{workflow_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            self.agent_root / "reports" / f"workflow_{workflow_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         )
         result_file.parent.mkdir(exist_ok=True)
 

@@ -3,7 +3,7 @@ title: Зависимости между Cognitive Automation Agent и SourceCra
 ---
 
 flowchart TB
-    subgraph "Cognitive Automation Agent (.agents/)"
+    subgraph "Cognitive Automation Agent (apps/cognitive-agent/)"
         direction TB
         CAA[<b>Cognitive Automation Agent</b><br/>Автономная система выполнения]
 
@@ -31,7 +31,50 @@ flowchart TB
         Triggers --> Status
     end
 
-    subgraph "SourceCraft Agent Skills (.codeassistant/)"
+    subgraph "SourceCraft Agent Skills (codeassistant/)"
+        direction TB
+        SCA[<b>SourceCraft Agent</b><br/>Аналитическая система]
+
+        subgraph "Analytical Skills"
+            CAA_Audit[caa-audit<br/>Аудит CAA]
+            Architect_Analyze[architect-analize<br/>Анализ архитектуры]
+            Extension_Analyzer[extension-stack-analyzer<br/>Анализ окружения]
+            Performance_Profiler[performance-profiler<br/>Профилирование]
+        end
+
+        subgraph "Configuration"
+            Context[context.md<br/>Контекст]
+            MCP[mcp.json<br/>MCP конфигурация]
+            AI_Models[ai-models.yaml<br/>Модели ИИ]
+        end
+
+        SCA --> CAA_Audit
+        SCA --> Architect_Analyze
+        SCA --> Extension_Analyzer
+        SCA --> Performance_Profiler
+
+        CAA_Audit --> Context
+        Architect_Analyze --> Context
+    end
+
+        subgraph "Data Storage"
+            Metrics[Метрики выполнения]
+            Status[Статусы задач]
+            Changelogs[Changelogs]
+        end
+
+        CAA --> Scanner
+        CAA --> Planner
+        CAA --> Learning
+        CAA --> Triggers
+
+        Scanner --> Metrics
+        Planner --> Status
+        Learning --> Metrics
+        Triggers --> Status
+    end
+
+    subgraph "SourceCraft Agent Skills (codeassistant/)"
         direction TB
         SCA[<b>SourceCraft Agent</b><br/>Аналитическая система]
 

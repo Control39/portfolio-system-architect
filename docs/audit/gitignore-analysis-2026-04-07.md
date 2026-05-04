@@ -8,7 +8,7 @@
 
 В `.gitignore` исключены следующие директории AI-агентов:
 ```
-.codeassistant/
+codeassistant/
 .continue/
 .gigaide/
 .sourcecraft/
@@ -18,7 +18,7 @@
 
 ## Что содержится в этих директориях (предположительно)
 
-### 1. `.codeassistant/` - Code Assistant конфигурации
+### 1. `codeassistant/` - Code Assistant конфигурации
 - Навыки (skills/) - переиспользуемые инструкции для агентов
 - Контекст (context.md) - контекст проекта для агентов
 - Кастомные режимы (custom_modes.yaml) - специализированные режимы работы
@@ -159,16 +159,16 @@ agents/gigacode/config/*.local.yaml
 ### Новые правила (добавить/изменить):
 ```
 # Вместо полного исключения директорий
-# .codeassistant/  # ← закомментировать
+# codeassistant/  # ← закомментировать
 
 # Разрешить конкретные файлы
-!.codeassistant/skills/
-!.codeassistant/context.md
-!.codeassistant/custom_modes.yaml
+!codeassistant/skills/
+!codeassistant/context.md
+!codeassistant/custom_modes.yaml
 
 # Исключить только секреты
-.codeassistant/*.local.yaml
-.codeassistant/*-secret.yaml
+codeassistant/*.local.yaml
+codeassistant/*-secret.yaml
 
 # Аналогично для других директорий
 !.continue/agents/*.template.yaml
