@@ -17,3 +17,9 @@ junit.xml
 *.log
 *.tmp
 .env.*
+
+test_db/
+*.sqlite3
+
+.kodacli/sessions/
+.gigaide/
