@@ -1,6 +1,13 @@
-# thought-architecture
+#!/usr/bin/env python3
+"""
+Update all service READMEs with testing information
+"""
 
-Thought architecture design and optimization
+from pathlib import Path
+
+readme_template = '''# {service_name}
+
+{description}
 
 ## Status
 
@@ -12,7 +19,7 @@ Thought architecture design and optimization
 ## Quick Start
 
 ```bash
-cd apps/thought-architecture
+cd apps/{service_name}
 python -m pytest tests/test_basic.py -v
 ```
 
@@ -45,7 +52,7 @@ python -m pytest tests/test_basic.py --cov=src --cov-report=html
 
 ### Run Integration Tests (top-5 services only)
 ```bash
-python -m pytest tests/test_integration_thought_architecture.py -v
+python -m pytest tests/test_integration_{service_name_normalized}.py -v
 ```
 
 ## Test Coverage
@@ -84,7 +91,7 @@ python -m pytest tests/test_integration_thought_architecture.py -v
 ## Structure
 
 ```
-apps/thought-architecture/
+apps/{service_name}/
 ├── src/                    # Main application code
 │   ├── __init__.py
 │   └── main.py
@@ -94,7 +101,7 @@ apps/thought-architecture/
 ├── tests/                  # Test files
 │   ├── __init__.py
 │   ├── test_basic.py       # Enhanced tests (15 tests)
-│   └── test_integration_thought_architecture.py  # Integration tests (if applicable)
+│   └── test_integration_{service_name_normalized}.py  # Integration tests (if applicable)
 ├── docs/                   # Optional documentation
 ├── README.md               # This file
 ├── requirements.txt        # Python dependencies
@@ -137,3 +144,52 @@ MIT License - See LICENSE file for details
 
 **Last Updated**: 2026-05-04
 **Status**: 🟢 Production Ready
+'''
+
+service_descriptions = {
+    "cognitive-agent": "AI-powered automation agent for intelligent task execution and learning",
+    "decision-engine": "Core decision-making system for complex reasoning and choices",
+    "it_compass": "System thinking methodology for architecture analysis",
+    "knowledge-graph": "Knowledge management and relationship tracking system",
+    "infra-orchestrator": "Infrastructure orchestration and management service",
+    "auth_service": "Authentication and authorization service",
+    "mcp-server": "Model Context Protocol implementation server",
+    "ml-model-registry": "Machine learning model registry and versioning",
+    "portfolio_organizer": "Portfolio management and organization service",
+    "career_development": "Career path and skill development tracking",
+    "job-automation-agent": "Task automation and job scheduling agent",
+    "ai-config-manager": "Configuration management for AI services",
+    "template-service": "Template rendering and management service",
+    "system-proof": "System validation and proof generation",
+    "thought-architecture": "Thought architecture design and optimization",
+}
+
+root = Path("apps")
+
+print("📝 Updating service READMEs with testing information")
+print("=" * 80)
+
+for service_dir in sorted(root.iterdir()):
+    if not service_dir.is_dir():
+        continue
+    
+    service_name = service_dir.name
+    description = service_descriptions.get(service_name, "Microservice component")
+    service_name_normalized = service_name.replace("-", "_")
+    
+    readme_path = service_dir / "README.md"
+    
+    content = readme_template.format(
+        service_name=service_name,
+        description=description,
+        service_name_normalized=service_name_normalized
+    )
+    
+    with open(readme_path, "w") as f:
+        f.write(content)
+    
+    print(f"✅ {service_name:<25} - README updated with testing information")
+
+print("\n" + "=" * 80)
+print("✅ All service READMEs updated")
+print("=" * 80)
