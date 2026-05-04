@@ -23,3 +23,13 @@ test_db/
 
 .kodacli/sessions/
 .gigaide/
+
+# Generated reports
+.reports/
+*.pyc
+.coverage
+
+# Generated reports
+.reports/
+*.pyc
+.coverage
