@@ -1,7 +1,7 @@
 """
-Enhanced Tests for ai-config-manager
+Enhanced Tests for it_compass
 
-Service Tier: BUSINESS
+Service Tier: CORE
 Purpose: Comprehensive unit and functional testing
 
 Test Coverage:
@@ -28,7 +28,7 @@ import threading
 def config():
     """Service configuration fixture"""
     return {
-        "service_name": "ai-config-manager",
+        "service_name": "it_compass",
         "environment": "test",
         "debug": True,
         "timeout": 5.0,
@@ -85,26 +85,9 @@ class TestBasicFunctionality:
         assert hasattr(service_instance, 'logger')
 
 
-    def test_config_loading(self, service_instance, config, mock_logger):
+    def test_compass_analyzes_system_architecture(self, service_instance, config, mock_logger):
         """
-        Test: Config Loading
-        """
-        assert service_instance is not None
-        assert config["environment"] == "test"
-        
-        service_instance.process = MagicMock(return_value={"status": "success"})
-        service_instance.validate = MagicMock(return_value=True)
-        
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
-        
-        if result:
-            assert result.get("status") == "success"
-        assert not mock_logger.error.called or mock_logger.error.call_count == 0
-
-
-    def test_config_validation(self, service_instance, config, mock_logger):
-        """
-        Test: Config Validation
+        Test: Compass Analyzes System Architecture
         """
         assert service_instance is not None
         assert config["environment"] == "test"
@@ -119,9 +102,26 @@ class TestBasicFunctionality:
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
 
 
-    def test_config_hot_reload(self, service_instance, config, mock_logger):
+    def test_compass_identifies_bottlenecks(self, service_instance, config, mock_logger):
         """
-        Test: Config Hot Reload
+        Test: Compass Identifies Bottlenecks
+        """
+        assert service_instance is not None
+        assert config["environment"] == "test"
+        
+        service_instance.process = MagicMock(return_value={"status": "success"})
+        service_instance.validate = MagicMock(return_value=True)
+        
+        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        
+        if result:
+            assert result.get("status") == "success"
+        assert not mock_logger.error.called or mock_logger.error.call_count == 0
+
+
+    def test_compass_suggests_improvements(self, service_instance, config, mock_logger):
+        """
+        Test: Compass Suggests Improvements
         """
         assert service_instance is not None
         assert config["environment"] == "test"
