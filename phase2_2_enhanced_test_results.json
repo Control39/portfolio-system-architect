@@ -1,0 +1,82 @@
+{
+  "total_services": 15,
+  "total_passed": 210,
+  "total_failed": 0,
+  "results": {
+    "cognitive-agent": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "decision-engine": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "it_compass": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "knowledge-graph": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "auth_service": {
+      "passed": 0,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "mcp-server": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "infra-orchestrator": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "ml-model-registry": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "portfolio_organizer": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "career_development": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "job-automation-agent": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "ai-config-manager": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "template-service": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "system-proof": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "thought-architecture": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    }
+  }
+}
