@@ -139,3 +139,7 @@ ignore = [
 skips = ["B101", "B104", "B404", "B501", "B507"]
 exclude_dirs = ["tests", "test_*.py", ".venv"]
 skip_attrs_with_nosec = true
+# Игнорировать B104 в src/main.py, так как приложение работает в контейнере
+# и не экспортируется напрямую
+[tool.bandit.overrides]
+"src/main.py" = ["B104"]
