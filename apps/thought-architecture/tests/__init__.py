@@ -1,0 +1,3 @@
+"""
+thought-architecture tests package
+"""
