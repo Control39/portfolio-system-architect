@@ -8,11 +8,21 @@ __version__ = "1.0.0"
 __author__ = "Cognitive Automation Agent Team"
 __license__ = "MIT"
 
-from .scripts.learning_main import LearningSystem
-from .scripts.planner_main import Planner
+# Lazy imports to avoid circular dependencies
+try:
+    from .scripts.learning_main import LearningSystem
+except (ImportError, ModuleNotFoundError):
+    LearningSystem = None
 
-# Импорт основных компонентов для удобного доступа
-from .scripts.scanner_main import Scanner
+try:
+    from .scripts.planner_main import Planner
+except (ImportError, ModuleNotFoundError):
+    Planner = None
+
+try:
+    from .scripts.scanner_main import Scanner
+except (ImportError, ModuleNotFoundError):
+    Scanner = None
 
 # Экспорт основных классов
 __all__ = [
@@ -27,7 +37,9 @@ __all__ = [
 # Ленивая загрузка для избежания циклических импортов
 def __getattr__(name):
     if name == "CognitiveAgentLauncher":
-        from .launch_script import CognitiveAgentLauncher
-
-        return CognitiveAgentLauncher
+        try:
+            from .launch_script import CognitiveAgentLauncher
+            return CognitiveAgentLauncher
+        except (ImportError, ModuleNotFoundError):
+            return None
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

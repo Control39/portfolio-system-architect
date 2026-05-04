@@ -1,0 +1,740 @@
+{
+  "timestamp": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect",
+  "total_services": 15,
+  "healthy": 15,
+  "services": {
+    "ai-config-manager": {
+      "name": "ai-config-manager",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\ai-config-manager",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": false,
+            "package.json": true,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "package.json"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "auth_service": {
+      "name": "auth_service",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\auth_service",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "career_development": {
+      "name": "career_development",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\career_development",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 3,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": true,
+          "doc_count": 1
+        }
+      }
+    },
+    "cognitive-agent": {
+      "name": "cognitive-agent",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\cognitive-agent",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore",
+            "agent-config.yaml",
+            "git-hooks.yaml",
+            "integrations.yaml",
+            "learning.yaml",
+            "planner.yaml",
+            "quota-config.yaml",
+            "scanner.yaml",
+            "triggers.yaml",
+            "vscode-extensions-caa-integration.yaml"
+          ],
+          "count": 10
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "decision-engine": {
+      "name": "decision-engine",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\decision-engine",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 4,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": true,
+          "doc_count": 2
+        }
+      }
+    },
+    "infra-orchestrator": {
+      "name": "infra-orchestrator",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\infra-orchestrator",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore",
+            "appsettings.yaml"
+          ],
+          "count": 2
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "it_compass": {
+      "name": "it_compass",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\it_compass",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore",
+            "settings.json"
+          ],
+          "count": 2
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": true,
+          "doc_count": 11
+        }
+      }
+    },
+    "job-automation-agent": {
+      "name": "job-automation-agent",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\job-automation-agent",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "knowledge-graph": {
+      "name": "knowledge-graph",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\knowledge-graph",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 1,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "mcp-server": {
+      "name": "mcp-server",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\mcp-server",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore",
+            "mcp-config.yaml"
+          ],
+          "count": 2
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": true,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt",
+            "pyproject.toml"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "ml-model-registry": {
+      "name": "ml-model-registry",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\ml-model-registry",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 11,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "portfolio_organizer": {
+      "name": "portfolio_organizer",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\portfolio_organizer",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "system-proof": {
+      "name": "system-proof",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\system-proof",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "template-service": {
+      "name": "template-service",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\template-service",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": false,
+            "package.json": false,
+            "pyproject.toml": true,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "pyproject.toml"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    },
+    "thought-architecture": {
+      "name": "thought-architecture",
+      "path": "C:\\Users\\Z\\.docker\\cagent\\working_directories\\docker-gordon-v5\\e99d7199-9f04-43ec-aad3-99592b79eaba\\default\\portfolio-system-architect\\apps\\thought-architecture",
+      "status": "\ud83d\udfe2 OK",
+      "checks": {
+        "structure": {
+          "ok": true,
+          "found": [
+            "src",
+            "config",
+            "tests"
+          ],
+          "missing": [],
+          "score": 1.0
+        },
+        "config": {
+          "ok": true,
+          "files": [
+            ".gitignore"
+          ],
+          "count": 1
+        },
+        "dependencies": {
+          "ok": true,
+          "files": {
+            "requirements.txt": true,
+            "package.json": false,
+            "pyproject.toml": false,
+            "go.mod": false,
+            "pom.xml": false
+          },
+          "found": [
+            "requirements.txt"
+          ]
+        },
+        "tests": {
+          "ok": true,
+          "count": 2,
+          "exists": true
+        },
+        "documentation": {
+          "ok": true,
+          "has_readme": true,
+          "has_docs": false,
+          "doc_count": 0
+        }
+      }
+    }
+  }
+}
