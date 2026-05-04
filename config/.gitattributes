@@ -1,0 +1,61 @@
+# ==========================================
+# Git LFS: Бинарные и большие файлы (только тяжёлые!)
+# ==========================================
+
+# ML модели (часто >100MB)
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+*.pickle filter=lfs diff=lfs merge=lfs -text
+
+# Архивы и бинарные документы
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+
+# Дампы баз данных
+*.sqlite filter=lfs diff=lfs merge=lfs -text
+*.db filter=lfs diff=lfs merge=lfs -text
+
+# ==========================================
+# Export-ignore: Исключить из git archive
+# ==========================================
+
+# Внутренняя документация и тесты
+docs/internal/ export-ignore
+examples/ export-ignore
+examples/legacy/ export-ignore
+tests/benchmarks/ export-ignore
+
+# CI/CD и служебные файлы
+.github/workflows/ export-ignore
+.venv/ export-ignore
+__pycache__/ export-ignore
+*.pyc export-ignore
+
+# Obsidian файлы
+.obsidian/ export-ignore
+*.canvas export-ignore
+*.excalidraw.md export-ignore
+**/obsidian-vault/ export-ignore
+**/obsidian-map/ export-ignore
+.trash/ export-ignore
+
+# ==========================================
+# Текстовые файлы (явно указываем кодировку)
+# ==========================================
+*.md text diff=markdown
+*.json text
+*.yaml text
+*.yml text
+*.py text diff=python
+*.sh text eol=lf
+*.bat text eol=crlf
