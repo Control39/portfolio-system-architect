@@ -58,7 +58,7 @@ jobs:
       - name: Run repository audit
         id: audit
         run: |
-          cd tools/repo-audit
+          cd tools/repo_audit
           python cli.py --format markdown --output ../../audit-report.md
           echo "score=$(python -c "import sys; sys.path.insert(0, '.'); from checker import RepositoryAuditor; a = RepositoryAuditor('.'); a.register_check(__import__('checks.documentation').documentation.DocumentationCheck); a.register_check(__import__('checks.security').security.SecurityCheck); a.register_check(__import__('checks.structure').structure.StructureCheck); a.register_check(__import__('checks.cicd').cicd.CICDCheck); a.register_check(__import__('checks.code_quality').code_quality.CodeQualityCheck); a.run_all(); s = a.score(); print(f'{s[\"percentage\"]:.2f}')")" >> $GITHUB_OUTPUT
 
