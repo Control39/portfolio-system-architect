@@ -7,7 +7,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 DOCS_DIR="docs"
-CONFIG_FILE="docs/mkdocs.yml"
+CONFIG_FILE="mkdocs.yml"
 BUILD_DIR="$DOCS_DIR/site"
 
 # Install dependencies if needed

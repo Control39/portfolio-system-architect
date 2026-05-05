@@ -1,0 +1,13 @@
+﻿site_name: Portfolio System Architect
+site_url: https://leadarchitect-ai.github.io/portfolio-system-architect/
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - API: api/README.md
+  - Reference: reference/README.md
+  - Reasoning:
+      - Структура: reasoning/PRINCIPLES.md
+      - Галерея: reasoning/ROUTES.md
+      - Шаблон: reasoning/TEMPLATE.md
+      - Визуализация: visualization/interactive.md
