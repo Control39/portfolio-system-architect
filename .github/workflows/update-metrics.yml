@@ -1,0 +1,73 @@
+name: Update Metrics & Badges
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for git metrics
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install pytest pytest-cov
+      
+      - name: Run metrics collection
+        run: |
+          python scripts/collect_metrics.py
+      
+      - name: Generate shields.io badges
+        run: |
+          python scripts/generate_badges.py
+      
+      - name: Run tests and get coverage
+        continue-on-error: true
+        run: |
+          pytest tests/ --cov=src --cov=apps --cov-report=json --cov-report=term
+      
+      - name: Extract coverage percentage
+        id: coverage
+        run: |
+          if [ -f coverage.json ]; then
+            COVERAGE=$(python -c "import json; print(json.load(open('coverage.json'))['totals']['percent_covered'])")
+            echo "coverage=${COVERAGE}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create coverage badge
+        run: |
+          COVERAGE=${{ steps.coverage.outputs.coverage }}
+          if [ ! -z "$COVERAGE" ]; then
+            echo "Coverage: ${COVERAGE}%"
+            # Badge will be dynamic via shields.io
+          fi
+      
+      - name: Update README with badges
+        run: |
+          python scripts/update_readme_badges.py
+      
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add metrics.json README.md
+          if git diff --quiet; then
+            echo "No changes detected"
+          else
+            git commit -m "chore: update metrics and badges"
+            git push
+          fi
