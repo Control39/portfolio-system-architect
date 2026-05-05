@@ -56,4 +56,4 @@ jobs:
       - name: Trigger SourceCraft Sites deployment
         run: |
           echo "Site will be automatically deployed to SourceCraft Sites"
-          echo "Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
+          echo "Site URL: https://Control39.sourcecraft.site/portfolio-system-architect/"

@@ -40,7 +40,7 @@ jobs:
         # Define services to check
         declare -A services=(
           ["API Gateway"]="http://localhost:8000/health"
-          ["Documentation"]="https://leadarchitect-ai.github.io/portfolio-system-architect/"
+          ["Documentation"]="https://Control39.github.io/portfolio-system-architect/"
         )
 
         FAILED_SERVICES=""
