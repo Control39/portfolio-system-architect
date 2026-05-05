@@ -1,4 +1,5 @@
 -r python_server/requirements.txt
+streamlit>=1.36.0
 mypy==1.11.2
 pytest-timeout==2.3.1
 chevron==0.14.0
