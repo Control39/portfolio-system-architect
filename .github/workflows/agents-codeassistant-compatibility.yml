@@ -55,7 +55,7 @@ jobs:
           done
 
           # Проверка обязательных файлов
-          required_files=("config/agent-config.yaml" "config/triggers.yaml" "README.md")
+          required_files=("apps/cognitive-agent/config/agent-config.yaml" "apps/cognitive-agent/config/triggers.yaml" "README.md")
           for file in "${required_files[@]}"; do
             if [ -f "apps/cognitive-agent/$file" ]; then
               echo "✅ Файл apps/cognitive-agent/$file существует"
@@ -134,7 +134,7 @@ jobs:
                   print(f"✅ Директория существует: {path}")
 
               # Проверка конфигурационного файла
-              config_path = 'apps/cognitive-agent/config/agent-config.yaml'
+              config_path = 'apps/cognitive-agent/apps/cognitive-agent/config/agent-config.yaml'
               if os.path.exists(config_path):
                   try:
                       with open(config_path, 'r') as f:
@@ -278,7 +278,7 @@ jobs:
 
           ### Cognitive Automation Agent (apps/cognitive-agent/)
           - Структура директорий: $([ -d "apps/cognitive-agent/config" ] && echo "✅" || echo "❌")
-          - Конфигурационные файлы: $([ -f "apps/cognitive-agent/config/agent-config.yaml" ] && echo "✅" || echo "❌")
+          - Конфигурационные файлы: $([ -f "apps/cognitive-agent/apps/cognitive-agent/config/agent-config.yaml" ] && echo "✅" || echo "❌")
           - Навыки (skills): $([ -d "apps/cognitive-agent/skills" ] && echo "✅" || echo "❌")
           - Changelogs: $([ -d "apps/cognitive-agent/changelogs" ] && echo "✅" || echo "❌")
 

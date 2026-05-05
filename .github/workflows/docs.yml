@@ -1,4 +1,4 @@
-﻿name: Documentation
+name: Documentation / Generate Documentation
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
       - '**.md'
       - 'docs/**'
       - '!docs/_build/**'
+      - 'mkdocs.yml'
   pull_request:
     branches: [ main, develop ]
   schedule:
@@ -33,27 +34,58 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e .[dev]
+        pip install mkdocs mkdocs-material
         pip install pydoc-markdown diagrams
 
-    - name: Generate documentation
+    - name: Check if docs generation script exists
+      id: check-script
       run: |
-        chmod +x scripts/linux/generate-docs.sh
-        ./scripts/linux/generate-docs.sh
+        if [ -f "scripts/linux/generate-docs.sh" ]; then
+          echo "script_exists=true" >> $GITHUB_OUTPUT
+        elif [ -f "scripts/generate-docs.sh" ]; then
+          echo "script_exists=true" >> $GITHUB_OUTPUT
+          echo "using_fallback=true" >> $GITHUB_OUTPUT
+        else
+          echo "script_exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate documentation
+      if: steps.check-script.outputs.script_exists == 'true'
+      run: |
+        if [ -f "scripts/linux/generate-docs.sh" ]; then
+          chmod +x scripts/linux/generate-docs.sh
+          ./scripts/linux/generate-docs.sh
+        elif [ -f "scripts/generate-docs.sh" ]; then
+          chmod +x scripts/generate-docs.sh
+          ./scripts/generate-docs.sh
+        fi
+
+    - name: Verify mkdocs.yml exists
+      run: |
+        if [ ! -f "mkdocs.yml" ]; then
+          echo "ERROR: mkdocs.yml not found in root directory!"
+          exit 1
+        fi
+        echo "✓ mkdocs.yml found in root"
+
+    - name: Build documentation with MkDocs
+      run: |
+        mkdocs build --config-file mkdocs.yml --site-dir ./site --clean
+        echo "✓ Documentation built successfully"
 
     - name: Check for documentation changes
       id: doc-changes
       run: |
-        if git diff --name-only HEAD~1 HEAD | grep -q "docs/"; then
+        if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "docs/"; then
           echo "changes=true" >> $GITHUB_OUTPUT
           echo "Documentation files changed"
         else
           echo "changes=false" >> $GITHUB_OUTPUT
-          echo "No documentation changes"
+          echo "No documentation changes detected"
         fi
 
     - name: Commit documentation changes
-      if: steps.doc-changes.outputs.changes == 'true'
+      if: steps.doc-changes.outputs.changes == 'true' && github.event_name == 'push'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -61,40 +93,8 @@ jobs:
         git commit -m "docs: auto-generate documentation [skip ci]" || echo "No changes to commit"
 
     - name: Push changes
-      if: steps.doc-changes.outputs.changes == 'true'
+      if: steps.doc-changes.outputs.changes == 'true' && github.event_name == 'push'
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref_name }}
-
-  build-and-deploy:
-    name: Build and Deploy Docs
-    runs-on: ubuntu-latest
-    needs: generate-docs
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Install MkDocs
-      run: |
-        python -m pip install --upgrade pip
-        pip install mkdocs mkdocs-material
-
-    - name: Build documentation site
-      run: |
-        # Build the site
-        mkdocs build --site-dir docs/_build --clean
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/_build
-        publish_branch: gh-pages

@@ -34,8 +34,7 @@ jobs:
 
       - name: Build MkDocs site
         run: |
-          cd docs/mkdocs-site
-          mkdocs build --clean
+          mkdocs build --config-file ./mkdocs.yml --clean
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -44,7 +43,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/mkdocs-site/site
+          publish_dir: ./docs/site
 
       - name: Deploy K8s (if tagged)
         if: startsWith(github.ref, 'refs/tags/v')
@@ -57,4 +56,4 @@ jobs:
       - name: Trigger SourceCraft Sites deployment
         run: |
           echo "Site will be automatically deployed to SourceCraft Sites"
-          echo "Site URL: https://leadarchitect-ai.sourcecraft.site/portfolio-system-architect/"
+          echo "Site URL: https://Control39.sourcecraft.site/portfolio-system-architect/"
