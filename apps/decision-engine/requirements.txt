@@ -12,5 +12,5 @@ requests>=2.32.0
 gitpython>=3.1.43
 
 # --- Тестовые зависимости ---
-pytest>=9.0.0
+pytest>=8.0.0
 pytest-cov>=7.0.0
