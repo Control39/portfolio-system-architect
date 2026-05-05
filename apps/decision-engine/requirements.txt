@@ -1,11 +1,11 @@
-﻿# Decision Engine Dependencies
+# Decision Engine Dependencies
 # Запустите: pip install -r requirements.txt
 
 chardet>=5.2.0
 colorama>=0.4.6
 
 # --- Основные зависимости ---
-fastapi>=0.115.0
+fastapi>=0.136.1
 uvicorn>=0.32.0
 pydantic>=2.8.0
 requests>=2.32.0
