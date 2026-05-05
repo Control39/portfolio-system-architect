@@ -33,21 +33,21 @@ jobs:
       - name: Run Assistant Orchestrator (JSON report)
         run: |
           python -m assistant_orchestrator \
-            --output reports \
+            --output docs/archive/reports \
             --format json \
             --verbose
 
       - name: Run Assistant Orchestrator (HTML dashboard)
         run: |
           python -m assistant_orchestrator \
-            --output reports \
+            --output docs/archive/reports \
             --format html
 
       - name: Upload reports as artifact
         uses: actions/upload-artifact@v4
         with:
           name: architecture-reports
-          path: reports/
+          path: docs/archive/reports/
           retention-days: 30
 
       - name: Display summary
