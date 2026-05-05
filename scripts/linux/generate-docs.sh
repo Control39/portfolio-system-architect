@@ -4,10 +4,11 @@
 
 set -e
 
-cd "$(dirname "$0")/.."
+# Navigate to repository root (finds .git directory)
+cd "$(git rev-parse --show-toplevel)"
 
 DOCS_DIR="docs"
-CONFIG_FILE="./mkdocs.yml"
+CONFIG_FILE="mkdocs.yml"
 BUILD_DIR="$DOCS_DIR/site"
 
 # Install dependencies if needed
