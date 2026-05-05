@@ -31,7 +31,6 @@ jobs:
 
       - name: Configure site_url for GitHub Pages
         run: |
-          cd docs
           # GitHub mirror: Control39/portfolio-system-architect
           SITE_URL="https://control39.github.io/portfolio-system-architect/"
 
@@ -46,8 +45,7 @@ jobs:
 
       - name: Build mkdocs site
         run: |
-          cd docs
-          mkdocs build --site-dir site
+          mkdocs build --site-dir docs/site
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
@@ -59,6 +57,10 @@ jobs:
           publish_dir: ./docs/site
           publish_branch: gh-pages
           force_orphan: true
+
+      - name: Cleanup backup
+        run: |
+          rm -f mkdocs.yml.backup
 
       - name: Build only (for feature branches)
         if: github.ref != 'refs/heads/main'
