@@ -28,7 +28,7 @@ jobs:
           scan-type: 'fs'
           scan-ref: '.'
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          output: './trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           exit-code: '0'
 
@@ -36,7 +36,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: './trivy-results.sarif'
 
   bandit-scan:
     name: Bandit Python Security Scan
@@ -154,13 +154,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: --report-format sarif --report-path gitleaks-report.sarif
+          args: --report-format sarif --report-path ./gitleaks-report.sarif
 
       - name: Upload gitleaks results
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: 'gitleaks-report.sarif'
+          sarif_file: './gitleaks-report.sarif'
 
   notify-security:
     name: Security Notification
