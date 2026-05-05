@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
-          pip install -r tools/repo-audit/requirements.txt 2>/dev/null || echo "No specific requirements for repo-audit"
+          pip install -r tools/repo_audit/requirements.txt 2>/dev/null || echo "No specific requirements for tools/repo_audit"
 
       - name: Run repository audit
         id: audit

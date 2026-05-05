@@ -1,8 +1,8 @@
-﻿name: Deploy Documentation to GitHub Pages
+name: Deploy Documentation to GitHub Pages
 
 on:
   push:
-    branches: [ main, feature/architectural-justification-docs ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -10,61 +10,49 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Configure Git for long paths
-        run: git config --global core.longpaths true
-        shell: bash
-      - uses: actions/checkout@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           python-version: '3.12'
 
-      - name: Install mkdocs and dependencies
+      - name: Verify mkdocs.yml exists
         run: |
+          if [ ! -f "mkdocs.yml" ]; then
+            echo "ERROR: mkdocs.yml not found in root!"
+            exit 1
+          fi
+          echo "✓ mkdocs.yml found"
+          cat mkdocs.yml | head -20
+
+      - name: Install MkDocs
+        run: |
+          pip install --upgrade pip
           pip install mkdocs-material
           pip install mkdocs-git-revision-date-localized-plugin
 
-      - name: Configure site_url for GitHub Pages
+      - name: Build MkDocs site
         run: |
-          # GitHub mirror: Control39/portfolio-system-architect
-          SITE_URL="https://control39.github.io/portfolio-system-architect/"
+          echo "Building documentation with mkdocs.yml from root..."
+          mkdocs build --config-file ./mkdocs.yml --site-dir ./site --clean -v
+          echo "✓ Build successful"
+          ls -la site/
 
-          # Create backup
-          cp mkdocs.yml mkdocs.yml.backup
-
-          # Update site_url using sed (GitHub Actions uses Linux)
-          sed -i "s|site_url:.*|site_url: '$SITE_URL'|" mkdocs.yml
-
-          echo "Updated site_url for GitHub Pages: $SITE_URL"
-          echo "Original config backed up to mkdocs.yml.backup"
-
-      - name: Build mkdocs site
-        run: |
-          mkdocs build --site-dir docs/site
-
-      - name: Deploy to gh-pages
+      - name: Deploy to GitHub Pages (main branch only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/site
+          publish_dir: ./site
           publish_branch: gh-pages
           force_orphan: true
+          cname: control39.github.io
 
-      - name: Cleanup backup
+      - name: Build only (for PRs and feature branches)
+        if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
         run: |
-          rm -f mkdocs.yml.backup
-
-      - name: Build only (for feature branches)
-        if: github.ref != 'refs/heads/main'
-        run: |
-          echo "Site built successfully for feature branch"
-          echo "To deploy to GitHub Pages, merge to main branch"
-          echo "To deploy to SourceCraft Sites, check .sourcecraft/ci.yaml configuration"
+          echo "Documentation built successfully"
+          echo "✓ To deploy, merge to main branch"
+          du -sh ./site
