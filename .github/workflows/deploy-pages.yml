@@ -31,7 +31,7 @@ jobs:
 
       - name: Configure site_url for GitHub Pages
         run: |
-          cd docs/mkdocs-site
+          cd docs
           # GitHub mirror: Control39/portfolio-system-architect
           SITE_URL="https://control39.github.io/portfolio-system-architect/"
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Build mkdocs site
         run: |
-          cd docs/mkdocs-site
+          cd docs
           mkdocs build --site-dir site
 
       - name: Deploy to gh-pages
@@ -56,7 +56,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/mkdocs-site/site
+          publish_dir: ./docs/site
           publish_branch: gh-pages
           force_orphan: true
 
