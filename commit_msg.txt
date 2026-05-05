@@ -1,1 +1,0 @@
-docs: add mcp-server audit case and issue creation script

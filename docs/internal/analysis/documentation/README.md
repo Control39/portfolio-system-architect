@@ -207,6 +207,8 @@ docs/
 | Дополнение API документации | 1 неделя | Backend Dev |
 | Настройка GitHub Pages | 3 дня | DevOps |
 | Добавление инструкций для macOS/Linux | 2 дня | Backend Dev |
+|                     |          |                  |
+|                     |          |                  |
 | Создание общего FAQ | 1 неделя | Technical Writer |
 | Интеграция changelog с релизами | 2 недели | DevOps |
 | Глоссарий терминов | 2 недели | Technical Writer |
