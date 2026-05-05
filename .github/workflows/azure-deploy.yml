@@ -10,7 +10,7 @@ env:
   AZURE_WEBAPP_PLAN: portfolio-plan
   RESOURCE_GROUP: portfolio-rg
   PYTHON_VERSION: '3.11'
-  DOCKER_IMAGE: ghcr.io/leadarchitect-ai/portfolio-system-architect:latest
+  DOCKER_IMAGE: ghcr.io/Control39/portfolio-system-architect:latest
 
 permissions:
   id-token: write   # Required for OIDC
