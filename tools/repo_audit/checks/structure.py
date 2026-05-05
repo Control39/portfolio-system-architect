@@ -41,6 +41,21 @@ class StructureCheck(BaseCheck):
             else:
                 self._add_result("WARNING", f"{desc} missing", path)
 
+        # Check for config files in config/ directory (new structure)
+        config_files = [
+            ("config/tools/pytest.ini", "Pytest configuration"),
+            ("config/tools/.bandit.yml", "Bandit security configuration"),
+            ("config/tools/.pre-commit-config.yaml", "Pre-commit hooks configuration"),
+            ("config/ci-cd/mkdocs.yml", "MkDocs configuration"),
+            ("config/ci-cd/azure.yaml", "Azure deployment configuration"),
+            ("config/docker/docker-compose.yml", "Docker Compose configuration"),
+        ]
+        for path, desc in config_files:
+            if (self.repo_path / path).is_file():
+                self._add_result("PASS", f"{desc} exists in config/", path)
+            else:
+                self._add_result("WARNING", f"{desc} missing from config/", path)
+
         # Check for clutter in root
         root_files = list(self.repo_path.iterdir())
         allowed_extensions = {
@@ -55,34 +70,35 @@ class StructureCheck(BaseCheck):
             ".ps1",
             ".sh",
         }
+        # Config files that should be in root OR in config/ directory
+        root_allowed_configs = {
+            "LICENSE",
+            "Dockerfile",
+            "Makefile",
+            "docker-compose.yml",
+            ".gitignore",
+            ".gitattributes",
+            ".pre-commit-config.yaml",  # Can be in root or config/tools/
+            ".bandit.yml",  # Can be in root or config/tools/
+            ".trivyignore",
+            ".secrets.baseline",
+            ".codecov.yml",  # Can be in root or config/ci-cd/
+            "pyproject.toml",
+            "pytest.ini",  # Can be in root or config/tools/
+            "pyrightconfig.json",  # Can be in root or config/tools/
+            "requirements.txt",
+            "requirements-dev.txt",
+            "requirements.in",
+            "requirements-dev.in",
+            "mkdocs.yml",  # Can be in root or docs/ or config/ci-cd/
+            "sonar-project.properties",
+        }
         clutter = []
         for f in root_files:
             if (
                 f.is_file()
                 and f.suffix not in allowed_extensions
-                and f.name
-                not in {
-                    "LICENSE",
-                    "Dockerfile",
-                    "Makefile",
-                    "docker-compose.yml",
-                    ".gitignore",
-                    ".gitattributes",
-                    ".pre-commit-config.yaml",
-                    ".bandit.yml",
-                    ".trivyignore",
-                    ".secrets.baseline",
-                    ".codecov.yml",
-                    "pyproject.toml",
-                    "pytest.ini",
-                    "pyrightconfig.json",
-                    "requirements.txt",
-                    "requirements-dev.txt",
-                    "requirements.in",
-                    "requirements-dev.in",
-                    "mkdocs.yml",
-                    "sonar-project.properties",
-                }
+                and f.name not in root_allowed_configs
             ):
                 clutter.append(f.name)
         if clutter:
