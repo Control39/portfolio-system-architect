@@ -1,0 +1,21 @@
+# Gitleaks ignore file
+# Exclude known false positives and test files
+
+# Test fixtures with mock secrets
+tests/**
+apps/*/tests/**
+**/test_*.py
+
+# Example/dummy files
+**/*.example
+**/example*
+**/sample*
+
+# Legacy code with hardcoded placeholders
+legacy/**
+**/legacy/**
+
+# Generated files
+**/__pycache__/**
+**/.venv/**
+**/node_modules/**
