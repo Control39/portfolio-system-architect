@@ -4,10 +4,12 @@
 
 set -e
 
-cd "$(dirname "$0")/.."
+# Navigate to repository root (finds .git directory)
+cd "$(git rev-parse --show-toplevel)"
 
-DOCS_DIR="docs/mkdocs-site"
-BUILD_DIR="${DOCS_DIR}/site"
+DOCS_DIR="docs"
+CONFIG_FILE="mkdocs.yml"
+BUILD_DIR="$DOCS_DIR/site"
 
 # Install dependencies if needed
 if ! command -v mkdocs &> /dev/null; then
@@ -17,7 +19,7 @@ fi
 
 # Build docs
 echo "Building documentation..."
-mkdocs build --site-dir "$BUILD_DIR" --config-file "$DOCS_DIR/mkdocs.yml"
+mkdocs build --site-dir "$BUILD_DIR" --config-file "$CONFIG_FILE"
 
 echo "Documentation built at $BUILD_DIR"
 
@@ -28,6 +30,6 @@ if [[ "$1" == "--deploy" ]]; then
         exit 1
     fi
     echo "Deploying to GitHub Pages..."
-    mkdocs gh-deploy --config-file "$DOCS_DIR/mkdocs.yml" --force
+    mkdocs gh-deploy --config-file "$CONFIG_FILE" --force
     echo "Deployment completed."
 fi

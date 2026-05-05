@@ -40,19 +40,23 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-# [tool.pytest.ini_options] and [tool.pytest-cov] removed - configuration moved to pytest.ini
-#
-# testpaths = ["apps", "tests", "tests/e2e", "tests/unit"]
-# python_files = "test_*.py"
-# python_classes = "Test*"
-# python_functions = "test_*"
-# pythonpath = []
-# addopts = "--cov=apps --cov=src --cov-report=html --cov-report=term-missing -m 'not slow'"
-# markers = ["e2e: E2E tests (services up)", "slow: Slow tests"]
-# filterwarnings = ["ignore::DeprecationWarning:langchain"]
-#
-# [tool.pytest-cov]
-# cov_fail_under = 95
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--cov=apps --cov=src --cov-report=xml --cov-report=term -v"
+markers = [
+    "e2e: E2E tests (services up)",
+    "slow: Slow tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:langchain",
+]
+
+[tool.pytest-cov]
+cov_fail_under = 95
 
 [tool.hatch]
 package-format = ["sdist", "wheel"]
@@ -70,14 +74,14 @@ packages = ["src", "apps"]
 audit = ["pip-audit>=2.9.0", "bandit>=1.8.0"]
 dev = [
     "pytest>=9.0.0",
-    "pytest-cov>=7.0.0",
+    "pytest-cov>=5.0.0",
     "pytest-mock>=3.15.0",
     "ruff>=0.15.12",
     "black>=26.0.0",
     "bandit>=1.8.0",
     "mypy>=1.15.0",
 ]
-test = ["pytest>=9.0.0", "pytest-cov>=7.0.0", "pytest-mock>=3.15.0"]
+test = ["pytest>=9.0.0", "pytest-cov>=5.0.0", "pytest-mock>=3.15.0"]
 docs = ["mkdocs>=1.6.0", "mkdocs-material>=9.5.0"]
 
 

@@ -27,9 +27,7 @@ class CodeQualityCheck(BaseCheck):
             if self.check_file_content("pyproject.toml", "ruff"):
                 self._add_result("PASS", "Ruff configured in pyproject.toml", "pyproject.toml")
             else:
-                self._add_result(
-                    "WARNING", "Ruff not configured in pyproject.toml", "pyproject.toml"
-                )
+                self._add_result("WARNING", "Ruff not configured in pyproject.toml", "pyproject.toml")
         else:
             self._add_result("FAIL", "pyproject.toml missing", "pyproject.toml")
 
@@ -45,11 +43,11 @@ class CodeQualityCheck(BaseCheck):
         else:
             self._add_result("WARNING", "isort not configured", "pyproject.toml")
 
-        # mypy / pyright
-        if self.check_file_exists("pyrightconfig.json"):
-            self._add_result("PASS", "Pyright config exists", "pyrightconfig.json")
-        elif self.check_file_exists("mypy.ini"):
-            self._add_result("PASS", "Mypy config exists", "mypy.ini")
+        # mypy / pyright (can be in root or config/tools/)
+        if self.check_file_exists("pyrightconfig.json") or self.check_file_exists("config/tools/pyrightconfig.json"):
+            self._add_result("PASS", "Pyright config exists", "pyrightconfig.json or config/tools/pyrightconfig.json")
+        elif self.check_file_exists("mypy.ini") or self.check_file_exists("config/tools/mypy.ini"):
+            self._add_result("PASS", "Mypy config exists", "mypy.ini or config/tools/mypy.ini")
         else:
             self._add_result("WARNING", "Type checker config missing", ".")
 
@@ -59,7 +57,7 @@ class CodeQualityCheck(BaseCheck):
         else:
             self._add_result("WARNING", ".editorconfig missing", ".editorconfig")
 
-        # pre‑commit hooks for quality
+        # pre‑commit hooks for quality (can be in root or config/tools/)
         if self.check_file_exists(".pre-commit-config.yaml"):
             content = (self.repo_path / ".pre-commit-config.yaml").read_text(encoding="utf-8")
             if "ruff" in content or "black" in content or "isort" in content:
@@ -74,4 +72,24 @@ class CodeQualityCheck(BaseCheck):
                     "Pre‑commit missing quality hooks",
                     ".pre-commit-config.yaml",
                 )
+        elif self.check_file_exists("config/tools/.pre-commit-config.yaml"):
+            content = (self.repo_path / "config/tools/.pre-commit-config.yaml").read_text(encoding="utf-8")
+            if "ruff" in content or "black" in content or "isort" in content:
+                self._add_result(
+                    "PASS",
+                    "Pre‑commit includes quality hooks",
+                    "config/tools/.pre-commit-config.yaml",
+                )
+            else:
+                self._add_result(
+                    "WARNING",
+                    "Pre‑commit missing quality hooks",
+                    "config/tools/.pre-commit-config.yaml",
+                )
+        else:
+            self._add_result(
+                "WARNING",
+                "Pre‑commit config missing",
+                ".pre-commit-config.yaml or config/tools/.pre-commit-config.yaml",
+            )
         return self.results

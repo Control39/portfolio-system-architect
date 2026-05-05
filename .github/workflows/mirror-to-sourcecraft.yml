@@ -24,7 +24,7 @@ jobs:
           git remote remove sourcecraft 2>/dev/null || true
 
           # Добавляем remote SourceCraft с токеном
-          git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git"
+          git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@sourcecraft.dev/Control39/portfolio-system-architect.git"
 
           # Пушим все ветки и теги
           git push sourcecraft --all

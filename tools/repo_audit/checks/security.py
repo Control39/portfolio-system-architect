@@ -26,14 +26,21 @@ class SecurityCheck(BaseCheck):
         self.check_file_exists("SECURITY.md")
         # 2. .gitignore (should exclude secrets)
         self.check_file_exists(".gitignore")
-        # 3. .secrets.baseline
-        self.check_file_exists(".secrets.baseline")
-        # 4. .bandit.yml
-        self.check_file_exists(".bandit.yml")
-        # 5. .trivyignore
-        self.check_file_exists(".trivyignore")
-        # 6. .pre-commit-config.yaml (with security hooks)
-        if self.check_file_exists(".pre-commit-config.yaml"):
+        # 3. .secrets.baseline (can be in root or config/tools/)
+        if not self.check_file_exists(".secrets.baseline"):
+            self.check_file_exists("config/tools/.secrets.baseline")
+        # 4. .bandit.yml (can be in root or config/tools/)
+        if not self.check_file_exists(".bandit.yml"):
+            self.check_file_exists("config/tools/.bandit.yml")
+        # 5. .trivyignore (can be in root or config/tools/)
+        if not self.check_file_exists(".trivyignore"):
+            self.check_file_exists("config/tools/.trivyignore")
+        # 6. .pre-commit-config.yaml (can be in root or config/tools/)
+        if not self.check_file_exists(".pre-commit-config.yaml"):
+            self.check_file_exists("config/tools/.pre-commit-config.yaml")
+        if self.check_file_exists(".pre-commit-config.yaml") or self.check_file_exists(
+            "config/tools/.pre-commit-config.yaml"
+        ):
             self.check_file_content(
                 ".pre-commit-config.yaml",
                 "detect-secrets",
@@ -95,14 +102,14 @@ class DependencySecurityCheck(BaseCheck):
                     "pip‑audit not in dev requirements",
                     "requirements-dev.txt",
                 )
-        # 2. bandit configuration
-        if self.check_file_exists(".bandit.yml"):
-            self._add_result("PASS", "Bandit config exists", ".bandit.yml")
+        # 2. bandit configuration (can be in root or config/tools/)
+        if self.check_file_exists(".bandit.yml") or self.check_file_exists("config/tools/.bandit.yml"):
+            self._add_result("PASS", "Bandit config exists", ".bandit.yml or config/tools/.bandit.yml")
         else:
             self._add_result("WARNING", "Bandit config missing", ".bandit.yml")
-        # 3. trivy configuration
-        if self.check_file_exists(".trivyignore"):
-            self._add_result("PASS", "Trivy ignore file exists", ".trivyignore")
+        # 3. trivy configuration (can be in root or config/tools/)
+        if self.check_file_exists(".trivyignore") or self.check_file_exists("config/tools/.trivyignore"):
+            self._add_result("PASS", "Trivy ignore file exists", ".trivyignore or config/tools/.trivyignore")
         else:
             self._add_result("WARNING", "Trivy ignore file missing", ".trivyignore")
         # 4. GitHub Actions security scanning

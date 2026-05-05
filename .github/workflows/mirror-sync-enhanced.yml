@@ -36,7 +36,7 @@ jobs:
       - name: Fetch all remotes
         run: |
           git fetch origin --prune
-          git fetch github --prune
+          git fetch sourcecraft --prune
 
       - name: Compare branches and detect discrepancies
         id: compare
@@ -52,10 +52,11 @@ jobs:
           echo "|--------|-------------------|---------------|--------|---------------|" >> $GITHUB_STEP_SUMMARY
 
           # Get list of branches from both remotes
-          ORIGIN_BRANCHES=$(git branch -r | grep 'origin/' | grep -v 'HEAD' | sed 's/origin\///')
-          GITHUB_BRANCHES=$(git branch -r | grep 'github/' | grep -v 'HEAD' | sed 's/github\///')
+          # origin = GitHub (main), sourcecraft = SourceCraft (mirror)
+          GITHUB_BRANCHES=$(git branch -r | grep 'origin/' | grep -v 'HEAD' | sed 's/origin\///')
+          SOURCECRAFT_BRANCHES=$(git branch -r | grep 'sourcecraft/' | grep -v 'HEAD' | sed 's/sourcecraft\///')
 
-          ALL_BRANCHES=$(echo "$ORIGIN_BRANCHES $GITHUB_BRANCHES" | tr ' ' '\n' | sort -u)
+          ALL_BRANCHES=$(echo "$GITHUB_BRANCHES $SOURCECRAFT_BRANCHES" | tr ' ' '\n' | sort -u)
 
           HAS_DIFF=false
           DIFF_COUNT=0
@@ -63,32 +64,33 @@ jobs:
           DIFF_REPORT=""
 
           for branch in $ALL_BRANCHES; do
-            ORIGIN_COMMIT=$(git rev-parse --quiet --verify "origin/$branch" || echo "MISSING")
-            GITHUB_COMMIT=$(git rev-parse --quiet --verify "github/$branch" || echo "MISSING")
+            GITHUB_COMMIT=$(git rev-parse --quiet --verify "origin/$branch" || echo "MISSING")
+            SOURCECRAFT_COMMIT=$(git rev-parse --quiet --verify "sourcecraft/$branch" || echo "MISSING")
 
-            if [ "$ORIGIN_COMMIT" = "MISSING" ] && [ "$GITHUB_COMMIT" = "MISSING" ]; then
+            if [ "$GITHUB_COMMIT" = "MISSING" ] && [ "$SOURCECRAFT_COMMIT" = "MISSING" ]; then
               continue
             fi
 
             ACTION=""
-            if [ "$ORIGIN_COMMIT" = "MISSING" ]; then
-              STATUS="⚠️ Only on GitHub"
-              HAS_DIFF=true
-              DIFF_COUNT=$((DIFF_COUNT + 1))
-              ACTION="Delete from GitHub or sync from GitHub"
-              DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' exists only on GitHub\\n"
-            elif [ "$GITHUB_COMMIT" = "MISSING" ]; then
+            if [ "$GITHUB_COMMIT" = "MISSING" ]; then
               STATUS="⚠️ Only on SourceCraft"
               HAS_DIFF=true
               DIFF_COUNT=$((DIFF_COUNT + 1))
               ACTION="Push to GitHub"
               SYNC_NEEDED=true
               DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' exists only on SourceCraft\\n"
-            elif [ "$ORIGIN_COMMIT" != "$GITHUB_COMMIT" ]; then
+            elif [ "$SOURCECRAFT_COMMIT" = "MISSING" ]; then
+              STATUS="⚠️ Only on GitHub"
+              HAS_DIFF=true
+              DIFF_COUNT=$((DIFF_COUNT + 1))
+              ACTION="Push to SourceCraft (mirror)"
+              SYNC_NEEDED=true
+              DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' exists only on GitHub\\n"
+            elif [ "$GITHUB_COMMIT" != "$SOURCECRAFT_COMMIT" ]; then
               STATUS="❌ Diverged"
               HAS_DIFF=true
               DIFF_COUNT=$((DIFF_COUNT + 1))
-              ACTION="Force sync from SourceCraft"
+              ACTION="Sync mirrors"
               SYNC_NEEDED=true
               DIFF_REPORT="${DIFF_REPORT}- Branch '$branch' has diverged commits\\n"
             else
@@ -96,7 +98,7 @@ jobs:
               ACTION="None"
             fi
 
-            echo "| $branch | ${ORIGIN_COMMIT:0:8} | ${GITHUB_COMMIT:0:8} | $STATUS | $ACTION |" >> $GITHUB_STEP_SUMMARY
+            echo "| $branch | ${SOURCECRAFT_COMMIT:0:8} | ${GITHUB_COMMIT:0:8} | $STATUS | $ACTION |" >> $GITHUB_STEP_SUMMARY
           done
 
           if [ "$HAS_DIFF" = true ]; then
@@ -106,20 +108,20 @@ jobs:
             echo "DIFF_REPORT<<EOF" >> $GITHUB_ENV
             echo "$DIFF_REPORT" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
-            echo "::warning::Found $DIFF_COUNT discrepancies between origin and github mirrors."
+            echo "::warning::Found $DIFF_COUNT discrepancies between GitHub and SourceCraft mirrors."
           else
             echo "HAS_DIFF=false" >> $GITHUB_ENV
             echo "DIFF_COUNT=0" >> $GITHUB_ENV
             echo "SYNC_NEEDED=false" >> $GITHUB_ENV
-            echo "::notice::All branches are in sync."
+            echo "::notice::All mirrors are in sync."
           fi
 
       - name: Auto-fix discrepancies (if enabled)
         if: env.HAS_DIFF == 'true' && (github.event.inputs.auto_fix == 'true' || env.SYNC_NEEDED == 'true')
         run: |
           echo "Auto-fixing discrepancies..."
-          # Push missing branches from SourceCraft to GitHub
-          git push --mirror github
+          # Push to SourceCraft mirror (from GitHub origin)
+          git push --mirror sourcecraft
           echo "Mirror sync completed."
 
       - name: Send email notification on discrepancies
