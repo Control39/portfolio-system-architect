@@ -1,35 +1,58 @@
-.env
+# Environment
+.venv/
+venv/
+env/
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
 .vscode/
+.idea/
+.kodacli/
+.gigaide/
+
+# Static and generated files
 python_server/static/
 .azure/
 
-# Large scan reports (exclude from repo)
-bandit-report.json
-test_gigachat.py
-apps/cognitive-agent/reports/
+# Test reports and coverage
+.reports/
 .coverage
 htmlcov/
 coverage.xml
 junit.xml
+bandit-report.json
 
-# Generated files
-*.log
-*.tmp
-.env.*
-
+# Databases
 test_db/
 *.sqlite3
 
-.kodacli/sessions/
-.gigaide/
+# Generated files
+*.tmp
 
-# Generated reports
-.reports/
-*.pyc
-.coverage
+# Scan reports
+apps/cognitive-agent/reports/
 
-# Generated reports
-.reports/
+# Temporary files from tools
 *.pyc
-.coverage
