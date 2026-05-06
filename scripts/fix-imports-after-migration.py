@@ -117,7 +117,7 @@ def main():
                     print(f"✅ Исправлен: {filepath.relative_to(project_root)}")
 
         print("\n" + "=" * 60)
-        print(f"📊 ИТОГИ:")
+        print("📊 ИТОГИ:")
         print(f"   Исправлено файлов: {len(changed_files)}")
 
         if changed_files:

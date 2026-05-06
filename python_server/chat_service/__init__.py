@@ -6,13 +6,9 @@ Exposes:
  - Helper group name utilities.
 """
 
-from .base import (  # noqa: F401
-    SYS_ROOMS_GROUP,
-    ChatServiceBase,
-    ClientConnectionContext,
-    as_room_group,
-    try_room_id_from_group,
-)
+from .base import (SYS_ROOMS_GROUP, ChatServiceBase,  # noqa: F401
+                   ClientConnectionContext, as_room_group,
+                   try_room_id_from_group)
 from .transports.self_host import ChatService  # noqa: F401
 
 try:  # Lazy optional import (will fail if azure webpubsub libs not installed)

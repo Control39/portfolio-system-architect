@@ -2,6 +2,7 @@
 """Скрипт для создания GitHub Issue через API."""
 
 import os
+
 import requests
 
 GITHUB_TOKEN = os.getenv("GH_TOKEN", os.getenv("GITHUB_TOKEN"))

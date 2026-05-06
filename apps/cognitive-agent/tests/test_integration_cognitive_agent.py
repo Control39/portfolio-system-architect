@@ -11,13 +11,11 @@ Tests:
 - Resource management
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from typing import Generator
 import asyncio
 import time
+from unittest.mock import MagicMock
 
-
+import pytest
 
 # ============================================================================
 # FIXTURES & SETUP
@@ -48,13 +46,13 @@ def service_instance(service_config, mock_dependencies):
     """Create service instance with mocks"""
     # Import would happen here in real scenario
     # from apps.cognitive-agent.src import Service
-    
+
     service = MagicMock()
     service.config = service_config
     service.dependencies = mock_dependencies
-    
+
     yield service
-    
+
     # Cleanup
     service.cleanup() if hasattr(service, 'cleanup') else None
 
@@ -81,14 +79,14 @@ def test_agent_with_decision_engine(service_instance, mock_dependencies, service
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "cognitive-agent"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -98,11 +96,11 @@ async def test_agent_with_decision_engine_async(service_instance, mock_dependenc
     """Async version of test_agent_with_decision_engine"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 
@@ -116,14 +114,14 @@ def test_agent_with_knowledge_graph(service_instance, mock_dependencies, service
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "cognitive-agent"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -133,11 +131,11 @@ async def test_agent_with_knowledge_graph_async(service_instance, mock_dependenc
     """Async version of test_agent_with_knowledge_graph"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 
@@ -151,14 +149,14 @@ def test_agent_decision_integration(service_instance, mock_dependencies, service
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "cognitive-agent"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -168,11 +166,11 @@ async def test_agent_decision_integration_async(service_instance, mock_dependenc
     """Async version of test_agent_decision_integration"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 
@@ -186,14 +184,14 @@ def test_agent_context_management(service_instance, mock_dependencies, service_c
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "cognitive-agent"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -203,11 +201,11 @@ async def test_agent_context_management_async(service_instance, mock_dependencie
     """Async version of test_agent_context_management"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 
@@ -221,14 +219,14 @@ def test_agent_error_handling(service_instance, mock_dependencies, service_confi
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "cognitive-agent"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -238,11 +236,11 @@ async def test_agent_error_handling_async(service_instance, mock_dependencies):
     """Async version of test_agent_error_handling"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 
@@ -268,7 +266,7 @@ def test_error_handling(service_instance, mock_dependencies):
     # Simulate dependency failure
     for dep_mock in mock_dependencies.values():
         dep_mock.side_effect = Exception("Dependency failed")
-    
+
     # Service should handle gracefully
     assert service_instance is not None
 
@@ -282,12 +280,12 @@ def test_resource_cleanup(service_instance):
 def test_performance(service_instance, service_config):
     """Test integration performance"""
     start_time = time.time()
-    
+
     # Simulate work
     time.sleep(0.01)
-    
+
     elapsed = time.time() - start_time
-    
+
     # Should complete within reasonable time
     assert elapsed < service_config["timeout"]
 
@@ -295,13 +293,13 @@ def test_performance(service_instance, service_config):
 def test_concurrent_operations(service_instance, mock_dependencies):
     """Test concurrent operations with dependencies"""
     import concurrent.futures
-    
+
     def operation():
         return service_instance is not None
-    
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         futures = [executor.submit(operation) for _ in range(5)]
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
-    
+
     assert all(results)
 

@@ -13,18 +13,8 @@ Each module defines checks for a specific category:
 - automation
 """
 
-from . import (
-    automation,
-    cicd,
-    code_quality,
-    dependencies,
-    documentation,
-    licensing,
-    monitoring,
-    security,
-    structure,
-    testing,
-)
+from . import (automation, cicd, code_quality, dependencies, documentation,
+               licensing, monitoring, security, structure, testing)
 
 __all__ = [
     "documentation",

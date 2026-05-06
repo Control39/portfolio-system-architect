@@ -8,7 +8,8 @@ import os
 
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
-from langchain_community.llms import Gigachat  # Assuming gigachain provides this
+from langchain_community.llms import \
+    Gigachat  # Assuming gigachain provides this
 from pydantic_settings import BaseSettings
 
 load_dotenv()

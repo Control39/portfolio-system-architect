@@ -1,16 +1,13 @@
 #!/bin/bash
 # Script to clean up old branches that have been merged or are stale
 # Run this weekly via CI/CD to keep repositories clean
-
 set -e
-
 echo "🔍 Starting branch cleanup..."
 
 # Configuration
 DAYS_OLD=30  # Delete branches older than 30 days
 PROTECTED_BRANCHES="main|gh-pages|master|develop"
 DRY_RUN=${DRY_RUN:-false}
-
 # Function to check if branch is protected
 is_protected() {
     local branch="$1"
@@ -67,7 +64,6 @@ cleanup_remote() {
             echo "🛡️  Skipping protected branch: $branch"
             continue
         fi
-
         # Check if branch is merged into main
         if git merge-base --is-ancestor "$remote/$branch" "$remote/main" 2>/dev/null; then
             echo "✅ Merged branch: $branch (already in main)"

@@ -4,36 +4,22 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, AsyncIterator, List, Optional
+from typing import Any, AsyncIterator, Dict, Iterable, List, Optional, Set
 
 import websockets.exceptions as ws_exc
-from websockets.server import Subprotocol, WebSocketServerProtocol
-from websockets.server import serve as ws_serve
+from websockets import serve as ws_serve
 
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
-from ..base import (
-    SYS_ROOMS_GROUP,
-    ChatServiceBase,
-    ClientConnectionContext,
-    as_room_group,
-    try_room_id_from_group,
-)
+from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group, try_room_id_from_group
 
+# Поддерживаемые протоколы — как строки
 supported_protocol_names = (
     "json.reliable.webpubsub.azure.v1",
     "json.webpubsub.azure.v1",
 )
-
-supported_protocols: tuple[Subprotocol, ...] = tuple(
-    Subprotocol(name) for name in supported_protocol_names
-)
-
-from dataclasses import dataclass
-from typing import Dict, Iterable, Set
-from typing import List as TList
-from typing import Optional as Opt
 
 
 @dataclass
@@ -54,9 +40,7 @@ class _InMemoryClientManager:
         self._groups: Dict[str, Set[str]] = {}
         self._logger = logger
 
-    async def add_client(
-        self, connection_id: str, context: ClientConnectionContext, transport: Any
-    ) -> None:
+    async def add_client(self, connection_id: str, context: ClientConnectionContext, transport: Any) -> None:
         self._clients[connection_id] = (context, transport)
 
     async def remove_client(self, connection_id: str) -> None:
@@ -80,9 +64,9 @@ class _InMemoryClientManager:
                 self._groups.pop(group, None)
 
     async def send_to_group(
-        self, group: str, data: str, exclude_ids: Opt[Iterable[str]] = None
-    ) -> TList[SendResult]:
-        results: TList[SendResult] = []
+        self, group: str, data: str, exclude_ids: Optional[Iterable[str]] = None
+    ) -> List[SendResult]:
+        results: List[SendResult] = []
         members = self._groups.get(group, set())
         for cid in list(members):  # iterate over snapshot
             if exclude_ids and cid in exclude_ids:
@@ -121,9 +105,7 @@ class ChatService(ChatServiceBase):
         super().__init__(room_store=room_store, logger=logger)
         self.client_manager = client_manager or _InMemoryClientManager(logger=self.log)
         self.max_message_size = max_message_size
-        from typing import Any as _Any
-
-        self._server: _Any | None = None
+        self._server: Any | None = None
         self._host = host
         self._port = port
         self._public_endpoint = public_endpoint or f"ws://{host}:{port}"
@@ -132,24 +114,24 @@ class ChatService(ChatServiceBase):
         return f"{self._public_endpoint}/ws"
 
     async def start_chat(self, host: str | None = None, port: int | None = None) -> None:
-        # if caller provided explicit host/port use them; else fall back to ctor values
         host = host or self._host
         port = port or self._port
 
-        async def handler(ws: WebSocketServerProtocol, path: str) -> None:
+        async def handler(ws) -> None:
             selected_subprotocol = ws.subprotocol
             remote = getattr(ws, "remote_address", None)
             self.log.info(
-                "New WS connection from %s (subprotocol=%r path=%s)",
+                "New WS connection from %s (subprotocol=%r)",
                 remote,
                 selected_subprotocol,
-                path,
             )
             if selected_subprotocol not in supported_protocol_names:
                 await ws.close()
                 return
+
             connection_id = generate_id("conn-")
-            client = ClientConnectionContext(path, connection_id)
+            client = ClientConnectionContext("/", connection_id)
+
             try:
                 await self._emit(self._on_connecting, client)
                 await self.client_manager.add_client(connection_id, client, ws)
@@ -165,31 +147,26 @@ class ChatService(ChatServiceBase):
                         }
                     )
                 )
+
                 async for message in ws:
                     try:
                         data = json.loads(message)
                         if data.get("type") == "event":
                             message_data = data.get("data", {})
                             user_message = (
-                                message_data.get("message", "")
-                                if isinstance(message_data, dict)
-                                else str(message_data)
+                                message_data.get("message", "") if isinstance(message_data, dict) else str(message_data)
                             )
                             event_name = data.get("event")
                             if not user_message.strip():
                                 continue
-                            await self._emit(
-                                self._on_event_message, client, event_name, message_data
-                            )
+                            await self._emit(self._on_event_message, client, event_name, message_data)
                         elif data.get("type") == "sendToGroup":
                             message_data = data.get("data", {})
                             user_message = (
-                                message_data.get("message", "")
-                                if isinstance(message_data, dict)
-                                else str(message_data)
+                                message_data.get("message", "") if isinstance(message_data, dict) else str(message_data)
                             )
                             user_name = message_data.get("from")
-                            group_name = message_data.get("group")
+                            group_name = data.get("group")
                             no_echo = message_data.get("noEcho", False)
                             if not user_message.strip():
                                 continue
@@ -233,9 +210,7 @@ class ChatService(ChatServiceBase):
                                     "error": "Group name is required",
                                 }
                             else:
-                                await self.client_manager.add_client_to_group(
-                                    connection_id, group_name
-                                )
+                                await self.client_manager.add_client_to_group(connection_id, group_name)
                                 room_id = try_room_id_from_group(group_name)
                                 if room_id:
                                     try:
@@ -259,9 +234,7 @@ class ChatService(ChatServiceBase):
                                     "error": "Group name is required",
                                 }
                             else:
-                                await self.client_manager.remove_client_from_group(
-                                    connection_id, group_name
-                                )
+                                await self.client_manager.remove_client_from_group(connection_id, group_name)
                                 try:
                                     room_id = try_room_id_from_group(group_name)
                                     if room_id:
@@ -314,7 +287,7 @@ class ChatService(ChatServiceBase):
             handler,
             host,
             port,
-            subprotocols=supported_protocols,
+            subprotocols=supported_protocol_names,
             ping_interval=None,
             ping_timeout=None,
             max_size=self.max_message_size,

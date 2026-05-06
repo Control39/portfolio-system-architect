@@ -1,10 +1,10 @@
-﻿# Кейс 2: Интеграция Infra-Orchestrator и Cloud-Reason
+﻿# Кейс 2: Интеграция Infra-Orchestrator и Decision-Engine
 
 ## Описание
 
 Этот кейс демонстрирует интеграцию библиотеки инфраструктурной оркестрации с облачной платформой для принятия решений:
 - Infra-Orchestrator: библиотека PowerShell для оркестрации инфраструктуры
-- Cloud-Reason: облачная платформа для анализа и принятия решений
+- Decision-Engine: система принятия решений с RAG и логикой вывода
 
 ## Цели интеграции
 
@@ -26,7 +26,7 @@
 ```mermaid
 graph TD
     A[Infra-Orchestrator] --> B[Model Repository]
-    C[Cloud-Reason] --> D[Analysis Engine]
+    C[Decision-Engine] --> D[Analysis Engine]
     B --> E[Decision Support Service]
     D --> E
     E --> F[Visualization Layer]
@@ -40,3 +40,4 @@ graph TD
 2. Единая среда для проектирования и анализа архитектуры
 3. Согласованное представление архитектурных моделей и аналитических данных
 4. Повышенная эффективность архитектурного проектирования за счет автоматизации анализа
+

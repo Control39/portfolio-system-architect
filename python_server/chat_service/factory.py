@@ -45,9 +45,8 @@ def build_chat_service(
             "WEBPUBSUB_ENDPOINT or WEBPUBSUB_CONNECTION_STRING required for WebPubSub transport"
         )
     try:
-        from .transports.webpubsub import (  # local import to avoid hard dependency
-            WebPubSubChatService,
-        )
+        from .transports.webpubsub import \
+            WebPubSubChatService  # local import to avoid hard dependency
     except Exception as e:  # noqa: BLE001
         raise RuntimeError(
             "WebPubSub dependencies not available; install azure-messaging-webpubsubservice"

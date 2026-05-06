@@ -14,7 +14,8 @@ from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
 def test_assistant_orchestrator_import():
     """Test that AssistantOrchestrator class can be imported."""
     try:
-        from src.assistant_orchestrator.core.analyzer import AssistantOrchestrator
+        from src.assistant_orchestrator.core.analyzer import \
+            AssistantOrchestrator
 
         assert AssistantOrchestrator is not None
     except ImportError as e:
@@ -100,7 +101,8 @@ def test_assistant_orchestrator_run_full_analysis_with_errors():
 def test_maturity_scorer_import():
     """Test that MaturityScorer class can be imported."""
     try:
-        from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
+        from src.assistant_orchestrator.core.maturity_scoring import \
+            MaturityScorer
 
         assert MaturityScorer is not None
     except ImportError as e:

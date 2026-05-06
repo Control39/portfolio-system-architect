@@ -10,7 +10,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import yaml
 
@@ -58,7 +58,7 @@ class ProjectScanner:
             '.idea', '.vscode', 'dist', 'build', '.egg-info', 'htmlcov',
             '.coverage', 'reports', '.private', 'target', 'bin', 'obj'
         }
-        
+
         def walk_dir(current_path: Path, current_depth: int, count: int):
             if current_depth > max_depth or count >= self.max_files_to_scan:
                 return
@@ -82,7 +82,7 @@ class ProjectScanner:
                         continue
             except (PermissionError, OSError):
                 pass
-        
+
         return walk_dir(path, 0, 0)
 
     def scan_project(self, project_path: str = ".") -> Dict[str, Any]:

@@ -4,15 +4,15 @@ Integration Test Generator for Portfolio System Architect
 Создает test_integration.py для критических сервисов
 """
 
-import os
 from pathlib import Path
 from typing import Dict, List
+
 
 class IntegrationTestGenerator:
     def __init__(self, root: str = "."):
         self.root = Path(root).resolve()
         self.apps_dir = self.root / "apps"
-        
+
         # Определение критических сервисов
         self.critical_services = {
             "cognitive-agent": {
@@ -71,29 +71,29 @@ class IntegrationTestGenerator:
                 ]
             }
         }
-    
+
     def generate_all(self):
         """Сгенерировать тесты для всех критических сервисов"""
         print("🧪 INTEGRATION TEST GENERATOR")
         print("=" * 80)
-        
+
         for service_name, config in self.critical_services.items():
             self.generate_service_tests(service_name, config)
-        
+
         print("\n" + "=" * 80)
         print("✅ INTEGRATION TESTS GENERATED")
         print("=" * 80)
-    
+
     def generate_service_tests(self, service_name: str, config: Dict):
         """Сгенерировать тесты для конкретного сервиса"""
         service_path = self.apps_dir / service_name
         tests_dir = service_path / "tests"
-        
+
         if not tests_dir.exists():
             tests_dir.mkdir(parents=True, exist_ok=True)
-        
+
         integration_test_file = tests_dir / "test_integration.py"
-        
+
         # Генерируем содержимое
         content = self._generate_test_content(
             service_name,
@@ -101,24 +101,24 @@ class IntegrationTestGenerator:
             config["dependencies"],
             config["test_cases"]
         )
-        
+
         # Пишем файл
         with open(integration_test_file, "w") as f:
             f.write(content)
-        
+
         print(f"\n✅ {service_name}")
-        print(f"   📄 Created: tests/test_integration.py")
+        print("   📄 Created: tests/test_integration.py")
         print(f"   📦 Dependencies: {', '.join(config['dependencies'])}")
         print(f"   🧪 Test cases: {len(config['test_cases'])}")
-    
-    def _generate_test_content(self, service_name: str, description: str, 
+
+    def _generate_test_content(self, service_name: str, description: str,
                                dependencies: List[str], test_cases: List[str]) -> str:
         """Генерировать содержимое файла теста"""
-        
+
         imports = self._generate_imports(service_name)
         fixtures = self._generate_fixtures(service_name, dependencies)
         tests = self._generate_test_cases(service_name, test_cases)
-        
+
         content = f'''"""
 Integration Tests for {service_name}
 
@@ -139,7 +139,7 @@ Tests:
 {tests}
 '''
         return content
-    
+
     def _generate_imports(self, service_name: str) -> str:
         """Генерировать импорты"""
         return '''import pytest
@@ -148,7 +148,7 @@ from typing import Generator
 import asyncio
 import time
 '''
-    
+
     def _generate_fixtures(self, service_name: str, dependencies: List[str]) -> str:
         """Генерировать fixtures"""
         fixture_code = '''
@@ -171,10 +171,10 @@ def service_config():
 def mock_dependencies():
     """Mock external dependencies"""
     return {'''
-        
+
         for dep in dependencies:
             fixture_code += f'\n        "{dep}": MagicMock(),'
-        
+
         fixture_code += '''
     }
 
@@ -202,7 +202,7 @@ def reset_mocks(mock_dependencies):
         mock.reset_mock()
 '''
         return fixture_code
-    
+
     def _generate_test_cases(self, service_name: str, test_cases: List[str]) -> str:
         """Генерировать test cases"""
         tests_code = '''
@@ -210,7 +210,7 @@ def reset_mocks(mock_dependencies):
 # INTEGRATION TESTS
 # ============================================================================
 '''
-        
+
         for i, test_case in enumerate(test_cases, 1):
             tests_code += f'''
 
@@ -248,7 +248,7 @@ async def {test_case}_async(service_instance, mock_dependencies):
     # Assert
     assert service_instance.initialize.called
 '''
-        
+
         # Добавляем общие тесты
         tests_code += '''
 
@@ -310,7 +310,7 @@ def test_concurrent_operations(service_instance, mock_dependencies):
     
     assert all(results)
 '''
-        
+
         return tests_code
 
 
