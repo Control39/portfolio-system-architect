@@ -1,89 +1,29 @@
-﻿# Dependabot configuration for automatic dependency updates
-# Documentation: https://docs.github.com/en/code-security/dependabot
-#
-# NOTE: legacy/ directory contains archived code preserved for history.
-# Dependabot alerts for legacy/ paths should be dismissed as "won't fix"
-# or "false positive" — active versions are in apps/ and tools/.
-
 version: 2
+
 updates:
-  # Python dependencies (pip) - main project
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "Europe/Moscow"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "python"
-      - "automated"
-    commit-message:
-      prefix: "chore(deps)"
+      interval: "daily"
+    open-pull-requests-limit: 5
+    requirements-file: requirements.txt
     ignore:
-      - dependency-name: "pydantic"
-        versions: [ "3.0.0" ]
-      - dependency-name: "fastapi"
-        versions: [ "1.0.0" ]
-      - dependency-name: "langchain"
-        update-types: [ "version-update:semver-major" ]
-
-  # Python dependencies - active apps
-  - package-ecosystem: "pip"
-    directory: "/apps/decision-engine"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 3
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     labels:
       - "dependencies"
-      - "python"
+      - "automated"
+      - "cognitive-agent:scan-required"
 
-  - package-ecosystem: "pip"
-    directory: "/apps/mcp-server"
+  - package-ecosystem: "docker"
+    directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "python"
+    ignore:
+      - dependency-name: "python"
+        update-types: ["version-update:semver-major"]
 
-  # Node.js dependencies - active apps
-  - package-ecosystem: "npm"
-    directory: "/apps/ai-config-manager"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "javascript"
-
-  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "tuesday"
-      time: "10:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "github-actions"
-      - "automated"
-    commit-message:
-      prefix: "chore(actions)"
-
-  # Docker dependencies
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "docker"
-      - "automated"
-    commit-message:
-      prefix: "chore(docker)"
