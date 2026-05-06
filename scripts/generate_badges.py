@@ -14,13 +14,13 @@ def load_metrics():
     if not METRICS_FILE.exists():
         print("⚠️  metrics.json не найден. Запусти collect_metrics.py сначала.")
         return None
-    
+
     with open(METRICS_FILE) as f:
         return json.load(f)
 
 def generate_badges_section(metrics):
     """Генерировать секцию с бейджами"""
-    
+
     section = """<!-- REAL METRICS - Updated automatically -->
 ## 📊 REAL METRICS (Updated Automatically)
 
@@ -59,30 +59,30 @@ def generate_badges_section(metrics):
         k8s=metrics['k8s_files'],
         dockerfiles=metrics['dockerfiles']
     )
-    
+
     return section
 
 def update_readme(badges_section):
     """Обновить README.md"""
     readme_path = REPO_ROOT / "README.md"
-    
+
     if not readme_path.exists():
         print("❌ README.md не найден!")
         return False
-    
+
     with open(readme_path, 'r', encoding='utf-8') as f:
         content = f.read()
-    
+
     # Найти точку для вставки (после первого # Title)
     lines = content.split('\n')
     insert_position = 0
-    
+
     for i, line in enumerate(lines):
         if line.startswith('# ') and i > 0:
             # Вставить после первого заголовка
             insert_position = i + 1
             break
-    
+
     # Удалить старую секцию если существует
     new_lines = []
     skip_section = False
@@ -95,18 +95,18 @@ def update_readme(badges_section):
             continue
         if not skip_section:
             new_lines.append(line)
-    
+
     # Вставить новую секцию
     if insert_position < len(new_lines):
         new_lines.insert(insert_position + 1, badges_section)
     else:
         new_lines.append('\n' + badges_section)
-    
+
     # Написать обратно
     with open(readme_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(new_lines))
-    
-    print(f"✅ README.md обновлен с реальными бейджами!")
+
+    print("✅ README.md обновлен с реальными бейджами!")
     return True
 
 if __name__ == "__main__":

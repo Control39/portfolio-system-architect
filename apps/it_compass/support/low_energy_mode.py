@@ -126,7 +126,8 @@ class LowEnergyMode:
             elif choice == "3":
                 # Здесь можно добавить импорт из mental_support.py
                 try:
-                    from core.mental_support import show_random_quote_on_startup
+                    from core.mental_support import \
+                        show_random_quote_on_startup
 
                     show_random_quote_on_startup()
                     input("\nНажмите Enter, чтобы продолжить...")

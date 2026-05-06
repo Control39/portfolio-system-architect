@@ -13,7 +13,8 @@ import os
 from typing import Any, Protocol, runtime_checkable
 
 try:  # Import lazily; treat absence as optional dependency
-    from azure.identity import DefaultAzureCredential, ManagedIdentityCredential
+    from azure.identity import (DefaultAzureCredential,
+                                ManagedIdentityCredential)
 except Exception:  # noqa: BLE001
     DefaultAzureCredential = None  # type: ignore
     ManagedIdentityCredential = None  # type: ignore

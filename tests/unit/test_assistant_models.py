@@ -2,12 +2,9 @@
 Unit tests for assistant_orchestrator models.
 """
 
-from src.assistant_orchestrator.models.types import (
-    AnalysisResult,
-    GitStats,
-    MicroserviceInfo,
-    SkillMarker,
-)
+from src.assistant_orchestrator.models.types import (AnalysisResult, GitStats,
+                                                     MicroserviceInfo,
+                                                     SkillMarker)
 
 
 def test_microservice_info_creation():

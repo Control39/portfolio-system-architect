@@ -46,9 +46,13 @@ class InMemoryRoomStore(RoomStore):
         return msgs
 
     async def list_rooms(self) -> List[Dict[str, Any]]:
-        names = [name for name in self._room_messages.keys()]
+        """
+        Return list of all rooms with message counts.
+        """
+        names = list(self._room_messages.keys())
         return [
-            {"name": name, "messages": len(self._room_messages.get(name, []))} for name in names
+            {"name": name, "messages": len(self._room_messages.get(name, []))}
+            for name in names
         ]
 
     async def remove_room_if_empty(self, room: str) -> None:

@@ -18,15 +18,16 @@ from typing import Any, AsyncIterator, Dict, List, Optional, Tuple, Union
 
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
-from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group
+from ..base import (SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext,
+                    as_room_group)
 
 DefaultAzureCredential = None  # sentinel if import missing
 WebPubSubServiceClient = None  # sentinel if import missing
 try:  # noqa: SIM105
-    from azure.identity import DefaultAzureCredential as _DefaultAzureCredential  # pragma: no cover
-    from azure.messaging.webpubsubservice import (
-        WebPubSubServiceClient as _WebPubSubServiceClient,  # pragma: no cover
-    )
+    from azure.identity import \
+        DefaultAzureCredential as _DefaultAzureCredential  # pragma: no cover
+    from azure.messaging.webpubsubservice import \
+        WebPubSubServiceClient as _WebPubSubServiceClient  # pragma: no cover
 
     DefaultAzureCredential = _DefaultAzureCredential
     WebPubSubServiceClient = _WebPubSubServiceClient

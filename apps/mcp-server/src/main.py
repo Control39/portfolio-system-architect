@@ -21,7 +21,7 @@ sys.path.insert(0, str(project_root))
 mcp = FastMCP("Career Autopilot MCP Server")
 
 # Конфигурация
-IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it-compass" / "src" / "data" / "markers"
+IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it_compass" / "src" / "data" / "markers"
 PROJECT_ROOT = project_root
 
 # Импорт инструментов (обёрнуты в try/except для graceful degradation)
@@ -34,35 +34,31 @@ try:
 
     # Импортируем только если модуль доступен
     if _check_module("src.resources.navigation"):
-        from src.resources.navigation import generate_tour_tool, search_repo_tool
+        from src.resources.navigation import (generate_tour_tool,
+                                              search_repo_tool)
     else:
         generate_tour_tool = None
         search_repo_tool = None
 
     if _check_module("src.tools.command_tools"):
-        from src.tools.command_tools import execute_command_tool, run_python_script_tool
+        from src.tools.command_tools import (execute_command_tool,
+                                             run_python_script_tool)
     else:
         execute_command_tool = None
         run_python_script_tool = None
 
     if _check_module("src.tools.compass_tools"):
         from src.tools.compass_tools import (
-            auto_detect_markers_from_code_tool,
-            evaluate_by_compass_tool,
-            get_markers_by_domain_tool,
-        )
+            auto_detect_markers_from_code_tool, evaluate_by_compass_tool,
+            get_markers_by_domain_tool)
     else:
         auto_detect_markers_from_code_tool = None
         evaluate_by_compass_tool = None
         get_markers_by_domain_tool = None
 
     if _check_module("src.tools.file_tools"):
-        from src.tools.file_tools import (
-            list_files_tool,
-            read_file_tool,
-            search_files_tool,
-            write_file_tool,
-        )
+        from src.tools.file_tools import (list_files_tool, read_file_tool,
+                                          search_files_tool, write_file_tool)
     else:
         list_files_tool = None
         read_file_tool = None
@@ -70,11 +66,9 @@ try:
         write_file_tool = None
 
     if _check_module("src.tools.git_tools"):
-        from src.tools.git_tools import (
-            get_git_history_tool,
-            get_git_status_tool,
-            scan_last_commits_for_markers_tool,
-        )
+        from src.tools.git_tools import (get_git_history_tool,
+                                         get_git_status_tool,
+                                         scan_last_commits_for_markers_tool)
     else:
         get_git_history_tool = None
         get_git_status_tool = None

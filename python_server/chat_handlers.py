@@ -10,7 +10,8 @@ from typing import Any
 
 from .chat_service.base import ChatServiceBase, ClientConnectionContext
 from .config import DEFAULT_ROOM_ID
-from .core import chat_stream, get_room_id, to_async_iterator  # room store & util exports
+from .core import (chat_stream, get_room_id,  # room store & util exports
+                   to_async_iterator)
 from .task_manager import ConnectionTaskManager
 
 

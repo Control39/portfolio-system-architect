@@ -4,15 +4,15 @@ Enhanced Test Generator for all 15 Microservices
 Улучшает test_basic.py каждого сервиса с дополнительными test cases
 """
 
-import os
 from pathlib import Path
 from typing import Dict, List
+
 
 class EnhancedTestGenerator:
     def __init__(self, root: str = "."):
         self.root = Path(root).resolve()
         self.apps_dir = self.root / "apps"
-        
+
         self.services = {
             "cognitive-agent": {
                 "tier": "core",
@@ -135,46 +135,46 @@ class EnhancedTestGenerator:
                 ]
             }
         }
-    
+
     def enhance_all(self):
         print("🧪 ENHANCED TEST GENERATOR")
         print("=" * 80)
         print("Enhancing tests for all 15 services...")
         print()
-        
+
         for service_name, config in self.services.items():
             self.enhance_service_tests(service_name, config)
-        
+
         print("\n" + "=" * 80)
         print("✅ ENHANCED TESTS GENERATED FOR ALL 15 SERVICES")
         print("=" * 80)
-    
+
     def enhance_service_tests(self, service_name: str, config: Dict):
         service_path = self.apps_dir / service_name
         tests_dir = service_path / "tests"
-        
+
         if not tests_dir.exists():
             print(f"❌ {service_name}: tests/ directory not found")
             return
-        
+
         test_basic_file = tests_dir / "test_basic.py"
-        
+
         content = self._generate_enhanced_test_content(
             service_name,
             config["tier"],
             config["test_cases"]
         )
-        
+
         with open(test_basic_file, "w") as f:
             f.write(content)
-        
+
         print(f"✅ {service_name:<25} ({config['tier']:<8}) - Enhanced with {len(config['test_cases'])} new tests")
-    
+
     def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: List[str]) -> str:
         imports = self._generate_imports()
         fixtures = self._generate_fixtures(service_name)
         tests = self._generate_test_cases(service_name, test_cases)
-        
+
         return f'''"""
 Enhanced Tests for {service_name}
 
@@ -195,7 +195,7 @@ Test Coverage:
 
 {tests}
 '''
-    
+
     def _generate_imports(self) -> str:
         return '''import pytest
 from unittest.mock import Mock, patch, MagicMock, call
@@ -203,7 +203,7 @@ from typing import Any, Dict
 import time
 import threading
 '''
-    
+
     def _generate_fixtures(self, service_name: str) -> str:
         return f'''
 # ============================================================================
@@ -245,7 +245,7 @@ def service_instance(config, mock_logger):
 def cleanup_resources():
     yield
 '''
-    
+
     def _generate_test_cases(self, service_name: str, test_cases: List[str]) -> str:
         tests_code = '''
 # ============================================================================
@@ -271,7 +271,7 @@ class TestBasicFunctionality:
         assert hasattr(service_instance, 'config')
         assert hasattr(service_instance, 'logger')
 '''
-        
+
         for test_case in test_cases:
             tests_code += f'''
 
@@ -291,7 +291,7 @@ class TestBasicFunctionality:
             assert result.get("status") == "success"
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
 '''
-        
+
         tests_code += '''
 
 class TestErrorHandling:
@@ -357,7 +357,7 @@ class TestPerformance:
             _ = service_instance is not None
         assert service_instance is not None
 '''
-        
+
         return tests_code
 
 

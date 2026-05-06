@@ -4,12 +4,9 @@ Unit tests for the shared LLM module.
 
 import pytest
 
-from src.shared.llm.yandex_gpt import (
-    YandexGPTClient,
-    YandexGPTConfig,
-    create_yandex_gpt_client,
-    generate_with_yandex_gpt,
-)
+from src.shared.llm.yandex_gpt import (YandexGPTClient, YandexGPTConfig,
+                                       create_yandex_gpt_client,
+                                       generate_with_yandex_gpt)
 
 
 def test_llm_config_creation_with_defaults():

@@ -5,8 +5,8 @@
 """
 
 import shutil
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 # Корень проекта
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -16,7 +16,7 @@ OUTPUT_DIR = PROJECT_ROOT / ".reports" / "READMEs"
 THEME_MAPPING = {
     "apps": ("📦 Микросервисы и Приложения", [
         "apps/cognitive-agent",
-        "apps/decision-engine", 
+        "apps/decision-engine",
         "apps/it_compass",
         "apps/portfolio_organizer",
         "apps/system-proof",
@@ -143,7 +143,7 @@ def classify_readme(readme_path: Path) -> tuple:
     rel_path = readme_path.relative_to(PROJECT_ROOT)
     path_str = str(rel_path.parent).replace("\\", "/")
     parts = rel_path.parent.parts
-    
+
     # Список тем в порядке приоритета (от специфичных к общим)
     priority_themes = [
         ("📦 Микросервисы и Приложения", [
@@ -246,7 +246,7 @@ def classify_readme(readme_path: Path) -> tuple:
             "migrations"
         ])
     ]
-    
+
     for theme_title, paths in priority_themes:
         for base_path in paths:
             if path_str == base_path or path_str.startswith(base_path + "/"):
@@ -266,7 +266,7 @@ def classify_readme(readme_path: Path) -> tuple:
                 else:
                     subtheme = "root"
                 return theme_title, subtheme
-    
+
     return "📝 Мета-информация", parts[-1] if parts else "root"
 
 def create_index(themes_data: dict) -> str:
@@ -281,7 +281,7 @@ def create_index(themes_data: dict) -> str:
     lines.append("")
     lines.append("---")
     lines.append("")
-    
+
     for theme_title, files in sorted(themes_data.items(), key=lambda x: x[0]):
         lines.append(f"## {theme_title}")
         lines.append("")
@@ -291,7 +291,7 @@ def create_index(themes_data: dict) -> str:
             rel_path = file_info["relative_path"]
             lines.append(f"- **{subtheme}**: [{title}]({rel_path})")
         lines.append("")
-    
+
     total_files = sum(len(files) for files in themes_data.values())
     total_themes = len(themes_data)
     lines.append("---")
@@ -302,7 +302,7 @@ def create_index(themes_data: dict) -> str:
     lines.append(f"- **Количество тем:** {total_themes}")
     lines.append("")
     lines.append("*Этот индекс автоматически сгенерирован скриптом `scripts/collect-readmes.py`*")
-    
+
     return "\n".join(lines)
 
 def clean_theme_name(name: str) -> str:
@@ -316,27 +316,27 @@ def main():
     print("🚀 Сбор всех README-файлов проекта...")
     print(f"📂 Корень проекта: {PROJECT_ROOT}")
     print(f"📁 Выходная директория: {OUTPUT_DIR}")
-    
+
     # Очистка и создание выходной директории
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    
+
     # Поиск всех README.md
     readme_files = list(PROJECT_ROOT.rglob("README.md"))
     print(f"📄 Найдено README файлов: {len(readme_files)}")
-    
+
     # Структура для хранения данных по темам
     themes_data = {}
-    
+
     # Обработка каждого README
     for readme_path in readme_files:
         theme_title, subtheme = classify_readme(readme_path)
-        
+
         # Создаем директорию темы
         theme_dir = OUTPUT_DIR / clean_theme_name(theme_title)
         theme_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Создаем подтему (субдиректорию)
         if subtheme != "root":
             subtheme_safe = subtheme.replace("/", "_").replace("\\", "_")
@@ -344,21 +344,21 @@ def main():
             target_subdir.mkdir(parents=True, exist_ok=True)
         else:
             target_subdir = theme_dir
-        
+
         # Копируем файл с уникальным именем
         target_path = target_subdir / readme_path.name
-        
+
         # Если файл уже существует, добавляем префикс пути
         if target_path.exists():
             prefix = "_".join(readme_path.relative_to(PROJECT_ROOT).parent.parts)
             target_path = theme_dir / f"{prefix}_README.md"
-        
+
         shutil.copy2(readme_path, target_path)
-        
+
         # Сохраняем информацию для индекса
         if theme_title not in themes_data:
             themes_data[theme_title] = []
-        
+
         themes_data[theme_title].append({
             "title": readme_path.stem,
             "original_path": readme_path,
@@ -366,12 +366,12 @@ def main():
             "subtheme": subtheme,
             "theme": theme_title,
         })
-    
+
     # Создаем индекс
     index_content = create_index(themes_data)
     index_path = OUTPUT_DIR / "INDEX.md"
     index_path.write_text(index_content, encoding="utf-8")
-    
+
     # Создаем README в корне .reports
     reports_readme = PROJECT_ROOT / ".reports" / "README.md"
     timestamp2 = datetime.now().strftime("%d.%m.%Y %H:%M")
@@ -391,7 +391,7 @@ def main():
     content_lines.append("")
     content_lines.append(f"*Генерация: {timestamp2}*")
     reports_readme.write_text("\n".join(content_lines), encoding="utf-8")
-    
+
     print("✅ Готово!")
     print("📊 Статистика:")
     for theme, files in sorted(themes_data.items()):

@@ -14,16 +14,18 @@ from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
 from tools.repo_audit.checks.automation import AutomationCheck  # noqa: E402
 from tools.repo_audit.checks.cicd import CICDCheck  # noqa: E402
 from tools.repo_audit.checks.code_quality import CodeQualityCheck  # noqa: E402
-from tools.repo_audit.checks.dependencies import DependenciesCheck  # noqa: E402
+from tools.repo_audit.checks.dependencies import \
+    DependenciesCheck  # noqa: E402
 from tools.repo_audit.checks.documentation import (  # noqa: E402
-    DocumentationCheck,
-    ReadmeQualityCheck,
-)
+    DocumentationCheck, ReadmeQualityCheck)
 from tools.repo_audit.checks.licensing import LicensingCheck  # noqa: E402
 from tools.repo_audit.checks.monitoring import MonitoringCheck  # noqa: E402
-from tools.repo_audit.checks.security import DependencySecurityCheck, SecurityCheck  # noqa: E402
-from tools.repo_audit.checks.structure import NamingConventionsCheck, StructureCheck  # noqa: E402
-from tools.repo_audit.checks.testing import TestCoverageCheck, TestingCheck  # noqa: E402
+from tools.repo_audit.checks.security import (  # noqa: E402
+    DependencySecurityCheck, SecurityCheck)
+from tools.repo_audit.checks.structure import (  # noqa: E402
+    NamingConventionsCheck, StructureCheck)
+from tools.repo_audit.checks.testing import (TestCoverageCheck,  # noqa: E402
+                                             TestingCheck)
 
 
 def main():

@@ -20,7 +20,6 @@ __all__ = [
 ]
 
 import os
-
 # Инициализация путей
 import sys
 

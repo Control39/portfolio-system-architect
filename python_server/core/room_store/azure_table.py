@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-
 # Optional azure-data-tables import (lazy, best-effort)
 import importlib
 import os

@@ -172,22 +172,22 @@ print("=" * 80)
 for service_dir in sorted(root.iterdir()):
     if not service_dir.is_dir():
         continue
-    
+
     service_name = service_dir.name
     description = service_descriptions.get(service_name, "Microservice component")
     service_name_normalized = service_name.replace("-", "_")
-    
+
     readme_path = service_dir / "README.md"
-    
+
     content = readme_template.format(
         service_name=service_name,
         description=description,
         service_name_normalized=service_name_normalized
     )
-    
+
     with open(readme_path, "w") as f:
         f.write(content)
-    
+
     print(f"✅ {service_name:<25} - README updated with testing information")
 
 print("\n" + "=" * 80)

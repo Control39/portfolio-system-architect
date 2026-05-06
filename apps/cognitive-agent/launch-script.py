@@ -4,6 +4,7 @@
 Основан на workflow-driven архитектуре.
 """
 
+import json
 import logging
 import os
 import signal
@@ -14,7 +15,6 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
-import json
 
 # Создание папки логов перед инициализацией логирования
 LOG_DIR = Path("apps/cognitive-agent/logs")

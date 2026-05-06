@@ -215,6 +215,10 @@
     "c:\\Users\\Z\\.vscode\\extensions\\koda.koda-0.9.1-win32-x64\\config-yaml-schema.json": [
       ".koda/**/*.yaml"
     ],
-    "file:///c%3A/Users/Z/.vscode/extensions/ms-python.python-2026.4.0-win32-x64/schemas/conda-environment.json": "file:///c%3A/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect-fresh/mkdocs.yml"
+    "file:///root/.vscode-remote/extensions/continue.continue-1.2.22-linux-x64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ],
+    "file:///c%3A/Users/Z/.vscode/extensions/ms-python.python-2026.4.0-win32-x64/schemas/conda-environment.json": "file:///c%3A/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect-fresh/mkdocs.yml",
+    "https://www.schemastore.org/eslintrc.json": "file:///c%3A/Users/Z/.koda/config.yaml"
   }
 }

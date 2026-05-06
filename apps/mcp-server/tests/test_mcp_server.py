@@ -26,17 +26,13 @@ sys.path.insert(0, str(project_root))
 
 # Импортируем инструменты MCP-сервера
 try:
-    from apps.mcp_server.src.tools.file_tools import (
-        list_files_tool,
-        read_file_tool,
-        search_files_tool,
-        write_file_tool,
-    )
+    from apps.mcp_server.src.tools.file_tools import (list_files_tool,
+                                                      read_file_tool,
+                                                      search_files_tool,
+                                                      write_file_tool)
     from apps.mcp_server.src.tools.git_tools import (
-        get_git_history_tool,
-        get_git_status_tool,
-        scan_last_commits_for_markers_tool,
-    )
+        get_git_history_tool, get_git_status_tool,
+        scan_last_commits_for_markers_tool)
 
     HAS_MCP_TOOLS = True
 except ImportError:

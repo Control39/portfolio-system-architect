@@ -18,7 +18,7 @@ root = Path(".").resolve() / "apps"
 for service in services:
     test_file = root / service / "tests" / "test_integration.py"
     new_file = root / service / "tests" / f"test_integration_{service.replace('-', '_')}.py"
-    
+
     if test_file.exists():
         test_file.rename(new_file)
         print(f"✅ Renamed: {service}")

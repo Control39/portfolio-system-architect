@@ -13,7 +13,6 @@ from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
-
 # LangChain imports
 from langchainapps.cognitive_agent.factory import create_agent
 
