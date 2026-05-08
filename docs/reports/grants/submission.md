@@ -165,11 +165,6 @@ git show e58ae67 --stat  # ✅ 9 files changed
 - **Expected**: €100,000 за 12 месяцев
 - **Evidence**: Все документы готовы для защиты
 
-### Работа (Senior/Staff Architect)
-- **Target salary**: $150-200k/year
-- **Application**: One-pager + Q&A на собеседованиях
-- **Competitive advantage**: Evidence-based portfolio + production infrastructure
-
 ---
 
 ## 🚀 ССЫЛКИ

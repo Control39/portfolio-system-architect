@@ -47,11 +47,5 @@
 
 ---
 
-## 💰 Salary Expectation
-
-**$150k-200k USD/year** (senior staff architect, remote, equity considered)
-
----
-
 **Available for**: Full-time, contract, consulting
 **Preference**: Early-stage startups, deep-tech, AI companies
