@@ -209,5 +209,32 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "git.blame.editorDecoration.enabled": true,
-  "editor.defaultFormatter": "ms-python.vscode-pylance"
+  "editor.defaultFormatter": "ms-python.vscode-pylance",
+  // ========================================
+  // GigaCode AI Assistant
+  // ========================================
+  "gigacode.enabled": true,
+  "gigacode.model": "GigaChat",
+  "gigacode.maxTokens": 4000,
+  "gigacode.temperature": 0.7,
+  "gigacode.enableCodeCompletion": true,
+  "gigacode.enableChat": true,
+  "gigacode.language": "ru",
+  "gigacode.autoSuggest": true,
+  "gigacode.suggestDelay": 300,
+  "gigacode.contextWindow": 8000,
+  "gigacode.python.enabled": true,
+  "gigacode.typescript.enabled": true,
+  "gigacode.javascript.enabled": true,
+  "gigacode.yaml.enabled": true,
+  "gigacode.markdown.enabled": true,
+  "gigacode.integrateWithCopilot": false,
+  "gigacode.fallbackToSourceCraft": true,
+  "gigacode.showTokenUsage": true,
+  "gigacode.useForSimpleTasks": false,
+  "gigacode.cacheResponses": true,
+  "gigacode.dailyUsageLimit": 1000,
+  "gigacode.notifyOnLowTokens": true,
+  "gigacode.lowTokenThreshold": 50,
+  "gigacode.notifyOnFallback": true
 }
