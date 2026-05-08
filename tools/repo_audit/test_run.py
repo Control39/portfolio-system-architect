@@ -4,28 +4,24 @@
 import os
 import sys
 
+
 # Add project root to sys.path
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, project_root)
 
 # ruff: noqa: E402
 
-from tools.repo_audit.checker import RepositoryAuditor  # noqa: E402
-from tools.repo_audit.checks.automation import AutomationCheck  # noqa: E402
-from tools.repo_audit.checks.cicd import CICDCheck  # noqa: E402
-from tools.repo_audit.checks.code_quality import CodeQualityCheck  # noqa: E402
-from tools.repo_audit.checks.dependencies import \
-    DependenciesCheck  # noqa: E402
-from tools.repo_audit.checks.documentation import (  # noqa: E402
-    DocumentationCheck, ReadmeQualityCheck)
-from tools.repo_audit.checks.licensing import LicensingCheck  # noqa: E402
-from tools.repo_audit.checks.monitoring import MonitoringCheck  # noqa: E402
-from tools.repo_audit.checks.security import (  # noqa: E402
-    DependencySecurityCheck, SecurityCheck)
-from tools.repo_audit.checks.structure import (  # noqa: E402
-    NamingConventionsCheck, StructureCheck)
-from tools.repo_audit.checks.testing import (TestCoverageCheck,  # noqa: E402
-                                             TestingCheck)
+from tools.repo_audit.checker import RepositoryAuditor
+from tools.repo_audit.checks.automation import AutomationCheck
+from tools.repo_audit.checks.cicd import CICDCheck
+from tools.repo_audit.checks.code_quality import CodeQualityCheck
+from tools.repo_audit.checks.dependencies import DependenciesCheck
+from tools.repo_audit.checks.documentation import DocumentationCheck, ReadmeQualityCheck
+from tools.repo_audit.checks.licensing import LicensingCheck
+from tools.repo_audit.checks.monitoring import MonitoringCheck
+from tools.repo_audit.checks.security import DependencySecurityCheck, SecurityCheck
+from tools.repo_audit.checks.structure import NamingConventionsCheck, StructureCheck
+from tools.repo_audit.checks.testing import TestCoverageCheck, TestingCheck
 
 
 def main():

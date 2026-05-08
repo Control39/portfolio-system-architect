@@ -6,4 +6,4 @@ Decision Engine - модуль принятия решений на основе
 """
 
 __version__ = "0.1.0"
-__all__ = ["api", "utils", "gigachain_bridge"]
+__all__ = ["api", "gigachain_bridge", "utils"]

@@ -7,10 +7,12 @@
 
 import asyncio
 import logging
-from typing import Any, Callable, Dict, Optional, TypedDict
+from collections.abc import Callable
+from typing import Any, TypedDict
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,9 +30,9 @@ class HealthCheckResponse(BaseModel):
 
     service: str
     status: str  # "healthy", "degraded", "unhealthy"
-    version: Optional[str] = None
-    checks: Dict[str, Dict[str, Any]] = {}
-    timestamp: Optional[str] = None
+    version: str | None = None
+    checks: dict[str, dict[str, Any]] = {}
+    timestamp: str | None = None
 
 
 class HealthCheckService:
@@ -39,12 +41,10 @@ class HealthCheckService:
     def __init__(self, service_name: str, version: str = "1.0.0"):
         self.service_name = service_name
         self.version = version
-        self.checks: Dict[str, CheckInfo] = {}
+        self.checks: dict[str, CheckInfo] = {}
         self.required_checks: set[str] = set()  # Checks that must pass for "healthy" status
 
-    def register_check(
-        self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5
-    ):
+    def register_check(self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5):
         """
         Регистрирует функцию проверки.
 
@@ -116,7 +116,7 @@ def init_health_checks(
     version: str = "1.0.0",
     db=None,
     redis_client=None,
-    external_services: Optional[Dict[str, str]] = None,
+    external_services: dict[str, str] | None = None,
 ) -> HealthCheckService:
     """
     Инициализировать health-check endpoints для сервиса.
@@ -176,19 +176,16 @@ def init_health_checks(
                         response = await client.get(f"{url}/health")
                         if response.status_code == 200:
                             return {"status": "ok", "service": key}
-                        else:
-                            return {
-                                "status": "error",
-                                "service": key,
-                                "http_status": response.status_code,
-                            }
+                        return {
+                            "status": "error",
+                            "service": key,
+                            "http_status": response.status_code,
+                        }
                 except Exception as e:
                     logger.warning(f"External service check for {key} failed: {e}")
                     return {"status": "error", "service": key, "error": str(e)}
 
-            service.register_check(
-                f"external_{service_key}", check_external, required=False, timeout=10
-            )
+            service.register_check(f"external_{service_key}", check_external, required=False, timeout=10)
 
     # Регистрируем endpoints
     @router.get("/health")

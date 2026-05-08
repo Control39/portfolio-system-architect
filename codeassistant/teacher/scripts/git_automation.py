@@ -8,7 +8,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 
 class GitAutomation:
@@ -31,7 +30,7 @@ class GitAutomation:
         except Exception as e:
             return f"Error: {e}"
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Получить статус репозитория"""
         status = self.run_git("status --porcelain")
         branch = self.run_git("branch --show-current")
@@ -46,7 +45,7 @@ class GitAutomation:
             "status": status,
         }
 
-    def auto_commit(self, message: str = None) -> Dict:
+    def auto_commit(self, message: str = None) -> dict:
         """Автоматический коммит изменений"""
         if message is None:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -70,7 +69,7 @@ class GitAutomation:
             "changes": status["changes"],
         }
 
-    def create_feature_branch(self, feature_name: str) -> Dict:
+    def create_feature_branch(self, feature_name: str) -> dict:
         """Создать feature ветку"""
         # Переходим на main и обновляем
         self.run_git("checkout main")
@@ -86,7 +85,7 @@ class GitAutomation:
             "result": branch_result,
         }
 
-    def finish_feature(self, feature_name: str, squash: bool = True) -> Dict:
+    def finish_feature(self, feature_name: str, squash: bool = True) -> dict:
         """Завершить feature ветку"""
         branch_name = f"feature/{feature_name.replace(' ', '-').lower()}"
 
@@ -117,7 +116,7 @@ class GitAutomation:
             "push_result": push_result,
         }
 
-    def analyze_repo(self) -> Dict:
+    def analyze_repo(self) -> dict:
         """Анализ репозитория"""
         # Количество коммитов
         commit_count = self.run_git("rev-list --count HEAD")
@@ -129,9 +128,7 @@ class GitAutomation:
         recent_commits = self.run_git("log --oneline -10")
 
         # Размер репозитория
-        size_result = subprocess.run(
-            "du -sh .", shell=True, cwd=self.repo_path, capture_output=True, text=True
-        )
+        size_result = subprocess.run("du -sh .", shell=True, cwd=self.repo_path, capture_output=True, text=True)
         repo_size = size_result.stdout.strip() if size_result.stdout else "Unknown"
 
         return {
@@ -141,7 +138,7 @@ class GitAutomation:
             "recent_commits": recent_commits.splitlines() if recent_commits else [],
         }
 
-    def cleanup_branches(self) -> Dict:
+    def cleanup_branches(self) -> dict:
         """Очистка старых веток"""
         # Получаем список веток
         branches = self.run_git("branch --list")

@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+
 """OpenAI chat model client abstraction.
 """
 import inspect
 import logging
 import os
-from typing import Any, Dict, Iterator, List, Optional, Tuple
+from collections.abc import Iterator
+from typing import Any
 
 from openai import OpenAI
 
 from .model_config import resolve_model_config
+
 
 _LOG = logging.getLogger(__name__ + ".token")
 
@@ -21,8 +24,8 @@ class OpenAIChatClient:
         model_name: str,
         api_version: str = "2024-08-01-preview",
         base_url: str = "https://models.github.ai/inference",
-        model_parameters: Optional[Dict[str, Any]] = None,
-        system_prompt: Optional[Dict[str, str]] = None,
+        model_parameters: dict[str, Any] | None = None,
+        system_prompt: dict[str, str] | None = None,
     ) -> None:
         if not api_key:
             raise ValueError("api_key is required for OpenAIChatClient (missing GitHub token)")
@@ -64,29 +67,25 @@ class OpenAIChatClient:
             }
 
         # Extract optional system prompt and build sanitized parameter dict (exclude unsupported keys).
-        self.system_prompt_role, self.system_prompt_content = self._normalize_system_prompt(
-            system_prompt
-        )
+        self.system_prompt_role, self.system_prompt_content = self._normalize_system_prompt(system_prompt)
         # Drop any stray legacy keys to avoid sending unsupported params.
         self.model_parameters.pop("system_prompt", None)
 
-        self.sanitized_parameters: Dict[str, Any] = {}
+        self.sanitized_parameters: dict[str, Any] = {}
         for k, v in self.model_parameters.items():
             if k in self._allowed_param_keys:
                 self.sanitized_parameters[k] = v
 
     @staticmethod
     def _normalize_system_prompt(
-        raw_prompt: Optional[Dict[str, Any] | str],
-    ) -> Tuple[str, Optional[str]]:
+        raw_prompt: dict[str, Any] | str | None,
+    ) -> tuple[str, str | None]:
         """Normalize provided system prompt into (role, content)."""
         if isinstance(raw_prompt, dict):
             raw_content = raw_prompt.get("content")
             if isinstance(raw_content, str) and raw_content.strip():
                 raw_role = raw_prompt.get("role")
-                role = (
-                    raw_role.strip() if isinstance(raw_role, str) and raw_role.strip() else "system"
-                )
+                role = raw_role.strip() if isinstance(raw_role, str) and raw_role.strip() else "system"
                 return role, raw_content.strip()
             return "system", None
         if isinstance(raw_prompt, str) and raw_prompt.strip():
@@ -96,14 +95,14 @@ class OpenAIChatClient:
     def chat_stream(
         self,
         text_input: str,
-        conversation_history: Optional[List[Dict[str, Any]]] = None,
+        conversation_history: list[dict[str, Any]] | None = None,
     ) -> Iterator[str]:
         """Stream assistant response tokens.
 
         Accepts a relaxed conversation_history of simplified dicts and coerces it into
         the minimal shape accepted by the SDK (role + content strings). Unknown keys ignored.
         """
-        messages: List[Dict[str, str]] = []
+        messages: list[dict[str, str]] = []
         if conversation_history:
             for m in conversation_history:
                 role = str(m.get("role", "user"))
@@ -113,14 +112,12 @@ class OpenAIChatClient:
 
         # Prepend system prompt if configured.
         if self.system_prompt_content:
-            messages.insert(
-                0, {"role": self.system_prompt_role, "content": self.system_prompt_content}
-            )
+            messages.insert(0, {"role": self.system_prompt_role, "content": self.system_prompt_content})
 
         messages.append({"role": "user", "content": text_input})
         try:
             # Build request kwargs, passing only configured parameters if present.
-            req_kwargs: Dict[str, Any] = {
+            req_kwargs: dict[str, Any] = {
                 "messages": messages,  # type: ignore[arg-type]
                 "model": self.model_name,
                 "stream": True,

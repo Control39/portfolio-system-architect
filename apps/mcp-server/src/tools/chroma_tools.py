@@ -6,7 +6,7 @@ ChromaDB Tools для MCP Server
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastmcp import FastMCP
 
@@ -16,8 +16,8 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
 
     chroma_path = project_root / "chroma_data"
 
-    @mcp_server.tool()  # noqa: F821
-    def chroma_get_collections() -> List[str]:
+    @mcp_server.tool()
+    def chroma_get_collections() -> list[str]:
         """
         Получение списка коллекций ChromaDB
 
@@ -34,12 +34,10 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except ImportError:
             return ["error: chromadb not installed"]
         except Exception as e:
-            return [f"error: {str(e)}"]
+            return [f"error: {e!s}"]
 
-    @mcp_server.tool()  # noqa: F821
-    def chroma_query(
-        collection_name: str, query_text: str, n_results: int = 5
-    ) -> List[Dict[str, Any]]:
+    @mcp_server.tool()
+    def chroma_query(collection_name: str, query_text: str, n_results: int = 5) -> list[dict[str, Any]]:
         """
         Векторный поиск в коллекции ChromaDB
 
@@ -76,15 +74,15 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except ImportError:
             return [{"error": "chromadb not installed"}]
         except Exception as e:
-            return [{"error": f"query error: {str(e)}"}]
+            return [{"error": f"query error: {e!s}"}]
 
-    @mcp_server.tool()  # noqa: F821
+    @mcp_server.tool()
     def chroma_add_document(
         collection_name: str,
         document: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        document_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        metadata: dict[str, Any] | None = None,
+        document_id: str | None = None,
+    ) -> dict[str, Any]:
         """
         Добавление документа в коллекцию ChromaDB
 
@@ -122,8 +120,8 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
-    @mcp_server.tool()  # noqa: F821
-    def chroma_get_collection_info(collection_name: str) -> Dict[str, Any]:
+    @mcp_server.tool()
+    def chroma_get_collection_info(collection_name: str) -> dict[str, Any]:
         """
         Получение информации о коллекции
 

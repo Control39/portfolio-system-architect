@@ -9,10 +9,12 @@ from pathlib import Path
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+
 # Добавляем src в путь для импорта
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.assistant_orchestrator.plugins.rag_advisor import RAGAdvisor
+
 
 app = FastAPI(
     title="Architect Assistant API",

@@ -10,7 +10,8 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -83,14 +84,10 @@ class TriggerMetricsCollector:
         )
 
         # Индексы для производительности
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)")
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)")
 
         conn.commit()
         conn.close()
@@ -103,10 +100,10 @@ class TriggerMetricsCollector:
         source: str,
         priority: int,
         status: str,
-        execution_time: Optional[float] = None,
-        success: Optional[bool] = None,
-        error_message: Optional[str] = None,
-        metadata: Optional[Dict] = None,
+        execution_time: float | None = None,
+        success: bool | None = None,
+        error_message: str | None = None,
+        metadata: dict | None = None,
     ):
         """Запись события триггера"""
         conn = sqlite3.connect(self.db_path)
@@ -141,7 +138,7 @@ class TriggerMetricsCollector:
         metric_name: str,
         metric_value: float,
         period: str = "instant",
-        tags: Optional[Dict] = None,
+        tags: dict | None = None,
     ):
         """Запись метрики"""
         conn = sqlite3.connect(self.db_path)
@@ -186,7 +183,7 @@ class TriggerMetricsCollector:
 
         logger.debug(f"Записана статистика: {stat_name}")
 
-    def get_event_stats(self, hours: int = 24) -> Dict[str, Any]:
+    def get_event_stats(self, hours: int = 24) -> dict[str, Any]:
         """Получение статистики событий за указанный период"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -269,7 +266,7 @@ class TriggerMetricsCollector:
         conn.close()
         return stats
 
-    def get_metrics_summary(self, hours: int = 24) -> Dict[str, Any]:
+    def get_metrics_summary(self, hours: int = 24) -> dict[str, Any]:
         """Получение сводки метрик"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -303,7 +300,7 @@ class TriggerMetricsCollector:
         conn.close()
         return metrics
 
-    def generate_report(self, report_type: str = "daily") -> Dict[str, Any]:
+    def generate_report(self, report_type: str = "daily") -> dict[str, Any]:
         """Генерация отчета"""
         if report_type == "daily":
             hours = 24
@@ -330,10 +327,7 @@ class TriggerMetricsCollector:
         report_dir = Path("apps/cognitive-agent/reports")
         report_dir.mkdir(parents=True, exist_ok=True)
 
-        report_file = (
-            report_dir
-            / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        report_file = report_dir / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
 
@@ -343,7 +337,7 @@ class TriggerMetricsCollector:
         logger.info(f"Сгенерирован отчет: {report_file}")
         return report
 
-    def _generate_recommendations(self, event_stats: Dict, metrics_summary: Dict) -> List[str]:
+    def _generate_recommendations(self, event_stats: dict, metrics_summary: dict) -> list[str]:
         """Генерация рекомендаций на основе статистики"""
         recommendations = []
 
@@ -377,8 +371,7 @@ class TriggerMetricsCollector:
         failed_events = event_stats.get("failed_events", 0)
         if failed_events > 10:
             recommendations.append(
-                f"Обнаружено много неудачных событий: {failed_events}. "
-                "Рекомендуется провести анализ причин сбоев."
+                f"Обнаружено много неудачных событий: {failed_events}. Рекомендуется провести анализ причин сбоев."
             )
 
         if not recommendations:
@@ -386,7 +379,7 @@ class TriggerMetricsCollector:
 
         return recommendations
 
-    def _generate_human_readable_report(self, report: Dict, json_report_path: Path):
+    def _generate_human_readable_report(self, report: dict, json_report_path: Path):
         """Генерация читаемого отчета в markdown"""
         md_report_path = json_report_path.with_suffix(".md")
 
@@ -403,9 +396,7 @@ class TriggerMetricsCollector:
             f.write(f"- Успешных событий: **{event_stats['successful_events']}**\n")
             f.write(f"- Неудачных событий: **{event_stats['failed_events']}**\n")
             f.write(f"- Процент успеха: **{event_stats['success_rate']:.1f}%**\n")
-            f.write(
-                f"- Среднее время выполнения: **{event_stats['avg_execution_time']:.2f} секунд**\n\n"
-            )
+            f.write(f"- Среднее время выполнения: **{event_stats['avg_execution_time']:.2f} секунд**\n\n")
 
             # События по типам
             f.write("### События по типам\n\n")
@@ -727,9 +718,7 @@ class TriggerDashboard:
         dashboard_dir = Path("apps/cognitive-agent/dashboards")
         dashboard_dir.mkdir(parents=True, exist_ok=True)
 
-        dashboard_file = (
-            dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
-        )
+        dashboard_file = dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
         with open(dashboard_file, "w", encoding="utf-8") as f:
             f.write(html)
 

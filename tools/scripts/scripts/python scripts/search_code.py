@@ -32,9 +32,7 @@ def search_code(query, index_file="code_index.json"):
             sim = cosine_similarity(
                 [query_embedding],
                 [item["embedding"]],
-            )[
-                0
-            ][0]
+            )[0][0]
             results.append((sim, item["file"], item["content_preview"]))
 
     # Сортируем по релевантности

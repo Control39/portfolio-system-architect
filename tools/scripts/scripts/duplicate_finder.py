@@ -12,6 +12,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+
 # Установка кодировки для корректного отображения кириллицы в консоли Windows
 if os.name == "nt":
     import ctypes
@@ -79,9 +80,7 @@ def scan_directory(root_path, ignore_patterns):
         # Используем os.walk для рекурсивного обхода директорий
         for dirpath, dirnames, filenames in os.walk(root_path):
             # Фильтруем директории для игнорирования
-            dirnames[:] = [
-                d for d in dirnames if not should_ignore(os.path.join(dirpath, d), ignore_patterns)
-            ]
+            dirnames[:] = [d for d in dirnames if not should_ignore(os.path.join(dirpath, d), ignore_patterns)]
 
             # Обрабатываем файлы в текущей директории
             for filename in filenames:

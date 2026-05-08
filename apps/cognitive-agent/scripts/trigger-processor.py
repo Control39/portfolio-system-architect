@@ -16,9 +16,10 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import yaml
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -58,11 +59,11 @@ class TriggerEvent:
 
     name: str
     source: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     timestamp: datetime = field(default_factory=datetime.now)
     priority: TriggerPriority = TriggerPriority.MEDIUM
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Преобразование в словарь"""
         return {
             "name": self.name,
@@ -83,7 +84,7 @@ class TriggerAction:
     allowed_failures: int = 0
     retry_count: int = 0
 
-    def execute(self) -> Dict[str, Any]:
+    def execute(self) -> dict[str, Any]:
         """Выполнение действия"""
         logger.info(f"Выполнение действия: {self.name}")
 
@@ -138,7 +139,7 @@ class TriggerAction:
                 "execution_time": 0,
             }
 
-    def _find_script(self, script_name: str) -> Optional[Path]:
+    def _find_script(self, script_name: str) -> Path | None:
         """Поиск скрипта в директориях агента"""
         search_paths = [
             Path(".agents") / "scripts",
@@ -180,26 +181,26 @@ class TriggerProcessor:
         # Очередь с приоритетами
         self.priority_queue = []
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации"""
         if not self.config_path.exists():
             logger.warning(f"Конфигурационный файл не найден: {self.config_path}")
             return {}
 
         try:
-            with open(self.config_path, "r", encoding="utf-8") as f:
+            with open(self.config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def _parse_triggers(self) -> Dict[str, Dict[str, Any]]:
+    def _parse_triggers(self) -> dict[str, dict[str, Any]]:
         """Парсинг триггеров из конфигурации"""
         triggers = self.config.get("triggers", {})
         logger.info(f"Загружено триггеров: {len(triggers)}")
         return triggers
 
-    def _parse_actions(self) -> Dict[str, TriggerAction]:
+    def _parse_actions(self) -> dict[str, TriggerAction]:
         """Парсинг действий из конфигурации"""
         actions_config = self.config.get("actions", {})
         actions = {}
@@ -293,7 +294,7 @@ class TriggerProcessor:
 
         return success
 
-    def _check_conditions(self, conditions: List[Any], event: TriggerEvent) -> bool:
+    def _check_conditions(self, conditions: list[Any], event: TriggerEvent) -> bool:
         """Проверка условий триггера"""
         if not conditions:
             return True
@@ -306,7 +307,7 @@ class TriggerProcessor:
 
         return True
 
-    def _log_results(self, event: TriggerEvent, results: List[Dict[str, Any]], success: bool):
+    def _log_results(self, event: TriggerEvent, results: list[dict[str, Any]], success: bool):
         """Логирование результатов"""
         log_entry = {
             "timestamp": datetime.now().isoformat(),
@@ -371,7 +372,7 @@ class TriggerProcessor:
 
         logger.info("Обработчик триггеров остановлен")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Получение статистики"""
         with self.queue_lock:
             stats = self.stats.copy()
@@ -379,7 +380,7 @@ class TriggerProcessor:
 
         return stats
 
-    def simulate_event(self, event_name: str, data: Dict[str, Any] = None):
+    def simulate_event(self, event_name: str, data: dict[str, Any] = None):
         """Симуляция события (для тестирования)"""
         event = TriggerEvent(
             name=event_name,
@@ -465,9 +466,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Обработчик триггеров Cognitive Automation Agent")
-    parser.add_argument(
-        "--config", default="apps/cognitive-agent/config/triggers.yaml", help="Путь к конфигурации"
-    )
+    parser.add_argument("--config", default="apps/cognitive-agent/config/triggers.yaml", help="Путь к конфигурации")
     parser.add_argument("--workers", type=int, default=3, help="Количество воркеров")
     parser.add_argument("--simulate", help="Симулировать событие")
     parser.add_argument("--simulate-data", help="Данные для симуляции (JSON)")

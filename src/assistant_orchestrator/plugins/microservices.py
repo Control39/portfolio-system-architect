@@ -4,12 +4,13 @@ Microservices plugin for analyzing microservices architecture.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
 
-def analyze(root: Path) -> Dict[str, Any]:
+def analyze(root: Path) -> dict[str, Any]:
     """Analyze microservices in the project."""
     services = []
 
@@ -38,9 +39,7 @@ def analyze(root: Path) -> Dict[str, Any]:
             if app.is_dir():
                 # Check if it looks like a service
                 has_docker = (app / "Dockerfile").exists()
-                has_requirements = (app / "requirements.txt").exists() or (
-                    app / "pyproject.toml"
-                ).exists()
+                has_requirements = (app / "requirements.txt").exists() or (app / "pyproject.toml").exists()
                 has_tests = (app / "tests").exists() or (app / "test").exists()
 
                 if has_docker or has_requirements:
@@ -70,13 +69,12 @@ def _detect_language(path: Path) -> str:
     """Detect primary programming language of a service."""
     if (path / "requirements.txt").exists() or (path / "pyproject.toml").exists():
         return "Python"
-    elif (path / "package.json").exists():
+    if (path / "package.json").exists():
         return "JavaScript/TypeScript"
-    elif (path / "go.mod").exists():
+    if (path / "go.mod").exists():
         return "Go"
-    elif (path / "Cargo.toml").exists():
+    if (path / "Cargo.toml").exists():
         return "Rust"
-    elif (path / "pom.xml").exists() or (path / "build.gradle").exists():
+    if (path / "pom.xml").exists() or (path / "build.gradle").exists():
         return "Java"
-    else:
-        return "unknown"
+    return "unknown"

@@ -14,7 +14,7 @@ def analyze_desktop():
 
     if not desktop_path.exists():
         print("Рабочий стол не найден")
-        return
+        return None
 
     files = []
     total_size = 0

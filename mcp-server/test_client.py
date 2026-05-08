@@ -5,9 +5,10 @@
 import argparse
 import json
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 import requests
+
 
 # Base URL of the MCP server
 BASE_URL = "http://localhost:8000"
@@ -48,8 +49,8 @@ class MCPTestClient:
     def test_process_prompt(
         self,
         prompt: str = "Test prompt for MCP server",
-        variables: Dict[str, Any] = None,
-        rules: List[str] = None,
+        variables: dict[str, Any] = None,
+        rules: list[str] = None,
     ) -> bool:
         """Тестирование process prompt endpoint"""
         if variables is None:
@@ -104,9 +105,7 @@ def main():
         metavar=("KEY", "VALUE"),
         help="Variables for the prompt (can be used multiple times)",
     )
-    parser.add_argument(
-        "--rule", action="append", help="Rules to apply (can be used multiple times)"
-    )
+    parser.add_argument("--rule", action="append", help="Rules to apply (can be used multiple times)")
 
     args = parser.parse_args()
 

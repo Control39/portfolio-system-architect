@@ -17,9 +17,11 @@ from unittest.mock import MagicMock
 
 import pytest
 
+
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
+
 
 @pytest.fixture
 def service_config():
@@ -54,7 +56,7 @@ def service_instance(service_config, mock_dependencies):
     yield service
 
     # Cleanup
-    service.cleanup() if hasattr(service, 'cleanup') else None
+    service.cleanup() if hasattr(service, "cleanup") else None
 
 
 @pytest.fixture(autouse=True)
@@ -62,7 +64,6 @@ def reset_mocks(mock_dependencies):
     """Reset all mocks before each test"""
     for mock in mock_dependencies.values():
         mock.reset_mock()
-
 
 
 # ============================================================================
@@ -73,7 +74,7 @@ def reset_mocks(mock_dependencies):
 def test_decision_logic_consistency(service_instance, mock_dependencies, service_config):
     """
     Test Case 1: Decision Logic Consistency
-    
+
     Validates integration between decision-engine and its dependencies.
     """
     # Arrange
@@ -108,7 +109,7 @@ async def test_decision_logic_consistency_async(service_instance, mock_dependenc
 def test_decision_with_cognitive_agent(service_instance, mock_dependencies, service_config):
     """
     Test Case 2: Decision With Cognitive Agent
-    
+
     Validates integration between decision-engine and its dependencies.
     """
     # Arrange
@@ -143,7 +144,7 @@ async def test_decision_with_cognitive_agent_async(service_instance, mock_depend
 def test_decision_with_it_compass(service_instance, mock_dependencies, service_config):
     """
     Test Case 3: Decision With It Compass
-    
+
     Validates integration between decision-engine and its dependencies.
     """
     # Arrange
@@ -178,7 +179,7 @@ async def test_decision_with_it_compass_async(service_instance, mock_dependencie
 def test_decision_caching(service_instance, mock_dependencies, service_config):
     """
     Test Case 4: Decision Caching
-    
+
     Validates integration between decision-engine and its dependencies.
     """
     # Arrange
@@ -213,7 +214,7 @@ async def test_decision_caching_async(service_instance, mock_dependencies):
 def test_decision_error_recovery(service_instance, mock_dependencies, service_config):
     """
     Test Case 5: Decision Error Recovery
-    
+
     Validates integration between decision-engine and its dependencies.
     """
     # Arrange
@@ -248,6 +249,7 @@ async def test_decision_error_recovery_async(service_instance, mock_dependencies
 # ============================================================================
 # COMMON INTEGRATION TESTS
 # ============================================================================
+
 
 def test_service_initialization(service_instance, mock_dependencies):
     """Test service initializes with all dependencies"""
@@ -302,4 +304,3 @@ def test_concurrent_operations(service_instance, mock_dependencies):
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
 
     assert all(results)
-

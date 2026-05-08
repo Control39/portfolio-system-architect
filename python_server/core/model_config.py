@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 
 def load_json_file(path: str | os.PathLike[str]) -> Any | None:
@@ -21,7 +21,7 @@ def load_json_file(path: str | os.PathLike[str]) -> Any | None:
         return None
 
 
-def _normalize_system_prompt(raw_prompt: Any) -> Optional[Dict[str, str]]:
+def _normalize_system_prompt(raw_prompt: Any) -> dict[str, str] | None:
     """Convert a raw system prompt value into a normalized mapping.
 
     Accepts either a simple string or a dict with optional role/content keys.
@@ -42,9 +42,9 @@ def _normalize_system_prompt(raw_prompt: Any) -> Optional[Dict[str, str]]:
 
 
 def resolve_model_config(
-    env_default_model: Optional[str] = None,
-    env_default_api_version: Optional[str] = None,
-) -> Tuple[str, str, Optional[Dict[str, Any]], Optional[Dict[str, str]]]:
+    env_default_model: str | None = None,
+    env_default_api_version: str | None = None,
+) -> tuple[str, str, dict[str, Any] | None, dict[str, str] | None]:
     """Resolve model name and parameters from config.json with env fallback.
 
     - Starts with model name from `env_default_model` or "gpt-4o-mini".
@@ -54,8 +54,8 @@ def resolve_model_config(
     """
     model_name = env_default_model or "gpt-4o-mini"
     api_version = env_default_api_version or "2024-08-01-preview"
-    model_parameters: Dict[str, Any] | None = None
-    system_prompt: Optional[Dict[str, str]] = None
+    model_parameters: dict[str, Any] | None = None
+    system_prompt: dict[str, str] | None = None
 
     # Compute path: current file is .../python_server/core/model_config.py
     # Config file resides at .../python_server/config.json

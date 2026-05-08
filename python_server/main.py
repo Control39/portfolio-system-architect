@@ -46,6 +46,6 @@ if __name__ == "__main__":  # pragma: no cover
         asyncio.run(main())
     except KeyboardInterrupt:
         app.logger.info("Shutting down servers...")
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         app.logger.exception("Server error: %s", e)
         app.logger.error("Make sure the ports are available.")

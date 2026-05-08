@@ -52,13 +52,17 @@ test:
 	$(VENV_ACTIVATE) && python -m pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing -m "not slow"
 
 lint:
-	$(VENV_ACTIVATE) && ruff check .
-	$(VENV_ACTIVATE) && black --check .
-	$(VENV_ACTIVATE) && mypy apps src
+	$(VENV_ACTIVATE) && ruff check . --config ruff.toml
+	$(VENV_ACTIVATE) && ruff format --check . --config ruff.toml
+	$(VENV_ACTIVATE) && mypy apps src --config pyproject.toml
 
 format:
-	$(VENV_ACTIVATE) && black .
-	$(VENV_ACTIVATE) && isort .
+	$(VENV_ACTIVATE) && ruff check . --fix --config ruff.toml
+	$(VENV_ACTIVATE) && ruff format . --config ruff.toml
+
+# Quick fix: only fix auto-fixable issues
+lint-fix:
+	$(VENV_ACTIVATE) && ruff check . --fix --config ruff.toml
 
 clean:
 	rm -rf .pytest_cache .coverage coverage_html .mypy_cache .ruff_cache

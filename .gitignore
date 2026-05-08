@@ -56,3 +56,16 @@ apps/cognitive-agent/reports/
 
 # Temporary files from tools
 *.pyc
+$null
+diagnosis.ps1
+fix-vscode.ps1
+gitleaks-report.json
+docs/desktop.html
+docs/session-context.md
+ruff.toml
+*.env
+.env.*
+secrets.json
+*.pem
+*.key
+*.p12

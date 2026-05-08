@@ -4,10 +4,15 @@ import asyncio
 
 import pytest
 
-from src.common.async_helpers import (async_retry, async_timeout,
-                                      batch_async_operations, fetch_parallel,
-                                      fetch_parallel_safe, fetch_with_retry,
-                                      fetch_with_timeout)
+from src.common.async_helpers import (
+    async_retry,
+    async_timeout,
+    batch_async_operations,
+    fetch_parallel,
+    fetch_parallel_safe,
+    fetch_with_retry,
+    fetch_with_timeout,
+)
 
 
 @pytest.mark.asyncio

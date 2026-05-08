@@ -4,7 +4,7 @@ Pydantic модели для сущностей и связей в графе з
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -55,16 +55,12 @@ class Entity(BaseModel):
     id: str = Field(..., description="Уникальный идентификатор сущности")
     name: str = Field(..., description="Название сущности")
     type: EntityType = Field(..., description="Тип сущности")
-    description: Optional[str] = Field(None, description="Описание сущности")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
-    confidence: float = Field(
-        1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности"
-    )
-    source: Optional[str] = Field(None, description="Источник информации о сущности")
+    description: str | None = Field(None, description="Описание сущности")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
+    confidence: float = Field(1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности")
+    source: str | None = Field(None, description="Источник информации о сущности")
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
-    updated_at: datetime = Field(
-        default_factory=datetime.now, description="Время последнего обновления"
-    )
+    updated_at: datetime = Field(default_factory=datetime.now, description="Время последнего обновления")
 
     class Config:
         json_schema_extra = {
@@ -87,9 +83,9 @@ class Relationship(BaseModel):
     source_id: str = Field(..., description="ID исходной сущности")
     target_id: str = Field(..., description="ID целевой сущности")
     type: RelationshipType = Field(..., description="Тип связи")
-    description: Optional[str] = Field(None, description="Описание связи")
+    description: str | None = Field(None, description="Описание связи")
     weight: float = Field(1.0, ge=0.0, le=10.0, description="Вес/сила связи")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
     confidence: float = Field(1.0, ge=0.0, le=1.0, description="Уверенность в существовании связи")
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
 
@@ -114,8 +110,8 @@ class GraphQuery(BaseModel):
         ...,
         description="Тип запроса: find_entities, find_relationships, path, neighbors, etc.",
     )
-    parameters: Dict[str, Any] = Field(default_factory=dict, description="Параметры запроса")
-    limit: Optional[int] = Field(100, description="Максимальное количество результатов")
+    parameters: dict[str, Any] = Field(default_factory=dict, description="Параметры запроса")
+    limit: int | None = Field(100, description="Максимальное количество результатов")
 
     class Config:
         json_schema_extra = {
@@ -131,10 +127,10 @@ class GraphResponse(BaseModel):
     """Модель ответа от графа знаний."""
 
     success: bool = Field(..., description="Успешность выполнения запроса")
-    data: Optional[Dict[str, Any]] = Field(None, description="Данные результата")
-    entities: Optional[List[Entity]] = Field(None, description="Список сущностей")
-    relationships: Optional[List[Relationship]] = Field(None, description="Список связей")
-    message: Optional[str] = Field(None, description="Сообщение об ошибке или информации")
+    data: dict[str, Any] | None = Field(None, description="Данные результата")
+    entities: list[Entity] | None = Field(None, description="Список сущностей")
+    relationships: list[Relationship] | None = Field(None, description="Список связей")
+    message: str | None = Field(None, description="Сообщение об ошибке или информации")
     processing_time_ms: float = Field(..., description="Время обработки запроса в миллисекундах")
 
     class Config:
@@ -175,8 +171,8 @@ class TextExtractionRequest(BaseModel):
 class TextExtractionResponse(BaseModel):
     """Модель ответа с извлеченными сущностями и связями."""
 
-    entities: List[Entity] = Field(..., description="Извлеченные сущности")
-    relationships: List[Relationship] = Field(default_factory=list, description="Извлеченные связи")
+    entities: list[Entity] = Field(..., description="Извлеченные сущности")
+    relationships: list[Relationship] = Field(default_factory=list, description="Извлеченные связи")
     processing_time_ms: float = Field(..., description="Время обработки в миллисекундах")
 
     class Config:

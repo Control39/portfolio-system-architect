@@ -6,16 +6,17 @@ Preference order:
 
 Falls back gracefully if azure-identity not installed.
 """
+
 from __future__ import annotations
 
 import logging
 import os
 from typing import Any, Protocol, runtime_checkable
 
+
 try:  # Import lazily; treat absence as optional dependency
-    from azure.identity import (DefaultAzureCredential,
-                                ManagedIdentityCredential)
-except Exception:  # noqa: BLE001
+    from azure.identity import DefaultAzureCredential, ManagedIdentityCredential
+except Exception:
     DefaultAzureCredential = None  # type: ignore
     ManagedIdentityCredential = None  # type: ignore
 
@@ -25,7 +26,7 @@ _LOG = logging.getLogger("azure_credentials")
 @runtime_checkable
 class _SupportsGetToken(Protocol):  # minimal protocol so callers can type narrow if desired
     def get_token(self, *scopes: str) -> Any:  # pragma: no cover - azure sdk provided
-        ...  # noqa: D401, PIE790
+        ...
 
 
 CredentialType = Any  # Simplify: could be Union[DefaultAzureCredential, ManagedIdentityCredential]
@@ -50,13 +51,11 @@ def get_azure_credential() -> CredentialType:
             cred = ManagedIdentityCredential()
             _LOG.info("Using ManagedIdentityCredential")
             return cred
-        except Exception as e:  # noqa: BLE001
-            _LOG.warning(
-                "ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e
-            )
+        except Exception as e:
+            _LOG.warning("ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e)
 
     _LOG.info("Using DefaultAzureCredential")
     return DefaultAzureCredential()
 
 
-__all__ = ["get_azure_credential", "CredentialType"]
+__all__ = ["CredentialType", "get_azure_credential"]

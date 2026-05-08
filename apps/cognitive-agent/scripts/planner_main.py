@@ -10,9 +10,10 @@ import sys
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -35,23 +36,21 @@ class TaskPlanner:
         self.tasks = []
         self.schedule = {}
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации планировщика"""
         try:
-            with open(self.config_path, "r", encoding="utf-8") as f:
+            with open(self.config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def load_tasks(
-        self, tasks_file: str = "apps/cognitive-agent/data/tasks.json"
-    ) -> List[Dict[str, Any]]:
+    def load_tasks(self, tasks_file: str = "apps/cognitive-agent/data/tasks.json") -> list[dict[str, Any]]:
         """Загрузка задач из файла"""
         try:
             tasks_path = Path(tasks_file)
             if tasks_path.exists():
-                with open(tasks_path, "r", encoding="utf-8") as f:
+                with open(tasks_path, encoding="utf-8") as f:
                     self.tasks = json.load(f)
                 logger.info(f"Загружено {len(self.tasks)} задач")
             else:
@@ -63,7 +62,7 @@ class TaskPlanner:
 
         return self.tasks
 
-    def _generate_sample_tasks(self) -> List[Dict[str, Any]]:
+    def _generate_sample_tasks(self) -> list[dict[str, Any]]:
         """Генерация примерных задач для демонстрации"""
         sample_tasks = [
             {
@@ -131,7 +130,7 @@ class TaskPlanner:
         logger.info(f"Сгенерировано {len(sample_tasks)} примерных задач")
         return sample_tasks
 
-    def prioritize_tasks(self) -> List[Dict[str, Any]]:
+    def prioritize_tasks(self) -> list[dict[str, Any]]:
         """Приоритизация задач на основе конфигурации"""
         logger.info("Приоритизация задач...")
 
@@ -181,7 +180,7 @@ class TaskPlanner:
 
         return self.tasks
 
-    def optimize_schedule(self) -> Dict[str, Any]:
+    def optimize_schedule(self) -> dict[str, Any]:
         """Оптимизация расписания выполнения задач"""
         logger.info("Оптимизация расписания...")
 
@@ -268,13 +267,11 @@ class TaskPlanner:
             schedule["total_duration_minutes"] += duration
 
         self.schedule = schedule
-        logger.info(
-            f"Запланировано {schedule['tasks_scheduled']} задач на {schedule['total_duration_minutes']} минут"
-        )
+        logger.info(f"Запланировано {schedule['tasks_scheduled']} задач на {schedule['total_duration_minutes']} минут")
 
         return schedule
 
-    def identify_dependencies(self) -> Dict[str, List[str]]:
+    def identify_dependencies(self) -> dict[str, list[str]]:
         """Выявление зависимостей между задачами"""
         logger.info("Анализ зависимостей между задачами...")
 
@@ -308,7 +305,7 @@ class TaskPlanner:
             "cycles": cycles,
         }
 
-    def _build_dependency_graph(self, dependencies: Dict[str, List[str]]) -> Dict[str, List[str]]:
+    def _build_dependency_graph(self, dependencies: dict[str, list[str]]) -> dict[str, list[str]]:
         """Построение графа зависимостей"""
         graph = {}
 
@@ -319,7 +316,7 @@ class TaskPlanner:
 
         return graph
 
-    def _detect_cycles(self, graph: Dict[str, List[str]]) -> List[List[str]]:
+    def _detect_cycles(self, graph: dict[str, list[str]]) -> list[list[str]]:
         """Обнаружение циклических зависимостей"""
         # Упрощенная реализация для демонстрации
         cycles = []
@@ -346,7 +343,7 @@ class TaskPlanner:
 
         return cycles
 
-    def group_parallel_tasks(self) -> Dict[str, List[Dict[str, Any]]]:
+    def group_parallel_tasks(self) -> dict[str, list[dict[str, Any]]]:
         """Группировка задач для параллельного выполнения"""
         logger.info("Группировка задач для параллельного выполнения...")
 
@@ -378,15 +375,11 @@ class TaskPlanner:
                 group_data["avg_priority"] = avg_priority
 
         # Сортировка групп по среднему приоритету (по убыванию)
-        sorted_groups = dict(
-            sorted(groups.items(), key=lambda x: x[1]["avg_priority"], reverse=True)
-        )
+        sorted_groups = dict(sorted(groups.items(), key=lambda x: x[1]["avg_priority"], reverse=True))
 
         logger.info(f"Создано {len(sorted_groups)} групп задач")
         for category, data in list(sorted_groups.items())[:3]:
-            logger.info(
-                f"  Группа '{category}': {len(data['tasks'])} задач, приоритет: {data['avg_priority']:.2f}"
-            )
+            logger.info(f"  Группа '{category}': {len(data['tasks'])} задач, приоритет: {data['avg_priority']:.2f}")
 
         return sorted_groups
 
@@ -415,9 +408,7 @@ class TaskPlanner:
             "tasks_prioritized": len([t for t in self.tasks if "final_priority" in t]),
             "schedule_generated": bool(self.schedule),
             "schedule_tasks": self.schedule.get("tasks_scheduled", 0) if self.schedule else 0,
-            "total_duration_hours": (
-                self.schedule.get("total_duration_minutes", 0) / 60 if self.schedule else 0
-            ),
+            "total_duration_hours": (self.schedule.get("total_duration_minutes", 0) / 60 if self.schedule else 0),
             "report_files": {
                 "tasks": str(tasks_file),
                 "schedule": str(schedule_file) if self.schedule else None,

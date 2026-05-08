@@ -5,7 +5,8 @@
 
 import logging
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 try:
     from langchain.callbacks.base import BaseCallbackHandler
@@ -20,6 +21,7 @@ except ImportError:
 from langchain_openai import ChatOpenAI
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +54,8 @@ class YandexGPTClient:
 
     def __init__(
         self,
-        config: Optional[YandexGPTConfig] = None,
-        callbacks: Optional[List[BaseCallbackHandler]] = None,
+        config: YandexGPTConfig | None = None,
+        callbacks: list[BaseCallbackHandler] | None = None,
     ):
         """
         Инициализация клиента Yandex GPT.
@@ -83,9 +85,7 @@ class YandexGPTClient:
             )
         return self._client
 
-    async def generate(
-        self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs
-    ) -> str:
+    async def generate(self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs) -> str:
         """
         Генерация текста с использованием Yandex GPT.
 
@@ -110,7 +110,7 @@ class YandexGPTClient:
             logger.error(f"Ошибка при генерации с Yandex GPT: {e}")
             raise
 
-    async def chat(self, messages: List[Dict[str, str]], **kwargs) -> str:
+    async def chat(self, messages: list[dict[str, str]], **kwargs) -> str:
         """
         Чат с историей сообщений.
 
@@ -142,15 +142,15 @@ class YandexGPTClient:
             logger.error(f"Ошибка в чате с Yandex GPT: {e}")
             raise
 
-    def get_config(self) -> Dict[str, Any]:
+    def get_config(self) -> dict[str, Any]:
         """Получить текущую конфигурацию"""
         return self.config.dict()
 
 
 # Фабричные функции для удобства
 def create_yandex_gpt_client(
-    config: Optional[YandexGPTConfig] = None,
-    callbacks: Optional[List[BaseCallbackHandler]] = None,
+    config: YandexGPTConfig | None = None,
+    callbacks: list[BaseCallbackHandler] | None = None,
 ) -> YandexGPTClient:
     """Создать клиент Yandex GPT"""
     return YandexGPTClient(config=config, callbacks=callbacks)
@@ -159,7 +159,7 @@ def create_yandex_gpt_client(
 async def generate_with_yandex_gpt(
     prompt: str,
     system_message: str = "Ты полезный AI-ассистент.",
-    config: Optional[YandexGPTConfig] = None,
+    config: YandexGPTConfig | None = None,
 ) -> str:
     """Упрощенная функция для генерации текста"""
     client = create_yandex_gpt_client(config)

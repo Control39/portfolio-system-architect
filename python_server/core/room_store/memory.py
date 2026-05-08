@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from ...config import DEFAULT_ROOM_ID
 from .base import RoomStore
@@ -10,11 +10,11 @@ from .models import RoomMetadata
 class InMemoryRoomStore(RoomStore):
     def __init__(self, *, max_messages: int = 200) -> None:
         # message history
-        self._room_messages: Dict[str, List[Dict[str, Any]]] = {}
+        self._room_messages: dict[str, list[dict[str, Any]]] = {}
         self._max_room_messages = max_messages
         self._room_messages.setdefault(DEFAULT_ROOM_ID, [])
         # metadata storage: { user_id: { room_id: RoomMetadata } }
-        self._user_rooms: Dict[str, Dict[str, RoomMetadata]] = {}
+        self._user_rooms: dict[str, dict[str, RoomMetadata]] = {}
         self._default_room = RoomMetadata(
             room_id=DEFAULT_ROOM_ID,
             room_name="Public Chat",
@@ -27,33 +27,28 @@ class InMemoryRoomStore(RoomStore):
         # backwards compat: ensure room appears in list_rooms even without messages
         self._room_messages.setdefault(room, [])
 
-    async def record_room_event(self, room: str, event: Dict[str, Any]) -> None:
+    async def record_room_event(self, room: str, event: dict[str, Any]) -> None:
         self._room_messages.setdefault(room, []).append(event)
         msgs = self._room_messages[room]
         if len(msgs) > self._max_room_messages:
             overflow = len(msgs) - self._max_room_messages
             del msgs[:overflow]
 
-    async def append_message(self, room: str, event: Dict[str, Any]) -> None:
+    async def append_message(self, room: str, event: dict[str, Any]) -> None:
         await self.record_room_event(room, event)
 
-    async def get_room_messages(
-        self, room: str, limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+    async def get_room_messages(self, room: str, limit: int | None = None) -> list[dict[str, Any]]:
         msgs = list(self._room_messages.get(room, []))
         if limit is not None and limit >= 0:
             return msgs[-limit:]
         return msgs
 
-    async def list_rooms(self) -> List[Dict[str, Any]]:
+    async def list_rooms(self) -> list[dict[str, Any]]:
         """
         Return list of all rooms with message counts.
         """
         names = list(self._room_messages.keys())
-        return [
-            {"name": name, "messages": len(self._room_messages.get(name, []))}
-            for name in names
-        ]
+        return [{"name": name, "messages": len(self._room_messages.get(name, []))} for name in names]
 
     async def remove_room_if_empty(self, room: str) -> None:
         if room == DEFAULT_ROOM_ID:
@@ -68,8 +63,8 @@ class InMemoryRoomStore(RoomStore):
         user_id: str,
         room_name: str,
         *,
-        room_id: Optional[str] = None,
-        description: Optional[str] = None,
+        room_id: str | None = None,
+        description: str | None = None,
     ) -> RoomMetadata:
         import uuid
 
@@ -81,13 +76,11 @@ class InMemoryRoomStore(RoomStore):
         existing = self._user_rooms[user_id].get(room_id)
         if existing:
             return existing
-        room = RoomMetadata(
-            room_id=room_id, room_name=room_name, user_id=user_id, description=description
-        )
+        room = RoomMetadata(room_id=room_id, room_name=room_name, user_id=user_id, description=description)
         self._user_rooms[user_id][room_id] = room
         return room
 
-    async def get_room_metadata(self, user_id: str, room_id: str) -> Optional[RoomMetadata]:
+    async def get_room_metadata(self, user_id: str, room_id: str) -> RoomMetadata | None:
         if room_id == DEFAULT_ROOM_ID:
             return self._default_room
         return self._user_rooms.get(user_id, {}).get(room_id)
@@ -97,8 +90,8 @@ class InMemoryRoomStore(RoomStore):
         user_id: str,
         room_id: str,
         *,
-        room_name: Optional[str] = None,
-        description: Optional[str] = None,
+        room_name: str | None = None,
+        description: str | None = None,
     ) -> RoomMetadata:
         room = await self.get_room_metadata(user_id, room_id)
         if not room:
@@ -121,8 +114,8 @@ class InMemoryRoomStore(RoomStore):
             return True
         return False
 
-    async def list_user_rooms(self, user_id: str) -> List[RoomMetadata]:
-        rooms: List[RoomMetadata] = [self._default_room]
+    async def list_user_rooms(self, user_id: str) -> list[RoomMetadata]:
+        rooms: list[RoomMetadata] = [self._default_room]
         if user_id in self._user_rooms:
             rooms.extend(self._user_rooms[user_id].values())
         return rooms

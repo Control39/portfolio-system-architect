@@ -8,18 +8,18 @@ import importlib.util
 import json
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
 
-def load_checklist(checklist_path: str) -> Dict[str, Any]:
+def load_checklist(checklist_path: str) -> dict[str, Any]:
     """Загрузить YAML чек-листа."""
-    with open(checklist_path, "r", encoding="utf-8") as f:
+    with open(checklist_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
-def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
+def run_check(script_path: str, repo_root: str) -> dict[str, Any]:
     """Запустить скрипт проверки и вернуть результат."""
     try:
         spec = importlib.util.spec_from_file_location("check_module", script_path)
@@ -27,19 +27,16 @@ def run_check(script_path: str, repo_root: str) -> Dict[str, Any]:
         spec.loader.exec_module(module)
         if hasattr(module, "run"):
             return module.run(repo_root)
-        else:
-            return {"passed": False, "error": "Функция run не найдена"}
+        return {"passed": False, "error": "Функция run не найдена"}
     except Exception as e:
         return {"passed": False, "error": str(e)}
 
 
-def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
+def execute_shell(cmd: list[str], cwd: str) -> dict[str, Any]:
     """Выполнить shell команду и вернуть результат."""
     try:
         # shell=False для безопасности, чтобы избежать инъекций команд
-        result = subprocess.run(
-            cmd, shell=False, cwd=cwd, capture_output=True, text=True, timeout=30
-        )
+        result = subprocess.run(cmd, shell=False, cwd=cwd, capture_output=True, text=True, timeout=30)
         return {
             "passed": result.returncode == 0,
             "stdout": result.stdout,
@@ -52,7 +49,7 @@ def execute_shell(cmd: List[str], cwd: str) -> Dict[str, Any]:
         return {"passed": False, "error": str(e)}
 
 
-def check_structure(repo_root: str) -> Dict[str, Any]:
+def check_structure(repo_root: str) -> dict[str, Any]:
     """Проверка структуры репозитория."""
     required = [
         "apps",
@@ -88,7 +85,7 @@ def check_structure(repo_root: str) -> Dict[str, Any]:
     }
 
 
-def check_git(repo_root: str) -> Dict[str, Any]:
+def check_git(repo_root: str) -> dict[str, Any]:
     """Проверка git ветвления."""
     # Простая проверка наличия ветки develop
     result = execute_shell(["git", "branch", "--list", "develop"], repo_root)
@@ -99,7 +96,7 @@ def check_git(repo_root: str) -> Dict[str, Any]:
     }
 
 
-def check_linting(repo_root: str) -> Dict[str, Any]:
+def check_linting(repo_root: str) -> dict[str, Any]:
     """Проверка линтинга."""
     results = []
     # ruff
@@ -119,7 +116,7 @@ def check_linting(repo_root: str) -> Dict[str, Any]:
     }
 
 
-def check_secrets(repo_root: str) -> Dict[str, Any]:
+def check_secrets(repo_root: str) -> dict[str, Any]:
     """Проверка секретов."""
     # Если detect-secrets установлен
     r = execute_shell(["detect-secrets", "scan"], repo_root)
@@ -129,16 +126,15 @@ def check_secrets(repo_root: str) -> Dict[str, Any]:
     return {"passed": True, "message": "Секреты не обнаружены"}
 
 
-def check_ci(repo_root: str) -> Dict[str, Any]:
+def check_ci(repo_root: str) -> dict[str, Any]:
     """Проверка CI."""
     ci_path = Path(repo_root) / ".github" / "workflows" / "ci.yml"
     if ci_path.exists():
         return {"passed": True, "message": "CI workflow существует"}
-    else:
-        return {"passed": False, "message": "CI workflow отсутствует"}
+    return {"passed": False, "message": "CI workflow отсутствует"}
 
 
-def run_audit(checklist_path: str, repo_root: str, level: str = None) -> Dict[str, Any]:
+def run_audit(checklist_path: str, repo_root: str, level: str = None) -> dict[str, Any]:
     """Запустить аудит по чек-листу."""
     checklist = load_checklist(checklist_path)
     results = []
@@ -219,13 +215,7 @@ def main():
         print("АУДИТ РЕПОЗИТОРИЯ")
         print("=" * 60)
         for r in results["results"]:
-            status = (
-                "✅ ПРОЙДЕН"
-                if r["passed"]
-                else "❌ НЕ ПРОЙДЕН"
-                if r["passed"] is False
-                else "⚠️  РУЧНАЯ"
-            )
+            status = "✅ ПРОЙДЕН" if r["passed"] else "❌ НЕ ПРОЙДЕН" if r["passed"] is False else "⚠️  РУЧНАЯ"
             print(f"{r['level']}.{r['check']}: {r['name']} - {status}")
             if "details" in r and r["details"].get("message"):
                 print(f"   {r['details']['message']}")

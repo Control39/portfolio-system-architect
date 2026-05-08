@@ -6,8 +6,10 @@ Generate dynamic badges section for README.md
 import json
 from pathlib import Path
 
+
 REPO_ROOT = Path.cwd()
 METRICS_FILE = REPO_ROOT / "metrics.json"
+
 
 def load_metrics():
     """Загрузить метрики"""
@@ -17,6 +19,7 @@ def load_metrics():
 
     with open(METRICS_FILE) as f:
         return json.load(f)
+
 
 def generate_badges_section(metrics):
     """Генерировать секцию с бейджами"""
@@ -50,17 +53,18 @@ def generate_badges_section(metrics):
 
 ---
 """.format(
-        py_files=metrics['python_files'],
-        test_files=metrics['test_files'],
-        services=metrics['microservices'],
-        loc=f"{metrics['lines_of_code'] / 1000:.1f}k" if metrics['lines_of_code'] > 1000 else metrics['lines_of_code'],
-        commits=metrics['git_commits'],
-        branches=metrics['git_branches'],
-        k8s=metrics['k8s_files'],
-        dockerfiles=metrics['dockerfiles']
+        py_files=metrics["python_files"],
+        test_files=metrics["test_files"],
+        services=metrics["microservices"],
+        loc=f"{metrics['lines_of_code'] / 1000:.1f}k" if metrics["lines_of_code"] > 1000 else metrics["lines_of_code"],
+        commits=metrics["git_commits"],
+        branches=metrics["git_branches"],
+        k8s=metrics["k8s_files"],
+        dockerfiles=metrics["dockerfiles"],
     )
 
     return section
+
 
 def update_readme(badges_section):
     """Обновить README.md"""
@@ -70,15 +74,15 @@ def update_readme(badges_section):
         print("❌ README.md не найден!")
         return False
 
-    with open(readme_path, 'r', encoding='utf-8') as f:
+    with open(readme_path, encoding="utf-8") as f:
         content = f.read()
 
     # Найти точку для вставки (после первого # Title)
-    lines = content.split('\n')
+    lines = content.split("\n")
     insert_position = 0
 
     for i, line in enumerate(lines):
-        if line.startswith('# ') and i > 0:
+        if line.startswith("# ") and i > 0:
             # Вставить после первого заголовка
             insert_position = i + 1
             break
@@ -87,10 +91,10 @@ def update_readme(badges_section):
     new_lines = []
     skip_section = False
     for line in lines:
-        if line.startswith('<!-- REAL METRICS'):
+        if line.startswith("<!-- REAL METRICS"):
             skip_section = True
             continue
-        if skip_section and line.startswith('---'):
+        if skip_section and line.startswith("---"):
             skip_section = False
             continue
         if not skip_section:
@@ -100,14 +104,15 @@ def update_readme(badges_section):
     if insert_position < len(new_lines):
         new_lines.insert(insert_position + 1, badges_section)
     else:
-        new_lines.append('\n' + badges_section)
+        new_lines.append("\n" + badges_section)
 
     # Написать обратно
-    with open(readme_path, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(new_lines))
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(new_lines))
 
     print("✅ README.md обновлен с реальными бейджами!")
     return True
+
 
 if __name__ == "__main__":
     metrics = load_metrics()

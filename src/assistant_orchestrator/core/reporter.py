@@ -9,6 +9,7 @@ from typing import Any
 
 from .maturity_scoring import MaturityScorer
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -197,20 +198,12 @@ class Reporter:
                 <h2>🏗️ Микросервисы</h2>
                 <div class="metric">
                     <span class="metric-label">Всего сервисов</span>
-                    <span class="metric-value">{
-            len(self.result.microservices.get("services", []))
-        }</span>
+                    <span class="metric-value">{len(self.result.microservices.get("services", []))}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Production-ready</span>
                     <span class="metric-value">{
-            len(
-                [
-                    s
-                    for s in self.result.microservices.get("services", [])
-                    if s.get("is_production_ready")
-                ]
-            )
+            len([s for s in self.result.microservices.get("services", []) if s.get("is_production_ready")])
         }</span>
                 </div>
                 <div class="metric">
@@ -231,15 +224,11 @@ class Reporter:
                 <h2>🎯 Навыки</h2>
                 <div class="metric">
                     <span class="metric-label">Маркеров</span>
-                    <span class="metric-value">{
-            self.result.skill_markers.get("total_count", 0)
-        }</span>
+                    <span class="metric-value">{self.result.skill_markers.get("total_count", 0)}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Категорий</span>
-                    <span class="metric-value">{
-            len(self.result.skill_markers.get("categories", []))
-        }</span>
+                    <span class="metric-value">{len(self.result.skill_markers.get("categories", []))}</span>
                 </div>
             </div>
 
@@ -247,21 +236,15 @@ class Reporter:
                 <h2>📈 Активность</h2>
                 <div class="metric">
                     <span class="metric-label">Всего коммитов</span>
-                    <span class="metric-value">{
-            self.result.git_stats.get("total_commits", 0)
-        }</span>
+                    <span class="metric-value">{self.result.git_stats.get("total_commits", 0)}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Контрибьюторов</span>
-                    <span class="metric-value">{
-            len(self.result.git_stats.get("contributors", []))
-        }</span>
+                    <span class="metric-value">{len(self.result.git_stats.get("contributors", []))}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Активность (30 дней)</span>
-                    <span class="metric-value">{
-            self.result.git_stats.get("recent_activity_days", 0)
-        } коммитов</span>
+                    <span class="metric-value">{self.result.git_stats.get("recent_activity_days", 0)} коммитов</span>
                 </div>
             </div>
 

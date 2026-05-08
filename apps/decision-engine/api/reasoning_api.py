@@ -3,12 +3,13 @@ import os
 import time
 
 import yandexcloud
-from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import \
-    TextGenerationRequest
-from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import \
-    TextGenerationServiceStub
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import TextGenerationRequest
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
+    TextGenerationServiceStub,
+)
 
 from apps.decision_engine.decision_engine.utils.logger import PortfolioLogger
+
 
 # Инициализация логгера
 logger = PortfolioLogger()
@@ -40,7 +41,7 @@ def handler(event, context):
         }
 
     except Exception as e:
-        error_msg = f"Ошибка при обработке запроса: {str(e)}"
+        error_msg = f"Ошибка при обработке запроса: {e!s}"
         logger.log_error("api_error", error_msg, {"event": "exception", "exception": str(e)})
         return {
             "statusCode": 500,
@@ -121,7 +122,7 @@ def chat_handler(event, context):
         }
 
     except Exception as e:
-        error_msg = f"Ошибка при обработке запроса чата: {str(e)}"
+        error_msg = f"Ошибка при обработке запроса чата: {e!s}"
         logger.log_error("chat_api_error", error_msg, {"event": "exception", "exception": str(e)})
         return {
             "statusCode": 500,
@@ -144,7 +145,7 @@ def health_check():
             "body": json.dumps({"status": "healthy", "timestamp": time.time()}),
         }
     except Exception as e:
-        logger.log_error("health_check_error", f"Health check failed: {str(e)}")
+        logger.log_error("health_check_error", f"Health check failed: {e!s}")
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
@@ -162,7 +163,7 @@ def call_model_with_retry(service, request, max_retries=3, timeout=300):
             response = service.TextGeneration(request, timeout=timeout)
             return response
         except Exception as e:
-            logger.log_error("model_call_error", f"Попытка {attempt + 1} не удалась: {str(e)}")
+            logger.log_error("model_call_error", f"Попытка {attempt + 1} не удалась: {e!s}")
             if attempt < max_retries - 1:
                 # Ждем перед повторной попыткой
                 time.sleep(2**attempt)  # Экспоненциальная задержка

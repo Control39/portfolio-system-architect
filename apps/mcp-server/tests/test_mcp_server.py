@@ -20,19 +20,19 @@ from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
+
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 # Импортируем инструменты MCP-сервера
 try:
-    from apps.mcp_server.src.tools.file_tools import (list_files_tool,
-                                                      read_file_tool,
-                                                      search_files_tool,
-                                                      write_file_tool)
+    from apps.mcp_server.src.tools.file_tools import list_files_tool, read_file_tool, search_files_tool, write_file_tool
     from apps.mcp_server.src.tools.git_tools import (
-        get_git_history_tool, get_git_status_tool,
-        scan_last_commits_for_markers_tool)
+        get_git_history_tool,
+        get_git_status_tool,
+        scan_last_commits_for_markers_tool,
+    )
 
     HAS_MCP_TOOLS = True
 except ImportError:
@@ -232,7 +232,7 @@ class TestMCPIntegration(unittest.TestCase):
         if config_path.exists():
             import yaml
 
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             # Проверяем обязательные поля
@@ -262,7 +262,7 @@ class TestCareerAutopilotFeatures(unittest.TestCase):
 
             for file in expected_files:
                 if (markers_path / file).exists():
-                    with open(markers_path / file, "r", encoding="utf-8") as f:
+                    with open(markers_path / file, encoding="utf-8") as f:
                         data = json.load(f)
 
                     # Проверяем структуру маркера
@@ -322,10 +322,7 @@ if __name__ == "__main__":
         "failures": len(result.failures),
         "errors": len(result.errors),
         "skipped": len(result.skipped),
-        "successful": result.testsRun
-        - len(result.failures)
-        - len(result.errors)
-        - len(result.skipped),
+        "successful": result.testsRun - len(result.failures) - len(result.errors) - len(result.skipped),
         "timestamp": str(datetime.now()),
     }
 

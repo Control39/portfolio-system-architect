@@ -6,6 +6,7 @@ Add missing documentation and dependency files
 
 from pathlib import Path
 
+
 print("📋 PHASE 1.4: STANDARDIZE STRUCTURE")
 print("=" * 70)
 
@@ -52,10 +53,16 @@ else:
 print("\n2️⃣  Adding requirements.txt to Python services...")
 
 services_needing_reqs = [
-    'auth_service', 'career_development', 'decision-engine',
-    'infra-orchestrator', 'job-automation-agent', 'knowledge-graph',
-    'ml-model-registry', 'portfolio_organizer', 'system-proof',
-    'thought-architecture'
+    "auth_service",
+    "career_development",
+    "decision-engine",
+    "infra-orchestrator",
+    "job-automation-agent",
+    "knowledge-graph",
+    "ml-model-registry",
+    "portfolio_organizer",
+    "system-proof",
+    "thought-architecture",
 ]
 
 req_template = """# Portfolio System Architect - Service Dependencies

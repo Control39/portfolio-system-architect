@@ -8,6 +8,7 @@ import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import execute_values
 
+
 # Config
 SQLITE_DB = os.environ.get("SQLITE_DB", "data/db/registry.db")
 POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "localhost")

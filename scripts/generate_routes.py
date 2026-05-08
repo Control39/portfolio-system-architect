@@ -48,9 +48,7 @@ def create_route_from_task(task: dict, schema: dict) -> dict:
 
     # Обновляем метаданные
     route["metadata"]["title"] = f"Reasoning-граф: {task['task']}"
-    route["metadata"][
-        "description"
-    ] = f"Автоматически сгенерированный маршрут для задачи: {task['task']}"
+    route["metadata"]["description"] = f"Автоматически сгенерированный маршрут для задачи: {task['task']}"
     route["metadata"]["updated"] = datetime.now().strftime("%Y-%m-%d")
 
     return route

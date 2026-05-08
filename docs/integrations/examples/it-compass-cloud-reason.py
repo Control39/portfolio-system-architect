@@ -32,9 +32,7 @@ class ITCompassDecisionEngineIntegration:
         for solution in self.cloud_solutions:
             required_skills = set(solution.get("required_skills", []))
             skill_match = (
-                len(user_skills.intersection(required_skills)) / len(required_skills)
-                if required_skills
-                else 0
+                len(user_skills.intersection(required_skills)) / len(required_skills) if required_skills else 0
             )
 
             if skill_match > 0.5:  # Если совпадение навыков более 50%

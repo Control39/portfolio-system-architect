@@ -11,15 +11,17 @@
 import asyncio
 import logging
 import random
+from collections.abc import Callable, Coroutine
 from functools import wraps
-from typing import Any, Callable, Coroutine, List, Optional, TypeVar
+from typing import Any, TypeVar
+
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-async def fetch_parallel(*tasks: Coroutine) -> List[Any]:
+async def fetch_parallel(*tasks: Coroutine) -> list[Any]:
     """
     Выполнить несколько async задач параллельно.
 
@@ -43,7 +45,7 @@ async def fetch_parallel(*tasks: Coroutine) -> List[Any]:
         raise
 
 
-async def fetch_parallel_safe(*tasks: Coroutine) -> List[Optional[Any]]:
+async def fetch_parallel_safe(*tasks: Coroutine) -> list[Any | None]:
     """
     Выполнить несколько async задач параллельно с обработкой ошибок.
 
@@ -66,9 +68,7 @@ async def fetch_parallel_safe(*tasks: Coroutine) -> List[Optional[Any]]:
     return processed
 
 
-async def fetch_with_timeout(
-    coro: Coroutine, timeout: int = 30, default_value: Optional[Any] = None
-) -> Any:
+async def fetch_with_timeout(coro: Coroutine, timeout: int = 30, default_value: Any | None = None) -> Any:
     """
     Выполнить async задачу с таймаутом.
 
@@ -146,11 +146,11 @@ async def fetch_with_retry(
 
 
 async def batch_async_operations(
-    items: List[T],
+    items: list[T],
     async_fn: Callable[[T], Coroutine],
     batch_size: int = 10,
     delay_between_batches: float = 0.1,
-) -> List[Any]:
+) -> list[Any]:
     """
     Выполнить async операцию для списка элементов батчами.
 
@@ -239,9 +239,7 @@ def async_retry(max_retries: int = 3, delay: float = 1.0):
                     last_exception = e
 
                     if attempt < max_retries - 1:
-                        logger.warning(
-                            f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s..."
-                        )
+                        logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s...")
                         await asyncio.sleep(delay)
 
             raise last_exception

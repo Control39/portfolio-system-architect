@@ -6,6 +6,7 @@ Exports /health, /ready, /live endpoints for all services
 import subprocess
 import sys
 
+
 SERVICES = {
     "postgres": "localhost:5432",
     "pgadmin": "localhost:5050",

@@ -6,6 +6,7 @@ Automatically generates test files for 7 services that need them
 
 from pathlib import Path
 
+
 TEST_TEMPLATE = '''"""
 Tests for {service_name}
 """
@@ -61,14 +62,15 @@ INIT_FILE = '''"""
 '''
 
 SERVICES_NEEDING_TESTS = [
-    ('ai-config-manager', 'AIConfigManager'),
-    ('auth_service', 'AuthService'),
-    ('infra-orchestrator', 'InfraOrchestrator'),
-    ('job-automation-agent', 'JobAutomationAgent'),
-    ('portfolio_organizer', 'PortfolioOrganizer'),
-    ('system-proof', 'SystemProof'),
-    ('thought-architecture', 'ThoughtArchitecture'),
+    ("ai-config-manager", "AIConfigManager"),
+    ("auth_service", "AuthService"),
+    ("infra-orchestrator", "InfraOrchestrator"),
+    ("job-automation-agent", "JobAutomationAgent"),
+    ("portfolio_organizer", "PortfolioOrganizer"),
+    ("system-proof", "SystemProof"),
+    ("thought-architecture", "ThoughtArchitecture"),
 ]
+
 
 def create_test_structure():
     """Create test structure for all services"""
@@ -99,10 +101,7 @@ def create_test_structure():
         # Create test_basic.py
         test_file = tests_path / "test_basic.py"
         if not test_file.exists():
-            content = TEST_TEMPLATE.format(
-                service_name=service_name,
-                class_name=class_name
-            )
+            content = TEST_TEMPLATE.format(service_name=service_name, class_name=class_name)
             test_file.write_text(content)
             print(f"✅ Created: {service_name}/tests/test_basic.py")
             created += 1
@@ -115,6 +114,7 @@ def create_test_structure():
     print(f"⚠️  Skipped: {skipped}")
     print("\n📝 TODO: Update test_basic.py files with actual tests")
     print("💡 Next: python health_check.py")
+
 
 if __name__ == "__main__":
     create_test_structure()

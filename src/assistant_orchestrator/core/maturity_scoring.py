@@ -3,7 +3,8 @@ Maturity scoring for architecture assessment.
 """
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 class MaturityScorer:
     """Calculate architecture maturity score (0-5)."""
 
-    def __init__(self, analysis_result: Dict[str, Any]):
+    def __init__(self, analysis_result: dict[str, Any]):
         self.analysis = analysis_result
 
     def calculate_score(self) -> float:
@@ -39,7 +40,7 @@ class MaturityScorer:
         # Cap at 5.0
         return min(score, 5.0)
 
-    def get_recommendations(self) -> List[Dict[str, Any]]:
+    def get_recommendations(self) -> list[dict[str, Any]]:
         """Get recommendations for improving maturity score."""
         recommendations = []
         self.calculate_score()

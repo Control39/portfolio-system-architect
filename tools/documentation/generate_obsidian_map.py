@@ -3,6 +3,7 @@
 from datetime import datetime
 from pathlib import Path
 
+
 # Пути
 REPO_ROOT: Path = Path(__file__).parent.parent.resolve()
 OUTPUT_DIR: Path = REPO_ROOT / "docs" / "obsidian-map"

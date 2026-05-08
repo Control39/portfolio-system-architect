@@ -10,6 +10,7 @@ from pathlib import Path
 
 import requests
 
+
 SERVICES = {
     "postgres": "localhost:5432",
     "pgadmin": "localhost:5050",

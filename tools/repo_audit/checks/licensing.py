@@ -1,7 +1,5 @@
 """Licensing checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class LicensingCheck(BaseCheck):
     def category(self) -> str:
         return "licensing"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. LICENSE file
         license_path = self.repo_path / "LICENSE"
@@ -98,9 +96,7 @@ class LicensingCheck(BaseCheck):
             if "license" in content.lower():
                 self._add_result("PASS", "pyproject.toml contains license field", "pyproject.toml")
             else:
-                self._add_result(
-                    "WARNING", "pyproject.toml missing license field", "pyproject.toml"
-                )
+                self._add_result("WARNING", "pyproject.toml missing license field", "pyproject.toml")
 
         # 7. Open source compliance (presence of .reuse/dep5)
         if (self.repo_path / ".reuse").is_dir():

@@ -1,15 +1,18 @@
 """
 Shared utility functions for the chat-demo python server.
 """
+
 import asyncio
 import threading
 import uuid
-from typing import AsyncIterator, Iterable, Optional, TypeVar
+from collections.abc import AsyncIterator, Iterable
+from typing import TypeVar
+
 
 T = TypeVar("T")
 
 
-def generate_id(prefix: str, length: Optional[int] = 8) -> str:
+def generate_id(prefix: str, length: int | None = 8) -> str:
     """Generate a unique identifier with given prefix.
 
     prefix: Leading token for the ID (e.g. "conn" or "m-")
@@ -18,7 +21,7 @@ def generate_id(prefix: str, length: Optional[int] = 8) -> str:
     return f"{prefix}_{uuid.uuid4().hex[:length]}"
 
 
-def get_query_value(path: str, key: str) -> Optional[str]:
+def get_query_value(path: str, key: str) -> str | None:
     """Extract the value of `key` from a URL path's query string.
 
     Returns None if key not present or no query string exists.
@@ -47,7 +50,7 @@ async def to_async_iterator(sync_iterable: Iterable[T]) -> AsyncIterator[T]:
     producer thread is signalled to stop.
     """
     loop = asyncio.get_event_loop()
-    queue: "asyncio.Queue[object]" = asyncio.Queue(maxsize=1)
+    queue: asyncio.Queue[object] = asyncio.Queue(maxsize=1)
     end_marker: object = object()
     cancel_event = threading.Event()
 

@@ -5,9 +5,10 @@
 import fnmatch
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from fastmcp import FastMCP
+
 
 # Создаем экземпляр FastMCP для регистрации инструментов
 # В реальности инструменты будут зарегистрированы в main.py
@@ -42,7 +43,7 @@ def read_file_tool(path: str) -> str:
 
         # Определяем кодировку
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
         except UnicodeDecodeError:
             # Пробуем другие кодировки для бинарных файлов
@@ -54,11 +55,11 @@ def read_file_tool(path: str) -> str:
     except PermissionError:
         return f"Нет прав на чтение файла: {path}"
     except Exception as e:
-        return f"Ошибка при чтении файла {path}: {str(e)}"
+        return f"Ошибка при чтении файла {path}: {e!s}"
 
 
 @mcp.tool()
-def write_file_tool(path: str, content: str) -> Dict[str, Any]:
+def write_file_tool(path: str, content: str) -> dict[str, Any]:
     """
     Запись содержимого в файл
 
@@ -99,13 +100,13 @@ def write_file_tool(path: str, content: str) -> Dict[str, Any]:
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при записи файла {path}: {str(e)}",
+            "message": f"Ошибка при записи файла {path}: {e!s}",
             "error": str(e),
         }
 
 
 @mcp.tool()
-def list_files_tool(path: str = ".", recursive: bool = False) -> Dict[str, Any]:
+def list_files_tool(path: str = ".", recursive: bool = False) -> dict[str, Any]:
     """
     Получение списка файлов и директорий
 
@@ -139,11 +140,7 @@ def list_files_tool(path: str = ".", recursive: bool = False) -> Dict[str, Any]:
             # Рекурсивный обход
             for root, dirs, filenames in os.walk(dir_path):
                 # Пропускаем скрытые директории и виртуальные окружения
-                dirs[:] = [
-                    d
-                    for d in dirs
-                    if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]
-                ]
+                dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]]
 
                 for filename in filenames:
                     # Пропускаем скрытые файлы
@@ -220,14 +217,14 @@ def list_files_tool(path: str = ".", recursive: bool = False) -> Dict[str, Any]:
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при получении списка файлов {path}: {str(e)}",
+            "message": f"Ошибка при получении списка файлов {path}: {e!s}",
             "error": str(e),
             "files": [],
         }
 
 
 @mcp.tool()
-def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
+def search_files_tool(query: str, file_pattern: str = "*.py") -> dict[str, Any]:
     """
     Поиск файлов по шаблону и содержимому
 
@@ -245,10 +242,7 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
         for root, dirs, filenames in os.walk(PROJECT_ROOT):
             # Пропускаем скрытые директории и виртуальные окружения
             dirs[:] = [
-                d
-                for d in dirs
-                if not d.startswith(".")
-                and d not in ["__pycache__", ".venv", "venv", "node_modules"]
+                d for d in dirs if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv", "node_modules"]
             ]
 
             for filename in filenames:
@@ -273,7 +267,7 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
 
                 # Ищем query в содержимом файла
                 try:
-                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    with open(file_path, encoding="utf-8", errors="ignore") as f:
                         lines = f.readlines()
 
                     matches = []
@@ -313,7 +307,7 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> Dict[str, Any]:
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при поиске файлов: {str(e)}",
+            "message": f"Ошибка при поиске файлов: {e!s}",
             "error": str(e),
             "results": [],
         }
@@ -350,4 +344,4 @@ def _human_readable_size(size_bytes: int) -> str:
 
 
 # Экспортируем инструменты для импорта в main.py
-__all__ = ["read_file_tool", "write_file_tool", "list_files_tool", "search_files_tool"]
+__all__ = ["list_files_tool", "read_file_tool", "search_files_tool", "write_file_tool"]

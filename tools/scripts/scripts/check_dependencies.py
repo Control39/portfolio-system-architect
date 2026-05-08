@@ -256,9 +256,7 @@ class DependencyChecker:
             report.append("  - Унифицируйте версии зависимостей между компонентами")
 
         if dep_check["config_deps_missing"]:
-            report.append(
-                "  - Обновите project-config.yaml или добавьте зависимости в requirements.txt"
-            )
+            report.append("  - Обновите project-config.yaml или добавьте зависимости в requirements.txt")
 
         # Проверяем рекомендации по тестированию
         needs_testing_unification = False
@@ -286,9 +284,7 @@ class DependencyChecker:
         # Возвращаем код выхода в зависимости от найденных проблем
         dep_check = self.check_dependencies_consistency()
         has_problems = (
-            bool(dep_check["missing_in_root"])
-            or bool(dep_check["conflicts"])
-            or bool(dep_check["config_deps_missing"])
+            bool(dep_check["missing_in_root"]) or bool(dep_check["conflicts"]) or bool(dep_check["config_deps_missing"])
         )
 
         return 1 if has_problems else 0

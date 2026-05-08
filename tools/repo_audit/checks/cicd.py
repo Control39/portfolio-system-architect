@@ -1,7 +1,5 @@
 """CI/CD checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class CICDCheck(BaseCheck):
     def category(self) -> str:
         return "cicd"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # GitHub Actions
         workflows_dir = self.repo_path / ".github/workflows"

@@ -33,7 +33,12 @@ class EnhancedTestRunner:
         test_file = self.apps_dir / service_name / "tests" / "test_basic.py"
 
         if not test_file.exists():
-            self.results[service_name] = {"status": "SKIP", "passed": 0, "failed": 0, "reason": "test_basic.py not found"}
+            self.results[service_name] = {
+                "status": "SKIP",
+                "passed": 0,
+                "failed": 0,
+                "reason": "test_basic.py not found",
+            }
             print("   ⏭️  Skipped: test_basic.py not found")
             return
 
@@ -43,7 +48,7 @@ class EnhancedTestRunner:
                 capture_output=True,
                 text=True,
                 timeout=30,
-                cwd=str(self.root)
+                cwd=str(self.root),
             )
 
             output = result.stdout + result.stderr
@@ -53,14 +58,11 @@ class EnhancedTestRunner:
             failed = output.count(" FAILED")
             error = output.count(" ERROR")
 
-            status = "PASS" if (failed == 0 and error == 0 and passed > 0) else "FAIL" if failed > 0 or error > 0 else "SKIP"
+            status = (
+                "PASS" if (failed == 0 and error == 0 and passed > 0) else "FAIL" if failed > 0 or error > 0 else "SKIP"
+            )
 
-            self.results[service_name] = {
-                "status": status,
-                "passed": passed,
-                "failed": failed,
-                "error": error
-            }
+            self.results[service_name] = {"status": status, "passed": passed, "failed": failed, "error": error}
 
             if status == "PASS":
                 print(f"   ✅ All tests passed: {passed} tests")
@@ -74,7 +76,7 @@ class EnhancedTestRunner:
             print("   ⏱️  Timeout")
         except Exception as e:
             self.results[service_name] = {"status": "ERROR", "passed": 0, "failed": 0, "error": str(e)}
-            print(f"   ⚠️ Error: {str(e)}")
+            print(f"   ⚠️ Error: {e!s}")
 
     def print_summary(self):
         """Вывести итоговый отчет"""
@@ -100,12 +102,25 @@ class EnhancedTestRunner:
 
         print("\n📋 Service Results (Tier-based):")
         print(f"  {'Service':<25} {'Tier':<8} {'Status':<8} {'Tests':<20}")
-        print(f"  {'-'*25} {'-'*8} {'-'*8} {'-'*20}")
+        print(f"  {'-' * 25} {'-' * 8} {'-' * 8} {'-' * 20}")
 
-        tiers = {"cognitive-agent": "Core", "decision-engine": "Core", "it_compass": "Core", "knowledge-graph": "Core",
-                 "infra-orchestrator": "Infra", "auth_service": "Infra", "mcp-server": "Infra", "ml-model-registry": "Infra",
-                 "portfolio_organizer": "Biz", "career_development": "Biz", "job-automation-agent": "Biz",
-                 "ai-config-manager": "Biz", "template-service": "Biz", "system-proof": "Biz", "thought-architecture": "Biz"}
+        tiers = {
+            "cognitive-agent": "Core",
+            "decision-engine": "Core",
+            "it_compass": "Core",
+            "knowledge-graph": "Core",
+            "infra-orchestrator": "Infra",
+            "auth_service": "Infra",
+            "mcp-server": "Infra",
+            "ml-model-registry": "Infra",
+            "portfolio_organizer": "Biz",
+            "career_development": "Biz",
+            "job-automation-agent": "Biz",
+            "ai-config-manager": "Biz",
+            "template-service": "Biz",
+            "system-proof": "Biz",
+            "thought-architecture": "Biz",
+        }
 
         for service in self.services:
             result = self.results.get(service, {})
@@ -134,7 +149,7 @@ class EnhancedTestRunner:
             "timestamp": datetime.now().isoformat(),
             "phase": "2.2",
             "total_services": len(self.services),
-            "results": self.results
+            "results": self.results,
         }
 
         with open(report_file, "w") as f:

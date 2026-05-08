@@ -1,7 +1,5 @@
 """Monitoring and observability checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class MonitoringCheck(BaseCheck):
     def category(self) -> str:
         return "monitoring"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. monitoring/ directory
         if self.check_directory_exists("monitoring"):
@@ -53,9 +51,7 @@ class MonitoringCheck(BaseCheck):
             self._add_result("INFO", "Grafana dashboards missing", "monitoring/")
 
         # 4. Alerting rules
-        alert_files = list(self.repo_path.rglob("*alert*.yml")) + list(
-            self.repo_path.rglob("*alert*.yaml")
-        )
+        alert_files = list(self.repo_path.rglob("*alert*.yml")) + list(self.repo_path.rglob("*alert*.yaml"))
         if alert_files:
             self._add_result(
                 "PASS",
@@ -73,9 +69,7 @@ class MonitoringCheck(BaseCheck):
 
         # 6. Health check endpoints
         # Check for common health endpoints in code (simplified)
-        health_files = list(self.repo_path.rglob("*health*.py")) + list(
-            self.repo_path.rglob("*health*.yml")
-        )
+        health_files = list(self.repo_path.rglob("*health*.py")) + list(self.repo_path.rglob("*health*.yml"))
         if health_files:
             self._add_result(
                 "PASS",
@@ -86,9 +80,7 @@ class MonitoringCheck(BaseCheck):
             self._add_result("INFO", "Health check files missing", "src/")
 
         # 7. APM / Tracing (OpenTelemetry, Jaeger)
-        if self.check_file_exists("opentelemetry.yaml") or self.check_file_exists(
-            "jaeger-config.yaml"
-        ):
+        if self.check_file_exists("opentelemetry.yaml") or self.check_file_exists("jaeger-config.yaml"):
             self._add_result("PASS", "APM/Tracing config exists", "monitoring/")
         else:
             self._add_result("INFO", "APM/Tracing config missing", "monitoring/")
@@ -96,9 +88,7 @@ class MonitoringCheck(BaseCheck):
         # 8. Metrics exposure (e.g., /metrics endpoint)
         # Check for prometheus_client in requirements
         if self.check_file_exists("requirements.txt"):
-            content = (self.repo_path / "requirements.txt").read_text(
-                encoding="utf-8", errors="ignore"
-            )
+            content = (self.repo_path / "requirements.txt").read_text(encoding="utf-8", errors="ignore")
             if "prometheus-client" in content.lower():
                 self._add_result(
                     "PASS",

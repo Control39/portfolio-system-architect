@@ -21,8 +21,7 @@ def run(repo_root: str) -> dict:
                 "message": "Обнаружены возможные секреты",
                 "output": r.stdout[:500],
             }
-        else:
-            return {"passed": True, "message": "Секреты не обнаружены"}
+        return {"passed": True, "message": "Секреты не обнаружены"}
     except FileNotFoundError:
         # detect-secrets не установлен
         return {"passed": True, "message": "detect-secrets не установлен, пропуск"}

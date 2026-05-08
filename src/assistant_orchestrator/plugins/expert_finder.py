@@ -6,7 +6,8 @@ import logging
 import subprocess
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class ExpertFinder:
     def __init__(self, project_root: Path):
         self.root = project_root.resolve()
 
-    def find_experts_by_module(self, min_commits: int = 3) -> Dict[str, List[Dict[str, Any]]]:
+    def find_experts_by_module(self, min_commits: int = 3) -> dict[str, list[dict[str, Any]]]:
         """Find experts for each module based on git blame and commit history."""
         try:
             # Check if it's a git repository
@@ -57,7 +58,7 @@ class ExpertFinder:
             logger.error(f"Error finding experts: {e}")
             return {}
 
-    def find_bottlenecks(self) -> Dict[str, Any]:
+    def find_bottlenecks(self) -> dict[str, Any]:
         """Identify potential bottlenecks (single points of failure)."""
         try:
             # Get contributor statistics
@@ -111,7 +112,7 @@ class ExpertFinder:
             logger.error(f"Error finding bottlenecks: {e}")
             return {}
 
-    def _get_source_files(self) -> List[Path]:
+    def _get_source_files(self) -> list[Path]:
         """Get list of source files in the repository."""
         try:
             result = subprocess.run(
@@ -166,7 +167,7 @@ class ExpertFinder:
             return "/".join(parts[:2])
         return str(filepath)
 
-    def _analyze_file_experts(self, filepath: Path, min_commits: int) -> List[Dict[str, Any]]:
+    def _analyze_file_experts(self, filepath: Path, min_commits: int) -> list[dict[str, Any]]:
         """Analyze git blame to find experts for a specific file."""
         try:
             # Get git blame output
@@ -216,7 +217,7 @@ class ExpertFinder:
             logger.debug(f"Error analyzing file {filepath}: {e}")
             return []
 
-    def _rank_experts(self, experts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _rank_experts(self, experts: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Rank experts by contribution level."""
         # Group by name across multiple files
         expert_contributions = defaultdict(lambda: {"lines": 0, "files": set(), "details": []})
@@ -244,7 +245,7 @@ class ExpertFinder:
         ranked.sort(key=lambda x: x["total_lines"], reverse=True)
         return ranked
 
-    def _get_contributor_stats(self) -> List[Dict[str, Any]]:
+    def _get_contributor_stats(self) -> list[dict[str, Any]]:
         """Get contributor statistics from git log."""
         try:
             # Get commit count per author
@@ -281,7 +282,7 @@ class ExpertFinder:
             return []
 
 
-def find_experts(root: Path) -> Dict[str, Any]:
+def find_experts(root: Path) -> dict[str, Any]:
     """Public interface for expert finding."""
     finder = ExpertFinder(root)
     experts = finder.find_experts_by_module()

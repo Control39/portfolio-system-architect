@@ -15,9 +15,10 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
+
 
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
@@ -108,7 +109,7 @@ class ConfigValidator:
             },
         ]
 
-    def validate_all(self) -> Dict[str, Any]:
+    def validate_all(self) -> dict[str, Any]:
         """Проверка всех конфигурационных файлов"""
         print("=" * 60)
         print("Валидация конфигурационных файлов")
@@ -139,7 +140,7 @@ class ConfigValidator:
 
         return results
 
-    def validate_file(self, config: Dict) -> Dict[str, Any]:
+    def validate_file(self, config: dict) -> dict[str, Any]:
         """Проверка одного конфигурационного файла"""
         file_path = config["path"]
         result = {
@@ -159,14 +160,14 @@ class ConfigValidator:
         try:
             # Пытаемся прочитать файл
             if config["type"] == "yaml":
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
                     result["content"] = yaml.safe_load(content) if content.strip() else {}
             elif config["type"] == "json":
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     result["content"] = json.load(f)
             else:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     result["content"] = f.read()
 
             result["accessible"] = True
@@ -189,15 +190,15 @@ class ConfigValidator:
         except PermissionError:
             result["problems"].append("Нет прав доступа к файлу")
         except yaml.YAMLError as e:
-            result["problems"].append(f"Ошибка YAML: {str(e)}")
+            result["problems"].append(f"Ошибка YAML: {e!s}")
         except json.JSONDecodeError as e:
-            result["problems"].append(f"Ошибка JSON: {str(e)}")
+            result["problems"].append(f"Ошибка JSON: {e!s}")
         except Exception as e:
-            result["problems"].append(f"Ошибка при чтении файла: {str(e)}")
+            result["problems"].append(f"Ошибка при чтении файла: {e!s}")
 
         return result
 
-    def check_outdated_models(self, content: str, file_path: Path) -> List[str]:
+    def check_outdated_models(self, content: str, file_path: Path) -> list[str]:
         """Проверка на устаревшие модели AI"""
         problems = []
 
@@ -207,9 +208,7 @@ class ConfigValidator:
 
         return problems
 
-    def fix_outdated_models(
-        self, file_path: Path, file_type: str, original_content: str
-    ) -> List[str]:
+    def fix_outdated_models(self, file_path: Path, file_type: str, original_content: str) -> list[str]:
         """Исправление устаревших моделей AI"""
         fixes = []
 
@@ -259,11 +258,11 @@ class ConfigValidator:
                         f.write(content_str)
 
         except Exception as e:
-            fixes.append(f"Ошибка при исправлении: {str(e)}")
+            fixes.append(f"Ошибка при исправлении: {e!s}")
 
         return fixes
 
-    def check_other_problems(self, file_path: Path, content: Any) -> List[str]:
+    def check_other_problems(self, file_path: Path, content: Any) -> list[str]:
         """Проверка других проблем"""
         problems = []
 
@@ -286,7 +285,7 @@ class ConfigValidator:
 
         return problems
 
-    def check_dict_problems(self, data: Dict) -> List[str]:
+    def check_dict_problems(self, data: dict) -> list[str]:
         """Проверка проблем в словарях конфигурации"""
         problems = []
 
@@ -306,7 +305,7 @@ class ConfigValidator:
 
         return problems
 
-    def generate_report(self, results: Dict[str, Any]) -> str:
+    def generate_report(self, results: dict[str, Any]) -> str:
         """Генерация отчета о валидации"""
         report = []
         report.append("=" * 60)
@@ -383,9 +382,8 @@ def main():
     if results["problems_found"] > 0:
         print("\n⚠️  Обнаружены проблемы. Рекомендуется их исправить.")
         return 1
-    else:
-        print("\n✅ Все конфигурации в порядке.")
-        return 0
+    print("\n✅ Все конфигурации в порядке.")
+    return 0
 
 
 if __name__ == "__main__":

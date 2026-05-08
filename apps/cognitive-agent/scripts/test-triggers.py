@@ -10,6 +10,7 @@ from pathlib import Path
 
 import yaml
 
+
 # Добавляем путь к скриптам агента
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -18,9 +19,7 @@ try:
     # Создаем временный модуль для импорта
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location(
-        "trigger_processor", Path(__file__).parent / "trigger-processor.py"
-    )
+    spec = importlib.util.spec_from_file_location("trigger_processor", Path(__file__).parent / "trigger-processor.py")
     trigger_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(trigger_module)
 
@@ -340,9 +339,8 @@ def run_all_tests():
     if failed == 0:
         print("✓ Все тесты успешно пройдены!")
         return True
-    else:
-        print("✗ Некоторые тесты не пройдены")
-        return False
+    print("✗ Некоторые тесты не пройдены")
+    return False
 
 
 def simulate_real_scenario():
@@ -381,15 +379,9 @@ def simulate_real_scenario():
         # Показываем статистику
         print("\nСтатистика событий:")
         print(f"  - Всего событий в очереди: {len(processor.event_queue)}")
-        print(
-            f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}"
-        )
-        print(
-            f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}"
-        )
-        print(
-            f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}"
-        )
+        print(f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}")
+        print(f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}")
+        print(f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}")
 
         # Сохраняем события в лог
         log_dir = Path("apps/cognitive-agent/logs/triggers")

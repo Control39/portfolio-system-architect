@@ -30,8 +30,7 @@ class CrisisAPIService:
             response = requests.get(self.services["psyhelp_hotline"]["api_url"], timeout=30)
             if response.status_code == 200:
                 return response.json()
-            else:
-                return {"error": f"Ошибка API: {response.status_code}"}
+            return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
 
@@ -41,8 +40,7 @@ class CrisisAPIService:
             response = requests.get(self.services["mindful_meditations"]["api_url"], timeout=30)
             if response.status_code == 200:
                 return response.json()
-            else:
-                return {"error": f"Ошибка API: {response.status_code}"}
+            return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
 
@@ -64,8 +62,7 @@ class CrisisAPIService:
 
             if response.status_code == 200:
                 return response.json()
-            else:
-                return {"error": f"Ошибка API: {response.status_code}"}
+            return {"error": f"Ошибка API: {response.status_code}"}
         except Exception as e:
             return {"error": str(e)}
 

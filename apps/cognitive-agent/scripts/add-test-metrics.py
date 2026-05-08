@@ -10,9 +10,8 @@ import sqlite3
 from datetime import datetime, timedelta
 from pathlib import Path
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -48,9 +47,7 @@ class TestMetricsGenerator:
 
             # Создание индексов для быстрого поиска
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON trigger_events(timestamp)")
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_trigger_name ON trigger_events(trigger_name)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_trigger_name ON trigger_events(trigger_name)")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_status ON trigger_events(status)")
 
             conn.commit()
@@ -89,13 +86,9 @@ class TestMetricsGenerator:
                 hours_ago = random.randint(0, 23)
                 minutes_ago = random.randint(0, 59)
 
-                timestamp = datetime.now() - timedelta(
-                    days=days_ago, hours=hours_ago, minutes=minutes_ago
-                )
+                timestamp = datetime.now() - timedelta(days=days_ago, hours=hours_ago, minutes=minutes_ago)
 
-                duration_ms = (
-                    random.randint(50, 5000) if status == "success" else random.randint(100, 10000)
-                )
+                duration_ms = random.randint(50, 5000) if status == "success" else random.randint(100, 10000)
 
                 error_message = None
                 if status == "failed":
@@ -193,9 +186,7 @@ class TestMetricsGenerator:
             for scenario in scenarios:
                 logger.info(f"Добавление сценария: {scenario['name']}")
 
-                for i, (trigger_name, status, duration_ms, error_message) in enumerate(
-                    scenario["events"]
-                ):
+                for i, (trigger_name, status, duration_ms, error_message) in enumerate(scenario["events"]):
                     timestamp = base_time + timedelta(minutes=i * 30)
 
                     metadata = {
@@ -274,9 +265,7 @@ def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Генератор тестовых метрик для системы мониторинга"
-    )
+    parser = argparse.ArgumentParser(description="Генератор тестовых метрик для системы мониторинга")
     parser.add_argument(
         "--count",
         type=int,
@@ -285,9 +274,7 @@ def main():
     )
     parser.add_argument("--scenarios", action="store_true", help="Добавить реалистичные сценарии")
     parser.add_argument("--stats", action="store_true", help="Показать статистику базы данных")
-    parser.add_argument(
-        "--reset", action="store_true", help="Очистить базу данных перед добавлением"
-    )
+    parser.add_argument("--reset", action="store_true", help="Очистить базу данных перед добавлением")
 
     args = parser.parse_args()
 

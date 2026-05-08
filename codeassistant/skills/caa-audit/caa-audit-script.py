@@ -11,7 +11,6 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import yaml
 
@@ -29,7 +28,7 @@ class CaaAudit:
             "artifacts": [],
         }
 
-    def run_audit(self, focus_areas: List[str] = None) -> Dict:
+    def run_audit(self, focus_areas: list[str] = None) -> dict:
         """Запуск полного аудита CAA"""
 
         print("🔍 Запуск аудита Cognitive Automation Agent...")
@@ -191,7 +190,7 @@ class CaaAudit:
             )
 
             try:
-                with open(git_hooks_path, "r", encoding="utf-8") as f:
+                with open(git_hooks_path, encoding="utf-8") as f:
                     git_hooks = yaml.safe_load(f)
                     if git_hooks and "hooks" in git_hooks:
                         self.results["findings"].append(
@@ -337,9 +336,7 @@ class CaaAudit:
                 {
                     "priority": "critical",
                     "message": f"Найдено {len(critical_issues)} критических проблем",
-                    "actions": [
-                        f["recommendation"] for f in critical_issues if "recommendation" in f
-                    ],
+                    "actions": [f["recommendation"] for f in critical_issues if "recommendation" in f],
                 }
             )
 
@@ -352,9 +349,7 @@ class CaaAudit:
                 }
             )
 
-    def generate_report(
-        self, output_format: str = "markdown", output_path: Optional[str] = None
-    ) -> str:
+    def generate_report(self, output_format: str = "markdown", output_path: str | None = None) -> str:
         """Генерация отчёта"""
 
         if output_format == "markdown":
@@ -387,9 +382,7 @@ class CaaAudit:
 """
 
         for category, score in self.results.get("scores", {}).items():
-            status = (
-                "🟢 Отлично" if score >= 80 else "🟡 Средне" if score >= 60 else "🔴 Требует улучшений"
-            )
+            status = "🟢 Отлично" if score >= 80 else "🟡 Средне" if score >= 60 else "🔴 Требует улучшений"
             report += f"| {category.capitalize()} | {score}/100 | {status} |\n"
 
         report += """
@@ -407,17 +400,9 @@ class CaaAudit:
 
         report += "\n### Проблемы ⚠️\n"
 
-        issues = [
-            f for f in self.results["findings"] if f["type"] in ["warning", "critical", "error"]
-        ]
+        issues = [f for f in self.results["findings"] if f["type"] in ["warning", "critical", "error"]]
         for finding in issues[:10]:  # Показываем первые 10 проблем
-            icon = (
-                "🔴"
-                if finding["type"] == "critical"
-                else "🟡"
-                if finding["type"] == "warning"
-                else "⚫"
-            )
+            icon = "🔴" if finding["type"] == "critical" else "🟡" if finding["type"] == "warning" else "⚫"
             report += f"- {icon} **{finding['message']}**\n"
             if finding.get("details"):
                 report += f"  *{finding['details']}*\n"
@@ -430,7 +415,9 @@ class CaaAudit:
             report += "| Тип | Путь | Количество | Описание |\n"
             report += "|-----|------|------------|----------|\n"
             for artifact in self.results["artifacts"]:
-                report += f"| {artifact['type']} | `{artifact['path']}` | {artifact['count']} | {artifact['description']} |\n"
+                report += (
+                    f"| {artifact['type']} | `{artifact['path']}` | {artifact['count']} | {artifact['description']} |\n"
+                )
         else:
             report += "Артефакты не найдены\n"
 
@@ -438,13 +425,7 @@ class CaaAudit:
 
         if self.results["recommendations"]:
             for rec in self.results["recommendations"]:
-                priority_icon = (
-                    "🔴"
-                    if rec["priority"] == "critical"
-                    else "🟡"
-                    if rec["priority"] == "high"
-                    else "🟢"
-                )
+                priority_icon = "🔴" if rec["priority"] == "critical" else "🟡" if rec["priority"] == "high" else "🟢"
                 report += f"### {priority_icon} {rec['priority'].upper()}: {rec['message']}\n"
                 if rec.get("actions"):
                     for action in rec["actions"]:
@@ -496,9 +477,7 @@ class CaaAudit:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="CAA Audit Script - Аудит позиционирования Cognitive Automation Agent"
-    )
+    parser = argparse.ArgumentParser(description="CAA Audit Script - Аудит позиционирования Cognitive Automation Agent")
     parser.add_argument("--project-root", default=".", help="Корневая директория проекта")
     parser.add_argument(
         "--focus",

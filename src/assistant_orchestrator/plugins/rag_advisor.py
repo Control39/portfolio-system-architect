@@ -5,7 +5,8 @@ Provides intelligent search and recommendations based on project documentation.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 # Try to import embedding_agent, but make it optional
 try:
@@ -24,15 +25,13 @@ class RAGAdvisor:
 
     def __init__(self, project_root: Path):
         self.root = project_root
-        self.searcher: Optional[DocumentSearcher] = None
+        self.searcher: DocumentSearcher | None = None
         self.index_path = project_root / ".cache" / "rag_index.pkl"
 
         if RAG_AVAILABLE:
             self._initialize_searcher()
         else:
-            logger.warning(
-                "RAG dependencies not available. Install sentence-transformers and chromadb."
-            )
+            logger.warning("RAG dependencies not available. Install sentence-transformers and chromadb.")
 
     def _initialize_searcher(self):
         """Initialize the document searcher."""
@@ -51,7 +50,7 @@ class RAGAdvisor:
             logger.error(f"Failed to initialize RAG searcher: {e}")
             self.searcher = None
 
-    def build_index(self, force_rebuild: bool = False) -> Dict[str, Any]:
+    def build_index(self, force_rebuild: bool = False) -> dict[str, Any]:
         """
         Build or rebuild the document index.
 
@@ -84,7 +83,7 @@ class RAGAdvisor:
             logger.error(f"Failed to build RAG index: {e}")
             return {"error": str(e), "status": "failed"}
 
-    def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """
         Search project documentation.
 
@@ -123,7 +122,7 @@ class RAGAdvisor:
             logger.error(f"Search failed: {e}")
             return [{"error": str(e)}]
 
-    def get_advice(self, topic: str, context: Optional[str] = None) -> Dict[str, Any]:
+    def get_advice(self, topic: str, context: str | None = None) -> dict[str, Any]:
         """
         Get AI-powered advice on a specific topic.
 
@@ -181,7 +180,7 @@ class RAGAdvisor:
             "search_query": query,
         }
 
-    def analyze_project_gaps(self) -> List[Dict[str, Any]]:
+    def analyze_project_gaps(self) -> list[dict[str, Any]]:
         """
         Analyze documentation gaps in the project.
 
@@ -219,7 +218,7 @@ class RAGAdvisor:
 
         return gaps
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get RAG system statistics."""
         if not RAG_AVAILABLE or not self.searcher:
             return {"available": False}
@@ -232,7 +231,7 @@ class RAGAdvisor:
         }
 
 
-def analyze(root: Path) -> Dict[str, Any]:
+def analyze(root: Path) -> dict[str, Any]:
     """
     Plugin entry point for Assistant Orchestrator.
 
@@ -272,7 +271,7 @@ def analyze(root: Path) -> Dict[str, Any]:
     }
 
 
-def search_docs(root: Path, query: str) -> List[Dict[str, Any]]:
+def search_docs(root: Path, query: str) -> list[dict[str, Any]]:
     """
     Search project documentation (alternative entry point).
 
@@ -326,9 +325,7 @@ if __name__ == "__main__":
         print("\nAnalyzing documentation gaps...")
         gaps = advisor.analyze_project_gaps()
         for gap in gaps[:3]:
-            print(
-                f"- {gap['topic']} (confidence: {gap['confidence']:.3f}): {gap['recommendation']}"
-            )
+            print(f"- {gap['topic']} (confidence: {gap['confidence']:.3f}): {gap['recommendation']}")
     else:
         print("\nRAG dependencies not available. Install:")
         print("  pip install sentence-transformers chromadb")

@@ -1,7 +1,5 @@
 """Security checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class SecurityCheck(BaseCheck):
     def category(self) -> str:
         return "security"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. SECURITY.md
         self.check_file_exists("SECURITY.md")
@@ -90,7 +88,7 @@ class DependencySecurityCheck(BaseCheck):
     def category(self) -> str:
         return "security"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. pip-audit in requirements-dev.txt
         if self.check_file_exists("requirements-dev.txt"):

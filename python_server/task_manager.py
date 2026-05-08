@@ -3,11 +3,12 @@
 Provides a ConnectionTaskManager that tracks background asyncio Futures
 per connectionId so they can be cancelled on disconnect.
 """
+
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Awaitable
 from concurrent.futures import Future
-from typing import Awaitable, Dict, Set
 
 
 class ConnectionTaskManager:
@@ -20,7 +21,7 @@ class ConnectionTaskManager:
 
     def __init__(self, loop: asyncio.AbstractEventLoop):
         self._loop = loop
-        self._tasks: Dict[str, Set[Future]] = {}
+        self._tasks: dict[str, set[Future]] = {}
 
     def schedule(self, connection_id: str, coro: Awaitable) -> Future:
         fut: Future = asyncio.run_coroutine_threadsafe(coro, self._loop)

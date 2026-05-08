@@ -7,7 +7,9 @@ Code Organization Analyzer
 from collections import defaultdict
 from pathlib import Path
 
+
 REPO_ROOT = Path.cwd()
+
 
 class CodeOrganizationAnalyzer:
     def __init__(self):
@@ -36,16 +38,16 @@ class CodeOrganizationAnalyzer:
             test_count = len(test_files)
 
             # Размер
-            size_mb = sum(f.stat().st_size for f in py_files) / (1024*1024)
+            size_mb = sum(f.stat().st_size for f in py_files) / (1024 * 1024)
 
             self.services[service_name] = {
-                'path': str(service_dir.relative_to(REPO_ROOT)),
-                'python_files': py_count,
-                'test_files': test_count,
-                'size_mb': round(size_mb, 1),
-                'main_file': self._find_main_file(service_dir),
-                'has_docker': (service_dir / "Dockerfile").exists(),
-                'has_k8s': any(service_dir.rglob("*.yaml")) or any(service_dir.rglob("*.yml"))
+                "path": str(service_dir.relative_to(REPO_ROOT)),
+                "python_files": py_count,
+                "test_files": test_count,
+                "size_mb": round(size_mb, 1),
+                "main_file": self._find_main_file(service_dir),
+                "has_docker": (service_dir / "Dockerfile").exists(),
+                "has_k8s": any(service_dir.rglob("*.yaml")) or any(service_dir.rglob("*.yml")),
             }
 
     def _find_main_file(self, service_dir):
@@ -54,7 +56,7 @@ class CodeOrganizationAnalyzer:
             service_dir / "main.py",
             service_dir / "app.py",
             service_dir / "server.py",
-            service_dir / "__main__.py"
+            service_dir / "__main__.py",
         ]
 
         for candidate in candidates:
@@ -69,7 +71,7 @@ class CodeOrganizationAnalyzer:
 
         app_files = set()
         for service in self.services.values():
-            app_path = REPO_ROOT / service['path']
+            app_path = REPO_ROOT / service["path"]
             app_files.update(app_path.rglob("*.py"))
 
         scattered = defaultdict(list)
@@ -92,16 +94,15 @@ class CodeOrganizationAnalyzer:
 
         if "src/" in path_str:
             return "src/ (shared code)"
-        elif "tests/" in path_str:
+        if "tests/" in path_str:
             return "tests/ (tests)"
-        elif "scripts/" in path_str:
+        if "scripts/" in path_str:
             return "scripts/ (automation)"
-        elif "tools/" in path_str:
+        if "tools/" in path_str:
             return "tools/ (tools)"
-        elif "client/" in path_str:
+        if "client/" in path_str:
             return "client/ (frontend)"
-        else:
-            return "root level (loose files)"
+        return "root level (loose files)"
 
     def generate_report(self):
         """Генерировать отчет"""
@@ -122,16 +123,18 @@ class CodeOrganizationAnalyzer:
 
         for name in sorted(self.services.keys()):
             service = self.services[name]
-            main = service['main_file'] or "—"
-            docker = "🐳" if service['has_docker'] else ""
-            k8s = "☸️" if service['has_k8s'] else ""
+            main = service["main_file"] or "—"
+            docker = "🐳" if service["has_docker"] else ""
+            k8s = "☸️" if service["has_k8s"] else ""
 
-            print(f"{name:<30} {service['python_files']:<12} {service['test_files']:<10} "
-                  f"{service['size_mb']:.1f} MB    {main:<15} {docker}{k8s}")
+            print(
+                f"{name:<30} {service['python_files']:<12} {service['test_files']:<10} "
+                f"{service['size_mb']:.1f} MB    {main:<15} {docker}{k8s}"
+            )
 
-            total_py += service['python_files']
-            total_tests += service['test_files']
-            total_size += service['size_mb']
+            total_py += service["python_files"]
+            total_tests += service["test_files"]
+            total_size += service["size_mb"]
 
         print("-" * 80)
         print(f"{'TOTAL':<30} {total_py:<12} {total_tests:<10} {total_size:.1f} MB")
@@ -173,10 +176,13 @@ class CodeOrganizationAnalyzer:
             service = self.services[name]
             print(f"\n📦 {name}")
             print(f"   Path: {service['path']}")
-            print(f"   Python: {service['python_files']} files | Tests: {service['test_files']} | Size: {service['size_mb']} MB")
+            print(
+                f"   Python: {service['python_files']} files | Tests: {service['test_files']} | Size: {service['size_mb']} MB"
+            )
             print(f"   Docker: {'✅' if service['has_docker'] else '❌'} | K8s: {'✅' if service['has_k8s'] else '❌'}")
-            if service['main_file']:
+            if service["main_file"]:
                 print(f"   Entry: {service['main_file']}")
+
 
 if __name__ == "__main__":
     analyzer = CodeOrganizationAnalyzer()

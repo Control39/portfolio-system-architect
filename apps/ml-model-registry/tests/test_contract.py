@@ -128,9 +128,7 @@ class TestModelRegistryContract(unittest.TestCase):
     def test_search_models_contract(self):
         """Проверка контракта для метода search_models"""
         # Регистрация тестовых моделей
-        self.registry.register_model(
-            "image_classifier", {"name": "Image Classifier", "type": "CNN"}
-        )
+        self.registry.register_model("image_classifier", {"name": "Image Classifier", "type": "CNN"})
         self.registry.register_model("text_analyzer", {"name": "Text Analyzer", "type": "NLP"})
 
         # Вызов тестируемого метода

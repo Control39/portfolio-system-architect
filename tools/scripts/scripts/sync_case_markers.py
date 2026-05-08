@@ -8,6 +8,7 @@ import json
 import logging
 from pathlib import Path
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -90,9 +91,7 @@ class ITCompassSync:
                 for marker in level_data:
                     if marker.get("id") == marker_id:
                         # Обновление информации о маркере
-                        marker["validation_status"] = marker_mapping.get(
-                            "validation_status", "pending_review"
-                        )
+                        marker["validation_status"] = marker_mapping.get("validation_status", "pending_review")
                         marker["auto_verified"] = marker_mapping.get("auto_verified", False)
                         marker_updated = True
                         updated_markers.append(marker_id)
@@ -128,9 +127,7 @@ class ITCompassSync:
 
     def _update_portfolio(self, mapping_data: dict):
         """Обновляет портфолио через portfolio-organizer"""
-        portfolio_file = (
-            self.portfolio_path / "src" / "generated" / f"{mapping_data.get('case_id')}.md"
-        )
+        portfolio_file = self.portfolio_path / "src" / "generated" / f"{mapping_data.get('case_id')}.md"
 
         # Создание директории если не существует
         portfolio_file.parent.mkdir(parents=True, exist_ok=True)

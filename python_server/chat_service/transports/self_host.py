@@ -1,12 +1,14 @@
 """Self-hosted WebSocket ChatService implementation."""
+
 from __future__ import annotations
 
 import asyncio
 import json
 import logging
+from collections.abc import AsyncIterator, Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, AsyncIterator, Dict, Iterable, List, Optional, Set
+from typing import Any
 
 import websockets.exceptions as ws_exc
 from websockets import serve as ws_serve
@@ -14,6 +16,7 @@ from websockets import serve as ws_serve
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
 from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group, try_room_id_from_group
+
 
 # Поддерживаемые протоколы — как строки
 supported_protocol_names = (
@@ -35,9 +38,9 @@ class _InMemoryClientManager:
     Thread-safety: Designed for single asyncio event loop usage. No locks.
     """
 
-    def __init__(self, *, logger: logging.Logger | None = None) -> None:  # noqa: D401
-        self._clients: Dict[str, tuple[ClientConnectionContext, Any]] = {}
-        self._groups: Dict[str, Set[str]] = {}
+    def __init__(self, *, logger: logging.Logger | None = None) -> None:
+        self._clients: dict[str, tuple[ClientConnectionContext, Any]] = {}
+        self._groups: dict[str, set[str]] = {}
         self._logger = logger
 
     async def add_client(self, connection_id: str, context: ClientConnectionContext, transport: Any) -> None:
@@ -63,10 +66,8 @@ class _InMemoryClientManager:
             if not members:
                 self._groups.pop(group, None)
 
-    async def send_to_group(
-        self, group: str, data: str, exclude_ids: Optional[Iterable[str]] = None
-    ) -> List[SendResult]:
-        results: List[SendResult] = []
+    async def send_to_group(self, group: str, data: str, exclude_ids: Iterable[str] | None = None) -> list[SendResult]:
+        results: list[SendResult] = []
         members = self._groups.get(group, set())
         for cid in list(members):  # iterate over snapshot
             if exclude_ids and cid in exclude_ids:
@@ -78,15 +79,15 @@ class _InMemoryClientManager:
             try:
                 await ws.send(data)
                 results.append(SendResult(cid, True))
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 results.append(SendResult(cid, False, str(e)))
         return results
 
     # Introspection helpers (not part of external contract, but useful for tests)
-    def group_members(self, group: str) -> Set[str]:
+    def group_members(self, group: str) -> set[str]:
         return set(self._groups.get(group, set()))
 
-    def client_ids(self) -> Set[str]:
+    def client_ids(self) -> set[str]:
         return set(self._clients.keys())
 
 
@@ -94,10 +95,10 @@ class ChatService(ChatServiceBase):
     def __init__(
         self,
         *,
-        client_manager: Optional[_InMemoryClientManager] = None,
-        room_store: Optional[RoomStore] = None,
-        logger: Optional[logging.Logger] = None,
-        max_message_size: Optional[int] = 2**20,
+        client_manager: _InMemoryClientManager | None = None,
+        room_store: RoomStore | None = None,
+        logger: logging.Logger | None = None,
+        max_message_size: int | None = 2**20,
         host: str = "0.0.0.0",
         port: int = 8765,
         public_endpoint: str | None = None,
@@ -308,9 +309,9 @@ class ChatService(ChatServiceBase):
         self,
         group: str,
         message: str,
-        exclude_ids: Optional[List[str]] = None,
-        from_user_id: Optional[str] = None,
-    ) -> List[SendResult]:
+        exclude_ids: list[str] | None = None,
+        from_user_id: str | None = None,
+    ) -> list[SendResult]:
         room_id = group
         group_name = as_room_group(room_id)
         message_id = generate_id("m-")
@@ -346,8 +347,8 @@ class ChatService(ChatServiceBase):
         self,
         group: str,
         chunks: AsyncIterator[str],
-        exclude_ids: Optional[List[str]] = None,
-        from_user_id: Optional[str] = None,
+        exclude_ids: list[str] | None = None,
+        from_user_id: str | None = None,
     ) -> str:
         room_id = group
         group_name = as_room_group(room_id)

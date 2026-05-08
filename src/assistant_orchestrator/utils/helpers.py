@@ -5,14 +5,15 @@ Helper functions for Assistant Orchestrator.
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import yaml
+
 
 logger = logging.getLogger(__name__)
 
 
-def parse_docker_compose(root: Path) -> Dict[str, List[str]]:
+def parse_docker_compose(root: Path) -> dict[str, list[str]]:
     """Parse Docker Compose file to extract services and dependencies."""
     compose_files = [
         root / "docker-compose.yml",
@@ -23,7 +24,7 @@ def parse_docker_compose(root: Path) -> Dict[str, List[str]]:
     for compose_file in compose_files:
         if compose_file.exists():
             try:
-                with open(compose_file, "r", encoding="utf-8") as f:
+                with open(compose_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Simple YAML parsing
@@ -59,7 +60,7 @@ def parse_docker_compose(root: Path) -> Dict[str, List[str]]:
     return _scan_for_dockerfiles(root)
 
 
-def _scan_for_dockerfiles(root: Path) -> Dict[str, List[str]]:
+def _scan_for_dockerfiles(root: Path) -> dict[str, list[str]]:
     """Scan for Dockerfiles as fallback."""
     dockerfiles = list(root.glob("**/Dockerfile"))
     services = {}
@@ -72,17 +73,17 @@ def _scan_for_dockerfiles(root: Path) -> Dict[str, List[str]]:
     return services
 
 
-def safe_read_json(path: Path) -> Optional[Dict[str, Any]]:
+def safe_read_json(path: Path) -> dict[str, Any] | None:
     """Safely read JSON file, return None on error."""
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         logger.debug(f"Failed to read JSON {path}: {e}")
         return None
 
 
-def find_files_with_pattern(root: Path, pattern: str) -> List[Path]:
+def find_files_with_pattern(root: Path, pattern: str) -> list[Path]:
     """Find files matching pattern recursively."""
     try:
         return list(root.glob(pattern))
@@ -91,7 +92,7 @@ def find_files_with_pattern(root: Path, pattern: str) -> List[Path]:
         return []
 
 
-def calculate_maturity_score(analysis: Dict[str, Any]) -> int:
+def calculate_maturity_score(analysis: dict[str, Any]) -> int:
     """Calculate a simple maturity score (0-5)."""
     score = 0
 

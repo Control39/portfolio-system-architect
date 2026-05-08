@@ -4,20 +4,18 @@ This module encapsulates the chat-specific event handlers and per-connection
 background task management so that `server.py` can stay focused on process
 startup / wiring.
 """
+
 from __future__ import annotations
 
 from typing import Any
 
 from .chat_service.base import ChatServiceBase, ClientConnectionContext
 from .config import DEFAULT_ROOM_ID
-from .core import (chat_stream, get_room_id,  # room store & util exports
-                   to_async_iterator)
+from .core import chat_stream, get_room_id, to_async_iterator  # room store & util exports
 from .task_manager import ConnectionTaskManager
 
 
-def register_chat_handlers(
-    chat: ChatServiceBase, app_logger: Any, task_manager: ConnectionTaskManager
-) -> None:  # noqa: D401
+def register_chat_handlers(chat: ChatServiceBase, app_logger: Any, task_manager: ConnectionTaskManager) -> None:
     """Attach all chat event handlers to the provided chat service.
 
     Parameters
@@ -39,16 +37,12 @@ def register_chat_handlers(
             task_manager.cancel_all(conn.connectionId)
 
     @chat.on_connecting
-    async def handle_connecting(
-        conn: ClientConnectionContext, _svc: ChatServiceBase
-    ) -> None:  # noqa: D401
+    async def handle_connecting(conn: ClientConnectionContext, _svc: ChatServiceBase) -> None:
         # Placeholder for future auth hook
         conn.user_id = "You"
 
     @chat.on_connected
-    async def handle_connected(
-        conn: ClientConnectionContext, _svc: ChatServiceBase
-    ) -> None:  # noqa: D401
+    async def handle_connected(conn: ClientConnectionContext, _svc: ChatServiceBase) -> None:
         room_id = get_room_id(conn.query, DEFAULT_ROOM_ID)
         if room_id:
             await _svc.add_to_group(conn.connectionId, room_id)
@@ -58,7 +52,7 @@ def register_chat_handlers(
     @chat.on_event_message
     async def handle_event_message(
         conn: ClientConnectionContext, event_name: str, data: dict, _svc: ChatServiceBase
-    ) -> None:  # noqa: D401
+    ) -> None:
         if event_name == "sendToAI":
             message = data.get("message")
             room_id = data.get("roomId")
@@ -78,11 +72,7 @@ def register_chat_handlers(
                         content = ev.get("message")
                         if not isinstance(content, str) or not content:
                             continue
-                        role = (
-                            "assistant"
-                            if ev.get("from") in (None, "AI", "AI Assistant", "assistant")
-                            else "user"
-                        )
+                        role = "assistant" if ev.get("from") in (None, "AI", "AI Assistant", "assistant") else "user"
                         conversation_history.append({"role": role, "content": content})
                     except Exception:  # pragma: no cover
                         continue
@@ -96,15 +86,11 @@ def register_chat_handlers(
 
                 # Build generator AFTER successful init
                 chunks = chat_stream(message, conversation_history=conversation_history)
-                app_logger.debug(
-                    "Starting AI stream task to room %s (scheduled on main loop)", room_id
-                )
+                app_logger.debug("Starting AI stream task to room %s (scheduled on main loop)", room_id)
                 coro = _svc.streaming_to_group(room_id, to_async_iterator(chunks))
                 task_manager.schedule(conn.connectionId, coro)
 
     @chat.on_disconnected
-    async def handle_disconnected(
-        conn: ClientConnectionContext, _svc: ChatServiceBase
-    ) -> None:  # noqa: D401
+    async def handle_disconnected(conn: ClientConnectionContext, _svc: ChatServiceBase) -> None:
         cancel_conn_tasks(conn)
         app_logger.info("Client disconnected: %s", conn.connectionId)

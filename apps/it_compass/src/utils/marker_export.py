@@ -5,9 +5,9 @@
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List
 
 from ..core.tracker import CareerTracker, Marker
+
 
 logger = logging.getLogger(__name__)
 
@@ -127,12 +127,8 @@ class MarkerExporter:
 
             # Создаем индексы для быстрого поиска
             rag_data["index_metadata"]["document_count"] = len(rag_data["documents"])
-            rag_data["index_metadata"]["tags_index"] = self._create_tags_index(
-                rag_data["documents"]
-            )
-            rag_data["index_metadata"]["skills_index"] = self._create_skills_index(
-                rag_data["documents"]
-            )
+            rag_data["index_metadata"]["tags_index"] = self._create_tags_index(rag_data["documents"])
+            rag_data["index_metadata"]["skills_index"] = self._create_skills_index(rag_data["documents"])
 
             # Сохраняем в файл
             output_file = Path(output_path)
@@ -148,7 +144,7 @@ class MarkerExporter:
             logger.error(f"Ошибка при экспорте маркеров для RAG-поиска: {e}")
             return False
 
-    def _generate_tags(self, marker: Marker, skill_name: str, level_name: str) -> List[str]:
+    def _generate_tags(self, marker: Marker, skill_name: str, level_name: str) -> list[str]:
         """Генерирует теги для маркера."""
         tags = [
             f"skill:{skill_name.lower()}",
@@ -182,10 +178,9 @@ class MarkerExporter:
 
         if resource_count > 5 or description_length > 200:
             return "high"
-        elif resource_count > 2 or description_length > 100:
+        if resource_count > 2 or description_length > 100:
             return "medium"
-        else:
-            return "low"
+        return "low"
 
     def _create_rag_content(self, marker: Marker, skill_name: str, level_name: str) -> str:
         """Создает контент документа для RAG-поиска."""
@@ -218,7 +213,7 @@ class MarkerExporter:
         )
         return content.strip()
 
-    def _create_tags_index(self, documents: List[Dict]) -> Dict[str, List[str]]:
+    def _create_tags_index(self, documents: list[dict]) -> dict[str, list[str]]:
         """Создает индекс тегов."""
         tags_index = {}
         for doc in documents:
@@ -228,7 +223,7 @@ class MarkerExporter:
                 tags_index[tag].append(doc["id"])
         return tags_index
 
-    def _create_skills_index(self, documents: List[Dict]) -> Dict[str, List[str]]:
+    def _create_skills_index(self, documents: list[dict]) -> dict[str, list[str]]:
         """Создает индекс навыков."""
         skills_index = {}
         for doc in documents:

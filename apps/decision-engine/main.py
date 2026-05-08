@@ -6,11 +6,7 @@ from .configs.loader import COMPONENT_CONFIG
 
 def run_server():
     # Берём команду запуска из конфигурации
-    api_script = next(
-        script
-        for script in COMPONENT_CONFIG["automation"]["scripts"]
-        if script["name"] == "run_api"
-    )
+    api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
 
     print(f"Запуск API: {api_script['command']}")
 

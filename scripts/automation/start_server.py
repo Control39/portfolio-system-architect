@@ -5,6 +5,7 @@ Simply executes the inner `python_server/start_server.py` script which starts
 only the Python server. This wrapper exists for convenience so users can run
 `python start_server.py` from the repository root.
 """
+
 from __future__ import annotations
 
 import subprocess

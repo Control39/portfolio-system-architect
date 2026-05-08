@@ -1,41 +1,37 @@
 import asyncio
 import os
-from typing import Dict
 
 from jinja2 import BaseLoader, Environment, FileSystemLoader
+
 
 # Template dir with check
 template_dir = os.path.join(os.path.dirname(__file__), "../../templates")
 if os.path.exists(template_dir):
-    env = Environment(
-        loader=FileSystemLoader(template_dir), block_start_string="[%", block_end_string="%]"
-    )
+    env = Environment(loader=FileSystemLoader(template_dir), block_start_string="[%", block_end_string="%]")
 else:
     env = Environment(loader=BaseLoader())  # Fallback empty
     print("Warning: templates not found, using fallback.")
 
 
-async def generate_resume(profile: Dict, job_description: Dict) -> str:
+async def generate_resume(profile: dict, job_description: dict) -> str:
     """Генерирует резюме на основе профиля и описания вакансии."""
     try:
         template = env.get_template("resume.md.j2")
-        rendered = template.render(
-            profile=profile, job=job_description, generated_at=os.path.abspath(__file__)
-        )
+        rendered = template.render(profile=profile, job=job_description, generated_at=os.path.abspath(__file__))
         return rendered
     except Exception as e:
         print(f"Ошибка генерации резюме: {e}")
         # Fallback simple resume
-        return f"""# Резюме для {profile.get('name', 'Кандидат')}
+        return f"""# Резюме для {profile.get("name", "Кандидат")}
 
 ## Навыки
-{', '.join(profile.get('skills', []))}
+{", ".join(profile.get("skills", []))}
 
 ## Опыт
-{profile.get('experience', 'Не указан')}
+{profile.get("experience", "Не указан")}
 
 ## Подходит для вакансии
-{job_description.get('title', 'Не указано')}
+{job_description.get("title", "Не указано")}
 """
 
 

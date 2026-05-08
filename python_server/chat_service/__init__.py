@@ -6,22 +6,27 @@ Exposes:
  - Helper group name utilities.
 """
 
-from .base import (SYS_ROOMS_GROUP, ChatServiceBase,  # noqa: F401
-                   ClientConnectionContext, as_room_group,
-                   try_room_id_from_group)
-from .transports.self_host import ChatService  # noqa: F401
+from .base import (
+    SYS_ROOMS_GROUP,
+    ChatServiceBase,
+    ClientConnectionContext,
+    as_room_group,
+    try_room_id_from_group,
+)
+from .transports.self_host import ChatService
+
 
 try:  # Lazy optional import (will fail if azure webpubsub libs not installed)
-    from .transports.webpubsub import WebPubSubChatService  # noqa: F401
+    from .transports.webpubsub import WebPubSubChatService
 except Exception:  # pragma: no cover
     WebPubSubChatService = None  # type: ignore
 
 __all__ = [
+    "SYS_ROOMS_GROUP",
+    "ChatService",
     "ChatServiceBase",
     "ClientConnectionContext",
-    "ChatService",
     "WebPubSubChatService",
     "as_room_group",
     "try_room_id_from_group",
-    "SYS_ROOMS_GROUP",
 ]

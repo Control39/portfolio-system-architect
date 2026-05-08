@@ -4,9 +4,10 @@ Simple search interface for RAG system.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .indexer import DocumentIndexer
+
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 class DocumentSearcher:
     """High-level search interface for RAG system."""
 
-    def __init__(self, index_path: Optional[str] = None):
+    def __init__(self, index_path: str | None = None):
         """
         Initialize searcher.
 
@@ -30,7 +31,7 @@ class DocumentSearcher:
         else:
             logger.info("Starting with empty index")
 
-    def build_index(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> Dict[str, Any]:
+    def build_index(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> dict[str, Any]:
         """
         Build index from files.
 
@@ -53,7 +54,7 @@ class DocumentSearcher:
 
         return stats
 
-    def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """
         Search the index.
 
@@ -74,7 +75,7 @@ class DocumentSearcher:
 
         return results
 
-    def save_index(self, path: Optional[str] = None) -> str:
+    def save_index(self, path: str | None = None) -> str:
         """
         Save index to disk.
 
@@ -153,9 +154,7 @@ def search_demo():
                 print(f"\n{i + 1}. Score: {result['score']:.3f}")
                 print(f"   Source: {result['metadata'].get('source', 'Unknown')}")
                 if "chunk" in result["metadata"]:
-                    print(
-                        f"   Chunk: {result['metadata']['chunk'] + 1}/{result['metadata'].get('total_chunks', 1)}"
-                    )
+                    print(f"   Chunk: {result['metadata']['chunk'] + 1}/{result['metadata'].get('total_chunks', 1)}")
                 print(f"   Text: {result['text'][:200]}...")
 
         except KeyboardInterrupt:

@@ -10,7 +10,6 @@ import platform
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 
 class GigaCodeSetup:
@@ -26,14 +25,12 @@ class GigaCodeSetup:
         """Проверяет, установлен ли VS Code"""
         try:
             # Безопасный вызов без shell=True
-            result = subprocess.run(
-                ["code", "--version"], capture_output=True, text=True, shell=False
-            )
+            result = subprocess.run(["code", "--version"], capture_output=True, text=True, shell=False)
             return result.returncode == 0
         except (FileNotFoundError, subprocess.SubprocessError):
             return False
 
-    def check_gigacode_extension(self) -> Tuple[bool, str]:
+    def check_gigacode_extension(self) -> tuple[bool, str]:
         """Проверяет, установлено ли расширение GigaCode"""
         try:
             result = subprocess.run(
@@ -48,13 +45,12 @@ class GigaCodeSetup:
 
             if gigacode_installed:
                 return True, "Расширение GigaCode установлено"
-            else:
-                return False, "Расширение GigaCode не установлено"
+            return False, "Расширение GigaCode не установлено"
 
         except Exception as e:
-            return False, f"Ошибка при проверке расширений: {str(e)}"
+            return False, f"Ошибка при проверке расширений: {e!s}"
 
-    def install_gigacode_extension(self) -> Tuple[bool, str]:
+    def install_gigacode_extension(self) -> tuple[bool, str]:
         """Устанавливает расширение GigaCode"""
         try:
             print("Установка расширения GigaCode...")
@@ -68,23 +64,22 @@ class GigaCodeSetup:
 
             if result.returncode == 0:
                 return True, "Расширение GigaCode успешно установлено"
-            else:
-                return False, f"Ошибка при установке: {result.stderr}"
+            return False, f"Ошибка при установке: {result.stderr}"
 
         except Exception as e:
-            return False, f"Ошибка при установке расширения: {str(e)}"
+            return False, f"Ошибка при установке расширения: {e!s}"
 
-    def load_current_settings(self) -> Dict:
+    def load_current_settings(self) -> dict:
         """Загружает текущие настройки VS Code"""
         if self.settings_file.exists():
             try:
-                with open(self.settings_file, "r", encoding="utf-8") as f:
+                with open(self.settings_file, encoding="utf-8") as f:
                     return json.load(f)
             except json.JSONDecodeError:
                 return {}
         return {}
 
-    def create_gigacode_config(self, api_key: Optional[str] = None) -> Dict:
+    def create_gigacode_config(self, api_key: str | None = None) -> dict:
         """Создает конфигурацию для GigaCode"""
 
         # Базовая конфигурация GigaCode
@@ -125,7 +120,7 @@ class GigaCodeSetup:
 
         return gigacode_config
 
-    def merge_settings(self, current_settings: Dict, gigacode_config: Dict) -> Dict:
+    def merge_settings(self, current_settings: dict, gigacode_config: dict) -> dict:
         """Объединяет текущие настройки с конфигурацией GigaCode"""
 
         # Копируем текущие настройки
@@ -151,7 +146,7 @@ class GigaCodeSetup:
 
         return merged
 
-    def save_settings(self, settings: Dict) -> bool:
+    def save_settings(self, settings: dict) -> bool:
         """Сохраняет настройки в файл"""
         try:
             # Создаем директорию .vscode, если её нет
@@ -163,7 +158,7 @@ class GigaCodeSetup:
 
             return True
         except Exception as e:
-            print(f"Ошибка при сохранении настроек: {str(e)}")
+            print(f"Ошибка при сохранении настроек: {e!s}")
             return False
 
     def create_env_example(self) -> bool:
@@ -198,10 +193,10 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
 
             return True
         except Exception as e:
-            print(f"Ошибка при создании .env.example: {str(e)}")
+            print(f"Ошибка при создании .env.example: {e!s}")
             return False
 
-    def generate_setup_report(self, steps: List[Tuple[str, bool, str]]) -> str:
+    def generate_setup_report(self, steps: list[tuple[str, bool, str]]) -> str:
         """Генерирует отчет о настройке"""
         report_lines = [
             "=" * 60,
@@ -238,7 +233,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
 
         return "\n".join(report_lines)
 
-    def run_setup(self, api_key: Optional[str] = None, auto_install: bool = True) -> bool:
+    def run_setup(self, api_key: str | None = None, auto_install: bool = True) -> bool:
         """Запускает полную настройку GigaCode"""
 
         steps = []
@@ -351,7 +346,7 @@ GIGACODE_FALLBACK_TO_SOURCECRAFT=true
                 f.write(report)
             print(f"\n📄 Отчет сохранен в: {report_file}")
         except Exception as e:
-            print(f"\n⚠️ Не удалось сохранить отчет: {str(e)}")
+            print(f"\n⚠️ Не удалось сохранить отчет: {e!s}")
 
         # Проверка успешности
         success_steps = sum(1 for _, success, _ in steps if success)

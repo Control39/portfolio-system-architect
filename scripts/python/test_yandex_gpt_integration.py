@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+
 # Добавляем путь к проекту для импорта модулей
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -69,8 +70,11 @@ def check_python_module() -> bool:
 
         if _check_module("src.shared.llm.yandex_gpt"):
             from src.shared.llm.yandex_gpt import (  # noqa: F401
-                YandexGPTClient, YandexGPTConfig, create_yandex_gpt_client,
-                generate_with_yandex_gpt)
+                YandexGPTClient,
+                YandexGPTConfig,
+                create_yandex_gpt_client,
+                generate_with_yandex_gpt,
+            )
 
             YandexGPTConfig_used = True
         else:

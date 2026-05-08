@@ -4,12 +4,12 @@ Documentation plugin for finding architecture documentation.
 
 import logging
 from pathlib import Path
-from typing import List
+
 
 logger = logging.getLogger(__name__)
 
 
-def find_docs(root: Path) -> List[str]:
+def find_docs(root: Path) -> list[str]:
     """Find architecture documentation files."""
     doc_patterns = [
         "**/ARCHITECTURE*.md",

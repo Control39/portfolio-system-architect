@@ -1,12 +1,13 @@
 import asyncio
 import os
-from typing import Any, Dict
+from typing import Any
 
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain.prompts import PromptTemplate
 from langchain.tools import Tool
 from langchain_core.language_models import FakeListLLM  # Fallback
 from langchain_openai import ChatOpenAI
+
 
 # LLM with env var (fallback mock)
 api_key = os.getenv("OPENAI_API_KEY")
@@ -54,7 +55,7 @@ agent = create_react_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 
-async def run_agent(task: str) -> Dict[str, Any]:
+async def run_agent(task: str) -> dict[str, Any]:
     """Запуск агента с задачей."""
     result = await agent_executor.ainvoke({"input": task})
     return result

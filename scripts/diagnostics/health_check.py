@@ -6,7 +6,6 @@ Portfolio System Architect - Services Health Check
 
 import json
 from pathlib import Path
-from typing import Dict, List
 
 
 class ServiceHealthCheck:
@@ -15,7 +14,7 @@ class ServiceHealthCheck:
         self.apps_dir = self.root / "apps"
         self.results = {}
 
-    def check_all_services(self) -> Dict:
+    def check_all_services(self) -> dict:
         """Проверить все сервисы"""
         print("🏥 PORTFOLIO SYSTEM ARCHITECT - SERVICES HEALTH CHECK")
         print("=" * 80)
@@ -32,12 +31,7 @@ class ServiceHealthCheck:
     def check_service(self, service_name: str):
         """Проверить отдельный сервис"""
         service_path = self.apps_dir / service_name
-        result = {
-            "name": service_name,
-            "path": str(service_path),
-            "status": "🟢 OK",
-            "checks": {}
-        }
+        result = {"name": service_name, "path": str(service_path), "status": "🟢 OK", "checks": {}}
 
         # 1. Проверка структуры
         structure_check = self._check_structure(service_path)
@@ -66,7 +60,7 @@ class ServiceHealthCheck:
         self.results[service_name] = result
         self._print_service_result(result)
 
-    def _check_structure(self, service_path: Path) -> Dict:
+    def _check_structure(self, service_path: Path) -> dict:
         """Проверить основную структуру"""
         required = ["src", "config", "tests"]
         found = []
@@ -87,14 +81,9 @@ class ServiceHealthCheck:
         else:
             print()
 
-        return {
-            "ok": ok,
-            "found": found,
-            "missing": missing,
-            "score": len(found) / len(required)
-        }
+        return {"ok": ok, "found": found, "missing": missing, "score": len(found) / len(required)}
 
-    def _check_config(self, service_path: Path) -> Dict:
+    def _check_config(self, service_path: Path) -> dict:
         """Проверить конфигурационные файлы"""
         config_path = service_path / "config"
         files = []
@@ -107,20 +96,16 @@ class ServiceHealthCheck:
 
         print(f"  {status} Config: {len(files)} files found")
 
-        return {
-            "ok": ok,
-            "files": files,
-            "count": len(files)
-        }
+        return {"ok": ok, "files": files, "count": len(files)}
 
-    def _check_dependencies(self, service_path: Path) -> Dict:
+    def _check_dependencies(self, service_path: Path) -> dict:
         """Проверить файлы зависимостей"""
         dep_files = {
             "requirements.txt": False,
             "package.json": False,
             "pyproject.toml": False,
             "go.mod": False,
-            "pom.xml": False
+            "pom.xml": False,
         }
 
         for dep_file in dep_files:
@@ -133,13 +118,9 @@ class ServiceHealthCheck:
 
         print(f"  {status} Dependencies: {len(found)} file(s) - {', '.join(found) if found else 'none'}")
 
-        return {
-            "ok": ok,
-            "files": dep_files,
-            "found": found
-        }
+        return {"ok": ok, "files": dep_files, "found": found}
 
-    def _check_tests(self, service_path: Path) -> Dict:
+    def _check_tests(self, service_path: Path) -> dict:
         """Проверить тесты"""
         tests_path = service_path / "tests"
         test_files = []
@@ -152,13 +133,9 @@ class ServiceHealthCheck:
 
         print(f"  {status} Tests: {len(test_files)} test files found")
 
-        return {
-            "ok": ok,
-            "count": len(test_files),
-            "exists": tests_path.exists()
-        }
+        return {"ok": ok, "count": len(test_files), "exists": tests_path.exists()}
 
-    def _check_documentation(self, service_path: Path) -> Dict:
+    def _check_documentation(self, service_path: Path) -> dict:
         """Проверить документацию"""
         readme = service_path / "README.md"
         docs_dir = service_path / "docs"
@@ -181,14 +158,9 @@ class ServiceHealthCheck:
 
         print(f"  {status} Docs: {', '.join(details) if details else 'missing'}")
 
-        return {
-            "ok": ok,
-            "has_readme": has_readme,
-            "has_docs": has_docs,
-            "doc_count": doc_count
-        }
+        return {"ok": ok, "has_readme": has_readme, "has_docs": has_docs, "doc_count": doc_count}
 
-    def _print_service_result(self, result: Dict):
+    def _print_service_result(self, result: dict):
         """Вывести результат сервиса"""
         status_symbol = "✅" if result["status"] == "🟢 OK" else "⚠️"
         print(f"  └─ {status_symbol} Overall: {result['status']}")
@@ -207,15 +179,15 @@ class ServiceHealthCheck:
         print(f"  • Total Services: {total}")
         print(f"  • Healthy (🟢): {healthy}")
         print(f"  • Warnings (🟡): {warning}")
-        print(f"  • Health Score: {(healthy/total)*100:.1f}%")
+        print(f"  • Health Score: {(healthy / total) * 100:.1f}%")
 
         print("\n📋 Service Details:")
         print(f"  {'Service':<25} {'Status':<12} {'Structure':<12} {'Tests':<10} {'Docs':<10}")
-        print(f"  {'-'*25} {'-'*12} {'-'*12} {'-'*10} {'-'*10}")
+        print(f"  {'-' * 25} {'-' * 12} {'-' * 12} {'-' * 10} {'-' * 10}")
 
         for name, result in sorted(self.results.items()):
             status = "🟢 OK" if result["status"] == "🟢 OK" else "🟡 WARNING"
-            struct_score = f"{result['checks']['structure']['score']*100:.0f}%"
+            struct_score = f"{result['checks']['structure']['score'] * 100:.0f}%"
             tests_ok = "✅" if result["checks"]["tests"]["ok"] else "❌"
             docs_ok = "✅" if result["checks"]["documentation"]["ok"] else "⚠️"
 
@@ -234,13 +206,9 @@ class ServiceHealthCheck:
         print("✅ HEALTH CHECK COMPLETE")
         print("=" * 80)
 
-    def _find_issues(self) -> Dict[str, List[str]]:
+    def _find_issues(self) -> dict[str, list[str]]:
         """Найти проблемы"""
-        issues = {
-            "Missing Tests": [],
-            "Missing Documentation": [],
-            "Incomplete Structure": []
-        }
+        issues = {"Missing Tests": [], "Missing Documentation": [], "Incomplete Structure": []}
 
         for name, result in self.results.items():
             if not result["checks"]["tests"]["ok"]:
@@ -250,7 +218,9 @@ class ServiceHealthCheck:
                 issues["Missing Documentation"].append(name)
 
             if not result["checks"]["structure"]["ok"]:
-                issues["Incomplete Structure"].append(f"{name} (missing: {', '.join(result['checks']['structure']['missing'])})")
+                issues["Incomplete Structure"].append(
+                    f"{name} (missing: {', '.join(result['checks']['structure']['missing'])})"
+                )
 
         return {k: v for k, v in issues.items() if v}
 
@@ -262,7 +232,7 @@ class ServiceHealthCheck:
             "timestamp": str(Path(".").resolve()),
             "total_services": len(self.results),
             "healthy": sum(1 for r in self.results.values() if r["status"] == "🟢 OK"),
-            "services": self.results
+            "services": self.results,
         }
 
         with open(output_path, "w") as f:

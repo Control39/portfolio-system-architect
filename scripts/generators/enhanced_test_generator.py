@@ -5,7 +5,6 @@ Enhanced Test Generator for all 15 Microservices
 """
 
 from pathlib import Path
-from typing import Dict, List
 
 
 class EnhancedTestGenerator:
@@ -149,7 +148,7 @@ class EnhancedTestGenerator:
         print("✅ ENHANCED TESTS GENERATED FOR ALL 15 SERVICES")
         print("=" * 80)
 
-    def enhance_service_tests(self, service_name: str, config: Dict):
+    def enhance_service_tests(self, service_name: str, config: dict):
         service_path = self.apps_dir / service_name
         tests_dir = service_path / "tests"
 
@@ -166,7 +165,7 @@ class EnhancedTestGenerator:
 
         print(f"✅ {service_name:<25} ({config['tier']:<8}) - Enhanced with {len(config['test_cases'])} new tests")
 
-    def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: List[str]) -> str:
+    def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: list[str]) -> str:
         imports = self._generate_imports()
         fixtures = self._generate_fixtures(service_name)
         tests = self._generate_test_cases(service_name, test_cases)
@@ -242,7 +241,7 @@ def cleanup_resources():
     yield
 '''
 
-    def _generate_test_cases(self, service_name: str, test_cases: List[str]) -> str:
+    def _generate_test_cases(self, service_name: str, test_cases: list[str]) -> str:
         tests_code = '''
 # ============================================================================
 # UNIT TESTS
@@ -273,7 +272,7 @@ class TestBasicFunctionality:
 
     def {test_case}(self, service_instance, config, mock_logger):
         """
-        Test: {test_case.replace('test_', '').replace('_', ' ').title()}
+        Test: {test_case.replace("test_", "").replace("_", " ").title()}
         """
         assert service_instance is not None
         assert config["environment"] == "test"

@@ -8,6 +8,7 @@ from datetime import datetime
 import requests
 import streamlit as st
 
+
 # Настройка страницы
 st.set_page_config(
     page_title="AI Архитектор - Консультант по проекту",

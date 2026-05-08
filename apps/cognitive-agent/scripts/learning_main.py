@@ -14,16 +14,15 @@ import pickle
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 import pandas as pd
 import yaml
 
+
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -36,10 +35,10 @@ class TaskMetrics:
     priority: float
     duration: float  # в секундах
     success: bool
-    error_message: Optional[str] = None
-    resources_used: Dict[str, float] = None  # CPU, память, время
+    error_message: str | None = None
+    resources_used: dict[str, float] = None  # CPU, память, время
     quality_score: float = 0.0  # оценка качества выполнения (0-1)
-    learning_points: List[str] = None  # ключевые выводы для обучения
+    learning_points: list[str] = None  # ключевые выводы для обучения
 
 
 @dataclass
@@ -55,7 +54,7 @@ class AgentMetrics:
     avg_priority: float
     avg_quality: float
     efficiency_score: float  # общая оценка эффективности (0-1)
-    improvement_suggestions: List[str]
+    improvement_suggestions: list[str]
 
 
 class LearningSystem:
@@ -87,7 +86,7 @@ class LearningSystem:
 
         logger.info(f"Система самообучения инициализирована. Конфиг: {config_path}")
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации системы самообучения."""
         default_config = {
             "learning": {
@@ -132,24 +131,20 @@ class LearningSystem:
 
         if self.config_path.exists():
             try:
-                with open(self.config_path, "r", encoding="utf-8") as f:
+                with open(self.config_path, encoding="utf-8") as f:
                     loaded_config = yaml.safe_load(f) or {}
                 # Объединение с конфигом по умолчанию
                 merged_config = self._deep_merge(default_config, loaded_config)
                 logger.info(f"Конфигурация загружена из {self.config_path}")
                 return merged_config
             except Exception as e:
-                logger.error(
-                    f"Ошибка загрузки конфигурации: {e}. Используется конфиг по умолчанию."
-                )
+                logger.error(f"Ошибка загрузки конфигурации: {e}. Используется конфиг по умолчанию.")
                 return default_config
         else:
-            logger.warning(
-                f"Конфигурационный файл не найден: {self.config_path}. Используется конфиг по умолчанию."
-            )
+            logger.warning(f"Конфигурационный файл не найден: {self.config_path}. Используется конфиг по умолчанию.")
             return default_config
 
-    def _deep_merge(self, dict1: Dict, dict2: Dict) -> Dict:
+    def _deep_merge(self, dict1: dict, dict2: dict) -> dict:
         """Рекурсивное объединение словарей."""
         result = dict1.copy()
         for key, value in dict2.items():
@@ -159,14 +154,14 @@ class LearningSystem:
                 result[key] = value
         return result
 
-    def _load_historical_metrics(self) -> List[Dict[str, Any]]:
+    def _load_historical_metrics(self) -> list[dict[str, Any]]:
         """Загрузка исторических метрик из файлов."""
         historical_data = []
         metrics_files = list(self.metrics_dir.glob("metrics_*.json"))
 
         for metrics_file in metrics_files:
             try:
-                with open(metrics_file, "r", encoding="utf-8") as f:
+                with open(metrics_file, encoding="utf-8") as f:
                     data = json.load(f)
                     historical_data.extend(data)
             except Exception as e:
@@ -175,7 +170,7 @@ class LearningSystem:
         logger.info(f"Загружено {len(historical_data)} исторических записей метрик")
         return historical_data
 
-    def _load_learning_models(self) -> Dict[str, Any]:
+    def _load_learning_models(self) -> dict[str, Any]:
         """Загрузка обученных моделей машинного обучения."""
         models = {}
         model_files = list(self.models_dir.glob("*.pkl"))
@@ -223,8 +218,7 @@ class LearningSystem:
             recent_metrics = [
                 m
                 for m in self.historical_metrics
-                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat()))
-                > cutoff_time
+                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat())) > cutoff_time
             ]
 
             if recent_metrics:
@@ -245,8 +239,7 @@ class LearningSystem:
             period_metrics = [
                 m
                 for m in self.historical_metrics
-                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat()))
-                > cutoff_time
+                if datetime.fromisoformat(m.get("timestamp", datetime.now().isoformat())) > cutoff_time
             ]
 
             if not period_metrics:
@@ -314,31 +307,25 @@ class LearningSystem:
 
     def _generate_improvement_suggestions(
         self,
-        metrics: List[Dict[str, Any]],
+        metrics: list[dict[str, Any]],
         success_rate: float,
         avg_duration: float,
         avg_quality: float,
-    ) -> List[str]:
+    ) -> list[str]:
         """Генерация предложений по улучшению на основе метрик."""
         suggestions = []
 
         # Анализ успешности задач
         if success_rate < 0.8:
-            suggestions.append(
-                "Увеличить успешность выполнения задач: проанализировать причины неудач"
-            )
+            suggestions.append("Увеличить успешность выполнения задач: проанализировать причины неудач")
 
         # Анализ длительности
         if avg_duration > 3600:  # более 1 часа в среднем
-            suggestions.append(
-                "Оптимизировать время выполнения задач: выявить и устранить узкие места"
-            )
+            suggestions.append("Оптимизировать время выполнения задач: выявить и устранить узкие места")
 
         # Анализ качества
         if avg_quality < 0.7:
-            suggestions.append(
-                "Повысить качество выполнения: улучшить алгоритмы или добавить проверки"
-            )
+            suggestions.append("Повысить качество выполнения: улучшить алгоритмы или добавить проверки")
 
         # Анализ типов задач с низкой успешностью
         task_types = {}
@@ -367,7 +354,7 @@ class LearningSystem:
 
         return suggestions
 
-    def train_models(self) -> Dict[str, Any]:
+    def train_models(self) -> dict[str, Any]:
         """Обучение моделей машинного обучения на исторических данных."""
         training_results = {}
 
@@ -412,10 +399,7 @@ class LearningSystem:
                         training_results[model_name] = {"error": str(e)}
 
             # Сохранение результатов обучения
-            results_file = (
-                self.reports_dir
-                / f"training_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            )
+            results_file = self.reports_dir / f"training_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
             with open(results_file, "w", encoding="utf-8") as f:
                 json.dump(training_results, f, indent=2, default=str)
 
@@ -430,7 +414,7 @@ class LearningSystem:
             logger.error(f"Ошибка обучения моделей: {e}")
             return {"status": "error", "error": str(e)}
 
-    def generate_improvements(self, agent_metrics: AgentMetrics) -> List[Dict[str, Any]]:
+    def generate_improvements(self, agent_metrics: AgentMetrics) -> list[dict[str, Any]]:
         """Генерация конкретных улучшений на основе анализа метрик."""
         improvements = []
 
@@ -507,7 +491,7 @@ class LearningSystem:
 
         return improvements
 
-    def apply_improvements(self, improvements: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def apply_improvements(self, improvements: list[dict[str, Any]]) -> dict[str, Any]:
         """Применение улучшений к системе."""
         results = {"total": len(improvements), "applied": 0, "failed": 0, "details": []}
 
@@ -544,16 +528,11 @@ class LearningSystem:
                 )
 
         # Сохранение отчета о применении улучшений
-        report_file = (
-            self.reports_dir
-            / f"improvements_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        report_file = self.reports_dir / f"improvements_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, default=str)
 
-        logger.info(
-            f"Улучшения применены: {results['applied']} успешно, {results['failed']} с ошибками"
-        )
+        logger.info(f"Улучшения применены: {results['applied']} успешно, {results['failed']} с ошибками")
         return results
 
     def generate_report(self, period_hours: int = 24) -> Path:
@@ -602,9 +581,7 @@ class LearningSystem:
             logger.error(f"Ошибка генерации отчета: {e}")
             raise
 
-    def _generate_human_readable_report(
-        self, report: Dict[str, Any], json_report_path: Path
-    ) -> None:
+    def _generate_human_readable_report(self, report: dict[str, Any], json_report_path: Path) -> None:
         """Генерация читаемого отчета в markdown."""
         try:
             md_report_path = json_report_path.with_suffix(".md")
@@ -656,9 +633,7 @@ class LearningSystem:
                 # Конфигурация
                 config = report["config_summary"]
                 f.write("\n## Конфигурация системы\n\n")
-                f.write(
-                    f"- **Самообучение включено:** {'Да' if config['learning_enabled'] else 'Нет'}\n"
-                )
+                f.write(f"- **Самообучение включено:** {'Да' if config['learning_enabled'] else 'Нет'}\n")
                 f.write(f"- **Отслеживаемые метрики:** {', '.join(config['metrics_tracked'])}\n")
 
             logger.info(f"Читаемый отчет сгенерирован: {md_report_path}")
@@ -666,7 +641,7 @@ class LearningSystem:
         except Exception as e:
             logger.error(f"Ошибка генерации читаемого отчета: {e}")
 
-    def run_learning_cycle(self) -> Dict[str, Any]:
+    def run_learning_cycle(self) -> dict[str, Any]:
         """Запуск полного цикла самообучения."""
         cycle_results = {"started_at": datetime.now().isoformat(), "steps": {}}
 

@@ -5,6 +5,7 @@ This script will start:
 1. React client (Vite dev server) on port 5173
 2. Python server (Flask + WebSocket) on ports 5000/5001
 """
+
 import os
 import subprocess
 import sys
@@ -12,6 +13,7 @@ import time
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -61,9 +63,7 @@ def start_development() -> None:
     if force_install or not node_modules.exists():
         print("📦 Installing client dependencies (npm install)...")
         try:
-            install_proc = subprocess.run(
-                ["npm", "install"], cwd=client_dir, shell=True, check=False
-            )
+            install_proc = subprocess.run(["npm", "install"], cwd=client_dir, shell=True, check=False)
             if install_proc.returncode != 0:
                 print("⚠️  npm install exited with non-zero status; continuing anyway.")
             else:
@@ -85,9 +85,7 @@ def start_development() -> None:
 
         # Use the start_server.py script to launch the server
         start_server_script = backend_dir / "start_server.py"
-        server_process = subprocess.Popen(
-            [sys.executable, str(start_server_script)], cwd=root_dir, shell=True, env=env
-        )
+        server_process = subprocess.Popen([sys.executable, str(start_server_script)], cwd=root_dir, shell=True, env=env)
         processes.append(("Python Server", server_process))
         time.sleep(2)
 

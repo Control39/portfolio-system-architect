@@ -9,6 +9,7 @@ import sys
 import warnings
 from unittest.mock import patch
 
+
 # Добавляем путь к src для импорта модулей
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 

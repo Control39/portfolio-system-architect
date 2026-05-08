@@ -1,7 +1,5 @@
 """Repository structure checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class StructureCheck(BaseCheck):
     def category(self) -> str:
         return "structure"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # Essential directories
         dirs = [
@@ -95,11 +93,7 @@ class StructureCheck(BaseCheck):
         }
         clutter = []
         for f in root_files:
-            if (
-                f.is_file()
-                and f.suffix not in allowed_extensions
-                and f.name not in root_allowed_configs
-            ):
+            if f.is_file() and f.suffix not in allowed_extensions and f.name not in root_allowed_configs:
                 clutter.append(f.name)
         if clutter:
             self._add_result(
@@ -127,7 +121,7 @@ class NamingConventionsCheck(BaseCheck):
     def category(self) -> str:
         return "structure"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # Check for uppercase directories (should be lowercase)
         for d in self.repo_path.iterdir():

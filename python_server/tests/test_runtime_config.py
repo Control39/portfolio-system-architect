@@ -1,8 +1,6 @@
-
 import pytest
 
-from ..core.runtime_config import (StorageMode, TransportMode,
-                                   resolve_runtime_config)
+from ..core.runtime_config import StorageMode, TransportMode, resolve_runtime_config
 
 
 def test_default_modes():

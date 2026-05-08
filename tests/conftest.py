@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 
+
 # Добавляем корень проекта, src/ и apps/ в путь для импортов
 # Это позволяет тестам видеть модули без установки пакета через pip
 root = Path(__file__).parent.parent

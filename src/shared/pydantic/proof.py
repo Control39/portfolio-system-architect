@@ -4,7 +4,7 @@ Source: src\shared\schemas\proof.yaml
 """
 
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -26,6 +26,6 @@ class ProofMetadata(BaseModel):
 class SystemProof(BaseModel):
     id: str = Field(None)
     metadata: str = Field(None)
-    trace_steps: List[Any] = Field(None)
+    trace_steps: list[Any] = Field(None)
     final_result: dict[str, Any] = Field(None)
     status: str = Field(None)

@@ -9,12 +9,12 @@ from pathlib import Path
 
 import streamlit as st
 
+
 # Добавляем src в путь для импорта
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from core.tracker import CareerTracker
-
     from utils.portfolio_gen import generate_portfolio
 except ImportError as e:
     st.error(f"❌ Ошибка импорта модулей: {e}")
@@ -130,10 +130,7 @@ def render_progress_dashboard():
             for skill_name, skill_data in tracker.markers.items():
                 for level_markers in skill_data.levels.values():
                     for marker in level_markers:
-                        if (
-                            marker.id not in tracker.progress["completed_markers"]
-                            and marker.priority == "high"
-                        ):
+                        if marker.id not in tracker.progress["completed_markers"] and marker.priority == "high":
                             high_priority.append((skill_name, marker))
 
             if high_priority:
@@ -162,7 +159,7 @@ def render_documentation():
 
         if st.button("📖 Открыть методологию", use_container_width=True):
             try:
-                with open("docs/METHODOLOGY.md", "r", encoding="utf-8") as f:
+                with open("docs/METHODOLOGY.md", encoding="utf-8") as f:
                     st.markdown(f.read())
             except:
                 st.warning("Файл METHODOLOGY.md не найден")
@@ -179,7 +176,7 @@ def render_documentation():
 
         if st.button("📋 Посмотреть портфолио", use_container_width=True):
             try:
-                with open("docs/my_portfolio.md", "r", encoding="utf-8") as f:
+                with open("docs/my_portfolio.md", encoding="utf-8") as f:
                     st.markdown(f.read())
             except:
                 st.warning("Портфолио ещё не сгенерировано")
@@ -292,9 +289,7 @@ def main():
     st.sidebar.markdown("---")
 
     # Навигация
-    menu_option = st.sidebar.selectbox(
-        "Навигация", ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"], index=0
-    )
+    menu_option = st.sidebar.selectbox("Навигация", ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"], index=0)
 
     # Информация о проекте
     st.sidebar.markdown("---")

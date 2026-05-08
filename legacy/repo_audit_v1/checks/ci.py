@@ -9,18 +9,14 @@ def run(repo_root: str) -> dict:
     ci_path = Path(repo_root) / ".github" / "workflows" / "ci.yml"
     if ci_path.exists():
         return {"passed": True, "message": "CI workflow существует"}
-    else:
-        # проверим другие возможные имена
-        alt = list(Path(repo_root).glob(".github/workflows/*.yml")) + list(
-            Path(repo_root).glob(".github/workflows/*.yaml")
-        )
-        if alt:
-            return {
-                "passed": True,
-                "message": f"Найдены workflow: {[p.name for p in alt]}",
-            }
-        else:
-            return {"passed": False, "message": "CI workflow отсутствует"}
+    # проверим другие возможные имена
+    alt = list(Path(repo_root).glob(".github/workflows/*.yml")) + list(Path(repo_root).glob(".github/workflows/*.yaml"))
+    if alt:
+        return {
+            "passed": True,
+            "message": f"Найдены workflow: {[p.name for p in alt]}",
+        }
+    return {"passed": False, "message": "CI workflow отсутствует"}
 
 
 if __name__ == "__main__":

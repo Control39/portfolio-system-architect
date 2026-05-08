@@ -28,9 +28,7 @@ def activate_cognitive_agent():
     if validation_script.exists():
         import subprocess
 
-        result = subprocess.run(
-            [sys.executable, str(validation_script)], capture_output=True, text=True
-        )
+        result = subprocess.run([sys.executable, str(validation_script)], capture_output=True, text=True)
 
         if result.returncode == 0:
             print("✅ Cognitive Agent прошел валидацию")

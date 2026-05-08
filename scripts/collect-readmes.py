@@ -8,132 +8,185 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
+
 # Корень проекта
 PROJECT_ROOT = Path(__file__).parent.parent
 OUTPUT_DIR = PROJECT_ROOT / ".reports" / "READMEs"
 
 # Классификатор по темам на основе пути
 THEME_MAPPING = {
-    "apps": ("📦 Микросервисы и Приложения", [
-        "apps/cognitive-agent",
-        "apps/decision-engine",
-        "apps/it_compass",
-        "apps/portfolio_organizer",
-        "apps/system-proof",
-        "apps/ml-model-registry",
-        "apps/auth_service",
-        "apps/career_development",
-        "apps/infra-orchestrator",
-        "apps/ai-config-manager",
-        "apps/knowledge-graph",
-        "apps/mcp-server",
-        "apps/template-service",
-        "apps/job-automation-agent",
-        "apps/thought-architecture",
-    ]),
-    "docs-methodology": ("🎓 Методология IT-Compass", [
-        "docs/methodology",
-        "docs/methodology/02_METHODOLOGY",
-        "docs/methodology/03_EVIDENCE",
-        "docs/methodology/04_ARTIFACTS",
-        "docs/methodology/05_MANIFEST",
-    ]),
-    "docs-cases": ("📋 Кейсы и Примеры", [
-        "docs/cases",
-        "docs/cases/thinking-cases",
-        "docs/cases/evolution-cases",
-        "docs/cases/cases",
-        "docs/cases/ai-config-manager",
-    ]),
-    "docs-internal": ("🔍 Внутренний Анализ", [
-        "docs/internal/analysis",
-        "docs/internal/analysis/security",
-        "docs/internal/analysis/code-quality",
-        "docs/internal/analysis/performance",
-        "docs/internal/analysis/scalability",
-        "docs/internal/analysis/devops",
-        "docs/internal/analysis/business_goals",
-        "docs/internal/analysis/innovation",
-        "docs/internal/analysis/technology_refresh",
-        "docs/internal/analysis/processes",
-        "docs/internal/analysis/documentation",
-    ]),
-    "docs-presentations": ("🎤 Презентации и Демонстрации", [
-        "docs/presentations",
-        "docs/presentations/technical",
-        "docs/presentations/workshop",
-        "docs/screenshots",
-        "docs/screenshots/monitoring",
-    ]),
-    "docs-professional": ("👤 Профессиональный Путь", [
-        "docs/professional-journey",
-        "docs/evidence/self-analysis",
-    ]),
-    "deployment": ("🚀 Деплой и Kubernetes", [
-        "deployment",
-        "deployment/k8s",
-        "deployment/gitops",
-        "deployment/secrets",
-    ]),
-    "codeassistant": ("🤖 AI Ассистент и SourceCraft", [
-        "codeassistant",
-        "codeassistant/tools",
-    ]),
-    "ci-cd": ("⚙️ CI/CD и GitHub Actions", [
-        ".github/workflows",
-        "config/ci-cd",
-    ]),
-    "devops": ("🔧 DevOps и Инструменты", [
-        "tools",
-        "scripts",
-        "scripts/dev",
-        "monitoring",
-        "docker",
-        "docker/base-images",
-    ]),
-    "client": ("💻 Frontend и Клиент", [
-        "client",
-    ]),
-    "config": ("⚙️ Конфигурации", [
-        "config",
-        "config/ai",
-        "config/vscode",
-    ]),
-    "tests": ("🧪 Тестирование", [
-        "tests",
-    ]),
-    "src": ("📚 Исходный Код", [
-        "src",
-        "src/shared/schemas",
-    ]),
-    "examples": ("💡 Примеры", [
-        "examples",
-        "examples/templates",
-        "examples/badges",
-        "examples/legacy",
-    ]),
-    "legacy": ("📜 Устаревший Код", [
-        "legacy",
-        "migrations",
-    ]),
-    "meta": ("📝 Мета-информация", [
-        "",
-        ".github",
-        ".github/profile",
-        ".koda",
-        ".kodacli",
-        ".continue",
-        ".devcontainer",
-        ".sourcecraft",
-        "docs",
-        "diagrams",
-        "settings",
-        "postgres",
-        "mcp-server",
-        "utils",
-        "cases",
-    ]),
+    "apps": (
+        "📦 Микросервисы и Приложения",
+        [
+            "apps/cognitive-agent",
+            "apps/decision-engine",
+            "apps/it_compass",
+            "apps/portfolio_organizer",
+            "apps/system-proof",
+            "apps/ml-model-registry",
+            "apps/auth_service",
+            "apps/career_development",
+            "apps/infra-orchestrator",
+            "apps/ai-config-manager",
+            "apps/knowledge-graph",
+            "apps/mcp-server",
+            "apps/template-service",
+            "apps/job-automation-agent",
+            "apps/thought-architecture",
+        ],
+    ),
+    "docs-methodology": (
+        "🎓 Методология IT-Compass",
+        [
+            "docs/methodology",
+            "docs/methodology/02_METHODOLOGY",
+            "docs/methodology/03_EVIDENCE",
+            "docs/methodology/04_ARTIFACTS",
+            "docs/methodology/05_MANIFEST",
+        ],
+    ),
+    "docs-cases": (
+        "📋 Кейсы и Примеры",
+        [
+            "docs/cases",
+            "docs/cases/thinking-cases",
+            "docs/cases/evolution-cases",
+            "docs/cases/cases",
+            "docs/cases/ai-config-manager",
+        ],
+    ),
+    "docs-internal": (
+        "🔍 Внутренний Анализ",
+        [
+            "docs/internal/analysis",
+            "docs/internal/analysis/security",
+            "docs/internal/analysis/code-quality",
+            "docs/internal/analysis/performance",
+            "docs/internal/analysis/scalability",
+            "docs/internal/analysis/devops",
+            "docs/internal/analysis/business_goals",
+            "docs/internal/analysis/innovation",
+            "docs/internal/analysis/technology_refresh",
+            "docs/internal/analysis/processes",
+            "docs/internal/analysis/documentation",
+        ],
+    ),
+    "docs-presentations": (
+        "🎤 Презентации и Демонстрации",
+        [
+            "docs/presentations",
+            "docs/presentations/technical",
+            "docs/presentations/workshop",
+            "docs/screenshots",
+            "docs/screenshots/monitoring",
+        ],
+    ),
+    "docs-professional": (
+        "👤 Профессиональный Путь",
+        [
+            "docs/professional-journey",
+            "docs/evidence/self-analysis",
+        ],
+    ),
+    "deployment": (
+        "🚀 Деплой и Kubernetes",
+        [
+            "deployment",
+            "deployment/k8s",
+            "deployment/gitops",
+            "deployment/secrets",
+        ],
+    ),
+    "codeassistant": (
+        "🤖 AI Ассистент и SourceCraft",
+        [
+            "codeassistant",
+            "codeassistant/tools",
+        ],
+    ),
+    "ci-cd": (
+        "⚙️ CI/CD и GitHub Actions",
+        [
+            ".github/workflows",
+            "config/ci-cd",
+        ],
+    ),
+    "devops": (
+        "🔧 DevOps и Инструменты",
+        [
+            "tools",
+            "scripts",
+            "scripts/dev",
+            "monitoring",
+            "docker",
+            "docker/base-images",
+        ],
+    ),
+    "client": (
+        "💻 Frontend и Клиент",
+        [
+            "client",
+        ],
+    ),
+    "config": (
+        "⚙️ Конфигурации",
+        [
+            "config",
+            "config/ai",
+            "config/vscode",
+        ],
+    ),
+    "tests": (
+        "🧪 Тестирование",
+        [
+            "tests",
+        ],
+    ),
+    "src": (
+        "📚 Исходный Код",
+        [
+            "src",
+            "src/shared/schemas",
+        ],
+    ),
+    "examples": (
+        "💡 Примеры",
+        [
+            "examples",
+            "examples/templates",
+            "examples/badges",
+            "examples/legacy",
+        ],
+    ),
+    "legacy": (
+        "📜 Устаревший Код",
+        [
+            "legacy",
+            "migrations",
+        ],
+    ),
+    "meta": (
+        "📝 Мета-информация",
+        [
+            "",
+            ".github",
+            ".github/profile",
+            ".koda",
+            ".kodacli",
+            ".continue",
+            ".devcontainer",
+            ".sourcecraft",
+            "docs",
+            "diagrams",
+            "settings",
+            "postgres",
+            "mcp-server",
+            "utils",
+            "cases",
+        ],
+    ),
 }
+
 
 def classify_readme(readme_path: Path) -> tuple:
     """
@@ -146,105 +199,100 @@ def classify_readme(readme_path: Path) -> tuple:
 
     # Список тем в порядке приоритета (от специфичных к общим)
     priority_themes = [
-        ("📦 Микросервисы и Приложения", [
-            "apps/cognitive-agent", "apps/decision-engine", "apps/it_compass",
-            "apps/portfolio_organizer", "apps/system-proof", "apps/ml-model-registry",
-            "apps/auth_service", "apps/career_development", "apps/infra-orchestrator",
-            "apps/ai-config-manager", "apps/knowledge-graph", "apps/mcp-server",
-            "apps/template-service", "apps/job-automation-agent", "apps/thought-architecture"
-        ]),
-        ("🎓 Методология IT-Compass", [
-            "docs/methodology/02_METHODOLOGY/arch-compass",
-            "docs/methodology/02_METHODOLOGY/it-compass",
-            "docs/methodology/02_METHODOLOGY",
-            "docs/methodology/03_EVIDENCE/rag-system",
-            "docs/methodology/03_EVIDENCE",
-            "docs/methodology/04_ARTIFACTS/grants",
-            "docs/methodology/04_ARTIFACTS/case-studies",
-            "docs/methodology/04_ARTIFACTS",
-            "docs/methodology/05_MANIFEST",
-            "docs/methodology"
-        ]),
-        ("📋 Кейсы и Примеры", [
-            "docs/cases/thinking-cases",
-            "docs/cases/evolution-cases",
-            "docs/cases/cases/presentation-cases",
-            "docs/cases/cases/thinking-cases",
-            "docs/cases/ai-config-manager",
-            "docs/cases"
-        ]),
-        ("🔍 Внутренний Анализ", [
-            "docs/internal/analysis/security",
-            "docs/internal/analysis/code-quality",
-            "docs/internal/analysis/performance",
-            "docs/internal/analysis/scalability",
-            "docs/internal/analysis/devops",
-            "docs/internal/analysis/business_goals",
-            "docs/internal/analysis/innovation",
-            "docs/internal/analysis/technology_refresh",
-            "docs/internal/analysis/processes",
-            "docs/internal/analysis/documentation",
-            "docs/internal/analysis"
-        ]),
-        ("🎤 Презентации и Демонстрации", [
-            "docs/presentations/technical",
-            "docs/presentations/workshop",
-            "docs/presentations",
-            "docs/screenshots/monitoring",
-            "docs/screenshots"
-        ]),
-        ("👤 Профессиональный Путь", [
-            "docs/professional-journey",
-            "docs/evidence/self-analysis"
-        ]),
-        ("🚀 Деплой и Kubernetes", [
-            "deployment/secrets",
-            "deployment/k8s",
-            "deployment/gitops",
-            "deployment"
-        ]),
-        ("🤖 AI Ассистент и SourceCraft", [
-            "codeassistant/tools",
-            "codeassistant",
-            ".sourcecraft"
-        ]),
-        ("⚙️ CI/CD и GitHub Actions", [
-            ".github/workflows",
-            "config/ci-cd"
-        ]),
-        ("🔧 DevOps и Инструменты", [
-            "scripts/dev",
-            "scripts",
-            "tools",
-            "monitoring",
-            "docker/base-images",
-            "docker"
-        ]),
+        (
+            "📦 Микросервисы и Приложения",
+            [
+                "apps/cognitive-agent",
+                "apps/decision-engine",
+                "apps/it_compass",
+                "apps/portfolio_organizer",
+                "apps/system-proof",
+                "apps/ml-model-registry",
+                "apps/auth_service",
+                "apps/career_development",
+                "apps/infra-orchestrator",
+                "apps/ai-config-manager",
+                "apps/knowledge-graph",
+                "apps/mcp-server",
+                "apps/template-service",
+                "apps/job-automation-agent",
+                "apps/thought-architecture",
+            ],
+        ),
+        (
+            "🎓 Методология IT-Compass",
+            [
+                "docs/methodology/02_METHODOLOGY/arch-compass",
+                "docs/methodology/02_METHODOLOGY/it-compass",
+                "docs/methodology/02_METHODOLOGY",
+                "docs/methodology/03_EVIDENCE/rag-system",
+                "docs/methodology/03_EVIDENCE",
+                "docs/methodology/04_ARTIFACTS/grants",
+                "docs/methodology/04_ARTIFACTS/case-studies",
+                "docs/methodology/04_ARTIFACTS",
+                "docs/methodology/05_MANIFEST",
+                "docs/methodology",
+            ],
+        ),
+        (
+            "📋 Кейсы и Примеры",
+            [
+                "docs/cases/thinking-cases",
+                "docs/cases/evolution-cases",
+                "docs/cases/cases/presentation-cases",
+                "docs/cases/cases/thinking-cases",
+                "docs/cases/ai-config-manager",
+                "docs/cases",
+            ],
+        ),
+        (
+            "🔍 Внутренний Анализ",
+            [
+                "docs/internal/analysis/security",
+                "docs/internal/analysis/code-quality",
+                "docs/internal/analysis/performance",
+                "docs/internal/analysis/scalability",
+                "docs/internal/analysis/devops",
+                "docs/internal/analysis/business_goals",
+                "docs/internal/analysis/innovation",
+                "docs/internal/analysis/technology_refresh",
+                "docs/internal/analysis/processes",
+                "docs/internal/analysis/documentation",
+                "docs/internal/analysis",
+            ],
+        ),
+        (
+            "🎤 Презентации и Демонстрации",
+            [
+                "docs/presentations/technical",
+                "docs/presentations/workshop",
+                "docs/presentations",
+                "docs/screenshots/monitoring",
+                "docs/screenshots",
+            ],
+        ),
+        ("👤 Профессиональный Путь", ["docs/professional-journey", "docs/evidence/self-analysis"]),
+        ("🚀 Деплой и Kubernetes", ["deployment/secrets", "deployment/k8s", "deployment/gitops", "deployment"]),
+        ("🤖 AI Ассистент и SourceCraft", ["codeassistant/tools", "codeassistant", ".sourcecraft"]),
+        ("⚙️ CI/CD и GitHub Actions", [".github/workflows", "config/ci-cd"]),
+        ("🔧 DevOps и Инструменты", ["scripts/dev", "scripts", "tools", "monitoring", "docker/base-images", "docker"]),
         ("💻 Frontend и Клиент", ["client"]),
-        ("⚙️ Конфигурации", [
-            "config/vscode",
-            "config/ai",
-            "config"
-        ]),
+        ("⚙️ Конфигурации", ["config/vscode", "config/ai", "config"]),
         ("🧪 Тестирование", ["tests"]),
-        ("📚 Исходный Код", [
-            "src/shared/schemas",
-            "src"
-        ]),
-        ("💡 Примеры", [
-            "examples/templates",
-            "examples/badges",
-            "examples/legacy/automation",
-            "examples/legacy/packages/terraform/examples/basic",
-            "examples/legacy/packages/terraform",
-            "examples/legacy",
-            "examples"
-        ]),
-        ("📜 Устаревший Код", [
-            "legacy/infra-chat-demo",
-            "legacy",
-            "migrations"
-        ])
+        ("📚 Исходный Код", ["src/shared/schemas", "src"]),
+        (
+            "💡 Примеры",
+            [
+                "examples/templates",
+                "examples/badges",
+                "examples/legacy/automation",
+                "examples/legacy/packages/terraform/examples/basic",
+                "examples/legacy/packages/terraform",
+                "examples/legacy",
+                "examples",
+            ],
+        ),
+        ("📜 Устаревший Код", ["legacy/infra-chat-demo", "legacy", "migrations"]),
     ]
 
     for theme_title, paths in priority_themes:
@@ -254,7 +302,17 @@ def classify_readme(readme_path: Path) -> tuple:
                 if len(parts) >= 2:
                     if parts[0] == "docs" and len(parts) > 3:
                         subtheme = "/".join(parts[2:])
-                    elif parts[0] in ["apps", "docs", "deployment", "config", "examples", "legacy", "scripts", "docs/internal/analysis", "docs/cases"]:
+                    elif parts[0] in [
+                        "apps",
+                        "docs",
+                        "deployment",
+                        "config",
+                        "examples",
+                        "legacy",
+                        "scripts",
+                        "docs/internal/analysis",
+                        "docs/cases",
+                    ]:
                         if len(parts) > 2:
                             subtheme = "/".join(parts[1:])
                         else:
@@ -268,6 +326,7 @@ def classify_readme(readme_path: Path) -> tuple:
                 return theme_title, subtheme
 
     return "📝 Мета-информация", parts[-1] if parts else "root"
+
 
 def create_index(themes_data: dict) -> str:
     """Создает индексный файл с оглавлением."""
@@ -305,12 +364,14 @@ def create_index(themes_data: dict) -> str:
 
     return "\n".join(lines)
 
+
 def clean_theme_name(name: str) -> str:
     """Очищает название темы для использования в имени директории."""
     emojis = ["📦", "🎓", "📋", "🔍", "🎤", "👤", "🚀", "🤖", "⚙️", "🔧", "💻", "📚", "💡", "📜", "📁", "📝"]
     for emoji in emojis:
         name = name.replace(emoji, "")
     return name.replace(" ", "-").lower().strip("-")
+
 
 def main():
     print("🚀 Сбор всех README-файлов проекта...")
@@ -359,13 +420,15 @@ def main():
         if theme_title not in themes_data:
             themes_data[theme_title] = []
 
-        themes_data[theme_title].append({
-            "title": readme_path.stem,
-            "original_path": readme_path,
-            "relative_path": target_path.relative_to(OUTPUT_DIR),
-            "subtheme": subtheme,
-            "theme": theme_title,
-        })
+        themes_data[theme_title].append(
+            {
+                "title": readme_path.stem,
+                "original_path": readme_path,
+                "relative_path": target_path.relative_to(OUTPUT_DIR),
+                "subtheme": subtheme,
+                "theme": theme_title,
+            }
+        )
 
     # Создаем индекс
     index_content = create_index(themes_data)
@@ -382,7 +445,9 @@ def main():
     content_lines.append("")
     content_lines.append("## 📚 Сводка всех README")
     content_lines.append("")
-    content_lines.append(f"Полный индекс всех README-файлов проекта доступен здесь: [INDEX.md]({index_path.relative_to(PROJECT_ROOT)})")
+    content_lines.append(
+        f"Полный индекс всех README-файлов проекта доступен здесь: [INDEX.md]({index_path.relative_to(PROJECT_ROOT)})"
+    )
     content_lines.append("")
     content_lines.append("## 📊 Структура")
     content_lines.append("")
@@ -398,6 +463,7 @@ def main():
         print(f"   {theme}: {len(files)} файлов")
     print(f"📁 Выход: {OUTPUT_DIR}")
     print(f"📑 Индекс: {index_path}")
+
 
 if __name__ == "__main__":
     main()

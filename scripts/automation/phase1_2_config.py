@@ -5,11 +5,20 @@ Phase 1.2: Add Config Directories
 
 from pathlib import Path
 
+
 services = [
-    'ai-config-manager', 'auth_service', 'career_development',
-    'cognitive-agent', 'decision-engine', 'job-automation-agent',
-    'knowledge-graph', 'ml-model-registry', 'portfolio_organizer',
-    'system-proof', 'template-service', 'thought-architecture'
+    "ai-config-manager",
+    "auth_service",
+    "career_development",
+    "cognitive-agent",
+    "decision-engine",
+    "job-automation-agent",
+    "knowledge-graph",
+    "ml-model-registry",
+    "portfolio_organizer",
+    "system-proof",
+    "template-service",
+    "thought-architecture",
 ]
 
 print("📁 ADDING CONFIG DIRECTORIES")
