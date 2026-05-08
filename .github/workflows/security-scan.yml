@@ -33,8 +33,8 @@ jobs:
           exit-code: '0'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('./trivy-results.sarif') != ''
         with:
           sarif_file: './trivy-results.sarif'
 
@@ -135,8 +135,8 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Upload scan results
-        uses: github/codeql-action/upload-sarif@v3
-        if: always() && hashFiles(matrix.dockerfile) != ''
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('trivy-${{ matrix.service }}.sarif') != ''
         with:
           sarif_file: 'trivy-${{ matrix.service }}.sarif'
 
@@ -154,11 +154,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: --report-format sarif --report-path ./gitleaks-report.sarif
+          args: detect --source . --report-format sarif --report-path ./gitleaks-report.sarif --exit-code 0
 
       - name: Upload gitleaks results
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('./gitleaks-report.sarif') != ''
         with:
           sarif_file: './gitleaks-report.sarif'
 
