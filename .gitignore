@@ -69,3 +69,4 @@ secrets.json
 *.pem
 *.key
 *.p12
+.env.gigachat
