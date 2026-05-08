@@ -85,7 +85,7 @@ class MockTriggerProcessor:
     def load_config(self, config_path):
         """Загрузка конфигурации триггеров"""
         try:
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             if "triggers" in config:
@@ -361,14 +361,13 @@ def main():
         print("   tail -f apps/cognitive-agent/logs/triggers.log")
 
         return True
-    else:
-        print("✗ Некоторые тесты не пройдены")
-        print("\nРекомендации по устранению проблем:")
-        print("1. Проверьте наличие файла apps/cognitive-agent/config/triggers.yaml")
-        print("2. Убедитесь, что у вас есть права на запись в apps/cognitive-agent/logs/")
-        print("3. Проверьте синтаксис YAML в конфигурационных файлах")
+    print("✗ Некоторые тесты не пройдены")
+    print("\nРекомендации по устранению проблем:")
+    print("1. Проверьте наличие файла apps/cognitive-agent/config/triggers.yaml")
+    print("2. Убедитесь, что у вас есть права на запись в apps/cognitive-agent/logs/")
+    print("3. Проверьте синтаксис YAML в конфигурационных файлах")
 
-        return False
+    return False
 
 
 if __name__ == "__main__":

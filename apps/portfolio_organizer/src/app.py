@@ -10,6 +10,7 @@ from flask_wtf.csrf import CSRFProtect
 
 from .api.ml_model_registry_integration import bp as ml_model_registry_bp
 
+
 app = Flask(__name__)
 
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")  # Use default for testing

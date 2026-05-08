@@ -1,4 +1,4 @@
-﻿import unittest
+import unittest
 
 from src.utils.rate_limiter import RateLimiter
 

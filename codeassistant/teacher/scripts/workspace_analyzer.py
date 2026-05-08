@@ -9,7 +9,6 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class WorkspaceAnalyzer:
@@ -35,7 +34,7 @@ class WorkspaceAnalyzer:
             "recommendations": [],
         }
 
-    def analyze(self) -> Dict:
+    def analyze(self) -> dict:
         """Анализировать рабочее пространство"""
         print(f"Анализируем: {self.desktop_path}")
 
@@ -56,7 +55,7 @@ class WorkspaceAnalyzer:
         self._generate_recommendations()
         return self.analysis
 
-    def _categorize_files(self) -> Dict[str, List]:
+    def _categorize_files(self) -> dict[str, list]:
         """Классифицировать файлы по категориям"""
         categories = {
             "documents": [],
@@ -107,9 +106,7 @@ class WorkspaceAnalyzer:
                     categories["backups"].append(file_info)
                 elif "temp" in item.name.lower() or item.name.startswith("~"):
                     categories["temporary"].append(file_info)
-                elif item.is_dir() and any(
-                    x in item.name.lower() for x in ["project", "repo", "app"]
-                ):
+                elif item.is_dir() and any(x in item.name.lower() for x in ["project", "repo", "app"]):
                     categories["projects"].append(file_info)
                 else:
                     categories["unknown"].append(file_info)
@@ -126,7 +123,7 @@ class WorkspaceAnalyzer:
 
         return categories
 
-    def _find_duplicates(self) -> List[Tuple[str, List[str]]]:
+    def _find_duplicates(self) -> list[tuple[str, list[str]]]:
         """Найти дубликаты файлов по хешу"""
         hashes = {}
         duplicates = []
@@ -149,7 +146,7 @@ class WorkspaceAnalyzer:
 
         return duplicates
 
-    def _find_old_files(self, days_old: int = 90) -> List[Dict]:
+    def _find_old_files(self, days_old: int = 90) -> list[dict]:
         """Найти старые файлы"""
         old_files = []
         cutoff_time = datetime.now().timestamp() - (days_old * 24 * 3600)
@@ -161,9 +158,7 @@ class WorkspaceAnalyzer:
                         {
                             "name": item.name,
                             "path": str(item),
-                            "days_old": int(
-                                (datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)
-                            ),
+                            "days_old": int((datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)),
                             "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
                         }
                     )
@@ -302,7 +297,7 @@ class WorkspaceAnalyzer:
 
         return "\n".join(report)
 
-    def create_organization_plan(self) -> Dict:
+    def create_organization_plan(self) -> dict:
         """Создать план организации"""
         plan = {
             "folders_to_create": [

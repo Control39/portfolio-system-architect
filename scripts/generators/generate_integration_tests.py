@@ -5,7 +5,6 @@ Integration Test Generator for Portfolio System Architect
 """
 
 from pathlib import Path
-from typing import Dict, List
 
 
 class IntegrationTestGenerator:
@@ -23,8 +22,8 @@ class IntegrationTestGenerator:
                     "test_agent_with_knowledge_graph",
                     "test_agent_decision_integration",
                     "test_agent_context_management",
-                    "test_agent_error_handling"
-                ]
+                    "test_agent_error_handling",
+                ],
             },
             "decision-engine": {
                 "description": "Core decision-making system",
@@ -34,8 +33,8 @@ class IntegrationTestGenerator:
                     "test_decision_with_cognitive_agent",
                     "test_decision_with_it_compass",
                     "test_decision_caching",
-                    "test_decision_error_recovery"
-                ]
+                    "test_decision_error_recovery",
+                ],
             },
             "it_compass": {
                 "description": "System thinking methodology",
@@ -45,8 +44,8 @@ class IntegrationTestGenerator:
                     "test_compass_with_decision_engine",
                     "test_compass_knowledge_extraction",
                     "test_compass_complex_scenarios",
-                    "test_compass_performance"
-                ]
+                    "test_compass_performance",
+                ],
             },
             "mcp-server": {
                 "description": "Model Context Protocol server",
@@ -56,8 +55,8 @@ class IntegrationTestGenerator:
                     "test_mcp_agent_integration",
                     "test_mcp_concurrent_connections",
                     "test_mcp_error_handling",
-                    "test_mcp_resource_management"
-                ]
+                    "test_mcp_resource_management",
+                ],
             },
             "infra-orchestrator": {
                 "description": "Infrastructure management",
@@ -67,9 +66,9 @@ class IntegrationTestGenerator:
                     "test_orchestration_auth_integration",
                     "test_orchestration_resource_allocation",
                     "test_orchestration_scaling",
-                    "test_orchestration_recovery"
-                ]
-            }
+                    "test_orchestration_recovery",
+                ],
+            },
         }
 
     def generate_all(self):
@@ -84,7 +83,7 @@ class IntegrationTestGenerator:
         print("✅ INTEGRATION TESTS GENERATED")
         print("=" * 80)
 
-    def generate_service_tests(self, service_name: str, config: Dict):
+    def generate_service_tests(self, service_name: str, config: dict):
         """Сгенерировать тесты для конкретного сервиса"""
         service_path = self.apps_dir / service_name
         tests_dir = service_path / "tests"
@@ -96,10 +95,7 @@ class IntegrationTestGenerator:
 
         # Генерируем содержимое
         content = self._generate_test_content(
-            service_name,
-            config["description"],
-            config["dependencies"],
-            config["test_cases"]
+            service_name, config["description"], config["dependencies"], config["test_cases"]
         )
 
         # Пишем файл
@@ -111,8 +107,9 @@ class IntegrationTestGenerator:
         print(f"   📦 Dependencies: {', '.join(config['dependencies'])}")
         print(f"   🧪 Test cases: {len(config['test_cases'])}")
 
-    def _generate_test_content(self, service_name: str, description: str,
-                               dependencies: List[str], test_cases: List[str]) -> str:
+    def _generate_test_content(
+        self, service_name: str, description: str, dependencies: list[str], test_cases: list[str]
+    ) -> str:
         """Генерировать содержимое файла теста"""
 
         imports = self._generate_imports(service_name)
@@ -142,16 +139,17 @@ Tests:
 
     def _generate_imports(self, service_name: str) -> str:
         """Генерировать импорты"""
-        return '''import pytest
+        return """import pytest
 from unittest.mock import Mock, patch, MagicMock
 from typing import Generator
 import asyncio
 import time
-'''
+"""
 
-    def _generate_fixtures(self, service_name: str, dependencies: List[str]) -> str:
+    def _generate_fixtures(self, service_name: str, dependencies: list[str]) -> str:
         """Генерировать fixtures"""
-        fixture_code = '''
+        fixture_code = (
+            '''
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
@@ -160,7 +158,9 @@ import time
 def service_config():
     """Service configuration fixture"""
     return {
-        "name": "''' + service_name + '''",
+        "name": "'''
+            + service_name
+            + '''",
         "environment": "test",
         "timeout": 5.0,
         "retry_attempts": 3,
@@ -171,11 +171,13 @@ def service_config():
 def mock_dependencies():
     """Mock external dependencies"""
     return {'''
+        )
 
         for dep in dependencies:
             fixture_code += f'\n        "{dep}": MagicMock(),'
 
-        fixture_code += '''
+        fixture_code += (
+            '''
     }
 
 
@@ -183,7 +185,9 @@ def mock_dependencies():
 def service_instance(service_config, mock_dependencies):
     """Create service instance with mocks"""
     # Import would happen here in real scenario
-    # from apps.''' + service_name + '''.src import Service
+    # from apps.'''
+            + service_name
+            + '''.src import Service
     
     service = MagicMock()
     service.config = service_config
@@ -201,22 +205,23 @@ def reset_mocks(mock_dependencies):
     for mock in mock_dependencies.values():
         mock.reset_mock()
 '''
+        )
         return fixture_code
 
-    def _generate_test_cases(self, service_name: str, test_cases: List[str]) -> str:
+    def _generate_test_cases(self, service_name: str, test_cases: list[str]) -> str:
         """Генерировать test cases"""
-        tests_code = '''
+        tests_code = """
 # ============================================================================
 # INTEGRATION TESTS
 # ============================================================================
-'''
+"""
 
         for i, test_case in enumerate(test_cases, 1):
             tests_code += f'''
 
 def {test_case}(service_instance, mock_dependencies, service_config):
     """
-    Test Case {i}: {test_case.replace('test_', '').replace('_', ' ').title()}
+    Test Case {i}: {test_case.replace("test_", "").replace("_", " ").title()}
     
     Validates integration between {service_name} and its dependencies.
     """

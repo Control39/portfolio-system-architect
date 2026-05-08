@@ -8,6 +8,7 @@ from pathlib import Path
 
 import yaml
 
+
 SCHEMAS_DIR = Path("src/shared/schemas")
 PYDANTIC_DIR = Path("src/shared/pydantic")
 PYDANTIC_DIR.mkdir(exist_ok=True)

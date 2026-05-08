@@ -8,10 +8,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
+
 # Добавляем src в путь для импорта
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.assistant_orchestrator.plugins.rag_advisor import RAGAdvisor
+
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)

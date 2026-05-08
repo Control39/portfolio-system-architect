@@ -139,10 +139,7 @@ def test_score_cap():
     """Test that score is capped at 5.0."""
     analysis = {
         "microservices": {
-            "services": [
-                {"is_production_ready": True, "has_tests": True, "has_docker": True}
-                for _ in range(10)
-            ],
+            "services": [{"is_production_ready": True, "has_tests": True, "has_docker": True} for _ in range(10)],
             "has_docker_compose": True,
             "has_kubernetes": True,
         },

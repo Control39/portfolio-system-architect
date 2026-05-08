@@ -1,7 +1,5 @@
 """Code quality checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class CodeQualityCheck(BaseCheck):
     def category(self) -> str:
         return "code_quality"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # Ruff
         if self.check_file_exists("pyproject.toml"):

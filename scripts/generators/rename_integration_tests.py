@@ -5,6 +5,7 @@ Rename integration test files to avoid pytest conflicts
 
 from pathlib import Path
 
+
 services = [
     "cognitive-agent",
     "decision-engine",

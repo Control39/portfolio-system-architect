@@ -3,10 +3,11 @@ API для анализа и рекомендаций по проектам по
 """
 
 import os
-from typing import Any, Dict
+from typing import Any
 
 from flask import Flask, jsonify
 from flask_wtf.csrf import CSRFProtect
+
 
 app = Flask(__name__)
 
@@ -67,8 +68,7 @@ def get_project(project_id):
     project = next((p for p in SAMPLE_PROJECTS if p["id"] == project_id), None)
     if project:
         return jsonify(project)
-    else:
-        return jsonify({"error": "Project not found"}), 404
+    return jsonify({"error": "Project not found"}), 404
 
 
 @app.route("/api/projects/<int:project_id>/recommendations", methods=["GET"])
@@ -99,7 +99,7 @@ def portfolio_analysis():
     return jsonify(analysis)
 
 
-def generate_recommendations(project: Dict[str, Any]) -> Dict[str, Any]:
+def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
     """Генерация рекомендаций для проекта"""
     recommendations = {
         "project_id": project["id"],

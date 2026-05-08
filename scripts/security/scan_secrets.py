@@ -119,9 +119,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Security secrets scanner")
     parser.add_argument("--scan", action="store_true", help="Run scan for secrets")
-    parser.add_argument(
-        "--create-baseline", action="store_true", help="Create/update baseline file"
-    )
+    parser.add_argument("--create-baseline", action="store_true", help="Create/update baseline file")
     parser.add_argument("--audit", action="store_true", help="Audit existing baseline")
     args = parser.parse_args()
 

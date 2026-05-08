@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -26,7 +26,7 @@ def test_resolve_model_config_uses_env_defaults_when_config_missing(
 def test_resolve_model_config_reads_system_prompt_and_parameters(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    payload: Dict[str, Any] = {
+    payload: dict[str, Any] = {
         "model": {
             "name": "openai/test-model",
             "api_version": "2024-09-01-preview",
@@ -45,7 +45,7 @@ def test_resolve_model_config_reads_system_prompt_and_parameters(
 
 
 def test_resolve_model_config_normalizes_string_prompt(monkeypatch: pytest.MonkeyPatch) -> None:
-    payload: Dict[str, Any] = {
+    payload: dict[str, Any] = {
         "model": {
             "name": "gpt-inline",
             "api_version": "2024-06-01-preview",

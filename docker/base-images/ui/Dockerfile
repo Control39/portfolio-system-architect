@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     build-essential \
     curl \
-    ca-certificates \
+    ca-certif
+    icates \
     && rm -rf /var/lib/apt/lists/*
 
 # Создание виртуального окружения

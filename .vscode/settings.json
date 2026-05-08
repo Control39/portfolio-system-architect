@@ -1,12 +1,19 @@
 {
+  // ========================================
+  // Python Interpreter
+  // ========================================
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.terminal.activateEnvironment": true,
   "python.terminal.useEnvFile": true,
+  // ========================================
+  // Python Analysis (Pylance)
+  // ========================================
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "openFilesOnly",
   "python.analysis.extraPaths": [
     "${workspaceFolder}/apps",
     "${workspaceFolder}/src"
   ],
-  "python.analysis.diagnosticMode": "openFilesOnly",
   "python.analysis.exclude": [
     "**/__pycache__",
     "**/.venv",
@@ -29,83 +36,26 @@
     "**/tests/**",
     "**/apps/*/tests/**"
   ],
-  "python.analysis.typeCheckingMode": "basic",
   "python.analysis.ignore": [
     "tests/*",
     "apps/*/tests/*"
   ],
-  // ================================
-  // GigaCode - ПРИОРИТЕТ (основной инструмент)
-  // ================================
-  "gigacode.enabled": true,
-  "gigacode.apiKey": "${env:GIGACODE_API_KEY}",
-  "gigacode.model": "GigaChat",
-  "gigacode.maxTokens": 4000,
-  "gigacode.temperature": 0.7,
-  "gigacode.contextWindow": 8000,
-  "gigacode.language": "ru",
-  "gigacode.enableCodeCompletion": true,
-  "gigacode.enableChat": true,
-  "gigacode.autoSuggest": true,
-  "gigacode.suggestDelay": 500,
-  "gigacode.useWorkerForCommands": false,
-  "gigacode.experimental.workerEnabled": false,
-  "gigacode.inlineCompletions.enabled": true,
-  "gigacode.chat.agentModel": "CodeChat",
-  "gigacode.chat.askModel": "CodeChat",
-  "gigacode.python.enabled": true,
-  "gigacode.typescript.enabled": true,
-  "gigacode.javascript.enabled": true,
-  "gigacode.yaml.enabled": true,
-  "gigacode.markdown.enabled": true,
-  "gigacode.integrateWithCopilot": false,
-  "gigacode.fallbackToSourceCraft": false,
-  "gigacode.showTokenUsage": true,
-  "gigacode.notifyOnLowTokens": true,
-  "gigacode.lowTokenThreshold": 50,
-  "gigacode.cache_responses": true,
-  // ================================
-  // SourceCraft - РЕЖИМ ФОН (только по запросу)
-  // ================================
-  "sourcecraft-code-assist.account": "leadarchitect@yandex.ru",
-  "sourcecraft-code-assist.enableAutoCompletion": false,
-  "sourcecraft-code-assist.enableBackgroundAnalysis": false,
-  "sourcecraft-code-assist.allowedCommands": [
-    "git log",
-    "git diff",
-    "git show",
-    "git status",
-    "git branch",
-    "git pull",
-    "pip list",
-    "python --version",
-    "pytest --collect-only"
-  ],
-  "sourcecraft-code-assist.deniedCommands": [
-    "rm -rf",
-    "sudo",
-    "shutdown",
-    "reboot",
-    "dd",
-    "mkfs",
-    "chmod 777",
-    "git push --force",
-    "npm install",
-    "pip install"
-  ],
-  "sourcecraft-code-assist.useWorker": false,
-  "sourcecraft-code-assist.runInTerminal": true,
-  "sourcecraft-code-assist.autoTrigger": false,
-  // ================================
-  // Python - линтинг (Ruff)
-  // ================================
+  // ========================================
+  // Python - Линтинг и форматирование
+  // ========================================
+  "python.linting.enabled": true,
   "python.linting.ruffEnabled": true,
   "python.linting.ruffArgs": [
     "--fix"
   ],
-  // ================================
-  // Редактор - глобальные настройки
-  // ================================
+  "ruff.lint.args": [
+    "--config",
+    "ruff.toml"
+  ],
+  "ruff.format.args": [
+    "--config",
+    "ruff.toml"
+  ],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
   "editor.trimAutoWhitespace": true,
@@ -120,22 +70,26 @@
   "editor.renderWhitespace": "selection",
   "editor.minimap.enabled": true,
   "workbench.editor.enablePreview": false,
-  "explorer.confirmDragAndDrop": false,
-  // ================================
+  // ========================================
   // Python - специфичные настройки
-  // ================================
+  // ========================================
   "[python]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll": "explicit"
+      "source.fixAll": "explicit",
+      "source.fixAll.ruff": "explicit"
     }
   },
-  // ================================
+  // ========================================
   // Другие языки
-  // ================================
+  // ========================================
   "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.json-language-features"
   },
@@ -158,9 +112,12 @@
   "[markdown]": {
     "editor.formatOnSave": false
   },
-  // ================================
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+  },
+  // ========================================
   // Файлы - исключения из проводника
-  // ================================
+  // ========================================
   "files.exclude": {
     "**/.git": true,
     "**/__pycache__": true,
@@ -179,9 +136,9 @@
     "**/*.so": true,
     "**/*.local": true
   },
-  // ================================
+  // ========================================
   // Файлы - исключения из наблюдателя
-  // ================================
+  // ========================================
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -190,9 +147,9 @@
     "**/venv/**": true,
     "**/__pycache__/**": true
   },
-  // ================================
+  // ========================================
   // Тестирование - pytest
-  // ================================
+  // ========================================
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": [
@@ -202,23 +159,55 @@
     "--cov=.",
     "${workspaceFolder}/tests"
   ],
-  // ================================
-  // Прочие настройки
-  // ================================
-  "chat.mcp.autostart": "never",
-  "chat.viewProgressBadge.enabled": true,
-  "editor.defaultFormatter": "ms-python.black-formatter",
-  "[dockercompose]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+  // ========================================
+  // Терминал
+  // ========================================
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "icon": "terminal-cmd"
+    },
+    "Git Bash": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "args": [
+        "--login",
+        "-i"
+      ],
+      "icon": "terminal-git"
+    }
   },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.inheritEnv": true,
+  // ========================================
+  // Git
+  // ========================================
+  "git.openRepositoryInParentFolders": "never",
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  // ========================================
+  // YAML schemas
+  // ========================================
   "yaml.schemas": {
-    "c:\\Users\\Z\\.vscode\\extensions\\koda.koda-0.9.1-win32-x64\\config-yaml-schema.json": [
-      ".koda/**/*.yaml"
-    ],
-    "file:///root/.vscode-remote/extensions/continue.continue-1.2.22-linux-x64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "file:///c%3A/Users/Z/.vscode/extensions/ms-python.python-2026.4.0-win32-x64/schemas/conda-environment.json": "file:///c%3A/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect-fresh/mkdocs.yml",
-    "https://www.schemastore.org/eslintrc.json": "file:///c%3A/Users/Z/.koda/config.yaml"
-  }
+    "https://www.schemastore.org/eslintrc.json": [
+      "**/.eslintrc",
+      "**/.eslintrc.*"
+    ]
+  },
+  // ========================================
+  // Прочее
+  // ========================================
+  "explorer.confirmDragAndDrop": false,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.fontSize": 14,
+  "workbench.colorTheme": "Dark Modern",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "git.blame.editorDecoration.enabled": true,
+  "editor.defaultFormatter": "ms-python.vscode-pylance"
 }

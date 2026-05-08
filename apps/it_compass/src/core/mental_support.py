@@ -5,7 +5,7 @@
 """
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .mental.psychological_support import PsychologicalSupport as PS
 
@@ -21,8 +21,8 @@ class MoodRecord:
         energy_level: int,
         satisfaction_level: int,
         notes: str = "",
-        triggers: Optional[List[str]] = None,
-        coping_strategies: Optional[List[str]] = None,
+        triggers: list[str] | None = None,
+        coping_strategies: list[str] | None = None,
     ):
         self.date = date
         self.mood_level = mood_level  # 1-5
@@ -33,7 +33,7 @@ class MoodRecord:
         self.triggers = triggers or []
         self.coping_strategies = coping_strategies or []
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Преобразование в словарь"""
         return {
             "date": self.date.isoformat(),
@@ -47,7 +47,7 @@ class MoodRecord:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "MoodRecord":
+    def from_dict(cls, data: dict[str, Any]) -> "MoodRecord":
         """Создание из словаря"""
         return cls(
             date=date.fromisoformat(data["date"]),
@@ -69,7 +69,7 @@ class SelfHelpPractices:
         self.description = description
         self.duration_minutes = duration_minutes
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "description": self.description,
@@ -83,14 +83,14 @@ class MentalSupport:
     def __init__(self, user_id: str):
         self.user_id = user_id
         self.psychological_support = PS()
-        self.mood_history: List[MoodRecord] = []
+        self.mood_history: list[MoodRecord] = []
 
     def record_mood(self, mood_record: MoodRecord) -> None:
         """Запись психологического состояния"""
         self.mood_history.append(mood_record)
         # Также можно сохранять в хранилище, но для совместимости просто храним в памяти
 
-    def get_current_recommendations(self) -> List[Dict[str, Any]]:
+    def get_current_recommendations(self) -> list[dict[str, Any]]:
         """Получение текущих рекомендаций психологической поддержки"""
         # Используем PsychologicalSupport для генерации рекомендаций
         report = self.psychological_support.generate_support_report()
@@ -103,9 +103,7 @@ class MentalSupport:
             },
             {
                 "title": "Простая активность",
-                "description": (
-                    report["simple_activities"][0] if report["simple_activities"] else ""
-                ),
+                "description": (report["simple_activities"][0] if report["simple_activities"] else ""),
                 "type": "activity",
             },
             {
@@ -115,7 +113,7 @@ class MentalSupport:
             },
         ]
 
-    def get_mood_summary(self) -> Dict[str, Any]:
+    def get_mood_summary(self) -> dict[str, Any]:
         """Сводка по психологическому состоянию"""
         if not self.mood_history:
             return {"message": "Нет записей о настроении"}
@@ -132,15 +130,15 @@ class MentalSupport:
             "trend": "stable",  # упрощённо
         }
 
-    def get_low_energy_support(self) -> Dict[str, Any]:
+    def get_low_energy_support(self) -> dict[str, Any]:
         """Получение поддержки для режима низкой энергии"""
         return self.psychological_support.generate_support_report()
 
-    def check_burnout_risk(self, recent_activity: Dict[str, Any]) -> bool:
+    def check_burnout_risk(self, recent_activity: dict[str, Any]) -> bool:
         """Проверка риска выгорания"""
         return self.psychological_support.is_burnout_risk(recent_activity)
 
-    def export_data(self) -> Dict[str, Any]:
+    def export_data(self) -> dict[str, Any]:
         """Экспорт данных поддержки"""
         return {
             "user_id": self.user_id,

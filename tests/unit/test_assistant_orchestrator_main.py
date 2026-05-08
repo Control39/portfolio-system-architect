@@ -159,9 +159,7 @@ def test_main_with_valid_root():
     with (
         patch("argparse.ArgumentParser") as mock_parser_class,
         patch("src.assistant_orchestrator.main.setup_logging"),
-        patch(
-            "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
-        ) as mock_orchestrator_class,
+        patch("src.assistant_orchestrator.core.analyzer.AssistantOrchestrator") as mock_orchestrator_class,
         patch("src.assistant_orchestrator.core.reporter.Reporter") as mock_reporter_class,
         patch("pathlib.Path") as mock_path,
         patch("src.assistant_orchestrator.main.logging"),
@@ -301,9 +299,7 @@ def test_main_keyboard_interrupt():
     with (
         patch("argparse.ArgumentParser") as mock_parser_class,
         patch("src.assistant_orchestrator.main.setup_logging"),
-        patch(
-            "src.assistant_orchestrator.core.analyzer.AssistantOrchestrator"
-        ) as mock_orchestrator_class,
+        patch("src.assistant_orchestrator.core.analyzer.AssistantOrchestrator") as mock_orchestrator_class,
         patch("src.assistant_orchestrator.main.logging"),
         patch("src.assistant_orchestrator.main.sys") as mock_sys,
     ):

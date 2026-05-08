@@ -1,9 +1,10 @@
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -14,20 +15,20 @@ app = FastAPI(title="GIGA IDE MCP Server", version="1.0.0")
 
 class PromptRequest(BaseModel):
     prompt: str
-    variables: Dict[str, Any] = {}
-    rules: List[str] = []
+    variables: dict[str, Any] = {}
+    rules: list[str] = []
 
 
 class PromptResponse(BaseModel):
     result: str
-    processed_rules: List[str] = []
-    metadata: Dict[str, Any] = {}
+    processed_rules: list[str] = []
+    metadata: dict[str, Any] = {}
 
 
 def load_rules():
     """Загрузка правил из файла"""
     try:
-        with open("rules.json", "r", encoding="utf-8") as f:
+        with open("rules.json", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         logger.warning("rules.json not found, using default rules")

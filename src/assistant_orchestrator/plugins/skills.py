@@ -5,12 +5,13 @@ Skills plugin for analyzing IT-Compass markers.
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
 
-def analyze(root: Path) -> Dict[str, Any]:
+def analyze(root: Path) -> dict[str, Any]:
     """Analyze skill markers from IT-Compass."""
     markers_dir = root / "apps" / "it_compass" / "src" / "data" / "markers"
 
@@ -32,7 +33,7 @@ def analyze(root: Path) -> Dict[str, Any]:
         categories.add(category)
 
         try:
-            with open(file, "r", encoding="utf-8-sig") as f:
+            with open(file, encoding="utf-8-sig") as f:
                 data = json.load(f)
 
             # Count markers across all levels

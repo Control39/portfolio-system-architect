@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from .api.endpoints import app
 
+
 try:
     from .config.loader import COMPONENT_CONFIG
 except ImportError:
@@ -28,11 +29,7 @@ load_dotenv()
 
 def run_server():
     # Берём команду запуска из конфигурации
-    api_script = next(
-        script
-        for script in COMPONENT_CONFIG["automation"]["scripts"]
-        if script["name"] == "run_api"
-    )
+    api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
 
     print(f"Запуск API: {api_script['command']}")
 

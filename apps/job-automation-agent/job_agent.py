@@ -6,19 +6,21 @@ Job Automation Agent
 import asyncio
 import json
 import os
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from langchain.agents import AgentExecutor
 from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
+
 # LangChain imports
 from langchainapps.cognitive_agent.factory import create_agent
 
 # Импорт компонентов для интеграции с системой отслеживания карьеры
 from apps.it_compass.src.core.tracker import CareerTracker
 from apps.it_compass.src.utils.marker_export import MarkerExporter
+
 
 # Настройка LLM
 api_key = os.getenv("OPENAI_API_KEY")
@@ -61,7 +63,7 @@ def job_search(query: str) -> str:
     return f"Результаты поиска по '{query}': реализация в разработке"
 
 
-def generate_resume(job_title: str, skills: Optional[List[str]] = None) -> str:
+def generate_resume(job_title: str, skills: list[str] | None = None) -> str:
     """Генерация резюме под конкретную вакансию."""
     if not skills:
         skills = ["Python", "FastAPI", "Docker", "Kubernetes", "PostgreSQL"]
@@ -93,7 +95,7 @@ def generate_resume(job_title: str, skills: Optional[List[str]] = None) -> str:
     return response.content
 
 
-def _find_matching_markers(skills: List[str]) -> Set[str]:
+def _find_matching_markers(skills: list[str]) -> set[str]:
     """Поиск маркеров компетенций, соответствующих указанным навыкам.
 
     Args:
@@ -140,7 +142,7 @@ def _find_matching_markers(skills: List[str]) -> Set[str]:
     return matching_markers
 
 
-def _auto_mark_completed(marker_ids: Set[str]) -> Dict[str, Any]:
+def _auto_mark_completed(marker_ids: set[str]) -> dict[str, Any]:
     """Автоматически отмечает найденные маркеры как выполненные.
 
     Args:
@@ -168,7 +170,7 @@ def _auto_mark_completed(marker_ids: Set[str]) -> Dict[str, Any]:
     return results
 
 
-def analyze_requirements(job_description: str) -> Dict[str, Any]:
+def analyze_requirements(job_description: str) -> dict[str, Any]:
     """Анализ требований вакансии с интеграцией системы отслеживания карьеры."""
     if USE_MOCK:
         analysis_result = {
@@ -202,9 +204,7 @@ def analyze_requirements(job_description: str) -> Dict[str, Any]:
 
     # Интеграция с системой отслеживания карьеры
     if INTEGRATION_ENABLED and analysis_result.get("skills"):
-        print(
-            f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}"
-        )
+        print(f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}")
 
         # Поиск маркеров, соответствующих требованиям вакансии
         matching_markers = _find_matching_markers(analysis_result["skills"])
@@ -277,26 +277,25 @@ else:
     agent_executor = None
 
 
-async def process_request(query: str) -> Dict[str, Any]:
+async def process_request(query: str) -> dict[str, Any]:
     """Обработка запроса пользователя."""
     if USE_MOCK or not agent_executor:
         # Mock response
         if "ваканс" in query.lower() or "поиск" in query.lower():
             return {"success": True, "result": job_search(query), "mock": True}
-        elif "резюме" in query.lower():
+        if "резюме" in query.lower():
             return {
                 "success": True,
                 "result": generate_resume("Python Developer"),
                 "mock": True,
             }
-        else:
-            msg = "Я могу помочь с поиском вакансий, генерацией резюме"
-            msg += " и анализом требований. Что вас интересует?"
-            return {
-                "success": True,
-                "result": msg,
-                "mock": True,
-            }
+        msg = "Я могу помочь с поиском вакансий, генерацией резюме"
+        msg += " и анализом требований. Что вас интересует?"
+        return {
+            "success": True,
+            "result": msg,
+            "mock": True,
+        }
 
     try:
         result = await agent_executor.ainvoke({"input": query})
@@ -306,7 +305,7 @@ async def process_request(query: str) -> Dict[str, Any]:
 
 
 # Синхронная обёртка для совместимости
-def process_request_sync(query: str) -> Dict[str, Any]:
+def process_request_sync(query: str) -> dict[str, Any]:
     """Синхронная версия обработки запроса."""
     return asyncio.run(process_request(query))
 

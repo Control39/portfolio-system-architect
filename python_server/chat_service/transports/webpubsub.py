@@ -8,30 +8,30 @@ It implements `WebPubSubChatService` (subclass of `ChatServiceBase`),
 handles negotiation and CloudEvents integration, and confines any
 Azure SDK dependencies to this file.
 """
+
 from __future__ import annotations
 
 import asyncio
 import json
 import logging
+from collections.abc import AsyncIterator
 from datetime import datetime, timezone
-from typing import Any, AsyncIterator, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
-from ..base import (SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext,
-                    as_room_group)
+from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group
+
 
 DefaultAzureCredential = None  # sentinel if import missing
 WebPubSubServiceClient = None  # sentinel if import missing
-try:  # noqa: SIM105
-    from azure.identity import \
-        DefaultAzureCredential as _DefaultAzureCredential  # pragma: no cover
-    from azure.messaging.webpubsubservice import \
-        WebPubSubServiceClient as _WebPubSubServiceClient  # pragma: no cover
+try:
+    from azure.identity import DefaultAzureCredential as _DefaultAzureCredential  # pragma: no cover
+    from azure.messaging.webpubsubservice import WebPubSubServiceClient as _WebPubSubServiceClient  # pragma: no cover
 
     DefaultAzureCredential = _DefaultAzureCredential
     WebPubSubServiceClient = _WebPubSubServiceClient
-except Exception:  # noqa: BLE001
+except Exception:
     pass
 
 
@@ -40,11 +40,11 @@ class WebPubSubChatService(ChatServiceBase):
         self,
         *,
         hub: str = "chat",
-        connection_string: Optional[str] = None,
-        endpoint: Optional[str] = None,
+        connection_string: str | None = None,
+        endpoint: str | None = None,
         credential: Any | None = None,
-        room_store: Optional[RoomStore] = None,
-        logger: Optional[logging.Logger] = None,
+        room_store: RoomStore | None = None,
+        logger: logging.Logger | None = None,
         flask_app: Any | None = None,
         loop: asyncio.AbstractEventLoop | None = None,
         auto_attach_path: str = "/eventhandler",
@@ -71,12 +71,12 @@ class WebPubSubChatService(ChatServiceBase):
             raise RuntimeError(
                 "WebPubSubChatService requires either endpoint (+ Azure credential) or connection_string"
             )
-        self._http_clients: Dict[str, ClientConnectionContext] = {}
+        self._http_clients: dict[str, ClientConnectionContext] = {}
 
         class _SimpleClientManager:
             """Minimal client registry for HTTP-originated (CloudEvents) connections."""
 
-            def __init__(inner_self) -> None:  # noqa: D401
+            def __init__(inner_self) -> None:
                 inner_self._parent = self
 
             async def add_client(
@@ -84,9 +84,7 @@ class WebPubSubChatService(ChatServiceBase):
             ) -> None:
                 inner_self._parent._http_clients[connection_id] = context
 
-            async def get_client(
-                inner_self, connection_id: str
-            ) -> Optional[ClientConnectionContext]:
+            async def get_client(inner_self, connection_id: str) -> ClientConnectionContext | None:
                 return inner_self._parent._http_clients.get(connection_id)
 
             async def remove_client(inner_self, connection_id: str) -> None:
@@ -109,7 +107,7 @@ class WebPubSubChatService(ChatServiceBase):
     async def stop(self) -> None:
         return
 
-    def get_client_access_url(self, *, user_id: Optional[str] = None) -> str:
+    def get_client_access_url(self, *, user_id: str | None = None) -> str:
         token = self._svc.get_client_access_token(
             user_id=user_id, roles=["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"]
         )
@@ -122,9 +120,9 @@ class WebPubSubChatService(ChatServiceBase):
         self,
         group: str,
         message: str,
-        exclude_ids: Optional[List[str]] = None,
-        from_user_id: Optional[str] = None,
-    ) -> List[Any]:
+        exclude_ids: list[str] | None = None,
+        from_user_id: str | None = None,
+    ) -> list[Any]:
         room_id = group
         group_name = as_room_group(room_id)
         payload = {
@@ -156,8 +154,8 @@ class WebPubSubChatService(ChatServiceBase):
         self,
         group: str,
         chunks: AsyncIterator[str],
-        exclude_ids: Optional[List[str]] = None,
-        from_user_id: Optional[str] = None,
+        exclude_ids: list[str] | None = None,
+        from_user_id: str | None = None,
     ) -> str:
         room_id = group
         group_name = as_room_group(room_id)
@@ -230,7 +228,7 @@ class WebPubSubChatService(ChatServiceBase):
         from flask import request
 
         @flask_app.route(path, methods=["POST", "OPTIONS"])
-        async def _wps_cloudevents() -> Union[Tuple[str, int], Tuple[str, int, Dict[str, str]]]:
+        async def _wps_cloudevents() -> tuple[str, int] | tuple[str, int, dict[str, str]]:
             try:
                 if request.method == "OPTIONS":
                     if request.headers.get("WebHook-Request-Origin"):
@@ -255,12 +253,11 @@ class WebPubSubChatService(ChatServiceBase):
                     await self.client_manager.add_client(connection_id, client, None)
                     if user_id == client.user_id:
                         return ("", 204)
-                    else:
-                        return (
-                            json.dumps({"userId": client.user_id}),
-                            200,
-                            {"Content-Type": "application/json"},
-                        )
+                    return (
+                        json.dumps({"userId": client.user_id}),
+                        200,
+                        {"Content-Type": "application/json"},
+                    )
                 if ce_type == "azure.webpubsub.sys.connected":
                     client_opt = await self.client_manager.get_client(connection_id)
                     if client_opt is None:
@@ -290,7 +287,7 @@ class WebPubSubChatService(ChatServiceBase):
                     await self._emit(self._on_event_message, client_opt, event_name, payload)
                     return ("", 204, {"Content-Type": "application/json"})
                 return ("", 204)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 self.log.warning("CloudEvents handler error: %s", e)
                 return ("", 500)
 

@@ -3,7 +3,6 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Union
 
 from .checker import RepositoryAuditor
 
@@ -100,13 +99,9 @@ class ReportGenerator:
         lines.append("")
         lines.append("SUMMARY")
         lines.append("-" * 60)
-        lines.append(
-            f"Overall: {self.score['score']:.1f}/{self.score['total']:.1f} ({self.score['percentage']:.2f}%)"
-        )
+        lines.append(f"Overall: {self.score['score']:.1f}/{self.score['total']:.1f} ({self.score['percentage']:.2f}%)")
         for cat, cat_score in self.score.get("by_category", {}).items():
-            lines.append(
-                f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)"
-            )
+            lines.append(f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)")
         lines.append("")
         lines.append("DETAILED RESULTS")
         lines.append("-" * 60)
@@ -120,7 +115,7 @@ class ReportGenerator:
             lines.append("")
         return "\n".join(lines)
 
-    def save(self, path: Union[str, Path], format: str = "markdown") -> Path:
+    def save(self, path: str | Path, format: str = "markdown") -> Path:
         """Save report to file."""
         path = Path(path)
         if format == "json":

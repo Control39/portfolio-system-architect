@@ -6,9 +6,10 @@ import json
 import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from fastmcp import FastMCP
+
 
 mcp = FastMCP("Git Tools")
 
@@ -17,7 +18,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 
 
 @mcp.tool()
-def get_git_status_tool() -> Dict[str, Any]:
+def get_git_status_tool() -> dict[str, Any]:
     """
     Получение статуса Git репозитория
 
@@ -42,9 +43,7 @@ def get_git_status_tool() -> Dict[str, Any]:
             encoding="utf-8",
         )
 
-        current_branch = (
-            branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
-        )
+        current_branch = branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
 
         # Получаем статус
         status_result = subprocess.run(
@@ -116,9 +115,7 @@ def get_git_status_tool() -> Dict[str, Any]:
             encoding="utf-8",
         )
 
-        commit_count = (
-            int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
-        )
+        commit_count = int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
 
         return {
             "success": True,
@@ -135,14 +132,14 @@ def get_git_status_tool() -> Dict[str, Any]:
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при получении Git статуса: {str(e)}",
+            "message": f"Ошибка при получении Git статуса: {e!s}",
             "error": str(e),
             "is_git_repo": False,
         }
 
 
 @mcp.tool()
-def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any]:
+def scan_last_commits_for_markers_tool(commits_count: int = 10) -> dict[str, Any]:
     """
     Анализ последних коммитов на наличие маркеров IT-Compass
 
@@ -210,7 +207,7 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
         all_markers = []
         for marker_file in markers_path.glob("*.json"):
             try:
-                with open(marker_file, "r", encoding="utf-8") as f:
+                with open(marker_file, encoding="utf-8") as f:
                     data = json.load(f)
 
                 domain = marker_file.stem
@@ -233,7 +230,7 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
                                     "keywords": _extract_keywords(marker_text),
                                 }
                             )
-            except (json.JSONDecodeError, IOError):
+            except (OSError, json.JSONDecodeError):
                 continue
 
         # Анализируем коммиты на наличие маркеров
@@ -292,14 +289,14 @@ def scan_last_commits_for_markers_tool(commits_count: int = 10) -> Dict[str, Any
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при анализе коммитов: {str(e)}",
+            "message": f"Ошибка при анализе коммитов: {e!s}",
             "error": str(e),
             "detected_markers": [],
         }
 
 
 @mcp.tool()
-def get_git_history_tool(days: int = 30) -> Dict[str, Any]:
+def get_git_history_tool(days: int = 30) -> dict[str, Any]:
     """
     Получение истории коммитов за указанный период
 
@@ -412,13 +409,13 @@ def get_git_history_tool(days: int = 30) -> Dict[str, Any]:
     except Exception as e:
         return {
             "success": False,
-            "message": f"Ошибка при получении истории Git: {str(e)}",
+            "message": f"Ошибка при получении истории Git: {e!s}",
             "error": str(e),
             "commits": [],
         }
 
 
-def _extract_keywords(text: str) -> List[str]:
+def _extract_keywords(text: str) -> list[str]:
     """Извлечение ключевых слов из текста маркера"""
     # Удаляем стоп-слова и извлекаем значимые слова
     stop_words = {
@@ -446,12 +443,7 @@ def _extract_keywords(text: str) -> List[str]:
         # Очищаем слово от знаков препинания
         clean_word = "".join(c for c in word if c.isalnum())
 
-        if (
-            clean_word
-            and len(clean_word) > 2
-            and clean_word not in stop_words
-            and not clean_word.isnumeric()
-        ):
+        if clean_word and len(clean_word) > 2 and clean_word not in stop_words and not clean_word.isnumeric():
             keywords.append(clean_word)
 
     return list(set(keywords))  # Удаляем дубликаты
@@ -459,7 +451,7 @@ def _extract_keywords(text: str) -> List[str]:
 
 # Экспортируем инструменты для импорта в main.py
 __all__ = [
+    "get_git_history_tool",
     "get_git_status_tool",
     "scan_last_commits_for_markers_tool",
-    "get_git_history_tool",
 ]

@@ -3,10 +3,10 @@ Document embedder using sentence-transformers for RAG search.
 """
 
 import logging
-from typing import List
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
+
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +25,9 @@ class DocumentEmbedder:
         self.model_name = model_name
         logger.info(f"Loading sentence-transformers model: {model_name}")
         self.model = SentenceTransformer(model_name)
-        logger.info(
-            f"Model loaded, embedding dimension: {self.model.get_sentence_embedding_dimension()}"
-        )
+        logger.info(f"Model loaded, embedding dimension: {self.model.get_sentence_embedding_dimension()}")
 
-    def embed(self, text: str) -> List[float]:
+    def embed(self, text: str) -> list[float]:
         """Get embedding for a single text."""
         if not text or not text.strip():
             return []
@@ -41,7 +39,7 @@ class DocumentEmbedder:
         embedding = self.model.encode(text, convert_to_numpy=True)
         return embedding.tolist()
 
-    def embed_batch(self, texts: List[str]) -> List[List[float]]:
+    def embed_batch(self, texts: list[str]) -> list[list[float]]:
         """Get embeddings for a batch of texts."""
         if not texts:
             return []
@@ -55,7 +53,7 @@ class DocumentEmbedder:
         embeddings = self.model.encode(valid_texts, convert_to_numpy=True)
         return embeddings.tolist()
 
-    def compute_similarity(self, embedding1: List[float], embedding2: List[float]) -> float:
+    def compute_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:
         """Compute cosine similarity between two embeddings."""
         if not embedding1 or not embedding2:
             return 0.0

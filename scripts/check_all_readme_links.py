@@ -10,10 +10,10 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple
 from urllib.parse import urlparse
 
 import requests
+
 
 # Настройки
 README_FILES = ["README.md", "README.ru.md"]
@@ -22,7 +22,7 @@ MAX_WORKERS = 5
 IGNORE_DOMAINS = {"shields.io", "img.shields.io"}
 
 
-def extract_all_links(file_path: Path) -> List[Dict[str, str]]:
+def extract_all_links(file_path: Path) -> list[dict[str, str]]:
     """Извлекает все ссылки из markdown файла."""
     links = []
 
@@ -69,7 +69,7 @@ def is_internal_link(url: str) -> bool:
     return not parsed.scheme and not parsed.netloc
 
 
-def check_external_link(url: str) -> Tuple[bool, int, str]:
+def check_external_link(url: str) -> tuple[bool, int, str]:
     """Проверяет доступность внешней ссылки."""
     try:
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
@@ -78,9 +78,7 @@ def check_external_link(url: str) -> Tuple[bool, int, str]:
         if "api.github.com" in url:
             response = requests.get(url, headers=headers, timeout=EXTERNAL_TIMEOUT)
         else:
-            response = requests.head(
-                url, headers=headers, timeout=EXTERNAL_TIMEOUT, allow_redirects=True
-            )
+            response = requests.head(url, headers=headers, timeout=EXTERNAL_TIMEOUT, allow_redirects=True)
 
         status = response.status_code
         success = 200 <= status < 400
@@ -95,7 +93,7 @@ def check_external_link(url: str) -> Tuple[bool, int, str]:
         return False, 0, f"Unexpected error: {e}"
 
 
-def check_internal_link(url: str, base_dir: Path) -> Tuple[bool, str]:
+def check_internal_link(url: str, base_dir: Path) -> tuple[bool, str]:
     """Проверяет существование внутреннего файла или директории."""
     # Убираем якоря (#) и query параметры
     clean_url = url.split("#")[0].split("?")[0]
@@ -112,8 +110,7 @@ def check_internal_link(url: str, base_dir: Path) -> Tuple[bool, str]:
     # Проверяем существование
     if target_path.exists():
         return True, ""
-    else:
-        return False, f"File not found: {target_path}"
+    return False, f"File not found: {target_path}"
 
 
 def main():
@@ -207,9 +204,7 @@ def main():
             try:
                 link = future.result()
                 if link["status"] == "ok":
-                    print(
-                        f"✅ {link['file']}:{link['line']} - {link['url']} ({link['http_status']})"
-                    )
+                    print(f"✅ {link['file']}:{link['line']} - {link['url']} ({link['http_status']})")
                 else:
                     external_broken.append(link)
                     print(f"❌ {link['file']}:{link['line']} - {link['url']} - {link['error']}")

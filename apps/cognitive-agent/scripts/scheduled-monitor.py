@@ -13,6 +13,7 @@ from pathlib import Path
 
 import schedule
 
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -59,9 +60,8 @@ class ScheduledMonitor:
             if result.returncode == 0:
                 logger.info(f"Мониторинг ({report_type}) успешно завершен")
                 return True
-            else:
-                logger.error(f"Мониторинг ({report_type}) завершился с ошибкой: {result.stderr}")
-                return False
+            logger.error(f"Мониторинг ({report_type}) завершился с ошибкой: {result.stderr}")
+            return False
 
         except Exception as e:
             logger.error(f"Ошибка при запуске мониторинга: {e}")
@@ -127,29 +127,26 @@ class ScheduledMonitor:
             # Однократный запуск
             success = self.run_once(report_type)
             return success
-        else:
-            # Непрерывный режим
-            self.setup_schedule()
+        # Непрерывный режим
+        self.setup_schedule()
 
-            logger.info("\nПланировщик запущен. Ожидание выполнения задач...")
-            logger.info("Нажмите Ctrl+C для остановки\n")
+        logger.info("\nПланировщик запущен. Ожидание выполнения задач...")
+        logger.info("Нажмите Ctrl+C для остановки\n")
 
-            try:
-                while True:
-                    schedule.run_pending()
-                    time.sleep(1)
-            except KeyboardInterrupt:
-                logger.info("\nПланировщик остановлен пользователем")
-                return True
+        try:
+            while True:
+                schedule.run_pending()
+                time.sleep(1)
+        except KeyboardInterrupt:
+            logger.info("\nПланировщик остановлен пользователем")
+            return True
 
 
 def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Планировщик автоматического мониторинга триггеров"
-    )
+    parser = argparse.ArgumentParser(description="Планировщик автоматического мониторинга триггеров")
     parser.add_argument("--once", action="store_true", help="Однократный запуск")
     parser.add_argument(
         "--type",

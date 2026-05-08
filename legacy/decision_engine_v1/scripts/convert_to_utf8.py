@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Массовая конвертация файлов в UTF-8 с резервным копированием.
 Сохраняет оригинальные файлы в директории backups.
@@ -10,7 +9,6 @@ import json
 import logging
 import shutil
 from pathlib import Path
-from typing import Dict
 
 import chardet
 
@@ -31,7 +29,7 @@ def setup_logging() -> None:
     # Fully cross-platform UTF-8 handling confirmed: explicit encoding in logging, file I/O with chardet/fallbacks, pathlib for paths
 
 
-def detect_encoding(file_path: Path) -> Dict[str, str]:
+def detect_encoding(file_path: Path) -> dict[str, str]:
     """Определение кодировки файла"""
     try:
         with open(file_path, "rb") as f:
@@ -73,7 +71,7 @@ def create_backup(file_path: Path, backup_dir: Path) -> bool:
         return False
 
 
-def convert_to_utf8(file_path: Path, backup_dir: Path) -> Dict:
+def convert_to_utf8(file_path: Path, backup_dir: Path) -> dict:
     """Конвертация файла в UTF-8"""
     result = {
         "path": str(file_path.relative_to(Path(".").resolve())),
@@ -108,7 +106,7 @@ def convert_to_utf8(file_path: Path, backup_dir: Path) -> Dict:
 
         # Чтение содержимого с определенной кодировкой
         try:
-            with open(file_path, "r", encoding=original_encoding) as f:
+            with open(file_path, encoding=original_encoding) as f:
                 content = f.read()
         except (UnicodeDecodeError, LookupError):
             # Пробуем несколько альтернативных кодировок
@@ -117,7 +115,7 @@ def convert_to_utf8(file_path: Path, backup_dir: Path) -> Dict:
 
             for encoding in fallback_encodings:
                 try:
-                    with open(file_path, "r", encoding=encoding) as f:
+                    with open(file_path, encoding=encoding) as f:
                         content = f.read()
                     original_encoding = encoding
                     result["original_encoding"] = encoding
@@ -192,7 +190,7 @@ def should_process_file(file_path: Path) -> bool:
     return True
 
 
-def convert_all(start_path: str = ".") -> Dict:
+def convert_all(start_path: str = ".") -> dict:
     """Конвертация всех текстовых файлов в UTF-8"""
     start_path = Path(start_path).resolve()
     results = []
@@ -208,9 +206,7 @@ def convert_all(start_path: str = ".") -> Dict:
     logging.info(f"Начало конвертации в UTF-8: {start_path}")
 
     # Создаем директории
-    backup_dir = (
-        Path("backups") / f"pre_utf8_conversion_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    )
+    backup_dir = Path("backups") / f"pre_utf8_conversion_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
     backup_dir.mkdir(parents=True, exist_ok=True)
 
     log_dir = Path("logs")
@@ -233,9 +229,7 @@ def convert_all(start_path: str = ".") -> Dict:
                     summary["converted_files"] += 1
                     encoding = file_result["original_encoding"]
                     if encoding:
-                        summary["encoding_changes"][encoding] = (
-                            summary["encoding_changes"].get(encoding, 0) + 1
-                        )
+                        summary["encoding_changes"][encoding] = summary["encoding_changes"].get(encoding, 0) + 1
             else:
                 summary["errors"] += 1
 
@@ -262,7 +256,7 @@ def convert_all(start_path: str = ".") -> Dict:
     return final_result
 
 
-def print_summary(results: Dict) -> None:
+def print_summary(results: dict) -> None:
     """Вывод краткого отчета"""
     summary = results["summary"]
     print("\n" + "=" * 60)
@@ -276,9 +270,7 @@ def print_summary(results: Dict) -> None:
 
     if summary["converted_files"] > 0:
         print("\nИзменения кодировок:")
-        for encoding, count in sorted(
-            summary["encoding_changes"].items(), key=lambda x: x[1], reverse=True
-        ):
+        for encoding, count in sorted(summary["encoding_changes"].items(), key=lambda x: x[1], reverse=True):
             print(f"  {encoding}: {count} файлов")
 
     if summary["errors"] > 0:

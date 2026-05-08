@@ -8,6 +8,7 @@ from datetime import datetime
 from ..models.types import AnalysisResult
 from .evidence_collector import EvidenceCollector
 
+
 logger = logging.getLogger(__name__)
 
 

@@ -14,7 +14,8 @@ import threading
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 
 # Создание папки логов перед инициализацией логирования
 LOG_DIR = Path("apps/cognitive-agent/logs")
@@ -37,8 +38,8 @@ class CognitiveAgentLauncher:
 
     def __init__(self, agent_root: str = "apps/cognitive-agent"):
         self.agent_root = Path(agent_root)
-        self.processes: Dict[str, subprocess.Popen] = {}
-        self.monitoring_threads: Dict[str, threading.Thread] = {}
+        self.processes: dict[str, subprocess.Popen] = {}
+        self.monitoring_threads: dict[str, threading.Thread] = {}
         self.running = False
 
         # Создание необходимых директорий
@@ -67,7 +68,7 @@ class CognitiveAgentLauncher:
             dir_path.mkdir(exist_ok=True, parents=True)
             logger.info(f"Директория проверена/создана: {dir_path}")
 
-    def _load_configuration(self) -> Dict[str, Any]:
+    def _load_configuration(self) -> dict[str, Any]:
         """Загрузка конфигурации агента"""
         config_path = self.agent_root / "config" / "agent-config.yaml"
 
@@ -77,7 +78,8 @@ class CognitiveAgentLauncher:
 
         try:
             import yaml
-            with open(config_path, "r", encoding="utf-8") as f:
+
+            with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
             logger.info(f"Конфигурация загружена из: {config_path}")
             return config
@@ -85,7 +87,7 @@ class CognitiveAgentLauncher:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return self._get_default_config()
 
-    def _get_default_config(self) -> Dict[str, Any]:
+    def _get_default_config(self) -> dict[str, Any]:
         """Получение конфигурации по умолчанию"""
         return {
             "autonomy": {"level": "high", "approval_required": False},
@@ -117,7 +119,7 @@ class CognitiveAgentLauncher:
             logger.error(f"Ошибка запуска агента: {e}")
             return False
 
-    def _get_components_for_mode(self, mode: str) -> List[str]:
+    def _get_components_for_mode(self, mode: str) -> list[str]:
         """Получение списка компонентов для запуска в зависимости от режима"""
         modes = {
             "full": ["scanner", "planner", "learning", "executor"],
@@ -180,6 +182,7 @@ class CognitiveAgentLauncher:
 
     def _start_output_reader(self, component: str, process: subprocess.Popen):
         """Запуск потока для чтения вывода компонента"""
+
         def read_output():
             while True:
                 try:
@@ -243,7 +246,7 @@ class CognitiveAgentLauncher:
         logger.info("✅ Cognitive Automation Agent остановлен")
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Получение статуса агента"""
         status = {
             "running": self.running,
@@ -260,7 +263,7 @@ class CognitiveAgentLauncher:
 
         return status
 
-    def run_workflow(self, workflow_name: str, params: Dict[str, Any] = None) -> bool:
+    def run_workflow(self, workflow_name: str, params: dict[str, Any] = None) -> bool:
         """Запуск рабочего процесса"""
         logger.info(f"🚀 Запуск рабочего процесса: {workflow_name}")
 
@@ -285,7 +288,7 @@ class CognitiveAgentLauncher:
             logger.error(f"Ошибка запуска рабочего процесса: {e}")
             return False
 
-    def _execute_workflow(self, workflow_name: str, params: Dict[str, Any]):
+    def _execute_workflow(self, workflow_name: str, params: dict[str, Any]):
         """Выполнение рабочего процесса"""
         logger.info(f"Выполнение workflow: {workflow_name}")
 

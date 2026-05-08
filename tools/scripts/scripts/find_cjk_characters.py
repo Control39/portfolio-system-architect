@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+
 # Регулярное выражение для поиска CJK иероглифов
 # Диапазоны Unicode:
 # - Основные китайские иероглифы: U+4E00 - U+9FFF
@@ -275,9 +276,7 @@ def suggest_replacements(text: str) -> str:
     return text
 
 
-def generate_report(
-    results: dict[str, list[dict[str, Any]]], report_file: str = "cjk_scan_report.md"
-) -> None:
+def generate_report(results: dict[str, list[dict[str, Any]]], report_file: str = "cjk_scan_report.md") -> None:
     """Сгенерировать отчет в формате Markdown"""
     if not results:
         return

@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 from src.main import app
 
+
 client = TestClient(app)
 
 # Используем asyncio_mode = auto из pytest.ini

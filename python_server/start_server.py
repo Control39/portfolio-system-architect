@@ -5,6 +5,7 @@ This script launches the Flask server component of the chat demo.
 It can be used standalone for server-only mode, or called by start_dev.py
 for full development environment with both server and client.
 """
+
 from __future__ import annotations
 
 import os

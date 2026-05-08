@@ -6,9 +6,10 @@ import logging
 import pickle
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .embedder import DocumentEmbedder
+
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 class DocumentIndexer:
     """Index documents for vector search."""
 
-    def __init__(self, embedder: Optional[DocumentEmbedder] = None):
+    def __init__(self, embedder: DocumentEmbedder | None = None):
         """
         Initialize the indexer.
 
@@ -24,11 +25,11 @@ class DocumentIndexer:
             embedder: DocumentEmbedder instance. If None, creates a default one.
         """
         self.embedder = embedder or DocumentEmbedder()
-        self.documents: List[Dict[str, Any]] = []
-        self.embeddings: List[List[float]] = []
-        self.index_path: Optional[Path] = None
+        self.documents: list[dict[str, Any]] = []
+        self.embeddings: list[list[float]] = []
+        self.index_path: Path | None = None
 
-    def add_document(self, text: str, metadata: Optional[Dict[str, Any]] = None) -> int:
+    def add_document(self, text: str, metadata: dict[str, Any] | None = None) -> int:
         """
         Add a document to the index.
 
@@ -62,9 +63,7 @@ class DocumentIndexer:
         logger.debug(f"Added document {doc_id}: {text[:50]}...")
         return doc_id
 
-    def add_documents_from_files(
-        self, file_pattern: str = "**/*.md", root_dir: str = "."
-    ) -> List[int]:
+    def add_documents_from_files(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> list[int]:
         """
         Add documents from files matching pattern.
 
@@ -108,7 +107,7 @@ class DocumentIndexer:
         logger.info(f"Added {len(doc_ids)} document chunks from {len(file_paths)} files")
         return doc_ids
 
-    def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> List[str]:
+    def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> list[str]:
         """Split text into chunks for better search results."""
         if len(text) <= max_chunk_size:
             return [text]
@@ -138,7 +137,7 @@ class DocumentIndexer:
 
         return chunks
 
-    def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """
         Search for documents similar to query.
 
@@ -207,16 +206,12 @@ class DocumentIndexer:
         self.index_path = load_path
 
         # Recreate embedder if model name doesn't match
-        if hasattr(self.embedder, "model_name") and self.embedder.model_name != index_data.get(
-            "model_name"
-        ):
-            logger.warning(
-                f"Model mismatch: loaded {index_data.get('model_name')}, current {self.embedder.model_name}"
-            )
+        if hasattr(self.embedder, "model_name") and self.embedder.model_name != index_data.get("model_name"):
+            logger.warning(f"Model mismatch: loaded {index_data.get('model_name')}, current {self.embedder.model_name}")
 
         logger.info(f"Index loaded from {load_path} with {len(self.documents)} documents")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get index statistics."""
         return {
             "total_documents": len(self.documents),

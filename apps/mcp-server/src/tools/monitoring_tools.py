@@ -8,7 +8,7 @@ Monitoring Tools для MCP Server
 import json
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from fastmcp import FastMCP
 
@@ -21,7 +21,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
     grafana_path = monitoring_path / "grafana"
 
     @mcp_server.tool()
-    def get_prometheus_targets() -> List[Dict[str, Any]]:
+    def get_prometheus_targets() -> list[dict[str, Any]]:
         """
         Получение списка target'ов Prometheus
 
@@ -49,16 +49,15 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                     )
 
                 return targets
-            else:
-                return [{"error": f"Prometheus API error: {response.status_code}"}]
+            return [{"error": f"Prometheus API error: {response.status_code}"}]
 
         except ImportError:
             return [{"error": "requests library not installed"}]
         except Exception as e:
-            return [{"error": f"Prometheus not available: {str(e)}"}]
+            return [{"error": f"Prometheus not available: {e!s}"}]
 
     @mcp_server.tool()
-    def get_prometheus_metrics(query: str = "up") -> List[Dict[str, Any]]:
+    def get_prometheus_metrics(query: str = "up") -> list[dict[str, Any]]:
         """
         Запрос метрик Prometheus
 
@@ -71,9 +70,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         try:
             import requests
 
-            response = requests.get(
-                "http://localhost:9090/api/v1/query", params={"query": query}, timeout=5
-            )
+            response = requests.get("http://localhost:9090/api/v1/query", params={"query": query}, timeout=5)
 
             if response.status_code == 200:
                 data = response.json()
@@ -89,14 +86,13 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                     )
 
                 return formatted
-            else:
-                return [{"error": f"Prometheus API error: {response.status_code}"}]
+            return [{"error": f"Prometheus API error: {response.status_code}"}]
 
         except Exception as e:
-            return [{"error": f"Prometheus query failed: {str(e)}"}]
+            return [{"error": f"Prometheus query failed: {e!s}"}]
 
     @mcp_server.tool()
-    def get_grafana_dashboards() -> List[Dict[str, Any]]:
+    def get_grafana_dashboards() -> list[dict[str, Any]]:
         """
         Получение списка дашбордов Grafana
 
@@ -123,14 +119,13 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                     }
                     for db in dashboards
                 ]
-            else:
-                return [{"error": f"Grafana API error: {response.status_code}"}]
+            return [{"error": f"Grafana API error: {response.status_code}"}]
 
         except Exception as e:
-            return [{"error": f"Grafana not available: {str(e)}"}]
+            return [{"error": f"Grafana not available: {e!s}"}]
 
     @mcp_server.tool()
-    def check_monitoring_stack_status() -> Dict[str, Any]:
+    def check_monitoring_stack_status() -> dict[str, Any]:
         """
         Проверка статуса стека мониторинга
 
@@ -163,10 +158,10 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except ImportError:
             return {"error": "requests library not installed"}
         except Exception as e:
-            return {"error": f"Status check failed: {str(e)}"}
+            return {"error": f"Status check failed: {e!s}"}
 
     @mcp_server.tool()
-    def get_docker_container_stats() -> List[Dict[str, Any]]:
+    def get_docker_container_stats() -> list[dict[str, Any]]:
         """
         Получение статистики Docker контейнеров
 
@@ -201,16 +196,15 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                             continue
 
                 return containers
-            else:
-                return [{"error": f"Docker stats failed: {result.stderr}"}]
+            return [{"error": f"Docker stats failed: {result.stderr}"}]
 
         except FileNotFoundError:
             return [{"error": "Docker not installed or not in PATH"}]
         except Exception as e:
-            return [{"error": f"Docker stats failed: {str(e)}"}]
+            return [{"error": f"Docker stats failed: {e!s}"}]
 
     @mcp_server.tool()
-    def get_monitoring_config() -> Dict[str, Any]:
+    def get_monitoring_config() -> dict[str, Any]:
         """
         Получение конфигурации мониторинга
 
@@ -225,7 +219,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
             try:
                 import yaml
 
-                with open(prometheus_yml, "r") as f:
+                with open(prometheus_yml) as f:
                     config["prometheus"] = yaml.safe_load(f)
             except Exception as e:
                 config["prometheus"] = {"error": str(e)}
@@ -238,7 +232,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 try:
                     import yaml
 
-                    with open(file, "r") as f:
+                    with open(file) as f:
                         datasources.append(yaml.safe_load(f))
                 except:
                     pass

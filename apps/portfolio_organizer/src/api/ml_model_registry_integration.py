@@ -8,6 +8,7 @@ import os
 import requests
 from flask import Blueprint, jsonify, request
 
+
 bp = Blueprint("ml_model_registry", __name__, url_prefix="/api/ml-model-registry")
 
 # Конфигурация
@@ -22,7 +23,7 @@ def list_models():
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Failed to fetch models from ML Model Registry: {str(e)}"}), 500
+        return jsonify({"error": f"Failed to fetch models from ML Model Registry: {e!s}"}), 500
 
 
 @bp.route("/models/<model_id>", methods=["GET"])
@@ -33,7 +34,7 @@ def get_model(model_id):
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Failed to fetch model {model_id}: {str(e)}"}), 500
+        return jsonify({"error": f"Failed to fetch model {model_id}: {e!s}"}), 500
 
 
 @bp.route("/models/<model_id>/predict", methods=["POST"])
@@ -52,7 +53,7 @@ def predict(model_id):
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
+        return jsonify({"error": f"Prediction failed: {e!s}"}), 500
 
 
 @bp.route("/health", methods=["GET"])
@@ -68,18 +69,17 @@ def health_check():
                     "url": ML_MODEL_REGISTRY_URL,
                 }
             )
-        else:
-            return (
-                jsonify(
-                    {
-                        "status": "unhealthy",
-                        "ml_model_registry": "unreachable",
-                        "url": ML_MODEL_REGISTRY_URL,
-                        "error": f"Registry returned {response.status_code}",
-                    }
-                ),
-                503,
-            )
+        return (
+            jsonify(
+                {
+                    "status": "unhealthy",
+                    "ml_model_registry": "unreachable",
+                    "url": ML_MODEL_REGISTRY_URL,
+                    "error": f"Registry returned {response.status_code}",
+                }
+            ),
+            503,
+        )
     except requests.exceptions.RequestException as e:
         return (
             jsonify(
@@ -106,10 +106,8 @@ def portfolio_analysis_with_models():
             return jsonify({"error": "Missing projects data"}), 400
 
         # Отправляем данные в ML Model Registry для анализа
-        response = requests.post(
-            f"{ML_MODEL_REGISTRY_URL}/portfolio/analyze", json=data, timeout=60
-        )
+        response = requests.post(f"{ML_MODEL_REGISTRY_URL}/portfolio/analyze", json=data, timeout=60)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Portfolio analysis failed: {str(e)}"}), 500
+        return jsonify({"error": f"Portfolio analysis failed: {e!s}"}), 500

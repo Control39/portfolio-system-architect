@@ -7,9 +7,10 @@ import json
 import os
 import re
 import subprocess
-import tomllib
 from datetime import datetime
 from pathlib import Path
+
+import tomllib
 
 
 def get_python_version() -> str:

@@ -4,7 +4,7 @@ Source: src\shared\schemas\ml-registry.yaml
 """
 
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -24,7 +24,7 @@ class ModelSearchResult(BaseModel):
     id: str = Field(None)
     name: str = Field(None)
     version: str = Field(None)
-    matches: List[Any] = Field(None)
+    matches: list[Any] = Field(None)
 
 
 class ModelOperationResult(BaseModel):

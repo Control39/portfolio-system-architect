@@ -1,4 +1,4 @@
-﻿class APIError(Exception):
+class APIError(Exception):
     pass
 
 

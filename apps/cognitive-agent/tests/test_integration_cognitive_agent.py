@@ -17,9 +17,11 @@ from unittest.mock import MagicMock
 
 import pytest
 
+
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
+
 
 @pytest.fixture
 def service_config():
@@ -54,7 +56,7 @@ def service_instance(service_config, mock_dependencies):
     yield service
 
     # Cleanup
-    service.cleanup() if hasattr(service, 'cleanup') else None
+    service.cleanup() if hasattr(service, "cleanup") else None
 
 
 @pytest.fixture(autouse=True)
@@ -62,7 +64,6 @@ def reset_mocks(mock_dependencies):
     """Reset all mocks before each test"""
     for mock in mock_dependencies.values():
         mock.reset_mock()
-
 
 
 # ============================================================================
@@ -73,7 +74,7 @@ def reset_mocks(mock_dependencies):
 def test_agent_with_decision_engine(service_instance, mock_dependencies, service_config):
     """
     Test Case 1: Agent With Decision Engine
-    
+
     Validates integration between cognitive-agent and its dependencies.
     """
     # Arrange
@@ -108,7 +109,7 @@ async def test_agent_with_decision_engine_async(service_instance, mock_dependenc
 def test_agent_with_knowledge_graph(service_instance, mock_dependencies, service_config):
     """
     Test Case 2: Agent With Knowledge Graph
-    
+
     Validates integration between cognitive-agent and its dependencies.
     """
     # Arrange
@@ -143,7 +144,7 @@ async def test_agent_with_knowledge_graph_async(service_instance, mock_dependenc
 def test_agent_decision_integration(service_instance, mock_dependencies, service_config):
     """
     Test Case 3: Agent Decision Integration
-    
+
     Validates integration between cognitive-agent and its dependencies.
     """
     # Arrange
@@ -178,7 +179,7 @@ async def test_agent_decision_integration_async(service_instance, mock_dependenc
 def test_agent_context_management(service_instance, mock_dependencies, service_config):
     """
     Test Case 4: Agent Context Management
-    
+
     Validates integration between cognitive-agent and its dependencies.
     """
     # Arrange
@@ -213,7 +214,7 @@ async def test_agent_context_management_async(service_instance, mock_dependencie
 def test_agent_error_handling(service_instance, mock_dependencies, service_config):
     """
     Test Case 5: Agent Error Handling
-    
+
     Validates integration between cognitive-agent and its dependencies.
     """
     # Arrange
@@ -248,6 +249,7 @@ async def test_agent_error_handling_async(service_instance, mock_dependencies):
 # ============================================================================
 # COMMON INTEGRATION TESTS
 # ============================================================================
+
 
 def test_service_initialization(service_instance, mock_dependencies):
     """Test service initializes with all dependencies"""
@@ -302,4 +304,3 @@ def test_concurrent_operations(service_instance, mock_dependencies):
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
 
     assert all(results)
-

@@ -8,9 +8,9 @@ import os
 
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
-from langchain_community.llms import \
-    Gigachat  # Assuming gigachain provides this
+from langchain_community.llms import Gigachat  # Assuming gigachain provides this
 from pydantic_settings import BaseSettings
+
 
 load_dotenv()
 
@@ -34,11 +34,7 @@ class GigaMCPBridge:
         )
         self.prompt = PromptTemplate(
             input_variables=["context", "query"],
-            template=(
-                "Context from MCP/it-compass: {{context}}\n"
-                "Query: {{query}}\n"
-                "Respond with CoT:"
-            ),
+            template=("Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:"),
         )
         self.chain = self.prompt | self.llm
 

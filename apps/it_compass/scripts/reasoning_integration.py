@@ -8,9 +8,9 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 import requests
+
 
 # Add the project root to the path to allow imports
 project_root = Path(__file__).parent.parent
@@ -23,13 +23,11 @@ from src.utils.portfolio_gen import PortfolioGenerator
 class ReasoningIntegrator:
     def __init__(self, tracker: CareerTracker):
         self.tracker = tracker
-        self.reasoning_api_url = os.getenv(
-            "REASONING_API_URL", "https://api.openai.com/v1/chat/completions"
-        )
+        self.reasoning_api_url = os.getenv("REASONING_API_URL", "https://api.openai.com/v1/chat/completions")
         self.reasoning_api_key = os.getenv("REASONING_API_KEY")
         self.reasoning_model = os.getenv("REASONING_MODEL", "gpt-4")
 
-    def analyze_notes_with_reasoning(self, notes_content: str) -> List[Dict]:
+    def analyze_notes_with_reasoning(self, notes_content: str) -> list[dict]:
         """
         Отправляет содержимое заметок в reasoning-модель для анализа
         и возвращает список найденных маркеров.
@@ -104,7 +102,7 @@ class ReasoningIntegrator:
             print(f"Ошибка при вызове Reasoning API: {e}")
             return []
 
-    def _simulate_reasoning_analysis(self, notes_content: str) -> List[Dict]:
+    def _simulate_reasoning_analysis(self, notes_content: str) -> list[dict]:
         """
         Симуляция анализа reasoning-моделью для демонстрации.
         """
@@ -142,17 +140,17 @@ class ReasoningIntegrator:
 
         return "\n".join(markers_text)
 
-    def process_notes_file(self, file_path: str) -> List[Dict]:
+    def process_notes_file(self, file_path: str) -> list[dict]:
         """Обрабатывает один файл с заметками."""
         try:
-            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
             return self.analyze_notes_with_reasoning(content)
         except Exception as e:
             print(f"Ошибка при обработке файла {file_path}: {e}")
             return []
 
-    def process_notes_directory(self, directory_path: str) -> List[Dict]:
+    def process_notes_directory(self, directory_path: str) -> list[dict]:
         """Обрабатывает все файлы в директории с заметками."""
         all_matches = []
 
@@ -178,7 +176,7 @@ class ReasoningIntegrator:
 
         return all_matches
 
-    def apply_matches_to_tracker(self, matches: List[Dict]) -> Dict:
+    def apply_matches_to_tracker(self, matches: list[dict]) -> dict:
         """Применяет найденные совпадения к трекеру и возвращает статистику."""
         results = {"applied": 0, "skipped": 0, "errors": 0}
 

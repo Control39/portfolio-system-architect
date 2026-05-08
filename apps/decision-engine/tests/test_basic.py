@@ -18,9 +18,11 @@ from unittest.mock import MagicMock
 
 import pytest
 
+
 # ============================================================================
 # FIXTURES
 # ============================================================================
+
 
 @pytest.fixture
 def config():
@@ -49,7 +51,7 @@ def service_instance(config, mock_logger):
 
     yield service
 
-    if hasattr(service, 'cleanup'):
+    if hasattr(service, "cleanup"):
         service.cleanup()
 
 
@@ -58,10 +60,10 @@ def cleanup_resources():
     yield
 
 
-
 # ============================================================================
 # UNIT TESTS
 # ============================================================================
+
 
 class TestBasicFunctionality:
     """Basic functionality tests"""
@@ -79,9 +81,8 @@ class TestBasicFunctionality:
     def test_service_instance_created(self, service_instance):
         """Test service instance creation"""
         assert service_instance is not None
-        assert hasattr(service_instance, 'config')
-        assert hasattr(service_instance, 'logger')
-
+        assert hasattr(service_instance, "config")
+        assert hasattr(service_instance, "logger")
 
     def test_decision_engine_basic_decision(self, service_instance, config, mock_logger):
         """
@@ -93,12 +94,11 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        result = service_instance.process() if hasattr(service_instance, "process") else None
 
         if result:
             assert result.get("status") == "success"
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
-
 
     def test_decision_engine_with_constraints(self, service_instance, config, mock_logger):
         """
@@ -110,12 +110,11 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        result = service_instance.process() if hasattr(service_instance, "process") else None
 
         if result:
             assert result.get("status") == "success"
         assert not mock_logger.error.called or mock_logger.error.call_count == 0
-
 
     def test_decision_engine_fallback_logic(self, service_instance, config, mock_logger):
         """
@@ -127,7 +126,7 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, 'process') else None
+        result = service_instance.process() if hasattr(service_instance, "process") else None
 
         if result:
             assert result.get("status") == "success"
@@ -171,8 +170,10 @@ class TestResourceManagement:
 
     def test_thread_safety(self, service_instance):
         results = []
+
         def worker():
             results.append(service_instance is not None)
+
         threads = [threading.Thread(target=worker) for _ in range(3)]
         for t in threads:
             t.start()
@@ -188,7 +189,7 @@ class TestPerformance:
     def test_execution_time_acceptable(self, service_instance, config):
         start_time = time.time()
         time.sleep(0.01)
-        service_instance.process() if hasattr(service_instance, 'process') else None
+        service_instance.process() if hasattr(service_instance, "process") else None
         elapsed = time.time() - start_time
         assert elapsed < config["timeout"]
 
@@ -196,4 +197,3 @@ class TestPerformance:
         for _ in range(10):
             _ = service_instance is not None
         assert service_instance is not None
-

@@ -4,10 +4,11 @@ from .builder import build_room_store
 from .memory import InMemoryRoomStore
 from .models import RoomMetadata
 
+
 __all__ = [
+    "AzureTableRoomStore",
+    "InMemoryRoomStore",
     "RoomMetadata",
     "RoomStore",
-    "InMemoryRoomStore",
-    "AzureTableRoomStore",
     "build_room_store",
 ]

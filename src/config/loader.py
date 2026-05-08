@@ -9,16 +9,15 @@ import os
 import sys
 import warnings
 
+
 # Добавляем путь для импорта decision_engine
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from decision_engine.configs.loader import (COMPONENT_CONFIG,
-                                                load_component_config)
+    from decision_engine.configs.loader import COMPONENT_CONFIG, load_component_config
 except ImportError:
     warnings.warn(
-        "Не удалось импортировать decision_engine.decision_engine.configs.loader. "
-        "Используется fallback конфигурация.",
+        "Не удалось импортировать decision_engine.decision_engine.configs.loader. Используется fallback конфигурация.",
         ImportWarning,
         stacklevel=2,
     )

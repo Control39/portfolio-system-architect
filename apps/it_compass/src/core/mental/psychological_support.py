@@ -8,7 +8,8 @@ import logging
 import random
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ class PsychologicalSupport:
     простые активности, оценку риска выгорания и планы восстановления.
     """
 
-    def __init__(self, resources_path: Optional[str] = None):
+    def __init__(self, resources_path: str | None = None):
         """
         Инициализация модуля психологической поддержки.
 
@@ -41,30 +42,30 @@ class PsychologicalSupport:
         self.simple_activities = self._load_simple_activities()
         self.gentle_encouragements = self._load_gentle_encouragements()
 
-    def _load_json_file(self, filename: str) -> Dict[str, Any]:
+    def _load_json_file(self, filename: str) -> dict[str, Any]:
         """Загружает JSON-файл из ресурсов."""
         file_path = self.resources_path / filename
         if not file_path.exists():
             self.logger.warning(f"Файл ресурсов не найден: {file_path}")
             return {}
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 return json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             self.logger.error(f"Ошибка загрузки {filename}: {e}")
             return {}
 
-    def _load_motivational_quotes(self) -> List[Dict[str, str]]:
+    def _load_motivational_quotes(self) -> list[dict[str, str]]:
         """Загружает мотивационные цитаты из JSON."""
         data = self._load_json_file("motivational_quotes.json")
         return data.get("motivational_quotes", [])
 
-    def _load_crisis_contacts(self) -> List[Dict[str, str]]:
+    def _load_crisis_contacts(self) -> list[dict[str, str]]:
         """Загружает контакты для кризисных ситуаций из JSON."""
         data = self._load_json_file("crisis_contacts.json")
         return data.get("crisis_contacts", [])
 
-    def _load_simple_activities(self) -> List[str]:
+    def _load_simple_activities(self) -> list[str]:
         """
         Загружает список простых активностей.
         Если файла нет, возвращает стандартный список.
@@ -83,7 +84,7 @@ class PsychologicalSupport:
             "Почитайте что-нибудь приятное",
         ]
 
-    def _load_gentle_encouragements(self) -> List[str]:
+    def _load_gentle_encouragements(self) -> list[str]:
         """
         Загружает список мягких поощрений.
         Если файла нет, возвращает стандартный список.
@@ -101,7 +102,7 @@ class PsychologicalSupport:
 
     # --- Основные функции поддержки ---
 
-    def generate_support_report(self) -> Dict[str, Any]:
+    def generate_support_report(self) -> dict[str, Any]:
         """
         Генерирует отчёт психологической поддержки.
 
@@ -139,7 +140,7 @@ class PsychologicalSupport:
         ]
         return random.choice(affirmations)
 
-    def is_burnout_risk(self, recent_activity: Dict[str, Any]) -> bool:
+    def is_burnout_risk(self, recent_activity: dict[str, Any]) -> bool:
         """
         Определяет риск выгорания на основе данных активности.
 
@@ -170,7 +171,7 @@ class PsychologicalSupport:
 
         return False
 
-    def suggest_recovery_plan(self) -> Dict[str, Any]:
+    def suggest_recovery_plan(self) -> dict[str, Any]:
         """
         Предлагает план восстановления на 3 дня.
 
@@ -217,7 +218,7 @@ class PsychologicalSupport:
             ],
         }
 
-    def get_crisis_resources(self) -> Dict[str, Any]:
+    def get_crisis_resources(self) -> dict[str, Any]:
         """
         Возвращает ресурсы для кризисных ситуаций.
 
@@ -244,7 +245,7 @@ class PsychologicalSupport:
         ]
         return random.choice(prompts)
 
-    def export_support_data(self) -> Dict[str, Any]:
+    def export_support_data(self) -> dict[str, Any]:
         """
         Экспортирует все данные поддержки в виде словаря.
 
@@ -259,7 +260,7 @@ class PsychologicalSupport:
             "exported_at": datetime.now().isoformat(),
         }
 
-    def import_support_data(self, data: Dict[str, Any]):
+    def import_support_data(self, data: dict[str, Any]):
         """
         Импортирует данные поддержки из словаря.
 

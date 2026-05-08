@@ -11,7 +11,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 import yaml
 
@@ -29,7 +28,7 @@ class Phase1Tester:
             "recommendations": [],
         }
 
-    def run_all_tests(self) -> Dict:
+    def run_all_tests(self) -> dict:
         """Запуск всех тестов Фазы 1"""
         print("🧪 Запуск тестов реализации Фазы 1 PMR Agent...")
         print("=" * 60)
@@ -102,7 +101,7 @@ class Phase1Tester:
             full_path = self.project_root / config_file
             if full_path.exists():
                 try:
-                    with open(full_path, "r", encoding="utf-8") as f:
+                    with open(full_path, encoding="utf-8") as f:
                         config = yaml.safe_load(f)
 
                     # Проверка обязательных полей
@@ -529,12 +528,8 @@ class Phase1Tester:
         if self.test_results["recommendations"]:
             report += "\n## 🎯 Рекомендации по улучшению\n"
 
-            high_priority = [
-                r for r in self.test_results["recommendations"] if r["priority"] == "high"
-            ]
-            medium_priority = [
-                r for r in self.test_results["recommendations"] if r["priority"] == "medium"
-            ]
+            high_priority = [r for r in self.test_results["recommendations"] if r["priority"] == "high"]
+            medium_priority = [r for r in self.test_results["recommendations"] if r["priority"] == "medium"]
 
             if high_priority:
                 report += "### 🔴 Высокий приоритет\n"
@@ -583,9 +578,7 @@ class Phase1Tester:
         }
 
 ### Следующие шаги:
-1. **Исправить критические проблемы**: {
-            len([t for t in self.test_results["tests"] if t["status"] == "failed"])
-        } шт.
+1. **Исправить критические проблемы**: {len([t for t in self.test_results["tests"] if t["status"] == "failed"])} шт.
 2. **Активировать триггеры**: `python codeassistant/skills/caa-audit/activate-triggers.py`
 3. **Запустить тестовый аудит**: `python codeassistant/skills/caa-audit/caa-audit-script.py --quick`
 4. **Перейти к Фазе 2**: После достижения оценки ≥80%

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 
@@ -27,7 +27,7 @@ class _DummyCompletions:
     def create(
         self,
         *,
-        messages: List[Dict[str, Any]],
+        messages: list[dict[str, Any]],
         model: str,
         stream: bool,
         temperature: float | None = None,
@@ -55,7 +55,7 @@ class _DummyOpenAI:
         self.args = args
         self.kwargs = kwargs
         self.chat = _DummyChat(self)
-        self.last_kwargs: Dict[str, Any] | None = None
+        self.last_kwargs: dict[str, Any] | None = None
 
 
 @pytest.fixture(autouse=True)

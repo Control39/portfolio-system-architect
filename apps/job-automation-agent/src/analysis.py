@@ -1,5 +1,3 @@
-from typing import Dict
-
 import pandas as pd
 
 
@@ -16,7 +14,7 @@ async def get_db():
     yield MockDBSession()
 
 
-async def analyze_career_progress(user_id: str) -> Dict:
+async def analyze_career_progress(user_id: str) -> dict:
     """Analysis Agent."""
     async with get_db():
         pd.DataFrame()

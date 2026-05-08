@@ -3,6 +3,7 @@ import sys
 
 import pytest
 
+
 # Настройка пути к проекту
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
@@ -12,6 +13,7 @@ os.environ["JWT_SECRET"] = "test-secret-key-for-unit-tests"
 from fastapi.testclient import TestClient
 
 from apps.auth_service.main import app
+
 
 client = TestClient(app)
 

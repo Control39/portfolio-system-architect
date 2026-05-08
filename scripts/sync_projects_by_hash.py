@@ -208,9 +208,7 @@ def sync_component(source_dir, target_dir, component_name, dry_run=False, auto_c
             if copy_file(src_info, target_dir, dry_run=dry_run):
                 success_count += 1
 
-    print(
-        f"\n✅ Синхронизация завершена. Успешно обработано файлов: {success_count}/{total_actions}"
-    )
+    print(f"\n✅ Синхронизация завершена. Успешно обработано файлов: {success_count}/{total_actions}")
     return success_count == total_actions
 
 
@@ -221,9 +219,7 @@ def main():
     parser.add_argument("source", help="Исходная директория (my-ecosystem-FINAL)")
     parser.add_argument("target", help="Целевая директория (portfolio-system-architect)")
     parser.add_argument("--component", help="Имя компонента (подпапка) для синхронизации")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Показать план без реальных действий"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Показать план без реальных действий")
     parser.add_argument("--all", action="store_true", help="Синхронизировать все компоненты")
     parser.add_argument("--yes", action="store_true", help="Автоматически подтверждать действия")
 

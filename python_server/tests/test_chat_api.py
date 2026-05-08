@@ -70,9 +70,7 @@ class TestRoomsCrud:
         assert data["roomId"].startswith("room_")
 
     def test_create_room_with_explicit_id_rejected(self, client, auth_headers):
-        resp = client.post(
-            "/api/rooms", json={"roomName": "Custom", "roomId": "x"}, headers=auth_headers
-        )
+        resp = client.post("/api/rooms", json={"roomName": "Custom", "roomId": "x"}, headers=auth_headers)
         assert resp.status_code == 400
         assert "Explicit roomId not allowed" in resp.get_json()["error"]
 
@@ -92,9 +90,7 @@ class TestRoomsCrud:
         assert "Request body required" in resp.get_json()["error"]
 
     def test_get_specific_room_success(self, client, auth_headers):
-        created = client.post(
-            "/api/rooms", json={"roomName": "Test Room"}, headers=auth_headers
-        ).get_json()
+        created = client.post("/api/rooms", json={"roomName": "Test Room"}, headers=auth_headers).get_json()
         rid = created["roomId"]
         resp = client.get(f"/api/rooms/{rid}", headers=auth_headers)
         assert resp.status_code == 200
@@ -106,9 +102,7 @@ class TestRoomsCrud:
         assert "Room not found" in resp.get_json()["error"]
 
     def test_update_room_success(self, client, auth_headers):
-        rid = client.post(
-            "/api/rooms", json={"roomName": "Original"}, headers=auth_headers
-        ).get_json()["roomId"]
+        rid = client.post("/api/rooms", json={"roomName": "Original"}, headers=auth_headers).get_json()["roomId"]
         resp = client.put(
             f"/api/rooms/{rid}",
             json={"roomName": "Updated", "description": "D"},
@@ -129,17 +123,13 @@ class TestRoomsCrud:
         assert "Cannot update system room" in resp.get_json()["error"]
 
     def test_update_room_no_body(self, client, auth_headers):
-        rid = client.post("/api/rooms", json={"roomName": "R"}, headers=auth_headers).get_json()[
-            "roomId"
-        ]
+        rid = client.post("/api/rooms", json={"roomName": "R"}, headers=auth_headers).get_json()["roomId"]
         resp = client.put(f"/api/rooms/{rid}", headers=auth_headers)
         assert resp.status_code == 400
         assert "Request body required" in resp.get_json()["error"]
 
     def test_delete_room_success_and_idempotent(self, client, auth_headers):
-        rid = client.post("/api/rooms", json={"roomName": "Del"}, headers=auth_headers).get_json()[
-            "roomId"
-        ]
+        rid = client.post("/api/rooms", json={"roomName": "Del"}, headers=auth_headers).get_json()["roomId"]
         resp = client.delete(f"/api/rooms/{rid}", headers=auth_headers)
         assert resp.status_code == 200
         # Deleting again remains 200

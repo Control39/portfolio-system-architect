@@ -3,18 +3,18 @@
 """
 
 from datetime import datetime
-from typing import Dict
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.database import get_db
 
+
 router = APIRouter()
 
 
 @router.get("/")
-async def health_check() -> Dict[str, str]:
+async def health_check() -> dict[str, str]:
     """
     Базовый health check endpoint.
 
@@ -30,7 +30,7 @@ async def health_check() -> Dict[str, str]:
 
 
 @router.get("/ready")
-async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
+async def readiness_check(db: AsyncSession = Depends(get_db)) -> dict[str, str]:
     """
     Readiness check с проверкой зависимостей.
 
@@ -47,7 +47,7 @@ async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
         await db.execute("SELECT 1")
         db_status = "connected"
     except Exception as e:
-        db_status = f"error: {str(e)}"
+        db_status = f"error: {e!s}"
 
     return {
         "status": "ready" if db_status == "connected" else "not_ready",
@@ -57,7 +57,7 @@ async def readiness_check(db: AsyncSession = Depends(get_db)) -> Dict[str, str]:
 
 
 @router.get("/live")
-async def liveness_check() -> Dict[str, str]:
+async def liveness_check() -> dict[str, str]:
     """
     Liveness check для Kubernetes.
 

@@ -4,7 +4,7 @@ CoT traces, tagging: thought-architecture, system-thinking-level, source-link.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -12,13 +12,13 @@ from pydantic import BaseModel, Field
 class TraceStep(BaseModel):
     input: str
     output: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class ProofMetadata(BaseModel):
     thought_architecture: str = Field(..., description="Architecture pattern used")
     system_thinking_level: int = Field(..., ge=1, le=5, description="1=Basic, 5=Advanced")
-    source_link: Optional[str] = Field(None, description="Source repo/link")
+    source_link: str | None = Field(None, description="Source repo/link")
     timestamp: datetime = Field(default_factory=datetime.now)
     verified: bool = False
 
@@ -26,7 +26,7 @@ class ProofMetadata(BaseModel):
 class SystemProof(BaseModel):
     id: str
     chain_id: str
-    steps: List[TraceStep]
+    steps: list[TraceStep]
     metadata: ProofMetadata
     verification_accuracy: float = Field(..., ge=0, le=1)  # Target >0.9
 

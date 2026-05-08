@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class RoomMetadata:
@@ -12,9 +12,9 @@ class RoomMetadata:
         room_name: str,
         user_id: str,
         *,
-        created_at: Optional[str] = None,
-        updated_at: Optional[str] = None,
-        description: Optional[str] = None,
+        created_at: str | None = None,
+        updated_at: str | None = None,
+        description: str | None = None,
     ) -> None:
         from datetime import datetime, timezone
 
@@ -25,7 +25,7 @@ class RoomMetadata:
         self.updated_at = updated_at or self.created_at
         self.description = description or ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "roomId": self.room_id,
             "roomName": self.room_name,
@@ -36,7 +36,7 @@ class RoomMetadata:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "RoomMetadata":  # pragma: no cover
+    def from_dict(cls, data: dict[str, Any]) -> RoomMetadata:  # pragma: no cover
         return cls(
             room_id=data["roomId"],
             room_name=data["roomName"],

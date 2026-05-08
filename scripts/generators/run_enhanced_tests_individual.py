@@ -7,11 +7,23 @@ import json
 import subprocess
 from pathlib import Path
 
+
 services = [
-    "cognitive-agent", "decision-engine", "it_compass", "knowledge-graph",
-    "auth_service", "mcp-server", "infra-orchestrator", "ml-model-registry",
-    "portfolio_organizer", "career_development", "job-automation-agent",
-    "ai-config-manager", "template-service", "system-proof", "thought-architecture"
+    "cognitive-agent",
+    "decision-engine",
+    "it_compass",
+    "knowledge-graph",
+    "auth_service",
+    "mcp-server",
+    "infra-orchestrator",
+    "ml-model-registry",
+    "portfolio_organizer",
+    "career_development",
+    "job-automation-agent",
+    "ai-config-manager",
+    "template-service",
+    "system-proof",
+    "thought-architecture",
 ]
 
 results = {}
@@ -35,7 +47,7 @@ for i, service in enumerate(services, 1):
             ["python", "-m", "pytest", str(test_file), "-v", "--tb=no", "-q"],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=30,
         )
 
         output = result.stdout + result.stderr
@@ -47,13 +59,15 @@ for i, service in enumerate(services, 1):
         if "passed" in output:
             # Extract from summary line like "15 passed in 0.09s"
             import re
-            match = re.search(r'(\d+) passed', output)
+
+            match = re.search(r"(\d+) passed", output)
             if match:
                 passed = int(match.group(1))
 
         if "failed" in output:
             import re
-            match = re.search(r'(\d+) failed', output)
+
+            match = re.search(r"(\d+) failed", output)
             if match:
                 failed = int(match.group(1))
 
@@ -86,11 +100,15 @@ print("=" * 80)
 
 # Save results
 with open("phase2_2_enhanced_test_results.json", "w") as f:
-    json.dump({
-        "total_services": len(services),
-        "total_passed": total_passed,
-        "total_failed": total_failed,
-        "results": results
-    }, f, indent=2)
+    json.dump(
+        {
+            "total_services": len(services),
+            "total_passed": total_passed,
+            "total_failed": total_failed,
+            "results": results,
+        },
+        f,
+        indent=2,
+    )
 
 print("\n📄 Results saved to phase2_2_enhanced_test_results.json")

@@ -7,7 +7,8 @@ import logging
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 try:
     import chromadb
@@ -20,6 +21,7 @@ except ImportError:
 
 from .embedder import DocumentEmbedder
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -30,7 +32,7 @@ class ChromaDocumentIndexer:
         self,
         persist_directory: str = "./chroma_db",
         collection_name: str = "project_docs",
-        embedder: Optional[DocumentEmbedder] = None,
+        embedder: DocumentEmbedder | None = None,
     ):
         """
         Initialize ChromaDB indexer.
@@ -41,9 +43,7 @@ class ChromaDocumentIndexer:
             embedder: DocumentEmbedder instance. If None, creates a default one.
         """
         if not CHROMA_AVAILABLE:
-            raise ImportError(
-                "ChromaDB is not available. Install with: pip install chromadb>=0.4.22"
-            )
+            raise ImportError("ChromaDB is not available. Install with: pip install chromadb>=0.4.22")
 
         self.embedder = embedder or DocumentEmbedder()
         self.persist_directory = Path(persist_directory)
@@ -81,7 +81,7 @@ class ChromaDocumentIndexer:
             logger.error(f"Failed to initialize ChromaDB: {e}")
             raise
 
-    def add_document(self, text: str, metadata: Optional[Dict[str, Any]] = None) -> str:
+    def add_document(self, text: str, metadata: dict[str, Any] | None = None) -> str:
         """
         Add a document to ChromaDB index.
 
@@ -125,9 +125,7 @@ class ChromaDocumentIndexer:
         logger.debug(f"Added document {doc_id}: {text[:50]}...")
         return doc_id
 
-    def add_documents_from_files(
-        self, file_pattern: str = "**/*.md", root_dir: str = "."
-    ) -> List[str]:
+    def add_documents_from_files(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> list[str]:
         """
         Add documents from files matching pattern.
 
@@ -172,7 +170,7 @@ class ChromaDocumentIndexer:
         logger.info(f"Added {len(doc_ids)} document chunks from {len(file_paths)} files")
         return doc_ids
 
-    def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> List[str]:
+    def _chunk_text(self, text: str, max_chunk_size: int = 1000) -> list[str]:
         """Split text into chunks for better search results."""
         if len(text) <= max_chunk_size:
             return [text]
@@ -202,9 +200,7 @@ class ChromaDocumentIndexer:
 
         return chunks
 
-    def search(
-        self, query: str, top_k: int = 5, where_filter: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5, where_filter: dict[str, Any] | None = None) -> list[dict[str, Any]]:
         """
         Search for documents similar to query using ChromaDB.
 
@@ -260,7 +256,7 @@ class ChromaDocumentIndexer:
             logger.error(f"Error searching ChromaDB: {e}")
             return []
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get index statistics from ChromaDB."""
         try:
             count = self.collection.count()
@@ -291,7 +287,7 @@ class ChromaDocumentIndexer:
         except Exception as e:
             logger.error(f"Error deleting collection: {e}")
 
-    def migrate_from_pickle(self, pickle_path: str) -> List[str]:
+    def migrate_from_pickle(self, pickle_path: str) -> list[str]:
         """
         Migrate documents from pickle-based index to ChromaDB.
 

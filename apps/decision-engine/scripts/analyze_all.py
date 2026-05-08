@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Анализ всех текстовых файлов в проекте на предмет кодировки.
 Поддерживает кириллицу в путях и названиях файлов.
@@ -9,7 +8,6 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Dict
 
 import chardet
 
@@ -26,7 +24,7 @@ def setup_logging() -> None:
     )
 
 
-def detect_encoding(file_path: Path) -> Dict[str, str]:
+def detect_encoding(file_path: Path) -> dict[str, str]:
     """Определение кодировки файла с помощью chardet"""
     try:
         with open(file_path, "rb") as f:
@@ -49,7 +47,7 @@ def detect_encoding(file_path: Path) -> Dict[str, str]:
         return {"encoding": None, "confidence": None, "error": str(e)}
 
 
-def analyze_file(file_path: Path, relative_path: Path) -> Dict:
+def analyze_file(file_path: Path, relative_path: Path) -> dict:
     """Анализ одного файла"""
     logging.info(f"Анализ файла: {relative_path}")
 
@@ -102,7 +100,7 @@ def should_process_file(file_path: Path) -> bool:
     return True
 
 
-def analyze_all(start_path: str = ".") -> Dict:
+def analyze_all(start_path: str = ".") -> dict:
     """Анализ всех текстовых файлов в указанной директории"""
     start_path = Path(start_path).resolve()
     results = []
@@ -132,9 +130,7 @@ def analyze_all(start_path: str = ".") -> Dict:
             else:
                 encoding = file_result["analysis"]["encoding"]
                 if encoding:
-                    summary["encoding_distribution"][encoding] = (
-                        summary["encoding_distribution"].get(encoding, 0) + 1
-                    )
+                    summary["encoding_distribution"][encoding] = summary["encoding_distribution"].get(encoding, 0) + 1
 
             results.append(file_result)
             summary["processed_files"] += 1
@@ -157,7 +153,7 @@ def analyze_all(start_path: str = ".") -> Dict:
     return final_result
 
 
-def print_summary(results: Dict) -> None:
+def print_summary(results: dict) -> None:
     """Вывод краткого отчета в консоль"""
     summary = results["summary"]
     print("\n" + "=" * 60)
@@ -168,9 +164,7 @@ def print_summary(results: Dict) -> None:
     print(f"Ошибок при анализе: {summary['errors']}")
 
     print("\nРаспределение кодировок:")
-    for encoding, count in sorted(
-        summary["encoding_distribution"].items(), key=lambda x: x[1], reverse=True
-    ):
+    for encoding, count in sorted(summary["encoding_distribution"].items(), key=lambda x: x[1], reverse=True):
         print(f"  {encoding}: {count} файлов")
 
     # Показываем файлы с проблемами

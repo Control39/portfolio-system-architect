@@ -26,11 +26,11 @@ except (ImportError, ModuleNotFoundError):
 
 # Экспорт основных классов
 __all__ = [
-    "Scanner",
-    "Planner",
-    "LearningSystem",
-    "TriggerProcessor",
     "CognitiveAgentLauncher",
+    "LearningSystem",
+    "Planner",
+    "Scanner",
+    "TriggerProcessor",
 ]
 
 
@@ -39,6 +39,7 @@ def __getattr__(name):
     if name == "CognitiveAgentLauncher":
         try:
             from .launch_script import CognitiveAgentLauncher
+
             return CognitiveAgentLauncher
         except (ImportError, ModuleNotFoundError):
             return None

@@ -1,9 +1,10 @@
-﻿import os
+import os
 import sys
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+
 
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
@@ -13,6 +14,7 @@ from src.common.health_check import init_health_checks
 from ..core.orchestrator import run_core_agent
 from .apps.cognitive_agent.job_search import search_hh_ru
 
+
 app = FastAPI(title="Job Automation Agent API", version="0.1.0")
 
 # Инициализируем health-check
@@ -21,7 +23,7 @@ init_health_checks(app, service_name="job-automation-agent", version="0.1.0")
 
 class AgentTask(BaseModel):
     task: str
-    context: Dict[str, Any] = {}
+    context: dict[str, Any] = {}
 
 
 @app.get("/")
@@ -56,7 +58,7 @@ async def search_jobs(query: str):
 
 
 @app.post("/resume/generate")
-async def gen_resume(job: Dict[str, str]):
+async def gen_resume(job: dict[str, str]):
     """Resume Agent."""
     # Stub profile from career DB (integrate later)
     profile = {"skills": ["Python", "FastAPI", "PostgreSQL"], "name": "Architect"}

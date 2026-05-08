@@ -10,9 +10,10 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
+
 
 # Создание директорий для логов перед инициализацией логирования
 LOG_DIR = Path("apps/cognitive-agent/logs")
@@ -41,10 +42,10 @@ class ProjectScanner:
         self.visited_paths = set()
         self.max_files_to_scan = 5000
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации сканера"""
         try:
-            with open(self.config_path, "r", encoding="utf-8") as f:
+            with open(self.config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
@@ -53,10 +54,28 @@ class ProjectScanner:
     def _safe_rglob(self, path: Path, pattern: str = "*", max_depth: int = 5):
         """Безопасный рекурсивный поиск с ограничением глубины"""
         ignore_dirs = {
-            '.git', '.venv', 'node_modules', '__pycache__', '.cache',
-            '.pytest_cache', 'venv', 'env', '.mypy_cache', '.ruff_cache',
-            '.idea', '.vscode', 'dist', 'build', '.egg-info', 'htmlcov',
-            '.coverage', 'reports', '.private', 'target', 'bin', 'obj'
+            ".git",
+            ".venv",
+            "node_modules",
+            "__pycache__",
+            ".cache",
+            ".pytest_cache",
+            "venv",
+            "env",
+            ".mypy_cache",
+            ".ruff_cache",
+            ".idea",
+            ".vscode",
+            "dist",
+            "build",
+            ".egg-info",
+            "htmlcov",
+            ".coverage",
+            "reports",
+            ".private",
+            "target",
+            "bin",
+            "obj",
         }
 
         def walk_dir(current_path: Path, current_depth: int, count: int):
@@ -73,7 +92,7 @@ class ProjectScanner:
                         self.visited_paths.add(real_path)
 
                         if item.is_dir(follow_symlinks=False):
-                            if item.name not in ignore_dirs and not item.name.startswith('.'):
+                            if item.name not in ignore_dirs and not item.name.startswith("."):
                                 yield from walk_dir(item, current_depth + 1, count)
                         else:
                             yield item
@@ -85,7 +104,7 @@ class ProjectScanner:
 
         return walk_dir(path, 0, 0)
 
-    def scan_project(self, project_path: str = ".") -> Dict[str, Any]:
+    def scan_project(self, project_path: str = ".") -> dict[str, Any]:
         """Выполнение сканирования проекта"""
         logger.info(f"Начало сканирования проекта: {project_path}")
 
@@ -109,7 +128,7 @@ class ProjectScanner:
         logger.info(f"Сканирование завершено за {time.time() - start_time:.2f} секунд")
         return self.scan_results
 
-    def _get_project_info(self, project_path: Path) -> Dict[str, Any]:
+    def _get_project_info(self, project_path: Path) -> dict[str, Any]:
         """Получение базовой информации о проекте"""
         logger.info("Сбор информации о проекте...")
 
@@ -121,7 +140,7 @@ class ProjectScanner:
 
         return info
 
-    def _analyze_tech_stack(self, project_path: Path) -> Dict[str, Any]:
+    def _analyze_tech_stack(self, project_path: Path) -> dict[str, Any]:
         """Анализ технологического стека"""
         logger.info("Анализ технологического стека...")
 
@@ -134,7 +153,7 @@ class ProjectScanner:
 
         return tech_stack
 
-    def _analyze_dependencies(self, project_path: Path) -> Dict[str, Any]:
+    def _analyze_dependencies(self, project_path: Path) -> dict[str, Any]:
         """Анализ зависимостей проекта"""
         logger.info("Анализ зависимостей...")
 
@@ -150,7 +169,7 @@ class ProjectScanner:
         """Проверка, является ли директория Git репозиторием"""
         return (path / ".git").exists()
 
-    def _detect_languages(self, path: Path) -> List[str]:
+    def _detect_languages(self, path: Path) -> list[str]:
         """Обнаружение языков программирования"""
         languages = set()
         extensions = {
@@ -175,7 +194,7 @@ class ProjectScanner:
 
         return list(languages)
 
-    def _detect_frameworks(self, path: Path) -> List[str]:
+    def _detect_frameworks(self, path: Path) -> list[str]:
         """Обнаружение фреймворков"""
         frameworks = []
 
@@ -198,7 +217,7 @@ class ProjectScanner:
 
         return list(set(frameworks))
 
-    def _detect_databases(self, path: Path) -> List[str]:
+    def _detect_databases(self, path: Path) -> list[str]:
         """Обнаружение баз данных"""
         databases = []
         db_files = {
@@ -210,7 +229,7 @@ class ProjectScanner:
             try:
                 file_path = path / file_name
                 if file_path.exists():
-                    with open(file_path, "r", encoding="utf-8") as f:
+                    with open(file_path, encoding="utf-8") as f:
                         content = f.read()
                         for db in possible_dbs:
                             if db.lower() in content.lower():
@@ -220,7 +239,7 @@ class ProjectScanner:
 
         return list(set(databases))
 
-    def _detect_tools(self, path: Path) -> List[str]:
+    def _detect_tools(self, path: Path) -> list[str]:
         """Обнаружение инструментов"""
         tools = []
 
@@ -246,7 +265,7 @@ class ProjectScanner:
 
         return list(set(tools))
 
-    def _get_python_dependencies(self, path: Path) -> List[str]:
+    def _get_python_dependencies(self, path: Path) -> list[str]:
         """Получение Python зависимостей"""
         deps = []
         req_files = ["requirements.txt", "pyproject.toml", "setup.py", "requirements-dev.txt"]
@@ -261,7 +280,7 @@ class ProjectScanner:
 
         return deps
 
-    def _get_nodejs_dependencies(self, path: Path) -> List[str]:
+    def _get_nodejs_dependencies(self, path: Path) -> list[str]:
         """Получение Node.js зависимостей"""
         deps = []
         try:
@@ -275,7 +294,7 @@ class ProjectScanner:
             pass
         return deps
 
-    def _get_docker_dependencies(self, path: Path) -> List[str]:
+    def _get_docker_dependencies(self, path: Path) -> list[str]:
         """Получение Docker зависимостей"""
         deps = []
         try:

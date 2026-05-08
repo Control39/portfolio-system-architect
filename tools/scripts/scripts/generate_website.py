@@ -7,6 +7,7 @@ from pathlib import Path
 
 import markdown as md
 
+
 # Пути
 REPO_ROOT: Path = Path(__file__).parent.parent.resolve()
 OUTPUT_DIR: Path = REPO_ROOT / "docs" / "website"
@@ -93,9 +94,7 @@ def generate_nav_links(pages_keys: list[str]) -> str:
     """Генерирует навигацию на основе реальных страниц."""
     links = []
     # Всегда добавляем главную
-    links.append(
-        '                        <li><a class="nav-link" href="index.html">[+] Главная</a></li>'
-    )
+    links.append('                        <li><a class="nav-link" href="index.html">[+] Главная</a></li>')
 
     # Добавляем страницы, которые существуют
     for key in sorted(set(pages_keys)):

@@ -1,6 +1,7 @@
 import shutil
 from pathlib import Path
 
+
 files = [
     ("docs/CONTRIBUTING.md", "CONTRIBUTING.md"),
     ("docs/CODE_OF_CONDUCT.md", "CODE_OF_CONDUCT.md"),

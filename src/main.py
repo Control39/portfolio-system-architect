@@ -3,6 +3,7 @@ import sys
 
 import uvicorn
 
+
 # Добавляем путь к проекту для корректного импорта
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -41,11 +42,7 @@ except ImportError:
 def main():
     """Основная функция для запуска сервера в production-режиме."""
     try:
-        api_script = next(
-            script
-            for script in COMPONENT_CONFIG["automation"]["scripts"]
-            if script["name"] == "run_api"
-        )
+        api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
         # Логируем запуск API
         print(f"Запуск API: {api_script['command'][:50]}...")
 
@@ -64,11 +61,7 @@ def main():
 def main_dev():
     """Функция для запуска сервера в development-режиме с возможностью перезагрузки."""
     try:
-        api_script = next(
-            script
-            for script in COMPONENT_CONFIG["automation"]["scripts"]
-            if script["name"] == "run_api"
-        )
+        api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
         # Логируем запуск API
         print(f"Запуск API: {api_script['command'][:50]}...")
 

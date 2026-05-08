@@ -14,7 +14,7 @@ from pathlib import Path
 def replace_in_file(filepath: Path, replacements: list[tuple[str, str]]) -> bool:
     """Заменяет строки в файле и возвращает True, если были изменения."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -81,7 +81,7 @@ def main():
 
             # Проверяем, есть ли в файле старые импорты
             try:
-                with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
+                with open(filepath, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                     if not any(old in content for old, _ in replacements):
                         continue

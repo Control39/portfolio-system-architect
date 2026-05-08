@@ -4,6 +4,7 @@ Defines the Flask `app`, configures CORS, registers blueprints, and
 bootstraps the background asyncio loop + chat service on import so WSGI
 hosts can serve immediately after import.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -23,6 +24,7 @@ from .core import build_room_store
 from .core.chat_api import create_chat_api_blueprint
 from .core.runtime_config import resolve_runtime_config
 from .task_manager import ConnectionTaskManager
+
 
 # -----------------------------------------------------
 # Background event loop + chat service bootstrap
@@ -45,9 +47,7 @@ def _start_background_event_loop() -> None:
         _bootstrap_started = True
 
         # Allow an externally reachable websocket base (e.g. reverse proxy, docker mapped port)
-        explicit_public_ws = os.getenv(
-            "PUBLIC_WS_ENDPOINT"
-        )  # e.g. wss://chat.example.com or ws://localhost:3001
+        explicit_public_ws = os.getenv("PUBLIC_WS_ENDPOINT")  # e.g. wss://chat.example.com or ws://localhost:3001
 
         def loop_thread() -> None:
             try:
@@ -64,7 +64,7 @@ def _start_background_event_loop() -> None:
                     transport_mode=_runtime.transport,
                 )
                 # Assign globals
-                global chat_service, event_loop  # noqa: PLW0603
+                global chat_service, event_loop
                 chat_service = cs
                 event_loop = loop
 
@@ -78,7 +78,7 @@ def _start_background_event_loop() -> None:
                         app.logger.info("Starting chat service...")
                         await cs.start_chat()
                         app.logger.info("Chat service started successfully")
-                    except Exception as e:  # noqa: BLE001
+                    except Exception as e:
                         app.logger.exception("Background chat service failed to start: %s", e)
 
                 loop.create_task(starter())

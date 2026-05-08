@@ -39,6 +39,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 
+
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -98,9 +99,7 @@ def validate_environment():
         missing = [var for var in required_vars if not os.getenv(var)]
 
         if missing:
-            error_msg = (
-                f"Missing required environment variables in production: {', '.join(missing)}"
-            )
+            error_msg = f"Missing required environment variables in production: {', '.join(missing)}"
             logger.error(error_msg)
             raise RuntimeError(error_msg)
 
@@ -402,11 +401,7 @@ async def forward_request(
 
         # Возвращаем ответ
         return JSONResponse(
-            content=(
-                response.json()
-                if response.headers.get("content-type") == "application/json"
-                else response.text
-            ),
+            content=(response.json() if response.headers.get("content-type") == "application/json" else response.text),
             status_code=response.status_code,
             headers=dict(response.headers),
         )
@@ -462,9 +457,7 @@ async def health_check() -> dict[str, Any]:
             health_url = f"{config['base_url']}{config.get('health_check', '/health')}"
             async with httpx.AsyncClient(timeout=5.0) as client:
                 response = await client.get(health_url)
-                services_status[service_name] = (
-                    "healthy" if response.status_code == 200 else "unhealthy"
-                )
+                services_status[service_name] = "healthy" if response.status_code == 200 else "unhealthy"
         except Exception as e:
             services_status[service_name] = f"error: {e!s}"
 
@@ -500,9 +493,7 @@ async def login(auth: AuthRequest) -> AuthResponse:
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Authentication service not configured",
             )
-        logger.warning(
-            "Using demo authentication. For production, set ADMIN_PASSWORD environment variable."
-        )
+        logger.warning("Using demo authentication. For production, set ADMIN_PASSWORD environment variable.")
         admin_password = "demo-admin-password-change-in-production"  # nosec: B105 - This is a demo password for development only
 
     # Проверяем credentials
@@ -632,8 +623,6 @@ if __name__ == "__main__":
     port = int(os.getenv("GATEWAY_PORT", "8080"))
 
     logger.info(f"Starting gateway on {host}:{port}")
-    logger.warning(
-        "For production, consider using a reverse proxy (nginx/traefik) and binding to specific interfaces"
-    )
+    logger.warning("For production, consider using a reverse proxy (nginx/traefik) and binding to specific interfaces")
 
     uvicorn.run(app, host=host, port=port)

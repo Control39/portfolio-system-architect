@@ -1,10 +1,10 @@
 import os
 import sys
 
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from apps.portfolio_organizer.src.core.notification_service import \
-    NotificationService
+from apps.portfolio_organizer.src.core.notification_service import NotificationService
 
 
 def test_send_email(capsys):

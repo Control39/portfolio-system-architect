@@ -1,10 +1,9 @@
 import asyncio
-from typing import Dict, List
 
 import requests
 
 
-async def search_hh_ru(query: str, area: str = "1") -> List[Dict]:
+async def search_hh_ru(query: str, area: str = "1") -> list[dict]:
     """Парсер hh.ru API."""
     url = f"https://api.hh.ru/vacancies?text={query}&area={area}&per_page=10"
     headers = {"User-Agent": "JobAutomationAgent/1.0"}
@@ -28,7 +27,7 @@ async def search_hh_ru(query: str, area: str = "1") -> List[Dict]:
         return []
 
 
-async def search_habr_career(query: str) -> List[Dict]:
+async def search_habr_career(query: str) -> list[dict]:
     """Поиск вакансий на Хабр Карьере (упрощённый)."""
     # Заглушка
     return [
@@ -42,7 +41,7 @@ async def search_habr_career(query: str) -> List[Dict]:
     ]
 
 
-async def search_all_jobs(query: str) -> List[Dict]:
+async def search_all_jobs(query: str) -> list[dict]:
     """Объединённый поиск по всем источникам."""
     hh_results = await search_hh_ru(query)
     habr_results = await search_habr_career(query)

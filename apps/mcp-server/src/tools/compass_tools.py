@@ -7,12 +7,13 @@ IT-Compass Tools для MCP Server
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastmcp import FastMCP
 
+
 # Инициализация MCP (будет передан из main)
-mcp: Optional[FastMCP] = None
+mcp: FastMCP | None = None
 
 
 def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
@@ -23,7 +24,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
     markers_path = project_root / "apps" / "it-compass" / "src" / "data" / "markers"
 
     @mcp.tool()
-    def evaluate_by_compass(domain: str, level: Optional[int] = None) -> Dict[str, Any]:
+    def evaluate_by_compass(domain: str, level: int | None = None) -> dict[str, Any]:
         """
         Оценка компетенций по домену IT-Compass
 
@@ -43,7 +44,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             }
 
         try:
-            with open(domain_file, "r", encoding="utf-8") as f:
+            with open(domain_file, encoding="utf-8") as f:
                 data = json.load(f)
 
             result = {
@@ -68,10 +69,10 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return result
 
         except Exception as e:
-            return {"error": f"Ошибка при чтении домена: {str(e)}"}
+            return {"error": f"Ошибка при чтении домена: {e!s}"}
 
     @mcp.tool()
-    def get_markers_by_domain(domain: str) -> List[Dict[str, Any]]:
+    def get_markers_by_domain(domain: str) -> list[dict[str, Any]]:
         """
         Получение всех маркеров для домена
 
@@ -87,7 +88,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return []
 
         try:
-            with open(domain_file, "r", encoding="utf-8") as f:
+            with open(domain_file, encoding="utf-8") as f:
                 data = json.load(f)
 
             markers = []
@@ -107,7 +108,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return []
 
     @mcp.tool()
-    def get_available_domains() -> List[str]:
+    def get_available_domains() -> list[str]:
         """
         Получение списка доступных доменов IT-Compass
 
@@ -125,7 +126,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         return sorted(domains)
 
     @mcp.tool()
-    def auto_detect_markers_from_code(code_path: str) -> List[Dict[str, str]]:
+    def auto_detect_markers_from_code(code_path: str) -> list[dict[str, str]]:
         """
         Автоматическое обнаружение маркеров из кода
 
@@ -212,20 +213,20 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return detected
 
         except Exception as e:
-            return [{"error": f"Ошибка при анализе: {str(e)}"}]
+            return [{"error": f"Ошибка при анализе: {e!s}"}]
 
-    def detect_file_type(file: Path) -> Optional[str]:
+    def detect_file_type(file: Path) -> str | None:
         """Определение типа файла"""
         if file.suffix == ".py":
             return "python"
-        elif file.name == "Dockerfile" or file.suffix == ".dockerfile":
-            return "docker"
-        elif file.suffix in [".yml", ".yaml"] and "docker-compose" in file.name.lower():
-            return "docker"
-        elif file.suffix in [".yml", ".yaml"] and any(
-            x in file.name.lower() for x in ["workflow", "github", "action"]
+        if (
+            file.name == "Dockerfile"
+            or file.suffix == ".dockerfile"
+            or (file.suffix in [".yml", ".yaml"] and "docker-compose" in file.name.lower())
         ):
-            return "devops"
-        elif file.suffix == ".tf":
+            return "docker"
+        if (
+            file.suffix in [".yml", ".yaml"] and any(x in file.name.lower() for x in ["workflow", "github", "action"])
+        ) or file.suffix == ".tf":
             return "devops"
         return None

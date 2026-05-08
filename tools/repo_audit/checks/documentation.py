@@ -1,7 +1,5 @@
 """Documentation checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class DocumentationCheck(BaseCheck):
     def category(self) -> str:
         return "documentation"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. README
         self.check_file_exists("README.md")
@@ -70,7 +68,7 @@ class ReadmeQualityCheck(BaseCheck):
     def category(self) -> str:
         return "documentation"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         readme_path = self.repo_path / "README.md"
         if not readme_path.exists():

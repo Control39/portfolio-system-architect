@@ -17,9 +17,11 @@ from unittest.mock import MagicMock
 
 import pytest
 
+
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
+
 
 @pytest.fixture
 def service_config():
@@ -54,7 +56,7 @@ def service_instance(service_config, mock_dependencies):
     yield service
 
     # Cleanup
-    service.cleanup() if hasattr(service, 'cleanup') else None
+    service.cleanup() if hasattr(service, "cleanup") else None
 
 
 @pytest.fixture(autouse=True)
@@ -62,7 +64,6 @@ def reset_mocks(mock_dependencies):
     """Reset all mocks before each test"""
     for mock in mock_dependencies.values():
         mock.reset_mock()
-
 
 
 # ============================================================================
@@ -73,7 +74,7 @@ def reset_mocks(mock_dependencies):
 def test_mcp_protocol_compliance(service_instance, mock_dependencies, service_config):
     """
     Test Case 1: Mcp Protocol Compliance
-    
+
     Validates integration between mcp-server and its dependencies.
     """
     # Arrange
@@ -108,7 +109,7 @@ async def test_mcp_protocol_compliance_async(service_instance, mock_dependencies
 def test_mcp_agent_integration(service_instance, mock_dependencies, service_config):
     """
     Test Case 2: Mcp Agent Integration
-    
+
     Validates integration between mcp-server and its dependencies.
     """
     # Arrange
@@ -143,7 +144,7 @@ async def test_mcp_agent_integration_async(service_instance, mock_dependencies):
 def test_mcp_concurrent_connections(service_instance, mock_dependencies, service_config):
     """
     Test Case 3: Mcp Concurrent Connections
-    
+
     Validates integration between mcp-server and its dependencies.
     """
     # Arrange
@@ -178,7 +179,7 @@ async def test_mcp_concurrent_connections_async(service_instance, mock_dependenc
 def test_mcp_error_handling(service_instance, mock_dependencies, service_config):
     """
     Test Case 4: Mcp Error Handling
-    
+
     Validates integration between mcp-server and its dependencies.
     """
     # Arrange
@@ -213,7 +214,7 @@ async def test_mcp_error_handling_async(service_instance, mock_dependencies):
 def test_mcp_resource_management(service_instance, mock_dependencies, service_config):
     """
     Test Case 5: Mcp Resource Management
-    
+
     Validates integration between mcp-server and its dependencies.
     """
     # Arrange
@@ -248,6 +249,7 @@ async def test_mcp_resource_management_async(service_instance, mock_dependencies
 # ============================================================================
 # COMMON INTEGRATION TESTS
 # ============================================================================
+
 
 def test_service_initialization(service_instance, mock_dependencies):
     """Test service initializes with all dependencies"""
@@ -302,4 +304,3 @@ def test_concurrent_operations(service_instance, mock_dependencies):
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
 
     assert all(results)
-

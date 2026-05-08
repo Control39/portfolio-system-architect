@@ -1,17 +1,19 @@
 from __future__ import annotations
 
 import asyncio
+
 # Optional azure-data-tables import (lazy, best-effort)
 import importlib
 import os
 import random
 import string
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from ...config import DEFAULT_ROOM_ID
 from .base import RoomStore
 from .models import RoomMetadata
+
 
 _tables_client_cls: Any | None = None
 _update_mode_enum: Any | None = None
@@ -24,12 +26,12 @@ try:  # pragma: no cover
     _update_mode_enum = getattr(_tables_mod, "UpdateMode", None)
     _resource_not_found_exc = getattr(_core_exc_mod, "ResourceNotFoundError", Exception)
     _HAS_TABLES = _tables_client_cls is not None
-except Exception:  # noqa: BLE001
+except Exception:
     pass
 
 try:  # optional dependency
     from ..credentials import get_azure_credential
-except Exception:  # noqa: BLE001
+except Exception:
 
     def get_azure_credential() -> Any:  # type: ignore[override]
         raise RuntimeError("Azure credential initialization failed.")
@@ -48,27 +50,23 @@ class AzureTableRoomStore(RoomStore):
     def __init__(
         self,
         *,
-        connection_string: Optional[str] = None,
-        account_name: Optional[str] = None,
-        table_name: Optional[str] = None,
+        connection_string: str | None = None,
+        account_name: str | None = None,
+        table_name: str | None = None,
         max_messages_per_room: int = 200,
-        metadata_table_name: Optional[str] = None,
+        metadata_table_name: str | None = None,
     ) -> None:
         if _tables_client_cls is None:
             raise RuntimeError(
                 "azure-data-tables not installed. Please install azure-data-tables to use AzureTableRoomStore."
             )
-        self._table_name = (
-            (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
-        )
+        self._table_name = (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
         self._conn_str = connection_string or os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         self._account_name = (account_name or os.getenv("AZURE_STORAGE_ACCOUNT") or "").strip()
         self._max_messages = max_messages_per_room
         # Metadata table name
         self._metadata_table_name = (
-            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata")
-            .strip()
-            .lower()
+            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata").strip().lower()
         )
         # Lazy cache for list_rooms
         self._known_rooms: set[str] = set([DEFAULT_ROOM_ID])
@@ -95,7 +93,7 @@ class AzureTableRoomStore(RoomStore):
     async def register_room(self, room: str) -> None:  # pragma: no cover (no-op)
         self._known_rooms.add(room)
 
-    async def record_room_event(self, room: str, event: Dict[str, Any]) -> None:
+    async def record_room_event(self, room: str, event: dict[str, Any]) -> None:
         await self.register_room(room)
         entity = {
             "PartitionKey": room,
@@ -115,18 +113,16 @@ class AzureTableRoomStore(RoomStore):
         except Exception:
             pass
 
-    async def append_message(self, room: str, event: Dict[str, Any]) -> None:
+    async def append_message(self, room: str, event: dict[str, Any]) -> None:
         await self.record_room_event(room, event)
 
-    async def get_room_messages(
-        self, room: str, limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+    async def get_room_messages(self, room: str, limit: int | None = None) -> list[dict[str, Any]]:
         try:
             entities = list(self._table_client.query_entities(f"PartitionKey eq '{room}'"))
             entities.sort(key=lambda e: e["RowKey"])  # oldest -> newest
             if limit is not None and limit >= 0:
                 entities = entities[-limit:]
-            msgs: List[Dict[str, Any]] = []
+            msgs: list[dict[str, Any]] = []
             for ent in entities:
                 msgs.append(
                     {
@@ -141,10 +137,10 @@ class AzureTableRoomStore(RoomStore):
         except Exception:
             return []
 
-    async def list_rooms(self) -> List[Dict[str, Any]]:
+    async def list_rooms(self) -> list[dict[str, Any]]:
         try:
             rooms = set(self._known_rooms)
-            count_by_room: Dict[str, int] = dict.fromkeys(rooms, 0)
+            count_by_room: dict[str, int] = dict.fromkeys(rooms, 0)
             for ent in self._table_client.list_entities(results_per_page=1000):
                 pk = ent.get("PartitionKey")
                 if isinstance(pk, str):
@@ -158,7 +154,7 @@ class AzureTableRoomStore(RoomStore):
         return
 
     # -------- metadata API (Azure Table) --------
-    def _metadata_to_entity(self, rm: RoomMetadata) -> Dict[str, Any]:
+    def _metadata_to_entity(self, rm: RoomMetadata) -> dict[str, Any]:
         return {
             "PartitionKey": rm.user_id,
             "RowKey": rm.room_id,
@@ -168,7 +164,7 @@ class AzureTableRoomStore(RoomStore):
             "updatedAt": rm.updated_at,
         }
 
-    def _metadata_from_entity(self, ent: Dict[str, Any]) -> RoomMetadata:
+    def _metadata_from_entity(self, ent: dict[str, Any]) -> RoomMetadata:
         return RoomMetadata(
             room_id=ent["RowKey"],
             room_name=ent.get("roomName", ent["RowKey"]),
@@ -183,24 +179,22 @@ class AzureTableRoomStore(RoomStore):
         user_id: str,
         room_name: str,
         *,
-        room_id: Optional[str] = None,
-        description: Optional[str] = None,
+        room_id: str | None = None,
+        description: str | None = None,
     ) -> RoomMetadata:
         import uuid
 
         if not room_id:
             room_id = f"room_{uuid.uuid4().hex[:8]}"
-        room = RoomMetadata(
-            room_id=room_id, room_name=room_name, user_id=user_id, description=description
-        )
+        room = RoomMetadata(room_id=room_id, room_name=room_name, user_id=user_id, description=description)
         entity = self._metadata_to_entity(room)
         try:
             await asyncio.to_thread(self._metadata_client.create_entity, entity)
             return room
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             raise ValueError(f"Failed to create room metadata: {e}")
 
-    async def get_room_metadata(self, user_id: str, room_id: str) -> Optional[RoomMetadata]:
+    async def get_room_metadata(self, user_id: str, room_id: str) -> RoomMetadata | None:
         if room_id == DEFAULT_ROOM_ID:
             return RoomMetadata(
                 room_id=DEFAULT_ROOM_ID,
@@ -209,9 +203,7 @@ class AzureTableRoomStore(RoomStore):
                 description="Default public room",
             )
         try:
-            ent = await asyncio.to_thread(
-                self._metadata_client.get_entity, partition_key=user_id, row_key=room_id
-            )
+            ent = await asyncio.to_thread(self._metadata_client.get_entity, partition_key=user_id, row_key=room_id)
             return self._metadata_from_entity(ent)
         except Exception:
             return None
@@ -221,8 +213,8 @@ class AzureTableRoomStore(RoomStore):
         user_id: str,
         room_id: str,
         *,
-        room_name: Optional[str] = None,
-        description: Optional[str] = None,
+        room_name: str | None = None,
+        description: str | None = None,
     ) -> RoomMetadata:
         room = await self.get_room_metadata(user_id, room_id)
         if not room:
@@ -238,26 +230,22 @@ class AzureTableRoomStore(RoomStore):
             if replace_mode is None:
                 await asyncio.to_thread(self._metadata_client.update_entity, entity)
             else:
-                await asyncio.to_thread(
-                    self._metadata_client.update_entity, entity, mode=replace_mode
-                )
+                await asyncio.to_thread(self._metadata_client.update_entity, entity, mode=replace_mode)
             return room
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             raise ValueError(f"Failed to update room metadata: {e}")
 
     async def delete_room_metadata(self, user_id: str, room_id: str) -> bool:
         if room_id == DEFAULT_ROOM_ID:
             return False
         try:
-            await asyncio.to_thread(
-                self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id
-            )
+            await asyncio.to_thread(self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id)
             return True
         except Exception:
             return False
 
-    async def list_user_rooms(self, user_id: str) -> List[RoomMetadata]:
-        rooms: List[RoomMetadata] = [
+    async def list_user_rooms(self, user_id: str) -> list[RoomMetadata]:
+        rooms: list[RoomMetadata] = [
             RoomMetadata(
                 room_id=DEFAULT_ROOM_ID,
                 room_name="Public Chat",

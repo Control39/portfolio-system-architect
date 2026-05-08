@@ -5,7 +5,6 @@ Enhanced Test Generator for all 15 Microservices
 """
 
 from pathlib import Path
-from typing import Dict, List
 
 
 class EnhancedTestGenerator:
@@ -20,7 +19,7 @@ class EnhancedTestGenerator:
                     "test_agent_initialization_with_config",
                     "test_agent_learns_from_examples",
                     "test_agent_handles_invalid_input",
-                ]
+                ],
             },
             "decision-engine": {
                 "tier": "core",
@@ -28,7 +27,7 @@ class EnhancedTestGenerator:
                     "test_decision_engine_basic_decision",
                     "test_decision_engine_with_constraints",
                     "test_decision_engine_fallback_logic",
-                ]
+                ],
             },
             "it_compass": {
                 "tier": "core",
@@ -36,7 +35,7 @@ class EnhancedTestGenerator:
                     "test_compass_analyzes_system_architecture",
                     "test_compass_identifies_bottlenecks",
                     "test_compass_suggests_improvements",
-                ]
+                ],
             },
             "knowledge-graph": {
                 "tier": "core",
@@ -44,7 +43,7 @@ class EnhancedTestGenerator:
                     "test_knowledge_graph_stores_entities",
                     "test_knowledge_graph_finds_relationships",
                     "test_knowledge_graph_query_performance",
-                ]
+                ],
             },
             "infra-orchestrator": {
                 "tier": "infra",
@@ -52,7 +51,7 @@ class EnhancedTestGenerator:
                     "test_orchestrator_deploys_services",
                     "test_orchestrator_manages_scaling",
                     "test_orchestrator_handles_failures",
-                ]
+                ],
             },
             "auth_service": {
                 "tier": "infra",
@@ -60,7 +59,7 @@ class EnhancedTestGenerator:
                     "test_auth_token_generation",
                     "test_auth_token_validation",
                     "test_auth_permission_checking",
-                ]
+                ],
             },
             "mcp-server": {
                 "tier": "infra",
@@ -68,7 +67,7 @@ class EnhancedTestGenerator:
                     "test_mcp_server_starts",
                     "test_mcp_protocol_message_handling",
                     "test_mcp_server_cleanup",
-                ]
+                ],
             },
             "ml-model-registry": {
                 "tier": "infra",
@@ -76,7 +75,7 @@ class EnhancedTestGenerator:
                     "test_registry_stores_model",
                     "test_registry_retrieves_model",
                     "test_registry_version_management",
-                ]
+                ],
             },
             "portfolio_organizer": {
                 "tier": "business",
@@ -84,7 +83,7 @@ class EnhancedTestGenerator:
                     "test_portfolio_creation",
                     "test_portfolio_item_addition",
                     "test_portfolio_organization",
-                ]
+                ],
             },
             "career_development": {
                 "tier": "business",
@@ -92,7 +91,7 @@ class EnhancedTestGenerator:
                     "test_career_path_generation",
                     "test_skill_gap_analysis",
                     "test_learning_recommendations",
-                ]
+                ],
             },
             "job-automation-agent": {
                 "tier": "business",
@@ -100,7 +99,7 @@ class EnhancedTestGenerator:
                     "test_job_creation",
                     "test_job_execution",
                     "test_job_error_handling",
-                ]
+                ],
             },
             "ai-config-manager": {
                 "tier": "business",
@@ -108,7 +107,7 @@ class EnhancedTestGenerator:
                     "test_config_loading",
                     "test_config_validation",
                     "test_config_hot_reload",
-                ]
+                ],
             },
             "template-service": {
                 "tier": "business",
@@ -116,7 +115,7 @@ class EnhancedTestGenerator:
                     "test_template_rendering",
                     "test_template_with_variables",
                     "test_template_error_handling",
-                ]
+                ],
             },
             "system-proof": {
                 "tier": "business",
@@ -124,7 +123,7 @@ class EnhancedTestGenerator:
                     "test_proof_validation",
                     "test_proof_generation",
                     "test_proof_caching",
-                ]
+                ],
             },
             "thought-architecture": {
                 "tier": "business",
@@ -132,8 +131,8 @@ class EnhancedTestGenerator:
                     "test_architecture_design",
                     "test_architecture_validation",
                     "test_architecture_optimization",
-                ]
-            }
+                ],
+            },
         }
 
     def enhance_all(self):
@@ -149,7 +148,7 @@ class EnhancedTestGenerator:
         print("✅ ENHANCED TESTS GENERATED FOR ALL 15 SERVICES")
         print("=" * 80)
 
-    def enhance_service_tests(self, service_name: str, config: Dict):
+    def enhance_service_tests(self, service_name: str, config: dict):
         service_path = self.apps_dir / service_name
         tests_dir = service_path / "tests"
 
@@ -159,18 +158,14 @@ class EnhancedTestGenerator:
 
         test_basic_file = tests_dir / "test_basic.py"
 
-        content = self._generate_enhanced_test_content(
-            service_name,
-            config["tier"],
-            config["test_cases"]
-        )
+        content = self._generate_enhanced_test_content(service_name, config["tier"], config["test_cases"])
 
         with open(test_basic_file, "w") as f:
             f.write(content)
 
         print(f"✅ {service_name:<25} ({config['tier']:<8}) - Enhanced with {len(config['test_cases'])} new tests")
 
-    def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: List[str]) -> str:
+    def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: list[str]) -> str:
         imports = self._generate_imports()
         fixtures = self._generate_fixtures(service_name)
         tests = self._generate_test_cases(service_name, test_cases)
@@ -197,12 +192,12 @@ Test Coverage:
 '''
 
     def _generate_imports(self) -> str:
-        return '''import pytest
+        return """import pytest
 from unittest.mock import Mock, patch, MagicMock, call
 from typing import Any, Dict
 import time
 import threading
-'''
+"""
 
     def _generate_fixtures(self, service_name: str) -> str:
         return f'''
@@ -246,7 +241,7 @@ def cleanup_resources():
     yield
 '''
 
-    def _generate_test_cases(self, service_name: str, test_cases: List[str]) -> str:
+    def _generate_test_cases(self, service_name: str, test_cases: list[str]) -> str:
         tests_code = '''
 # ============================================================================
 # UNIT TESTS
@@ -277,7 +272,7 @@ class TestBasicFunctionality:
 
     def {test_case}(self, service_instance, config, mock_logger):
         """
-        Test: {test_case.replace('test_', '').replace('_', ' ').title()}
+        Test: {test_case.replace("test_", "").replace("_", " ").title()}
         """
         assert service_instance is not None
         assert config["environment"] == "test"

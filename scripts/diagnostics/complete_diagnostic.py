@@ -7,7 +7,6 @@ Portfolio System Architect - Complete Diagnostic
 import json
 import os
 from pathlib import Path
-from typing import Dict
 
 
 class CompleteDiagnostic:
@@ -21,10 +20,7 @@ class CompleteDiagnostic:
         print("🔬 PORTFOLIO SYSTEM ARCHITECT - COMPLETE DIAGNOSTIC")
         print("=" * 90)
 
-        self.report = {
-            "timestamp": str(Path.cwd()),
-            "sections": {}
-        }
+        self.report = {"timestamp": str(Path.cwd()), "sections": {}}
 
         # 1. Структура проекта
         print("\n[1/6] Analyzing Project Structure...")
@@ -53,14 +49,9 @@ class CompleteDiagnostic:
         self._print_diagnostic_report()
         return self.report
 
-    def _analyze_structure(self) -> Dict:
+    def _analyze_structure(self) -> dict:
         """Анализ структуры проекта"""
-        result = {
-            "total_directories": 0,
-            "total_files": 0,
-            "root_dirs": [],
-            "largest_dirs": []
-        }
+        result = {"total_directories": 0, "total_files": 0, "root_dirs": [], "largest_dirs": []}
 
         # Count directories and files
         total_dirs = 0
@@ -69,8 +60,11 @@ class CompleteDiagnostic:
 
         for root, dirs, files in os.walk(self.root):
             # Skip hidden and common dirs
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in
-                      ['__pycache__', 'node_modules', '.git', 'venv', 'env']]
+            dirs[:] = [
+                d
+                for d in dirs
+                if not d.startswith(".") and d not in ["__pycache__", "node_modules", ".git", "venv", "env"]
+            ]
 
             total_dirs += len(dirs)
             total_files += len(files)
@@ -81,29 +75,30 @@ class CompleteDiagnostic:
 
         result["total_directories"] = total_dirs
         result["total_files"] = total_files
-        result["root_dirs"] = [d.name for d in self.root.iterdir() if d.is_dir() and not d.name.startswith('.')]
+        result["root_dirs"] = [d.name for d in self.root.iterdir() if d.is_dir() and not d.name.startswith(".")]
         result["largest_dirs"] = sorted(dir_sizes.items(), key=lambda x: x[1], reverse=True)[:10]
 
         return result
 
-    def _analyze_services(self) -> Dict:
+    def _analyze_services(self) -> dict:
         """Анализ микросервисов"""
         result = {
             "total_count": 0,
             "services": {},
-            "by_tier": {
-                "tier1_core": [],
-                "tier2_infra": [],
-                "tier3_business": [],
-                "other": []
-            }
+            "by_tier": {"tier1_core": [], "tier2_infra": [], "tier3_business": [], "other": []},
         }
 
         # Tier classification
-        tier1 = ['cognitive-agent', 'decision-engine', 'it_compass', 'knowledge-graph']
-        tier2 = ['infra-orchestrator', 'auth_service', 'mcp-server', 'ml-model-registry']
-        tier3 = ['portfolio_organizer', 'career_development', 'job-automation-agent',
-                'ai-config-manager', 'template-service', 'system-proof']
+        tier1 = ["cognitive-agent", "decision-engine", "it_compass", "knowledge-graph"]
+        tier2 = ["infra-orchestrator", "auth_service", "mcp-server", "ml-model-registry"]
+        tier3 = [
+            "portfolio_organizer",
+            "career_development",
+            "job-automation-agent",
+            "ai-config-manager",
+            "template-service",
+            "system-proof",
+        ]
 
         if not self.apps_dir.exists():
             return result
@@ -121,7 +116,7 @@ class CompleteDiagnostic:
                 "has_readme": (service_path / "README.md").exists(),
                 "has_docs": (service_path / "docs").exists(),
                 "file_count": len(list(service_path.glob("**/*"))),
-                "tier": "unknown"
+                "tier": "unknown",
             }
 
             # Assign tier
@@ -142,21 +137,14 @@ class CompleteDiagnostic:
 
         return result
 
-    def _analyze_code_metrics(self) -> Dict:
+    def _analyze_code_metrics(self) -> dict:
         """Анализ кода"""
-        result = {
-            "python_files": 0,
-            "javascript_files": 0,
-            "typescript_files": 0,
-            "total_lines": 0,
-            "by_extension": {}
-        }
+        result = {"python_files": 0, "javascript_files": 0, "typescript_files": 0, "total_lines": 0, "by_extension": {}}
 
         extensions = {}
 
         for root, dirs, files in os.walk(self.root):
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in
-                      ['__pycache__', 'node_modules']]
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", "node_modules"]]
 
             for file in files:
                 ext = Path(file).suffix
@@ -164,20 +152,20 @@ class CompleteDiagnostic:
                     extensions[ext] = extensions.get(ext, 0) + 1
 
         result["by_extension"] = dict(sorted(extensions.items(), key=lambda x: x[1], reverse=True)[:15])
-        result["python_files"] = extensions.get('.py', 0)
-        result["javascript_files"] = extensions.get('.js', 0)
-        result["typescript_files"] = extensions.get('.ts', 0)
+        result["python_files"] = extensions.get(".py", 0)
+        result["javascript_files"] = extensions.get(".js", 0)
+        result["typescript_files"] = extensions.get(".ts", 0)
 
         return result
 
-    def _analyze_testing(self) -> Dict:
+    def _analyze_testing(self) -> dict:
         """Анализ тестирования"""
         result = {
             "services_with_tests": 0,
             "services_without_tests": 0,
             "test_files_count": 0,
             "total_tests": 0,
-            "by_service": {}
+            "by_service": {},
         }
 
         if not self.apps_dir.exists():
@@ -200,21 +188,21 @@ class CompleteDiagnostic:
 
         return result
 
-    def _analyze_documentation(self) -> Dict:
+    def _analyze_documentation(self) -> dict:
         """Анализ документации"""
         result = {
             "readme_files": 0,
             "md_files": 0,
             "services_with_readme": 0,
             "services_without_readme": 0,
-            "by_service": {}
+            "by_service": {},
         }
 
         if not self.apps_dir.exists():
             return result
 
         for root, dirs, files in os.walk(self.root):
-            result["md_files"] += len([f for f in files if f.endswith('.md')])
+            result["md_files"] += len([f for f in files if f.endswith(".md")])
 
         for service_dir in self.apps_dir.iterdir():
             if not service_dir.is_dir():
@@ -228,14 +216,14 @@ class CompleteDiagnostic:
 
             result["by_service"][service_dir.name] = {
                 "has_readme": has_readme,
-                "has_docs_dir": (service_dir / "docs").exists()
+                "has_docs_dir": (service_dir / "docs").exists(),
             }
 
         result["readme_files"] = result["services_with_readme"]
 
         return result
 
-    def _analyze_infrastructure(self) -> Dict:
+    def _analyze_infrastructure(self) -> dict:
         """Анализ инфраструктуры"""
         result = {
             "deployment_files": [],
@@ -243,7 +231,7 @@ class CompleteDiagnostic:
             "k8s_files": [],
             "config_files": [],
             "ci_cd_files": [],
-            "monitoring_files": []
+            "monitoring_files": [],
         }
 
         # Check for various infrastructure files
@@ -279,7 +267,7 @@ class CompleteDiagnostic:
         print(f"  • Total Directories: {struct['total_directories']}")
         print(f"  • Total Files: {struct['total_files']}")
         print(f"  • Root Directories: {', '.join(struct['root_dirs'][:10])}")
-        if len(struct['root_dirs']) > 10:
+        if len(struct["root_dirs"]) > 10:
             print(f"    ... and {len(struct['root_dirs']) - 10} more")
 
         # Services
@@ -304,7 +292,9 @@ class CompleteDiagnostic:
         print(f"  • Services with Tests: {test['services_with_tests']}")
         print(f"  • Services WITHOUT Tests: {test['services_without_tests']}")
         print(f"  • Total Test Files: {test['test_files_count']}")
-        print(f"  • Coverage: {(test['services_with_tests']/(test['services_with_tests']+test['services_without_tests'])*100):.1f}%")
+        print(
+            f"  • Coverage: {(test['services_with_tests'] / (test['services_with_tests'] + test['services_without_tests']) * 100):.1f}%"
+        )
 
         # Documentation
         docs = self.report["sections"]["documentation"]
@@ -313,7 +303,9 @@ class CompleteDiagnostic:
         print(f"  • Markdown Files: {docs['md_files']}")
         print(f"  • Services with README: {docs['services_with_readme']}")
         print(f"  • Services WITHOUT README: {docs['services_without_readme']}")
-        print(f"  • Doc Coverage: {(docs['services_with_readme']/(docs['services_with_readme']+docs['services_without_readme'])*100):.1f}%")
+        print(
+            f"  • Doc Coverage: {(docs['services_with_readme'] / (docs['services_with_readme'] + docs['services_without_readme']) * 100):.1f}%"
+        )
 
         # Infrastructure
         infra = self.report["sections"]["infrastructure"]
@@ -330,10 +322,20 @@ class CompleteDiagnostic:
         print("📊 OVERALL ASSESSMENT")
         print("=" * 90)
 
-        test_score = (test['services_with_tests']/(test['services_with_tests']+test['services_without_tests'])*100) if (test['services_with_tests']+test['services_without_tests']) > 0 else 0
-        doc_score = (docs['services_with_readme']/(docs['services_with_readme']+docs['services_without_readme'])*100) if (docs['services_with_readme']+docs['services_without_readme']) > 0 else 0
+        test_score = (
+            (test["services_with_tests"] / (test["services_with_tests"] + test["services_without_tests"]) * 100)
+            if (test["services_with_tests"] + test["services_without_tests"]) > 0
+            else 0
+        )
+        doc_score = (
+            (docs["services_with_readme"] / (docs["services_with_readme"] + docs["services_without_readme"]) * 100)
+            if (docs["services_with_readme"] + docs["services_without_readme"]) > 0
+            else 0
+        )
 
-        print(f"  Testing Coverage: {test_score:.0f}% ({'✅' if test_score > 80 else '⚠️' if test_score > 50 else '🔴'})")
+        print(
+            f"  Testing Coverage: {test_score:.0f}% ({'✅' if test_score > 80 else '⚠️' if test_score > 50 else '🔴'})"
+        )
         print(f"  Documentation: {doc_score:.0f}% ({'✅' if doc_score > 80 else '⚠️' if doc_score > 50 else '🔴'})")
         print(f"  Infrastructure: {'✅' if infra['k8s_files'] > 0 else '⚠️'} (K8s configured)")
         print(f"  CI/CD: {'✅' if infra['ci_cd_files'] > 0 else '⚠️'} (GitHub Actions configured)")
@@ -348,10 +350,10 @@ class CompleteDiagnostic:
         if doc_score < 70:
             recommendations.append("- Improve documentation coverage")
 
-        if svcs['total_count'] > 10:
+        if svcs["total_count"] > 10:
             recommendations.append(f"- Manage complexity: {svcs['total_count']} services is substantial")
 
-        if infra['k8s_files'] > 0 and infra['deployment_files'] > 20:
+        if infra["k8s_files"] > 0 and infra["deployment_files"] > 20:
             recommendations.append("- Infrastructure is well-defined")
 
         if not recommendations:

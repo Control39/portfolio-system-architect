@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+
 sys.path.append(".")
 
 from apps.it_compass.src.core.tracker import CareerTracker

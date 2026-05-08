@@ -3,6 +3,7 @@ import sys
 
 import yaml
 
+
 try:
     with open("component-config.yaml", encoding="utf-8") as file:
         data = yaml.safe_load(file)

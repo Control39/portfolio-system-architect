@@ -25,26 +25,20 @@ class WorkflowFixer:
             "config/tools/pytest.ini": "pytest.ini",
             "config/pytest.ini": "pytest.ini",
             "./config/tools/pytest.ini": "pytest.ini",
-
             "config/tools/mkdocs.yml": "mkdocs.yml",
             "config/mkdocs.yml": "mkdocs.yml",
             "./config/tools/mkdocs.yml": "mkdocs.yml",
-
             "config/docker/docker-compose.yml": "docker-compose.yml",
             "config/docker-compose.yml": "docker-compose.yml",
             "./docker-compose.yml": "docker-compose.yml",
-
             # Old script paths
             "./scripts/generate-docs.sh": "scripts/linux/generate-docs.sh",
             "generate-docs.sh": "scripts/linux/generate-docs.sh",
-
             # Tool audit paths
             "tools/repo-audit": "tools/repo_audit",
             "repo-audit": "tools/repo_audit",
-
             # Old org references (leadarchitect-ai → Control39 for GitHub)
             "leadarchitect-ai/": "Control39/",
-
             # .trivyignore and .bandit.yml moved but still need to work
             "--config .bandit.yml": "--config config/tools/.bandit.yml",
             ".bandit.yml": "config/tools/.bandit.yml",
@@ -64,29 +58,31 @@ class WorkflowFixer:
     def _fix_workflow_file(self, filepath, replacements):
         """Fix a single workflow file"""
 
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
 
         for old, new in replacements.items():
             # Use word boundaries where appropriate
-            if old.startswith('.') or old.startswith('/'):
+            if old.startswith(".") or old.startswith("/"):
                 # For file paths, use more careful replacement
                 content = content.replace(old, new)
             else:
                 # For org/repo names, use regex with word boundaries
-                content = re.sub(rf'\b{re.escape(old)}\b', new, content)
+                content = re.sub(rf"\b{re.escape(old)}\b", new, content)
 
         # Count replacements
-        replacements_made = len([1 for _ in re.finditer(r'.', original_content)]) - len([1 for _ in re.finditer(r'.', content)])
+        replacements_made = len([1 for _ in re.finditer(r".", original_content)]) - len(
+            [1 for _ in re.finditer(r".", content)]
+        )
         if original_content != content:
-            self.fixes_applied[filepath.name] = (original_content.count('\n') - content.count('\n')) or 1
+            self.fixes_applied[filepath.name] = (original_content.count("\n") - content.count("\n")) or 1
         else:
             self.fixes_applied[filepath.name] = 0
 
         # Write back
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
 
     def verify_fixes(self):
@@ -95,10 +91,10 @@ class WorkflowFixer:
         print("-" * 70)
 
         critical_files = {
-            'pytest.ini': 'Root (Pytest requirement)',
-            'mkdocs.yml': 'Root (MkDocs requirement)',
-            'docker-compose.yml': 'Root (Docker requirement)',
-            '.gitleaksignore': 'Root (Gitleaks requirement)',
+            "pytest.ini": "Root (Pytest requirement)",
+            "mkdocs.yml": "Root (MkDocs requirement)",
+            "docker-compose.yml": "Root (Docker requirement)",
+            ".gitleaksignore": "Root (Gitleaks requirement)",
         }
 
         for file, location in critical_files.items():

@@ -4,7 +4,8 @@ Evidence collector for gathering project evidence.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ class EvidenceCollector:
         self.root = Path(project_root).resolve()
         logger.debug(f"EvidenceCollector root: {self.root}")
 
-    def collect_microservices(self) -> Dict[str, Any]:
+    def collect_microservices(self) -> dict[str, Any]:
         """Collect microservices information."""
         try:
             # Try to import plugin
@@ -30,7 +31,7 @@ class EvidenceCollector:
             logger.error(f"Error collecting microservices: {e}")
             return {"services": [], "error": str(e)}
 
-    def collect_skill_markers(self) -> Dict[str, Any]:
+    def collect_skill_markers(self) -> dict[str, Any]:
         """Collect skill markers from IT-Compass."""
         try:
             from ..plugins import skills
@@ -43,7 +44,7 @@ class EvidenceCollector:
             logger.error(f"Error collecting skill markers: {e}")
             return {"total_count": 0, "categories": [], "error": str(e)}
 
-    def collect_architecture_docs(self) -> List[str]:
+    def collect_architecture_docs(self) -> list[str]:
         """Collect architecture documentation files."""
         try:
             from ..plugins import docs
@@ -56,7 +57,7 @@ class EvidenceCollector:
             logger.error(f"Error collecting architecture docs: {e}")
             return []
 
-    def collect_git_stats(self) -> Dict[str, Any]:
+    def collect_git_stats(self) -> dict[str, Any]:
         """Collect Git repository statistics."""
         try:
             from ..plugins import git_history
@@ -69,7 +70,7 @@ class EvidenceCollector:
             logger.error(f"Error collecting git stats: {e}")
             return {"error": str(e)}
 
-    def collect_dependencies(self) -> Dict[str, List[str]]:
+    def collect_dependencies(self) -> dict[str, list[str]]:
         """Collect dependencies from Docker Compose, requirements, etc."""
         try:
             from ..utils.helpers import parse_docker_compose

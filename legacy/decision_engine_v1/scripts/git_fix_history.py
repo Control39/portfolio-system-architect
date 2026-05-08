@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Подготовка коммитов для Git после конвертации кодировок.
 Создает корректные коммиты, сохраняя историю изменений.
@@ -10,7 +9,6 @@ import json
 import logging
 import subprocess
 from pathlib import Path
-from typing import Dict, List
 
 
 def setup_logging() -> None:
@@ -43,7 +41,7 @@ def is_git_repository() -> bool:
         return False
 
 
-def get_git_status() -> Dict:
+def get_git_status() -> dict:
     """Получение текущего статуса Git"""
     try:
         result = subprocess.run(
@@ -82,18 +80,14 @@ def get_git_status() -> Dict:
     return {"modified": [], "untracked": [], "deleted": [], "renamed": []}
 
 
-def create_commit(commit_message: str, files: List[str] = None) -> bool:
+def create_commit(commit_message: str, files: list[str] = None) -> bool:
     """Создание коммита в Git"""
     try:
         # Добавляем файлы в индекс
         if files:
-            result = subprocess.run(
-                ["git", "add"] + files, capture_output=True, text=True, cwd=Path(".").resolve()
-            )
+            result = subprocess.run(["git", "add"] + files, capture_output=True, text=True, cwd=Path(".").resolve())
         else:
-            result = subprocess.run(
-                ["git", "add", "--all"], capture_output=True, text=True, cwd=Path(".").resolve()
-            )
+            result = subprocess.run(["git", "add", "--all"], capture_output=True, text=True, cwd=Path(".").resolve())
 
         if result.returncode != 0:
             logging.error(f"Ошибка при добавлении файлов в индекс: {result.stderr}")
@@ -110,16 +104,15 @@ def create_commit(commit_message: str, files: List[str] = None) -> bool:
         if result.returncode == 0:
             logging.info(f"Коммит создан: {commit_message}")
             return True
-        else:
-            logging.error(f"Ошибка при создании коммита: {result.stderr}")
-            return False
+        logging.error(f"Ошибка при создании коммита: {result.stderr}")
+        return False
 
     except Exception as e:
         logging.error(f"Ошибка при создании коммита: {e}")
         return False
 
 
-def create_encoding_commit() -> Dict:
+def create_encoding_commit() -> dict:
     """Создание коммита с изменениями кодировок"""
     result = {
         "success": False,
@@ -187,9 +180,7 @@ def create_encoding_commit() -> Dict:
 
         # Добавляем детали в сообщение, если файлов немного
         if len(files_to_commit) <= 10:
-            commit_message += "\n\nFiles updated:\n" + "\n".join(
-                [f"- {f}" for f in files_to_commit]
-            )
+            commit_message += "\n\nFiles updated:\n" + "\n".join([f"- {f}" for f in files_to_commit])
         else:
             commit_message += f"\n\nUpdated {len(files_to_commit)} files to UTF-8 encoding."
 
@@ -212,7 +203,7 @@ def create_encoding_commit() -> Dict:
     return result
 
 
-def create_backup_commit() -> Dict:
+def create_backup_commit() -> dict:
     """Создание коммита с резервными копиями"""
     result = {
         "success": False,
@@ -235,11 +226,7 @@ def create_backup_commit() -> Dict:
             return result
 
         # Находим последнюю резервную копию
-        backup_dirs = [
-            d
-            for d in backup_dir.iterdir()
-            if d.is_dir() and d.name.startswith("pre_utf8_conversion_")
-        ]
+        backup_dirs = [d for d in backup_dir.iterdir() if d.is_dir() and d.name.startswith("pre_utf8_conversion_")]
         if not backup_dirs:
             result["success"] = True
             result["message"] = "Нет резервных копий для коммита"
@@ -283,7 +270,7 @@ def create_backup_commit() -> Dict:
     return result
 
 
-def fix_git_history() -> Dict:
+def fix_git_history() -> dict:
     """Основная функция для подготовки коммитов в Git"""
     logging.info("Начало подготовки коммитов для Git")
 
@@ -322,7 +309,7 @@ def fix_git_history() -> Dict:
     return results
 
 
-def print_summary(results: Dict) -> None:
+def print_summary(results: dict) -> None:
     """Вывод краткого отчета"""
     print("\n" + "=" * 60)
     print("РЕЗУЛЬТАТЫ ПОДГОТОВКИ КОММИТОВ GIT")

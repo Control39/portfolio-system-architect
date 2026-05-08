@@ -6,12 +6,13 @@ import logging
 import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 
 logger = logging.getLogger(__name__)
 
 
-def get_stats(root: Path) -> Dict[str, Any]:
+def get_stats(root: Path) -> dict[str, Any]:
     """Get Git repository statistics."""
     try:
         # Check if it's a git repository
@@ -51,7 +52,7 @@ def get_stats(root: Path) -> Dict[str, Any]:
         return {"error": str(e)}
 
 
-def _run_git_command(root: Path, args: List[str]) -> str:
+def _run_git_command(root: Path, args: list[str]) -> str:
     """Run a git command and return output."""
     try:
         result = subprocess.run(
@@ -64,8 +65,7 @@ def _run_git_command(root: Path, args: List[str]) -> str:
         )
         if result.returncode == 0:
             return result.stdout.strip()
-        else:
-            return ""
+        return ""
     except Exception as e:
         logger.debug(f"Git command failed: {e}")
         return ""
@@ -94,7 +94,7 @@ def _get_recent_commits(root: Path, days: int = 30) -> int:
     return 0
 
 
-def _get_contributors(root: Path) -> List[str]:
+def _get_contributors(root: Path) -> list[str]:
     """Get list of contributors (authors)."""
     output = _run_git_command(root, ["shortlog", "-s", "-n", "--all"])
     contributors = []
@@ -105,7 +105,7 @@ def _get_contributors(root: Path) -> List[str]:
     return contributors[:20]  # Limit to top 20
 
 
-def _get_branches(root: Path) -> List[str]:
+def _get_branches(root: Path) -> list[str]:
     """Get list of branches."""
     output = _run_git_command(root, ["branch", "-a", "--format=%(refname:short)"])
     branches = [b.strip() for b in output.splitlines() if b.strip()]

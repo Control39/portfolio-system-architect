@@ -5,6 +5,7 @@ import os
 
 import requests
 
+
 GITHUB_TOKEN = os.getenv("GH_TOKEN", os.getenv("GITHUB_TOKEN"))
 REPO_OWNER = "Control39"
 REPO_NAME = "portfolio-system-architect"

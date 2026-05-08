@@ -5,10 +5,8 @@ Phase 1.3: Add src Directories
 
 from pathlib import Path
 
-services = [
-    'auth_service', 'cognitive-agent', 'decision-engine',
-    'system-proof', 'thought-architecture'
-]
+
+services = ["auth_service", "cognitive-agent", "decision-engine", "system-proof", "thought-architecture"]
 
 print("📁 ADDING SRC DIRECTORIES")
 print("=" * 70)

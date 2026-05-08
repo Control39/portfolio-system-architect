@@ -12,9 +12,11 @@ from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 
+
 # Добавляем путь для импорта общих модулей
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.common.health_check import init_health_checks
+
 
 app = FastAPI(title="Auth Service", version="1.0.0")  # Application instance
 security = HTTPBearer()

@@ -10,14 +10,14 @@ import os
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 @dataclass
 class AuditResult:
     path: str
     depth: int
-    issues: List[str]
+    issues: list[str]
     status: str  # "pass", "warning", "fail"
 
 
@@ -25,9 +25,9 @@ class AuditResult:
 class AuditReport:
     total_dirs: int
     max_depth: int
-    violations: List[Dict[str, Any]]
-    warnings: List[Dict[str, Any]]
-    passed: List[str]
+    violations: list[dict[str, Any]]
+    warnings: list[dict[str, Any]]
+    passed: list[str]
     summary: str
 
 
@@ -46,7 +46,7 @@ def check_depth_violation(path: Path, base_path: Path, max_depth: int) -> bool:
     return depth > max_depth
 
 
-def scan_directory(base_path: Path, max_depth: int = 5) -> List[AuditResult]:
+def scan_directory(base_path: Path, max_depth: int = 5) -> list[AuditResult]:
     """Scan directory structure and find violations."""
     results = []
 
@@ -57,9 +57,7 @@ def scan_directory(base_path: Path, max_depth: int = 5) -> List[AuditResult]:
         # Skip hidden directories and common exclusions
         if any(part.startswith(".") for part in current_path.parts):
             continue
-        if any(
-            part in ["__pycache__", "node_modules", ".venv", "venv"] for part in current_path.parts
-        ):
+        if any(part in ["__pycache__", "node_modules", ".venv", "venv"] for part in current_path.parts):
             continue
 
         issues = []
@@ -88,7 +86,7 @@ def scan_directory(base_path: Path, max_depth: int = 5) -> List[AuditResult]:
     return results
 
 
-def generate_report(results: List[AuditResult]) -> AuditReport:
+def generate_report(results: list[AuditResult]) -> AuditReport:
     """Generate audit report from results."""
     violations = [asdict(r) for r in results if r.status == "fail"]
     warnings = [asdict(r) for r in results if r.status == "warning"]

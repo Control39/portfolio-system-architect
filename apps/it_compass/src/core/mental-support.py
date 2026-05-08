@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 import random
 from datetime import datetime
@@ -6,9 +6,7 @@ from datetime import datetime
 
 class MentalSupportSystem:
     def __init__(self):
-        self.resources_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "support", "resources"
-        )
+        self.resources_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support", "resources")
         self.quotes_file = os.path.join(self.resources_path, "motivational_quotes.json")
         self.contacts_file = os.path.join(self.resources_path, "crisis_contacts.json")
 
@@ -30,7 +28,7 @@ class MentalSupportSystem:
     def show_motivational_quote(self):
         """Показать случайную мотивационную цитату"""
         try:
-            with open(self.quotes_file, "r", encoding="utf-8") as f:
+            with open(self.quotes_file, encoding="utf-8") as f:
                 quotes = json.load(f)
 
             quote = random.choice(quotes)
@@ -47,7 +45,7 @@ class MentalSupportSystem:
     def show_crisis_contacts(self):
         """Показать кризисные номера помощи"""
         try:
-            with open(self.contacts_file, "r", encoding="utf-8") as f:
+            with open(self.contacts_file, encoding="utf-8") as f:
                 contacts = json.load(f)
 
             print("\n" + "=" * 50)
@@ -61,9 +59,7 @@ class MentalSupportSystem:
                 print(f"ℹ️ {contact['description']}")
 
             print("\n" + "=" * 50)
-            print(
-                "❗ Если вы или кто-то рядом с вами в опасности - немедленно обратитесь за помощью"
-            )
+            print("❗ Если вы или кто-то рядом с вами в опасности - немедленно обратитесь за помощью")
             print("=" * 50)
 
         except Exception as e:
@@ -93,12 +89,10 @@ class MentalSupportSystem:
 
     def show_community_guide(self):
         """Показать руководство сообщества"""
-        guide_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "support", "community_guide.md"
-        )
+        guide_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support", "community_guide.md")
 
         try:
-            with open(guide_path, "r", encoding="utf-8") as f:
+            with open(guide_path, encoding="utf-8") as f:
                 content = f.read()
 
             print("\n" + "=" * 50)
@@ -147,19 +141,17 @@ class MentalSupportSystem:
 def show_random_quote_on_startup():
     """Показать случайную цитату при запуске"""
     try:
-        resources_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "support", "resources"
-        )
+        resources_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support", "resources")
         quotes_file = os.path.join(resources_path, "motivational_quotes.json")
 
-        with open(quotes_file, "r", encoding="utf-8") as f:
+        with open(quotes_file, encoding="utf-8") as f:
             quotes = json.load(f)
 
         quote = random.choice(quotes)
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"🌟 {quote['quote']}")
         print(f"   — {quote['author']}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
     except Exception:
         pass  # Не показываем ошибку, чтобы не испортить пользовательский опыт
@@ -174,23 +166,21 @@ def show_daily_motivation():
     day_hash = sum(ord(c) for c in today) % 100
 
     try:
-        resources_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "support", "resources"
-        )
+        resources_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support", "resources")
         quotes_file = os.path.join(resources_path, "motivational_quotes.json")
 
-        with open(quotes_file, "r", encoding="utf-8") as f:
+        with open(quotes_file, encoding="utf-8") as f:
             quotes = json.load(f)
 
         # Выбираем цитату, основанную на дате
         quote = quotes[day_hash % len(quotes)]
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"🌞 УТРЕННЯЯ МОТИВАЦИЯ НА {now.strftime('%d.%m.%Y')}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"💡 {quote['quote']}")
         print(f"   — {quote['author']}")
         print(f"\n🎯 {quote['action']}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
     except Exception:
         print("\n💡 Не забывай делать маленькие шаги каждый день. Они ведут к большим результатам.")
@@ -199,12 +189,10 @@ def show_daily_motivation():
 def get_crisis_contacts():
     """Получить контакты кризисной помощи"""
     try:
-        resources_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "support", "resources"
-        )
+        resources_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support", "resources")
         contacts_file = os.path.join(resources_path, "crisis_contacts.json")
 
-        with open(contacts_file, "r", encoding="utf-8") as f:
+        with open(contacts_file, encoding="utf-8") as f:
             contacts = json.load(f)
 
         return contacts

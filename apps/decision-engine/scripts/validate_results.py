@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Проверка корректности конвертации файлов в UTF-8.
 Валидирует, что все файлы действительно в UTF-8 и читаются без ошибок.
@@ -8,7 +7,6 @@
 import json
 import logging
 from pathlib import Path
-from typing import Dict
 
 import chardet
 
@@ -28,7 +26,7 @@ def setup_logging() -> None:
     )
 
 
-def is_valid_utf8_file(file_path: Path) -> Dict:
+def is_valid_utf8_file(file_path: Path) -> dict:
     """Проверка, является ли файл корректным UTF-8"""
     result = {
         "path": str(file_path.relative_to(Path(".").resolve())),
@@ -41,7 +39,7 @@ def is_valid_utf8_file(file_path: Path) -> Dict:
 
     try:
         # Попытка прочитать как UTF-8
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
             result["readable"] = True
 
@@ -280,7 +278,7 @@ def should_validate_file(file_path: Path) -> bool:
     return True
 
 
-def validate_all(start_path: str = ".") -> Dict:
+def validate_all(start_path: str = ".") -> dict:
     """Валидация всех файлов после конвертации"""
     start_path = Path(start_path).resolve()
     results = []
@@ -339,7 +337,7 @@ def validate_all(start_path: str = ".") -> Dict:
     return final_result
 
 
-def print_summary(results: Dict) -> None:
+def print_summary(results: dict) -> None:
     """Вывод краткого отчета в консоль"""
     summary = results["summary"]
     print("\n" + "=" * 60)

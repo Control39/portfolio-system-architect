@@ -3,7 +3,7 @@
 import abc
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 
 class CheckResult:
@@ -14,8 +14,8 @@ class CheckResult:
         check_id: str,
         description: str,
         status: str,  # "PASS", "FAIL", "WARNING", "ERROR", "SKIP"
-        details: Optional[str] = None,
-        path: Optional[Union[str, Path]] = None,
+        details: str | None = None,
+        path: str | Path | None = None,
         weight: float = 1.0,
         category: str = "uncategorized",
     ):
@@ -27,7 +27,7 @@ class CheckResult:
         self.weight = weight
         self.category = category
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.check_id,
             "description": self.description,
@@ -45,9 +45,9 @@ class CheckResult:
 class BaseCheck(abc.ABC):
     """Abstract base class for a repository check."""
 
-    def __init__(self, repo_path: Union[str, Path]):
+    def __init__(self, repo_path: str | Path):
         self.repo_path = Path(repo_path).resolve()
-        self.results: List[CheckResult] = []
+        self.results: list[CheckResult] = []
 
     @property
     @abc.abstractmethod
@@ -72,15 +72,15 @@ class BaseCheck(abc.ABC):
         return 1.0
 
     @abc.abstractmethod
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         """Execute the check and return results."""
         pass
 
     def _add_result(
         self,
         status: str,
-        details: Optional[str] = None,
-        path: Optional[Union[str, Path]] = None,
+        details: str | None = None,
+        path: str | Path | None = None,
     ) -> CheckResult:
         """Helper to create and store a result."""
         result = CheckResult(
@@ -115,9 +115,7 @@ class BaseCheck(abc.ABC):
             self._add_result("FAIL", f"Directory missing: {relative_path}", relative_path)
         return exists
 
-    def check_file_content(
-        self, relative_path: str, keyword: str, description: Optional[str] = None
-    ) -> bool:
+    def check_file_content(self, relative_path: str, keyword: str, description: str | None = None) -> bool:
         """Check if file contains a keyword."""
         full_path = self.repo_path / relative_path
         if not full_path.exists():
@@ -136,13 +134,12 @@ class BaseCheck(abc.ABC):
                     relative_path,
                 )
                 return True
-            else:
-                self._add_result(
-                    "FAIL",
-                    f"Keyword '{keyword}' not found in {relative_path}",
-                    relative_path,
-                )
-                return False
+            self._add_result(
+                "FAIL",
+                f"Keyword '{keyword}' not found in {relative_path}",
+                relative_path,
+            )
+            return False
         except Exception as e:
             self._add_result(
                 "ERROR",
@@ -155,16 +152,16 @@ class BaseCheck(abc.ABC):
 class RepositoryAuditor:
     """Main auditor that runs a collection of checks."""
 
-    def __init__(self, repo_path: Union[str, Path]):
+    def __init__(self, repo_path: str | Path):
         self.repo_path = Path(repo_path).resolve()
-        self.checks: List[BaseCheck] = []
-        self.results: List[CheckResult] = []
+        self.checks: list[BaseCheck] = []
+        self.results: list[CheckResult] = []
 
     def register_check(self, check_class: type) -> None:
         """Register a check class (instantiated with repo_path)."""
         self.checks.append(check_class(self.repo_path))
 
-    def run_all(self) -> List[CheckResult]:
+    def run_all(self) -> list[CheckResult]:
         """Run all registered checks and collect results."""
         self.results = []
         for check in self.checks:
@@ -183,14 +180,14 @@ class RepositoryAuditor:
                 )
         return self.results
 
-    def score(self) -> Dict[str, Any]:
+    def score(self) -> dict[str, Any]:
         """Calculate overall score."""
         if not self.results:
             return {"total": 0, "score": 0, "percentage": 0.0}
 
         total_weight = 0.0
         earned_weight = 0.0
-        by_category: Dict[str, Dict[str, float]] = {}
+        by_category: dict[str, dict[str, float]] = {}
 
         for r in self.results:
             if r.status in ("PASS", "WARNING"):
@@ -242,9 +239,7 @@ class RepositoryAuditor:
             "Category breakdown:",
         ]
         for cat, cat_score in score["by_category"].items():
-            lines.append(
-                f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)"
-            )
+            lines.append(f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)")
         lines.append("")
         lines.append("Detailed results:")
         for r in self.results:

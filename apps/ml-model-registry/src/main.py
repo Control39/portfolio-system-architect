@@ -6,9 +6,11 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 from . import portfolio_integration
 
+
 # Импортируем общие модули
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from src.common.health_check import init_health_checks
+
 
 app = FastAPI(
     title="ML Model Registry API",

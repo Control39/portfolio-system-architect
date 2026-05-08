@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 
 from ..decision_engine.gigachain_bridge import GigaMCPBridge as GigachainBridge
 

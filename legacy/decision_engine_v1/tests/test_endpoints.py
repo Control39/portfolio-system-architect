@@ -1,8 +1,9 @@
-﻿from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
 
 from ..decision_engine.api.endpoints import app
+
 
 client = TestClient(app)
 

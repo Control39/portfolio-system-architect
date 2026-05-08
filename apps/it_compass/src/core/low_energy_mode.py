@@ -6,7 +6,7 @@
 
 import logging
 from datetime import datetime, timedelta
-from typing import Dict
+
 
 # Импортируем PsychologicalSupport из core.mental
 try:
@@ -24,7 +24,7 @@ class LowEnergyMode:
         self.logger = logging.getLogger(__name__)
         self.psychological_support = PsychologicalSupport()
 
-    def generate_low_energy_report(self) -> Dict:
+    def generate_low_energy_report(self) -> dict:
         """
         Генерация отчета для режима низкой энергии
 
@@ -45,7 +45,7 @@ class LowEnergyMode:
             ),
         }
 
-    def is_burnout_risk(self, recent_activity: Dict) -> bool:
+    def is_burnout_risk(self, recent_activity: dict) -> bool:
         """
         Определение риска выгорания
 
@@ -57,7 +57,7 @@ class LowEnergyMode:
         """
         return self.psychological_support.is_burnout_risk(recent_activity)
 
-    def suggest_recovery_plan(self) -> Dict:
+    def suggest_recovery_plan(self) -> dict:
         """
         Предложение плана восстановления
 
@@ -66,7 +66,7 @@ class LowEnergyMode:
         """
         return self.psychological_support.suggest_recovery_plan()
 
-    def get_crisis_resources(self) -> Dict:
+    def get_crisis_resources(self) -> dict:
         """
         Получение ресурсов для кризисных ситуаций
 
@@ -84,7 +84,7 @@ class LowEnergyMode:
         """
         return self.psychological_support.get_daily_checkin_prompt()
 
-    def export_support_data(self) -> Dict:
+    def export_support_data(self) -> dict:
         """
         Экспорт данных поддержки
 
@@ -93,7 +93,7 @@ class LowEnergyMode:
         """
         return self.psychological_support.export_support_data()
 
-    def import_support_data(self, data: Dict):
+    def import_support_data(self, data: dict):
         """
         Импорт данных поддержки
 

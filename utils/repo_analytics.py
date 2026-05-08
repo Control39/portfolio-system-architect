@@ -12,6 +12,7 @@ from pathlib import Path
 
 import requests
 
+
 OWNER = "Control39"
 REPO = "portfolio-system-architect"
 TOKEN = os.getenv("GITHUB_TOKEN")

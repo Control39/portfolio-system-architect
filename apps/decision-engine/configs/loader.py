@@ -13,7 +13,7 @@ def load_component_config():
         raise FileNotFoundError(f"Файл конфигурации не найден: {config_path}")
 
     try:
-        with open(config_path, "r", encoding="utf-8") as f:
+        with open(config_path, encoding="utf-8") as f:
             config = yaml.safe_load(f)
         return config
     except yaml.YAMLError as e:

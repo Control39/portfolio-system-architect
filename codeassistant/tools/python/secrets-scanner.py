@@ -11,7 +11,8 @@ import re
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 
 # Patterns for common secrets
 SECRET_PATTERNS = {
@@ -115,7 +116,7 @@ class SecretFinding:
 class ScanReport:
     files_scanned: int
     total_findings: int
-    findings: List[Dict[str, Any]]
+    findings: list[dict[str, Any]]
     summary: str
     false_positives_excluded: int
 
@@ -144,7 +145,7 @@ def is_binary(file_path: Path) -> bool:
     return False
 
 
-def scan_file(file_path: Path, base_path: Path) -> List[SecretFinding]:
+def scan_file(file_path: Path, base_path: Path) -> list[SecretFinding]:
     """Scan a single file for secrets."""
     findings = []
 
@@ -153,7 +154,7 @@ def scan_file(file_path: Path, base_path: Path) -> List[SecretFinding]:
         if is_binary(file_path):
             return findings
 
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
 
         for line_num, line in enumerate(lines, 1):

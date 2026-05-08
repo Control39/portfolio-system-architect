@@ -1,7 +1,5 @@
 """Automation and scripting checks."""
 
-from typing import List
-
 from tools.repo_audit.checker import BaseCheck, CheckResult
 
 
@@ -20,7 +18,7 @@ class AutomationCheck(BaseCheck):
     def category(self) -> str:
         return "automation"
 
-    def run(self) -> List[CheckResult]:
+    def run(self) -> list[CheckResult]:
         self.results = []
         # 1. scripts/ directory
         if self.check_directory_exists("scripts"):
@@ -85,9 +83,7 @@ class AutomationCheck(BaseCheck):
             self._add_result("INFO", "Terraform files missing", "infrastructure/")
 
         # 9. Scripts with shebang and executable bit (sample check)
-        script_files = list(self.repo_path.rglob("scripts/*.sh")) + list(
-            self.repo_path.rglob("scripts/*.py")
-        )
+        script_files = list(self.repo_path.rglob("scripts/*.sh")) + list(self.repo_path.rglob("scripts/*.py"))
         executable_count = 0
         for script in script_files[:10]:  # limit
             try:

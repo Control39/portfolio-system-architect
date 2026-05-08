@@ -34,7 +34,9 @@ class IntegrationTestRunner:
 
     def run_service_tests(self, service_name: str):
         """Запустить тесты для одного сервиса"""
-        test_file = self.root / "apps" / service_name / "tests" / f"test_integration_{service_name.replace('-', '_')}.py"
+        test_file = (
+            self.root / "apps" / service_name / "tests" / f"test_integration_{service_name.replace('-', '_')}.py"
+        )
 
         if not test_file.exists():
             print(f"\n❌ {service_name}: Test file not found")
@@ -48,7 +50,7 @@ class IntegrationTestRunner:
                 ["python", "-m", "pytest", str(test_file), "-v", "--tb=no", "-q"],
                 capture_output=True,
                 text=True,
-                timeout=30
+                timeout=30,
             )
 
             output = result.stdout + result.stderr
@@ -60,12 +62,7 @@ class IntegrationTestRunner:
 
             status = "PASS" if failed == 0 and error == 0 else "FAIL"
 
-            self.results[service_name] = {
-                "status": status,
-                "passed": passed,
-                "failed": failed,
-                "error": error
-            }
+            self.results[service_name] = {"status": status, "passed": passed, "failed": failed, "error": error}
 
             print(f"   ✅ Passed: {passed}, ❌ Failed: {failed}, ⚠️ Error: {error}")
 
@@ -74,7 +71,7 @@ class IntegrationTestRunner:
             print("   ⏱️ Test timeout")
         except Exception as e:
             self.results[service_name] = {"status": "ERROR", "passed": 0, "failed": 0, "error": str(e)}
-            print(f"   ⚠️ Error: {str(e)}")
+            print(f"   ⚠️ Error: {e!s}")
 
     def print_summary(self):
         """Вывести итоговый отчет"""
@@ -101,7 +98,7 @@ class IntegrationTestRunner:
 
         print("\n📋 Service Details:")
         print(f"  {'Service':<20} {'Status':<10} {'Passed':<8} {'Failed':<8} {'Error':<8}")
-        print(f"  {'-'*20} {'-'*10} {'-'*8} {'-'*8} {'-'*8}")
+        print(f"  {'-' * 20} {'-' * 10} {'-' * 8} {'-' * 8} {'-' * 8}")
 
         for service in self.critical_services:
             result = self.results.get(service, {})
@@ -123,11 +120,7 @@ class IntegrationTestRunner:
         """Сохранить результаты в JSON"""
         report_file = self.root / "phase2_integration_test_results.json"
 
-        data = {
-            "timestamp": datetime.now().isoformat(),
-            "phase": "2.1",
-            "results": self.results
-        }
+        data = {"timestamp": datetime.now().isoformat(), "phase": "2.1", "results": self.results}
 
         with open(report_file, "w") as f:
             json.dump(data, f, indent=2)

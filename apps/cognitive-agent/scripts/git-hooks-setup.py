@@ -530,16 +530,12 @@ def test_hooks():
     test_results = []
 
     for hook_file in hooks_dir.glob("*"):
-        if (
-            hook_file.is_file()
-            and not hook_file.name.endswith(".sample")
-            and not hook_file.name.endswith(".backup")
-        ):
+        if hook_file.is_file() and not hook_file.name.endswith(".sample") and not hook_file.name.endswith(".backup"):
             # Проверяем, является ли файл исполняемым
             is_executable = os.access(hook_file, os.X_OK)
 
             # Проверяем содержимое
-            with open(hook_file, "r", encoding="utf-8") as f:
+            with open(hook_file, encoding="utf-8") as f:
                 content = f.read()
                 has_cognitive_agent = "Cognitive Automation Agent" in content
 

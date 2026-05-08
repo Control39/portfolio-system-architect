@@ -2,13 +2,16 @@
 
 This consolidates previous room_api + server inline message routes.
 """
+
 from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any, Callable, Coroutine, Optional, TypeVar
+from collections.abc import Callable, Coroutine
+from typing import Any, TypeVar
 
 from flask import Blueprint, jsonify, request, url_for
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +23,10 @@ T = TypeVar("T")
 
 
 def create_chat_api_blueprint(
-    room_store_ref: Optional[Callable[[], Any]] | Any = None,
+    room_store_ref: Callable[[], Any] | None | Any = None,
     *,
-    chat_service_ref: Optional[Callable[[], Any]] | Any = None,
-    event_loop_ref: Optional[Callable[[], Any]] | Any = None,
+    chat_service_ref: Callable[[], Any] | None | Any = None,
+    event_loop_ref: Callable[[], Any] | None | Any = None,
 ) -> Blueprint:
     """Factory for chat API blueprint.
 
@@ -53,7 +56,7 @@ def create_chat_api_blueprint(
     def run_async(
         coro: Coroutine[Any, Any, T],
         *,
-        timeout: Optional[float] = DEFAULT_TIMEOUT_SEC,
+        timeout: float | None = DEFAULT_TIMEOUT_SEC,
         allow_direct: bool = True,
     ) -> T:
         """Execute *coro* on the dedicated chat event loop.
@@ -73,18 +76,18 @@ def create_chat_api_blueprint(
         fut = asyncio.run_coroutine_threadsafe(coro, loop)
         try:
             return fut.result(timeout=timeout) if timeout else fut.result()
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.warning("run_async error (timeout=%s): %s", timeout, e)
             raise
 
     # Field normalization extracted so routes stay lean.
-    def normalize_room_name(raw: Any) -> Optional[str]:
+    def normalize_room_name(raw: Any) -> str | None:
         if raw is None:
             return None
         s = str(raw).strip()
         return s or None
 
-    def normalize_description(payload: dict[str, Any]) -> Optional[str]:
+    def normalize_description(payload: dict[str, Any]) -> str | None:
         if "description" not in payload:
             return None  # no change
         raw = payload.get("description")
@@ -95,7 +98,7 @@ def create_chat_api_blueprint(
         s = str(raw).strip()
         return s or None  # whitespace-only -> no change
 
-    def parse_int(value: Optional[str], default: int) -> int:
+    def parse_int(value: str | None, default: int) -> int:
         try:
             return int(value) if value is not None else default
         except Exception:
@@ -118,7 +121,7 @@ def create_chat_api_blueprint(
                 return json_error("Store unavailable", 503)
             rooms = run_async(store.list_user_rooms(user_id))
             return json_ok({"rooms": [r.to_dict() for r in rooms], "user_id": user_id})
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.error("Error getting rooms: %s", e)
             return json_error("Failed to get rooms", 500)
 
@@ -140,11 +143,7 @@ def create_chat_api_blueprint(
             store = _get_room_store()
             if store is None:
                 return json_error("Store unavailable", 503)
-            room = run_async(
-                store.create_room_metadata(
-                    user_id, room_name, room_id=room_id, description=description
-                )
-            )
+            room = run_async(store.create_room_metadata(user_id, room_name, room_id=room_id, description=description))
             body = room.to_dict()
             try:
                 location = url_for("chat_api.get_room", room_id=room.room_id, _external=False)
@@ -153,7 +152,7 @@ def create_chat_api_blueprint(
                 return jsonify(body), 201
         except ValueError as e:  # fallback validation
             return json_error(str(e), 400)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.error("Error creating room: %s", e)
             return json_error("Failed to create room", 500)
 
@@ -168,7 +167,7 @@ def create_chat_api_blueprint(
             if room is None:
                 return json_error("Room not found", 404)
             return json_ok(room.to_dict())
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.error("Error getting room %s: %s", room_id, e)
             return json_error("Failed to get room", 500)
 
@@ -198,7 +197,7 @@ def create_chat_api_blueprint(
                 )
             )
             return json_ok(updated.to_dict())
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.error("Error updating room %s: %s", room_id, e)
             return json_error("Failed to update room", 500)
 
@@ -214,7 +213,7 @@ def create_chat_api_blueprint(
             # Idempotent delete: attempt removal; success response even if not present
             run_async(store.delete_room_metadata(user_id, room_id))
             return json_ok({"message": "Room deleted (idempotent)"})
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.error("Error deleting room %s: %s", room_id, e)
             return json_error("Failed to delete room", 500)
 
@@ -239,10 +238,10 @@ def create_chat_api_blueprint(
             except FuturesTimeoutError:
                 logger.warning("Timeout retrieving messages for room %s", room_id)
                 return json_error("Message retrieval timed out", 504)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 logger.exception("Error retrieving messages for room %s: %s", room_id, e)
                 return json_error("Failed to retrieve messages", 500)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.exception("Unexpected error fetching messages for %s: %s", room_id, e)
             return json_error("Failed to retrieve messages", 500)
 
@@ -260,7 +259,7 @@ def create_chat_api_blueprint(
         try:
             url = svc.negotiate()
             return jsonify({"url": url})
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.exception("Negotiation failed: %s", e)
             return json_error("Negotiation failed", 500)
 

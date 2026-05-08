@@ -4,8 +4,6 @@
 Обеспечивает загрузку настроек из переменных окружения и конфигурационных файлов.
 """
 
-from typing import List
-
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -29,7 +27,7 @@ class Settings(BaseSettings):
     port: int = Field(default=8000, env="TEMPLATE_PORT")
 
     # Настройки CORS
-    cors_origins: List[str] = Field(
+    cors_origins: list[str] = Field(
         default=["http://localhost:3000", "http://localhost:8000"],
         env="TEMPLATE_CORS_ORIGINS",
     )

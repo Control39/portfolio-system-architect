@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 # sys.path hack removed - use pytest.ini pythonpath
 from ..src.api.main import app
 
+
 client = TestClient(app)
 
 

@@ -12,7 +12,8 @@ import logging
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -50,7 +51,7 @@ class QuotaMonitor:
             import yaml
 
             if self.config_path.exists():
-                with open(self.config_path, "r", encoding="utf-8") as f:
+                with open(self.config_path, encoding="utf-8") as f:
                     config = yaml.safe_load(f)
                     if config and "thresholds" in config:
                         self.thresholds.update(config["thresholds"])
@@ -59,7 +60,7 @@ class QuotaMonitor:
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
 
-    def get_current_quotas(self) -> Dict[str, Any]:
+    def get_current_quotas(self) -> dict[str, Any]:
         """
         Получение текущих данных о квотах.
         В реальной реализации здесь будет API-запрос к SourceCraft.
@@ -99,7 +100,7 @@ class QuotaMonitor:
             },
         }
 
-    def check_thresholds(self, quota_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def check_thresholds(self, quota_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Проверка превышения пороговых значений"""
         alerts = []
 
@@ -120,15 +121,11 @@ class QuotaMonitor:
                     }
                     alerts.append(alert)
 
-                    logger.warning(
-                        f"Превышен порог для {quota_name}: {percentage}% (порог: {threshold}%)"
-                    )
+                    logger.warning(f"Превышен порог для {quota_name}: {percentage}% (порог: {threshold}%)")
 
         return alerts
 
-    def generate_optimization_recommendations(
-        self, quota_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+    def generate_optimization_recommendations(self, quota_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Генерация рекомендаций по оптимизации квот"""
         recommendations = []
 
@@ -179,7 +176,7 @@ class QuotaMonitor:
 
         return recommendations
 
-    def save_report(self, report: Dict[str, Any], output_path: str):
+    def save_report(self, report: dict[str, Any], output_path: str):
         """Сохранение отчета в файл"""
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -189,7 +186,7 @@ class QuotaMonitor:
 
         logger.info(f"Отчет сохранен: {output_file}")
 
-    def run_monitoring(self, output_path: Optional[str] = None) -> Dict[str, Any]:
+    def run_monitoring(self, output_path: str | None = None) -> dict[str, Any]:
         """Запуск мониторинга квот"""
         logger.info("Запуск мониторинга квот SourceCraft...")
 
@@ -225,7 +222,7 @@ class QuotaMonitor:
 
         return report
 
-    def print_summary(self, report: Dict[str, Any]):
+    def print_summary(self, report: dict[str, Any]):
         """Вывод сводки мониторинга"""
         print("\n" + "=" * 60)
         print("СВОДКА МОНИТОРИНГА КВОТ SOURCECRAFT")
@@ -255,9 +252,7 @@ class QuotaMonitor:
         if alerts:
             print(f"\n\033[93mВНИМАНИЕ: {len(alerts)} предупреждений:\033[0m")
             for alert in alerts:
-                print(
-                    f"  • {alert['quota']}: {alert['percentage']}% (порог: {alert['threshold']}%)"
-                )
+                print(f"  • {alert['quota']}: {alert['percentage']}% (порог: {alert['threshold']}%)")
 
         recommendations = report.get("recommendations", [])
         if recommendations:
