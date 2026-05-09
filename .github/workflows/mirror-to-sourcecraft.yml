@@ -9,6 +9,7 @@ on:
 jobs:
   mirror:
     runs-on: ubuntu-latest
+    # if: false  # Включено с правильным URL
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,8 +24,8 @@ jobs:
           # Удаляем remote, если уже существует
           git remote remove sourcecraft 2>/dev/null || true
 
-          # Добавляем remote SourceCraft с токеном
-          git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@sourcecraft.dev/Control39/portfolio-system-architect.git"
+          # Добавляем remote SourceCraft с правильным URL и токеном
+          git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git"
 
           # Пушим все ветки и теги
           git push sourcecraft --all

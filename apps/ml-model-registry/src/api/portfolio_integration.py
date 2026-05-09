@@ -7,6 +7,7 @@
 
 import logging
 import os
+import re
 import sys
 from typing import Any
 
@@ -15,9 +16,20 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 
-# Импортируем async helpers
+# Валидация model_id для предотвращения SSRF (CodeQL #51)
+MODEL_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
+
+
+def validate_model_id(model_id: str) -> str:
+    """Проверка model_id: только безопасные символы для URL."""
+    if not MODEL_ID_PATTERN.fullmatch(model_id):
+        raise HTTPException(status_code=400, detail="Неверный формат model_id")
+    return model_id
+
+
+# Импортируем async helpers (требуется после sys.path.insert)
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
-from src.common.async_helpers import fetch_parallel
+from src.common.async_helpers import fetch_parallel  # noqa: E402
 
 
 # Настройка логирования
@@ -62,7 +74,7 @@ class ExportResponse(BaseModel):
 
 
 # Вспомогательные функции
-async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict = None):
+async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict | None = None):
     """Выполнить запрос к ML Model Registry."""
     url = f"{ML_MODEL_REGISTRY_URL}{endpoint}"
 
@@ -142,6 +154,8 @@ MOCK_MODELS = [
 ]
 
 
+
+
 @router.get("/models", response_model=list[dict[str, Any]])
 async def get_models(use_mock: bool = False):
     """
@@ -158,23 +172,26 @@ async def get_models(use_mock: bool = False):
 
     try:
         # Реальный запрос к ML Model Registry
-        models = await fetch_from_registry("/api/models")
-        return models
+        return await fetch_from_registry("/api/models")
     except HTTPException:
-        # Если реестр недоступен, возвращаем мок-данные с предупреждением
+        # Если реестр недоступен, возвращаем мок-данные c предупреждением
         logger.warning("Реестр моделей недоступен, используются мок-данные")
         return [{"...mock": True, **model} for model in MOCK_MODELS]
+
+
 
 
 @router.get("/models/{model_id}", response_model=ModelPortfolioInfo)
 async def get_model_portfolio_info(model_id: str):
     """
-    Получить информацию о модели для портфолио.
+    Получить информацию o модели для портфолио.
 
     Args:
         model_id: Идентификатор модели
     """
-    logger.info(f"Запрос информации о модели {model_id} для портфолио")
+    # Валидация model_id для предотвращения SSRF
+    validate_model_id(model_id)
+    logger.info(f"Запрос информации o модели {model_id} для портфолио")
 
     # Проверяем мок-данные (для разработки)
     for model in MOCK_MODELS:
@@ -192,7 +209,7 @@ async def get_model_portfolio_info(model_id: str):
     model_data = await fetch_from_registry(f"/api/models/{model_id}")
 
     # Форматирование данных для портфолио
-    portfolio_info = {
+    return {
         "model_id": model_data.get("id"),
         "name": model_data.get("name"),
         "version": model_data.get("version"),
@@ -207,7 +224,8 @@ async def get_model_portfolio_info(model_id: str):
         },
     }
 
-    return portfolio_info
+
+
 
 
 @router.post("/models/{model_id}/export", response_model=ExportResponse)
@@ -219,6 +237,8 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
         model_id: Идентификатор модели
         request: Параметры экспорта
     """
+    # Валидация model_id для предотвращения SSRF
+    validate_model_id(model_id)
     logger.info(f"Экспорт модели {model_id} в формате {request.format}")
 
     # Получаем данные модели и экспортируем в нужном формате ПАРАЛЛЕЛЬНО
@@ -258,6 +278,8 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
     )
 
 
+
+
 @router.post("/models/{model_id}/register")
 async def register_model_for_portfolio(model_id: str):
     """
@@ -266,6 +288,8 @@ async def register_model_for_portfolio(model_id: str):
     Args:
         model_id: Идентификатор модели
     """
+    # Валидация model_id для предотвращения SSRF
+    validate_model_id(model_id)
     logger.info(f"Регистрация модели {model_id} в portfolio-organizer")
 
     # Проверяем существование модели
@@ -300,6 +324,8 @@ async def register_model_for_portfolio(model_id: str):
     }
 
 
+
+
 @router.get("/health")
 async def health_check():
     """
@@ -313,7 +339,8 @@ async def health_check():
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{ML_MODEL_REGISTRY_URL}/health")
             services_status["ml_model_registry"] = "healthy" if response.status_code == 200 else "unhealthy"
-    except:
+    except Exception as e:
+        logger.warning(f"ML Model Registry health check failed: {e}")
         services_status["ml_model_registry"] = "unreachable"
 
     # Проверка Portfolio Organizer
@@ -321,7 +348,8 @@ async def health_check():
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{PORTFOLIO_ORGANIZER_URL}/health")
             services_status["portfolio_organizer"] = "healthy" if response.status_code == 200 else "unhealthy"
-    except:
+    except Exception as e:
+        logger.warning(f"Portfolio Organizer health check failed: {e}")
         services_status["portfolio_organizer"] = "unreachable"
 
     return {
