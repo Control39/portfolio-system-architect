@@ -1,6 +1,8 @@
 import unittest
+from unittest.mock import patch
 
 from apps.ml_model_registry.src.core.model_registry import ModelRegistry
+from apps.ml_model_registry.src.api.portfolio_integration import validate_registry_endpoint
 
 
 class TestModelRegistrySecurity(unittest.TestCase):
@@ -75,6 +77,85 @@ class TestModelRegistrySecurity(unittest.TestCase):
 
         # Проверка, что инъекция не сработала
         self.assertEqual(results, [])
+
+
+class TestPortfolioIntegrationSecurity(unittest.TestCase):
+    def test_validate_registry_endpoint_valid_paths(self):
+        """Тестирование успешной валидации корректных путей."""
+        valid_endpoints = [
+            "/api/models",
+            "/v1/data",
+            "/models/123/export",
+            "/api/v2/metrics",
+        ]
+        for endpoint in valid_endpoints:
+            with self.subTest(endpoint=endpoint):
+                result = validate_registry_endpoint(endpoint)
+                self.assertEqual(result, endpoint)
+
+    def test_validate_registry_endpoint_invalid_schemes(self):
+        """Тестирование отклонения URL со схемами (http://, https://)."""
+        invalid_endpoints = [
+            "http://evil.com/api",
+            "https://example.com/api",
+            "ftp://fileserver/data",
+            "file:///etc/passwd",
+            "/api?scheme=http://"
+        ]
+        for endpoint in invalid_endpoints:
+            with self.subTest(endpoint=endpoint):
+                with self.assertRaises(Exception):
+                    validate_registry_endpoint(endpoint)
+
+    def test_validate_registry_endpoint_path_traversal(self):
+        """Тестирование отклонения попыток обхода путей."""
+        traversal_endpoints = [
+            "../etc/passwd",
+            "..\\windows\\system32",
+            "/api/..\\..\\secret",
+            "//etc/passwd",  # double slash
+        ]
+        for endpoint in traversal_endpoints:
+            with self.subTest(endpoint=endpoint):
+                with self.assertRaises(Exception):
+                    validate_registry_endpoint(endpoint)
+
+    def test_validate_registry_endpoint_query_fragment_injection(self):
+        """Тестирование отклонения параметров и фрагментов."""
+        injection_endpoints = [
+            "/api/models?id=1",
+            "/api/search#results",
+            "/api/data?callback=evil",
+            "/api#section=malicious",
+        ]
+        for endpoint in injection_endpoints:
+            with self.subTest(endpoint=endpoint):
+                with self.assertRaises(Exception):
+                    validate_registry_endpoint(endpoint)
+
+    def test_validate_registry_endpoint_at_symbol(self):
+        """Тестирование отклонения символа '@' (возможность смены хоста)."""
+        at_endpoints = [
+            "user:pass@evil.com/api",
+            "/api@fakehost.com",
+        ]
+        for endpoint in at_endpoints:
+            with self.subTest(endpoint=endpoint):
+                with self.assertRaises(Exception):
+                    validate_registry_endpoint(endpoint)
+
+    def test_validate_registry_endpoint_invalid_characters(self):
+        """Тестирование отклонения недопустимых символов."""
+        invalid_chars_endpoints = [
+            "/api/models with spaces",  # пробел
+            "/api/models<>",          # теги
+            "/api/|malicious|",        # pipe
+            "/api/[injection]",        # скобки
+        ]
+        for endpoint in invalid_chars_endpoints:
+            with self.subTest(endpoint=endpoint):
+                with self.assertRaises(Exception):
+                    validate_registry_endpoint(endpoint)
 
 
 if __name__ == "__main__":
