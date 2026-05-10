@@ -1,4 +1,4 @@
-# components/cloud-reason/config/loader.py
+# components/decision-reason/config/loader.py
 from pathlib import Path
 
 import yaml

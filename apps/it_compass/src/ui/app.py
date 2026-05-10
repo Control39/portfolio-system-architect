@@ -5,9 +5,12 @@ IT Compass - Streamlit Web Interface for Dashboard Visualization
 """
 
 import sys
+import logging
 from pathlib import Path
 
 import streamlit as st
+
+logger = logging.getLogger(__name__)
 
 
 # Добавляем src в путь для импорта
@@ -161,7 +164,8 @@ def render_documentation():
             try:
                 with open("docs/METHODOLOGY.md", encoding="utf-8") as f:
                     st.markdown(f.read())
-            except:
+            except (FileNotFoundError, OSError) as e:
+                logger.warning(f"Не удалось загрузить METHODOLOGY.md: {e}")
                 st.warning("Файл METHODOLOGY.md не найден")
 
     with col2:
@@ -178,7 +182,8 @@ def render_documentation():
             try:
                 with open("docs/my_portfolio.md", encoding="utf-8") as f:
                     st.markdown(f.read())
-            except:
+            except (FileNotFoundError, OSError) as e:
+                logger.warning(f"Не удалось загрузить портфолио: {e}")
                 st.warning("Портфолио ещё не сгенерировано")
 
 
