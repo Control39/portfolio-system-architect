@@ -4,11 +4,12 @@ IT Compass - Streamlit Web Interface for Dashboard Visualization
 Методология: © 2025 Ekaterina Kudelya, CC BY-ND 4.0
 """
 
-import sys
 import logging
+import sys
 from pathlib import Path
 
 import streamlit as st
+
 
 logger = logging.getLogger(__name__)
 
