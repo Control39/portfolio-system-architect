@@ -120,7 +120,7 @@ def convert_to_utf8(file_path: Path, backup_dir: Path) -> dict:
                     original_encoding = encoding
                     result["original_encoding"] = encoding
                     break
-                except:
+                except (UnicodeDecodeError, FileNotFoundError, OSError):
                     continue
 
             if content is None:
@@ -143,8 +143,8 @@ def convert_to_utf8(file_path: Path, backup_dir: Path) -> dict:
                     backup_path = backup_dir / file_path.relative_to(Path(".").resolve())
                     shutil.copy2(backup_path, file_path)
                     logging.info(f"Файл восстановлен из резервной копии: {result['path']}")
-                except:
-                    logging.error(f"Не удалось восстановить файл: {result['path']}")
+                except (FileNotFoundError, OSError, shutil.Error) as e:
+                    logging.error(f"Не удалось восстановить файл: {result['path']} - {e}")
 
     except Exception as e:
         result["error"] = str(e)

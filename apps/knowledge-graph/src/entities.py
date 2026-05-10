@@ -4,7 +4,7 @@ Pydantic модели для сущностей и связей в графе з
 
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field
 
@@ -63,7 +63,7 @@ class Entity(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.now, description="Время последнего обновления")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "id": "fastapi-001",
                 "name": "FastAPI",
@@ -90,7 +90,7 @@ class Relationship(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "id": "rel-001",
                 "source_id": "architect-assistant-001",
@@ -114,7 +114,7 @@ class GraphQuery(BaseModel):
     limit: int | None = Field(100, description="Максимальное количество результатов")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "query_type": "find_entities",
                 "parameters": {"type": "technology", "name_contains": "fast"},
@@ -134,7 +134,7 @@ class GraphResponse(BaseModel):
     processing_time_ms: float = Field(..., description="Время обработки запроса в миллисекундах")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "success": True,
                 "entities": [
@@ -159,7 +159,7 @@ class TextExtractionRequest(BaseModel):
     language: str = Field("ru", description="Язык текста")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "text": "Architect Assistant использует FastAPI и ChromaDB для RAG поиска.",
                 "extract_relationships": True,
@@ -176,7 +176,7 @@ class TextExtractionResponse(BaseModel):
     processing_time_ms: float = Field(..., description="Время обработки в миллисекундах")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "entities": [
                     {

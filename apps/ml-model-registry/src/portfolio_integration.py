@@ -313,7 +313,8 @@ async def health_check():
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{ML_MODEL_REGISTRY_URL}/health")
             services_status["ml_model_registry"] = "healthy" if response.status_code == 200 else "unhealthy"
-    except:
+    except (httpx.RequestError, httpx.HTTPError, TimeoutError) as e:
+        logger.warning(f"ML Model Registry недоступен: {e}")
         services_status["ml_model_registry"] = "unreachable"
 
     # Проверка Portfolio Organizer
@@ -321,7 +322,8 @@ async def health_check():
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{PORTFOLIO_ORGANIZER_URL}/health")
             services_status["portfolio_organizer"] = "healthy" if response.status_code == 200 else "unhealthy"
-    except:
+    except (httpx.RequestError, httpx.HTTPError, TimeoutError) as e:
+        logger.warning(f"Portfolio Organizer недоступен: {e}")
         services_status["portfolio_organizer"] = "unreachable"
 
     return {

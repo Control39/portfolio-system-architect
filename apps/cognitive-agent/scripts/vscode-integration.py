@@ -28,7 +28,7 @@ class VSCodeIntegration:
 
                 with open(config_path, encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
-            except:
+            except (FileNotFoundError, OSError, yaml.YAMLError):
                 pass
         return {}
 
@@ -154,7 +154,7 @@ class VSCodeIntegration:
                     existing_settings = json.load(f)
                 # Объединяем настройки
                 settings = {**existing_settings, **settings}
-            except:
+            except (FileNotFoundError, OSError, json.JSONDecodeError):
                 pass
 
         with open(settings_file, "w", encoding="utf-8") as f:
@@ -342,7 +342,7 @@ if __name__ == "__main__":
                     existing_config["configurations"] = launch_config["configurations"]
 
                 launch_config = existing_config
-            except:
+            except (FileNotFoundError, OSError, json.JSONDecodeError):
                 pass
 
         with open(launch_file, "w", encoding="utf-8") as f:

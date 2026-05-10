@@ -19,6 +19,9 @@ from pydantic import BaseModel
 # Валидация model_id для предотвращения SSRF (CodeQL #51)
 MODEL_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
 
+# Валидация endpoint для предотвращения partial SSRF
+ENDPOINT_PATH_PATTERN = re.compile(r"^/[A-Za-z0-9/_-]{1,512}$")
+
 
 def validate_model_id(model_id: str) -> str:
     """Проверка model_id: только безопасные символы для URL."""
@@ -74,9 +77,25 @@ class ExportResponse(BaseModel):
 
 
 # Вспомогательные функции
+def validate_registry_endpoint(endpoint: str) -> str:
+    """Проверка endpoint для запросов к ML Model Registry (защита от partial SSRF)."""
+    if not endpoint or not isinstance(endpoint, str):
+        raise HTTPException(status_code=400, detail="Invalid endpoint")
+
+    # Блокируем попытки выйти за пределы path-компонента URL или подменить схему/хост.
+    if any(token in endpoint for token in ("://", "..", "\\", "?", "#", "@")):
+        raise HTTPException(status_code=400, detail="Invalid endpoint")
+
+    if not ENDPOINT_PATH_PATTERN.fullmatch(endpoint):
+        raise HTTPException(status_code=400, detail="Invalid endpoint")
+
+    return endpoint
+
+
 async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict | None = None):
     """Выполнить запрос к ML Model Registry."""
-    url = f"{ML_MODEL_REGISTRY_URL}{endpoint}"
+    safe_endpoint = validate_registry_endpoint(endpoint)
+    url = f"{ML_MODEL_REGISTRY_URL}{safe_endpoint}"
 
     async with httpx.AsyncClient(timeout=ASYNC_TIMEOUT) as client:
         try:

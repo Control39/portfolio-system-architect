@@ -6,11 +6,14 @@ Monitoring Tools для MCP Server
 """
 
 import json
+import logging
 import subprocess
 from pathlib import Path
 from typing import Any
 
 from fastmcp import FastMCP
+
+logger = logging.getLogger(__name__)
 
 
 def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
@@ -234,7 +237,8 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
 
                     with open(file) as f:
                         datasources.append(yaml.safe_load(f))
-                except:
+                except (FileNotFoundError, OSError, yaml.YAMLError) as e:
+                    logger.warning(f"Не удалось загрузить {file}: {e}")
                     pass
             config["grafana"]["datasources"] = datasources
 

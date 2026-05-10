@@ -484,8 +484,8 @@ def main():
         if args.simulate_data:
             try:
                 data = json.loads(args.simulate_data)
-            except:
-                logger.error("Ошибка парсинга JSON данных")
+            except json.JSONDecodeError as e:
+                logger.error(f"Ошибка парсинга JSON данных: {e}")
 
         processor.simulate_event(args.simulate, data)
 

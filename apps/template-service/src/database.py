@@ -9,7 +9,6 @@ from sqlalchemy.orm import declarative_base
 
 from src.core.config import settings
 
-
 # Базовый класс для моделей
 Base = declarative_base()
 
