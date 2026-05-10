@@ -108,6 +108,12 @@ with st.sidebar:
     # Проверка подключения
     if st.button("🔍 Проверить подключение к API"):
         try:
+            # Валидация api_url: разрешаем только HTTP/HTTPS и localhost/127.0.0.1
+            if not api_url.startswith(("http://", "https://")):
+                st.error("❌ URL API должен начинаться с http:// или https://")
+                return
+            if "localhost" not in api_url and "127.0.0.1" not in api_url:
+                st.warning("⚠️ Рекомендуется использовать localhost для локальной разработки")
             response = requests.get(f"{api_url}/health", timeout=5)
             if response.status_code == 200:
                 data = response.json()
@@ -175,6 +181,7 @@ if ask_button and query:
             start_time = time.time()
 
             # Отправляем запрос к API
+            # Валидация api_url уже выполнена при проверке подключения
             response = requests.post(
                 f"{api_url}/ask",
                 json={
