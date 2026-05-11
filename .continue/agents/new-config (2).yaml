@@ -1,0 +1,25 @@
+name: Cognitive Architect Config (RU Stack)
+version: 1.0.0
+schema: v1
+
+models:
+  - name: GigaChat Pro Light
+    provider: gigachat
+    model: GigaChat-Pro-Light
+    apiKey: ${GIGACHAT_API_KEY}
+    roles: [chat, edit]
+  - name: YandexGPT 3 Lite
+    provider: yandexgpt
+    model: yandexgpt-lite
+    apiKey: ${YANDEXGPT_API_KEY}
+    folderId: ${YANDEXGPT_FOLDER_ID}
+    roles: [chat]
+  - name: Qwen2.5-Coder-7B (локально)
+    provider: ollama
+    model: qwen2.5-coder-7b
+    roles: [chat, edit, apply]
+
+mcpServers:
+  - name: portfolio-mcp
+    command: python
+    args: ["apps/mcp-server/src/main.py"]

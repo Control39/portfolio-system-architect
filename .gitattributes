@@ -1,0 +1,21 @@
+# Отслеживание конфигурационных файлов с чувствительными данными
+
+# Отслеживание других конфигурационных файлов
+.env filter=lfs diff=lfs merge=lfs -text
+*.env filter=lfs diff=lfs merge=lfs -text
+# Отслеживание бинарных файлов
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+# Hide internal docs from archive exports
+docs/internal/ export-ignore
+examples/ export-ignore
+# Exclude Obsidian files from archive exports
+.obsidian/ export-ignore
+*.canvas export-ignore
+*.excalidraw.md export-ignore
+**/obsidian-vault/ export-ignore
+**/obsidian-map/ export-ignore
+examples/legacy/ export-ignore
