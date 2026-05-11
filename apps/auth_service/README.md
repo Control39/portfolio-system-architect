@@ -9,6 +9,20 @@ Authentication and authorization service
 - **Coverage**: 100% test coverage
 - **Documentation**: Complete
 
+## 🔌 Контракты / API
+
+Сервис обеспечивает аутентификацию, авторизацию и управление пользователями.
+
+| Метод | Путь | Описание |
+|-------|------|----------|
+| `GET` | `/health` | Проверка статуса |
+| `POST`| `/auth/token` | Получение JWT-токена |
+| `POST`| `/auth/verify` | Проверка валидности токена |
+| `GET` | `/` | Корневой эндпоинт / информация о сервисе |
+
+> 🔐 **Security:** Для доступа к `/auth/verify` требуется валидный JWT Bearer Token.
+> Интерактивная документация (Swagger) доступна по адресу `/docs`.
+
 ## Quick Start
 
 ```bash

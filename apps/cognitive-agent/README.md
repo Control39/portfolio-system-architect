@@ -133,6 +133,12 @@ When adding new features:
 
 MIT License - See LICENSE file for details
 
+## ⚙️ Тип и Назначение
+**Тип:** Agent
+**Назначение:** Autonomous orchestrator.
+**Интерфейс:** Events.
+**HTTP API:** Отсутствует.
+
 ---
 
 **Last Updated**: 2026-05-04
