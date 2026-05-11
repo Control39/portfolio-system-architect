@@ -36,6 +36,9 @@ Thumbs.db
 python_server/static/
 .azure/
 
+# AI Assistant
+.codeassistant/
+
 # Test reports and coverage
 .reports/
 .coverage

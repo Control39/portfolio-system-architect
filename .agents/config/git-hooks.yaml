@@ -1,0 +1,40 @@
+hooks:
+  commit-msg:
+    actions:
+    - validate_commit_message
+    - enforce_conventional_commits
+    description: Проверка формата сообщений коммитов
+    enabled: true
+  post-commit:
+    actions:
+    - generate_changelog
+    - update_documentation
+    - trigger_ci
+    description: Действия после коммита
+    enabled: true
+  post-merge:
+    actions:
+    - update_dependencies
+    - run_tests
+    - clear_caches
+    description: Действия после слияния веток
+    enabled: true
+  pre-commit:
+    actions:
+    - validate_code
+    - run_tests
+    - check_formatting
+    description: Проверка кода перед коммитом
+    enabled: true
+  pre-push:
+    actions:
+    - run_integration_tests
+    - check_security
+    - validate_dependencies
+    description: Проверка перед отправкой в удаленный репозиторий
+    enabled: true
+settings:
+  auto_update: true
+  backup_existing: true
+  notify_on_failure: true
+version: 1.0.0

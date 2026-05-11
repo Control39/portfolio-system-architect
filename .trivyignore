@@ -1,0 +1,29 @@
+# Ignore specific vulnerabilities by ID
+# Format: <vulnerability_id>|<package_name>|<reason>
+
+# Ignore directories and files
+# These are already excluded in trivy-secret.yaml but added here for completeness
+.git/
+node_modules/
+vendor/
+.venv/
+venv/
+env/
+*.log
+*.tmp
+*.temp
+
+# Ignore test and example files
+**/test/
+**/tests/
+**/example/
+**/examples/
+**/sample/
+**/samples/
+**/dummy/
+**/fake/
+
+# Ignore specific file patterns from secret scanning
+*.secrets.baseline
+.trivyignore
+trivy-secret.yaml
