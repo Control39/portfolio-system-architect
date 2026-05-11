@@ -1,4 +1,17 @@
-# 🏗️ Portfolio System Architect
+# 🏗 Portfolio System Architect
+
+<div align="center">
+
+# 🏗 Portfolio System Architect
+
+[![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)](https://python.org)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/deploy-k8s.yml?label=CI/CD)](https://github.com/Control39/portfolio-system-architect/actions)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/Docs-MkDocs-blue)](https://control39.github.io/portfolio-system-architect/)
+
+*AI-powered portfolio ecosystem with 15 microservices, RAG, and autonomous agents*
+
+</div>
 
 > **Production-ready microservices platform** with 14+ services, 95% code coverage, and complete analysis ecosystem.
 
@@ -492,133 +505,4 @@ kubectl top nodes
 ### Specific Topics
 
 - **Microservices**: [docs/architecture/](./docs/architecture/)
-- **Deployment**: [deployment/README.md](./deployment/)
-- **Monitoring**: [monitoring/README.md](./monitoring/)
-- **Security**: [docs/security/](./docs/security/)
-
----
-
-## 🐛 Troubleshooting
-
-### Service won't start?
-
-```bash
-# Check logs
-docker-compose logs <service>
-
-# Check configuration
-cat apps/<service>/config/*.yaml
-
-# Verify dependencies
-./navigate.ps1 -Service <service>
-```
-
-### Tests failing?
-
-```bash
-# Run with verbose output
-pytest tests/ -v -s
-
-# Check specific test
-pytest tests/test_specific.py -v
-
-# View coverage gaps
-pytest tests/ --cov --cov-report=html
-open htmlcov/index.html
-```
-
-### Performance issues?
-
-```bash
-# Check metrics
-curl http://localhost:9090/api/v1/query?query=<metric>
-
-# View Grafana dashboards
-open http://localhost:3000
-
-# Profile service
-python -m cProfile -s cumulative app.py
-```
-
----
-
-## 📞 Support
-
-### Getting Help
-
-1. **New here?** → [START_HERE.md](./START_HERE.md)
-2. **Documentation**: See [docs/](./docs/)
-3. **Navigation**: Use `./navigate.ps1 -Help`
-4. **Status**: Check `./navigate.ps1 -Status`
-5. **Logs**: View service logs in `monitoring/`
-
-### Common Issues
-
-- See individual service READMEs
-- Check [docs/troubleshooting/](./docs/troubleshooting/)
-- Review [docs/faq/](./docs/faq/)
-
----
-
-## 📈 Project Stats
-
-```
-📊 METRICS
-├── Lines of Code:        ~500k
-├── Number of Services:   14+
-├── Code Coverage:        95%
-├── Test Count:           1000+
-├── Documentation Files:  ~2000
-├── Architecture Diagrams: 50+
-├── Git Commits:          ~5000
-└── Development Time:     2 years
-
-🏆 ACHIEVEMENTS
-├── 95% Code Coverage     ✅
-├── Zero Production Issues ✅
-├── Complete Documentation ✅
-├── Full CI/CD Pipeline   ✅
-├── Kubernetes Ready      ✅
-└── Scalable Architecture ✅
-
-🚀 RECENT IMPROVEMENTS
-├── Global Architecture Reorganization ✅
-├── Comprehensive Navigation System   ✅
-├── Complete Documentation            ✅
-└── 90-Day Development Plan            ✅
-```
-
----
-
-## 📜 License
-
-This project is proprietary. All rights reserved.
-
----
-
-## 🙏 Acknowledgments
-
-Created by: Single architect over 2 years  
-Built with: Python, TypeScript, K8s, Docker, PostgreSQL  
-Tools: Koda, Sourcecraft, Continue, Prometheus, Grafana
-
----
-
-**Last Updated**: 2026-05-04  
-**Status**: 🟢 Production Ready  
-**Maintenance**: Active Development
-
-**Recent Branch**: [`docs/global-architecture-refactoring-2026`](https://github.com/Control39/portfolio-system-architect/tree/docs/global-architecture-refactoring-2026)
-
----
-
-## 🎯 Next Steps
-
-1. **New to this project?** → Read [START_HERE.md](./START_HERE.md)
-2. **Understand Architecture**: Read [ARCHITECTURE_MAP.md](./ARCHITECTURE_MAP.md)
-3. **Explore Services**: Use `./navigate.ps1 -List`
-4. **Check Status**: Run `./navigate.ps1 -Status`
-5. **Pick a Service**: Navigate with `./navigate.ps1 -Service <name>`
-6. **Start Contributing**: Follow the contributing guide
-
-**Questions?** Check the documentation or use the navigation script! 🚀
+- **Deployment**: [deployment/README
