@@ -287,9 +287,13 @@ if __name__ == "__main__":
         with open(script_file, "w", encoding="utf-8") as f:
             f.write(script_content)
 
-        # Делаем скрипт исполняемым (для Unix-систем)
+        # Устанавливаем безопасные права на файл
         if os.name != "nt":
-            os.chmod(script_file, 0o755)
+            os.chmod(script_file, 0o600)
+        else:
+            # На Windows права устанавливаются через другие механизмы
+            # или можно использовать win32security, если установлен
+            pass
 
         print(f"🚀 Создан скрипт активации: {script_file}")
 
