@@ -133,6 +133,13 @@ When adding new features:
 
 MIT License - See LICENSE file for details
 
+## 🔌 Контракты / API
+Краткое описание.
+| Метод | Путь | Описание |
+|-------|------|----------|
+| `GET` | `/health` | Проверка статуса |
+> 💡 Swagger доступен по `/docs`
+
 ---
 
 **Last Updated**: 2026-05-04

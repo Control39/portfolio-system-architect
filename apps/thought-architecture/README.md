@@ -133,6 +133,12 @@ When adding new features:
 
 MIT License - See LICENSE file for details
 
+## ⚙️ Тип и Назначение
+**Тип:** Library
+**Назначение:** Architecture design toolkit.
+**Интерфейс:** Python Import.
+**HTTP API:** Отсутствует.
+
 ---
 
 **Last Updated**: 2026-05-04

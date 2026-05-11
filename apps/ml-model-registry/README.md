@@ -9,6 +9,32 @@ Machine learning model registry and versioning
 - **Coverage**: 100% test coverage
 - **Documentation**: Complete
 
+## 🔌 Контракты / API
+
+Сервис предоставляет REST API для управления реестром моделей и синхронизации с портфолио-системой.
+Интерактивная документация (Swagger/ReDoc) доступна по пути `/docs` или `/redoc` при запуске.
+
+### 🏗 Core Endpoints (Управление сервисом)
+| Метод | Путь | Описание |
+|-------|------|----------|
+| `GET` | `/` | Корневой эндпоинт / версия API |
+| `GET` | `/health` | Общая проверка работоспособности |
+| `GET` | `/ready` | Готовность к приему трафика (Readiness Probe) |
+| `GET` | `/live` | Проверка живости процесса (Liveness Probe) |
+| `GET` | `/api/models` | Список зарегистрированных моделей |
+
+### 🔗 Portfolio Integration Endpoints (Бизнес-логика)
+| Метод | Путь | Описание |
+|-------|------|----------|
+| `GET` | `/portfolio/health` | Статус соединения с портфолио |
+| `GET` | `/portfolio/models` | Список моделей, доступных для экспорта |
+| `GET` | `/portfolio/models/{model_id}` | Детали конкретной модели |
+| `POST`| `/portfolio/models/{model_id}/register` | Регистрация модели в реестре |
+| `POST`| `/portfolio/models/{model_id}/export` | Экспорт артефакта модели |
+| `GET` | `/portfolio/sync/status` | Статус последней синхронизации |
+
+> 💡 **Примечание:** Полные схемы запросов/ответов (Pydantic models) и примеры `curl` доступны в Swagger UI (`/docs`).
+
 ## Quick Start
 
 ```bash

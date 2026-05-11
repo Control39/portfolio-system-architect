@@ -9,6 +9,14 @@ Configuration management for AI services
 - **Coverage**: 100% test coverage
 - **Documentation**: Complete
 
+## ⚙️ Тип и Назначение
+
+**Тип:** Configuration Module / Shared Library
+**Назначение:** Централизованное управление конфигурацией AI-агентов и сервисов платформы.
+**Интерфейс:** Импорт в Python-код (`from config import ...`). HTTP API отсутствует.
+
+> 💡 **Примечание:** Данный модуль используется другими сервисами в `apps/` как зависимость.
+
 ## Quick Start
 
 ```bash
