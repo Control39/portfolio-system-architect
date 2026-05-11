@@ -1,39 +1,33 @@
-name: Mirror to SourceCraft
+name: Mirror to SourceCraft (SSH)
 
 on:
   push:
-    branches: [ main, gh-pages ]
-  delete:
-    branches: [ main, gh-pages ]
+    branches: [main]
 
 jobs:
   mirror:
     runs-on: ubuntu-latest
-    # if: false  # Включено с правильным URL
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Mirror to SourceCraft
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SOURCECRAFT_SSH_KEY }}
+
+      - name: Configure Git & Mirror
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Удаляем remote, если уже существует
-          git remote remove sourcecraft 2>/dev/null || true
+          # ✅ Правильный формат для git remote add (SCP-like syntax)
+          git remote add sourcecraft git@ssh.sourcecraft.dev:leadarchitect-ai/portfolio-system-architect.git
 
-          # Добавляем remote SourceCraft с правильным URL и токеном
-          git remote add sourcecraft "https://${{ secrets.SOURCECRAFT_TOKEN }}@git.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git"
-
-          # Пушим все ветки и теги
-          git push sourcecraft --all
-          git push sourcecraft --tags
-        env:
-          SOURCECRAFT_TOKEN: ${{ secrets.SOURCECRAFT_TOKEN }}
+          git push sourcecraft main --force
 
       - name: Clean up remote
         if: always()
-        run: |
-          git remote remove sourcecraft || true
+        run: git remote remove sourcecraft || true
