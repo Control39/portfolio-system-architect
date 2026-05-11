@@ -1,28 +1,73 @@
+﻿# Pre-commit hooks for security and code quality
+# Install: pip install pre-commit
+# Setup: pre-commit install
+# Run manually: pre-commit run --all-files
+
 repos:
+  # Detect secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: tests/
+
+  # Prevent giant files and other large commits
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+        args: ['--allow-multiple-documents']
+        exclude: |
+          (?x)^(
+            deployment/secrets/.*\.yaml|  # Secret files
+            \.github/workflows/auto-update-badges\.yml  # Конкретный workflow
+            deployment/k8s/.*\.yaml|      # K8s configuration (из main)
+            deployment/gitops/.*\.yaml    # GitOps files (из main)
+          )$
       - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: check-json
+      - id: detect-private-key
 
+  # Python linting
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
     hooks:
       - id: ruff
         args: [--fix]
       - id: ruff-format
-        # Alternative to black + isort
 
-  - repo: https://github.com/psf/black
-    rev: 26.3.1
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v2.0.0
     hooks:
-      - id: black
-        # Kept for compatibility, ruff-format can replace this
+      - id: mypy
+        additional_dependencies: [types-all]
+        exclude: ^(tests/|setup.py)
 
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+  # Security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.4
     hooks:
-      - id: isort
-        # Kept for compatibility, ruff can handle sorting
+      - id: bandit
+        exclude: ^tests/
+
+  # Docker linting
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint-docker
+
+  # YAML linting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [--config-data, '{extends: default, rules: {line-length: disable}}']
+
+
