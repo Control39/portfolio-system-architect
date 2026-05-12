@@ -33,7 +33,13 @@ Thumbs.db
 .gigaide/
 .continue/
 .koda/
-.gigacode/
+
+# GigaCode - игнорируем только секреты и кэш
+.gigacode/*.env
+.gigacode/*.env.*
+.gigacode/.token_cache.json
+.gigacode/__pycache__/
+.gigacode/*.pyc
 
 # Static and generated files
 python_server/static/
@@ -76,11 +82,11 @@ secrets.json
 *.key
 *.p12
 .env.gigachat
-\"* (2).*\"  
-\"README_REAL.md\"  
-\"refactor.sh\"  
-\"copy_root_files.py\"  
-\"complete_rename.ps1\"  
-\"commit_msg2.txt\" 
+\"* (2).*\"
+\"README_REAL.md\"
+\"refactor.sh\"
+\"copy_root_files.py\"
+\"complete_rename.ps1\"
+\"commit_msg2.txt\"
 metrics.json
 %USERPROFILE%.gitconfig
