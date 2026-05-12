@@ -35,14 +35,14 @@ requests
 PyJWT
 
 # AI/ML development
-# NOTE: pinning to 0.3.x due to breaking changes in 1.x (not yet released for langchain/langchain-community)
-# Security vulnerabilities (GHSA-fv5p-p927-qmxr, GHSA-r7w7-9xr2-qq2r) are in dev-only modules
-# Migration planned for Q3 2026 when langchain 1.x stable release is available
-langchain-core>=0.3.85,<1.0.0
-langchain-openai>=0.3.0,<1.0.0
-langchain-text-splitters>=0.3.0,<1.0.0
-langchain>=0.3.28,<1.0.0
-langchain-community>=0.3.27,<1.0.0
+# Migrated to langchain 1.x (breaking changes resolved, see docs/_drafts/langchain-migration-draft.md)
+# Security: CVE-2026-44843 fixed in langchain-core>=1.3.3
+# Note: langchain-community still at 0.4.x (compatible with langchain-core 1.x)
+langchain-core>=1.3.3
+langchain-openai>=1.2.0
+langchain-text-splitters>=1.1.2
+langchain>=1.0.0
+langchain-community>=0.4.0
 pydantic-settings==2.14.0
 
 # Web/API development
