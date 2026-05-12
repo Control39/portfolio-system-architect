@@ -1,28 +1,28 @@
+"""Job search с использованием централизованной SSRF-защиты."""
+
 import asyncio
 
 import requests
+
+from .utils.security import is_safe_url, sanitize_error_message
+
+
+ALLOWED_HOSTS = {
+    "localhost",
+    "127.0.0.1",
+    "api.hh.ru",
+    "career.habr.com",
+}
 
 
 async def search_hh_ru(query: str, area: str = "1") -> list[dict]:
     """Парсер hh.ru API."""
     url = f"https://api.hh.ru/vacancies?text={query}&area={area}&per_page=10"
+
+    # Валидация URL (SSRF-защита)
+    is_safe_url(url, ALLOWED_HOSTS)
+
     headers = {"User-Agent": "JobAutomationAgent/1.0"}
-    import urllib.parse
-
-    ALLOWED_HOSTS = {
-        "localhost", "127.0.0.1", 
-        "api.trusted-domain.com", 
-        "ml-registry.internal",
-        "api.hh.ru",
-        "career.habr.com"
-    }
-
-    def _validate_url(url: str) -> None:
-        parsed = urllib.parse.urlparse(url)
-        if not parsed.hostname or parsed.hostname not in ALLOWED_HOSTS:
-            raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-
-    _validate_url(url)
     try:
         response = requests.get(url, headers=headers, timeout=30)
         response.raise_for_status()
@@ -39,7 +39,9 @@ async def search_hh_ru(query: str, area: str = "1") -> list[dict]:
             for v in vacancies
         ]
     except requests.RequestException as e:
-        print(f"Ошибка запроса к hh.ru: {e}")
+        # Санитизация ошибки перед логированием
+        safe_message = sanitize_error_message(e, url)
+        print(f"Ошибка запроса к hh.ru: {safe_message}")
         return []
 
 
