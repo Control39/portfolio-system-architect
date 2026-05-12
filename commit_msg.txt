@@ -1,6 +1,0 @@
-feat: add GigaChat OAuth token management tools
-
-- Scripts for getting Access Token via OAuth 2.0
-- Automatic VS Code settings update
-- Documentation
-- Corporate proxy support (SSL bypass)
