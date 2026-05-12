@@ -1,7 +1,7 @@
 # Makefile for Portfolio System Architect
 # Provides common development commands
 
-.PHONY: help install dev test lint format clean docker-up docker-down docker-build docker-logs update-badge
+.PHONY: help install dev test lint format clean docker-up docker-down docker-build docker-logs update-badge giga-token giga-vscode
 
 # Default target
 help:
@@ -18,6 +18,8 @@ help:
 	@echo "  make docker-logs    Follow logs from all services"
 	@echo "  make pre-commit     Run pre-commit hooks on all files"
 	@echo "  make update-badge   Update coverage badge in README (auto-runs tests)"
+	@echo "  make giga-token     Get new GigaChat Access Token"
+	@echo "  make giga-vscode    Update VS Code settings with new GigaChat token"
 
 # Detect Python and virtual environment
 PYTHON ?= python3
@@ -118,3 +120,13 @@ docs:
 update-badge:
 	@echo "Updating coverage badge..."
 	@python scripts/update-coverage-badge.py
+
+# GigaChat Token Management
+giga-token:
+	@echo "Getting new GigaChat Access Token..."
+	@cd .gigacode && python get_token.py
+
+giga-vscode:
+	@echo "Updating VS Code settings with GigaChat token..."
+	@cd .gigacode && python update_vscode_token.py
+	@echo "✅ Done! Restart VS Code: Ctrl+Shift+P → 'Developer: Reload Window'"

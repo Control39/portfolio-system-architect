@@ -30,34 +30,19 @@
 			"url": "http://localhost:11434",
 			"command": "ollama"
 		},
-		"gigacode": {
+		"gigachat-sber": {
 			"type": "streamable-http",
-			"url": "https://gigachat.cft.ru/v1/mcp",
+			"url": "https://gigachat.devices.sberbank.ru/api/v1/mcp",
 			"env": {
-				"GIGACODE_API_KEY": "${env:GIGACODE_API_KEY}",
+				"GIGACODE_AUTH_KEY": "${env:GIGACODE_AUTH_KEY}",
+				"GIGACODE_SCOPE": "GIGACHAT_API_PERS",
 				"GIGACODE_MODEL": "GigaChat"
-			}
-		},
-		"local-mcp": {
-			"type": "streamable-http",
-			"url": "https://gigachat.cft.ru/v1/mcp",
-			"auth": {
-				"type": "bearer",
-				"token": "${env:GIGACODE_API_KEY}"
 			},
-			"headers": {
-				"X-Model": "GigaChat"
-			}
-		},
-		"remote-mcp": {
-			"type": "streamable-http",
-			"url": "https://gigachat.cft.ru/v1/mcp",
-			"auth": {
-				"type": "bearer",
-				"token": "${env:GIGACODE_API_KEY}"
-			},
-			"headers": {
-				"X-Model": "GigaChat-Pro"
+			"oauth": {
+				"enabled": true,
+				"endpoint": "https://ngw.devices.sberbank.ru:9443/api/v2/oauth",
+				"auth_key_env": "GIGACODE_AUTH_KEY",
+				"scope_env": "GIGACODE_SCOPE"
 			}
 		}
 	}
