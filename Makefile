@@ -64,10 +64,32 @@ format:
 lint-fix:
 	$(VENV_ACTIVATE) && ruff check . --fix --config ruff.toml
 
-clean:
-	rm -rf .pytest_cache .coverage coverage_html .mypy_cache .ruff_cache
-	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
-	find . -type f -name "*.pyc" -delete
+# =============================================================================
+# CLEANUP
+# =============================================================================
+
+.PHONY: clean clean-pyc clean-test clean-build
+
+## Clean all temporary files
+clean: clean-pyc clean-test clean-build
+	@echo "✅ Cleanup complete"
+
+## Remove Python cache files
+clean-pyc:
+	@echo "🧹 Removing Python cache..."
+	find . -type d -name "__pycache__" -exec rm -r {} + 2>/dev/null || true
+	find . -type f -name "*.pyc" -delete 2>/dev/null || true
+	find . -type f -name "*~" -delete 2>/dev/null || true
+
+## Remove test coverage and pytest cache
+clean-test:
+	@echo "🧹 Removing test artifacts..."
+	rm -rf .pytest_cache .coverage coverage.xml htmlcov/ 2>/dev/null || true
+
+## Remove build artifacts
+clean-build:
+	@echo "🧹 Removing build artifacts..."
+	rm -rf build/ dist/ *.egg-info .eggs/ 2>/dev/null || true
 
 docker-up:
 	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up -d

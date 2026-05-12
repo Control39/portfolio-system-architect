@@ -31,6 +31,9 @@ Thumbs.db
 .idea/
 .kodacli/
 .gigaide/
+.continue/
+.koda/
+.gigacode/
 
 # Static and generated files
 python_server/static/
@@ -79,3 +82,5 @@ secrets.json
 \"copy_root_files.py\"  
 \"complete_rename.ps1\"  
 \"commit_msg2.txt\" 
+metrics.json
+%USERPROFILE%.gitconfig
