@@ -16,7 +16,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 import { LineChart } from 'react-native-chart-kit';
-import { Dimensions } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window');
@@ -24,9 +23,8 @@ const { width } = Dimensions.get('window');
 // ============================================================================
 // ЭКРАН МОНИТОРИНГА
 // ============================================================================
-function MonitorScreen() {
+function App() {
   const [status, setStatus] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -145,7 +143,6 @@ function MonitorScreen() {
 // ============================================================================
 function ConfigScreen() {
   const [configs, setConfigs] = useState([]);
-  const [selectedConfig, setSelectedConfig] = useState(null);
 
   useEffect(() => {
     loadConfigs();

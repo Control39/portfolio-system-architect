@@ -8,7 +8,7 @@ export const securityAuditorTool: Tool = {
   name: "security_auditor",
   description: "Анализирует код на наличие уязвимостей безопасности и небезопасных практик",
   execute: async (args: any) => {
-    const { code, language = 'python', checkLevel = 'standard' } = args;
+    const { code, language = 'python' } = args;
 
     if (!code) {
       return {
