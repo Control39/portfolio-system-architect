@@ -40,7 +40,18 @@ require(['vs/editor/editor.main'], function() {
         {
           label: 'model-ollama',
           kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: `- id: ${1:model-id}\n  name: ${2:Model Name}\n  provider:\n    type: ollama\n    baseUrl: http://localhost:11434\n    model: ${3:model-name:tag}\n  capabilities:\n    context: 4096\n    maxTokens: 2048\n  defaults:\n    temperature: 0.2\n  roles: [chat, edit]`,
+          insertText: `- id: \${1:model-id}
+  name: \${2:Model Name}
+  provider:
+    type: ollama
+    baseUrl: http://localhost:11434
+    model: \${3:model-name:tag}
+  capabilities:
+    context: 4096
+    maxTokens: 2048
+  defaults:
+    temperature: 0.2
+  roles: [chat, edit]`,
           documentation: 'Добавить локальную модель Ollama',
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
         },
