@@ -1,10 +1,10 @@
 """Утилиты безопасности для Portfolio Organizer."""
+
 import re
 import urllib.parse
-from typing import Set
 
 
-def is_safe_url(url: str, allowed_hosts: Set[str] | None = None) -> bool:
+def is_safe_url(url: str, allowed_hosts: set[str] | None = None) -> bool:
     """
     Проверяет URL на безопасность (защита от SSRF).
 
@@ -38,8 +38,7 @@ def is_safe_url(url: str, allowed_hosts: Set[str] | None = None) -> bool:
 
     if parsed.hostname not in allowed_hosts:
         raise ValueError(
-            f"SSRF protection: host '{parsed.hostname}' не разрешён. "
-            f"Доступные: {', '.join(allowed_hosts)}"
+            f"SSRF protection: host '{parsed.hostname}' не разрешён. Доступные: {', '.join(allowed_hosts)}"
         )
 
     return True
