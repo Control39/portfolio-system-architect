@@ -22,10 +22,11 @@ def list_models():
         import urllib.parse
 
         ALLOWED_HOSTS = {"api.trusted-domain.com", "ml-registry.internal", "localhost", "127.0.0.1"}
-        parsed = urllib.parse.urlparse(f"{ML_MODEL_REGISTRY_URL}/portfolio/models")
+        url = f"{ML_MODEL_REGISTRY_URL}/portfolio/models"
+        parsed = urllib.parse.urlparse(url)
         if parsed.hostname and parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-        response = requests.get(f"{ML_MODEL_REGISTRY_URL}/portfolio/models", timeout=30)
+        response = requests.get(url, timeout=30)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
@@ -39,10 +40,11 @@ def get_model(model_id):
         import urllib.parse
 
         ALLOWED_HOSTS = {"api.trusted-domain.com", "ml-registry.internal", "localhost", "127.0.0.1"}
-        parsed = urllib.parse.urlparse(f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}")
+        url = f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}"
+        parsed = urllib.parse.urlparse(url)
         if parsed.hostname and parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-        response = requests.get(f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}", timeout=30)
+        response = requests.get(url, timeout=30)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
@@ -60,14 +62,11 @@ def predict(model_id):
         import urllib.parse
 
         ALLOWED_HOSTS = {"api.trusted-domain.com", "ml-registry.internal", "localhost", "127.0.0.1"}
-        parsed = urllib.parse.urlparse(f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}/predict")
+        url = f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}/predict"
+        parsed = urllib.parse.urlparse(url)
         if parsed.hostname and parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-        response = requests.post(
-            f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}/predict",
-            json=data,
-            timeout=30,
-        )
+        response = requests.post(url, json=data, timeout=30)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
@@ -81,10 +80,11 @@ def health_check():
         import urllib.parse
 
         ALLOWED_HOSTS = {"api.trusted-domain.com", "ml-registry.internal", "localhost", "127.0.0.1"}
-        parsed = urllib.parse.urlparse(f"{ML_MODEL_REGISTRY_URL}/health")
+        url = f"{ML_MODEL_REGISTRY_URL}/health"
+        parsed = urllib.parse.urlparse(url)
         if parsed.hostname and parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-        response = requests.get(f"{ML_MODEL_REGISTRY_URL}/health", timeout=30)
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             return jsonify(
                 {
@@ -129,14 +129,14 @@ def portfolio_analysis_with_models():
         if not data or "projects" not in data:
             return jsonify({"error": "Missing projects data"}), 400
 
-        # Отправляем данные в ML Model Registry для анализа
         import urllib.parse
 
         ALLOWED_HOSTS = {"api.trusted-domain.com", "ml-registry.internal", "localhost", "127.0.0.1"}
-        parsed = urllib.parse.urlparse(f"{ML_MODEL_REGISTRY_URL}/portfolio/analyze")
+        url = f"{ML_MODEL_REGISTRY_URL}/portfolio/analyze"
+        parsed = urllib.parse.urlparse(url)
         if parsed.hostname and parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError(f"SSRF protection: host '{parsed.hostname}' not allowed")
-        response = requests.post(f"{ML_MODEL_REGISTRY_URL}/portfolio/analyze", json=data, timeout=30)
+        response = requests.post(url, json=data, timeout=30)
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
