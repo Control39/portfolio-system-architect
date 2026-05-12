@@ -83,61 +83,25 @@ def test_main_parser_defaults():
         # Проверяем version
         assert "--version" in arg_calls
         assert arg_calls["--version"]["action"] == "store_true"
-        mock_parser = MagicMock(spec=ArgumentParser)
-        mock_parser_class.return_value = mock_parser
-
-        from src.assistant_orchestrator.main import main
-
-        # Не запускаем main(), просто проверяем, что парсер создается
-        mock_parser_class.assert_called_once()
-
-        # Проверяем, что add_argument вызван с правильными параметрами по умолчанию
-        add_arg_calls = mock_parser.add_argument.call_args_list
-
-        # Собираем все вызовы add_argument в словарь
-        arg_calls = {}
-        for call in add_arg_calls:
-            args, kwargs = call
-            if args:
-                arg_calls[args[0]] = kwargs
-
-        # Проверяем root
-        assert "--root" in arg_calls
-        assert arg_calls["--root"]["default"] == "."
-
-        # Проверяем format
-        assert "--format" in arg_calls
-        assert arg_calls["--format"]["default"] == "text"
-        assert "choices" in arg_calls["--format"]
-        assert set(arg_calls["--format"]["choices"]) == {"text", "json", "html"}
-
-        # Проверяем output
-        assert "--output" in arg_calls
-        assert arg_calls["--output"]["default"] == "reports"
-
-        # Проверяем verbose
-        assert "--verbose" in arg_calls
-        assert arg_calls["--verbose"]["action"] == "store_true"
-
-        # Проверяем version
-        assert "--version" in arg_calls
-        assert arg_calls["--version"]["action"] == "store_true"
 
 
 def test_main_version_flag():
     """Проверяем, что флаг --version работает"""
+    mock_parser = MagicMock()
+    mock_args = MagicMock()
+    mock_args.version = True
+    mock_parser.parse_args.return_value = mock_args
+
     with (
-        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("argparse.ArgumentParser", return_value=mock_parser),
         patch("src.assistant_orchestrator.main.sys") as mock_sys,
+        patch("src.assistant_orchestrator.main.__version__", "1.0.0", create=True),
     ):
-        mock_parser = MagicMock()
-        mock_parser_class.return_value = mock_parser
-        mock_parser.parse_args.return_value = MagicMock(version=True)
-
-        # Импортируем main и модифицируем __version__
+        # Переимпортируем main после установки моков
+        import importlib
+        import src.assistant_orchestrator.main
+        importlib.reload(src.assistant_orchestrator.main)
         from src.assistant_orchestrator.main import main
-
-        main.__globals__["__version__"] = "1.0.0"
 
         # Запускаем main
         with pytest.raises(SystemExit):
@@ -145,9 +109,7 @@ def test_main_version_flag():
 
         # Проверяем, что sys.exit был вызван
         assert mock_sys.exit.called
-
-        with patch("src.assistant_orchestrator.main.__version__", "1.0.0"):
-            main()
+        mock_sys.exit.assert_called_with(0)
 
         mock_sys.exit.assert_called_with(0)
         # Проверяем, что print был вызван с версией
@@ -156,8 +118,17 @@ def test_main_version_flag():
 
 def test_main_with_valid_root():
     """Проверяем запуск main с валидной директорией"""
+    mock_parser = MagicMock()
+    mock_args = MagicMock()
+    mock_args.root = "./test_project"
+    mock_args.format = "json"
+    mock_args.output = "output_reports"
+    mock_args.verbose = False
+    mock_args.version = False
+    mock_parser.parse_args.return_value = mock_args
+
     with (
-        patch("argparse.ArgumentParser") as mock_parser_class,
+        patch("argparse.ArgumentParser", return_value=mock_parser),
         patch("src.assistant_orchestrator.main.setup_logging"),
         patch("src.assistant_orchestrator.core.analyzer.AssistantOrchestrator") as mock_orchestrator_class,
         patch("src.assistant_orchestrator.core.reporter.Reporter") as mock_reporter_class,
@@ -165,17 +136,6 @@ def test_main_with_valid_root():
         patch("src.assistant_orchestrator.main.logging"),
         patch("src.assistant_orchestrator.main.sys") as mock_sys,
     ):
-        # Настройка моков
-        mock_parser = MagicMock()
-        mock_parser_class.return_value = mock_parser
-        mock_parser.parse_args.return_value = MagicMock(
-            root="./test_project",
-            format="json",
-            output="output_reports",
-            verbose=False,
-            version=False,
-        )
-
         # Мок существующей директории
         mock_path_instance = MagicMock()
         mock_path.return_value = mock_path_instance
@@ -193,8 +153,12 @@ def test_main_with_valid_root():
         mock_reporter_class.return_value = mock_reporter_instance
 
         # Мок sys.exit
-        mock_sys.exit.side_effect = SystemExit(0)  # Чтобы main() завершился
+        mock_sys.exit.side_effect = SystemExit(0)
 
+        # Переимпортируем main после установки моков
+        import importlib
+        import src.assistant_orchestrator.main
+        importlib.reload(src.assistant_orchestrator.main)
         from src.assistant_orchestrator.main import main
 
         # Запускаем main и ловим SystemExit
@@ -212,32 +176,8 @@ def test_main_with_valid_root():
         # Проверяем, что save был вызван хотя бы раз
         assert mock_reporter_instance.save.called
 
-        # Настройка моков
-        mock_parser = MagicMock()
-        mock_parser_class.return_value = mock_parser
-        mock_parser.parse_args.return_value = MagicMock(
-            root="./test_project",
-            format="json",
-            output="output_reports",
-            verbose=False,
-            version=False,
-        )
 
-        # Мок существующей директории
-        mock_path_instance = MagicMock()
-        mock_path.return_value = mock_path_instance
-        mock_path_instance.resolve.return_value = mock_path_instance
-        mock_path_instance.exists.return_value = True
-
-        # Мок orchestrator
-        mock_orchestrator_instance = MagicMock()
-        mock_orchestrator_class.return_value = mock_orchestrator_instance
-        mock_analysis = {"test": "data"}
-        mock_orchestrator_instance.run_full_analysis.return_value = mock_analysis
-
-        # Мок reporter
-        mock_reporter_instance = MagicMock()
-        mock_reporter_class.return_value = mock_reporter_instance
+def test_main_with_invalid_root():
 
         # Мок datetime
         with patch("src.assistant_orchestrator.main.datetime") as mock_datetime:
