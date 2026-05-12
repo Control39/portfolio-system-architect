@@ -114,15 +114,38 @@ pytest -v -m "not slow" --ignore=tests/unit/test_assistant_orchestrator_main.py 
 
 ---
 
+## ⚠️ CLI-тесты (test_assistant_orchestrator_main.py)
+
+| Тест | Ошибка | Статус |
+|------|--------|---------|
+| `test_main_version_flag` | `sys.exit` не вызывается при `--version` | 🟡 Known Issue |
+| `test_main_with_valid_root` | `AssistantOrchestrator` не создаётся в моках | 🟡 Known Issue |
+| `test_main_keyboard_interrupt` | `SystemExit` не поднимается при `KeyboardInterrupt` | 🟡 Known Issue |
+
+**Причина:** Сложность мокирования `argparse.ArgumentParser` с `reload()` модуля. Тесты требуют полной переработки подхода к изоляции.
+
+**Влияние:**
+- Не блокирует основную логику (4 из 7 тестов проходят)
+- Production-код работает корректно (проверено вручную)
+
+**Решение (в планах):**
+- Переписать на integration-тесты с реальным запуском CLI
+- Использовать `subprocess` для тестирования CLI-аргументов
+
+**Приоритет:** Средний (технический долг)
+
+---
+
 ## 📋 План устранения
 
 | Приоритет | Проблема | Оценка | Статус |
 |-----------|----------|--------|--------|
-| Medium | CLI-тесты (3) | 1-2 ч | 🟡 В очереди |
+| High | pre-commit mypy (types-pkg-resources) | 30 мин | ✅ Исправлено |
+| Medium | CLI-тесты (3) | 2 ч | 🟡 Задокументировано |
 | Low | ChromaDB/HF-тесты (6) | 1-2 дня | ⏳ Отложено |
 | Low | langchain уязвимости | 2-3 дня | ⏳ Отложено (Q3 2026) |
 
-**Этап стабилизации инфраструктуры:** TBD (после настройки CI/CD)
+**Этап стабилизации инфраструктуры:** В процессе
 
 ---
 
