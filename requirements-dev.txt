@@ -205,6 +205,7 @@ httpx==0.28.1
     #   fastapi
     #   fastapi-cloud-cli
     #   jupyterlab
+    #   langgraph-sdk
     #   langsmith
     #   openai
     #   safety
@@ -329,28 +330,44 @@ jupyterlab-server==2.28.0
     #   notebook
 jupyterlab-widgets==3.0.16
     # via ipywidgets
-langchain==0.3.30
-    # via
-    #   -r requirements-dev.in
-    #   langchain-community
-langchain-community==0.3.31
+langchain==1.3.0
     # via -r requirements-dev.in
-langchain-core==0.3.86
+langchain-classic==1.0.7
+    # via langchain-community
+langchain-community==0.4.1
+    # via -r requirements-dev.in
+langchain-core==1.4.0
     # via
     #   -r requirements-dev.in
     #   langchain
+    #   langchain-classic
     #   langchain-community
     #   langchain-openai
     #   langchain-text-splitters
-langchain-openai==0.3.35
+    #   langgraph
+    #   langgraph-checkpoint
+    #   langgraph-prebuilt
+langchain-openai==1.2.1
     # via -r requirements-dev.in
-langchain-text-splitters==0.3.11
+langchain-protocol==0.0.15
+    # via langchain-core
+langchain-text-splitters==1.1.2
     # via
     #   -r requirements-dev.in
-    #   langchain
+    #   langchain-classic
+langgraph==1.2.0
+    # via langchain
+langgraph-checkpoint==4.1.0
+    # via
+    #   langgraph
+    #   langgraph-prebuilt
+langgraph-prebuilt==1.1.0
+    # via langgraph
+langgraph-sdk==0.3.14
+    # via langgraph
 langsmith==0.8.3
     # via
-    #   langchain
+    #   langchain-classic
     #   langchain-community
     #   langchain-core
 lark==1.3.1
@@ -472,7 +489,11 @@ openai==2.34.0
 openpyxl==3.1.5
     # via -r requirements-dev.in
 orjson==3.11.9
-    # via langsmith
+    # via
+    #   langgraph-sdk
+    #   langsmith
+ormsgpack==1.12.2
+    # via langgraph-checkpoint
 packaging==25.0
     # via
     #   altair
@@ -557,7 +578,9 @@ pydantic[email]==2.13.3
     #   fastapi
     #   fastapi-cloud-cli
     #   langchain
+    #   langchain-classic
     #   langchain-core
+    #   langgraph
     #   langsmith
     #   openai
     #   pydantic-extra-types
@@ -664,7 +687,7 @@ pyyaml==6.0.3
     #   detect-secrets
     #   fastapi
     #   jupyter-events
-    #   langchain
+    #   langchain-classic
     #   langchain-community
     #   langchain-core
     #   mkdocs
@@ -698,7 +721,7 @@ requests==2.33.1
     #   detect-secrets
     #   docker
     #   jupyterlab-server
-    #   langchain
+    #   langchain-classic
     #   langchain-community
     #   langsmith
     #   mkdocs-material
@@ -764,7 +787,7 @@ soupsieve==2.8.3
     # via beautifulsoup4
 sqlalchemy==2.0.49
     # via
-    #   langchain
+    #   langchain-classic
     #   langchain-community
 stack-data==0.6.3
     # via ipython
@@ -848,6 +871,7 @@ typing-extensions==4.15.0
     #   beautifulsoup4
     #   fastapi
     #   langchain-core
+    #   langchain-protocol
     #   mypy
     #   openai
     #   pydantic
@@ -923,7 +947,9 @@ widgetsnbextension==4.0.15
 wrapt==2.1.2
     # via deprecated
 xxhash==3.7.0
-    # via langsmith
+    # via
+    #   langgraph
+    #   langsmith
 yarl==1.23.0
     # via aiohttp
 zstandard==0.25.0
