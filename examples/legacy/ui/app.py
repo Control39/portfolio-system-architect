@@ -4,6 +4,7 @@
 
 import time
 from datetime import datetime
+from urllib.parse import urlparse
 
 import requests
 import streamlit as st
@@ -16,6 +17,24 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# Вспомогательная функция для валидации URL
+def validate_api_url(url: str) -> bool:
+    """Проверяет, что URL безопасен (только localhost/127.0.0.1 и разрешенные порты)"""
+    if not url.startswith(("http://", "https://")):
+        return False
+    
+    parsed = urlparse(url)
+    allowed_hosts = {"localhost", "127.0.0.1"}
+    
+    if parsed.hostname not in allowed_hosts:
+        return False
+    
+    # Разрешенные порты для разработки
+    if parsed.port and parsed.port not in {8000, 8501, 3000, 5000, 8080}:
+        return False
+    
+    return True
 
 # CSS для улучшения внешнего вида
 st.markdown(
@@ -107,23 +126,22 @@ with st.sidebar:
 
     # Проверка подключения
     if st.button("🔍 Проверить подключение к API"):
-        try:
-            # Валидация api_url: разрешаем только HTTP/HTTPS и localhost/127.0.0.1
-            if not api_url.startswith(("http://", "https://")):
-                st.error("❌ URL API должен начинаться с http:// или https://")
-                return
-            if "localhost" not in api_url and "127.0.0.1" not in api_url:
-                st.warning("⚠️ Рекомендуется использовать localhost для локальной разработки")
-            response = requests.get(f"{api_url}/health", timeout=5)
-            if response.status_code == 200:
-                data = response.json()
-                st.success(f"✅ API доступен: {data.get('status', 'unknown')}")
-                st.info(f"Индекс готов: {data.get('index_ready', False)}")
-            else:
-                st.error(f"❌ API недоступен: статус {response.status_code}")
-        except Exception as e:
-            st.error(f"❌ Ошибка подключения: {e!s}")
-            st.info("Запустите API сервер: `uvicorn api.main:app --reload`")
+        # Валидация URL перед запросом
+        if not validate_api_url(api_url):
+            st.error("❌ Небезопасный URL. Разрешены только localhost и 127.0.0.1")
+        else:
+            try:
+                url = f"{api_url}/health"
+                response = requests.get(url, timeout=5)
+                if response.status_code == 200:
+                    data = response.json()
+                    st.success(f"✅ API доступен: {data.get('status', 'unknown')}")
+                    st.info(f"Индекс готов: {data.get('index_ready', False)}")
+                else:
+                    st.error(f"❌ API недоступен: статус {response.status_code}")
+            except Exception as e:
+                st.error(f"❌ Ошибка подключения: {e!s}")
+                st.info("Запустите API сервер: `uvicorn api.main:app --reload`")
 
 # Основная область
 col1, col2 = st.columns([3, 1])
@@ -176,122 +194,126 @@ if clear_button:
 
 # Обработка вопроса
 if ask_button and query:
-    with st.spinner("🔍 Ищу ответ в документации проекта..."):
-        try:
-            start_time = time.time()
+    # Валидация URL перед запросом
+    if not validate_api_url(api_url):
+        st.error("❌ Небезопасный URL. Разрешены только localhost и 127.0.0.1")
+    else:
+        with st.spinner("🔍 Ищу ответ в документации проекта..."):
+            try:
+                start_time = time.time()
 
-            # Отправляем запрос к API
-            # Валидация api_url уже выполнена при проверке подключения
-            response = requests.post(
-                f"{api_url}/ask",
-                json={
-                    "query": query,
-                    "top_k": top_k,
-                    "min_confidence": min_confidence,
-                },
-                timeout=30,
-            )
-
-            processing_time = time.time() - start_time
-
-            if response.status_code == 200:
-                data = response.json()
-
-                # Отображаем ответ
-                st.markdown("---")
-                st.markdown("### 📝 Ответ")
-
-                # Бейдж уверенности
-                confidence = data.get("confidence", 0.0)
-                if confidence >= 0.7:
-                    confidence_class = "confidence-high"
-                    confidence_text = "Высокая уверенность"
-                elif confidence >= 0.4:
-                    confidence_class = "confidence-medium"
-                    confidence_text = "Средняя уверенность"
-                else:
-                    confidence_class = "confidence-low"
-                    confidence_text = "Низкая уверенность"
-
-                st.markdown(
-                    f'<div class="confidence-badge {confidence_class}">🤖 {confidence_text}: {confidence:.2%}</div>',
-                    unsafe_allow_html=True,
+                # Отправляем запрос к API
+                url = f"{api_url}/ask"
+                response = requests.post(
+                    url,
+                    json={
+                        "query": query,
+                        "top_k": top_k,
+                        "min_confidence": min_confidence,
+                    },
+                    timeout=30,
                 )
 
-                # Ответ
-                st.markdown(
-                    f'<div class="answer-box">{data["answer"]}</div>',
-                    unsafe_allow_html=True,
-                )
+                processing_time = time.time() - start_time
 
-                # Источники
-                if data.get("sources"):
-                    st.markdown("### 📚 Источники")
-                    st.caption(f"Найдено {len(data['sources'])} релевантных документа(ов)")
+                if response.status_code == 200:
+                    data = response.json()
 
-                    for i, source in enumerate(data["sources"]):
-                        with st.expander(
-                            f"📄 {source.get('file', 'unknown')} (релевантность: {source.get('score', 0):.2%})",
-                            expanded=i < 2,
-                        ):
-                            st.markdown(
-                                f'<div class="source-box">{source.get("text", "")}</div>',
-                                unsafe_allow_html=True,
+                    # Отображаем ответ
+                    st.markdown("---")
+                    st.markdown("### 📝 Ответ")
+
+                    # Бейдж уверенности
+                    confidence = data.get("confidence", 0.0)
+                    if confidence >= 0.7:
+                        confidence_class = "confidence-high"
+                        confidence_text = "Высокая уверенность"
+                    elif confidence >= 0.4:
+                        confidence_class = "confidence-medium"
+                        confidence_text = "Средняя уверенность"
+                    else:
+                        confidence_class = "confidence-low"
+                        confidence_text = "Низкая уверенность"
+
+                    st.markdown(
+                        f'<div class="confidence-badge {confidence_class}">🤖 {confidence_text}: {confidence:.2%}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+                    # Ответ
+                    st.markdown(
+                        f'<div class="answer-box">{data["answer"]}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+                    # Источники
+                    if data.get("sources"):
+                        st.markdown("### 📚 Источники")
+                        st.caption(f"Найдено {len(data['sources'])} релевантных документа(ов)")
+
+                        for i, source in enumerate(data["sources"]):
+                            with st.expander(
+                                f"📄 {source.get('file', 'unknown')} (релевантность: {source.get('score', 0):.2%})",
+                                expanded=i < 2,
+                            ):
+                                st.markdown(
+                                    f'<div class="source-box">{source.get("text", "")}</div>',
+                                    unsafe_allow_html=True,
+                                )
+
+                                # Метаданные
+                                col_s1, col_s2 = st.columns(2)
+                                with col_s1:
+                                    if source.get("line_start"):
+                                        st.caption(
+                                            f"Строки: {source.get('line_start')}-{source.get('line_end', source.get('line_start'))}"
+                                        )
+                                with col_s2:
+                                    st.caption(f"Уверенность: {source.get('score', 0):.2%}")
+
+                    # Статистика
+                    with st.expander("📊 Статистика запроса"):
+                        col_stat1, col_stat2, col_stat3 = st.columns(3)
+                        with col_stat1:
+                            st.metric(
+                                "Время обработки",
+                                f"{data.get('processing_time_ms', 0):.0f} мс",
                             )
+                        with col_stat2:
+                            st.metric("Уверенность", f"{confidence:.2%}")
+                        with col_stat3:
+                            st.metric("Источников", len(data.get("sources", [])))
 
-                            # Метаданные
-                            col_s1, col_s2 = st.columns(2)
-                            with col_s1:
-                                if source.get("line_start"):
-                                    st.caption(
-                                        f"Строки: {source.get('line_start')}-{source.get('line_end', source.get('line_start'))}"
-                                    )
-                            with col_s2:
-                                st.caption(f"Уверенность: {source.get('score', 0):.2%}")
+                    # Сохраняем историю
+                    if "history" not in st.session_state:
+                        st.session_state.history = []
 
-                # Статистика
-                with st.expander("📊 Статистика запроса"):
-                    col_stat1, col_stat2, col_stat3 = st.columns(3)
-                    with col_stat1:
-                        st.metric(
-                            "Время обработки",
-                            f"{data.get('processing_time_ms', 0):.0f} мс",
-                        )
-                    with col_stat2:
-                        st.metric("Уверенность", f"{confidence:.2%}")
-                    with col_stat3:
-                        st.metric("Источников", len(data.get("sources", [])))
+                    st.session_state.history.append(
+                        {
+                            "timestamp": datetime.now().isoformat(),
+                            "question": query,
+                            "answer": data["answer"],
+                            "confidence": confidence,
+                            "sources_count": len(data.get("sources", [])),
+                        }
+                    )
 
-                # Сохраняем историю
-                if "history" not in st.session_state:
-                    st.session_state.history = []
+                else:
+                    st.error(f"❌ Ошибка API: {response.status_code}")
+                    st.code(response.text[:500])
 
-                st.session_state.history.append(
-                    {
-                        "timestamp": datetime.now().isoformat(),
-                        "question": query,
-                        "answer": data["answer"],
-                        "confidence": confidence,
-                        "sources_count": len(data.get("sources", [])),
-                    }
-                )
-
-            else:
-                st.error(f"❌ Ошибка API: {response.status_code}")
-                st.code(response.text[:500])
-
-        except requests.exceptions.ConnectionError:
-            st.error("❌ Не удалось подключиться к API серверу.")
-            st.info(
+            except requests.exceptions.ConnectionError:
+                st.error("❌ Не удалось подключиться к API серверу.")
+                st.info(
+                    """
+                **Решение:**
+                1. Убедитесь, что API сервер запущен: `uvicorn api.main:app --reload`
+                2. Проверьте URL в настройках (по умолчанию: http://127.0.0.1:8000)
+                3. Убедитесь, что порт 8000 не занят другим приложением
                 """
-            **Решение:**
-            1. Убедитесь, что API сервер запущен: `uvicorn api.main:app --reload`
-            2. Проверьте URL в настройках (по умолчанию: http://127.0.0.1:8000)
-            3. Убедитесь, что порт 8000 не занят другим приложением
-            """
-            )
-        except Exception as e:
-            st.error(f"❌ Неожиданная ошибка: {e!s}")
+                )
+            except Exception as e:
+                st.error(f"❌ Неожиданная ошибка: {e!s}")
 
 # История запросов
 if "history" in st.session_state and st.session_state.history:
