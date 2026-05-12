@@ -7,6 +7,7 @@
 
 import logging
 import os
+import re
 import sys
 from typing import Any
 
@@ -62,6 +63,18 @@ class ExportResponse(BaseModel):
 
 
 # Вспомогательные функции
+
+# Регулярное выражение для валидации model_id (только безопасные символы для URL path)
+MODEL_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
+
+
+def validate_model_id(model_id: str) -> str:
+    """Проверить, что model_id безопасен для использования в URL path."""
+    if not MODEL_ID_PATTERN.fullmatch(model_id):
+        raise ValueError(f"Invalid model_id format: {model_id}")
+    return model_id
+
+
 async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict = None):
     """Выполнить запрос к ML Model Registry."""
     url = f"{ML_MODEL_REGISTRY_URL}{endpoint}"
@@ -174,22 +187,23 @@ async def get_model_portfolio_info(model_id: str):
     Args:
         model_id: Идентификатор модели
     """
-    logger.info(f"Запрос информации о модели {model_id} для портфолио")
+    safe_model_id = validate_model_id(model_id)
+    logger.info(f"Запрос информации о модели {safe_model_id} для портфолио")
 
     # Проверяем мок-данные (для разработки)
     for model in MOCK_MODELS:
-        if model["id"] == model_id:
-            return {
+        if model["id"] == safe_model_id:
+            return ModelPortfolioInfo(
                 **model,
-                "portfolio_integration": {
+                portfolio_integration={
                     "can_export": True,
                     "supported_formats": ["json", "yaml", "markdown"],
-                    "api_endpoint": f"{ML_MODEL_REGISTRY_URL}/api/models/{model_id}/export",
+                    "api_endpoint": f"{ML_MODEL_REGISTRY_URL}/api/models/{safe_model_id}/export",
                 },
-            }
+            )
 
     # Реальный запрос к реестру
-    model_data = await fetch_from_registry(f"/api/models/{model_id}")
+    model_data = await fetch_from_registry(f"/api/models/{safe_model_id}")
 
     # Форматирование данных для портфолио
     portfolio_info = {
@@ -203,11 +217,11 @@ async def get_model_portfolio_info(model_id: str):
         "portfolio_integration": {
             "can_export": True,
             "supported_formats": ["json", "yaml", "markdown"],
-            "api_endpoint": f"{ML_MODEL_REGISTRY_URL}/api/models/{model_id}/export",
+            "api_endpoint": f"{ML_MODEL_REGISTRY_URL}/api/models/{safe_model_id}/export",
         },
     }
 
-    return portfolio_info
+    return ModelPortfolioInfo(**portfolio_info)
 
 
 @router.post("/models/{model_id}/export", response_model=ExportResponse)
@@ -219,14 +233,15 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
         model_id: Идентификатор модели
         request: Параметры экспорта
     """
-    logger.info(f"Экспорт модели {model_id} в формате {request.format}")
+    safe_model_id = validate_model_id(model_id)
+    logger.info(f"Экспорт модели {safe_model_id} в формате {request.format}")
 
     # Получаем данные модели и экспортируем в нужном формате ПАРАЛЛЕЛЬНО
     # (вместо последовательного выполнения, экономим ~15 сек на большых моделях)
     model_data, export_data = await fetch_parallel(
-        fetch_from_registry(f"/api/models/{model_id}"),
+        fetch_from_registry(f"/api/models/{safe_model_id}"),
         fetch_from_registry(
-            f"/api/models/{model_id}/export",
+            f"/api/models/{safe_model_id}/export",
             method="POST",
             data={"format": request.format},
         ),
@@ -236,7 +251,7 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
     portfolio_response = await send_to_portfolio(
         "/api/portfolio/import/model",
         data={
-            "model_id": model_id,
+            "model_id": safe_model_id,
             "format": request.format,
             "data": export_data,
             "metadata": {
@@ -251,10 +266,10 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
 
     return ExportResponse(
         status="success",
-        model_id=model_id,
+        model_id=safe_model_id,
         format=request.format,
         portfolio_id=portfolio_response.get("portfolio_id"),
-        message=f"Модель {model_id} успешно экспортирована в портфолио",
+        message=f"Модель {safe_model_id} успешно экспортирована в портфолио",
     )
 
 
@@ -266,17 +281,18 @@ async def register_model_for_portfolio(model_id: str):
     Args:
         model_id: Идентификатор модели
     """
-    logger.info(f"Регистрация модели {model_id} в portfolio-organizer")
+    safe_model_id = validate_model_id(model_id)
+    logger.info(f"Регистрация модели {safe_model_id} в portfolio-organizer")
 
     # Проверяем существование модели
     try:
-        model_data = await fetch_from_registry(f"/api/models/{model_id}")
+        model_data = await fetch_from_registry(f"/api/models/{safe_model_id}")
     except HTTPException:
         # Проверяем мок-данные
         for model in MOCK_MODELS:
-            if model["id"] == model_id:
+            if model["id"] == safe_model_id:
                 return {
-                    "message": f"Модель {model_id} зарегистрирована в portfolio-organizer (mock)",
+                    "message": f"Модель {safe_model_id} зарегистрирована в portfolio-organizer (mock)",
                     "success": True,
                     "model": model,
                 }
@@ -286,7 +302,7 @@ async def register_model_for_portfolio(model_id: str):
     portfolio_response = await send_to_portfolio(
         "/api/portfolio/register",
         data={
-            "model_id": model_id,
+            "model_id": safe_model_id,
             "name": model_data.get("name"),
             "version": model_data.get("version"),
             "source": "ml-model-registry",
@@ -294,7 +310,7 @@ async def register_model_for_portfolio(model_id: str):
     )
 
     return {
-        "message": f"Модель {model_id} зарегистрирована в portfolio-organizer",
+        "message": f"Модель {safe_model_id} зарегистрирована в portfolio-organizer",
         "success": True,
         "portfolio_id": portfolio_response.get("portfolio_id"),
     }
