@@ -118,10 +118,13 @@ st.markdown(
 with st.sidebar:
     st.header("⚙️ Настройки")
 
-    api_url = st.text_input(
+    # SSRF защита #552: только предопределенные безопасные URL
+    allowed_api_urls = ["http://127.0.0.1:8000", "http://localhost:8000"]
+    api_url = st.selectbox(
         "URL API сервера:",
-        value="http://127.0.0.1:8000",
-        help="Адрес FastAPI сервера с RAG-консультантом",
+        options=allowed_api_urls,
+        index=0,
+        help="Разрешены только доверенные локальные адреса FastAPI сервера",
     )
 
     top_k = st.slider(
