@@ -1,0 +1,7 @@
+fix: remove unused variables and imports (CodeQL #1-#386)
+
+- security-auditor.ts: removed unused 'checkLevel' parameter
+- ai-config-mobile/app.js: removed unused 'Dimensions', 'loading', 'selectedConfig'
+- renderer.test.js: removed unused 'React', 'screen' imports
+
+Addresses CodeQL note-level alerts for unused local variables.
