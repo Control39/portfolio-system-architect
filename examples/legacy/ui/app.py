@@ -2,6 +2,8 @@
 Позволяет не-техническим пользователям задавать вопросы о проекте.
 """
 
+import ipaddress
+import socket
 import time
 from datetime import datetime
 from urllib.parse import urlparse
@@ -18,23 +20,40 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
 # Вспомогательная функция для валидации URL
 def validate_api_url(url: str) -> bool:
     """Проверяет, что URL безопасен (только localhost/127.0.0.1 и разрешенные порты)"""
     if not url.startswith(("http://", "https://")):
         return False
-    
+
     parsed = urlparse(url)
     allowed_hosts = {"localhost", "127.0.0.1"}
-    
+
     if parsed.hostname not in allowed_hosts:
         return False
-    
+
     # Разрешенные порты для разработки
     if parsed.port and parsed.port not in {8000, 8501, 3000, 5000, 8080}:
         return False
-    
+
+    # Дополнительная проверка: резолвим DNS и проверяем IP-адрес
+    try:
+        ip_addresses = socket.getaddrinfo(parsed.hostname, parsed.port or 80)
+        for addr_info in ip_addresses:
+            ip = addr_info[4][0]
+            # Проверяем, что IP - это localhost
+            try:
+                ip_obj = ipaddress.ip_address(ip)
+                if not ip_obj.is_loopback:
+                    return False  # IP не является loopback (127.0.0.1 или ::1)
+            except ValueError:
+                return False  # Неверный IP-адрес
+    except socket.gaierror:
+        return False  # Ошибка DNS-резолвинга
+
     return True
+
 
 # CSS для улучшения внешнего вида
 st.markdown(
