@@ -26,7 +26,11 @@ ALLOWED_HOSTS = {
 
 def _make_request(method: str, url: str, **kwargs) -> requests.Response:
     """Выполняет HTTP-запрос с SSRF-защитой."""
-    is_safe_url(url, ALLOWED_HOSTS)
+    try:
+        is_safe_url(url, ALLOWED_HOSTS)
+    except ValueError as e:
+        raise ValueError(f"Небезопасный URL: {e}") from e
+
     response = requests.request(method, url, **kwargs)
     response.raise_for_status()
     return response

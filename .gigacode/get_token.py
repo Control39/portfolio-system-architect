@@ -60,6 +60,7 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
 
     try:
         # Игнорируем SSL проверку для корпоративных прокси (self-signed certs)
+        # nosec B501 - обоснованное использование в корпоративной среде
         response = requests.post(url, headers=headers, data=data, timeout=30, verify=verify_ssl)
         response.raise_for_status()
 
@@ -90,7 +91,8 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
         print(f"❌ Ошибка при получении токена: {e}")
         if hasattr(e, "response") and e.response is not None:
             print(f"   Статус код: {e.response.status_code}")
-            print(f"   Ответ: {e.response.text}")
+            # Не логируем ответ полностью (может содержать секреты)
+            print("   (детали ответа скрыты по соображениям безопасности)")
         raise
 
 
@@ -166,6 +168,7 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
 
     try:
         # Игнорируем SSL для корпоративных прокси
+        # nosec B501 - обоснованное использование в корпоративной среде
         response = requests.get(url, headers=headers, timeout=10, verify=verify_ssl)
 
         if response.status_code == 200:
@@ -176,7 +179,8 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
                 print(f"   - {model.get('model_name', model.get('name', 'unknown'))}")
             return True
         print(f"❌ Токен невалиден (статус: {response.status_code})")
-        print(f"   Ответ: {response.text}")
+        # Не логируем ответ полностью (может содержать чувствительные данные)
+        print("   (детали ответа скрыты по соображениям безопасности)")
         return False
 
     except requests.exceptions.SSLError:
@@ -214,10 +218,12 @@ def main():
             print("\n" + "=" * 60)
             print("✅ Всё работает!")
             print("=" * 60)
-            print(f"\nAccess Token: {access_token[:20]}...{access_token[-10:]}")
+            # Выводим только часть токена для справки (не полный токен)
+            print(f"\nAccess Token (фрагмент): {access_token[:10]}...{access_token[-8:]}")
             print("\nИспользуйте этот токен в заголовке Authorization:")
             print("Authorization: Bearer <access_token>")
             print("\nТокен действителен 30 минут, после нужно обновить.")
+            print("⚠️  Не логируйте полные токены в production!")
             return 0
         print("\n❌ Токен невалиден. Попробуйте получить новый ключ.")
         return 1
