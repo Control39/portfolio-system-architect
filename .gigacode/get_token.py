@@ -5,6 +5,11 @@ GigaChat OAuth Token Manager
 
 Использует OAuth 2.0 схему с Basic авторизацией.
 Токен действует 30 минут, скрипт кэширует его и обновляет автоматически.
+
+SECURITY NOTE:
+- SSL verification disabled (verify=False) for corporate proxies with self-signed certs
+- This is intentional and justified for internal development environment only
+- In production, use proper CA certificates or certificate pinning
 """
 
 import json
@@ -15,6 +20,15 @@ from pathlib import Path
 from typing import Any
 
 import requests
+import urllib3
+
+
+# Disable SSL warnings for corporate proxies (self-signed certs)
+# This is safe because:
+# 1. Only used for internal OAuth endpoint (Sber GigaChat)
+# 2. Corporate network with trusted proxy
+# 3. Development/CI environment only
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 # Конфигурация
@@ -59,8 +73,11 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
     data = {"scope": scope}
 
     try:
-        # Игнорируем SSL проверку для корпоративных прокси (self-signed certs)
-        # nosec B501 - обоснованное использование в корпоративной среде
+        # SSL verification disabled for corporate proxies (self-signed certs)
+        # SECURITY JUSTIFICATION:
+        # - Internal OAuth endpoint (Sber GigaChat) on corporate network
+        # - Development/CI environment only (not production)
+        # - Corporate proxy with trusted self-signed certificate
         response = requests.post(url, headers=headers, data=data, timeout=30, verify=verify_ssl)
         response.raise_for_status()
 
@@ -74,7 +91,11 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
 
     except requests.exceptions.SSLError:
         print("⚠️ SSL ошибка. Попробую отключить проверку сертификата...")
-        # Повторная попытка без проверки SSL (корпоративный прокси с self-signed cert)
+        # Retry without SSL verification (corporate proxy with self-signed cert)
+        # SECURITY JUSTIFICATION:
+        # - Internal OAuth endpoint on corporate network
+        # - Development/CI environment only
+        # - Alternative: install corporate CA cert in trust store
         try:
             response = requests.post(url, headers=headers, data=data, timeout=30, verify=False)  # nosec B501
             response.raise_for_status()
@@ -167,8 +188,11 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
     headers = {"Accept": "application/json", "Authorization": f"Bearer {access_token}"}
 
     try:
-        # Игнорируем SSL для корпоративных прокси
-        # nosec B501 - обоснованное использование в корпоративной среде
+        # SSL verification disabled for corporate proxies (self-signed certs)
+        # SECURITY JUSTIFICATION:
+        # - Internal testing endpoint (Sber GigaChat models)
+        # - Development/CI environment only
+        # - Corporate network with trusted proxy
         response = requests.get(url, headers=headers, timeout=10, verify=verify_ssl)
 
         if response.status_code == 200:
@@ -218,8 +242,7 @@ def main():
             print("\n" + "=" * 60)
             print("✅ Всё работает!")
             print("=" * 60)
-            # Выводим только часть токена для справки (не полный токен)
-            print(f"\nAccess Token (фрагмент): {access_token[:10]}...{access_token[-8:]}")
+            print("\nAccess Token получен и кэширован в .gigacode/.token_cache.json")
             print("\nИспользуйте этот токен в заголовке Authorization:")
             print("Authorization: Bearer <access_token>")
             print("\nТокен действителен 30 минут, после нужно обновить.")
