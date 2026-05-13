@@ -60,7 +60,7 @@ repos:
     rev: 1.9.4
     hooks:
       - id: bandit
-        exclude: ^tests/
+        exclude: ^(.*/tests/|tests/.*|.*test_.*\.py)$
 
   # Docker linting
   - repo: https://github.com/hadolint/hadolint
@@ -74,5 +74,3 @@ repos:
     hooks:
       - id: yamllint
         args: [--config-data, '{extends: default, rules: {line-length: disable}}']
-
-

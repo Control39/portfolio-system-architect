@@ -93,7 +93,9 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, "process") else None
+        result = (
+            service_instance.process() if hasattr(service_instance, "process") else None
+        )
 
         if result:
             assert result.get("status") == "success"
@@ -109,7 +111,9 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, "process") else None
+        result = (
+            service_instance.process() if hasattr(service_instance, "process") else None
+        )
 
         if result:
             assert result.get("status") == "success"
@@ -125,7 +129,9 @@ class TestBasicFunctionality:
         service_instance.process = MagicMock(return_value={"status": "success"})
         service_instance.validate = MagicMock(return_value=True)
 
-        result = service_instance.process() if hasattr(service_instance, "process") else None
+        result = (
+            service_instance.process() if hasattr(service_instance, "process") else None
+        )
 
         if result:
             assert result.get("status") == "success"
