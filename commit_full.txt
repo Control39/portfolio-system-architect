@@ -1,0 +1,7 @@
+refactor: complete root cleanup and remove template-service
+
+- Removed template-service app (deprecated/duplicate)
+- Removed temporary files: commit_msg.txt, analysis_report.json
+- Removed duplicate conftest.py (tests/ has its own)
+- Updated .kodacli/KODA.md with session changes
+- Updated .github/workflows/ci.yml (test exclusions)
