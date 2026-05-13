@@ -173,8 +173,6 @@ MOCK_MODELS = [
 ]
 
 
-
-
 @router.get("/models", response_model=list[dict[str, Any]])
 async def get_models(use_mock: bool = False):
     """
@@ -196,8 +194,6 @@ async def get_models(use_mock: bool = False):
         # Если реестр недоступен, возвращаем мок-данные c предупреждением
         logger.warning("Реестр моделей недоступен, используются мок-данные")
         return [{"...mock": True, **model} for model in MOCK_MODELS]
-
-
 
 
 @router.get("/models/{model_id}", response_model=ModelPortfolioInfo)
@@ -242,9 +238,6 @@ async def get_model_portfolio_info(model_id: str):
             "api_endpoint": f"{ML_MODEL_REGISTRY_URL}/api/models/{model_id}/export",
         },
     }
-
-
-
 
 
 @router.post("/models/{model_id}/export", response_model=ExportResponse)
@@ -297,8 +290,6 @@ async def export_model_to_portfolio(model_id: str, request: ExportRequest):
     )
 
 
-
-
 @router.post("/models/{model_id}/register")
 async def register_model_for_portfolio(model_id: str):
     """
@@ -341,8 +332,6 @@ async def register_model_for_portfolio(model_id: str):
         "success": True,
         "portfolio_id": portfolio_response.get("portfolio_id"),
     }
-
-
 
 
 @router.get("/health")

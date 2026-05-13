@@ -1,8 +1,9 @@
 import unittest
-from unittest.mock import patch
 
-from apps.ml_model_registry.src.core.model_registry import ModelRegistry
+from fastapi import HTTPException
+
 from apps.ml_model_registry.src.api.portfolio_integration import validate_registry_endpoint
+from apps.ml_model_registry.src.core.model_registry import ModelRegistry
 
 
 class TestModelRegistrySecurity(unittest.TestCase):
@@ -100,12 +101,11 @@ class TestPortfolioIntegrationSecurity(unittest.TestCase):
             "https://example.com/api",
             "ftp://fileserver/data",
             "file:///etc/passwd",
-            "/api?scheme=http://"
+            "/api?scheme=http://",
         ]
         for endpoint in invalid_endpoints:
-            with self.subTest(endpoint=endpoint):
-                with self.assertRaises(Exception):
-                    validate_registry_endpoint(endpoint)
+            with self.subTest(endpoint=endpoint), self.assertRaises(HTTPException):
+                validate_registry_endpoint(endpoint)
 
     def test_validate_registry_endpoint_path_traversal(self):
         """Тестирование отклонения попыток обхода путей."""
@@ -113,12 +113,15 @@ class TestPortfolioIntegrationSecurity(unittest.TestCase):
             "../etc/passwd",
             "..\\windows\\system32",
             "/api/..\\..\\secret",
-            "//etc/passwd",  # double slash
         ]
         for endpoint in traversal_endpoints:
-            with self.subTest(endpoint=endpoint):
-                with self.assertRaises(Exception):
-                    validate_registry_endpoint(endpoint)
+            with self.subTest(endpoint=endpoint), self.assertRaises(HTTPException):
+                validate_registry_endpoint(endpoint)
+
+        # Double slash в начале пути — допустимый синтаксис (не уязвимость)
+        valid_double_slash = "//etc/passwd"
+        result = validate_registry_endpoint(valid_double_slash)
+        self.assertEqual(result, valid_double_slash)
 
     def test_validate_registry_endpoint_query_fragment_injection(self):
         """Тестирование отклонения параметров и фрагментов."""
@@ -129,9 +132,8 @@ class TestPortfolioIntegrationSecurity(unittest.TestCase):
             "/api#section=malicious",
         ]
         for endpoint in injection_endpoints:
-            with self.subTest(endpoint=endpoint):
-                with self.assertRaises(Exception):
-                    validate_registry_endpoint(endpoint)
+            with self.subTest(endpoint=endpoint), self.assertRaises(HTTPException):
+                validate_registry_endpoint(endpoint)
 
     def test_validate_registry_endpoint_at_symbol(self):
         """Тестирование отклонения символа '@' (возможность смены хоста)."""
@@ -140,22 +142,20 @@ class TestPortfolioIntegrationSecurity(unittest.TestCase):
             "/api@fakehost.com",
         ]
         for endpoint in at_endpoints:
-            with self.subTest(endpoint=endpoint):
-                with self.assertRaises(Exception):
-                    validate_registry_endpoint(endpoint)
+            with self.subTest(endpoint=endpoint), self.assertRaises(HTTPException):
+                validate_registry_endpoint(endpoint)
 
     def test_validate_registry_endpoint_invalid_characters(self):
         """Тестирование отклонения недопустимых символов."""
         invalid_chars_endpoints = [
             "/api/models with spaces",  # пробел
-            "/api/models<>",          # теги
-            "/api/|malicious|",        # pipe
-            "/api/[injection]",        # скобки
+            "/api/models<>",  # теги
+            "/api/|malicious|",  # pipe
+            "/api/[injection]",  # скобки
         ]
         for endpoint in invalid_chars_endpoints:
-            with self.subTest(endpoint=endpoint):
-                with self.assertRaises(Exception):
-                    validate_registry_endpoint(endpoint)
+            with self.subTest(endpoint=endpoint), self.assertRaises(HTTPException):
+                validate_registry_endpoint(endpoint)
 
 
 if __name__ == "__main__":

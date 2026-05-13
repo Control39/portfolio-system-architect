@@ -55,11 +55,11 @@ async def fetch_parallel_safe(*tasks: Coroutine) -> list[Any | None]:
     Returns:
         Список результатов, где None указывает на ошибку
     """
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    processed = []
+    results: list[object] = await asyncio.gather(*tasks, return_exceptions=True)
+    processed: list[Any] = []
 
     for result in results:
-        if isinstance(result, Exception):
+        if isinstance(result, BaseException):
             logger.warning(f"Task failed with error: {result}")
             processed.append(None)
         else:
@@ -119,7 +119,7 @@ async def fetch_with_retry(
                 max_retries=3
             )
     """
-    last_exception = None
+    last_exception: BaseException | None = None
 
     for attempt in range(max_retries):
         try:
@@ -136,13 +136,14 @@ async def fetch_with_retry(
 
             # Добавить jitter (случайное отклонение)
             if jitter:
-                delay *= 0.5 + random.random()
+                delay *= 0.5 + random.random()  # nosec B311
 
             logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay:.2f}s...")
 
             await asyncio.sleep(delay)
 
-    raise last_exception
+    if last_exception:
+        raise last_exception
 
 
 async def batch_async_operations(
