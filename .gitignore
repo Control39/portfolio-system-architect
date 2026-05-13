@@ -45,6 +45,7 @@ Thumbs.db
 # Static and generated files
 python_server/static/
 .azure/
+site/  # Generated MkDocs documentation
 
 # AI Assistant
 .codeassistant/
