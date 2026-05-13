@@ -1,9 +1,17 @@
 import json
 import os
+import sys
 import tempfile
 import unittest
+from pathlib import Path
 
-from apps.career_development.utils.helpers import (
+
+# Добавляем корень проекта в путь
+ROOT_DIR = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(ROOT_DIR))
+
+from apps.career_development.src.utils.helpers import validate_evidence_link  # noqa: E402
+from apps.career_development.utils.helpers import (  # noqa: E402
     calculate_skill_progress,
     convert_bytes_to_human_readable,
     create_directory_if_not_exists,
@@ -15,7 +23,6 @@ from apps.career_development.utils.helpers import (
     save_json_file,
     validate_email,
 )
-from src.utils.helpers import validate_evidence_link
 
 
 class TestHelpers(unittest.TestCase):
