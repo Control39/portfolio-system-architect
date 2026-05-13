@@ -13,6 +13,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from apps.utils.safe_logger import mask_sensitive
+
 
 # Patterns for common secrets
 SECRET_PATTERNS = {
@@ -225,7 +227,7 @@ def scan_file(file_path: Path, base_path: Path) -> list[SecretFinding]:
                     )
 
     except Exception as e:
-        msg = f"⚠️ Error reading {file_path}: {e}"
+        msg = f"⚠️ Error reading {file_path}: {mask_sensitive(str(e))}"
         print(msg, file=sys.stderr)
 
     return findings

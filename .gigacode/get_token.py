@@ -19,6 +19,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from apps.utils.safe_logger import mask_sensitive
+
 import requests
 import urllib3
 
@@ -106,10 +108,10 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
             print("✅ Токен получен (SSL проверка отключена)")
             return str(access_token_val)
         except Exception as e2:
-            print(f"❌ Ошибка при повторной попытке: {e2}")
+            print(f"❌ Ошибка при повторной попытке: {mask_sensitive(str(e2))}")
             raise
     except requests.exceptions.RequestException as e:
-        print(f"❌ Ошибка при получении токена: {e}")
+        print(f"❌ Ошибка при получении токена: {mask_sensitive(str(e))}")
         if hasattr(e, "response") and e.response is not None:
             print(f"   Статус код: {e.response.status_code}")
             # Не логируем ответ полностью (может содержать секреты)
@@ -219,10 +221,10 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
             print(f"❌ Токен невалиден (статус: {response.status_code})")
             return False
         except Exception as e2:
-            print(f"❌ Ошибка при повторной проверке: {e2}")
+            print(f"❌ Ошибка при повторной проверке: {mask_sensitive(str(e2))}")
             return False
     except requests.exceptions.RequestException as e:
-        print(f"❌ Ошибка при проверке токена: {e}")
+        print(f"❌ Ошибка при проверке токена: {mask_sensitive(str(e))}")
         return False
 
 
@@ -252,7 +254,7 @@ def main():
         return 1
 
     except Exception as e:
-        print(f"\n❌ Ошибка: {e}")
+        print(f"\n❌ Ошибка: {mask_sensitive(str(e))}")
         return 1
 
 

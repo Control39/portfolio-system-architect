@@ -8,6 +8,8 @@ import json
 import os
 from typing import Any
 
+from apps.utils.safe_logger import mask_sensitive
+
 from langchain.agents import AgentExecutor
 from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
@@ -45,7 +47,7 @@ try:
     INTEGRATION_ENABLED = True
     print("✅ Интеграция с системой отслеживания карьеры активирована")
 except Exception as e:
-    print(f"❌ Ошибка инициализации системы отслеживания карьеры: {str(e)[:4]}****")
+    print(f"❌ Ошибка инициализации системы отслеживания карьеры: {mask_sensitive(str(e))}")
     INTEGRATION_ENABLED = False
     career_tracker = None
     marker_exporter = None
@@ -137,7 +139,7 @@ def _find_matching_markers(skills: list[str]) -> set[str]:
                                 matching_markers.add(marker.id)
                                 break
     except Exception as e:
-        print(f"Ошибка при поиске соответствующих маркеров: {str(e)[:4]}****")
+        print(f"Ошибка при поиске соответствующих маркеров: {mask_sensitive(str(e))}")
 
     return matching_markers
 
@@ -164,7 +166,7 @@ def _auto_mark_completed(marker_ids: set[str]) -> dict[str, Any]:
             else:
                 results["failed"] += 1
         except Exception as e:
-            print(f"Ошибка при проставлении маркера {marker_id}: {str(e)[:4]}****")
+            print(f"Ошибка при проставлении маркера {marker_id}: {mask_sensitive(str(e))}")
             results["failed"] += 1
 
     return results
