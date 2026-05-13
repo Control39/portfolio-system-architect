@@ -78,7 +78,7 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
         # - Internal OAuth endpoint (Sber GigaChat) on corporate network
         # - Development/CI environment only (not production)
         # - Corporate proxy with trusted self-signed certificate
-        response = requests.post(url, headers=headers, data=data, timeout=30, verify=verify_ssl)
+        response = requests.post(url, headers=headers, data=data, timeout=30, verify=True)
         response.raise_for_status()
 
         result: dict[str, Any] = response.json()
@@ -97,7 +97,7 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
         # - Development/CI environment only
         # - Alternative: install corporate CA cert in trust store
         try:
-            response = requests.post(url, headers=headers, data=data, timeout=30, verify=False)  # nosec B501
+            response = requests.post(url, headers=headers, data=data, timeout=30, verify=True)  # nosec B501
             response.raise_for_status()
             oauth_result: dict[str, Any] = response.json()
             access_token_val: str | None = oauth_result.get("access_token")
@@ -193,7 +193,7 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
         # - Internal testing endpoint (Sber GigaChat models)
         # - Development/CI environment only
         # - Corporate network with trusted proxy
-        response = requests.get(url, headers=headers, timeout=10, verify=verify_ssl)
+        response = requests.get(url, headers=headers, timeout=10, verify=True)
 
         if response.status_code == 200:
             print("✅ Токен валиден!")
@@ -210,7 +210,7 @@ def test_token(access_token: str, verify_ssl: bool = False) -> bool:
     except requests.exceptions.SSLError:
         print("⚠️ SSL ошибка при проверке. Попробую без проверки сертификата...")
         try:
-            response = requests.get(url, headers=headers, timeout=10, verify=False)  # nosec B501
+            response = requests.get(url, headers=headers, timeout=10, verify=True)  # nosec B501
             if response.status_code == 200:
                 print("✅ Токен валиден (SSL проверка отключена)!")
                 models = response.json().get("models", [])
