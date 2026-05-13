@@ -154,7 +154,7 @@ class TestGitTools(unittest.TestCase):
         result = get_git_status_tool()
         self.assertTrue(result["success"])
         self.assertTrue(result["is_git_repo"])
-        self.assertEqual(result["current_branch"], "master" or "main")
+        self.assertIn(result["current_branch"], ["master", "main"])
 
     @unittest.skipIf(not HAS_MCP_TOOLS, "MCP tools not available")
     @patch(
@@ -304,9 +304,7 @@ def run_all_tests():
 
     # Запускаем тесты
     runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(suite)
-
-    return result
+    return runner.run(suite)
 
 
 if __name__ == "__main__":

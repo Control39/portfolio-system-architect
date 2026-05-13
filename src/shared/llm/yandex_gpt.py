@@ -104,7 +104,7 @@ class YandexGPTClient:
             ]
 
             response = await self.client.agenerate([messages], **kwargs)
-            return response.generations[0][0].text
+            return response.generations[0][0].text  # type: ignore[no-any-return]
 
         except Exception as e:
             logger.error(f"Ошибка при генерации с Yandex GPT: {e}")
@@ -136,7 +136,7 @@ class YandexGPTClient:
                     langchain_messages.append(AIMessage(content=content))
 
             response = await self.client.agenerate([langchain_messages], **kwargs)
-            return response.generations[0][0].text
+            return response.generations[0][0].text  # type: ignore[no-any-return]
 
         except Exception as e:
             logger.error(f"Ошибка в чате с Yandex GPT: {e}")
@@ -144,7 +144,7 @@ class YandexGPTClient:
 
     def get_config(self) -> dict[str, Any]:
         """Получить текущую конфигурацию"""
-        return self.config.dict()
+        return self.config.dict()  # type: ignore[no-any-return]
 
 
 # Фабричные функции для удобства
