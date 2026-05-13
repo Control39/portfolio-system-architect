@@ -3,7 +3,7 @@ import tempfile
 import unittest
 
 from apps.ml_model_registry.src.core.model_registry import ModelRegistry
-from src.storage.model_storage import ModelStorage
+from apps.ml_model_registry.src.storage.model_storage import ModelStorage
 
 
 class TestModelRegistryIntegration(unittest.TestCase):
