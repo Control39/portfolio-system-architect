@@ -1,3 +1,4 @@
+---
 name: Repository Audit
 on:
   schedule:
@@ -34,6 +35,11 @@ on:
       - '**.sh'
       - '**.ps1'
   workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  pull-requests: write
+  issues: write
+  contents: read
 
 jobs:
   audit:
