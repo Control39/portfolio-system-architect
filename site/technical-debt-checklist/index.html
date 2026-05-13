@@ -1,0 +1,1248 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/technical-debt-checklist/">
+
+
+
+
+
+
+
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+
+
+
+        <title>🔍 Конспект по поиску технического долга и чек-лист выполнения - Portfolio System Architect</title>
+
+
+
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+  </head>
+
+
+    <body dir="ltr">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#-" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              🔍 Конспект по поиску технического долга и чек-лист выполнения
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </nav>
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../api/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    API
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reference/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+
+
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reasoning
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Reasoning
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/PRINCIPLES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Структура
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/ROUTES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Галерея
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Шаблон
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../visualization/interactive/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Визуализация
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🎯 Цель
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        📊 Методология анализа технического долга
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="📊 Методология анализа технического долга">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Анализ кода и структуры проекта
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Анализ зависимостей
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Анализ качества кода
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Анализ тестов
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Анализ безопасности
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. Анализ инфраструктуры
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#7-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7. Анализ CI/CD
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        ✅ Чек-лист выявления технического долга
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="✅ Чек-лист выявления технического долга">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🧠 Анализ кода
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔄 Анализ архитектуры
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🧰 Анализ зависимостей
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔍 Анализ тестов
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔐 Анализ безопасности
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🏗️ Анализ инфраструктуры
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔄 Анализ процессов
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🛠️ Приоритеты устранения технического долга
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="🛠️ Приоритеты устранения технического долга">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔴 Критический (сделать немедленно)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🟠 Высокий приоритет (сделать в ближайшие 2 недели)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🟡 Средний приоритет (спланировать)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🟢 Низкий приоритет (когда будет время)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        📋 План действий по устранению технического долга
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="📋 План действий по устранению технического долга">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 1: Диагностика
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 2: Планирование
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 3: Исправление
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 4: Валидация
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 5: Деплой
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаг 6: Мониторинг
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        📈 Метрики оценки технического долга
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        💡 Лучшие практики
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🚨 Предупреждение
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        🔄 Цикл управления техническим долгом
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        📚 Дополнительные ресурсы
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+<h1 id="-">🔍 Конспект по поиску технического долга и чек-лист выполнения</h1>
+<h2 id="_1">🎯 Цель</h2>
+<p>Систематизировать процесс выявления, анализа и устранения технического долга в проекте.</p>
+<h2 id="_2">📊 Методология анализа технического долга</h2>
+<h3 id="1">1. <strong>Анализ кода и структуры проекта</strong></h3>
+<pre><code class="language-bash"># Просмотр структуры репозитория
+git ls-files --others --ignored --exclude-standard
+
+tree -L 3  # или аналог на Windows
+
+# Поиск проблемных паттернов
+git grep -n &quot;TODO&quot; -- '*.py' '*.md' '*.json' '*.yaml'
+git grep -n &quot;FIXME&quot; -- '*.py' '*.md' '*.json' '*.yaml'
+git grep -n &quot;HACK&quot; -- '*.py' '*.md' '*.json' '*.yaml'
+</code></pre>
+<h3 id="2">2. <strong>Анализ зависимостей</strong></h3>
+<pre><code class="language-bash"># Просмотр зависимостей
+pip list --outdated
+
+# Проверка уязвимостей
+pip-audit
+safety check -r requirements.txt
+
+# Анализ зависимостей из pyproject.toml
+poetry show --outdated  # если используется poetry
+</code></pre>
+<h3 id="3">3. <strong>Анализ качества кода</strong></h3>
+<pre><code class="language-bash"># Запуск линтеров
+ruff check .
+flake8 .
+
+# Проверка типизации
+pyright
+mypy .
+
+# Анализ сложности кода
+radon cc .  # Cyclomatic complexity
+radon mi .  # Maintainability Index
+</code></pre>
+<h3 id="4">4. <strong>Анализ тестов</strong></h3>
+<pre><code class="language-bash"># Запуск тестов с покрытием
+pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing
+
+# Запуск тестов в режиме verbose
+pytest -v --tb=short
+
+# Анализ медленных тестов
+pytest --durations=10
+</code></pre>
+<h3 id="5">5. <strong>Анализ безопасности</strong></h3>
+<pre><code class="language-bash"># Статический анализ кода
+bandit -r .
+
+# Поиск утечек секретов
+gitleaks detect --source .
+detect-secrets scan
+
+# Анализ образов (если есть Docker)
+trivy config .
+trivy fs --security-checks vuln .
+</code></pre>
+<h3 id="6">6. <strong>Анализ инфраструктуры</strong></h3>
+<pre><code class="language-bash"># Проверка конфигурации Docker
+docker-compose config
+
+cd deployment &amp;&amp; kubectl kustomize .  # проверка Kustomize
+
+# Проверка Makefile
+make -n test  # проверка доступности таргета
+make -n lint
+</code></pre>
+<h3 id="7-cicd">7. <strong>Анализ CI/CD</strong></h3>
+<pre><code class="language-bash"># Проверка GitHub Actions
+gh workflow list
+
+cat .github/workflows/*.yml | grep -A 5 -B 5 &quot;fail&quot;  # поиск потенциальных проблем
+</code></pre>
+<h2 id="-_1">✅ Чек-лист выявления технического долга</h2>
+<h3 id="_3">🧠 <strong>Анализ кода</strong></h3>
+<ul>
+<li>[ ] Поиск <code>TODO</code>, <code>FIXME</code>, <code>HACK</code>, <code>XXX</code> комментариев</li>
+<li>[ ] Проверка дублирующегося кода (copy-paste)</li>
+<li>[ ] Анализ глубины вложенности и сложности функций</li>
+<li>[ ] Проверка соответствия PEP 8 / стилю проекта</li>
+<li>[ ] Поиск неиспользуемого кода (dead code)</li>
+<li>[ ] Проверка комментариев и документации</li>
+<li>[ ] Анализ длинных функций (&gt;50 строк)</li>
+<li>[ ] Поиск больших классов (&gt;200 строк)</li>
+</ul>
+<h3 id="_4">🔄 <strong>Анализ архитектуры</strong></h3>
+<ul>
+<li>[ ] Проверка циклических зависимостей</li>
+<li>[ ] Анализ связности компонентов (coupling)</li>
+<li>[ ] Проверка принципов SOLID</li>
+<li>[ ] Анализ соответствия архитектурным решениям (ADR)</li>
+<li>[ ] Поиск устаревших компонентов</li>
+<li>[ ] Проверка масштабируемости</li>
+<li>[ ] Анализ отказоустойчивости</li>
+</ul>
+<h3 id="_5">🧰 <strong>Анализ зависимостей</strong></h3>
+<ul>
+<li>[ ] Проверка устаревших пакетов</li>
+<li>[ ] Поиск дублирующих зависимостей</li>
+<li>[ ] Анализ транзитивных зависимостей</li>
+<li>[ ] Проверка лицензий зависимостей</li>
+<li>[ ] Поиск уязвимостей в зависимостях</li>
+<li>[ ] Проверка конфликта версий</li>
+<li>[ ] Анализ размера зависимостей</li>
+</ul>
+<h3 id="_6">🔍 <strong>Анализ тестов</strong></h3>
+<ul>
+<li>[ ] Проверка покрытия кода (&lt;80% = проблема)</li>
+<li>[ ] Поиск недописанных тестов (<code>TODO</code>, <code>pass</code>, <code>...</code>)</li>
+<li>[ ] Анализ моков и заглушек</li>
+<li>[ ] Проверка интеграционных тестов</li>
+<li>[ ] Поиск хрупких тестов (flaky tests)</li>
+<li>[ ] Анализ скорости выполнения тестов</li>
+<li>[ ] Проверка E2E тестов</li>
+</ul>
+<h3 id="_7">🔐 <strong>Анализ безопасности</strong></h3>
+<ul>
+<li>[ ] Поиск утечек секретов (API keys, tokens)</li>
+<li>[ ] Проверка hard-coded credentials</li>
+<li>[ ] Анализ уязвимостей в коде</li>
+<li>[ ] Проверка входных данных (input validation)</li>
+<li>[ ] Анализ авторизации и аутентификации</li>
+<li>[ ] Проверка логирования (нет ли конфиденциальных данных)</li>
+<li>[ ] Анализ обработки ошибок</li>
+</ul>
+<h3 id="_8">🏗️ <strong>Анализ инфраструктуры</strong></h3>
+<ul>
+<li>[ ] Проверка конфигурации Docker</li>
+<li>[ ] Анализ docker-compose.yml</li>
+<li>[ ] Проверка Kubernetes манифестов</li>
+<li>[ ] Анализ CI/CD конфигураций</li>
+<li>[ ] Проверка Makefile и скриптов</li>
+<li>[ ] Анализ систем мониторинга</li>
+<li>[ ] Проверка бэкапов и восстановления</li>
+</ul>
+<h3 id="_9">🔄 <strong>Анализ процессов</strong></h3>
+<ul>
+<li>[ ] Проверка git истории (большие коммиты, плохие сообщения)</li>
+<li>[ ] Анализ веток и стратегии слияния</li>
+<li>[ ] Проверка pre-commit hooks</li>
+<li>[ ] Анализ pull request процесса</li>
+<li>[ ] Проверка code review практик</li>
+<li>[ ] Анализ документации</li>
+<li>[ ] Проверка onboarding новых разработчиков</li>
+</ul>
+<h2 id="_10">🛠️ Приоритеты устранения технического долга</h2>
+<h3 id="_11">🔴 <strong>Критический (сделать немедленно)</strong></h3>
+<ul>
+<li>Уязвимости безопасности (особенно CRITICAL)</li>
+<li>Проблемы с production-ready состоянием</li>
+<li>Ошибки, вызывающие сбои в работе</li>
+<li>Проблемы с аутентификацией и авторизацией</li>
+<li>Утечки памяти и ресурсов</li>
+<li>Проблемы с масштабированием</li>
+</ul>
+<h3 id="2_1">🟠 <strong>Высокий приоритет (сделать в ближайшие 2 недели)</strong></h3>
+<ul>
+<li>Проблемы с тестированием (не проходят тесты)</li>
+<li>Проблемы с линтингом и форматированием</li>
+<li>Ошибки типизации</li>
+<li>Низкое покрытие тестами (&lt;80%)</li>
+<li>Проблемы с CI/CD pipeline</li>
+<li>Устаревшие критические зависимости</li>
+</ul>
+<h3 id="_12">🟡 <strong>Средний приоритет (спланировать)</strong></h3>
+<ul>
+<li>Улучшение документации</li>
+<li>Рефакторинг сложного кода</li>
+<li>Оптимизация производительности</li>
+<li>Улучшение UX тестов</li>
+<li>Внедрение новых инструментов анализа</li>
+<li>Улучшение процессов разработки</li>
+</ul>
+<h3 id="_13">🟢 <strong>Низкий приоритет (когда будет время)</strong></h3>
+<ul>
+<li>Косметические улучшения</li>
+<li>Оптимизация не критичной производительности</li>
+<li>Улучшение комментариев</li>
+<li>Обновление не критичных зависимостей</li>
+<li>Поддержка старых браузеров/Операционных систем</li>
+</ul>
+<h2 id="_14">📋 План действий по устранению технического долга</h2>
+<h3 id="1_1">Шаг 1: Диагностика</h3>
+<ol>
+<li>Запустить все инструменты анализа</li>
+<li>Собрать отчеты о проблемах</li>
+<li>Классифицировать проблемы по категориям и приоритетам</li>
+<li>Создать список задач в issue tracker</li>
+</ol>
+<h3 id="2_2">Шаг 2: Планирование</h3>
+<ol>
+<li>Оценить сложность каждой задачи</li>
+<li>Определить приоритеты</li>
+<li>Назначить ответственных</li>
+<li>Установить дедлайны</li>
+</ol>
+<h3 id="3_1">Шаг 3: Исправление</h3>
+<ol>
+<li>Создать feature-ветку для каждого типа проблем</li>
+<li>Последовательно решать задачи по приоритету</li>
+<li>Писать тесты для исправлений</li>
+<li>Делать регулярные коммиты с понятными сообщениями</li>
+</ol>
+<h3 id="4_1">Шаг 4: Валидация</h3>
+<ol>
+<li>Запустить все тесты после исправлений</li>
+<li>Проверить, что все quality gates проходят</li>
+<li>Провести code review</li>
+<li>Проверить производительность после изменений</li>
+</ol>
+<h3 id="5_1">Шаг 5: Деплой</h3>
+<ol>
+<li>Создать pull request</li>
+<li>Пройти CI/CD pipeline</li>
+<li>Получить approval от team lead</li>
+<li>Замержить в основную ветку</li>
+</ol>
+<h3 id="6_1">Шаг 6: Мониторинг</h3>
+<ol>
+<li>Наблюдать за системой после деплоя</li>
+<li>Собирать метрики и логи</li>
+<li>Отслеживать возможные regressions</li>
+<li>Документировать результаты</li>
+</ol>
+<h2 id="_15">📈 Метрики оценки технического долга</h2>
+<table>
+<thead>
+<tr>
+<th>Метрика</th>
+<th>Целевое значение</th>
+<th>Инструмент</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Покрытие тестами</td>
+<td>≥ 80%</td>
+<td>pytest-cov</td>
+</tr>
+<tr>
+<td>Cyclomatic complexity</td>
+<td>≤ 10</td>
+<td>radon</td>
+</tr>
+<tr>
+<td>Maintainability Index</td>
+<td>≥ 70</td>
+<td>radon</td>
+</tr>
+<tr>
+<td>Уязвимости</td>
+<td>0 CRITICAL, ≤ 5 HIGH</td>
+<td>Trivy, Safety</td>
+</tr>
+<tr>
+<td>CI/CD quality gates</td>
+<td>100% PASS</td>
+<td>GitHub Actions</td>
+</tr>
+<tr>
+<td>Pre-commit hooks</td>
+<td>100% PASS</td>
+<td>pre-commit</td>
+</tr>
+<tr>
+<td>Pull request size</td>
+<td>&lt; 400 строк</td>
+<td>manual</td>
+</tr>
+<tr>
+<td>Code review time</td>
+<td>&lt; 2 дня</td>
+<td>GitHub</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_16">💡 Лучшие практики</h2>
+<ol>
+<li><strong>Регулярные аудиты</strong> - проводить анализ технического долга раз в месяц</li>
+<li><strong>Technical debt day</strong> - выделить день в спринте на исправление технического долга</li>
+<li><strong>Обязательный рефакторинг</strong> - при изменении компонента исправлять его технический долг</li>
+<li><strong>Индивидуальная ответственность</strong> - каждый разработчик отвечает за технический долг в своем коде</li>
+<li><strong>Прозрачность</strong> - публичный трекер технического долга</li>
+<li><strong>Автоматизация</strong> - использовать pre-commit hooks для предотвращения нового технического долга</li>
+<li><strong>Образование</strong> - регулярные tech talk о лучших практиках</li>
+</ol>
+<h2 id="_17">🚨 Предупреждение</h2>
+<p><strong>НЕ ПЫТАЙТЕСЬ ИСПРАВИТЬ ВЕСЬ ТЕХНИЧЕСКИЙ ДОЛГ ЗА ОДИН РАЗ!</strong></p>
+<p>Это приведет к:
+- Большому количеству merge conflicts
+- Потере фокуса на бизнес-задачах
+- Повышению риска regressions
+- Выгоранию команды</p>
+<p>Лучше идти постепенно, фокусируясь на критических проблемах и постепенно улучшая систему.</p>
+<h2 id="_18">🔄 Цикл управления техническим долгом</h2>
+<pre><code>[Выявление] → [Классификация] → [Планирование] → [Исправление]
+    ↑                                         ↓
+    └────── [Мониторинг] ← [Валидация] ← [Деплой]
+</code></pre>
+<h2 id="_19">📚 Дополнительные ресурсы</h2>
+<ul>
+<li><a href="https://martinfowler.com/bliki/TechnicalDebtQuadrant.html">Technical Debt Quadrant by Martin Fowler</a></li>
+<li><a href="https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/">The Pragmatic Programmer</a></li>
+<li><a href="https://www.oreilly.com/library/view/clean-code/9780136083238/">Clean Code by Robert C. Martin</a></li>
+<li><a href="https://refactoring.com/">Refactoring: Improving the Design of Existing Code</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SOLID">SOLID Principles</a></li>
+</ul>
+<hr />
+<p><em>Конспект создан автоматически на основе анализа репозитория portfolio-system-architect</em>
+<em>Дата создания: 2026-04-17</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+
+
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+
+
+  </body>
+</html>

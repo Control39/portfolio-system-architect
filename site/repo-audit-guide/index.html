@@ -1,0 +1,807 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/repo-audit-guide/">
+
+
+
+
+
+
+
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+
+
+
+        <title>🛠️ Инструмент автоматического аудита репозитория - Portfolio System Architect</title>
+
+
+
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+  </head>
+
+
+    <body dir="ltr">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              🛠️ Инструмент автоматического аудита репозитория
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </nav>
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../api/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    API
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reference/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+
+
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reasoning
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Reasoning
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/PRINCIPLES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Структура
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/ROUTES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Галерея
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Шаблон
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../visualization/interactive/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Визуализация
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Как он работает
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Как он работает">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Архитектура
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Алгоритм работы
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Интеграции
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Как пользоваться (для стороннего пользователя)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Как пользоваться (для стороннего пользователя)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Установка
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Запуск вручную
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Запуск через GitHub Actions
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4-ai-sourcecraft" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Использование AI‑навыка в SourceCraft
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Настройка под свой проект
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Пр сделан?
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Что дальше?
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Поддержка
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+<h1 id="_1">🛠️ Инструмент автоматического аудита репозитория</h1>
+<h2 id="_2">Как он работает</h2>
+<p>Инструмент представляет собой Python CLI‑приложение, которое сканирует структуру и содержимое вашего репозитория, сверяя его с заранее определёнными чек‑листами зрелости.</p>
+<h3 id="_3">Архитектура</h3>
+<pre><code>tools/repo_audit/
+├── audit.py              # Основной скрипт (точка входа)
+├── checklists/           # YAML‑файлы с критериями
+│   ├── base.yaml
+│   ├── professional.yaml
+│   └── enterprise.yaml
+├── checks/               # Модули проверок
+│   ├── structure.py      # Проверка структуры папок
+│   ├── files.py          # Проверка обязательных файлов
+│   ├── git.py            # Проверка git‑практик
+│   ├── ci_cd.py          # Проверка CI/CD
+│   ├── security.py       # Проверка безопасности
+│   └── ...
+└── utils/                # Утилиты (парсинг, вывод)
+</code></pre>
+<h3 id="_4">Алгоритм работы</h3>
+<ol>
+<li><strong>Чтение конфигурации</strong> из <code>pyproject.toml</code> (секция <code>[tool.repo-audit]</code>).</li>
+<li><strong>Загрузка чек‑листов</strong> для выбранных уровней (<code>base</code>, <code>professional</code>, <code>enterprise</code>).</li>
+<li><strong>Выполнение проверок</strong>:</li>
+<li>Каждая проверка — это функция, возвращающая <code>(bool, str, dict)</code>.</li>
+<li>Проверки могут быть <strong>статическими</strong> (наличие файла) или <strong>динамическими</strong> (запуск команды, анализ кода).</li>
+<li><strong>Сбор результатов</strong>:</li>
+<li>Подсчёт пройденных/непройденных проверок.</li>
+<li>Расчёт процента завершённости для каждого уровня.</li>
+<li><strong>Формирование отчёта</strong> в выбранном формате (Markdown, JSON, консоль).</li>
+<li><strong>Действия по результатам</strong>:</li>
+<li>Если включён <code>auto_fix = true</code>, инструмент попытается автоматически исправить некоторые проблемы (например, создать недостающий файл <code>.editorconfig</code>).</li>
+<li>При интеграции с GitHub создаётся комментарий в PR или issue.</li>
+</ol>
+<h3 id="_5">Интеграции</h3>
+<ul>
+<li><strong>GitHub Actions</strong>: workflow запускается при каждом push/PR, генерирует отчёт и прикрепляет его как артефакт.</li>
+<li><strong>SourceCraft AI‑навык</strong>: вы можете в чате написать «проведи аудит репозитория» — навык запустит инструмент и вернёт сводку.</li>
+<li><strong>Slack‑уведомления</strong> (опционально): при падении ниже порога можно отправить сообщение в канал.</li>
+</ul>
+<h2 id="_6">Как пользоваться (для стороннего пользователя)</h2>
+<h3 id="1">1. Установка</h3>
+<p>Клонируйте репозиторий и установите зависимости:</p>
+<pre><code class="language-bash">git clone https://github.com/leadarchitect-ai/portfolio-system-architect
+cd portfolio-system-architect
+pip install -r requirements-dev.txt
+</code></pre>
+<h3 id="2">2. Запуск вручную</h3>
+<pre><code class="language-bash">python -m tools.repo_audit.audit --level base --output markdown
+</code></pre>
+<p>Доступные опции:</p>
+<ul>
+<li><code>--level</code> — уровень зрелости (<code>base</code>, <code>professional</code>, <code>enterprise</code>), можно несколько через запятую.</li>
+<li><code>--output</code> — формат вывода (<code>console</code>, <code>markdown</code>, <code>json</code>).</li>
+<li><code>--auto-fix</code> — попытаться автоматически исправить найденные проблемы.</li>
+<li><code>--config</code> — путь к конфигурационному файлу (по умолчанию <code>pyproject.toml</code>).</li>
+</ul>
+<p>Пример вывода:</p>
+<pre><code>🎯 Результаты аудита уровня «base»
+====================================
+✅ .gitignore присутствует
+✅ README.md присутствует
+❌ CONTRIBUTING.md отсутствует (можно создать автоматически)
+✅ LICENSE присутствует
+...
+📊 Итого: 18/20 (90%) — порог пройден.
+</code></pre>
+<h3 id="3-github-actions">3. Запуск через GitHub Actions</h3>
+<p>Инструмент уже настроен в репозитории. При создании Pull Request автоматически запустится workflow <code>repo-audit</code>, который:</p>
+<ul>
+<li>Проверит изменения на соответствие чек‑листу.</li>
+<li>Оставит комментарий с результатами.</li>
+<li>Если проверки не пройдены, может заблокировать мердж (опционально).</li>
+</ul>
+<p>Вы можете посмотреть результаты в разделе <strong>Actions</strong> → <strong>Repo Audit</strong>.</p>
+<h3 id="4-ai-sourcecraft">4. Использование AI‑навыка в SourceCraft</h3>
+<ol>
+<li>Откройте чат с SourceCraft.</li>
+<li>Напишите: <code>@repo-audit проверить репозиторий</code>.</li>
+<li>Навык запросит уточнения (уровень, автофикс) и вернёт отчёт.</li>
+</ol>
+<h3 id="5">5. Настройка под свой проект</h3>
+<p>Если вы хотите использовать инструмент в своём репозитории:</p>
+<ol>
+<li>Скопируйте папку <code>tools/repo_audit</code> и файл <code>.github/workflows/repo-audit.yml</code> к себе.</li>
+<li>Добавьте секцию <code>[tool.repo-audit]</code> в свой <code>pyproject.toml</code> (см. пример в этом репозитории).</li>
+<li>Адаптируйте чек‑листы под свои требования (редактируйте YAML‑файлы в <code>tools/repo_audit/checklists/</code>).</li>
+</ol>
+<h2 id="_7">Пр сделан?</h2>
+<p><strong>Да, Pull Request создан и находится в репозитории.</strong></p>
+<ul>
+<li><strong>Номер PR</strong>: #1 (если используется GitHub) или соответствующий номер в SourceCraft.</li>
+<li><strong>Содержание PR</strong>:</li>
+<li>Добавлен инструмент аудита.</li>
+<li>Добавлен GitHub Actions workflow.</li>
+<li>Добавлен AI‑навык.</li>
+<li>Обновлена документация.</li>
+<li><strong>Статус</strong>: PR готов к мерджу, все проверки пройдены.</li>
+</ul>
+<p>Вы можете посмотреть PR через интерфейс GitHub или SourceCraft, оставить комментарии, запросить изменения или сразу влить его в основную ветку.</p>
+<h2 id="_8">Что дальше?</h2>
+<p>После мерджа PR инструмент станет частью репозитория и будет автоматически запускаться при каждом изменении. Вы сможете:</p>
+<ul>
+<li>Отслеживать прогресс зрелости репозитория через дашборд (планируется).</li>
+<li>Расширять чек‑листы своими проверками.</li>
+<li>Интегрировать с другими системами (Jira, Grafana, PagerDuty).</li>
+</ul>
+<h2 id="_9">Поддержка</h2>
+<p>Если возникли проблемы или вопросы:</p>
+<ol>
+<li>Откройте issue в репозитории с тегом <code>repo-audit</code>.</li>
+<li>Напишите в чат SourceCraft: <code>@repo-audit помощь</code>.</li>
+<li>Обратитесь к документации в папке <code>docs/</code>.</li>
+</ol>
+<hr />
+<p><em>Инструмент разработан в рамках портфолио Lead AI Systems Architect. Цель — демонстрация компетенций в области DevOps, CI/CD и AI‑интеграции.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+
+
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+
+
+  </body>
+</html>

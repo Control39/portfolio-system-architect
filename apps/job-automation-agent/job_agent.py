@@ -8,8 +8,6 @@ import json
 import os
 from typing import Any
 
-from apps.utils.safe_logger import mask_sensitive
-
 from langchain.agents import AgentExecutor
 from langchain_core.language_models import FakeListLLM
 from langchain_core.prompts import PromptTemplate
@@ -22,6 +20,7 @@ from langchainapps.cognitive_agent.factory import create_agent
 # Импорт компонентов для интеграции с системой отслеживания карьеры
 from apps.it_compass.src.core.tracker import CareerTracker
 from apps.it_compass.src.utils.marker_export import MarkerExporter
+from apps.utils.safe_logger import mask_sensitive
 
 
 # Настройка LLM

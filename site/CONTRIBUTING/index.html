@@ -1,0 +1,2047 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/CONTRIBUTING/">
+
+
+
+
+
+
+
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+
+
+
+        <title>Руководство для контрибьюторов - Portfolio System Architect</title>
+
+
+
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+  </head>
+
+
+    <body dir="ltr">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Руководство для контрибьюторов
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </nav>
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../api/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    API
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reference/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+
+
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reasoning
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Reasoning
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/PRINCIPLES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Структура
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/ROUTES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Галерея
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../reasoning/TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Шаблон
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../visualization/interactive/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Визуализация
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Принципы проекта
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Приоритетные направления вклада
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Как внести вклад
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Как внести вклад">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Форкните репозиторий
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Клонируйте
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Создайте ветку
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Внесите изменения
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5-sign-off-commit-dco" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Sign-off &amp; Commit (DCO)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#6-push-create-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. Push &amp; Create PR
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#pr" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Перед созданием PR убедитесь, что:
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#pr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаблон описания PR
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#open-blueprint-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Open Blueprint Lab 👋
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Процесс ревью и мерджа
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Процесс ревью и мерджа">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#current-solo-architect-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Current: Solo Architect Lab
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Будущие правила (при появлении контрибьюторов)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Критерии «сложных изменений» (требуют внешнего ревью при возможности)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#code-review-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Code Review Guidelines
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Code Review Guidelines">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Общие принципы Code Review
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Стандарты кода для ревью
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Стандарты кода для ревью">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Python
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        PowerShell
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Документация
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#code-review_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Процесс Code Review
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Автоматизированные проверки
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Шаблон комментариев для ревью
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Эскалация спорных вопросов
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Структура проекта
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Структура проекта">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Описание основных папок
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Связи между компонентами
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Требования к коду
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Требования к коду">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Python
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Управление зависимостями
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#powershell_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        PowerShell
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Тестирование
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Проверка стиля
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Документация
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Документация">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Стиль написания документации
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Полезные ресурсы
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Кейсы
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Правила именования файлов и папок
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Правила именования файлов и папок">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Основные принципы
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Специфичные правила
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Примеры правильных и неправильных имён
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Запрещённые имена
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Предотвращение дублирования контента
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Предотвращение дублирования контента">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Принципы
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#duplicate_finderpy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Скрипт duplicate_finder.py
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Использование
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Порядок разрешения конфликтов
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Исключения
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Стандарты организации структуры репозитория
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Стандарты организации структуры репозитория">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Основная структура
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Правила организации
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#sourcecraft" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Использование навыков SourceCraft
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Использование навыков SourceCraft">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-personal-branding-for-cognitive-architect" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Personal Branding for Cognitive Architect
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-repository-quality-auditor" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Repository Quality Auditor
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-repository-integrity-checker" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Repository Integrity Checker
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        CI/CD Пайплайн
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="CI/CD Пайплайн">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Полный пайплайн
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_38" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Где смотреть результаты
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_39" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Восстановление после сбоев
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_40" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Поддержка и коммуникация
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Поддержка и коммуникация">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#_41" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Каналы связи
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#_42" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        График поддержки
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Часто задаваемые вопросы (FAQ)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_43" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Политика безопасности
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_44" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Кодекс поведения
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_45" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Благодарности
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Чек-лист контрибьютора
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#_46" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Вопросы?
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+<h1 id="_1">Руководство для контрибьюторов</h1>
+<p>Спасибо за интерес к проекту <code>portfolio-system-architect</code>!</p>
+<hr />
+<h2 id="_2">Принципы проекта</h2>
+<ol>
+<li><strong>Системность</strong> — все компоненты должны быть частью единой экосистемы</li>
+<li><strong>Практичность</strong> — каждый компонент должен решать реальную задачу</li>
+<li><strong>Масштабируемость</strong> — архитектура должна поддерживать расширение</li>
+<li><strong>Документированность</strong> — каждый компонент должен иметь полную документацию</li>
+</ol>
+<hr />
+<h2 id="_3">Приоритетные направления вклада</h2>
+<p>Мы особенно приветствуем следующие типы вклада:</p>
+<ol>
+<li><strong>Новые кейсы</strong> — добавление практических примеров системного мышления</li>
+<li><strong>Оптимизация компонентов</strong> — улучение производительности и качества кода</li>
+<li><strong>Улучшение документации</strong> — исправление ошибок, добавление примеров</li>
+<li><strong>Новые компоненты</strong> — расширение экосистемы новыми инструментами</li>
+<li><strong>Тесты</strong> — повышение покрытия тестами</li>
+</ol>
+<hr />
+<h2 id="_4">Как внести вклад</h2>
+<h3 id="1">1. Форкните репозиторий</h3>
+<p>Создайте форк на GitHub.</p>
+<h3 id="2">2. Клонируйте</h3>
+<pre><code class="language-bash">git clone https://github.com/Control39/portfolio-system-architect.git
+cd portfolio-system-architect
+</code></pre>
+<h3 id="3">3. Создайте ветку</h3>
+<pre><code class="language-bash">git checkout -b feature/название-функции
+</code></pre>
+<h3 id="4">4. Внесите изменения</h3>
+<ul>
+<li>Исправьте ошибку в коде или документации</li>
+<li>Добавьте новый компонент в <code>apps/</code></li>
+<li>Создайте кейс в <code>docs/cases/</code> (если требуется)</li>
+<li>Добавьте пример использования в <code>samples/</code></li>
+</ul>
+<h3 id="5-sign-off-commit-dco">5. Sign-off &amp; Commit (DCO)</h3>
+<p><strong>Developer Certificate of Origin (DCO)</strong>: Certify your work is original.</p>
+<p>Use <code>git commit -s</code> (auto-adds Signed-off-by):</p>
+<pre><code class="language-bash">git commit -s -m &quot;feat: brief change description
+
+Detailed body...
+
+Signed-off-by: Your Name &lt;email@example.com&gt;&quot;
+</code></pre>
+<p><strong>DCO Template</strong>:</p>
+<pre><code>feat/module: description
+
+Body...
+
+Signed-off-by: Name &lt;email&gt;
+</code></pre>
+<h3 id="6-push-create-pr">6. Push &amp; Create PR</h3>
+<pre><code class="language-bash">git push origin feature/название-функции
+</code></pre>
+<p>Создайте Pull Request с описанием изменений.</p>
+<h3 id="pr">Перед созданием PR убедитесь, что:</h3>
+<ul>
+<li>[ ] Ветка обновлена до последней версии <code>main</code> (<code>git pull origin main</code>)</li>
+<li>[ ] Все тесты проходят (<code>python -m pytest tests/</code>)</li>
+<li>[ ] Код соответствует стилю проекта (<code>flake8 .</code>, <code>black .</code>)</li>
+<li>[ ] Дубликаты проверены (<code>python scripts/duplicate_finder.py</code>)</li>
+<li>[ ] Документация обновлена при необходимости</li>
+</ul>
+<hr />
+<h2 id="pr_1">Шаблон описания PR</h2>
+<p>При создании Pull Request используйте следующий шаблон:</p>
+<pre><code class="language-markdown">## Описание
+
+Краткое описание изменений.
+
+## Тип изменений
+
+- [ ] Новый компонент
+- [ ] Исправление бага
+- [ ] Улучшение документации
+- [ ] Рефакторинг
+- [ ] Другое: ...
+
+## Затронутые компоненты
+
+- component-1
+- component-2
+
+## Инструкции по проверке
+
+1. Шаг 1
+2. Шаг 2
+
+## Связанные issue
+
+Closes #номер-issue
+</code></pre>
+<hr />
+<h2 id="open-blueprint-lab">Open Blueprint Lab 👋</h2>
+<p><strong>This repo is AI-Human Collaboration Blueprint.</strong> Fork/study prompts/arch decisions. One architect + AI = enterprise ecosystem.</p>
+<h2 id="_5">Процесс ревью и мерджа</h2>
+<h3 id="current-solo-architect-lab">Current: Solo Architect Lab</h3>
+<ol>
+<li><strong>Перед мерджем в <code>main</code> выполните саморевью по чек‑листу</strong>:</li>
+<li>Проверьте работоспособность изменений</li>
+<li>Убедитесь в соблюдении стандартов кода</li>
+<li>Обновите документацию при необходимости</li>
+<li>Удалите отладочный код</li>
+<li>
+<p>Проверьте сообщения коммитов</p>
+</li>
+<li>
+<p><strong>В описании PR кратко укажите</strong>:</p>
+</li>
+<li>Цель изменений</li>
+<li>Затронутые компоненты</li>
+<li>
+<p>Инструкции по проверке (если применимо)</p>
+</li>
+<li>
+<p><strong>После саморевью выполните мердж в <code>main</code></strong></p>
+</li>
+</ol>
+<h3 id="_6">Будущие правила (при появлении контрибьюторов)</h3>
+<ol>
+<li><strong>Для PR от внешних контрибьюторов</strong>:</li>
+<li>Требуется одобрение минимум одного ревьюера</li>
+<li>Срок рассмотрения — до 3 рабочих дней</li>
+<li>
+<p>При спорных вопросах решение принимает ведущий разработчик</p>
+</li>
+<li>
+<p><strong>Для изменений ведущего разработчика</strong>:</p>
+</li>
+<li>Саморевью по чек‑листу обязательно</li>
+<li>Внешний ревьюер желателен для сложных изменений</li>
+</ol>
+<h3 id="_7">Критерии «сложных изменений» (требуют внешнего ревью при возможности)</h3>
+<ul>
+<li>Затрагивают несколько компонентов</li>
+<li>Меняют архитектуру проекта</li>
+<li>Вносят критические исправления безопасности</li>
+<li>Требуют значительных ресурсов на тестирование</li>
+</ul>
+<h2 id="code-review-guidelines">Code Review Guidelines</h2>
+<h3 id="code-review">Общие принципы Code Review</h3>
+<ol>
+<li><strong>Цель ревью</strong> — улучшение качества кода, обмен знаниями и поддержание стандартов проекта</li>
+<li><strong>Конструктивная критика</strong> — фокусируйтесь на коде, а не на авторе</li>
+<li><strong>Своевременность</strong> — старайтесь провести ревью в течение 24-48 часов</li>
+<li><strong>Обучение</strong> — используйте ревью как возможность для обучения и передачи знаний</li>
+</ol>
+<h3 id="_8">Стандарты кода для ревью</h3>
+<h4 id="python">Python</h4>
+<ul>
+<li>Соответствие PEP 8 и внутренним стандартам проекта</li>
+<li>Наличие type hints для всех публичных функций</li>
+<li>Документация (docstrings) для модулей, классов и функций</li>
+<li>Обработка ошибок и логирование</li>
+<li>Тестовое покрытие новых функций</li>
+</ul>
+<h4 id="powershell">PowerShell</h4>
+<ul>
+<li>Следование PowerShell Best Practices</li>
+<li>Использование строгой типизации (<code>[string]</code>, <code>[int]</code> и т.д.)</li>
+<li>Комментарии для сложных логических блоков</li>
+<li>Проверка на null и обработка исключений</li>
+</ul>
+<h4 id="_9">Документация</h4>
+<ul>
+<li>Обновление README.md при изменении функциональности</li>
+<li>Добавление примеров использования для новых API</li>
+<li>Обновление схем архитектуры при изменении структуры</li>
+</ul>
+<h3 id="code-review_1">Процесс Code Review</h3>
+<ol>
+<li><strong>Подготовка к ревью</strong>:</li>
+<li>Убедитесь, что CI/CD pipeline прошел успешно</li>
+<li>Проверьте, что тесты покрывают новые изменения</li>
+<li>
+<p>Убедитесь в отсутствии конфликтов с основной веткой</p>
+</li>
+<li>
+<p><strong>Проведение ревью</strong>:</p>
+</li>
+<li>Проверьте соответствие стандартам кода</li>
+<li>Оцените архитектурные решения</li>
+<li>Проверьте безопасность (нет ли утечек чувствительных данных)</li>
+<li>
+<p>Убедитесь в наличии тестов для новой функциональности</p>
+</li>
+<li>
+<p><strong>Комментарии и исправления</strong>:</p>
+</li>
+<li>Используйте конкретные, actionable комментарии</li>
+<li>Предлагайте альтернативные решения, если есть лучшие подходы</li>
+<li>
+<p>Отмечайте позитивные аспекты изменений</p>
+</li>
+<li>
+<p><strong>После ревью</strong>:</p>
+</li>
+<li>Автор вносит исправления на основе комментариев</li>
+<li>Повторное ревью для проверки исправлений</li>
+<li>Approval от минимум одного ревьюера для внешних контрибьюторов</li>
+</ol>
+<h3 id="_10">Автоматизированные проверки</h3>
+<p>Перед ручным ревью убедитесь, что пройдены все автоматические проверки:</p>
+<ul>
+<li>✅ Линтинг (ruff, black, flake8)</li>
+<li>✅ Тесты (pytest с покрытием &gt;80%)</li>
+<li>✅ Проверка безопасности (trivy, safety)</li>
+<li>✅ Проверка дубликатов кода</li>
+<li>✅ Сборка Docker образов</li>
+</ul>
+<h3 id="_11">Шаблон комментариев для ревью</h3>
+<pre><code class="language-markdown">## Общая оценка
+- [ ] Код соответствует стандартам проекта
+- [ ] Тесты добавлены/обновлены
+- [ ] Документация обновлена
+- [ ] Безопасность проверена
+
+## Замечания
+1. **Строка X в файле Y**: Предлагаю использовать более описательное имя переменной
+2. **Модуль Z**: Отсутствует обработка ошибки при ...
+
+## Положительные моменты
+- Хорошая архитектурная структура
+- Четкие комментарии
+- Полное тестовое покрытие
+</code></pre>
+<h3 id="_12">Эскалация спорных вопросов</h3>
+<p>Если возникают разногласия по архитектурным решениям:
+1. Обсудите альтернативы в комментариях PR
+2. Привлеките ведущего разработчика для арбитража
+3. Создайте ADR (Architecture Decision Record) для документирования решения</p>
+<hr />
+<h2 id="_13">Структура проекта</h2>
+<pre><code>portfolio-system-architect/
+├── .github/workflows/   # CI/CD пайплайны
+├── apps/                # Приложения и компоненты (src, tests, docs)
+├── docs/                # Документация
+├── samples/             # Примеры использования
+├── scripts/             # Скрипты автоматизации
+├── tests/               # Интеграционные тесты
+├── config/              # Конфигурационные файлы
+├── src/                 # Общий исходный код
+├── tools/               # Инструменты разработки
+├── deployment/          # Конфигурации развертывания
+└── monitoring/          # Мониторинг и логирование
+</code></pre>
+<h3 id="_14">Описание основных папок</h3>
+<table>
+<thead>
+<tr>
+<th>Папка</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apps/</code></td>
+<td>Приложения и компоненты системы</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>Документация по архитектуре, методологии, гайдам</td>
+</tr>
+<tr>
+<td><code>samples/</code></td>
+<td>Примеры использования компонентов</td>
+</tr>
+<tr>
+<td><code>scripts/</code></td>
+<td>Скрипты автоматизации (генерация, проверки)</td>
+</tr>
+<tr>
+<td><code>tests/</code></td>
+<td>Интеграционные тесты</td>
+</tr>
+<tr>
+<td><code>config/</code></td>
+<td>Конфигурационные файлы проекта</td>
+</tr>
+<tr>
+<td><code>src/</code></td>
+<td>Общий исходный код, утилиты, библиотеки</td>
+</tr>
+<tr>
+<td><code>tools/</code></td>
+<td>Инструменты разработки и вспомогательные скрипты</td>
+</tr>
+<tr>
+<td><code>deployment/</code></td>
+<td>Конфигурации развертывания (Kubernetes, Docker)</td>
+</tr>
+<tr>
+<td><code>monitoring/</code></td>
+<td>Мониторинг, алертинг, дашборды</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_15">Связи между компонентами</h3>
+<pre><code>portfolio-organizer
+    ├──→ it-compass (использует методологию маркеров)
+    ├──→ infra-orchestrator (использует для архитектурных решений)
+    └──→ decision_engine (использует для RAG-системы)
+
+cognitive-architect-manifesto
+    ├──→ docs/ (документация)
+    ├──→ 02_METHODOLOGY/ (методология)
+    └──→ 04_ARTIFACTS/ (артефакты)
+</code></pre>
+<hr />
+<h2 id="_16">Требования к коду</h2>
+<h3 id="python_1">Python</h3>
+<ul>
+<li>Следуйте <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a></li>
+<li>Используйте type hints</li>
+<li>Пишите docstrings</li>
+<li>Обрабатывайте ошибки с помощью исключений</li>
+<li>Используйте логирование для отладки</li>
+</ul>
+<pre><code class="language-python">import logging
+
+logger = logging.getLogger(__name__)
+
+def function(param: str) -&gt; dict:
+    &quot;&quot;&quot;Краткое описание.
+
+    Args:
+        param: Описание параметра.
+
+    Returns:
+        Описание возвращаемого значения.
+
+    Raises:
+        ValueError: Описание условия ошибки.
+    &quot;&quot;&quot;
+    try:
+        result = process(param)
+        logger.info(f&quot;Successfully processed: {param}&quot;)
+        return result
+    except Exception as e:
+        logger.error(f&quot;Error processing {param}: {e}&quot;)
+        raise
+</code></pre>
+<h3 id="_17">Управление зависимостями</h3>
+<ol>
+<li><strong>Добавление зависимости</strong>:</li>
+<li>Добавьте в <code>requirements.txt</code> или <code>requirements-dev.txt</code></li>
+<li>
+<p>Укажите версию (<code>package==1.0.0</code> или <code>package&gt;=1.0.0</code>)</p>
+</li>
+<li>
+<p><strong>Виртуальное окружение</strong>:
+   <code>bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate     # Windows
+   pip install -r requirements.txt</code></p>
+</li>
+</ol>
+<h3 id="powershell_1">PowerShell</h3>
+<ul>
+<li>Используйте строгую типизацию</li>
+<li>Комментируйте сложные операции</li>
+<li>Следуйте рекомендациям PowerShell Best Practices</li>
+</ul>
+<h3 id="_18">Тестирование</h3>
+<pre><code class="language-bash"># Запустить все тесты
+python -m pytest tests/
+
+# Запустить тесты компонента
+python -m pytest tests/components/it-compass/
+
+# Запустить с покрытием
+python -m pytest --cov=. tests/
+</code></pre>
+<h3 id="_19">Проверка стиля</h3>
+<pre><code class="language-bash">flake8 .
+black .
+mypy .
+</code></pre>
+<hr />
+<h2 id="_20">Документация</h2>
+<p>Каждый новый компонент должен включать:</p>
+<ul>
+<li>Описание в <code>README.md</code></li>
+<li>Структуру <code>src/</code> с кодом</li>
+<li>Тесты в <code>tests/</code></li>
+<li>Документацию в <code>docs/</code></li>
+</ul>
+<p>Используйте шаблон <code>docs/templates/COMPONENT.md</code>.</p>
+<h3 id="_21">Стиль написания документации</h3>
+<ul>
+<li><strong>Тон</strong>: нейтральный, технический</li>
+<li><strong>Форматирование</strong>:</li>
+<li>Заголовки: <code>#</code>, <code>##</code>, <code>###</code></li>
+<li>Списки: маркированные для неупорядоченных, нумерованные для последовательных</li>
+<li>Код: обрамляйте в тройные обратные кавычки</li>
+<li><strong>Ссылки</strong>: используйте относительные пути для внутренних ссылок</li>
+</ul>
+<h3 id="_22">Полезные ресурсы</h3>
+<ul>
+<li><a href="https://www.markdownguide.org/">Markdown Guide</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a></li>
+<li><a href="https://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a></li>
+</ul>
+<hr />
+<h2 id="_23">Кейсы</h2>
+<p>Для добавления нового кейса:</p>
+<ol>
+<li>Создайте папку в <code>cases/evolution-cases/</code> или <code>cases/thinking-cases/</code></li>
+<li>Добавьте <code>README.md</code> с описанием</li>
+<li>Используйте шаблон <code>docs/templates/case-evolution.md</code></li>
+</ol>
+<hr />
+<h2 id="_24">Правила именования файлов и папок</h2>
+<h3 id="_25">Основные принципы</h3>
+<ol>
+<li><strong>Лаконичность и ясность</strong> — имена должны отражать содержимое</li>
+<li><strong>Единый стиль</strong> — используйте kebab-case для папок и файлов</li>
+<li><strong>Английский язык</strong> — все имена файлов и папок на английском</li>
+</ol>
+<h3 id="_26">Специфичные правила</h3>
+<ul>
+<li><strong>Папки компонентов</strong>: <code>component-name/</code> (например: <code>it-compass/</code>, <code>portfolio-organizer/</code>)</li>
+<li><strong>Папки кейсов</strong>: <code>case-category/case-name/</code> (например: <code>thinking-cases/01-ai-communication-breakthrough/</code>)</li>
+<li><strong>Файлы документации</strong>: <code>topic-name.md</code> (например: <code>architecture-tradeoffs.md</code>)</li>
+<li><strong>Скрипты</strong>: <code>action-purpose.extension</code> (например: <code>duplicate_finder.py</code>, <code>generate_docs.py</code>)</li>
+</ul>
+<h3 id="_27">Примеры правильных и неправильных имён</h3>
+<table>
+<thead>
+<tr>
+<th>✅ Правильно</th>
+<th>❌ Неправильно</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>it-compass/</code></td>
+<td><code>ITCompass/</code></td>
+</tr>
+<tr>
+<td><code>duplicate-finder.py</code></td>
+<td><code>duplicate finder.py</code></td>
+</tr>
+<tr>
+<td><code>architecture-tradeoffs.md</code></td>
+<td><code>architecture tradeoffs.md</code></td>
+</tr>
+<tr>
+<td><code>case-01-analysis/</code></td>
+<td><code>Case 01 Analysis/</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_28">Запрещённые имена</h3>
+<ul>
+<li>Общие имена: <code>temp/</code>, <code>test/</code>, <code>new/</code></li>
+<li>Пробелы в именах файлов и папок</li>
+<li>Специальные символы кроме <code>-</code>, <code>_</code>, <code>.</code></li>
+</ul>
+<hr />
+<h2 id="_29">Предотвращение дублирования контента</h2>
+<h3 id="_30">Принципы</h3>
+<ol>
+<li><strong>Единственный источник истины</strong> — каждый фрагмент информации должен храниться в одном месте</li>
+<li><strong>Ссылки вместо копирования</strong> — используйте относительные ссылки между документами</li>
+<li><strong>Регулярный аудит</strong> — ежемесячная проверка на дубликаты</li>
+</ol>
+<h3 id="duplicate_finderpy">Скрипт duplicate_finder.py</h3>
+<p>Скрипт ищет дубликаты по:
+- <strong>Хешу содержимого</strong> — для бинарных файлов
+- <strong>Текстовому сходству</strong> — для <code>.md</code>, <code>.py</code>, <code>.yaml</code> и т.д.</p>
+<p>Он игнорирует:
+- Временные файлы (указанные в <code>.gitignore</code>)
+- Примеры в <code>examples/</code> (допустимое дублирование для обучения)</p>
+<h3 id="_31">Использование</h3>
+<pre><code class="language-bash"># Проверка на дубликаты
+python scripts/duplicate_finder.py
+
+# CI-режим (для автоматических проверок)
+python scripts/duplicate_finder.py --ci-mode
+</code></pre>
+<h3 id="_32">Порядок разрешения конфликтов</h3>
+<ol>
+<li>Определите каноническую версию (более полная, актуальная)</li>
+<li>Удалите дубликат</li>
+<li>Обновите все ссылки на каноническую версию</li>
+<li>Если версии равноценны — выберите ту, что ближе к корневой структуре</li>
+</ol>
+<h3 id="_33">Исключения</h3>
+<p>Дублирование допустимо в случаях:
+- Примеры в <code>examples/</code> — для образовательных целей
+- Зеркала для совместимости (требуется документация)
+- Временные файлы до рефакторинга</p>
+<hr />
+<h2 id="_34">Стандарты организации структуры репозитория</h2>
+<h3 id="_35">Основная структура</h3>
+<pre><code>portfolio-system-architect/
+├── apps/               # Приложения и компоненты
+├── docs/               # Документация
+├── samples/            # Примеры использования
+├── scripts/            # Скрипты автоматизации
+├── tests/              # Интеграционные тесты
+├── config/             # Конфигурационные файлы
+├── src/                # Общий исходный код
+├── tools/              # Инструменты разработки
+├── deployment/         # Конфигурации развертывания
+└── monitoring/         # Мониторинг и логирование
+</code></pre>
+<h3 id="_36">Правила организации</h3>
+<ol>
+<li><strong>Приложения</strong> — каждое приложение должно быть самодостаточным:</li>
+</ol>
+<pre><code>   app-name/
+   ├── src/            # Исходный код
+   ├── tests/          # Тесты приложения
+   ├── docs/           # Документация приложения
+   └── README.md       # Описание приложения
+
+</code></pre>
+<ol>
+<li><strong>Документация</strong> — структурирована по темам:</li>
+</ol>
+<pre><code>   docs/
+   ├── architecture/   # Архитектурные решения
+   ├── methodology/    # Методологические материалы
+   ├── guides/         # Руководства
+   └── templates/      # Шаблоны документов
+
+</code></pre>
+<ol>
+<li><strong>Примеры</strong> — разделены по типам:</li>
+</ol>
+<pre><code>   samples/
+   ├── quickstart/     # Быстрый старт
+   ├── tutorials/      # Пошаговые туториалы
+   └── advanced/       # Продвинутые сценарии
+
+</code></pre>
+<hr />
+<h2 id="sourcecraft">Использование навыков SourceCraft</h2>
+<p>Проект использует SourceCraft MCP-сервер с оптимизированным набором инструментов (≤15 основных). Для специализации поведения ИИ-ассистента созданы следующие навыки в директории <code>codeassistant/skills/</code>:</p>
+<h3 id="1-personal-branding-for-cognitive-architect">1. Personal Branding for Cognitive Architect</h3>
+<p>Помогает формулировать профессиональную идентичность с акцентом на системное мышление, архитектуру когнитивных систем и методологию IT-Compass. Используйте для:
+- Составления резюме и сопроводительных писем
+- Подготовки презентаций для грантовых комиссий
+- Формулирования ценностного предложения как архитектора</p>
+<h3 id="2-repository-quality-auditor">2. Repository Quality Auditor</h3>
+<p>Проверяет структуру, ссылки, бейджи, тесты, язык документации и честность кода. Автоматически генерирует отчёты о качестве репозитория. Используйте для:
+- Аудита перед показом инвесторам или работодателям
+- Проверки целостности ссылок и бейджей
+- Оценки покрытия тестами и соответствия стандартам</p>
+<h3 id="3-repository-integrity-checker">3. Repository Integrity Checker</h3>
+<p>Автоматически проверяет ссылки, код, бейджи и дубликаты файлов. Обнаруживает битые ссылки, устаревшие бейджи и потенциальные проблемы целостности. Используйте для:
+- Регулярного мониторинга здоровья репозитория
+- Предотвращения накопления технического долга
+- Обеспечения соответствия требованиям грантовых программ</p>
+<hr />
+<h2 id="cicd">CI/CD Пайплайн</h2>
+<h3 id="_37">Полный пайплайн</h3>
+<pre><code class="language-yaml">name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: Run tests
+        run: pytest --cov=. tests/
+      - name: Check style
+        run: |
+          flake8 .
+          black --check .
+
+  duplicates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check duplicates
+        run: python scripts/duplicate_finder.py --ci-mode
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build documentation
+        run: python scripts/generate_docs.py
+</code></pre>
+<h3 id="_38">Где смотреть результаты</h3>
+<ul>
+<li><strong>Логи</strong>: вкладка "Actions" на GitHub</li>
+<li><strong>Артефакты</strong>: секция "Artifacts" в результатах запуска</li>
+<li><strong>Покрытие</strong>: отчёт в интерфейсе GitHub</li>
+</ul>
+<h3 id="_39">Восстановление после сбоев</h3>
+<ol>
+<li>Проверьте логи ошибок</li>
+<li>Исправьте проблему локально</li>
+<li>Обновите ветку: <code>git fetch origin &amp;&amp; git rebase origin/main</code></li>
+<li>Отправьте исправления: <code>git push origin feature/ваша-ветка</code></li>
+</ol>
+<hr />
+<h2 id="_40">Поддержка и коммуникация</h2>
+<h3 id="_41">Каналы связи</h3>
+<p><a href="https://github.com/Control39/portfolio-system-architect/issues">GitHub Issues</a>
+- <strong>Email</strong>: leadarchitect@yandex.ru</p>
+<h3 id="_42">График поддержки</h3>
+<ul>
+<li><strong>Issue/PR</strong>: ответ в течение 7 дней</li>
+<li><strong>Критические баги</strong>: приоритетная обработка в течение 24 часов</li>
+</ul>
+<h3 id="faq">Часто задаваемые вопросы (FAQ)</h3>
+<p><strong>Q: Как настроить окружение?</strong>
+A: Смотрите раздел "Управление зависимостями" выше.</p>
+<p><strong>Q: Как запустить тесты локально?</strong>
+A: <code>python -m pytest tests/</code></p>
+<p><strong>Q: Где найти шаблоны документов?</strong>
+A: В папке <code>docs/templates/</code></p>
+<p><strong>Q: Как добавить новый компонент?</strong>
+A: Следуйте структуре в разделе "Стандарты организации"</p>
+<hr />
+<h2 id="_43">Политика безопасности</h2>
+<p>Для сообщения об уязвимостях используйте <a href="https://github.com/Control39/portfolio-system-architect/security/advisories/new">GitHub Security Advisories</a>.</p>
+<hr />
+<h2 id="_44">Кодекс поведения</h2>
+<p>Пожалуйста, ознакомьтесь с <a href="../CODE_OF_CONDUCT/">CODE_OF_CONDUCT.md</a>.</p>
+<hr />
+<h2 id="_45">Благодарности</h2>
+<p>Спасибо всем контрибьюторам, которые помогают улучшать этот проект!</p>
+<hr />
+<h2 id="-">Чек-лист контрибьютора</h2>
+<ul>
+<li>[ ] Ветка создана по шаблону <code>feature/...</code> или <code>fix/...</code></li>
+<li>[ ] Изменения закоммичены с понятными сообщениями</li>
+<li>[ ] Тесты проходят локально (<code>python -m pytest tests/</code>)</li>
+<li>[ ] Код соответствует PEP 8 (<code>flake8 .</code>, <code>black .</code>)</li>
+<li>[ ] Дубликаты проверены (<code>python scripts/duplicate_finder.py</code>)</li>
+<li>[ ] Документация обновлена</li>
+<li>[ ] PR содержит описание и ссылки на issue</li>
+</ul>
+<hr />
+<h2 id="_46">Вопросы?</h2>
+<ul>
+<li>Создайте <a href="https://github.com/Control39/portfolio-system-architect/issues">Issue</a></li>
+<li>Напишите: leadarchitect@yandex.ru</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+
+
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+
+
+  </body>
+</html>
