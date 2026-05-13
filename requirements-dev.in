@@ -15,6 +15,7 @@ types-setuptools
 bandit
 safety
 detect-secrets
+pip-audit
 urllib3>=2.7.0
 
 # Documentation

@@ -33,6 +33,7 @@ Thumbs.db
 .gigaide/
 .continue/
 .koda/
+.obsidian/
 
 # GigaCode - игнорируем только секреты и кэш
 .gigacode/*.env
