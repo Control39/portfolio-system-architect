@@ -1,0 +1,764 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/security/SECRETS-MANAGEMENT/">
+
+
+
+
+
+
+
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+
+
+
+        <title>Secrets Management Strategy - Portfolio System Architect</title>
+
+
+
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+  </head>
+
+
+    <body dir="ltr">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#secrets-management-strategy" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Secrets Management Strategy
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </nav>
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../api/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    API
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../reference/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+
+
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reasoning
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Reasoning
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../reasoning/PRINCIPLES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Структура
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../reasoning/ROUTES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Галерея
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../reasoning/TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Шаблон
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../visualization/interactive/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Визуализация
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+
+
+
+
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+<h1 id="secrets-management-strategy">Secrets Management Strategy</h1>
+<h1 id="production-grade-secret-handling-for-portfolio-system-architect">Production-grade secret handling for Portfolio System Architect</h1>
+<h2 id="overview">Overview</h2>
+<p>This document describes how to securely manage secrets across development, staging, and production environments using industry-standard tools.</p>
+<h2 id="secret-detection">Secret Detection</h2>
+<p>To prevent accidental leakage of secrets into version control, we use automated scanning with <code>detect-secrets</code>.</p>
+<h3 id="installation">Installation</h3>
+<pre><code class="language-bash">pip install detect-secrets
+</code></pre>
+<h3 id="usage">Usage</h3>
+<p>Run a one-time scan to find potential secrets:</p>
+<pre><code class="language-bash">python scripts/security/scan_secrets.py --scan
+</code></pre>
+<p>Create a baseline file to whitelist known false positives:</p>
+<pre><code class="language-bash">python scripts/security/scan_secrets.py --create-baseline
+</code></pre>
+<p>Audit the baseline (interactive review):</p>
+<pre><code class="language-bash">python scripts/security/scan_secrets.py --audit
+</code></pre>
+<h3 id="integration-with-precommit">Integration with Pre‑commit</h3>
+<p>Add to <code>.pre‑commit‑config.yaml</code>:</p>
+<pre><code class="language-yaml">- repo: https://github.com/Yelp/detect-secrets
+  rev: v1.5.0
+  hooks:
+    - id: detect-secrets
+      args: ['--baseline', '.secrets.baseline']
+      exclude: '\.secrets\.baseline$'
+</code></pre>
+<h3 id="cicd-integration">CI/CD Integration</h3>
+<p>In GitHub Actions, add a step:</p>
+<pre><code class="language-yaml">- name: Detect secrets
+  run: |
+    pip install detect-secrets
+    python scripts/security/scan_secrets.py --scan
+</code></pre>
+<h2 id="local-development">Local Development</h2>
+<h3 id="using-env-files">Using .env files</h3>
+<pre><code class="language-bash"># 1. Copy template
+cp .env.example .env.local
+
+# 2. Fill with dev values
+cat .env.local
+POSTGRES_PASSWORD=dev_password_123
+JWT_SECRET=dev_jwt_key_xyz
+
+# 3. Load in docker-compose
+docker compose --env-file .env.local up
+</code></pre>
+<p><strong>Never commit .env or .env.local to git</strong></p>
+<h2 id="github-actions-cicd">GitHub Actions CI/CD</h2>
+<h3 id="setting-repository-secrets">Setting Repository Secrets</h3>
+<ol>
+<li>Go to: Settings → Secrets and variables → Actions</li>
+<li>Add secrets:</li>
+<li><code>POSTGRES_PASSWORD</code></li>
+<li><code>JWT_SECRET</code></li>
+<li><code>API_KEY_SECRET</code></li>
+<li><code>TELEGRAM_BOT_TOKEN</code></li>
+<li><code>CODECOV_TOKEN</code></li>
+</ol>
+<h3 id="usage-in-workflows">Usage in Workflows</h3>
+<pre><code class="language-yaml">env:
+  DATABASE_URL: postgresql://user:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/portfolio
+</code></pre>
+<h2 id="kubernetes-sealed-secrets">Kubernetes: Sealed Secrets</h2>
+<h3 id="installation_1">Installation</h3>
+<pre><code class="language-bash"># Install sealed-secrets controller
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.0/controller.yaml
+
+# Install sealing key
+kubectl -n kube-system get secrets -o wide
+</code></pre>
+<h3 id="creating-sealed-secrets">Creating Sealed Secrets</h3>
+<pre><code class="language-bash"># 1. Create plain secret
+kubectl create secret generic portfolio-secrets \
+  -n portfolio \
+  --from-literal=POSTGRES_PASSWORD=$DB_PASSWORD \
+  --from-literal=JWT_SECRET=$JWT_SECRET \
+  --dry-run=client \
+  -o yaml &gt; secret.yaml
+
+# 2. Seal the secret
+kubeseal -f secret.yaml -w sealed-secret.yaml
+
+# 3. Commit sealed-secret.yaml (encrypted)
+git add sealed-secret.yaml
+git commit -m &quot;chore: add sealed secrets for production&quot;
+
+# 4. Deploy
+kubectl apply -f sealed-secret.yaml
+</code></pre>
+<h2 id="hashicorp-vault-advanced">HashiCorp Vault (Advanced)</h2>
+<h3 id="setup">Setup</h3>
+<pre><code class="language-bash"># Start Vault locally
+docker run -d \
+  --name vault \
+  -e VAULT_DEV_ROOT_TOKEN_ID=mytoken \
+  -p 8200:8200 \
+  vault:latest
+
+# Enable KV secrets
+vault secrets enable -version=2 kv
+
+# Create secrets
+vault kv put kv/portfolio/production \
+  db_password=$POSTGRES_PASSWORD \
+  jwt_secret=$JWT_SECRET
+</code></pre>
+<h3 id="access-in-applications">Access in Applications</h3>
+<pre><code class="language-python">import hvac
+
+client = hvac.Client(url='http://vault:8200', token='mytoken')
+secret = client.secrets.kv.read_secret_version(path='portfolio/production')
+db_password = secret['data']['data']['db_password']
+</code></pre>
+<h2 id="aws-secrets-manager-production">AWS Secrets Manager (Production)</h2>
+<h3 id="create-secret">Create Secret</h3>
+<pre><code class="language-bash">aws secretsmanager create-secret \
+  --name portfolio/production \
+  --secret-string '{
+    &quot;db_password&quot;: &quot;'$POSTGRES_PASSWORD'&quot;,
+    &quot;jwt_secret&quot;: &quot;'$JWT_SECRET'&quot;
+  }'
+</code></pre>
+<h3 id="access-in-code">Access in Code</h3>
+<pre><code class="language-python">import boto3
+import json
+
+client = boto3.client('secretsmanager')
+response = client.get_secret_value(SecretId='portfolio/production')
+secret = json.loads(response['SecretString'])
+</code></pre>
+<h3 id="iam-policy">IAM Policy</h3>
+<pre><code class="language-json">{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Action&quot;: [
+        &quot;secretsmanager:GetSecretValue&quot;,
+        &quot;secretsmanager:DescribeSecret&quot;
+      ],
+      &quot;Resource&quot;: &quot;arn:aws:secretsmanager:*:*:secret:portfolio/*&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="gcp-secret-manager-production">GCP Secret Manager (Production)</h2>
+<h3 id="create-secret_1">Create Secret</h3>
+<pre><code class="language-bash">gcloud secrets create portfolio-db-password \
+  --replication-policy=&quot;automatic&quot; \
+  --data-file=- &lt;&lt;&lt; &quot;$POSTGRES_PASSWORD&quot;
+
+gcloud secrets create portfolio-jwt-secret \
+  --replication-policy=&quot;automatic&quot; \
+  --data-file=- &lt;&lt;&lt; &quot;$JWT_SECRET&quot;
+</code></pre>
+<h3 id="access-in-code_1">Access in Code</h3>
+<pre><code class="language-python">from google.cloud import secretmanager
+
+client = secretmanager.SecretManagerServiceClient()
+secret_name = &quot;projects/PROJECT_ID/secrets/portfolio-db-password/versions/latest&quot;
+response = client.access_secret_version(request={&quot;name&quot;: secret_name})
+password = response.payload.data.decode('UTF-8')
+</code></pre>
+<h3 id="workload-identity-k8s">Workload Identity (K8s)</h3>
+<pre><code class="language-bash"># Bind K8s service account to GCP service account
+gcloud iam service-accounts add-iam-policy-binding \
+  portfolio-workload@PROJECT_ID.iam.gserviceaccount.com \
+  --role roles/secretmanager.secretAccessor \
+  --member &quot;serviceAccount:portfolio-workload@PROJECT_ID.iam.gserviceaccount.com&quot;
+
+# Annotate K8s service account
+kubectl annotate serviceaccount portfolio-ksa \
+  -n portfolio \
+  iam.gke.io/gcp-service-account=portfolio-workload@PROJECT_ID.iam.gserviceaccount.com
+</code></pre>
+<h2 id="secret-rotation">Secret Rotation</h2>
+<h3 id="automated-rotation">Automated Rotation</h3>
+<pre><code class="language-bash"># AWS Secrets Manager
+aws secretsmanager rotate-secret \
+  --secret-id portfolio/production \
+  --rotation-rules AutomaticallyAfterDays=30
+
+# GCP (manual — requires Lambda/Cloud Function)
+gcloud secrets versions list portfolio-db-password
+</code></pre>
+<h3 id="application-reload">Application Reload</h3>
+<pre><code class="language-python"># Watch for secret changes and reload
+import os
+from pathlib import Path
+
+SECRET_FILE = Path(&quot;/var/run/secrets/portfolio/db_password&quot;)
+
+def get_db_password():
+    # Automatically picks up latest version
+    return SECRET_FILE.read_text().strip()
+
+# In FastAPI startup
+@app.on_event(&quot;startup&quot;)
+async def startup():
+    global DB_PASSWORD
+    DB_PASSWORD = get_db_password()
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<p>✅ <strong>DO:</strong>
+- Store secrets in external systems (Vault, AWS Secrets, GCP Secret Manager)
+- Rotate secrets regularly (30-90 days)
+- Use separate secrets for each environment
+- Audit access to secrets
+- Use short-lived credentials (STS tokens)
+- Seal secrets before committing to git</p>
+<p>❌ <strong>DON'T:</strong>
+- Store secrets in .env files in git
+- Hardcode secrets in code
+- Use same secret across environments
+- Share secrets via Slack/email
+- Store secrets in config files
+- Log secrets in stdout/stderr</p>
+<h2 id="monitoring-alerts">Monitoring &amp; Alerts</h2>
+<pre><code class="language-yaml"># Prometheus alert for secret access
+- alert: UnauthorizedSecretAccess
+  expr: increase(secretmanager_access_unauthorized[5m]) &gt; 0
+  for: 1m
+  labels:
+    severity: critical
+  annotations:
+    summary: &quot;Unauthorized secret access detected&quot;
+</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li>HashiCorp Vault: https://www.vaultproject.io/</li>
+<li>AWS Secrets Manager: https://docs.aws.amazon.com/secretsmanager/</li>
+<li>GCP Secret Manager: https://cloud.google.com/secret-manager/docs</li>
+<li>Sealed Secrets: https://github.com/bitnami-labs/sealed-secrets</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+
+
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+
+
+  </body>
+</html>

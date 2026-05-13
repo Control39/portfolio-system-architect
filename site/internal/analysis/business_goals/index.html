@@ -1,0 +1,1200 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/internal/analysis/business_goals/">
+
+
+
+
+
+
+
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+
+
+
+        <title>Анализ бизнес-целей - Portfolio System Architect</title>
+
+
+
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+  </head>
+
+
+    <body dir="ltr">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#-" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Анализ бизнес-целей
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </nav>
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../api/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    API
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../reference/README.md" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+
+
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Reasoning
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Reasoning
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../reasoning/PRINCIPLES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Структура
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../reasoning/ROUTES/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Галерея
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../reasoning/TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Шаблон
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../visualization/interactive/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Визуализация
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Введение
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#2-" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Бизнес-контекст
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="2. Бизнес-контекст">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.1. Миссия проекта
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.2. Целевая аудитория
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Бизнес-цели
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="3. Бизнес-цели">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.1. Стратегические цели
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.2. Операционные цели
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.3. Финансовые цели
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Пользовательские сценарии
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="4. Пользовательские сценарии">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.1. Основные сценарии
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.2. Болевые точки пользователей
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#5-kpi" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Метрики успеха (KPI)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="5. Метрики успеха (KPI)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.1. Текущие метрики
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#52-kpi" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.2. Рекомендуемые KPI
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#6-" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. Выравнивание технических решений с бизнес-целями
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="6. Выравнивание технических решений с бизнес-целями">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.1. Сильные стороны
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.2. Слабые стороны
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.3. Упущенные возможности
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7. Выявленные проблемы
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="7. Выявленные проблемы">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7.1. Критические
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7.2. Высокие
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7.3. Средние
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7.4. Низкие
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        8. Рекомендации
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="8. Рекомендации">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#81-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        8.1. Немедленные действия (1-2 дня)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#82-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        8.2. Краткосрочные (1-2 недели)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#83-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        8.3. Долгосрочные (1-2 месяца)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        9. Дорожная карта улучшений
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        10. Заключение
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+<h1 id="-">Анализ бизнес-целей</h1>
+<p><strong>Направление:</strong> Бизнес-цели (Business Goals)
+<strong>Дата:</strong> 2026-03-21
+<strong>Аналитик:</strong> SourceCraft Code Assistant Agent</p>
+<hr />
+<h2 id="1">1. Введение</h2>
+<p>Цель анализа — оценить соответствие технических решений бизнес-целям проекта, выявить разрывы и предложить меры для лучшей синергии.</p>
+<p><strong>Методология:</strong>
+- Обзор документации (<code>README.md</code>, <code>PORTFOLIO-STORY.md</code>, <code>EXECUTIVE_SUMMARY.md</code>).
+- Анализ метрик успеха (KPI).
+- Сопоставление функциональности с потребностями пользователей.
+- Интервью с заинтересованными сторонами (через доступные артефакты).</p>
+<hr />
+<h2 id="2-">2. Бизнес-контекст</h2>
+<h3 id="21">2.1. Миссия проекта</h3>
+<p>Судя по документации, проект <code>portfolio-system-architect</code> — это экосистема инструментов для управления IT‑портфолио, карьерным развитием и архитектурными решениями.</p>
+<p><strong>Ключевые ценности:</strong>
+- Автоматизация рутинных задач (сбор портфолио, анализ навыков).
+- Интеграция с внешними системами (GitHub, LinkedIn, облачные провайдеры).
+- Поддержка принятия решений на основе данных (IT Compass, Cloud Reason).</p>
+<h3 id="22">2.2. Целевая аудитория</h3>
+<ol>
+<li><strong>IT‑специалисты</strong> (разработчики, архитекторы, DevOps) — для управления своим портфолио.</li>
+<li><strong>HR и рекрутеры</strong> — для оценки кандидатов.</li>
+<li><strong>Технические лидеры</strong> — для архитектурного анализа и планирования.</li>
+</ol>
+<hr />
+<h2 id="3-">3. Бизнес-цели</h2>
+<h3 id="31">3.1. Стратегические цели</h3>
+<table>
+<thead>
+<tr>
+<th>Цель</th>
+<th>Текущее состояние</th>
+<th>Выравнивание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Увеличить охват пользователей</td>
+<td>Проект в стадии разработки, нет метрик</td>
+<td>⚠️ Нет фокуса на growth</td>
+</tr>
+<tr>
+<td>Стать эталонным инструментом в нише</td>
+<td>Сильные технические возможности, слабый marketing</td>
+<td>⚠️ Нет marketing стратегии</td>
+</tr>
+<tr>
+<td>Монетизация (платные функции, подписки)</td>
+<td>Нет модели монетизации</td>
+<td>❌ Не рассматривается</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2. Операционные цели</h3>
+<table>
+<thead>
+<tr>
+<th>Цель</th>
+<th>Текущее состояние</th>
+<th>Выравнивание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Сократить время на составление портфолио</td>
+<td>Автоматизация есть, но требует доработки</td>
+<td>✅ Частично достигнуто</td>
+</tr>
+<tr>
+<td>Повысить точность рекомендаций (IT Compass)</td>
+<td>Алгоритмы работают, но качество не измерено</td>
+<td>⚠️ Нет метрик качества</td>
+</tr>
+<tr>
+<td>Обеспечить бесперебойную работу 24/7</td>
+<td>Есть мониторинг, но нет SLA</td>
+<td>⚠️ Нет SLA</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33">3.3. Финансовые цели</h3>
+<ul>
+<li>Проект, видимо, некоммерческий (open‑source).</li>
+<li><strong>Проблемы:</strong> Отсутствие бюджета на инфраструктуру, маркетинг, поддержку.</li>
+<li><strong>Рекомендация:</strong> Рассмотреть модели финансирования (гранты, пожертвования, корпоративные спонсоры).</li>
+</ul>
+<hr />
+<h2 id="4">4. Пользовательские сценарии</h2>
+<h3 id="41">4.1. Основные сценарии</h3>
+<ol>
+<li><strong>Пользователь загружает резюме → получает анализ навыков и рекомендации.</strong></li>
+<li>Реализовано в <code>portfolio-organizer</code>.</li>
+<li>
+<p><strong>Проблемы:</strong> Интерфейс минимален, нет мобильной версии.</p>
+</li>
+<li>
+<p><strong>Архитектор оценивает облачную миграцию → получает отчёт от Cloud Reason.</strong></p>
+</li>
+<li>Реализовано в <code>decision-engine</code>.</li>
+<li>
+<p><strong>Проблемы:</strong> Отчёт слишком технический, нет бизнес‑выводов.</p>
+</li>
+<li>
+<p><strong>HR ищет кандидата по навыкам → система подбирает подходящих.</strong></p>
+</li>
+<li>Не реализовано.</li>
+<li><strong>Рекомендация:</strong> Добавить модуль поиска.</li>
+</ol>
+<h3 id="42">4.2. Болевые точки пользователей</h3>
+<ul>
+<li><strong>Слишком много шагов</strong> для получения результата.</li>
+<li><strong>Отсутствие интеграции</strong> с популярными HR‑системами (Greenhouse, Lever).</li>
+<li><strong>Нет персонализации</strong> — одинаковые рекомендации для всех.</li>
+</ul>
+<hr />
+<h2 id="5-kpi">5. Метрики успеха (KPI)</h2>
+<h3 id="51">5.1. Текущие метрики</h3>
+<table>
+<thead>
+<tr>
+<th>Метрика</th>
+<th>Значение</th>
+<th>Источник</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Количество активных пользователей</td>
+<td>Не измерено</td>
+<td>–</td>
+</tr>
+<tr>
+<td>Время обработки запроса</td>
+<td>Не измерено</td>
+<td>–</td>
+</tr>
+<tr>
+<td>Удовлетворённость пользователей (NPS)</td>
+<td>Не измерено</td>
+<td>–</td>
+</tr>
+<tr>
+<td>Конверсия (регистрация → использование)</td>
+<td>Не измерено</td>
+<td>–</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-kpi">5.2. Рекомендуемые KPI</h3>
+<ol>
+<li><strong>Количество уникальных пользователей в месяц</strong> (цель: 1000).</li>
+<li><strong>Среднее время выполнения ключевого сценария</strong> (цель: &lt; 30 секунд).</li>
+<li><strong>NPS</strong> (цель: &gt; 30).</li>
+<li><strong>Коэффициент удержания</strong> (retention rate) (цель: &gt; 40% за 30 дней).</li>
+<li><strong>Количество успешных рекомендаций</strong> (accuracy &gt; 80%).</li>
+</ol>
+<hr />
+<h2 id="6-">6. Выравнивание технических решений с бизнес-целями</h2>
+<h3 id="61">6.1. Сильные стороны</h3>
+<ul>
+<li><strong>Автоматизация</strong> экономит время пользователей.</li>
+<li><strong>Микросервисная архитектура</strong> позволяет быстро добавлять фичи.</li>
+<li><strong>Open‑source</strong> привлекает сообщество.</li>
+</ul>
+<h3 id="62">6.2. Слабые стороны</h3>
+<ul>
+<li><strong>Нет фокуса на пользовательском опыте</strong> (UI/UX).</li>
+<li><strong>Отсутствие метрик</strong> делает невозможным измерение успеха.</li>
+<li><strong>Нет roadmap</strong> с бизнес‑приоритетами.</li>
+</ul>
+<h3 id="63">6.3. Упущенные возможности</h3>
+<ul>
+<li><strong>Партнёрства</strong> с HR‑платформами.</li>
+<li><strong>Монетизация</strong> через премиум‑функции.</li>
+<li><strong>Расширение на новые рынки</strong> (образование, госсектор).</li>
+</ul>
+<hr />
+<h2 id="7">7. Выявленные проблемы</h2>
+<h3 id="71">7.1. Критические</h3>
+<ol>
+<li><strong>Нет измеримых бизнес‑метрик</strong> — невозможно оценить успех проекта.</li>
+<li><strong>Отсутствие product roadmap</strong> — разработка ведётся ad‑hoc.</li>
+<li><strong>Нет фокуса на пользовательском опыте</strong> — риск низкого adoption.</li>
+</ol>
+<h3 id="72">7.2. Высокие</h3>
+<ol>
+<li><strong>Недостаточная интеграция с экосистемой</strong> (HR‑системы, социальные сети).</li>
+<li><strong>Отсутствие модели монетизации</strong> — проект может стать финансово неустойчивым.</li>
+<li><strong>Нет marketing стратегии</strong> — даже лучший продукт останется незамеченным.</li>
+</ol>
+<h3 id="73">7.3. Средние</h3>
+<ol>
+<li><strong>Слабый UI/UX</strong> — снижает удовлетворённость пользователей.</li>
+<li><strong>Нет обратной связи от пользователей</strong> — упускаются улучшения.</li>
+<li><strong>Недостаточная документация для бизнес‑пользователей</strong> (не‑технарей).</li>
+</ol>
+<h3 id="74">7.4. Низкие</h3>
+<ol>
+<li><strong>Нет анализа конкурентов</strong> — неизвестно, чем проект лучше аналогов.</li>
+<li><strong>Отсутствие программы лояльности</strong> для активных пользователей.</li>
+<li><strong>Нет плана масштабирования бизнеса</strong> (географическое, вертикальное).</li>
+</ol>
+<hr />
+<h2 id="8">8. Рекомендации</h2>
+<h3 id="81-1-2">8.1. Немедленные действия (1-2 дня)</h3>
+<ol>
+<li><strong>Определить ключевые бизнес‑метрики</strong> и начать их сбор.</li>
+<li><strong>Создать product roadmap</strong> с приоритизацией по бизнес‑ценности.</li>
+<li><strong>Провести интервью с 5‑10 пользователями</strong> для понимания pain points.</li>
+</ol>
+<h3 id="82-1-2">8.2. Краткосрочные (1-2 недели)</h3>
+<ol>
+<li><strong>Разработать marketing план</strong> (контент, социальные сети, SEO).</li>
+<li><strong>Улучшить UI/UX</strong> — нанять дизайнера или использовать шаблоны.</li>
+<li><strong>Настроить сбор обратной связи</strong> (форма в приложении, email‑рассылка).</li>
+<li><strong>Проанализировать конкурентов</strong> и выделить уникальные преимущества.</li>
+</ol>
+<h3 id="83-1-2">8.3. Долгосрочные (1-2 месяца)</h3>
+<ol>
+<li><strong>Внедрить модель монетизации</strong> (freemium, подписка, корпоративные лицензии).</li>
+<li><strong>Интегрироваться с 1‑2 популярными HR‑платформами</strong> (например, Greenhouse API).</li>
+<li><strong>Запустить пилот с компанией‑партнёром</strong> для валидации продукта.</li>
+<li><strong>Разработать стратегию growth</strong> (партнёрства, реферальная программа).</li>
+<li><strong>Создать бизнес‑план</strong> с финансовыми прогнозами.</li>
+</ol>
+<hr />
+<h2 id="9">9. Дорожная карта улучшений</h2>
+<table>
+<thead>
+<tr>
+<th>Действие</th>
+<th>Срок</th>
+<th>Ответственный</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Определение бизнес‑метрик</td>
+<td>2 дня</td>
+<td>Product Owner</td>
+</tr>
+<tr>
+<td>Создание product roadmap</td>
+<td>3 дня</td>
+<td>Product Owner</td>
+</tr>
+<tr>
+<td>Интервью с пользователями</td>
+<td>1 неделя</td>
+<td>UX Researcher</td>
+</tr>
+<tr>
+<td>Разработка marketing плана</td>
+<td>1 неделя</td>
+<td>Marketing Manager</td>
+</tr>
+<tr>
+<td>Улучшение UI/UX</td>
+<td>2 недели</td>
+<td>UI Designer</td>
+</tr>
+<tr>
+<td>Настройка сбора обратной связи</td>
+<td>3 дня</td>
+<td>Product Owner</td>
+</tr>
+<tr>
+<td>Анализ конкурентов</td>
+<td>4 дня</td>
+<td>Business Analyst</td>
+</tr>
+<tr>
+<td>Внедрение модели монетизации</td>
+<td>3 недели</td>
+<td>Business Dev</td>
+</tr>
+<tr>
+<td>Интеграция с HR‑платформой</td>
+<td>1 месяц</td>
+<td>Backend Dev</td>
+</tr>
+<tr>
+<td>Пилот с партнёром</td>
+<td>1 месяц</td>
+<td>Business Dev</td>
+</tr>
+<tr>
+<td>Стратегия growth</td>
+<td>2 недели</td>
+<td>Marketing Manager</td>
+</tr>
+<tr>
+<td>Бизнес‑план</td>
+<td>1 месяц</td>
+<td>CEO / Founder</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10">10. Заключение</h2>
+<p>Проект обладает сильным техническим фундаментом, но слабо ориентирован на бизнес‑результаты. Критически важно внедрить метрики, улучшить пользовательский опыт и разработать стратегию монетизации. Это превратит технологический эксперимент в устойчивый бизнес.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+
+
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+
+
+  </body>
+</html>
