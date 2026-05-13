@@ -4,6 +4,7 @@
 """
 
 import os
+import re
 
 import requests
 from flask import Blueprint, jsonify, request
@@ -22,6 +23,9 @@ ALLOWED_HOSTS = {
     "ml-registry.internal",
     "api.trusted-domain.com",
 }
+
+# Регулярное выражение для валидации model_id
+MODEL_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
 
 
 def _make_request(method: str, url: str, **kwargs) -> requests.Response:
@@ -54,6 +58,9 @@ def list_models():
 def get_model(model_id):
     """Получение информации о конкретной модели"""
     try:
+        if not MODEL_ID_PATTERN.fullmatch(model_id):
+            return jsonify({"error": "Invalid model_id format"}), 400
+
         url = f"{ML_MODEL_REGISTRY_URL}/portfolio/models/{model_id}"
         response = _make_request("GET", url, timeout=30)
         return jsonify(response.json())
@@ -66,6 +73,9 @@ def get_model(model_id):
 def predict(model_id):
     """Выполнение предсказания с использованием модели"""
     try:
+        if not MODEL_ID_PATTERN.fullmatch(model_id):
+            return jsonify({"error": "Invalid model_id format"}), 400
+
         data = request.get_json()
         if not data:
             return jsonify({"error": "No input data provided"}), 400
