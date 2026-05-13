@@ -4,7 +4,6 @@
 """
 
 import os
-from urllib.parse import urlparse
 
 import requests
 from flask import Blueprint, jsonify, request
@@ -32,12 +31,6 @@ def _make_request(method: str, url: str, **kwargs) -> requests.Response:
         is_safe_url(url, ALLOWED_HOSTS)
     except ValueError as e:
         raise ValueError(f"Небезопасный URL: {e}") from e
-
-    # Дополнительная проверка: явный парсинг и валидация хоста перед запросом
-    # Это необходимо для CodeQL (query py/partial-ssrf)
-    parsed = urlparse(url)
-    if parsed.hostname not in ALLOWED_HOSTS:
-        raise ValueError(f"Хост {parsed.hostname} не в списке разрешенных")
 
     # URL валидирован и безопасен — выполняем запрос
     response = requests.request(method, url, **kwargs)
