@@ -1,0 +1,8 @@
+refactor: remove unused directories and reorganize postgres
+
+- Removed: migrations/ (unused Alembic template), postgres/ (moved)
+- Removed: site/ (generated MkDocs docs, 500+ files)
+- Removed: commit_full.txt (temporary file)
+- Moved: postgres/ -> docker/postgres-init/
+
+Root directory reduced by ~550 files.
