@@ -1,13 +1,14 @@
+---
 name: Cognitive Agent CI/CD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - 'apps/cognitive-agent/**'
       - '.github/workflows/cognitive-agent-ci.yml'
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'apps/cognitive-agent/**'
   schedule:
@@ -48,9 +49,9 @@ jobs:
 
       - name: Validate configuration files
         run: |
-          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/agent-config.yaml
-          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/triggers.yaml
-          python apps/cognitive-agent/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/learning.yaml
+          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/agent-config.yaml
+          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/triggers.yaml
+          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/learning.yaml
 
   test-agent:
     name: Test Agent Components
