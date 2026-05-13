@@ -45,7 +45,7 @@ try:
     INTEGRATION_ENABLED = True
     print("✅ Интеграция с системой отслеживания карьеры активирована")
 except Exception as e:
-    print(f"❌ Ошибка инициализации системы отслеживания карьеры: {e}")
+    print(f"❌ Ошибка инициализации системы отслеживания карьеры: {str(e)[:4]}****")
     INTEGRATION_ENABLED = False
     career_tracker = None
     marker_exporter = None
@@ -137,7 +137,7 @@ def _find_matching_markers(skills: list[str]) -> set[str]:
                                 matching_markers.add(marker.id)
                                 break
     except Exception as e:
-        print(f"Ошибка при поиске соответствующих маркеров: {e}")
+        print(f"Ошибка при поиске соответствующих маркеров: {str(e)[:4]}****")
 
     return matching_markers
 
@@ -164,7 +164,7 @@ def _auto_mark_completed(marker_ids: set[str]) -> dict[str, Any]:
             else:
                 results["failed"] += 1
         except Exception as e:
-            print(f"Ошибка при проставлении маркера {marker_id}: {e}")
+            print(f"Ошибка при проставлении маркера {marker_id}: {str(e)[:4]}****")
             results["failed"] += 1
 
     return results
