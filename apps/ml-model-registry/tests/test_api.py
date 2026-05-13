@@ -1,9 +1,16 @@
+import sys
+from pathlib import Path
+
+# Добавляем корень проекта и src в путь для импорта
+ROOT_DIR = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(ROOT_DIR))
+sys.path.insert(1, str(ROOT_DIR / "apps" / "ml-model-registry" / "src"))
+
 from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-# sys.path hack removed - use pytest.ini pythonpath
-from ..src.api.main import app
+from api.main import app
 
 
 client = TestClient(app)
