@@ -2,6 +2,7 @@
 Модуль health check для мониторинга состояния сервиса.
 """
 
+import logging
 from datetime import datetime
 
 from fastapi import APIRouter, Depends
@@ -10,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.core.database import get_db
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.get("/")
@@ -45,8 +47,9 @@ async def readiness_check(db: AsyncSession = Depends(get_db)) -> dict[str, str]:
         # Проверка подключения к базе данных
         await db.execute("SELECT 1")
         db_status = "connected"
-    except Exception as e:
-        db_status = f"error: {e!s}"
+    except Exception:
+        logger.exception("Database readiness check failed")
+        db_status = "error"
 
     return {
         "status": "ready" if db_status == "connected" else "not_ready",
