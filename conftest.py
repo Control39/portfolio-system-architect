@@ -1,6 +1,8 @@
 """Глобальные настройки для pytest."""
+
 import sys
 from pathlib import Path
+
 
 # Добавляем корень проекта в PYTHONPATH для корректных импортов
 ROOT_DIR = Path(__file__).parent
