@@ -731,3 +731,41 @@ make lint && make test
 - Дождаться rebase PR #55 (FastAPI)
 
 ---
+
+### 13 мая 2026 г. — Настройка pytest для multi-module тестов
+
+**Выполненные задачи:**
+1. **Конфигурация pytest** ✅
+   - Обновлён `pytest.ini`: добавлены `testpaths` для `apps/*/tests` и `src/*/tests`
+   - Создан `conftest.py` в корне для настройки `PYTHONPATH`
+   - 41 тест в `python_server/` работают ✅
+
+2. **Частичное исправление импортов** ⚠️
+   - Исправлен `apps/ml-model-registry/tests/test_api.py` (добавлен `sys.path` hack)
+   - 32 ошибки сбора тестов в `apps/` из-за проблем с относительными импортами
+   - Проблема: имена директорий с дефисами (`ml-model-registry`) невалидны для Python
+
+**Метрики:**
+- **Работающие тесты:** 41 (python_server/)
+- **Ошибки сбора:** 32 (apps/ и src/)
+- **Покрытие:** 0% (тесты есть только в python_server/)
+
+**Созданные/изменённые файлы:**
+- `pytest.ini` — расширенные testpaths и pythonpath
+- `conftest.py` — глобальная настройка PYTHONPATH
+- `apps/ml-model-registry/tests/test_api.py` — исправлены импорты
+
+**Коммиты:**
+1. `test: configure pytest for multi-module tests`
+
+**Причины низкого покрытия:**
+- Тесты в `apps/` используют относительные импорты (`from ..src.api import app`)
+- Директории с дефисами (`ml-model-registry`, `job-automation-agent`) не являются валидными Python-пакетами
+- Исправление всех 32 файлов займёт 2-3 часа
+
+**Следующие шаги:**
+- **Вариант А:** Полное исправление импортов (2-3 часа) — высокое качество
+- **Вариант Б:** Перейти к миграции langchain (более ценная задача)
+- **Вариант В:** Создать wrapper-пакеты без дефисов для `apps/`
+
+---
