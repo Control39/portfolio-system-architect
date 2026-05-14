@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-MCP Server for Career Autopilot
+MCP Server для Career Autopilot
 
 Сервер предоставляет инструменты для работы с файловой системой,
-Git, IT-Compass маркерами и выполнения команд.
+Git, IT-Compass маркерами и мониторингом.
 """
 
 import json
@@ -17,84 +17,12 @@ from fastmcp import FastMCP
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-# Инициализация MCP сервера
+# Инициализация единого экземпляра MCP сервера
 mcp = FastMCP("Career Autopilot MCP Server")
 
 # Конфигурация
 IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it_compass" / "src" / "data" / "markers"
 PROJECT_ROOT = project_root
-
-# Импорт инструментов (обёрнуты в try/except для graceful degradation)
-try:
-    # Проверяем доступность модулей перед импортом
-    import importlib.util
-
-    def _check_module(name: str) -> bool:
-        return importlib.util.find_spec(name) is not None
-
-    # Импортируем только если модуль доступен
-    if _check_module("src.resources.navigation"):
-        from src.resources.navigation import generate_tour_tool, search_repo_tool
-    else:
-        generate_tour_tool = None
-        search_repo_tool = None
-
-    if _check_module("src.tools.command_tools"):
-        from src.tools.command_tools import execute_command_tool, run_python_script_tool
-    else:
-        execute_command_tool = None
-        run_python_script_tool = None
-
-    if _check_module("src.tools.compass_tools"):
-        from src.tools.compass_tools import (
-            auto_detect_markers_from_code_tool,
-            evaluate_by_compass_tool,
-            get_markers_by_domain_tool,
-        )
-    else:
-        auto_detect_markers_from_code_tool = None
-        evaluate_by_compass_tool = None
-        get_markers_by_domain_tool = None
-
-    if _check_module("src.tools.file_tools"):
-        from src.tools.file_tools import list_files_tool, read_file_tool, search_files_tool, write_file_tool
-    else:
-        list_files_tool = None
-        read_file_tool = None
-        search_files_tool = None
-        write_file_tool = None
-
-    if _check_module("src.tools.git_tools"):
-        from src.tools.git_tools import get_git_history_tool, get_git_status_tool, scan_last_commits_for_markers_tool
-    else:
-        get_git_history_tool = None
-        get_git_status_tool = None
-        scan_last_commits_for_markers_tool = None
-
-except ImportError:
-    # Если модули не найдены, создадим заглушки
-    print("Warning: Tool modules not found. Using stub implementations.")
-
-    # Заглушки будут заменены при создании реальных модулей
-    @mcp.tool()
-    def read_file_tool(path: str) -> str:
-        """Чтение файла"""
-        return f"Stub: read_file({path})"
-
-    @mcp.tool()
-    def write_file_tool(path: str, content: str) -> bool:
-        """Запись файла"""
-        return True
-
-    @mcp.tool()
-    def list_files_tool(path: str, recursive: bool = False) -> list[str]:
-        """Список файлов"""
-        return []
-
-    @mcp.tool()
-    def search_files_tool(query: str, file_pattern: str = "*.py") -> list[str]:
-        """Поиск файлов"""
-        return []
 
 
 # Ресурсы навигации
@@ -247,15 +175,29 @@ def _get_sample_markers(data: dict) -> str:
 @mcp.resource("it-compass://system-thinking")
 def get_system_thinking_resource() -> str:
     """Специальный ресурс для системного мышления"""
-    return get_compass_domain_resource("system_thinking")
+    return get_compass_domain_resource("system_thinking")  # type: ignore[no-any-return]
 
 
-# Инструменты (будут импортированы из модулей или определены как заглушки)
-# Здесь мы регистрируем инструменты, если они были импортированы
-# В противном случае заглушки уже зарегистрированы
+def init_all_tools() -> None:
+    """Инициализация всех инструментов сервера"""
+    from .tools import (
+        init_chroma_tools,
+        init_compass_tools,
+        init_file_tools,
+        init_git_tools,
+        init_monitoring_tools,
+    )
 
-# Основная функция
-if __name__ == "__main__":
+    # Инициализация инструментов в правильном порядке
+    init_file_tools(mcp, PROJECT_ROOT)
+    init_git_tools(mcp, PROJECT_ROOT)
+    init_chroma_tools(mcp, PROJECT_ROOT)
+    init_compass_tools(mcp, PROJECT_ROOT)
+    init_monitoring_tools(mcp, PROJECT_ROOT)
+
+
+def main() -> None:
+    """Основная функция запуска сервера"""
     print("=" * 60)
     print("Career Autopilot MCP Server")
     print(f"IT-Compass markers path: {IT_COMPASS_MARKERS_PATH}")
@@ -267,5 +209,21 @@ if __name__ == "__main__":
         print(f"Warning: IT-Compass markers path not found: {IT_COMPASS_MARKERS_PATH}")
         print("Some features may not work correctly.")
 
+    # Инициализируем все инструменты
+    print("Initializing tools...")
+    init_all_tools()
+    print("All tools initialized successfully.")
+
     # Запускаем сервер
     mcp.run()
+
+
+def main_dev() -> None:
+    """Функция запуска в режиме разработки"""
+    print("[DEV MODE] Career Autopilot MCP Server")
+    print("Running with debug output enabled...")
+    main()
+
+
+if __name__ == "__main__":
+    main()

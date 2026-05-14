@@ -35,13 +35,22 @@ dependencies = [
     "pyyaml>=6.0",
     "requests>=2.32.5",
     "fastmcp>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
     "bandit>=1.7.0",
-    "pip-audit>=2.5.0"
+    "pip-audit>=2.5.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
 ]
 
 [project.scripts]
-start-mcp = "src.main:main"
-dev-run = "src.main:main_dev"
+mcp-server = "src.main:main"
+mcp-server-dev = "src.main:main_dev"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
 
 [project.urls]
 Repository = "https://github.com/Control39/portfolio-system-architect"

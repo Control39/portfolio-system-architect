@@ -12,18 +12,11 @@ from typing import Any
 from fastmcp import FastMCP
 
 
-# Инициализация MCP (будет передан из main)
-mcp: FastMCP | None = None
-
-
 def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
     """Инициализация инструментов IT-Compass"""
-    global mcp
-    mcp = mcp_server
-
     markers_path = project_root / "apps" / "it-compass" / "src" / "data" / "markers"
 
-    @mcp.tool()
+    @mcp_server.tool()
     def evaluate_by_compass(domain: str, level: int | None = None) -> dict[str, Any]:
         """
         Оценка компетенций по домену IT-Compass
@@ -40,14 +33,14 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         if not domain_file.exists():
             return {
                 "error": f"Домен '{domain}' не найден",
-                "available_domains": get_available_domains(),
+                "available_domains": get_available_domains_impl(),
             }
 
         try:
             with open(domain_file, encoding="utf-8") as f:
                 data = json.load(f)
 
-            result = {
+            result: dict[str, Any] = {
                 "domain": domain,
                 "skill_name": data.get("skill_name", domain),
                 "description": data.get("description", ""),
@@ -71,7 +64,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception as e:
             return {"error": f"Ошибка при чтении домена: {e!s}"}
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_markers_by_domain(domain: str) -> list[dict[str, Any]]:
         """
         Получение всех маркеров для домена
@@ -91,7 +84,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
             with open(domain_file, encoding="utf-8") as f:
                 data = json.load(f)
 
-            markers = []
+            markers: list[dict[str, Any]] = []
             for level_num, level_markers in data.get("levels", {}).items():
                 for marker in level_markers:
                     markers.append(
@@ -107,7 +100,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         except Exception:
             return []
 
-    @mcp.tool()
+    @mcp_server.tool()
     def get_available_domains() -> list[str]:
         """
         Получение списка доступных доменов IT-Compass
@@ -115,17 +108,21 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         Возвращает:
             Список названий доменов
         """
+        return get_available_domains_impl()
+
+    def get_available_domains_impl() -> list[str]:
+        """Внутренняя функция для получения доменов"""
         if not markers_path.exists():
             return []
 
-        domains = []
+        domains: list[str] = []
         for file in markers_path.glob("*.json"):
             domain_name = file.stem
             domains.append(domain_name)
 
         return sorted(domains)
 
-    @mcp.tool()
+    @mcp_server.tool()
     def auto_detect_markers_from_code(code_path: str) -> list[dict[str, str]]:
         """
         Автоматическое обнаружение маркеров из кода
@@ -136,10 +133,10 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         Возвращает:
             Список обнаруженных маркеров с доменами и уровнями
         """
-        detected = []
+        detected: list[dict[str, str]] = []
 
         # Паттерны для обнаружения маркеров
-        marker_patterns = {
+        marker_patterns: dict[str, dict[str, dict[str, Any]]] = {
             "python": {
                 "type_hints": {"level": 2, "pattern": ["def ", ": ", "->"]},
                 "async_await": {"level": 3, "pattern": ["async ", "await "]},
@@ -199,7 +196,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
                                     {
                                         "domain": file_type,
                                         "marker": marker_name,
-                                        "level": marker_info["level"],
+                                        "level": str(marker_info["level"]),
                                         "file": (
                                             str(file.relative_to(project_root))
                                             if str(file).startswith(str(project_root))
@@ -230,3 +227,6 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         ) or file.suffix == ".tf":
             return "devops"
         return None
+
+
+__all__ = ["init_compass_tools"]
