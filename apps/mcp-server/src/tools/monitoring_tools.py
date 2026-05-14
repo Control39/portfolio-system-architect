@@ -13,6 +13,7 @@ from typing import Any
 
 from fastmcp import FastMCP
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -172,7 +173,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
             Статистика по контейнерам (CPU, memory, etc.)
         """
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603, B607
                 ["docker", "stats", "--no-stream", "--format", "{{json .}}"],
                 capture_output=True,
                 text=True,
@@ -214,7 +215,7 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         Возвращает:
             Конфигурация Prometheus и Grafana
         """
-        config = {"prometheus": {}, "grafana": {}, "alertmanager": {}}
+        config: dict[str, Any] = {"prometheus": {}, "grafana": {}, "alertmanager": {}}
 
         # Prometheus config
         prometheus_yml = prometheus_path / "prometheus.yml"

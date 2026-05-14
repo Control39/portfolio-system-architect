@@ -5,6 +5,7 @@ ChromaDB Tools для MCP Server
 Инструменты для работы с векторной базой ChromaDB.
 """
 
+import hashlib
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +14,6 @@ from fastmcp import FastMCP
 
 def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
     """Инициализация инструментов ChromaDB"""
-
     chroma_path = project_root / "chroma_data"
 
     @mcp_server.tool()
@@ -58,9 +58,9 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
             results = collection.query(query_texts=[query_text], n_results=n_results)
 
             formatted_results = []
-            if results and results["documents"] and results["documents"][0]:
+            if results and results.get("documents") and results["documents"][0]:
                 for i, doc in enumerate(results["documents"][0]):
-                    result = {
+                    result: dict[str, Any] = {
                         "document": doc,
                         "distance": results["distances"][0][i] if "distances" in results else None,
                         "metadata": results["metadatas"][0][i] if "metadatas" in results else None,
@@ -107,9 +107,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 collection = client.create_collection(collection_name)
 
             # Генерируем ID если не указан
-            import hashlib
-
-            doc_id = document_id or hashlib.md5(document.encode()).hexdigest()
+            doc_id = document_id or hashlib.md5(document.encode(), usedforsecurity=False).hexdigest()  # nosec B324
 
             collection.add(documents=[document], metadatas=[metadata or {}], ids=[doc_id])
 
@@ -153,3 +151,6 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return {"error": "chromadb not installed"}
         except Exception as e:
             return {"error": str(e)}
+
+
+__all__ = ["init_chroma_tools"]
