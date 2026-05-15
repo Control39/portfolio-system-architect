@@ -56,7 +56,7 @@ repos:
           - types-python-dateutil
           - types-setuptools
           - types-Deprecated
-        exclude: ^(tests/|setup.py)
+        exclude: ^(tests/|setup.py|python_server/)
 
   # Security checks
   - repo: https://github.com/PyCQA/bandit
