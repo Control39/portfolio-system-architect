@@ -162,9 +162,8 @@ class TestJobAnalyzer:
 
 
 class TestAgentOrchestration:
-    """Тесты оркестрации агента (пропущены из-за langchain миграции)."""
+    """Тесты оркестрации агента."""
 
-    @pytest.mark.skip(reason="Требует миграции langchain 0.3 -> 1.x")
     def test_create_agent_instance(self):
         """Тест создания экземпляра агента."""
         from src.core.orchestrator import JobAgentOrchestrator
@@ -174,7 +173,6 @@ class TestAgentOrchestration:
         assert orchestrator is not None
         assert orchestrator.is_running is False
 
-    @pytest.mark.skip(reason="Требует миграции langchain 0.3 -> 1.x")
     def test_start_agent(self):
         """Тест запуска агента."""
         from src.core.orchestrator import JobAgentOrchestrator
@@ -184,7 +182,6 @@ class TestAgentOrchestration:
 
         assert orchestrator.is_running is True
 
-    @pytest.mark.skip(reason="Требует миграции langchain 0.3 -> 1.x")
     def test_stop_agent(self):
         """Тест остановки агента."""
         from src.core.orchestrator import JobAgentOrchestrator
@@ -195,7 +192,6 @@ class TestAgentOrchestration:
 
         assert orchestrator.is_running is False
 
-    @pytest.mark.skip(reason="Требует миграции langchain 0.3 -> 1.x")
     def test_agent_search_workflow(self):
         """Тест рабочего процесса поиска."""
         from src.core.orchestrator import JobAgentOrchestrator
