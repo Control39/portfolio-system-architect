@@ -1,7 +1,1 @@
-feat(job-automation-agent): add 17 business logic tests (4 skipped for langchain migration)
-
-- Enhanced src/analysis.py: added JobAnalysis dataclass, JobAnalyzer with match scoring
-- Enhanced src/resume.py: added ParsedResume dataclass, ResumeParser with skill extraction
-- Created tests/test_agent_business.py: 21 tests (17 passed, 4 skipped)
-- Skipped tests: AgentOrchestration (requires langchain 0.3 -> 1.x migration)
-- Coverage: resume parsing, job analysis, skill matching, market trends
+docs: update KODA.md with job-automation-agent test results
