@@ -239,8 +239,7 @@ class CareerTracker:
             print("🎉 Поздравляем! Все high-priority маркеры выполнены!")
             return
 
-        shown_count = 0
-        for skill_name, marker in high_priority_markers[:limit]:
+        for idx, (skill_name, marker) in enumerate(high_priority_markers[:limit]):
             print(f"• {skill_name}: {marker.marker}")
 
             if marker.resources:
@@ -254,9 +253,7 @@ class CareerTracker:
                     print(f" ⏰ Время выполнения: {time_bound}")
             print()
 
-            shown_count += 1
-
-            if shown_count >= limit:
+            if idx >= limit - 1:
                 remaining = len(high_priority_markers) - limit
                 if remaining > 0:
                     print(f"... и ещё {remaining} рекомендаций")
