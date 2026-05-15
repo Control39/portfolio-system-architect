@@ -1178,6 +1178,53 @@ make lint && make test
 
 ---
 
+### 15 мая 2026 г. — Добавление тестов бизнес-логики для system_proof и knowledge_graph
+
+**Выполненные задачи:**
+1. **knowledge_graph** ✅
+   - Создан `src/core/knowledge_graph.py` с методами: add_entity(), add_relationship(), get_entity(), get_relationship(), find_entities_by_type(), find_relationships(), get_neighbors(), execute_query()
+   - Создан `tests/test_kg_business.py` с 24 тестами бизнес-логики
+   - Все 24 теста проходят ✅
+
+2. **system_proof** ✅
+   - Создан `src/core.py` с классом `ProofCollection` (CRUD, поиск по chain_id/architecture, фильтрация)
+   - Расширен `proof_schema.py`: добавлены методы `add_step()`, `verify()`, `to_dict()`
+   - Создан `tests/test_proof_business.py` с 25 тестами бизнес-логики
+   - Все 25 тестов проходят ✅
+
+3. **Git-коммит** ✅
+   - Коммит: `6deb2f66` — "feat: add business logic tests for knowledge_graph and system_proof (49 tests)"
+   - Пуш в remote (следующий шаг)
+
+**Созданные файлы:**
+- `apps/knowledge_graph/src/core/knowledge_graph.py` — ядро графа знаний
+- `apps/knowledge_graph/tests/test_kg_business.py` — 24 теста
+- `apps/system_proof/src/core.py` — коллекция доказательств
+- `apps/system_proof/tests/test_proof_business.py` — 25 тестов
+
+**Изменённые файлы:**
+- `apps/system_proof/proof_schema.py` — добавлены методы add_step(), verify(), to_dict()
+
+**Метрики по сервисам:**
+| Сервис | Тестов | Статус | Покрытие |
+|--------|--------|--------|----------|
+| auth_service | 21 | ✅ | ~95% |
+| it_compass | 46 | ✅ | ~85% |
+| ml_model_registry | 70 | ✅ | ~90% |
+| career_development | 56 | ✅ | 80.47% |
+| portfolio_organizer | 20 | ✅ | ~75% |
+| decision_engine | 15 | ✅ | - |
+| **knowledge_graph** | **39** (15+24) | ✅ | - |
+| **system_proof** | **40** (15+25) | ✅ | - |
+| **ВСЕГО** | **307** | 🚀 | - |
+
+**Следующие шаги:**
+- [ ] Пуш в remote
+- [ ] Добавить тесты для remaining сервисов (job-automation-agent, knowledge_graph API, system_proof API)
+- [ ] Mиграция langchain 0.3 → 1.x (низкий приоритет)
+
+---
+
 ### 15 мая 2026 г. — Переименование system-proof и knowledge-graph
 
 **Выполненные задачи:**

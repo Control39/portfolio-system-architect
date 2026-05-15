@@ -1,8 +1,1 @@
-feat: add business logic tests for knowledge_graph and system_proof (49 tests)
-
-- Created knowledge_graph/src/core/knowledge_graph.py with full CRUD operations
-- Added 24 business logic tests for knowledge_graph
-- Created system_proof/src/core.py with ProofCollection management
-- Enhanced proof_schema.py with add_step(), verify(), to_dict() methods
-- Added 25 business logic tests for system_proof
-- All 49 tests passing
+docs: update KODA.md with test session results
