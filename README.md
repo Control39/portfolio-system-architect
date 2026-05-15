@@ -68,27 +68,86 @@
 
 ## 📦 Микросервисы
 
-| Сервис | Статус | Тесты | Покрытие |
-|--------|--------|-------|----------|
-| ai-config-manager | 🟢 Active | 1 тестов | [100%](docs/) |
-| auth-service | 🟢 Active | 3 тестов | [100%](docs/) |
-| career-development | 🟢 Active | 5 тестов | [100%](docs/) |
-| cognitive-agent | 🟢 Active | 2 тестов | [100%](docs/) |
-| decision-engine | 🟡 Active | 0 тестов | [N/A](docs/) |
-| decision-engine | 🟢 Active | 6 тестов | [100%](docs/) |
-| infra-orchestrator | 🟢 Active | 3 тестов | [100%](docs/) |
-| it-compass | 🟢 Active | 5 тестов | [100%](docs/) |
-| job-automation-agent | 🟢 Active | 3 тестов | [100%](docs/) |
-| knowledge-graph | 🟢 Active | 2 тестов | [100%](docs/) |
-| mcp-server | 🟢 Active | 5 тестов | [100%](docs/) |
-| ml-model-registry | 🟢 Active | 12 тестов | [100%](docs/) |
-| portfolio-organizer | 🟢 Active | 3 тестов | [100%](docs/) |
-| system-proof | 🟢 Active | 2 тестов | [100%](docs/) |
-| template-service | 🟡 Active | 0 тестов | [N/A](docs/) |
-| thought-architecture | 🟢 Active | 2 тестов | [100%](docs/) |
-| utils | 🟡 Active | 0 тестов | [N/A](docs/) |
+| Сервис | Статус | Тесты | Покрытие | Описание |
+|--------|--------|-------|----------|----------|
+| **client/** | 🟢 Active | 8+ | ~85% | **Frontend** (React 19 + TS) для чата с ИИ |
+| ai-config-manager | 🟢 Active | 1 тестов | [100%](docs/) | Конфигурация ИИ-агентов |
+| auth-service | 🟢 Active | 3 тестов | [100%](docs/) | JWT аутентификация |
+| career-development | 🟢 Active | 5 тестов | [100%](docs/) | Трекинг компетенций |
+| cognitive-agent | 🟢 Active | 2 тестов | [100%](docs/) | Автономный ИИ-агент |
+| decision-engine | 🟢 Active | 6 тестов | [100%](docs/) | AI Reasoning с RAG |
+| infra-orchestrator | 🟢 Active | 3 тестов | [100%](docs/) | Оркестрация сервисов |
+| it-compass | 🟢 Active | 5 тестов | [100%](docs/) | Методология IT-компетенций |
+| job-automation-agent | 🟢 Active | 3 тестов | [100%](docs/) | Автоматизация поиска работы |
+| knowledge-graph | 🟢 Active | 2 тестов | [100%](docs/) | Граф знаний |
+| mcp-server | 🟢 Active | 5 тестов | [100%](docs/) | MCP-сервер для ИИ |
+| ml-model-registry | 🟢 Active | 12 тестов | [100%](docs/) | Регистр ML-моделей |
+| portfolio-organizer | 🟢 Active | 3 тестов | [100%](docs/) | Сбор доказательств |
+| system-proof | 🟢 Active | 2 тестов | [100%](docs/) | Валидация готовности |
+| template-service | 🟡 Active | 0 тестов | [N/A](docs/) | Шаблон сервиса |
+| thought-architecture | 🟢 Active | 2 тестов | [100%](docs/) | Архитектура решений |
 
 > **Примечание:** Покрытие обновляется автоматически. См. [`TEST-COVERAGE-METRICS.md`](docs/TEST-COVERAGE-METRICS.md).
+
+---
+
+## 🏗️ Архитектура системы
+
+```mermaid
+graph LR
+  subgraph Frontend
+    A[🌐 client/ <br/>React 19 + TS + Vite]
+  end
+
+  subgraph Backend
+    B[🐍 python_server/ <br/>Flask + AsyncIO]
+    D[🔐 Auth Service]
+    E[(🗄️ PostgreSQL)]
+    F[🧠 ChromaDB]
+  end
+
+  subgraph AI Layer
+    C[🤖 AI Models <br/>OpenAI/Yandex/Giga]
+  end
+
+  A -->|HTTP + WebSocket<br/>WebPubSub| B
+  B -->|Auth| D
+  B -->|Storage| E
+  B -->|Vector| F
+  B -->|LLM API| C
+  C -->|Stream| B
+  B -->|Stream| A
+
+  style A fill:#61dafb,stroke:#33,stroke-width:2px,color:#000
+  style B fill:#3776ab,stroke:#33,stroke-width:2px,color:#fff
+  style C fill:#ff6b6b,stroke:#33,stroke-width:2px,color:#fff
+  style D fill:#4ecdc4,stroke:#33,stroke-width:2px,color:#000
+  style E fill:#ffe66d,stroke:#33,stroke-width:2px,color:#000
+  style F fill:#95e1d3,stroke:#33,stroke-width:2px,color:#000
+```
+
+**Ключевые компоненты:**
+
+| Компонент | Технологии | Роль |
+|-----------|------------|------|
+| **`client/`** | React 19, TypeScript, Vite, TailwindCSS | **Frontend**: UI чата, стриминг ответов ИИ через WebPubSub, мульти-комнатный чат |
+| **`python_server/`** | Flask, AsyncIO, WebPubSub SDK | **Backend**: Оркестрация ИИ, управление сессиями, REST API + WebSocket |
+| **`auth_service/`** | FastAPI, PyJWT | **Безопасность**: JWT токены, RBAC, защита от brute-force |
+| **`ml_model_registry/`** | FastAPI, MLflow | **ML Ops**: Версионирование моделей, A/B тестирование |
+| **`decision_engine/`** | FastAPI, LangChain, RAG | **AI Reasoning**: Принятие решений с объяснимой логикой |
+
+**Поток данных:**
+1. **Пользователь** → отправляет сообщение через `client/`
+2. **`client/`** → отправляет через WebSocket (WebPubSub) в `python_server/`
+3. **`python_server/`** → оркестрирует запрос к ИИ (с RAG из `ChromaDB`)
+4. **ИИ** → стримит ответ обратно через WebPubSub
+5. **`client/`** → рендерит Markdown-ответ с анимацией
+
+**Безопасность:**
+- ✅ JWT-аутентификация для всех API
+- ✅ Sanitization Markdown через DOMPurify
+- ✅ Signed URLs для WebPubSub (короткоживущие токены)
+- ✅ SSRF/Path Traversal защита в бэкенде
 
 ---
 
@@ -103,19 +162,29 @@
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 
-# 2. Запустите все сервисы
-docker-compose up -d
-
-# 3. Проверьте доступность
-curl http://localhost:80/auth/health  # Auth service
-curl http://localhost:8005/health     # Python Chat Server (локальный режим)
+# 2. Запустите Frontend + Backend вместе
+python python_server/start_dev.py
+# Или вручную:
+# Терминал 1: cd client && npm run dev          # http://localhost:5173
+# Терминал 2: cd python_server && python app.py  # http://localhost:5000
 ```
 
 **Что работает из коробки:**
-- ✅ Все микросервисы (15+)
+- ✅ **Frontend**: `client/` (React 19 + TS) на http://localhost:5173
+- ✅ **Backend**: `python_server/` (Flask) на http://localhost:5000
 - ✅ Локальное хранилище (memory store)
-- ✅ Самописный transport (без WebPubSub)
-- ✅ PostgreSQL + Redis (в Docker)
+- ✅ Самописный transport (без Azure WebPubSub)
+- ✅ PostgreSQL + Redis (опционально, в Docker)
+
+### Доступ к сервисам
+
+| Сервис | URL | Описание |
+|--------|-----|----------|
+| **Frontend (Chat UI)** | http://localhost:5173 | React-приложение с чатом ИИ |
+| **Backend API** | http://localhost:5000/docs | Swagger UI для REST API |
+| **Auth Service** | http://localhost:8100/docs | JWT аутентификация |
+| **IT-Compass UI** | http://localhost:8501 | Трекинг компетенций (Streamlit) |
+| **Grafana** | http://localhost:3000 | Мониторинг (admin/admin) |
 
 ### Запуск с Azure (опционально)
 
