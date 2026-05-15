@@ -14,8 +14,7 @@ def load_component_config():
 
     try:
         with open(config_path, encoding="utf-8") as f:
-            config = yaml.safe_load(f)
-        return config
+            return yaml.safe_load(f)
     except yaml.YAMLError as e:
         # FIX B904: явно указываем причину исключения
         raise ValueError(f"Ошибка парсинга YAML: {e}") from e

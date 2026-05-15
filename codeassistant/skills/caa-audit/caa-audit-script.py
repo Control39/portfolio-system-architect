@@ -28,7 +28,7 @@ class CaaAudit:
             "artifacts": [],
         }
 
-    def run_audit(self, focus_areas: list[str] = None) -> dict:
+    def run_audit(self, focus_areas: list[str] | None = None) -> dict:
         """Запуск полного аудита CAA"""
 
         print("🔍 Запуск аудита Cognitive Automation Agent...")

@@ -134,7 +134,7 @@ def check_ci(repo_root: str) -> dict[str, Any]:
     return {"passed": False, "message": "CI workflow отсутствует"}
 
 
-def run_audit(checklist_path: str, repo_root: str, level: str = None) -> dict[str, Any]:
+def run_audit(checklist_path: str, repo_root: str, level: str | None = None) -> dict[str, Any]:
     """Запустить аудит по чек-листу."""
     checklist = load_checklist(checklist_path)
     results = []

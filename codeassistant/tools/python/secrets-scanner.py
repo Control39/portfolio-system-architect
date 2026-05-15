@@ -129,10 +129,7 @@ def should_skip(path: str) -> bool:
     if re.search(r"[/\\]venv[/\\]", path):
         return True
 
-    for pattern in SKIP_PATTERNS:
-        if re.search(pattern, path):
-            return True
-    return False
+    return any(re.search(pattern, path) for pattern in SKIP_PATTERNS)
 
 
 def is_binary(file_path: Path) -> bool:

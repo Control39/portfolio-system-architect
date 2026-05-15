@@ -236,8 +236,7 @@ def verify_token(
     algorithm = services_config.get("auth", {}).get("algorithm", "HS256")
 
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[algorithm])
-        return payload
+        return jwt.decode(token, SECRET_KEY, algorithms=[algorithm])
     except jwt.ExpiredSignatureError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

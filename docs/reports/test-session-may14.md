@@ -151,7 +151,7 @@
 ```bash
 1. test: add real business logic tests for auth_service, it_compass; fix career_development helpers
    - 144 passing tests across 4 services
-   
+
 2. docs: update README for 4 services with test metrics and usage examples
    - auth_service, it_compass, career_development, ml_model_registry
 ```
@@ -218,5 +218,5 @@
 
 ---
 
-*Отчёт создан 14 мая 2026 г.*  
+*Отчёт создан 14 мая 2026 г.*
 *Автор: Koda CLI (по запросу пользователя)*
