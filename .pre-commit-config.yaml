@@ -3,8 +3,8 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
-# Exclude archive from checks
-exclude: docs/archive/
+# Exclude archive and legacy from checks
+exclude: ^(docs/archive/|docs/examples/legacy/)
 
 repos:
   # Detect secrets
