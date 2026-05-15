@@ -1,13 +1,133 @@
+"""Resume parsing and generation functionality."""
+
 import asyncio
 import os
+import re
+from dataclasses import dataclass
 
 from jinja2 import BaseLoader, Environment, FileSystemLoader
+
+
+@dataclass
+class ParsedResume:
+    """Результат парсинга резюме."""
+
+    name: str | None = None
+    position: str | None = None
+    skills: list[str] | None = None
+    experience: str | None = None
+    email: str | None = None
+    phone: str | None = None
+
+
+class ResumeParser:
+    """Парсер резюме."""
+
+    def __init__(self):
+        """Инициализация парсера."""
+        self._common_skills = {
+            "python",
+            "javascript",
+            "java",
+            "go",
+            "rust",
+            "typescript",
+            "fastapi",
+            "django",
+            "flask",
+            "react",
+            "vue",
+            "angular",
+            "docker",
+            "kubernetes",
+            "terraform",
+            "ansible",
+            "postgresql",
+            "mysql",
+            "mongodb",
+            "redis",
+            "aws",
+            "gcp",
+            "azure",
+            "git",
+            "ci/cd",
+            "linux",
+        }
+
+    def parse(self, text: str) -> ParsedResume:
+        """Парсинг текста резюме."""
+        if not text or not text.strip():
+            return ParsedResume(skills=[])
+
+        lines = text.strip().split("\n")
+        name = lines[0].strip() if lines else None
+
+        position = None
+        skills = []
+        experience = None
+
+        for line in lines[1:]:
+            line = line.strip()
+            if not line:
+                continue
+
+            # Позиция (обычно после имени)
+            if position is None and ("разработчик" in line.lower() or "developer" in line.lower()):
+                position = line
+                continue
+
+            # Опыт
+            if "опыт" in line.lower() or "experience" in line.lower():
+                experience = line
+                continue
+
+            # Навыки (строки с запятыми)
+            if "," in line:
+                extracted = self.extract_skills(line)
+                skills.extend(extracted)
+
+        # Извлекаем навыки из текста
+        if not skills:
+            skills = self.extract_skills(text)
+
+        return ParsedResume(
+            name=name,
+            position=position,
+            skills=skills if skills else [],
+            experience=experience,
+        )
+
+    def extract_skills(self, text: str) -> list[str]:
+        """Извлечение навыков из текста."""
+        text_lower = text.lower()
+        found_skills = []
+
+        for skill in self._common_skills:
+            if skill in text_lower:
+                # Сохраняем оригинальный регистр
+                pattern = re.compile(re.escape(skill), re.IGNORECASE)
+                match = pattern.search(text)
+                if match:
+                    found_skills.append(match.group())
+
+        return found_skills
+
+    def extract_skills_from_list(self, skills_list: list[str]) -> list[str]:
+        """Извлечение навыков из списка."""
+        result = []
+        for skill in skills_list:
+            skill_lower = skill.lower()
+            if skill_lower in self._common_skills:
+                result.append(skill)
+        return result
 
 
 # Template dir with check
 template_dir = os.path.join(os.path.dirname(__file__), "../../templates")
 if os.path.exists(template_dir):
-    env = Environment(loader=FileSystemLoader(template_dir), block_start_string="[%", block_end_string="%]", autoescape=True)
+    env = Environment(
+        loader=FileSystemLoader(template_dir), block_start_string="[%", block_end_string="%]", autoescape=True
+    )
 else:
     env = Environment(loader=BaseLoader(), autoescape=True)  # Fallback empty
     print("Warning: templates not found, using fallback.")
