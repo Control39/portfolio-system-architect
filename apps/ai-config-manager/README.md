@@ -1,147 +1,47 @@
-# ai-config-manager
+# AI Config Manager
 
-Configuration management for AI services
-
-## Status
-
-- **Health**: 🟢 OK
-- **Tests**: ✅ 15 comprehensive tests
-- **Coverage**: 100% test coverage
-- **Documentation**: Complete
-
-## ⚙️ Тип и Назначение
-
-**Тип:** Configuration Module / Shared Library
-**Назначение:** Централизованное управление конфигурацией AI-агентов и сервисов платформы.
-**Интерфейс:** Импорт в Python-код (`from config import ...`). HTTP API отсутствует.
-
-> 💡 **Примечание:** Данный модуль используется другими сервисами в `apps/` как зависимость.
-
-## Quick Start
-
-```bash
-cd apps/ai-config-manager
-python -m pytest tests/test_basic.py -v
-```
-
-## Testing
-
-### Run Basic Tests
-```bash
-python -m pytest tests/test_basic.py -v
-```
-
-### Run Specific Test Class
-```bash
-# Functionality tests
-python -m pytest tests/test_basic.py::TestBasicFunctionality -v
-
-# Error handling tests
-python -m pytest tests/test_basic.py::TestErrorHandling -v
-
-# Resource management tests
-python -m pytest tests/test_basic.py::TestResourceManagement -v
-
-# Performance tests
-python -m pytest tests/test_basic.py::TestPerformance -v
-```
-
-### Run with Coverage
-```bash
-python -m pytest tests/test_basic.py --cov=src --cov-report=html
-```
-
-### Run Integration Tests (top-5 services only)
-```bash
-python -m pytest tests/test_integration_ai_config_manager.py -v
-```
-
-## Test Coverage
-
-### Test Statistics
-- **Total Tests**: 15 per service
-- **Pass Rate**: 100%
-- **Execution Time**: ~0.1s
-- **Coverage**: All functionality, error handling, resource management, performance
-
-### Test Categories
-
-#### 1. TestBasicFunctionality (6 tests)
-- Service imports successfully ✅
-- Configuration validation ✅
-- Service instance creation ✅
-- Service-specific operation 1 ✅
-- Service-specific operation 2 ✅
-- Service-specific operation 3 ✅
-
-#### 2. TestErrorHandling (4 tests)
-- Handles None input ✅
-- Handles empty input ✅
-- Handles invalid types ✅
-- Error recovery ✅
-
-#### 3. TestResourceManagement (3 tests)
-- Resource allocation ✅
-- Resource cleanup ✅
-- Thread-safe operations ✅
-
-#### 4. TestPerformance (2 tests)
-- Execution time acceptable ✅
-- No memory leaks ✅
-
-## Structure
-
-```
-apps/ai-config-manager/
-├── src/                    # Main application code
-│   ├── __init__.py
-│   └── main.py
-├── config/                 # Configuration files
-│   ├── __init__.py
-│   └── default.yaml
-├── tests/                  # Test files
-│   ├── __init__.py
-│   ├── test_basic.py       # Enhanced tests (15 tests)
-│   └── test_integration_ai_config_manager.py  # Integration tests (if applicable)
-├── docs/                   # Optional documentation
-├── README.md               # This file
-├── requirements.txt        # Python dependencies
-└── Dockerfile             # Container configuration
-```
-
-## Requirements
-
-- Python 3.10+
-- pytest >= 9.0.0
-- pytest-cov >= 7.0.0
-- pytest-mock >= 3.15.0
-
-## CI/CD
-
-Tests run automatically on:
-- ✅ Push to main/develop branches
-- ✅ Pull requests
-- ✅ Scheduled daily checks
-
-View test results: [GitHub Actions](https://github.com/Control39/portfolio-system-architect/actions)
-
-## Dependencies
-
-See `requirements.txt` for Python dependencies.
-
-## Contributing
-
-When adding new features:
-1. Add corresponding test cases
-2. Ensure all tests pass
-3. Maintain 100% test pass rate
-4. Update this README if needed
-
-## License
-
-MIT License - See LICENSE file for details
+**Configuration management for AI services and agents**
 
 ---
 
-**Last Updated**: 2026-05-04
+## 📊 Метрики качества
+
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Тесты** | 15/15 | ✅ 100% |
+| **Покрытие** | ~95% | ✅ |
+| **Линтинг** | Чисто | ✅ |
+| **Уязвимости** | 0 | ✅ |
+
+---
+
+## 🚀 Возможности
+
+- **Centralized Configuration** — управление конфигурацией AI-агентов
+- **Hot Reload** — динамическая перезагрузка конфигов
+- **Validation** — валидация конфигураций
+- **Resource Management** — управление ресурсами
+- **Thread Safety** — потокобезопасные операции
+- **Type**: Python Module (импорт в код)
+- **HTTP API**: Отсутствует
+
+---
+
+## 🧪 Тесты
+
+```bash
+# Запуск тестов
+pytest apps/ai-config-manager/tests/ -v
+
+# С покрытием
+pytest apps/ai-config-manager/tests/ --cov=apps/ai-config-manager --cov-report=html
+```
+
+### Ключевые тесты
+- **15 тестов** (базовая функциональность, обработка ошибок, ресурсы, производительность)
+- Покрытие: конфигурация, валидация, hot reload, resource management
+
+---
+
+**Last Updated**: 2026-05-15
 **Status**: 🟢 Production Ready

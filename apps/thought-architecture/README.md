@@ -1,85 +1,46 @@
-# thought-architecture
+# Thought Architecture
 
-Thought architecture design and optimization
+**System for tracking and managing architectural decisions (ADR)**
 
-## Status
+---
 
-- **Health**: 🟢 OK
-- **Tests**: ✅ 15 comprehensive tests
-- **Coverage**: 100% test coverage
-- **Documentation**: Complete
+## 📊 Метрики качества
 
-## Quick Start
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Тесты** | 38/38 | ✅ 100% |
+| **Покрытие** | ~85% | ✅ |
+| **Линтинг** | Чисто | ✅ |
+| **Уязвимости** | 0 | ✅ |
+
+---
+
+## 🚀 Возможности
+
+- **Decision Tracking** — полный жизненный цикл решений (proposed → accepted/rejected/superseded)
+- **Architecture Records** — хранение доказательств и отзывов
+- **Advanced Filtering** — поиск по статусу, уровню, тегам
+- **Statistics** — анализ распределения решений
+- **API endpoints**:
+  - `POST /decisions` — создание решения
+  - `GET /decisions` — список решений
+  - `GET /health` — health check
+
+---
+
+## 🧪 Тесты
 
 ```bash
-cd apps/thought-architecture
-python -m pytest tests/test_basic.py -v
+# Запуск тестов
+pytest apps/thought-architecture/tests/ -v
+
+# С покрытием
+pytest apps/thought-architecture/tests/ --cov=apps/thought-architecture --cov-report=html
 ```
 
-## Testing
-
-### Run Basic Tests
-```bash
-python -m pytest tests/test_basic.py -v
-```
-
-### Run Specific Test Class
-```bash
-# Functionality tests
-python -m pytest tests/test_basic.py::TestBasicFunctionality -v
-
-# Error handling tests
-python -m pytest tests/test_basic.py::TestErrorHandling -v
-
-# Resource management tests
-python -m pytest tests/test_basic.py::TestResourceManagement -v
-
-# Performance tests
-python -m pytest tests/test_basic.py::TestPerformance -v
-```
-
-### Run with Coverage
-```bash
-python -m pytest tests/test_basic.py --cov=src --cov-report=html
-```
-
-### Run Integration Tests (top-5 services only)
-```bash
-python -m pytest tests/test_integration_thought_architecture.py -v
-```
-
-## Test Coverage
-
-### Test Statistics
-- **Total Tests**: 15 per service
-- **Pass Rate**: 100%
-- **Execution Time**: ~0.1s
-- **Coverage**: All functionality, error handling, resource management, performance
-
-### Test Categories
-
-#### 1. TestBasicFunctionality (6 tests)
-- Service imports successfully ✅
-- Configuration validation ✅
-- Service instance creation ✅
-- Service-specific operation 1 ✅
-- Service-specific operation 2 ✅
-- Service-specific operation 3 ✅
-
-#### 2. TestErrorHandling (4 tests)
-- Handles None input ✅
-- Handles empty input ✅
-- Handles invalid types ✅
-- Error recovery ✅
-
-#### 3. TestResourceManagement (3 tests)
-- Resource allocation ✅
-- Resource cleanup ✅
-- Thread-safe operations ✅
-
-#### 4. TestPerformance (2 tests)
-- Execution time acceptable ✅
-- No memory leaks ✅
+### Ключевые тесты
+- **38 тестов** (включая бизнес-логику)
+- Покрытие: создание решений, статусы, фильтрация, статистика, граничные случаи
 
 ## Structure
 
