@@ -37,8 +37,8 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
 COPY . .
-# Копируем общие модули из корня проекта (контекст — apps/ml_model_registry, поэтому ../src)
-COPY --chown=appuser:appuser ../src /app/src
+# Копируем общие модули из корня проекта (контекст — apps/ml_model_registry, поэтому ../../src)
+COPY --chown=appuser:appuser ../../src /app/src
 ENV PYTHONPATH=/app
 
 USER appuser

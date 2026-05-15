@@ -26,8 +26,8 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
 COPY . .
-# Копируем общие модули из корня проекта (контекст — apps/decision-engine, поэтому ../src)
-COPY --chown=appuser:appuser ../src /app/src
+# Копируем общие модули из корня проекта (контекст — apps/decision_engine, поэтому ../../src)
+COPY --chown=appuser:appuser ../../src /app/src
 
 ENV PYTHONPATH=/app
 

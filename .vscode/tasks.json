@@ -2,131 +2,158 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "🚀 Запустить все сервисы",
+      "label": "make install",
       "type": "shell",
-      "command": "docker-compose up -d",
+      "command": "make install",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "make dev",
+      "type": "shell",
+      "command": "make dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true
+      }
+    },
+    {
+      "label": "make test",
+      "type": "shell",
+      "command": "make test",
       "group": {
-        "kind": "build",
+        "kind": "test",
         "isDefault": true
       },
       "problemMatcher": [],
       "presentation": {
+        "echo": true,
         "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "make lint",
+      "type": "shell",
+      "command": "make lint",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "make format",
+      "type": "shell",
+      "command": "make format",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "make docker-up",
+      "type": "shell",
+      "command": "make docker-up",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
         "panel": "new"
       }
     },
     {
-      "label": "⏹️ Остановить все сервисы",
+      "label": "make docker-down",
       "type": "shell",
-      "command": "docker-compose down",
-      "problemMatcher": []
-    },
-    {
-      "label": "🧪 Запустить тесты",
-      "type": "shell",
-      "command": "make test",
-      "group": "test",
-      "problemMatcher": [
-        "$python"
-      ]
-    },
-    {
-      "label": "🧪 Запустить тесты с покрытием",
-      "type": "shell",
-      "command": "pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing",
-      "problemMatcher": [
-        "$python"
-      ]
-    },
-    {
-      "label": "🔒 Аудит безопасности (Trivy)",
-      "type": "shell",
-      "command": "trivy fs .",
-      "problemMatcher": []
-    },
-    {
-      "label": "🐍 Аудит безопасности (Bandit)",
-      "type": "shell",
-      "command": "bandit -r src apps",
-      "problemMatcher": []
-    },
-    {
-      "label": "🎨 Форматировать код (Ruff)",
-      "type": "shell",
-      "command": "ruff format .",
-      "problemMatcher": []
-    },
-    {
-      "label": "🔍 Линтер Ruff (с автоисправлением)",
-      "type": "shell",
-      "command": "ruff check . --fix",
-      "problemMatcher": [
-        "$python"
-      ]
-    },
-    {
-      "label": "📊 Проверка типов (Pyright)",
-      "type": "shell",
-      "command": "pyright",
-      "problemMatcher": [
-        "$python"
-      ]
-    },
-    {
-      "label": "🔍 Pre-commit проверка",
-      "type": "shell",
-      "command": "pre-commit run --all-files",
-      "problemMatcher": []
-    },
-    {
-      "label": "🔄 Git Status",
-      "type": "shell",
-      "command": "git status",
-      "problemMatcher": []
-    },
-    {
-      "label": "🔄 Git Pull",
-      "type": "shell",
-      "command": "git pull origin main",
-      "problemMatcher": []
-    },
-    {
-      "label": "📤 Git Push",
-      "type": "shell",
-      "command": "git push origin main",
-      "problemMatcher": []
-    },
-    {
-      "label": "🏗️ Сборка Docker образов",
-      "type": "shell",
-      "command": "docker-compose build",
-      "problemMatcher": []
-    },
-    {
-      "label": "🧹 Очистка кэша Python",
-      "type": "shell",
-      "command": "find . -type d -name \"__pycache__\" -exec rm -rf {} + 2>/dev/null || Get-ChildItem -Recurse -Filter \"__pycache__\" | Remove-Item -Recurse -Force",
-      "problemMatcher": []
-    },
-    {
-      "label": "📝 Генерация документации",
-      "type": "shell",
-      "command": "mkdocs build",
-      "problemMatcher": []
-    },
-    {
-      "label": "🔍 Проверка секретов в Git",
-      "type": "shell",
-      "command": "gitleaks detect --no-git",
-      "problemMatcher": []
-    },
-    {
-      "type": "npm",
-      "script": "start",
-      "path": "client",
+      "command": "make docker-down",
+      "group": "build",
       "problemMatcher": [],
-      "label": "npm: start - client",
-      "detail": "vite"
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "pytest current file",
+      "type": "shell",
+      "command": "pytest ${file}",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "pytest with coverage",
+      "type": "shell",
+      "command": "pytest --cov=apps --cov=src --cov-report=term-missing",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "make check-ports",
+      "type": "shell",
+      "command": "make check-ports",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "make ci",
+      "type": "shell",
+      "command": "make ci",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
     }
   ]
 }

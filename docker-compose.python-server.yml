@@ -1,0 +1,44 @@
+---
+# ============================================================
+# Python Server - Local Development (No Azure Required)
+# ============================================================
+# Запуск: docker-compose -f docker-compose.yml -f docker-compose.python-server.yml up
+# ============================================================
+
+version: '3.9'
+
+services:
+  # ============================================================
+  # Python Chat Server
+  # Local mode: memory storage, self-hosted transport
+  # No Azure credentials required
+  # ============================================================
+  python_server:
+    build:
+      context: ./python_server
+      dockerfile: Dockerfile
+    container_name: python-chat-server
+    environment:
+      # Storage: memory (no Azure needed)
+      - STORAGE_MODE=memory
+      # Transport: self-hosted
+      - TRANSPORT_MODE=self
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DEFAULT_ROOM_ID=public
+      # Python path
+      - PYTHONPATH=/app
+    ports:
+      - "8005:8000"  # Exposed on localhost:8005
+    networks:
+      - portfolio-network
+    volumes:
+      - ./python_server:/app
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - traefik

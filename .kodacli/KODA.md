@@ -1759,3 +1759,46 @@ make lint && make test
 - [ ] Добавить `check_ports.py --strict` в `.github/workflows/ci.yml`
 - [ ] Создать CI/CD workflow для автоматической проверки документации
 - [ ] Обновить QUICKSTART.md с актуальной маршрутизацией
+
+---
+
+### 15 мая 2026 г. — Отключение Azure по умолчанию (локальный режим)
+
+**Выполненные задачи:**
+1. **Создан `.env.example`** ✅
+   - Показан `STORAGE_MODE=memory` по умолчанию
+   - Отмечены Azure-переменные как опциональные
+
+2. **Создан `docker-compose.python-server.yml`** ✅
+   - Запуск python_server без Azure
+   - Memory storage, self-hosted transport
+
+3. **Создан `python_server/Dockerfile`** ✅
+   - Python 3.12-slim, uvicorn, curl для healthcheck
+
+4. **Обновлён `README.md`** ✅
+   - Добавлен раздел "🚀 Быстрый старт (без облака)"
+   - Чёткое указание: "Azure/облака не требуются"
+
+5. **Создан `docs/AZURE_SETUP.md`** ✅
+   - Инструкция для production-деплоя (опционально)
+   - Сравнение memory vs Azure режимов
+
+**Созданные файлы:**
+- `python_server/.env.example`
+- `docker-compose.python-server.yml`
+- `python_server/Dockerfile`
+- `docs/AZURE_SETUP.md`
+
+**Ключевой принцип:**
+> Проект работает полностью локально. Azure — опционально для production.
+
+**Результат:**
+- ✅ Запуск за 5 минут без регистрации в Azure
+- ✅ Сохранён код Azure для будущего использования
+- ✅ Метрика покрытия: 56.52% (цель: 80%)
+
+**Следующие шаги:**
+- [ ] Добавить тесты для memory store (повысить покрытие до 75%+)
+- [ ] Обновить `.github/workflows` для локальных тестов
+- [ ] Закоммитить изменения

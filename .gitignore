@@ -59,6 +59,9 @@ coverage.xml
 junit.xml
 bandit-report.json
 
+# Chat logs (исключить из git для приватности)
+.chat-cache/
+
 # Databases
 test_db/
 *.sqlite3
