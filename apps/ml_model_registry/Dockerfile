@@ -14,11 +14,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-# Устанавливаем в глобальное место (без --user)
+# Copy requirements from service directory (not root)
+COPY apps/ml_model_registry/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Runtime stage - copy only wheels
+# Runtime stage
 FROM python:3.12-slim
 
 WORKDIR /app
@@ -32,20 +32,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -u 1000 appuser
 
-# Copy built packages globally
+# Copy built packages
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
-COPY . .
-# Копируем общие модули из корня проекта (контекст — apps/ml_model_registry, поэтому ../../src)
-COPY --chown=appuser:appuser ../../src /app/src
+# Copy shared src from project root
+COPY --chown=appuser:appuser src /app/src
+
+# Copy service code
+COPY apps/ml_model_registry .
+
 ENV PYTHONPATH=/app
 
 USER appuser
 
-EXPOSE 8001
+EXPOSE 8002
 
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-    CMD curl -f http://localhost:8001/health || exit 1
+    CMD curl -f http://localhost:8002/health || exit 1
 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8002"]
