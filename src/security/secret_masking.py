@@ -47,7 +47,7 @@ def mask_secrets(text: str) -> str:
     Примеры:
         >>> mask_secrets("API_KEY=abc123xyz789")
         'API_KEY=****'
-        >>> mask_secrets("postgres://user:pass123@localhost/db")  # pragma: allowlist secret
+        >>> mask_secrets("postgres://user:pass123@localhost/db")  # pragma: allowlist secret - тестовый пароль в docstring
         'postgres://user:****@localhost/db'
     """
     if not text:
@@ -83,13 +83,13 @@ def mask_secrets_dict(data: dict[str, Any]) -> dict[str, Any]:
             if isinstance(value, str):
                 result[key] = "****"
             elif isinstance(value, (int, float)):
-                result[key] = 0
+                result[key] = "0"  # type: ignore[assignment]
             else:
                 result[key] = "****"
         elif isinstance(value, dict):
-            result[key] = mask_secrets_dict(value)
+            result[key] = mask_secrets_dict(value)  # type: ignore[assignment]
         elif isinstance(value, list):
-            result[key] = [
+            result[key] = [  # type: ignore[assignment]
                 mask_secrets_dict(item) if isinstance(item, dict) else mask_secrets(str(item)) for item in value
             ]
         else:
@@ -248,10 +248,10 @@ def sanitize_for_output(obj: Any) -> str:
     if isinstance(obj, (dict, list)):
         try:
             if isinstance(obj, dict):
-                sanitized = mask_secrets_dict(obj)
+                sanitized: Any = mask_secrets_dict(obj)
             else:
                 sanitized = mask_secrets_list(obj)
-            return json.dumps(sanitized, ensure_ascii=False, default=str)
+            return json.dumps(sanitized, ensure_ascii=False, default=str)  # type: ignore[arg-type]
         except Exception:
             return mask_secrets(str(obj))
     else:
@@ -294,7 +294,7 @@ def create_fastapi_secret_middleware():
             # Маскируем секреты в ответе
             try:
                 response_body = b""
-                async for chunk in response.body_iterator:
+                async for chunk in response.body_iterator:  # type: ignore[attr-defined]
                     response_body += chunk
                     # Маскируем в чанках для стриминга
                     if b"password" in chunk.lower() or b"secret" in chunk.lower():

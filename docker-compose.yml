@@ -120,7 +120,7 @@ services:
 
   # ============================================================
   # ML Model Registry
-  # Route: /ml-model-registry
+  # Route: /ml-registry
   # ============================================================
   ml-model-registry:
     build:
@@ -138,9 +138,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.ml-registry.rule=Host(`localhost`) && PathPrefix(`/ml-registry`)"
       - "traefik.http.routers.ml-registry.service=ml-registry"
-      - "traefik.http.services.ml-registry.loadbalancer.server.port=8001"
+      - "traefik.http.services.ml-registry.loadbalancer.server.port=8002"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
       interval: 30s
       timeout: 10s
       retries: 3

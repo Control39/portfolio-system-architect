@@ -112,10 +112,10 @@ class TestSecretMaskingBasic:
 
     def test_private_key_masked(self):
         """Проверяем маскирование Private Keys"""
-        text = """-----BEGIN RSA PRIVATE KEY-----
+        text = """-----BEGIN RSA PRIVATE KEY-----  # pragma: allowlist secret
 MIIEpAIBAAKCAQEA0Z3VS5JJcds3xfn/ygWyF8PbnGy0AHB7MvQzKZkZ
 ...
------END RSA PRIVATE KEY-----"""
+-----END RSA PRIVATE KEY-----"""  # pragma: allowlist secret
         result = mask_secrets(text)
         assert "MIIEpAIBAAKCAQEA0Z3VS5JJcds3xfn" not in result
         assert "PRIVATE_KEY****" in result
@@ -351,7 +351,7 @@ class TestSecretMaskingRegression:
         """
         log_entries = [
             'POST /login {"username": "admin", "password": "secret123"}',
-            "API call with token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+            "API call with token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",  # pragma: allowlist secret - тестовый JWT header
             "Database connection: mysql://root:rootpass@db.example.com/app",
         ]
 

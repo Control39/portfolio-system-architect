@@ -32,22 +32,27 @@
 
 ## Приложения
 
-| Сервис | Описание | Порт | Dockerfile |
-|--------|----------|------|------------|
-| `auth_service/` | JWT аутентификация и авторизация | 8100 | ✅ |
-| `career_development/` | Сервис развития карьеры | 8000 | ⚠️ отсутствует |
-| `cognitive-agent/` | Cognitive Automation Agent | — | ✅ |
-| `decision-engine/` | RAG + reasoning API | 8001 | ✅ |
-| `infra-orchestrator/` | Оркестратор инфраструктуры | — | ✅ |
-| `it_compass/` | IT Compass UI (Streamlit) | 8501 | ✅ |
-| `job-automation-agent/` | Агент автоматизации задач | — | ✅ |
-| `knowledge-graph/` | Граф знаний | — | ✅ |
-| `mcp-server/` | MCP сервер для ИИ-агентов | — | ✅ |
-| `ml-model-registry/` | Реестр ML моделей | 8001 | ✅ |
-| `portfolio_organizer/` | Организатор портфолио | 8004 | ✅ |
-| `system-proof/` | Система доказательств (CoT) | 8003 | ✅ |
-| `template-service/` | Шаблон микросервиса | — | ✅ |
-| `thought-architecture/` | Архитектура мышления | — | ✅ |
+> **Примечание:** Порты указаны для внутреннего доступа внутри Docker network. Для внешнего доступа используйте маршруты через Traefik (http://localhost[ROUTE]).
+
+| Сервис | Описание | Порт | Маршрут (Traefik) | Dockerfile |
+|--------|----------|------|-------------------|------------|
+| `auth_service/` | JWT аутентификация и авторизация | 8100 | `/auth` | ✅ |
+| `career_development/` | Сервис развития карьеры | 8000 | `/career-dev` | ✅ |
+| `cognitive-agent/` | Cognitive Automation Agent | — | — | ✅ |
+| `decision_engine/` | RAG + reasoning API | 8001 | `/decision-engine` | ✅ |
+| `ml_model_registry/` | ML Model Registry | 8002 | `/ml-registry` | ✅ |
+| `infra-orchestrator/` | Оркестратор инфраструктуры | — | — | ✅ |
+| `it_compass/` | IT Compass UI (Streamlit) | 8501 | `/it-compass` | ✅ |
+| `job-automation-agent/` | Агент автоматизации задач | — | — | ✅ |
+| `knowledge_graph/` | Граф знаний | — | — | ✅ |
+| `mcp_server/` | MCP сервер для ИИ-агентов | — | — | ✅ |
+| `ml_model_registry/` | Реестр ML моделей | 8001 | `/ml-registry` | ✅ |
+| `portfolio_organizer/` | Организатор портфолио | 8004 | `/portfolio-organizer` | ✅ |
+| `system_proof/` | Система доказательств (CoT) | 8003 | `/system-proof` | ✅ |
+| `template-service/` | Шаблон микросервиса | — | — | ✅ |
+| `thought-architecture/` | Архитектура мышления | — | — | ✅ |
+
+> **💡 Маршрутизация:** Все сервисы доступны через единый порт (localhost:80). Порты (8001, 8002 и т.д.) используются **внутри** Docker network для маршрутизации через Traefik.
 
 ## Зависимости от `src/`
 

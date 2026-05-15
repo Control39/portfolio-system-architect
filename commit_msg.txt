@@ -1,28 +1,5 @@
-feat(security): add 129 security regression tests (100% pass rate)
+fix(security): add allowlist comments for test tokens in examples
 
-Implemented Security Testing Suite:
-- SSRF Protection: 21 tests (portfolio_organizer)
-- Secret Masking: 39 tests (src/security)
-- Path Traversal: 24 tests (ml_model_registry)
-- Auth Security: 20 tests (auth_service)
-- Prompt Injection: 25 tests (src/ai)
-
-Metrics:
-- Total: 129/129 tests passing (100%)
-- OWASP Coverage: 40% (4/10 categories)
-- Components covered: 5
-
-Files Added:
-- apps/portfolio_organizer/tests/test_security_ssrf.py
-- apps/ml_model_registry/tests/test_security_path_traversal.py
-- apps/auth_service/tests/test_auth_security.py
-- src/security/secret_masking.py + tests
-- src/ai/tests/test_prompt_injection_security.py
-
-Impact:
-- Transition from reactive to proactive security
-- Automated regression protection for all vulnerabilities
-- Response to pseudo-tests criticism
-- OWASP Top 10: SSRF, Crypto Failures, Access Control, Auth Failures
-
-Closes: Security Testing Implementation (Priority 1)
+- JWT header eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 is public info (alg+typ)
+- Test password 'pass123' in docstring is a fake example
+- Both are false positives from detect-secrets scanner
