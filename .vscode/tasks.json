@@ -24,7 +24,7 @@
     {
       "label": "🧪 Запустить тесты",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pytest tests/ -v --tb=short",
+      "command": "make test",
       "group": "test",
       "problemMatcher": [
         "$python"
@@ -33,47 +33,33 @@
     {
       "label": "🧪 Запустить тесты с покрытием",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pytest tests/ -v --cov=. --cov-report=html",
+      "command": "pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing",
       "problemMatcher": [
         "$python"
       ]
     },
     {
-      "label": "📦 Установить зависимости",
+      "label": "🔒 Аудит безопасности (Trivy)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pip install -r requirements.txt",
+      "command": "trivy fs .",
       "problemMatcher": []
     },
     {
-      "label": "🔒 Аудит безопасности зависимостей",
+      "label": "🐍 Аудит безопасности (Bandit)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pip audit",
+      "command": "bandit -r src apps",
       "problemMatcher": []
     },
     {
-      "label": "🎨 Форматировать код (Black)",
+      "label": "🎨 Форматировать код (Ruff)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m black .",
+      "command": "ruff format .",
       "problemMatcher": []
-    },
-    {
-      "label": "📋 Сортировать импорты (isort)",
-      "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m isort .",
-      "problemMatcher": []
-    },
-    {
-      "label": "🔍 Линтер Ruff",
-      "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m ruff check .",
-      "problemMatcher": [
-        "$python"
-      ]
     },
     {
       "label": "🔍 Линтер Ruff (с автоисправлением)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m ruff check . --fix",
+      "command": "ruff check . --fix",
       "problemMatcher": [
         "$python"
       ]
@@ -81,10 +67,16 @@
     {
       "label": "📊 Проверка типов (Pyright)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pyright",
+      "command": "pyright",
       "problemMatcher": [
         "$python"
       ]
+    },
+    {
+      "label": "🔍 Pre-commit проверка",
+      "type": "shell",
+      "command": "pre-commit run --all-files",
+      "problemMatcher": []
     },
     {
       "label": "🔄 Git Status",
@@ -113,28 +105,28 @@
     {
       "label": "🧹 Очистка кэша Python",
       "type": "shell",
-      "command": "Get-ChildItem -Recurse -Filter \"__pycache__\" | Remove-Item -Recurse -Force; Get-ChildItem -Recurse -Filter \"*.pyc\" | Remove-Item -Force",
+      "command": "find . -type d -name \"__pycache__\" -exec rm -rf {} + 2>/dev/null || Get-ChildItem -Recurse -Filter \"__pycache__\" | Remove-Item -Recurse -Force",
       "problemMatcher": []
     },
     {
       "label": "📝 Генерация документации",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pdoc -o docs/api ./src",
+      "command": "mkdocs build",
       "problemMatcher": []
     },
     {
       "label": "🔍 Проверка секретов в Git",
       "type": "shell",
-      "command": "git log --all --full-history -p | Select-String -Pattern \"(api[_-]?key|password|secret|token).*[=:].*\" -CaseSensitive:$false",
+      "command": "gitleaks detect --no-git",
       "problemMatcher": []
     },
     {
       "type": "npm",
       "script": "start",
-      "path": "apps/ai-config-manager",
+      "path": "client",
       "problemMatcher": [],
-      "label": "npm: start - apps/ai-config-manager",
-      "detail": "electron ."
+      "label": "npm: start - client",
+      "detail": "vite"
     }
   ]
 }
