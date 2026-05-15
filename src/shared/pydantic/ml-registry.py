@@ -13,21 +13,21 @@ class ModelMetadata(BaseModel):
     id: str = Field(...)
     name: str = Field(...)
     version: str = Field(...)
-    framework: str = Field(None)
-    description: str = Field(None)
-    accuracy: float = Field(None)
-    created_at: datetime = Field(None)
-    updated_at: datetime = Field(None)
+    framework: str | None = Field(None)
+    description: str | None = Field(None)
+    accuracy: float | None = Field(None)
+    created_at: datetime | None = Field(None)
+    updated_at: datetime | None = Field(None)
 
 
 class ModelSearchResult(BaseModel):
-    id: str = Field(None)
-    name: str = Field(None)
-    version: str = Field(None)
-    matches: list[Any] = Field(None)
+    id: str | None = Field(None)
+    name: str | None = Field(None)
+    version: str | None = Field(None)
+    matches: list[Any] | None = Field(None)
 
 
 class ModelOperationResult(BaseModel):
-    status: str = Field(None)
-    model_id: str = Field(None)
-    message: str = Field(None)
+    status: str | None = Field(None)
+    model_id: str | None = Field(None)
+    message: str | None = Field(None)

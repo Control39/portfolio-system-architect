@@ -10,22 +10,22 @@ from pydantic import BaseModel, Field
 
 
 class TraceStep(BaseModel):
-    input: str = Field(None)
-    output: str = Field(None)
-    step_type: str = Field(None)
-    timestamp: datetime = Field(None)
+    input: str | None = Field(None)
+    output: str | None = Field(None)
+    step_type: str | None = Field(None)
+    timestamp: datetime | None = Field(None)
 
 
 class ProofMetadata(BaseModel):
-    thought_architecture: str = Field(None)
-    proof_id: str = Field(None)
-    created_at: datetime = Field(None)
-    validated: bool = Field(None)
+    thought_architecture: str | None = Field(None)
+    proof_id: str | None = Field(None)
+    created_at: datetime | None = Field(None)
+    validated: bool | None = Field(None)
 
 
 class SystemProof(BaseModel):
-    id: str = Field(None)
-    metadata: str = Field(None)
-    trace_steps: list[Any] = Field(None)
-    final_result: dict[str, Any] = Field(None)
-    status: str = Field(None)
+    id: str | None = Field(None)
+    metadata: str | None = Field(None)
+    trace_steps: list[Any] | None = Field(None)
+    final_result: dict[str, Any] | None = Field(None)
+    status: str | None = Field(None)
