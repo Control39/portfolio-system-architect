@@ -189,10 +189,9 @@ class ExpertFinder:
             for line in result.stdout.splitlines():
                 if line.startswith("author "):
                     current_author = line[7:].strip()
-                elif line.startswith("author-mail "):
+                elif line.startswith("author-mail ") and current_author:
                     # Count this line for the current author
-                    if current_author:
-                        author_counts[current_author] += 1
+                    author_counts[current_author] += 1
 
             # Convert to expert list
             experts = []
