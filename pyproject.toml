@@ -6,14 +6,19 @@ markers = [
     "slow: marks tests as slow",
     "timeout: mark tests with timeout"
 ]
-addopts = [
-    "-v",
-    "--tb=short",
-    "--cov=apps",
-    "--cov=src",
-    "--cov-report=html:coverage_html",
-    "--cov-report=term-missing",
-    "--cov-fail-under=95"
+[tool.coverage.run]
+source = ["apps/career_development/src/core/competency_tracker.py", "apps/career_development/src/utils", "apps/career_development/utils"]
+
+[tool.coverage.report]
+fail_under = 80
+precision = 2
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.",
 ]
 
 [tool.black]

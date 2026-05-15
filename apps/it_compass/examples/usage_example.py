@@ -15,7 +15,7 @@ def main():
     tracker = CareerTracker()
 
     print(f"📊 Загружено навыков: {len(tracker.markers)}")
-    for skill_name in tracker.markers.keys():
+    for skill_name in tracker.markers:
         print(f"  • {skill_name}")
 
     print("\n📈 Текущий прогресс:")

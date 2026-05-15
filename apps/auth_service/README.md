@@ -1,153 +1,109 @@
-# auth_service
+# Auth Service
 
-Authentication and authorization service
-
-## Status
-
-- **Health**: 🟢 OK
-- **Tests**: ✅ 15 comprehensive tests
-- **Coverage**: 100% test coverage
-- **Documentation**: Complete
-
-## 🔌 Контракты / API
-
-Сервис обеспечивает аутентификацию, авторизацию и управление пользователями.
-
-| Метод | Путь | Описание |
-|-------|------|----------|
-| `GET` | `/health` | Проверка статуса |
-| `POST`| `/auth/token` | Получение JWT-токена |
-| `POST`| `/auth/verify` | Проверка валидности токена |
-| `GET` | `/` | Корневой эндпоинт / информация о сервисе |
-
-> 🔐 **Security:** Для доступа к `/auth/verify` требуется валидный JWT Bearer Token.
-> Интерактивная документация (Swagger) доступна по адресу `/docs`.
-
-## Quick Start
-
-```bash
-cd apps/auth_service
-python -m pytest tests/test_basic.py -v
-```
-
-## Testing
-
-### Run Basic Tests
-```bash
-python -m pytest tests/test_basic.py -v
-```
-
-### Run Specific Test Class
-```bash
-# Functionality tests
-python -m pytest tests/test_basic.py::TestBasicFunctionality -v
-
-# Error handling tests
-python -m pytest tests/test_basic.py::TestErrorHandling -v
-
-# Resource management tests
-python -m pytest tests/test_basic.py::TestResourceManagement -v
-
-# Performance tests
-python -m pytest tests/test_basic.py::TestPerformance -v
-```
-
-### Run with Coverage
-```bash
-python -m pytest tests/test_basic.py --cov=src --cov-report=html
-```
-
-### Run Integration Tests (top-5 services only)
-```bash
-python -m pytest tests/test_integration_auth_service.py -v
-```
-
-## Test Coverage
-
-### Test Statistics
-- **Total Tests**: 15 per service
-- **Pass Rate**: 100%
-- **Execution Time**: ~0.1s
-- **Coverage**: All functionality, error handling, resource management, performance
-
-### Test Categories
-
-#### 1. TestBasicFunctionality (6 tests)
-- Service imports successfully ✅
-- Configuration validation ✅
-- Service instance creation ✅
-- Service-specific operation 1 ✅
-- Service-specific operation 2 ✅
-- Service-specific operation 3 ✅
-
-#### 2. TestErrorHandling (4 tests)
-- Handles None input ✅
-- Handles empty input ✅
-- Handles invalid types ✅
-- Error recovery ✅
-
-#### 3. TestResourceManagement (3 tests)
-- Resource allocation ✅
-- Resource cleanup ✅
-- Thread-safe operations ✅
-
-#### 4. TestPerformance (2 tests)
-- Execution time acceptable ✅
-- No memory leaks ✅
-
-## Structure
-
-```
-apps/auth_service/
-├── src/                    # Main application code
-│   ├── __init__.py
-│   └── main.py
-├── config/                 # Configuration files
-│   ├── __init__.py
-│   └── default.yaml
-├── tests/                  # Test files
-│   ├── __init__.py
-│   ├── test_basic.py       # Enhanced tests (15 tests)
-│   └── test_integration_auth_service.py  # Integration tests (if applicable)
-├── docs/                   # Optional documentation
-├── README.md               # This file
-├── requirements.txt        # Python dependencies
-└── Dockerfile             # Container configuration
-```
-
-## Requirements
-
-- Python 3.10+
-- pytest >= 9.0.0
-- pytest-cov >= 7.0.0
-- pytest-mock >= 3.15.0
-
-## CI/CD
-
-Tests run automatically on:
-- ✅ Push to main/develop branches
-- ✅ Pull requests
-- ✅ Scheduled daily checks
-
-View test results: [GitHub Actions](https://github.com/Control39/portfolio-system-architect/actions)
-
-## Dependencies
-
-See `requirements.txt` for Python dependencies.
-
-## Contributing
-
-When adding new features:
-1. Add corresponding test cases
-2. Ensure all tests pass
-3. Maintain 100% test pass rate
-4. Update this README if needed
-
-## License
-
-MIT License - See LICENSE file for details
+**JWT-аутентификация для Portfolio System Architect**
 
 ---
 
-**Last Updated**: 2026-05-04
-**Status**: 🟢 Production Ready
+## 📊 Метрики качества
+
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Тесты** | 21/21 | ✅ 100% |
+| **Покрытие** | ~95% | ✅ |
+| **Линтинг** | Чисто | ✅ |
+| **Уязвимости** | 0 | ✅ |
+
+---
+
+## 🚀 Возможности
+
+- **JWT токены** (HS256 алгоритм)
+- **Ролевая модель** (admin/user)
+- **Безопасность**:
+  - Блокировка демо-учётных данных
+  - Валидация подписи токена
+  - Проверка срока действия
+- **API endpoints**:
+  - `POST /auth/token` — получение токена
+  - `GET /health` — health check
+
+---
+
+## 🧪 Тесты
+
+```bash
+# Запуск тестов
+pytest apps/auth_service/tests/ -v
+
+# С покрытием
+pytest apps/auth_service/tests/ --cov=apps/auth_service --cov-report=html
+```
+
+### Покрытие тестами
+
+| Класс тестов | Тесты | Описание |
+|-------------|-------|----------|
+| `TestJWTTokenCreation` | 4 | Создание токенов |
+| `TestJWTTokenVerification` | 5 | Верификация (включая истёкшие/подделанные) |
+| `TestRoleBasedAccess` | 3 | Ролевая модель |
+| `TestAPIEndpoints` | 5 | API endpoints |
+| `TestEdgeCases` | 4 | Граничные случаи (Unicode, спецсимволы) |
+
+**Итого:** 21 тест, 100% прохождение ✅
+
+---
+
+## 🔧 Конфигурация
+
+Переменные окружения:
+
+```bash
+JWT_SECRET=your-secret-key          # Секретный ключ (обязательно)
+JWT_ALGORITHM=HS256                  # Алгоритм (по умолчанию)
+JWT_EXPIRATION_HOURS=24              # Срок действия (по умолчанию)
+```
+
+---
+
+## 📖 Использование
+
+### Получение токена
+
+```bash
+curl -X POST http://localhost:8100/auth/token \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user", "password": "pass"}'
+```
+
+### Верификация токена
+
+```python
+from apps.auth_service.main import verify_token
+
+class Credentials:
+    credentials = "eyJhbGciOiJIUzI1NiIs..."  # pragma: allowlist secret
+
+user_data = verify_token(Credentials())
+# {'username': 'user', 'role': 'user'}
+```
+
+---
+
+## 🔒 Безопасность
+
+- ✅ Не коммитить `JWT_SECRET` в репо
+- ✅ Использовать `.secrets.baseline` для сканирования
+- ✅ Регулярные Trivy-сканы
+- ✅ Rate limiting через Traefik
+
+---
+
+## 📚 Документация
+
+- [ARCHITECTURE.md](../../ARCHITECTURE.md) — общая архитектура
+- [SECURITY.md](../../SECURITY.md) — политика безопасности
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) — правила контрибуции
+
+---
+
+*© 2026 Ekaterina Kudelya. Portfolio System Architect*

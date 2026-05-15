@@ -57,8 +57,7 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 async def run_agent(task: str) -> dict[str, Any]:
     """Запуск агента с задачей."""
-    result = await agent_executor.ainvoke({"input": task})
-    return result
+    return await agent_executor.ainvoke({"input": task})
 
 
 if __name__ == "__main__":

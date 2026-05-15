@@ -38,7 +38,7 @@ class GigaMCPBridge:
         )
         self.chain = self.prompt | self.llm
 
-    def giga_request(self, query: str, mcp_history: list = None) -> dict:
+    def giga_request(self, query: str, mcp_history: list | None = None) -> dict:
         """Giga-Request with session context (Step 2). Cross-Check stub."""
         if mcp_history is None:
             mcp_history = []
@@ -57,8 +57,7 @@ class GigaMCPBridge:
     def self_improve(self, traces: list) -> str:
         """Self-Improving Loop (Step 5). Analyze quality, suggest prompt fixes."""
         avg_len = sum(len(t["output"]) for t in traces) / len(traces)
-        suggestion = f"Improve: Avg response len {avg_len:.1f}. Add more CoT if <100."
-        return suggestion
+        return f"Improve: Avg response len {avg_len:.1f}. Add more CoT if <100."
 
 
 # Metrics stubs (Step 7)

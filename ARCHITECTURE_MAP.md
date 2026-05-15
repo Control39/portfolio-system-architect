@@ -53,7 +53,7 @@
 |-----------|------|-----------|-----------|
 | **Koda** | `.koda/` | Code intelligence | 5 скилов |
 | **Sourcecraft** | `.sourcecraft/` + `tools/utilities/configs/.sourcecraft/` | Кодирование | Skills |
-| **Continue** | `.continue/` | IDE agent | Agents |
+| **Continue** | `tools/ai-agents/continue/` | IDE agent | Agents |
 | **Codeassistant** | `codeassistant/` | Помощник кода | Skills + Tools |
 
 ### Скиллы для анализа
@@ -228,7 +228,7 @@ find . -name "*coverage*" -o -name "*pytest*" 2>/dev/null
 ## 📞 КОНТАКТЫ & ССЫЛКИ
 
 - 📊 **Prometheus**: http://localhost:9090
-- 📈 **Grafana**: http://localhost:3000  
+- 📈 **Grafana**: http://localhost:3000
 - 🗄️ **PostgreSQL**: localhost:5432
 - 🔍 **Elasticsearch**: localhost:9200
 

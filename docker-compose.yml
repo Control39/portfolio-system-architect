@@ -37,8 +37,8 @@ services:
   # ============================================================
   auth_service:
     build:
-      context: ./apps/auth_service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: apps/auth_service/Dockerfile
     container_name: auth_service
     environment:
       - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-prod}
@@ -119,18 +119,14 @@ services:
         condition: service_started
 
   # ============================================================
-  # ML-Model-Registry
-  # Route: /ml-registry
+  # ML Model Registry
+  # Route: /ml-model-registry
   # ============================================================
   ml-model-registry:
     build:
-      context: ./apps/ml-model-registry
-      args:
-        - BUILDPLATFORM=linux/amd64
-    deploy:
-      resources:
-        limits:
-          memory: 2G
+      context: ./apps/ml_model_registry
+      dockerfile: Dockerfile
+    container_name: portfolio-system-architect-ml-model-registry-1
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -273,6 +269,7 @@ volumes:
   data:
   logs:
   postgres_data:
+  redis_data:
 
 networks:
   portfolio-network:

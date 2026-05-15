@@ -130,6 +130,85 @@ class TestCompetencyTracker(unittest.TestCase):
         self.assertIn("Skills", report)
         self.assertIn("Competencies", report)
 
+    def test_update_marker_found(self):
+        """Тест обновления маркера (найден)"""
+        # Добавляем маркер в профиль
+        from apps.career_development.src.core.models import CompetencyMarker, Skill
+
+        marker = CompetencyMarker(
+            id="marker_003", title="Test", validation="test", priority="high", skill_name="Python", status="pending"
+        )
+        skill = Skill(name="Python", markers=[marker], progress=0, status="in_progress")
+        self.profile.skills.append(skill)
+
+        result = self.tracker.update_marker("marker_003", "completed")
+        self.assertTrue(result)
+        self.assertEqual(marker.status, "completed")
+
+    def test_update_marker_not_found(self):
+        """Тест обновления маркера (не найден)"""
+        result = self.tracker.update_marker("nonexistent_marker", "completed")
+        self.assertFalse(result)
+
+    def test_calculate_progress_no_markers(self):
+        """Тест расчёта прогресса без маркеров"""
+        progress = self.tracker.calculate_progress()
+        self.assertEqual(progress, 0.0)
+
+    def test_calculate_progress_with_markers(self):
+        """Тест расчёта прогресса с маркерами"""
+        from apps.career_development.src.core.models import CompetencyMarker, Skill
+
+        # Создаём маркеры
+        marker1 = CompetencyMarker(
+            id="m1", title="Test1", validation="test", priority="high", skill_name="Python", status="completed"
+        )
+        marker2 = CompetencyMarker(
+            id="m2", title="Test2", validation="test", priority="high", skill_name="Python", status="pending"
+        )
+        skill = Skill(name="Python", markers=[marker1, marker2], progress=0, status="in_progress")
+        self.profile.skills.append(skill)
+
+        progress = self.tracker.calculate_progress()
+        self.assertEqual(progress, 50.0)  # 1 из 2 завершено
+
+    def test_list_pending_markers_empty(self):
+        """Тест списка pending маркеров (пусто)"""
+        pending = self.tracker.list_pending_markers()
+        self.assertEqual(len(pending), 0)
+
+    def test_list_pending_markers_with_pending(self):
+        """Тест списка pending маркеров (с pending)"""
+        from apps.career_development.src.core.models import CompetencyMarker, Skill
+
+        marker1 = CompetencyMarker(
+            id="m1", title="Test1", validation="test", priority="high", skill_name="Python", status="completed"
+        )
+        marker2 = CompetencyMarker(
+            id="m2", title="Test2", validation="test", priority="high", skill_name="Python", status="pending"
+        )
+        skill = Skill(name="Python", markers=[marker1, marker2], progress=0, status="in_progress")
+        self.profile.skills.append(skill)
+
+        pending = self.tracker.list_pending_markers()
+        self.assertEqual(len(pending), 1)
+        self.assertEqual(pending[0].id, "m2")
+
+    def test_get_user_progress_nonexistent_user(self):
+        """Тест получения прогресса несуществующего пользователя"""
+        with self.assertRaises(ValueError):
+            self.tracker.get_user_progress("nonexistent_user")
+
+    def test_check_competency_achievement_nonexistent_user(self):
+        """Тест проверки достижения несуществующего пользователя"""
+        with self.assertRaises(ValueError):
+            self.tracker.check_competency_achievement("nonexistent_user")
+
+    def test_get_user_skills_nonexistent_user(self):
+        """Тест получения навыков несуществующего пользователя"""
+        with self.assertRaises(ValueError):
+            self.tracker.get_user_skills("nonexistent_user")
+
 
 if __name__ == "__main__":
     unittest.main()

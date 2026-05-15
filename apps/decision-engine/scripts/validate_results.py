@@ -271,11 +271,7 @@ def should_validate_file(file_path: Path) -> bool:
     if file_path.suffix.lower() not in text_extensions:
         return False
 
-    for part in file_path.parts:
-        if part in ignore_dirs:
-            return False
-
-    return True
+    return all(part not in ignore_dirs for part in file_path.parts)
 
 
 def validate_all(start_path: str = ".") -> dict:

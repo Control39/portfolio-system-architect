@@ -132,38 +132,35 @@ class ProjectScanner:
         """Получение базовой информации о проекте"""
         logger.info("Сбор информации о проекте...")
 
-        info = {
+        return {
             "name": project_path.name,
             "path": str(project_path.absolute()),
             "git_repository": self._check_git_repository(project_path),
         }
 
-        return info
 
     def _analyze_tech_stack(self, project_path: Path) -> dict[str, Any]:
         """Анализ технологического стека"""
         logger.info("Анализ технологического стека...")
 
-        tech_stack = {
+        return {
             "languages": self._detect_languages(project_path),
             "frameworks": self._detect_frameworks(project_path),
             "databases": self._detect_databases(project_path),
             "tools": self._detect_tools(project_path),
         }
 
-        return tech_stack
 
     def _analyze_dependencies(self, project_path: Path) -> dict[str, Any]:
         """Анализ зависимостей проекта"""
         logger.info("Анализ зависимостей...")
 
-        dependencies = {
+        return {
             "python": self._get_python_dependencies(project_path),
             "nodejs": self._get_nodejs_dependencies(project_path),
             "docker": self._get_docker_dependencies(project_path),
         }
 
-        return dependencies
 
     def _check_git_repository(self, path: Path) -> bool:
         """Проверка, является ли директория Git репозиторием"""

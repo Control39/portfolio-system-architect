@@ -4,7 +4,6 @@ Issues and validates JWT tokens for API Gateway
 """
 
 import os
-import sys
 from datetime import datetime, timedelta, timezone
 
 import jwt
@@ -12,9 +11,6 @@ from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 
-
-# Добавляем путь для импорта общих модулей
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.common.health_check import init_health_checks
 
 
@@ -68,8 +64,7 @@ def verify_token(
 ) -> dict:
     """Verify JWT token"""
     try:
-        payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return payload
+        return jwt.decode(credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM])
     except jwt.ExpiredSignatureError as err:
         raise HTTPException(status_code=401, detail="Token expired") from err
     except jwt.InvalidTokenError as err:

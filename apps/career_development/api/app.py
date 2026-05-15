@@ -1,14 +1,11 @@
 import json
 import os
-import sys
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-# Добавляем путь для импорта общих модулей
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")))
 from src.common.health_check import init_health_checks
+
 
 app = FastAPI(title="Career Development System API", version="1.0.0")
 
@@ -16,9 +13,7 @@ app = FastAPI(title="Career Development System API", version="1.0.0")
 init_health_checks(app, service_name="career-development", version="1.0.0")
 
 # Путь к файлу профиля (пример)
-PROFILE_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "user_profile.json")
-)
+PROFILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "user_profile.json"))
 
 
 @app.get("/")
@@ -40,7 +35,7 @@ async def get_profile():
     """Вернуть JSON‑профиль пользователя."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
+    with open(PROFILE_PATH, encoding="utf-8") as f:
         data = json.load(f)
     return data
 
@@ -48,8 +43,8 @@ async def get_profile():
 # ------------------- Пример простых моделей -------------------
 class GoalCreate(BaseModel):
     title: str
-    description: Optional[str] = None
-    target_date: Optional[str] = None  # ISO‑date
+    description: str | None = None
+    target_date: str | None = None  # ISO‑date
 
 
 @app.post("/goals")
@@ -57,7 +52,7 @@ async def create_goal(goal: GoalCreate):
     """Создаёт новую цель в профиле."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
+    with open(PROFILE_PATH, encoding="utf-8") as f:
         profile = json.load(f)
 
     profile.setdefault("goals", []).append(goal.dict())
@@ -72,7 +67,7 @@ async def update_marker(marker_id: str, status: str):
     """Обновление статуса маркера (not_started, in_progress, completed)."""
     if not os.path.exists(PROFILE_PATH):
         raise HTTPException(status_code=404, detail="Profile not found")
-    with open(PROFILE_PATH, "r", encoding="utf-8") as f:
+    with open(PROFILE_PATH, encoding="utf-8") as f:
         profile = json.load(f)
 
     # поиск маркера

@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Устанавливаем в глобальное место (без --user)
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Runtime stage - copy only wheels
 FROM python:3.12-slim
@@ -31,11 +32,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -u 1000 appuser
 
-# Copy built wheels
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+# Copy built packages globally
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
-COPY --chown=appuser:appuser . .
+COPY . .
+# Копируем общие модули из корня проекта (контекст — apps/ml_model_registry, поэтому ../src)
+COPY --chown=appuser:appuser ../src /app/src
 ENV PYTHONPATH=/app
 
 USER appuser
@@ -45,4 +48,4 @@ EXPOSE 8001
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD curl -f http://localhost:8001/health || exit 1
 
-CMD ["uvicorn", "src.core.registry:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8001"]

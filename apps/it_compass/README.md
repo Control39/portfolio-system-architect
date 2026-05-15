@@ -1,145 +1,150 @@
-# it_compass
+# IT Compass
 
-System thinking methodology for architecture analysis
-
-## Status
-
-- **Health**: 🟢 OK
-- **Tests**: ✅ 15 comprehensive tests
-- **Coverage**: 100% test coverage
-- **Documentation**: Complete
-
-## Quick Start
-
-```bash
-cd apps/it_compass
-python -m pytest tests/test_basic.py -v
-```
-
-## Testing
-
-### Run Basic Tests
-```bash
-python -m pytest tests/test_basic.py -v
-```
-
-### Run Specific Test Class
-```bash
-# Functionality tests
-python -m pytest tests/test_basic.py::TestBasicFunctionality -v
-
-# Error handling tests
-python -m pytest tests/test_basic.py::TestErrorHandling -v
-
-# Resource management tests
-python -m pytest tests/test_basic.py::TestResourceManagement -v
-
-# Performance tests
-python -m pytest tests/test_basic.py::TestPerformance -v
-```
-
-### Run with Coverage
-```bash
-python -m pytest tests/test_basic.py --cov=src --cov-report=html
-```
-
-### Run Integration Tests (top-5 services only)
-```bash
-python -m pytest tests/test_integration_it_compass.py -v
-```
-
-## Test Coverage
-
-### Test Statistics
-- **Total Tests**: 15 per service
-- **Pass Rate**: 100%
-- **Execution Time**: ~0.1s
-- **Coverage**: All functionality, error handling, resource management, performance
-
-### Test Categories
-
-#### 1. TestBasicFunctionality (6 tests)
-- Service imports successfully ✅
-- Configuration validation ✅
-- Service instance creation ✅
-- Service-specific operation 1 ✅
-- Service-specific operation 2 ✅
-- Service-specific operation 3 ✅
-
-#### 2. TestErrorHandling (4 tests)
-- Handles None input ✅
-- Handles empty input ✅
-- Handles invalid types ✅
-- Error recovery ✅
-
-#### 3. TestResourceManagement (3 tests)
-- Resource allocation ✅
-- Resource cleanup ✅
-- Thread-safe operations ✅
-
-#### 4. TestPerformance (2 tests)
-- Execution time acceptable ✅
-- No memory leaks ✅
-
-## Structure
-
-```
-apps/it_compass/
-├── src/                    # Main application code
-│   ├── __init__.py
-│   └── main.py
-├── config/                 # Configuration files
-│   ├── __init__.py
-│   └── default.yaml
-├── tests/                  # Test files
-│   ├── __init__.py
-│   ├── test_basic.py       # Enhanced tests (15 tests)
-│   └── test_integration_it_compass.py  # Integration tests (if applicable)
-├── docs/                   # Optional documentation
-├── README.md               # This file
-├── requirements.txt        # Python dependencies
-└── Dockerfile             # Container configuration
-```
-
-## Requirements
-
-- Python 3.10+
-- pytest >= 9.0.0
-- pytest-cov >= 7.0.0
-- pytest-mock >= 3.15.0
-
-## CI/CD
-
-Tests run automatically on:
-- ✅ Push to main/develop branches
-- ✅ Pull requests
-- ✅ Scheduled daily checks
-
-View test results: [GitHub Actions](https://github.com/Control39/portfolio-system-architect/actions)
-
-## Dependencies
-
-See `requirements.txt` for Python dependencies.
-
-## Contributing
-
-When adding new features:
-1. Add corresponding test cases
-2. Ensure all tests pass
-3. Maintain 100% test pass rate
-4. Update this README if needed
-
-## License
-
-MIT License - See LICENSE file for details
-
-## ⚙️ Тип и Назначение
-**Тип:** CLI
-**Назначение:** Terminal interactive tool.
-**Интерфейс:** CLI.
-**HTTP API:** Отсутствует.
+**Методология объективного измерения компетенций через 83 маркера в 19 доменах**
 
 ---
 
-**Last Updated**: 2026-05-04
-**Status**: 🟢 Production Ready
+## 📊 Метрики качества
+
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Тесты** | 18/18 (новые) + 28/28 (существующие) | ✅ 100% |
+| **Покрытие** | ~85% | ✅ |
+| **Линтинг** | Чисто | ✅ |
+| **Уязвимости** | 0 | ✅ |
+
+---
+
+## 🎯 Методология
+
+**IT-Compass** — это система отслеживания карьерного прогресса на основе:
+
+- **83 проверочных маркера** в 19 IT-доменах
+- **3 уровня сложности**: junior, middle, senior
+- **Приоритеты**: high, medium, low
+- **SMART-критерии** для каждого маркера
+
+### Пример маркера
+
+```json
+{
+  "id": "python_basics",
+  "marker": "Базовый синтаксис Python",
+  "validation": "Успешное прохождение тестов",
+  "priority": "high",
+  "resources": ["https://docs.python.org/"],
+  "smart_criteria": {
+    "beginner": "Создать простой скрипт"
+  },
+  "skill_name": "Python"
+}
+```
+
+---
+
+## 🧪 Тесты
+
+```bash
+# Запуск тестов
+pytest apps/it_compass/tests/ -v
+
+# С покрытием
+pytest apps/it_compass/tests/ --cov=apps/it_compass --cov-report=html
+```
+
+### Новые тесты (реальная бизнес-логика)
+
+| Класс тестов | Тесты | Описание |
+|-------------|-------|----------|
+| `TestCareerTrackerRealLogic` | 18 | Трекинг, прогресс, рекомендации |
+
+**Итого новых:** 18 тестов, 100% прохождение ✅
+**Всего:** 46 тестов (включая интеграционные)
+
+---
+
+## 🚀 Возможности
+
+### CareerTracker
+
+- **Отслеживание прогресса**:
+  - `mark_completed(marker_id)` — отметить маркер
+  - `show_progress()` — показать прогресс
+  - `get_skill_progress(skill_name)` — прогресс по навыку
+- **Рекомендации**:
+  - `show_recommendations(limit=5)` — показать рекомендации
+
+### Использование
+
+```python
+from apps.it_compass.src.core.tracker import CareerTracker
+
+# Инициализация
+tracker = CareerTracker(
+    markers_dir="apps/it_compass/src/data/markers",
+    progress_file="data/user_progress.json"
+)
+
+# Отметить маркер
+tracker.mark_completed("python_basics")
+
+# Показать прогресс
+tracker.show_progress()
+
+# Получить рекомендации
+tracker.show_recommendations(limit=3)
+```
+
+---
+
+## 📁 Структура данных
+
+```
+apps/it_compass/
+├── src/
+│   ├── core/
+│   │   ├── tracker.py       # Основная логика
+│   │   └── models.py        # Модели данных
+│   └── data/
+│       └── markers/         # JSON-файлы маркеров
+│           ├── python.json
+│           ├── docker.json
+│           └── ...
+└── tests/
+    ├── test_tracker_real.py        # Новые тесты (18)
+    ├── test_tracker_integration.py # Интеграционные (12)
+    └── test_basic.py               # Шаблоны (16)
+```
+
+---
+
+## 🎓 Домены
+
+1. Python
+2. Docker
+3. Kubernetes
+4. AWS/Azure
+5. CI/CD
+6. Тестирование
+7. Архитектура
+8. Безопасность
+9. ... (19 всего)
+
+---
+
+## 🔒 Лицензия
+
+**Методология © 2025 Ekaterina Kudelya**
+Лицензия: CC BY-ND 4.0
+
+---
+
+## 📚 Документация
+
+- [Методология](../../docs/methodology/IT-COMPASS.md)
+- [ARCHITECTURE.md](../../ARCHITECTURE.md)
+- [CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+---
+
+*© 2026 Ekaterina Kudelya. Portfolio System Architect*

@@ -31,9 +31,10 @@ Thumbs.db
 .idea/
 .kodacli/
 .gigaide/
-.continue/
 .koda/
 .obsidian/
+# Continue.dev (moved to tools/ai-agents/continue/)
+.continue/
 
 # GigaCode - игнорируем только секреты и кэш
 .gigacode/*.env

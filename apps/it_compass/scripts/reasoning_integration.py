@@ -85,8 +85,7 @@ class ReasoningIntegrator:
             if start_idx != -1 and end_idx != 0:
                 json_str = reasoning_output_text[start_idx:end_idx]
                 try:
-                    reasoning_output_json = json.loads(json_str)
-                    return reasoning_output_json
+                    return json.loads(json_str)
                 except json.JSONDecodeError as e:
                     print(f"Ошибка парсинга JSON из ответа Reasoning API: {e}")
                     print("Ответ API:")

@@ -125,12 +125,11 @@ class ExpertFinder:
             )  # nosec: safe command with hardcoded arguments
 
             if result.returncode == 0:
-                files = [
+                return [
                     Path(line.strip())
                     for line in result.stdout.splitlines()
                     if line.strip() and self._is_source_file(line.strip())
                 ]
-                return files
         except Exception as e:
             logger.debug(f"Error getting source files: {e}")
 

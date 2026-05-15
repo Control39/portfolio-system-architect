@@ -263,7 +263,7 @@ class CognitiveAgentLauncher:
 
         return status
 
-    def run_workflow(self, workflow_name: str, params: dict[str, Any] = None) -> bool:
+    def run_workflow(self, workflow_name: str, params: dict[str, Any] | None = None) -> bool:
         """Запуск рабочего процесса"""
         logger.info(f"🚀 Запуск рабочего процесса: {workflow_name}")
 

@@ -80,13 +80,13 @@ def get_git_status() -> dict:
     return {"modified": [], "untracked": [], "deleted": [], "renamed": []}
 
 
-def create_commit(commit_message: str, files: list[str] = None) -> bool:
+def create_commit(commit_message: str, files: list[str] | None = None) -> bool:
     """Создание коммита в Git"""
     try:
         # Добавляем файлы в индекс
         if files:
             result = subprocess.run(
-                ["git", "add"] + files,
+                ["git", "add", *files],
                 capture_output=True,
                 text=True,
                 cwd=Path(".").resolve(),

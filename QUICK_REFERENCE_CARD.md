@@ -162,7 +162,7 @@ code .koda/
 ls codeassistant/skills/
 
 # Continue
-code .continue/
+code tools/ai-agents/continue/
 ```
 
 ---
@@ -373,8 +373,8 @@ cat QUICK_REFERENCE_CARD.md
 
 ---
 
-**Последнее обновление**: 2026-05-04  
-**Статус**: 🟢 Production Ready  
+**Последнее обновление**: 2026-05-04
+**Статус**: 🟢 Production Ready
 **Версия**: 1.0 Stable
 
 ---
