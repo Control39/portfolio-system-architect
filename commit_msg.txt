@@ -1,0 +1,15 @@
+docs: update README files for 8 services with accurate metrics
+
+Updated README.md files with real test counts and coverage:
+- decision_engine: 15 → 50 tests
+- thought-architecture: 15 → 38 tests
+- infra-orchestrator: 15 → 58 tests
+- job-automation-agent: 15 → 21 tests
+- knowledge_graph: 15 → 39 tests
+- mcp_server: 15 → 24 tests
+- system_proof: 15 → 40 tests
+- ai-config-manager: 15 tests (accurate)
+- cognitive-agent: updated with 31 tests and current status
+
+All README files now reflect actual test metrics (549 total tests).
+Removed template/placeholder text from all service documentation.
