@@ -125,7 +125,7 @@ update-badge:
 # Port & Route Validation
 check-ports:
 	@echo "Checking port conflicts and Traefik routes..."
-	@.venv\Scripts\python.exe scripts\check_ports.py
+	@$(VENV_ACTIVATE) && python scripts/check_ports.py
 
 # GigaChat Token Management
 giga-token:

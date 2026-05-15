@@ -1618,3 +1618,64 @@ make lint && make test
 - [ ] Добавить A09:2021 (Logging Failures) тесты
 
 ---
+
+### 15 мая 2026 г. — Исправление конфликта портов и стандартизация документации
+
+**Выполненные задачи:**
+1. **Исправление конфликта портов** ✅
+   - **Проблема:** `decision-engine` и `ml-model-registry` использовали порт 8001
+   - **Решение:** Перенесён `ml-model-registry` на порт 8002
+   - **Результат:** Конфликтов портов нет
+
+2. **Создание стандарта документации** ✅
+   - Создан `docs/README_TEMPLATE.md` — шаблон для всех 14 микросервисов
+     • Раздел "Маршрутизация" вместо портов (Traefik-first подход)
+     • Security checklist, API контракты, тестирование
+   - Обновлён `apps/README.md` — исправлена таблица портов
+   - Обновлён `apps/decision_engine/README.md` — применён новый шаблон
+
+3. **Инструмент валидации** ✅
+   - Создан `scripts/check_ports.py` — автоматическая проверка:
+     • Host-порты (внешний доступ)
+     • Container-порты (внутри Docker)
+     • Traefik маршруты (PathPrefix коллизии)
+   - Добавлена команда `make check-ports` в Makefile
+
+4. **Проверка и коммит** ✅
+   - Запущен `python scripts/check_ports.py` — ✅ без конфликтов
+   - Создан коммит `4966241e` с 10 изменёнными файлами
+   - Пуш в `origin/main` выполнен
+
+**Созданные файлы:**
+- `docs/README_TEMPLATE.md` — стандарт документации (327 строк)
+- `scripts/check_ports.py` — валидатор портов и маршрутов (260 строк)
+
+**Изменённые файлы:**
+- `docker-compose.yml` — порт ml-model-registry: 8001 → 8002
+- `apps/README.md` — обновлена таблица маршрутов
+- `apps/decision_engine/README.md` — применён новый шаблон
+- `Makefile` — добавлена команда `check-ports`
+
+**Маршрутизация сервисов:**
+| Сервис | Порт | Маршрут |
+|--------|------|---------|
+| auth_service | 8100 | `/auth` |
+| decision-engine | 8001 | `/decision-engine` |
+| ml-model-registry | 8002 | `/ml-registry` |
+| it-compass | 8501 | `/it-compass` |
+| portfolio_organizer | 8004 | `/portfolio-organizer` |
+| system-proof | 8003 | `/system-proof` |
+| career-development | 8000 | `/career-dev` |
+
+**Ключевой принцип:**
+> Все сервисы доступны через единый порт (localhost:80) с маршрутизацией через Traefik. Порты 8001/8002 и т.д. используются только внутри Docker network.
+
+**Коммиты:**
+1. `fix(ports): resolve 8001 conflict (ml-model-registry -> 8002), add port validation`
+
+**Следующие шаги:**
+- [ ] Применить шаблон README ко всем 14 сервисам
+- [ ] Добавить CI/CD workflow для проверки портов
+- [ ] Обновить документацию о маршрутизации в QUICKSTART.md
+
+---
