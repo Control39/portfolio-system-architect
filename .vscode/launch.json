@@ -50,6 +50,59 @@
             "justMyCode": true
         },
         {
+            "name": "Python: FastAPI - ML Model Registry",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "apps.ml_model_registry.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8002",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Flask - Portfolio Organizer",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "apps/portfolio_organizer/src/app.py",
+                "FLASK_DEBUG": "1",
+                "SECRET_KEY": "dev-secret-key"
+            },
+            "args": [
+                "run",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8004",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Auth Service",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "apps.auth_service.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8100",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: Streamlit - IT Compass",
             "type": "python",
             "request": "launch",
@@ -67,7 +120,6 @@
             "name": "Python: Koda CLI",
             "type": "node",
             "request": "launch",
-            "name": "Launch Koda",
             "runtimeExecutable": "koda",
             "console": "integratedTerminal"
         }
