@@ -77,3 +77,15 @@ repos:
     hooks:
       - id: yamllint
         args: [--config-data, '{extends: default, rules: {line-length: disable}}']
+
+  # Port & Route Validation
+  - repo: local
+    hooks:
+      - id: check-ports
+        name: Check port consistency
+        entry: python scripts/check_ports.py --strict
+        language: python
+        additional_dependencies: [pyyaml]
+        pass_filenames: false
+        always_run: true
+        require_serial: true

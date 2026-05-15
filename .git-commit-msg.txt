@@ -1,0 +1,6 @@
+docs: add ADR-016 for documentation standardization
+
+- Created ADR-016-standardize-documentation.md
+- Documented context, problem, solution, alternatives
+- Added pre-commit hook for port validation
+- Updated CONTRIBUTING.md with check-ports checklist

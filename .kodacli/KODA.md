@@ -1679,3 +1679,83 @@ make lint && make test
 - [ ] Обновить документацию о маршрутизации в QUICKSTART.md
 
 ---
+
+### 15 мая 2026 г. — Стандартизация документации сервисов и валидация портов
+
+**Выполненные задачи:**
+1. **Создание шаблона документации** ✅
+   - Создан `docs/README_TEMPLATE.md` — унифицированный шаблон для всех микросервисов
+   - Структура: Назначение, Архитектура, Quick Start, API Контракты, Безопасность, Тестирование, Мониторинг
+   - Включает примеры запросов, чек-листы безопасности, таблицы покрытия
+
+2. **Применение шаблона к ключевым сервисам** ✅
+   - `apps/decision_engine/README.md` — полностью переписан (50 тестов, 85% покрытие)
+   - `apps/it_compass/README.md` — полностью переписан (46 тестов, 85% покрытие)
+   - `apps/career_development/README.md` — полностью переписан (56 тестов, 80% покрытие)
+
+3. **Улучшение `apps/README.md`** ✅
+   - Добавлена колонка "Маршрут (Traefik)" — вместо портов указаны пути `/service-name`
+   - Добавлено предупреждение о shared портах (decision_engine + ml_model_registry = 8001)
+   - Исправлены имена сервисов (дефисы → подчёркивания)
+
+4. **Инструмент валидации** ✅
+   - Создан `scripts/check_ports.py` — автоматическая проверка согласованности:
+     • Парсит `docker-compose.yml` → извлекает порты из Traefik labels
+     • Парсит `apps/README.md` → извлекает порты из таблицы
+     • Сравнивает → сообщает расхождения и пропуски
+     • Режим `--strict` для CI/CD (возвращает exit code 1 при ошибках)
+   - Нормализация имён: `career_dev` → `career_development`, `ml_registry` → `ml_model_registry`
+
+5. **Документация скриптов** ✅
+   - Обновлён `scripts/README.md` — описание всех утилит автоматизации
+
+6. **Создание ADR-016** ✅
+   - Создан `docs/architecture/decisions/ADR-016-standardize-documentation.md`
+   - Документированы: контекст, проблема, решение, альтернативы, последствия
+   - Подчёркнут принцип: "Документация должна быть синхронизирована с кодом"
+   - Добавлена секция для `check_ports.py` с примерами использования
+
+6. **Исправления импортов** ✅
+   - `docker-compose.yml`: добавлен `PYTHONPATH=/app:/app/src` для `decision-engine` и `ml_model_registry`
+   - `apps/ml_model_registry/src/main.py`:
+     • Исправлен порядок импортов (ruff E402)
+     • Добавлен `# noqa: E402` для роутера
+     • Добавлен `# nosec B104` для `host="0.0.0.0"` (Docker requirement)
+
+7. **Коммит и проверка** ✅
+   - Pre-commit passed: ruff, mypy, bandit, black, isort
+   - Создан коммит `eb2e75e4` с 8 изменёнными файлами
+   - 616 строк добавлено, 230 удалено
+
+**Созданные файлы:**
+- `docs/README_TEMPLATE.md` — шаблон документации (327 строк)
+- `scripts/check_ports.py` — валидатор портов (260 строк)
+
+**Изменённые файлы:**
+- `apps/decision_engine/README.md` — применён шаблон
+- `apps/it_compass/README.md` — применён шаблон
+- `apps/career_development/README.md` — применён шаблон
+- `apps/README.md` — добавлены маршруты Traefik
+- `scripts/README.md` — документация скриптов
+- `Makefile` — добавлена команда `check-ports`
+- `docker-compose.yml` — PYTHONPATH для decision-engine, ml_model_registry
+- `apps/ml_model_registry/src/main.py` — исправлен порядок импортов, security warnings
+
+**Метрики:**
+| Сервис | Тестов | Покрытие | Статус README |
+|--------|--------|----------|---------------|
+| decision_engine | 50 | ~85% | ✅ Шаблон |
+| it_compass | 46 | ~85% | ✅ Шаблон |
+| career_development | 56 | ~80% | ✅ Шаблон |
+
+**Ключевой принцип:**
+> Документация должна быть синхронизирована с кодом. Автоматическая валидация предотвращает расхождение данных.
+
+**Коммиты:**
+1. `docs: standardize service READMEs and add port validation script`
+
+**Следующие шаги:**
+- [ ] Применить шаблон к остальным 10 сервисам (ml_model_registry, portfolio_organizer, system_proof, etc.)
+- [ ] Добавить `check_ports.py --strict` в `.github/workflows/ci.yml`
+- [ ] Создать CI/CD workflow для автоматической проверки документации
+- [ ] Обновить QUICKSTART.md с актуальной маршрутизацией
