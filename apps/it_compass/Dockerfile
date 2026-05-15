@@ -13,8 +13,8 @@ COPY setup.sh ./
 RUN chmod +x setup.sh
 
 # Создание непривилегированного пользователя
-RUN addgroup -g 1001 -S appgroup && \
-    adduser -u 1001 -S appuser -G appgroup
+RUN groupadd --gid 1001 appgroup && \
+    useradd --uid 1001 --gid appgroup --no-create-home --system appuser
 
 # Установка прав доступа для файлов приложения
 RUN chown -R appuser:appgroup /app

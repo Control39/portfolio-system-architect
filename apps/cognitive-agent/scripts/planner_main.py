@@ -326,7 +326,7 @@ class TaskPlanner:
             if node in path:
                 # Найден цикл
                 cycle_start = path.index(node)
-                cycles.append(path[cycle_start:] + [node])
+                cycles.append([*path[cycle_start:], node])
                 return
 
             if node in visited:

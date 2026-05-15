@@ -117,7 +117,7 @@ class ScheduledMonitor:
         logger.info(f"Однократный запуск мониторинга ({report_type})...")
         return self.run_monitoring(report_type)
 
-    def start(self, run_once: bool = False, report_type: str = None):
+    def start(self, run_once: bool = False, report_type: str | None = None):
         """Запуск планировщика"""
         logger.info("=" * 60)
         logger.info("ЗАПУСК ПЛАНИРОВЩИКА МОНИТОРИНГА")
@@ -125,8 +125,7 @@ class ScheduledMonitor:
 
         if run_once and report_type:
             # Однократный запуск
-            success = self.run_once(report_type)
-            return success
+            return self.run_once(report_type)
         # Непрерывный режим
         self.setup_schedule()
 

@@ -36,7 +36,7 @@ def main():
 
             print("  Колонки:")
             for col in columns:
-                col_id, col_name, col_type, not_null, default_val, pk = col
+                _col_id, col_name, col_type, _not_null, _default_val, pk = col
                 print(f"    {col_name}: {col_type} {'PRIMARY KEY' if pk else ''}")
 
             # Получить количество записей

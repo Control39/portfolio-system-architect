@@ -56,7 +56,7 @@ def _run_git_command(root: Path, args: list[str]) -> str:
     """Run a git command and return output."""
     try:
         result = subprocess.run(
-            ["git"] + args,
+            ["git", *args],
             cwd=root,
             capture_output=True,
             text=True,

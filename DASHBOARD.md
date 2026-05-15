@@ -33,7 +33,7 @@
 |-----------|------|--------|--------|--------|
 | **Koda** | `.koda/` | Latest | ✅ | 5 skills |
 | **Sourcecraft** | `.sourcecraft/` | Integrated | ✅ | - |
-| **Continue** | `.continue/` | Integrated | ✅ | Agents |
+| **Continue** | `tools/ai-agents/continue/` | Integrated | ✅ | Agents |
 | **Codeassistant** | `codeassistant/` | Local | ✅ | 10+ tools |
 
 ### Analysis Skills
@@ -272,6 +272,6 @@ AVERAGE COVERAGE: 95% 🎉
 
 ---
 
-**Last Updated**: 2026-05-04  
-**Maintenance**: Automated via CI/CD  
+**Last Updated**: 2026-05-04
+**Maintenance**: Automated via CI/CD
 **Status**: ✅ Production Ready

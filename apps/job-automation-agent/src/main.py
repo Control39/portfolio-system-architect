@@ -46,8 +46,7 @@ async def root():
 async def execute_agent(task: AgentTask):
     """Запуск Core Agent (orchestrator)."""
     # Добавляем таймаут для длительных операций
-    result = await fetch_with_timeout(run_core_agent(task.task, task.context), timeout=60)
-    return result
+    return await fetch_with_timeout(run_core_agent(task.task, task.context), timeout=60)
 
 
 @app.get("/jobs/search/{query}")

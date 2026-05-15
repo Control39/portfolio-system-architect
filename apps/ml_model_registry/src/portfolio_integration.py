@@ -75,7 +75,7 @@ def validate_model_id(model_id: str) -> str:
     return model_id
 
 
-async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict = None):
+async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict | None = None):
     """Выполнить запрос к ML Model Registry."""
     url = f"{ML_MODEL_REGISTRY_URL}{endpoint}"
 
@@ -171,8 +171,7 @@ async def get_models(use_mock: bool = False):
 
     try:
         # Реальный запрос к ML Model Registry
-        models = await fetch_from_registry("/api/models")
-        return models
+        return await fetch_from_registry("/api/models")
     except HTTPException:
         # Если реестр недоступен, возвращаем мок-данные с предупреждением
         logger.warning("Реестр моделей недоступен, используются мок-данные")

@@ -18,6 +18,7 @@
     "GitHub.copilot-chat",
     "ms-toolsai.jupyter",
     "ms-toolsai.datawrangler",
-    "ms-toolsai.vscode-kernel-packs"
+    "ms-toolsai.vscode-kernel-packs",
+    "gigacode.gigacode-vscode"
   ]
 }

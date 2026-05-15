@@ -22,8 +22,7 @@ class MentalSupportSystem:
         print("5. 🏠 Вернуться в главное меню")
         print("=" * 50)
 
-        choice = input("\nВыберите опцию (1-5): ")
-        return choice
+        return input("\nВыберите опцию (1-5): ")
 
     def show_motivational_quote(self):
         """Показать случайную мотивационную цитату"""
@@ -193,9 +192,8 @@ def get_crisis_contacts():
         contacts_file = os.path.join(resources_path, "crisis_contacts.json")
 
         with open(contacts_file, encoding="utf-8") as f:
-            contacts = json.load(f)
+            return json.load(f)
 
-        return contacts
     except Exception:
         return []
 

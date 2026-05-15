@@ -1,0 +1,16 @@
+# Exclude only unnecessary files for this service
+__pycache__/
+*.pyc
+.git/
+*.log
+.env
+.coverage
+htmlcov/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+../../src/
+../../.*/
+../../docs/
+../../tests/

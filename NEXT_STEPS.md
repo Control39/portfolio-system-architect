@@ -93,7 +93,7 @@ config/               (SINGLE SOURCE OF TRUTH)
 Skills есть в 4 местах:
 ├── .koda/skills/            (5 skills)
 ├── .sourcecraft/skills/     (N/A)
-├── .continue/agents/        (Agents)
+├── tools/ai-agents/continue/        (Agents)
 └── codeassistant/skills/    (10+ skills, дублирует Koda)
 ```
 
@@ -345,7 +345,7 @@ cat DASHBOARD.md                  # Метрики
 
 ## 🎉 ЗАКЛЮЧЕНИЕ
 
-Ты создала **серьезный, production-ready проект**. 
+Ты создала **серьезный, production-ready проект**.
 
 Теперь просто:
 1. **Используй созданные инструменты** (navigate.ps1, maps, docs)
@@ -357,6 +357,6 @@ cat DASHBOARD.md                  # Метрики
 
 **You've got this!** 💪
 
-Дата создания: 2026-05-04  
-Статус: 🟢 Ready for next phase  
+Дата создания: 2026-05-04
+Статус: 🟢 Ready for next phase
 Confidence level: 🔥 Very High

@@ -4,12 +4,14 @@ import sys
 from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from . import portfolio_integration
 
+# Добавляем путь к корню проекта (shared_src)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "shared_src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Импортируем общие модули
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from src.common.health_check import init_health_checks
+
+from .portfolio_integration import router
 
 
 app = FastAPI(
@@ -25,7 +27,7 @@ init_health_checks(app, service_name="ml-model-registry", version="1.0.0")
 Instrumentator().instrument(app).expose(app)
 
 # Включаем роутеры
-app.include_router(portfolio_integration.router)
+app.include_router(router)
 
 
 @app.get("/")

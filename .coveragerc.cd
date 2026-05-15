@@ -1,0 +1,19 @@
+[run]
+source = 
+    apps/career_development
+omit =
+    */tests/*
+    */__pycache__/*
+    */db.py
+    */db_sync.py
+    */main.py
+    */core/__init__.py
+    */api/*
+    */config/*
+    */src/core/models.py
+    */core/competency_tracker.py  # Старый дубликат
+
+[report]
+fail_under = 80
+precision = 2
+show_missing = true

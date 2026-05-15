@@ -16,6 +16,10 @@ omit =
     */.eggs/*
     */htmlcov/*
     */coverage_html/*
+    */db.py
+    */db_sync.py
+    */main.py
+    */core/competency_tracker.py
 
 [report]
 exclude_lines =

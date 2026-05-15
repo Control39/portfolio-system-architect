@@ -380,7 +380,7 @@ class TriggerProcessor:
 
         return stats
 
-    def simulate_event(self, event_name: str, data: dict[str, Any] = None):
+    def simulate_event(self, event_name: str, data: dict[str, Any] | None = None):
         """Симуляция события (для тестирования)"""
         event = TriggerEvent(
             name=event_name,
