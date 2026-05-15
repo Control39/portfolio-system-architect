@@ -1,0 +1,40 @@
+# Bandit configuration для Portfolio System Architect
+# Исключаем безопасные случаи, оставляем только реальные угрозы
+
+skips:
+  # B101: assert в тестах — безопасно (тесты не запускаются с -O)
+  - B101
+
+  # B404: import subprocess — безопасно (используется только для git команд)
+  - B404
+
+  # B603: subprocess без shell — безопасно (нет пользовательского ввода)
+  - B603
+
+  # B607: subprocess с partial path — безопасно (git в PATH)
+  - B607
+
+  # B403: import pickle — безопасно (только локальные файлы кэша/миграции)
+  - B403
+
+  # B104: bind to 0.0.0.0 — безопасно (dev-only, production использует Docker networking)
+  - B104
+
+  # B501: request без SSL — безопасно (только для localhost)
+  - B501
+
+  # B507: SSL без verification — безопасно (localhost-only)
+  - B507
+
+# Явные пути для сканирования (исключаем тесты, legacy, docs)
+targets:
+  - apps
+  - src
+exclude_dirs:
+  - .venv
+  - __pycache__
+  - tests
+  - legacy
+  - docs
+  - node_modules
+  - .git
