@@ -145,7 +145,6 @@ def find_duplicates(file_paths):
     return {hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1}
 
 
-
 def get_file_preview(file_path, max_length=100):
     """Возвращает превью содержимого файла (первые max_length символов)
 
