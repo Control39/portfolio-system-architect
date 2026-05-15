@@ -93,7 +93,7 @@ services:
   decision-engine:
     build: ./apps/decision-engine
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
@@ -128,6 +128,7 @@ services:
       dockerfile: Dockerfile
     container_name: portfolio-system-architect-ml-model-registry-1
     environment:
+      - PYTHONPATH=/app:/app/src
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
     volumes:

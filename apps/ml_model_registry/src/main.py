@@ -5,13 +5,22 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 
-# Добавляем путь к корню проекта (shared_src)
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "shared_src")))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Пробуем импорт с разными путями
+try:
+    from src.common.health_check import init_health_checks
+except ImportError:
+    # Fallback для Docker-окружения
+    sys.path.insert(0, "/app")
+    sys.path.insert(0, "/app/src")
+    from src.common.health_check import init_health_checks
 
-from src.common.health_check import init_health_checks
+# Добавляем путь к корню проекта (shared_src) и к текущему каталогу
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.abspath(os.path.join(current_dir, "..", "shared_src")))
+sys.path.insert(0, current_dir)
+sys.path.insert(0, os.path.abspath(os.path.join(current_dir, "..")))
 
-from .portfolio_integration import router
+from .portfolio_integration import router  # noqa: E402
 
 
 app = FastAPI(
@@ -56,4 +65,4 @@ if __name__ == "__main__":
     import uvicorn
 
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)  # nosec B104
