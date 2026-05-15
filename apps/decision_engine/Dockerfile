@@ -10,9 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-# Устанавливаем в глобальное место (без --user)
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Runtime stage
 FROM python:3.12-slim
 
 WORKDIR /app
@@ -25,17 +25,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
-COPY . .
-# Копируем общие модули из корня проекта (контекст — apps/decision_engine, поэтому ../../src)
-COPY --chown=appuser:appuser ../../src /app/src
+# Copy shared src from project root
+COPY --chown=appuser:appuser src /app/src
+
+# Copy service code
+COPY apps/decision_engine .
+# Copy config file to root
+COPY apps/decision_engine/component-config.yaml /component-config.yaml
 
 ENV PYTHONPATH=/app
 
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8001
 
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-    CMD curl -f http://localhost:8000/api/v1/status || exit 1
+    CMD curl -f http://localhost:8001/api/v1/status || exit 1
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]

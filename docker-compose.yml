@@ -88,14 +88,19 @@ services:
 
   # ============================================================
   # Decision Engine (RAG API)
-  # Route: /decision-engine
+  # Route: /decision-engine (via Traefik) or direct: localhost:8001
   # ============================================================
   decision-engine:
-    build: ./apps/decision_engine
+    build:
+      context: .
+      dockerfile: apps/decision_engine/Dockerfile
+    ports:
+      - "8001:8001"  # Direct access: http://localhost:8001
     environment:
       - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
+
     volumes:
       - ./apps/decision_engine:/app
       - ./data/rag-index:/app/rag-index
@@ -119,13 +124,15 @@ services:
 
   # ============================================================
   # ML Model Registry
-  # Route: /ml-registry
+  # Route: /ml-registry (via Traefik) or direct: localhost:8002
   # ============================================================
   ml-model-registry:
     build:
-      context: ./apps/ml_model_registry
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: apps/ml_model_registry/Dockerfile
     container_name: portfolio-system-architect-ml-model-registry-1
+    ports:
+      - "8002:8002"  # Direct access: http://localhost:8002
     environment:
       - PYTHONPATH=/app:/app/src
       - DATABASE_URL=${DATABASE_URL}

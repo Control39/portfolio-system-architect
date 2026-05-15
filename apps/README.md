@@ -30,24 +30,35 @@
 - Поддержка архитектуры на основе микросервисов
 - **Каждое приложение импортирует общие библиотеки из `src/`**, но не из других `apps/`
 
-## Приложения
+## 🚀 Доступ к сервисам
 
-> **Примечание:** Порты указаны для внутреннего доступа внутри Docker network. Для внешнего доступа используйте маршруты через Traefik (http://localhost[ROUTE]).
+> **⚠️ Важное примечание:** В текущей реализации (Windows/Docker Desktop) используется **прямой доступ по портам** из-за проблем с Docker socket в Traefik. Traefik routing временно не работает.
+>
+> **Почему так:** Traefik требует mount `/var/run/docker.sock` для auto-discovery сервисов. В Windows Docker Desktop это работает нестабильно (см. `.reports/traefik-routing-analysis.md`).
+>
+> **План:** При достижении 5+ сервисов или переходе на production — внедрение nginx/Traefik (см. `.koda/plans/traefik-decision-plan.md`).
 
-| Сервис | Описание | Порт | Маршрут (Traefik) | Dockerfile |
-|--------|----------|------|-------------------|------------|
-| `auth_service/` | JWT аутентификация и авторизация | 8100 | `/auth` | ✅ |
-| `career_development/` | Сервис развития карьеры | 8000 | `/career-dev` | ✅ |
-| `cognitive-agent/` | Cognitive Automation Agent | — | — | ✅ |
-| `decision_engine/` | RAG + reasoning API | 8001 | `/decision-engine` | ✅ |
-| `ml_model_registry/` | ML Model Registry | 8002 | `/ml-registry` | ✅ |
-| `infra-orchestrator/` | Оркестратор инфраструктуры | — | — | ✅ |
-| `it_compass/` | IT Compass UI (Streamlit) | 8501 | `/it-compass` | ✅ |
-| `job-automation-agent/` | Агент автоматизации задач | — | — | ✅ |
-| `knowledge_graph/` | Граф знаний | — | — | ✅ |
-| `mcp_server/` | MCP сервер для ИИ-агентов | — | — | ✅ |
-| `ml_model_registry/` | Реестр ML моделей | 8001 | `/ml-registry` | ✅ |
-| `portfolio_organizer/` | Организатор портфолио | 8004 | `/portfolio-organizer` | ✅ |
+### Прямые порты (текущая конфигурация)
+
+| Сервис | Порт | Health Check | Статус |
+|--------|------|--------------|--------|
+| `auth_service/` | 8100 | `http://localhost:8100/health` | ✅ |
+| `career_development/` | 8000 | `http://localhost:8000/health` | ⏳ |
+| `decision_engine/` | **8001** | `http://localhost:8001/api/v1/status` | ✅ |
+| `ml_model_registry/` | **8002** | `http://localhost:8002/health` | ✅ |
+| `it_compass/` | 8501 | `http://localhost:8501/_stcore/health` | ✅ |
+| `portfolio_organizer/` | 8004 | `http://localhost:8004/health` | ⏳ |
+
+### Маршруты через Traefik (недоступны в Windows)
+
+| Сервис | Маршрут | Порт | Статус |
+|--------|---------|------|--------|
+| `auth_service/` | `/auth` | 8100 | ❌ 404 |
+| `decision_engine/` | `/decision-engine` | 8001 | ❌ 404 |
+| `ml_model_registry/` | `/ml-registry` | 8002 | ❌ 404 |
+| `it_compass/` | `/it-compass` | 8501 | ❌ 404 |
+
+**Альтернатива:** В Linux/Kubernetes Traefik работает корректно — используйте маршруты `/service-name`.
 | `system_proof/` | Система доказательств (CoT) | 8003 | `/system-proof` | ✅ |
 | `template-service/` | Шаблон микросервиса | — | — | ✅ |
 | `thought-architecture/` | Архитектура мышления | — | — | ✅ |
