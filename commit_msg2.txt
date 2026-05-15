@@ -1,9 +1,0 @@
-refactor: rename system-proof and knowledge-graph to valid Python packages
-
-- Renamed apps/system-proof → apps/system_proof
-- Renamed apps/knowledge-graph → apps/knowledge_graph
-- All 30 tests now passing (15 per service)
-
-Metrics:
-- system_proof: 15/15 tests passing
-- knowledge_graph: 15/15 tests passing

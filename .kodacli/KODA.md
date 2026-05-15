@@ -1161,17 +1161,45 @@ make lint && make test
 | ml_model_registry | 70 | ✅ | ~90% |
 | career_development | 56 | ✅ | 80.47% |
 | portfolio_organizer | 20 | ✅ | ~75% |
-| **decision_engine** | **50** | **✅** | **~85%** |
-| **ВСЕГО** | **263** | **🚀** | **-** |
+| decision_engine | 50 | ✅ | ~85% |
+| system_proof | 15 | ✅ | - |
+| knowledge_graph | 15 | ✅ | - |
+| **ВСЕГО** | **293** | **🚀** | **-** |
 
 **Known Issues:**
-- `test_gigachain_bridge.py` — требует миграции langchain 0.3 → 1.x
+- `test_gigachain_bridge.py` (decision_engine) — требует миграции langchain 0.3 → 1.x
 - 4 теста ML Model Registry integration в portfolio_organizer пропущены
 
 **Следующие шаги:**
-- [ ] Тесты для system-proof, knowledge-graph
+- [ ] Добавить тесты для бизнес-логики (цель: ≥80% покрытие)
 - [ ] Исправить импорты в ml_model_registry_integration (опционально)
 - [ ] Миграция langchain 0.3 → 1.x (низкий приоритет)
-- [ ] Пуш в remote (3 коммита ожидает)
+- [ ] Пуш в remote (2 коммита)
+
+---
+
+### 15 мая 2026 г. — Переименование system-proof и knowledge-graph
+
+**Выполненные задачи:**
+1. **Переименование каталогов** ✅
+   - `system-proof` → `system_proof` (валидный Python-пакет)
+   - `knowledge-graph` → `knowledge_graph` (валидный Python-пакет)
+
+2. **Результаты тестирования** ✅
+   - **system_proof:** 15/15 тестов проходят
+   - **knowledge_graph:** 15/15 тестов проходят
+   - **Итого:** +30 тестов
+
+**Коммит:**
+- `ccf01905` — "refactor: rename system-proof and knowledge-graph to valid Python packages"
+
+**Итоговые метрики:**
+- Всего тестов: 263 → **293** (+30)
+- Сервисов с рабочими тестами: 6 → **8**
+
+**Следующие шаги:**
+- [ ] Пуш в remote
+- [ ] Добавить тесты для бизнес-логики (цель: ≥80% покрытие)
+- [ ] Миграция langchain 0.3 → 1.x (низкий приоритет)
 
 ---
