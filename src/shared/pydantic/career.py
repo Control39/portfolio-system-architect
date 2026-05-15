@@ -13,18 +13,18 @@ class CompetencyMarker(BaseModel):
     id: str = Field(...)
     title: str = Field(...)
     status: str = Field(...)
-    evidence_url: str = Field(None)
-    created_at: datetime = Field(None)
+    evidence_url: str | None = Field(None)
+    created_at: datetime | None = Field(None)
 
 
 class Skill(BaseModel):
-    name: str = Field(None)
-    level: int = Field(None)
-    markers: list[Any] = Field(None)
+    name: str | None = Field(None)
+    level: int | None = Field(None)
+    markers: list[Any] | None = Field(None)
 
 
 class UserProfile(BaseModel):
     username: str = Field(...)
-    skills: list[Any] = Field(None)
-    goals: list[Any] = Field(None)
-    achievements: list[Any] = Field(None)
+    skills: list[Any] | None = Field(None)
+    goals: list[Any] | None = Field(None)
+    achievements: list[Any] | None = Field(None)
