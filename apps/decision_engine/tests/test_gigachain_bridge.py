@@ -9,7 +9,7 @@ if str(ROOT_DIR) not in sys.path:
 
 import pytest  # noqa: E402
 
-from apps.decision_engine.decision_engine.gigachain_bridge import GigaMCPBridge as GigachainBridge  # noqa: E402
+from apps.decision_engine.gigachain_bridge import GigaMCPBridge as GigachainBridge  # noqa: E402
 
 
 def test_gigachain_bridge_init():
