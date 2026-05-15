@@ -100,8 +100,7 @@ async def process_prompt(request: PromptRequest):
 async def get_rules():
     """Получение списка доступных правил"""
     try:
-        rules = load_rules()
-        return rules
+        return load_rules()
     except Exception as e:
         logger.error(f"Error retrieving rules: {e}")
         raise HTTPException(status_code=500, detail="Unable to retrieve rules") from e

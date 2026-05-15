@@ -86,7 +86,7 @@ class EnhancedTestRunner:
 
         total_passed = sum(r.get("passed", 0) for r in self.results.values())
         total_failed = sum(r.get("failed", 0) for r in self.results.values())
-        total_error = sum(r.get("error", 0) if isinstance(r.get("error"), int) else 0 for r in self.results.values())
+        sum(r.get("error", 0) if isinstance(r.get("error"), int) else 0 for r in self.results.values())
 
         services_pass = sum(1 for r in self.results.values() if r["status"] == "PASS")
         services_fail = sum(1 for r in self.results.values() if r["status"] == "FAIL")

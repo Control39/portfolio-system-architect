@@ -1,5 +1,5 @@
 [run]
-source = 
+source =
     apps/career_development
 omit =
     */tests/*

@@ -49,8 +49,8 @@ class MCPTestClient:
     def test_process_prompt(
         self,
         prompt: str = "Test prompt for MCP server",
-        variables: dict[str, Any] = None,
-        rules: list[str] = None,
+        variables: dict[str, Any] | None = None,
+        rules: list[str] | None = None,
     ) -> bool:
         """Тестирование process prompt endpoint"""
         if variables is None:

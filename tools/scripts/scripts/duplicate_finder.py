@@ -56,11 +56,7 @@ def should_ignore(path, ignore_patterns):
     path_obj = Path(path)
 
     # Проверяем каждую часть пути
-    for part in path_obj.parts:
-        if part in ignore_patterns:
-            return True
-
-    return False
+    return any(part in ignore_patterns for part in path_obj.parts)
 
 
 def scan_directory(root_path, ignore_patterns):
@@ -146,9 +142,8 @@ def find_duplicates(file_paths):
             hash_to_files[file_hash].append(file_path)
 
     # Фильтруем только дубликаты (группы с более чем одним файлом)
-    duplicates = {hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1}
+    return {hash_val: paths for hash_val, paths in hash_to_files.items() if len(paths) > 1}
 
-    return duplicates
 
 
 def get_file_preview(file_path, max_length=100):
@@ -166,8 +161,7 @@ def get_file_preview(file_path, max_length=100):
         with open(file_path, encoding="utf-8", errors="ignore") as f:
             content = f.read(max_length)
             # Заменяем символы новой строки на пробелы для лучшего отображения
-            content = content.replace("\n", " ").replace("\r", " ")
-            return content
+            return content.replace("\n", " ").replace("\r", " ")
     except OSError:
         return "[Невозможно прочитать содержимое]"
 

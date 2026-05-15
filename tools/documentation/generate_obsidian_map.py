@@ -51,9 +51,8 @@ def get_all_files(root: Path) -> list[Path]:
         if item.is_file():
             # Проверяем через пересечение множеств
             parts_set = set(item.parts)
-            if not parts_set.intersection(IGNORED_DIRS):
-                if item.suffix.lower() in INCLUDE_EXTENSIONS:
-                    files.append(item)
+            if not parts_set.intersection(IGNORED_DIRS) and item.suffix.lower() in INCLUDE_EXTENSIONS:
+                files.append(item)
     return files
 
 

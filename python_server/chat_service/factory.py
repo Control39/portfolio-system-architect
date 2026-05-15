@@ -45,7 +45,7 @@ def build_chat_service(
         from .transports.webpubsub import WebPubSubChatService  # local import to avoid hard dependency
     except Exception as e:
         raise RuntimeError("WebPubSub dependencies not available; install azure-messaging-webpubsubservice") from e
-    service = WebPubSubChatService(
+    return WebPubSubChatService(
         hub=hub,
         connection_string=conn_str,
         endpoint=endpoint,
@@ -54,7 +54,6 @@ def build_chat_service(
         flask_app=flask_app,
         loop=loop,
     )
-    return service
 
 
 __all__ = [

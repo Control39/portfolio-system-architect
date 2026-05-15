@@ -101,7 +101,7 @@ class CodeIndexer:
 
         return chunks
 
-    def index_repository(self, repo_path: str, extensions: list[str] = None) -> list[dict[str, Any]]:
+    def index_repository(self, repo_path: str, extensions: list[str] | None = None) -> list[dict[str, Any]]:
         """Индексирует весь репозиторий"""
         if extensions is None:
             extensions = [".py"]

@@ -135,10 +135,7 @@ def should_ignore_file(file_path: Path) -> bool:
         return True
 
     # Игнорируем определенные имена файлов
-    if file_path.name in IGNORE_FILES:
-        return True
-
-    return False
+    return file_path.name in IGNORE_FILES
 
 
 def find_cjk_characters(file_path: Path) -> list[dict[str, Any]]:

@@ -12,6 +12,7 @@ Azure SDK dependencies to this file.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 import logging
 from collections.abc import AsyncIterator
@@ -202,16 +203,12 @@ class WebPubSubChatService(ChatServiceBase):
         return full_response
 
     async def add_to_group(self, connection_id: str, group: str) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._svc.add_connection_to_group(as_room_group(group), connection_id)
-        except Exception:
-            pass
 
     async def remove_from_group(self, connection_id: str, group: str) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._svc.remove_connection_from_group(as_room_group(group), connection_id)
-        except Exception:
-            pass
 
     async def notify_rooms_changed(self) -> None:
         try:

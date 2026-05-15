@@ -45,8 +45,7 @@ class TestRAGIntegration:
     def chroma_indexer(self, tmp_path):
         """Создает индексатор ChromaDB во временной директории."""
         persist_dir = tmp_path / "chroma_test"
-        indexer = ChromaDocumentIndexer(persist_directory=str(persist_dir))
-        return indexer
+        return ChromaDocumentIndexer(persist_directory=str(persist_dir))
 
     def test_chromadb_indexing_and_search(self, chroma_indexer, test_documents):
         """Тестирует индексацию и поиск в ChromaDB."""

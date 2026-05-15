@@ -43,7 +43,7 @@ class RepositoryAudit:
         self.results.append({"check": description, "status": "FAIL", "path": path})
         return False
 
-    def check_file_content(self, path: str, description: str, keyword: str = None) -> bool:
+    def check_file_content(self, path: str, description: str, keyword: str | None = None) -> bool:
         """Check if file contains specific keyword."""
         full_path = self.repo_path / path
         if not full_path.exists():

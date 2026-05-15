@@ -7,6 +7,7 @@ per connectionId so they can be cancelled on disconnect.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 from collections.abc import Awaitable
 from concurrent.futures import Future
 
@@ -35,10 +36,8 @@ class ConnectionTaskManager:
         if not bucket:
             return
         for fut in tuple(bucket):
-            try:
+            with contextlib.suppress(Exception):
                 fut.cancel()
-            except Exception:
-                pass
         bucket.clear()
 
     def active_count(self, connection_id: str) -> int:

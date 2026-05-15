@@ -170,7 +170,7 @@ def generate_mermaid_diagram(workflows: list) -> str:
 
     # Генерация узлов
     for category, wfs in grouped.items():
-        safe_category = category.replace(" & ", "_and_").replace(" ", "_")
+        category.replace(" & ", "_and_").replace(" ", "_")
         lines.append(f"    subgraph \"{category}\"")
 
         for wf in wfs:

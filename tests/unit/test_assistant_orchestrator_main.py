@@ -2,6 +2,7 @@
 Unit tests for assistant_orchestrator/main.py
 """
 
+import contextlib
 from argparse import ArgumentParser
 from unittest.mock import MagicMock, patch
 
@@ -99,6 +100,7 @@ def test_main_version_flag():
     ):
         # Переимпортируем main после установки моков
         import importlib
+
         import src.assistant_orchestrator.main
         importlib.reload(src.assistant_orchestrator.main)
         from src.assistant_orchestrator.main import main
@@ -157,15 +159,14 @@ def test_main_with_valid_root():
 
         # Переимпортируем main после установки моков
         import importlib
+
         import src.assistant_orchestrator.main
         importlib.reload(src.assistant_orchestrator.main)
         from src.assistant_orchestrator.main import main
 
         # Запускаем main и ловим SystemExit
-        try:
+        with contextlib.suppress(SystemExit):
             main()
-        except SystemExit:
-            pass
 
         # Проверяем, что orchestrator был создан с правильным root
         mock_orchestrator_class.assert_called_with(project_root="./test_project")
