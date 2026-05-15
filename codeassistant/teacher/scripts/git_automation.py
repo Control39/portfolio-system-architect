@@ -45,7 +45,7 @@ class GitAutomation:
             "status": status,
         }
 
-    def auto_commit(self, message: str = None) -> dict:
+    def auto_commit(self, message: str | None = None) -> dict:
         """Автоматический коммит изменений"""
         if message is None:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -157,7 +157,7 @@ class GitAutomation:
 
         return {"deleted_count": len(deleted), "deleted_branches": deleted}
 
-    def generate_changelog(self, since_tag: str = None) -> str:
+    def generate_changelog(self, since_tag: str | None = None) -> str:
         """Генерация changelog"""
         if since_tag:
             cmd = f"log {since_tag}..HEAD --oneline --pretty=format:'- %s'"

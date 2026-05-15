@@ -51,13 +51,12 @@ def analyze_file(file_path: Path, relative_path: Path) -> dict:
     """Анализ одного файла"""
     logging.info(f"Анализ файла: {relative_path}")
 
-    result = {
+    return {
         "path": str(relative_path),
         "size": os.path.getsize(file_path),
         "analysis": detect_encoding(file_path),
     }
 
-    return result
 
 
 def should_process_file(file_path: Path) -> bool:
@@ -93,11 +92,7 @@ def should_process_file(file_path: Path) -> bool:
         return False
 
     # Проверяем директории
-    for part in file_path.parts:
-        if part in ignore_dirs:
-            return False
-
-    return True
+    return all(part not in ignore_dirs for part in file_path.parts)
 
 
 def analyze_all(start_path: str = ".") -> dict:

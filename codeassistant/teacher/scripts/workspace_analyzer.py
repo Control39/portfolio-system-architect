@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 class WorkspaceAnalyzer:
-    def __init__(self, desktop_path: str = None):
+    def __init__(self, desktop_path: str | None = None):
         if desktop_path is None:
             # Стандартные пути для Windows
             possible_paths = [
@@ -152,16 +152,15 @@ class WorkspaceAnalyzer:
         cutoff_time = datetime.now().timestamp() - (days_old * 24 * 3600)
 
         for item in self.desktop_path.iterdir():
-            if item.is_file():
-                if item.stat().st_mtime < cutoff_time:
-                    old_files.append(
-                        {
-                            "name": item.name,
-                            "path": str(item),
-                            "days_old": int((datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)),
-                            "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
-                        }
-                    )
+            if item.is_file() and item.stat().st_mtime < cutoff_time:
+                old_files.append(
+                    {
+                        "name": item.name,
+                        "path": str(item),
+                        "days_old": int((datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)),
+                        "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
+                    }
+                )
 
         return sorted(old_files, key=lambda x: x["days_old"], reverse=True)
 

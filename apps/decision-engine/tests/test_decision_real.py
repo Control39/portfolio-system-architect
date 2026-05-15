@@ -203,7 +203,7 @@ class TestDecisionEngineEdgeCases:
 
     def test_null_context(self):
         """Null контекст"""
-        engine = DecisionEngine()
+        _ = DecisionEngine()  # Инициализация для проверки
 
         # Pydantic не позволит создать с None
         with pytest.raises(ValueError):

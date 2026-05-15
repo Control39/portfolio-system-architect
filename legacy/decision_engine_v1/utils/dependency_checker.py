@@ -27,7 +27,7 @@ def check_dependencies():
         # Автоустановка (опционально)
         confirm = input("Установить автоматически? (y/n): ")
         if confirm.lower() == "y":
-            subprocess.check_call([sys.executable, "-m", "pip", "install"] + missing)
+            subprocess.check_call([sys.executable, "-m", "pip", "install", *missing])
         else:
             sys.exit(1)
     else:

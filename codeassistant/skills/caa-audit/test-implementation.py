@@ -454,7 +454,7 @@ class Phase1Tester:
 
         self.test_results["recommendations"] = recommendations
 
-    def generate_report(self, output_format: str = "markdown", output_path: str = None) -> str:
+    def generate_report(self, output_format: str = "markdown", output_path: str | None = None) -> str:
         """Генерация отчёта о тестировании"""
 
         if output_format == "markdown":

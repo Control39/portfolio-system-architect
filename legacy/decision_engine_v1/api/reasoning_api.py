@@ -160,8 +160,7 @@ def call_model_with_retry(service, request, max_retries=3, timeout=300):
     for attempt in range(max_retries):
         try:
             # Установка таймаута для вызова модели
-            response = service.TextGeneration(request, timeout=timeout)
-            return response
+            return service.TextGeneration(request, timeout=timeout)
         except Exception as e:
             logger.log_error("model_call_error", f"Попытка {attempt + 1} не удалась: {e!s}")
             if attempt < max_retries - 1:
