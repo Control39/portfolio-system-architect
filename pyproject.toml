@@ -61,6 +61,9 @@ exclude = [
     "node_modules/",
     "dist/",
     "build/",
+    # Исключаем папки с дефисами (невалидные Python-пакеты)
+    "apps/cognitive-agent/",
+    "apps/decision-engine/",
 ]
 
 [tool.ruff]
