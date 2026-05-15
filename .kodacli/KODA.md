@@ -1178,6 +1178,51 @@ make lint && make test
 
 ---
 
+### 15 мая 2026 г. — Добавление тестов бизнес-логики для job-automation-agent
+
+**Выполненные задачи:**
+1. **Enhanced core modules** ✅
+   - `src/analysis.py`: добавлены `JobAnalysis` dataclass, `JobAnalyzer` с методами `analyze_job()`, `match_resume_to_job()`, `analyze_market_trends()`, функция `compute_match_score()`
+   - `src/resume.py`: добавлены `ParsedResume` dataclass, `ResumeParser` с методами `parse()`, `extract_skills()`, `extract_skills_from_list()`
+
+2. **Создание тестов** ✅
+   - Создан `tests/test_agent_business.py` с 21 тестом бизнес-логики
+   - **Результат:** 17 passed, 4 skipped (оркестрация требует миграции langchain)
+   - Покрытие: парсинг резюме, анализ вакансий, matching, рыночные тренды, граничные случаи
+
+3. **Git-коммит** ✅
+   - Коммит: `99c3bcfc` — "feat(job-automation-agent): add 17 business logic tests (4 skipped for langchain migration)"
+   - Пуш в remote выполнен
+
+**Созданные/Изменённые файлы:**
+- `apps/job-automation-agent/src/analysis.py` — расширена бизнес-логика
+- `apps/job-automation-agent/src/resume.py` — расширен парсер резюме
+- `apps/job-automation-agent/tests/test_agent_business.py` — 21 тест (17 passed)
+
+**Метрики по сервисам:**
+| Сервис | Тестов | Статус | Примечание |
+|--------|--------|--------|------------|
+| auth_service | 21 | ✅ | ~95% покрытие |
+| it_compass | 46 | ✅ | ~85% покрытие |
+| ml_model_registry | 70 | ✅ | ~90% покрытие |
+| career_development | 56 | ✅ | 80.47% покрытие |
+| portfolio_organizer | 20 | ✅ | ~75% покрытие |
+| decision_engine | 15 | ✅ | - |
+| knowledge_graph | 39 | ✅ | 15 базовых + 24 бизнес |
+| system_proof | 40 | ✅ | 15 базовых + 25 бизнес |
+| **job-automation-agent** | **32** (15+21-4) | ✅ | 4 skipped (langchain) |
+| **ВСЕГО** | **335** | 🚀 | - |
+
+**Skip-тесты:**
+- 4 теста `TestAgentOrchestration` требуют миграции langchain 0.3 → 1.x
+
+**Следующие шаги:**
+- [ ] Миграция langchain 0.3 → 1.x (для активации skipped тестов)
+- [ ] Тесты для remaining сервисов (system_proof API, knowledge_graph API)
+- [ ] Повышение покрытия до ≥80% для всех сервисов
+
+---
+
 ### 15 мая 2026 г. — Добавление тестов бизнес-логики для system_proof и knowledge_graph
 
 **Выполненные задачи:**
