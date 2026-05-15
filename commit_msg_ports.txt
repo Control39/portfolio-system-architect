@@ -1,0 +1,33 @@
+fix(ports): resolve 8001 conflict (ml-model-registry -> 8002), add port validation
+
+**Архитектурное исправление:**
+- Исправлен конфликт портов: ml-model-registry перенесён с 8001 на 8002
+- Decision Engine остаётся на порту 8001
+
+**Документация:**
+- Создан docs/README_TEMPLATE.md - стандарт для всех 14 микросервисов
+  * Раздел "Маршрутизация" вместо портов (Traefik-first подход)
+  * Security checklist, API контракты, тестирование
+- Обновлён apps/README.md - исправлена таблица портов, добавлено пояснение
+- Обновлён apps/decision_engine/README.md - применён новый шаблон
+
+**Инструменты:**
+- Создан scripts/check_ports.py - автоматическая проверка:
+  * Host-порты (внешний доступ)
+  * Container-порты (внутри Docker)
+  * Traefik маршруты (PathPrefix коллизии)
+- Добавлена команда `make check-ports` в Makefile
+
+**Результат:**
++ Конфликтов портов и маршрутов нет
++ Все сервисы доступны через единый порт (localhost:80)
++ Шаблон документации принят как стандарт
+
+**Маршрутизация:**
+- /auth -> auth_service (8100)
+- /decision-engine -> decision-engine (8001)
+- /ml-registry -> ml-model-registry (8002)
+- /it-compass -> it-compass (8501)
+- /portfolio-organizer -> portfolio_organizer (8004)
+- /system-proof -> system-proof (8003)
+- /career-dev -> career-development (8000)
