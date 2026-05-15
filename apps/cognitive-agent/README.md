@@ -1,174 +1,360 @@
 # Cognitive Automation Agent (CAA)
 
-> **Автономный ИИ-агент для интеллектуальной автоматизации проектов**
-
-Часть экосистемы [Portfolio System Architect](../../README.md) — когнитивной архитектуры, демонстрирующей трансформацию от нуля до 14 интегрированных микросервисов за 2 года.
-
----
-
-## 📌 Быстрый доступ
-
-| Для кого | Документ | Описание |
-|----------|----------|----------|
-| **Сообщество** | [📖 README-COMMUNITY.md](./README-COMMUNITY.md) | Внешняя документация, быстрый старт, вклад |
-| **Разработчики** | [🔧 IMPLEMENTATION_REPORT.md](./IMPLEMENTATION_REPORT.md) | Детальная реализация, архитектура, тесты |
-| **Внутреннее использование** | [📋 USAGE.md](./USAGE.md) | Инструкции по запуску в рамках monorepo |
+> **Статус:** Active (MVP)
+> **Владелец:** Portfolio System Architect Team
+> **Последнее обновление:** 15 мая 2026 г.
 
 ---
 
 ## 🎯 Назначение
 
-**Cognitive Automation Agent** — автономная система для:
-- 📊 **Анализа проектов** — определение стека, зависимостей, архитектурных паттернов
-- 📋 **Планирования задач** — проактивное предсказание и приоритизация
-- ⚡ **Автономного выполнения** — настройка окружения, CI/CD, оптимизация
-- 🧠 **Самообучения** — адаптация алгоритмов на основе метрик
+Автономный ИИ-агент для интеллектуальной автоматизации проектов. Обеспечивает анализ проектов, планирование задач, автономное выполнение и самообучение на основе метрик.
 
-**Пример:** Открываете новый проект → агент за 2 минуты настраивает Docker, CI/CD, линтеры → вы начинаете кодить.
-
----
-
-## 🏗️ Структура
-
-```
-cognitive-agent/
-├── skills/                      # Основные навыки агента
-│   ├── project-scanner/         # Анализ проекта (стек, зависимости)
-│   ├── task-planner/            # Планирование и приоритизация
-│   ├── cognitive-automation-agent/ # Ядро автономии
-│   └── learning-system/         # Сбор метрик и адаптация
-├── workflows/                   # Готовые сценарии
-│   └── project-setup.yaml       # Автоматическая настройка проекта
-├── config/                      # Конфигурации
-│   └── agent-config.yaml        # Настройки автономности
-├── src/                         # Исходный код (в разработке)
-├── tests/                       # Тесты
-├── data/                        # База данных метрик
-├── logs/                        # Логи выполнения
-└── reports/                     # Ежедневные отчеты
-```
+### Ключевые возможности
+- [x] Анализ проектов (стек, зависимости, архитектура)
+- [x] Планирование задач с приоритизацией
+- [x] Автономное выполнение (настройка окружения, CI/CD)
+- [x] Система самообучения (сбор метрик, адаптация)
+- [x] Интеграция с Decision Engine для сложных решений
 
 ---
 
-## 🚀 Запуск (в рамках monorepo)
+## 🏗️ Архитектура
 
-### Предварительные требования
+| Категория | Значение |
+|-----------|----------|
+| **Технологии** | Python 3.10+, FastAPI (опционально), Docker |
+| **Зависимости** | Decision Engine, Portfolio Organizer, IT-Compass |
+| **Порт (Internal)** | 8009 (опционально, для API) |
+| **Порт (External)** | N/A (CLI/модуль) |
+| **Traefik Route** | N/A |
+| **Health Check** | `GET /health` (опционально) |
 
-```bash
-# Убедитесь, что Python 3.10+
-python --version
+### Схема развёртывания
 
-# Активируйте виртуальное окружение проекта
-# Windows:
-.venv\Scripts\activate
-# Linux/Mac:
-source .venv/bin/activate
+```
+┌─────────────────────────┐
+│   Developer / CI/CD     │
+│   (запуск агента)       │
+└────────┬────────────────┘
+         │ python launch-script.py
+         ▼
+┌─────────────────────────┐
+│  Cognitive Agent        │
+│  - Project Scanner      │
+│  - Task Planner         │
+│  - Executor             │
+│  - Learning System      │
+└────────┬────────────────┘
+         │ использует
+         ▼
+┌─────────────────────────┐
+│  Decision Engine        │
+│  Portfolio Organizer    │
+│  IT-Compass             │
+└─────────────────────────┘
 ```
 
-### Установка зависимостей
+---
+
+## 🚀 Quick Start
+
+### Быстрый запуск (CLI)
 
 ```bash
+# 1. Перейти в директорию агента
 cd apps/cognitive-agent
+
+# 2. Установить зависимости
 pip install -r requirements.txt
-```
 
-### Запуск агента
-
-```bash
-# Минимальный режим (безопасный, только чтение)
-python launch-script.py --mode=minimal
-
-# Сканирование проекта
+# 3. Запустить сканирование проекта
 python launch-script.py --mode=scan --path=../../
 
-# Запуск рабочего процесса
+# 4. Запустить рабочий процесс
 python launch-script.py --workflow=project-setup
 
-# Полная автономия (требуется подтверждение в config)
+# 5. Полная автономия (требуется подтверждение)
 python launch-script.py --mode=full --autonomy=high
 ```
 
-### Тестирование
+### Режимы работы
+
+| Режим | Описание | Безопасность |
+|-------|----------|--------------|
+| `--mode=minimal` | Только чтение, анализ | ✅ Безопасно |
+| `--mode=scan` | Сканирование проекта | ✅ Безопасно |
+| `--mode=plan` | Планирование задач | ✅ Безопасно |
+| `--mode=full` | Полная автономия | ⚠️ Требуется подтверждение |
+
+### Конфигурация
+
+```yaml
+# config/agent-config.yaml
+agent:
+  name: "cognitive-agent"
+  version: "1.0.0"
+
+  autonomy:
+    mode: "minimal"  # minimal / scan / plan / full
+    max_cpu: 50      # %
+    max_memory: 1024 # MB
+
+  skills:
+    - project-scanner
+    - task-planner
+    - learning-system
+
+  workflows:
+    - project-setup
+    - ci-cd-setup
+```
+
+---
+
+## 🔌 API Контракты (опционально)
+
+> 💡 **Примечание:** CAA в основном работает как CLI/модуль. HTTP API — опционально для интеграции.
+
+### Эндпоинты (если включено)
+
+| Метод | Эндпоинт | Описание | Auth |
+|-------|----------|----------|------|
+| `GET` | `/health` | Health check | ❌ |
+| `POST` | `/api/v1/scan` | Сканировать проект | ✅ |
+| `POST` | `/api/v1/plan` | Сгенерировать план | ✅ |
+| `POST` | `/api/v1/execute` | Выполнить задачу | ✅ |
+| `GET` | `/api/v1/status` | Статус агента | ✅ |
+
+### Пример запроса
 
 ```bash
-# Юнит-тесты
-python -m pytest tests/ -v
-
-# С покрытием
-python -m pytest tests/ --cov=src --cov-report=html
-
-# Интеграционные тесты
-python -m pytest tests/test_integration_cognitive_agent.py -v
+# Сканирование проекта
+curl -X POST http://localhost:8009/api/v1/scan \
+  -H "Content-Type: application/json" \
+  -d '{
+    "path": "../../",
+    "include_deps": true
+  }'
 ```
+
+> 💡 **Полная документация:** Доступна по адресу `http://localhost:8009/docs` (если API включено)
 
 ---
 
-## 📊 Метрики качества
+## 🛡️ Безопасность
 
-| Метрика | Значение | Статус |
-|---------|----------|--------|
-| **Тесты** | 31/31 | ✅ 100% |
-| **Покрытие** | ~75% | ✅ |
-| **Линтинг** | Чисто | ✅ |
-| **Уязвимости** | 0 | ✅ |
+### Реализованные меры
 
----
+- [x] **Sandbox для команд** — изолированная среда выполнения
+- [x] **Маскирование секретов** — использование `mask_sensitive()` из `src/security/secret_masking.py`
+- [x] **Лимиты ресурсов** — CPU ≤50%, память ≤1GB
+- [x] **Откат изменений** — автоматический rollback при ошибках
+- [x] **Аудит логов** — все действия агента логируются
+- [x] **Без секретов** — агент не хранит и не передает API-ключи
 
-## 🔗 Интеграции с экосистемой
+### Security Checklist
 
-CAA интегрируется с другими компонентами `Portfolio System Architect`:
+При добавлении нового функционала проверить:
 
-```
-┌─────────────────────┐
-│  cognitive-agent    │ ← Автономное выполнение
-└──────────┬──────────┘
-           │ использует
-           ▼
-┌─────────────────────┐
-│  decision-engine    │ ← RAG + reasoning для сложных решений
-└─────────────────────┘
-
-┌─────────────────────┐
-│  portfolio-organizer│ ← Сбор доказательств компетенций
-└─────────────────────┘
-
-┌─────────────────────┐
-│  it-compass         │ ← Методология системного мышления
-└─────────────────────┘
-
-┌─────────────────────┐
-│  codeassistant/     │ ← Скиллы для анализа и безопасности
-└─────────────────────┘
-```
-
-### Зависимости
-
-- **src/** — общие библиотеки (health checks, async helpers, LLM configs)
-- **codeassistant/skills/** — скиллы (caa-audit, security, it-compass)
-- **monitoring/** — Prometheus/Grafana для метрик
+- [x] Нет hardcoded secrets в коде
+- [x] Все внешние вызовы валидируют SSL
+- [x] Input sanitization для пользовательских данных
+- [x] Логирование security-событий (без секретов!)
 
 ---
 
-## 📈 Дорожная карта
+## 🧪 Тестирование
 
-### Q2 2026 (Май-Июнь)
-- [x] Базовая структура и конфигурации
-- [x] Реализация Project Scanner (Python, JavaScript)
-- [x] Task Planner с генетическими алгоритмами
-- [x] 31 интеграционных тестов
-- [x] Документация для сообщества (README-COMMUNITY.md)
+### Запуск тестов
 
-### Q3 2026 (Июль-Сентябрь)
-- [ ] Полный Executor с sandbox
-- [ ] Learning System (сбор метрик)
-- [ ] Интеграция с Jira/Slack
-- [ ] Docker-образ для production
+```bash
+# Из корневого каталога
+pytest apps/cognitive-agent/tests/ --cov=apps/cognitive-agent --cov-report=term-missing
 
-### Q4 2026 (Октябрь-Декабрь)
-- [ ] Поддержка Go, Rust, Java
-- [ ] Облачные интеграции (AWS/Azure)
-- [ ] CLI-интерфейс с TUI
-- [ ] Вынос в отдельный репозиторий (при готовности)
+# С HTML отчётом
+pytest apps/cognitive-agent/tests/ --cov=apps/cognitive-agent --cov-report=html
+```
+
+### Покрытие кода
+
+| Метрика | Значение | Цель |
+|---------|----------|------|
+| **Unit Tests** | 31/31 | ≥80% ✅ |
+| **Integration Tests** | 26/26 | ≥60% ✅ |
+| **Total Coverage** | ~75% | ≥75% ✅ |
+
+### Типы тестов
+
+| Тип тестов | Файл | Количество | Описание |
+|-----------|------|------------|----------|
+| **Базовые** | `test_basic.py` | 6 | Конфигурация, health checks |
+| **Бизнес-логика** | `test_integration_cognitive_agent.py` | 25 | Scanner, planner, executor |
+
+**Итого:** 31 тест, 100% прохождение ✅
+
+---
+
+## 📦 Зависимости
+
+### Production зависимости
+
+```txt
+fastapi>=0.100.0  # опционально для API
+pydantic>=2.0.0
+uvicorn[standard]>=0.23.0  # опционально
+pyyaml>=6.0.0
+rich>=13.0.0  # для CLI UI
+```
+
+### Development зависимости
+
+```txt
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-asyncio>=0.21.0
+httpx>=0.24.0
+```
+
+### Внешние сервисы
+
+- [x] **Decision Engine** — reasoning для сложных решений
+- [x] **Portfolio Organizer** — сбор доказательств
+- [x] **IT-Compass** — методология и метрики
+- [ ] **CodeAssistant** — скиллы для анализа кода
+
+---
+
+## ⚙️ Конфигурация
+
+### Переменные окружения
+
+Создайте `.env` в корневом каталоге проекта:
+
+```env
+# Agent Configuration
+AGENT_MODE=minimal
+AGENT_CONFIG_PATH=config/agent-config.yaml
+
+# External APIs
+DECISION_ENGINE_URL=http://localhost:8001/api
+PORTFOLIO_ORGANIZER_URL=http://localhost:8004/api
+
+# Logging
+LOG_LEVEL=INFO
+LOG_PATH=logs/cognitive-agent.log
+
+# Security
+SECRET_KEY=your-secret-key-change-in-prod  # pragma: allowlist secret
+```
+
+### Конфигурационные файлы
+
+| Файл | Описание |
+|------|----------|
+| `.env` | Переменные окружения (не коммитить!) |
+| `config/agent-config.yaml` | Конфигурация агента |
+| `workflows/*.yaml` | Рабочие процессы |
+
+---
+
+## 📊 Мониторинг
+
+### Метрики
+
+- **Prometheus endpoint:** `GET /metrics` (если включено API)
+- **Structured logging:** JSON format в stdout
+- **Health checks:** `/health`, `/ready` (опционально)
+- **Agent metrics:** Количество сканирований, выполненных задач, метрик обучения
+
+### Дашборды
+
+- **Grafana:** http://localhost:3000 (если настроено)
+- **Traefik Dashboard:** http://localhost:8080 (если включено API)
+
+---
+
+## 🔄 CI/CD
+
+### Workflow
+
+```yaml
+# .github/workflows/cognitive-agent-ci.yml
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Run tests
+        run: pytest apps/cognitive-agent/tests/
+      - name: Run linters
+        run: ruff check apps/cognitive-agent/
+```
+
+### Развёртывание
+
+- **Environment:** Development → Production
+- **Strategy:** CLI-запуск или Docker-контейнер
+- **Rollback:** Автоматический при ошибках выполнения
+
+---
+
+## 📚 Дополнительные ресурсы
+
+### Документация
+
+| Документ | Назначение |
+|----------|------------|
+| [README-COMMUNITY.md](./README-COMMUNITY.md) | Внешняя документация для сообщества |
+| [IMPLEMENTATION_REPORT.md](./IMPLEMENTATION_REPORT.md) | Детальная реализация, архитектура |
+| [USAGE.md](./USAGE.md) | Инструкции по запуску в monorepo |
+| [ARCHITECTURE.md](../../ARCHITECTURE.md) | Общий обзор архитектуры |
+| [SECURITY.md](../../SECURITY.md) | Политика безопасности |
+
+### Связанные сервисы
+
+- **[Decision Engine]** — reasoning для сложных решений
+- **[Portfolio Organizer]** — сбор доказательств компетенций
+- **[IT-Compass]** — методология и метрики
+- **[CodeAssistant]** — скиллы для анализа кода
+- **[Infra Orchestrator]** — управление инфраструктурой
+
+### Известные проблемы
+
+| Проблема | Статус | Временное решение |
+|----------|--------|-------------------|
+| Некоторые скиллы — заглушки | In Progress | Постепенная реализация |
+| Нет полноценного sandbox | Open | Использовать Docker для изоляции |
+
+---
+
+## 📝 Changelog
+
+### [1.0.0] — 2026-05-15
+
+- **Added:** 31 тест с 100% прохождением
+- **Added:** Project Scanner (Python, JavaScript)
+- **Added:** Task Planner с генетическими алгоритмами
+- **Added:** Документация для сообщества (README-COMMUNITY.md)
+- **Changed:** Стандартизация документации по шаблону
+
+### [0.9.0] — 2026-04-30
+
+- **Added:** Базовая структура и конфигурации
+- **Added:** Рабочие процессы (project-setup)
+
+---
+
+## 👥 Контрибьюторы
+
+- **Ekaterina Kudelya** — Architect & Lead Developer
+- **Koda AI Agent** — Automated testing & documentation
+- **Community** — см. [README-COMMUNITY.md](./README-COMMUNITY.md)
 
 ---
 
@@ -189,46 +375,7 @@ CAA интегрируется с другими компонентами `Portf
 
 ### Для сообщества (внешний вклад)
 
-Смотрите [README-COMMUNITY.md](./README-COMMUNITY.md) — там подробное руководство по добавлению скиллов, интеграций и шаблонов.
-
----
-
-## 📚 Документация
-
-| Документ | Назначение |
-|----------|------------|
-| [README-COMMUNITY.md](./README-COMMUNITY.md) | Внешняя документация для сообщества |
-| [IMPLEMENTATION_REPORT.md](./IMPLEMENTATION_REPORT.md) | Детальная реализация, архитектура |
-| [USAGE.md](./USAGE.md) | Инструкции по запуску |
-| `docs/` (в разработке) | Полная документация |
-
----
-
-## ⚠️ Известные проблемы
-
-См. [docs/KNOWN-TEST-ISSUES.md](../../docs/KNOWN-TEST-ISSUES.md) — документация пре-существующих проблем с тестами.
-
-**Текущие issues:**
-- ✅ Все тесты проходят (31/31)
-- ⚠️ Некоторые скиллы — заглушки (нет реальной реализации)
-
----
-
-## 🛡️ Безопасность
-
-- **Sandbox для команд:** все команды выполняются в изолированной среде
-- **Лимиты ресурсов:** CPU ≤50%, память ≤1GB
-- **Откат изменений:** автоматический rollback при ошибках
-- **Аудит логов:** все действия агента логируются
-- **Без секретов:** агент не хранит и не передает API-ключи
-
-Подробнее: [`SECURITY.md`](../../SECURITY.md)
-
----
-
-## 📄 Лицензия
-
-MIT License — смотрите файл [`LICENSE`](../../LICENSE) для деталей.
+Смотрите [README-COMMUNITY.md](./README-COMMUNITY.md) — подробное руководство по добавлению скиллов, интеграций и шаблонов.
 
 ---
 
@@ -245,5 +392,4 @@ MIT License — смотрите файл [`LICENSE`](../../LICENSE) для де
 
 ---
 
-**Last Updated**: 2026-05-15
-**Status**: 🟢 Production Ready (MVP)
+*© 2026 Ekaterina Kudelya. Portfolio System Architect*

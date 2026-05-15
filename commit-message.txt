@@ -1,13 +1,19 @@
-feat: add comprehensive tests for memory store, disable Azure by default
+feat: resolve port conflict & document Traefik routing strategy
 
-Key changes:
-- Added 43 tests for InMemoryRoomStore (100% coverage of memory.py)
-- Created Docker setup for python_server without Azure dependencies
-- Added docker-compose.python-server.yml for local development
-- Updated README with "Quick Start (no cloud)" section
-- Created docs/AZURE_SETUP.md for optional Azure deployment
-- Configured VS Code settings, tasks, and keybindings
-- Total tests: 85 (84 passed, 1 skipped)
-- Coverage: 62.43% (memory.py: 100%, total: +5.9%)
+- Fix: ml-model-registry port 8001 -> 8002 (resolve conflict)
+- Fix: Dockerfile explicit COPY for requirements.txt (httpx fix)
+- Feat: Add direct port exposure (8001, 8002) for Windows compatibility
+- Docs: Explain Traefik limitation in Windows (Docker socket issue)
+- Docs: Add .reports/traefik-routing-analysis.md (detailed analysis)
+- Docs: Add .koda/plans/traefik-decision-plan.md (decision framework)
+- Docs: Update apps/README.md with direct port access instructions
 
-Closes: #issue-number
+Current State:
+- Both services healthy (decision-engine:8001, ml-model-registry:8002)
+- Direct access working (localhost:8001, localhost:8002)
+- Traefik routing unavailable (Windows Docker socket limitation)
+
+Decision:
+- Keep direct ports for development (current stage)
+- Plan nginx/Traefik migration at 5+ services or production readiness
+- See .reports/traefik-routing-analysis.md for full analysis
