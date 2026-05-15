@@ -85,8 +85,9 @@ git push origin feature/название-функции
 ### Перед созданием PR убедитесь, что:
 
 - [ ] Ветка обновлена до последней версии `main` (`git pull origin main`)
-- [ ] Все тесты проходят (`python -m pytest tests/`)
-- [ ] Код соответствует стилю проекта (`flake8 .`, `black .`)
+- [ ] Все тесты проходят (`pytest tests/`)
+- [ ] Код соответствует стилю проекта (`ruff check .`, `black .`, `mypy .`)
+- [ ] **Порты сервисов согласованы** (`make check-ports` или `python scripts/check_ports.py --strict`)
 - [ ] Дубликаты проверены (`python scripts/duplicate_finder.py`)
 - [ ] Документация обновлена при необходимости
 
