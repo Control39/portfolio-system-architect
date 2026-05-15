@@ -1,146 +1,112 @@
-# portfolio_organizer
+# Portfolio Organizer
 
-Portfolio management and organization service
-
-## Status
-
-- **Health**: 🟢 OK
-- **Tests**: ✅ 15 comprehensive tests
-- **Coverage**: 100% test coverage
-- **Documentation**: Complete
-
-## Quick Start
-
-```bash
-cd apps/portfolio_organizer
-python -m pytest tests/test_basic.py -v
-```
-
-## Testing
-
-### Run Basic Tests
-```bash
-python -m pytest tests/test_basic.py -v
-```
-
-### Run Specific Test Class
-```bash
-# Functionality tests
-python -m pytest tests/test_basic.py::TestBasicFunctionality -v
-
-# Error handling tests
-python -m pytest tests/test_basic.py::TestErrorHandling -v
-
-# Resource management tests
-python -m pytest tests/test_basic.py::TestResourceManagement -v
-
-# Performance tests
-python -m pytest tests/test_basic.py::TestPerformance -v
-```
-
-### Run with Coverage
-```bash
-python -m pytest tests/test_basic.py --cov=src --cov-report=html
-```
-
-### Run Integration Tests (top-5 services only)
-```bash
-python -m pytest tests/test_integration_portfolio_organizer.py -v
-```
-
-## Test Coverage
-
-### Test Statistics
-- **Total Tests**: 15 per service
-- **Pass Rate**: 100%
-- **Execution Time**: ~0.1s
-- **Coverage**: All functionality, error handling, resource management, performance
-
-### Test Categories
-
-#### 1. TestBasicFunctionality (6 tests)
-- Service imports successfully ✅
-- Configuration validation ✅
-- Service instance creation ✅
-- Service-specific operation 1 ✅
-- Service-specific operation 2 ✅
-- Service-specific operation 3 ✅
-
-#### 2. TestErrorHandling (4 tests)
-- Handles None input ✅
-- Handles empty input ✅
-- Handles invalid types ✅
-- Error recovery ✅
-
-#### 3. TestResourceManagement (3 tests)
-- Resource allocation ✅
-- Resource cleanup ✅
-- Thread-safe operations ✅
-
-#### 4. TestPerformance (2 tests)
-- Execution time acceptable ✅
-- No memory leaks ✅
-
-## Structure
-
-```
-apps/portfolio_organizer/
-├── src/                    # Main application code
-│   ├── __init__.py
-│   └── main.py
-├── config/                 # Configuration files
-│   ├── __init__.py
-│   └── default.yaml
-├── tests/                  # Test files
-│   ├── __init__.py
-│   ├── test_basic.py       # Enhanced tests (15 tests)
-│   └── test_integration_portfolio_organizer.py  # Integration tests (if applicable)
-├── docs/                   # Optional documentation
-├── README.md               # This file
-├── requirements.txt        # Python dependencies
-└── Dockerfile             # Container configuration
-```
-
-## Requirements
-
-- Python 3.10+
-- pytest >= 9.0.0
-- pytest-cov >= 7.0.0
-- pytest-mock >= 3.15.0
-
-## CI/CD
-
-Tests run automatically on:
-- ✅ Push to main/develop branches
-- ✅ Pull requests
-- ✅ Scheduled daily checks
-
-View test results: [GitHub Actions](https://github.com/Control39/portfolio-system-architect/actions)
-
-## Dependencies
-
-See `requirements.txt` for Python dependencies.
-
-## Contributing
-
-When adding new features:
-1. Add corresponding test cases
-2. Ensure all tests pass
-3. Maintain 100% test pass rate
-4. Update this README if needed
-
-## License
-
-MIT License - See LICENSE file for details
-
-## 🔌 Контракты / API
-Краткое описание.
-| Метод | Путь | Описание |
-|-------|------|----------|
-| `GET` | `/health` | Проверка статуса |
-> 💡 Swagger доступен по `/docs`
+**Система организации и анализа портфолио проектов**
 
 ---
 
-**Last Updated**: 2026-05-04
-**Status**: 🟢 Production Ready
+## 📊 Метрики качества
+
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Тесты** | 20/20 | ✅ 100% |
+| **Пропущено** | 4 (known issues) | ⚠️ |
+| **Покрытие** | ~75% | ✅ |
+| **Линтинг** | Чисто | ✅ |
+
+---
+
+## 🚀 Возможности
+
+### Project API
+
+- **Управление проектами**:
+  - `GET /api/projects` — список всех проектов
+  - `GET /api/projects/<id>` — проект по ID
+  - `GET /api/projects/<id>/recommendations` — рекомендации для проекта
+- **Анализ портфолио**:
+  - `GET /api/portfolio/analysis` — сводка портфолио
+  - `POST /api/portfolio/analysis` — анализ с ML-моделями
+
+### Интеграции
+
+- **IT-Compass API**: Маркеры компетенций
+- **Notification Service**: Уведомления по email
+- **ML Model Registry**: Интеграция для предсказаний
+
+---
+
+## 🧪 Тесты
+
+```bash
+# Запуск тестов
+pytest apps/portfolio_organizer/tests/ -v
+
+# С покрытием
+pytest apps/portfolio_organizer/tests/ --cov=apps/portfolio_organizer --cov-report=html
+```
+
+### Покрытие тестами
+
+| Класс тестов | Тесты | Статус | Описание |
+|-------------|-------|--------|----------|
+| `TestProjectAPI` | 6 | ✅ | Project endpoints |
+| `TestPortfolioAnalysis` | 3 | ✅ | Portfolio analysis |
+| `TestHealthEndpoints` | 4 | ✅ | Health checks |
+| `TestITCompassAPI` | 3 | ✅ | IT-Compass integration |
+| `TestNotificationService` | 2 | ✅ | Notifications |
+| `TestMLModelRegistryIntegration` | 4 | ⏸️ | ML integration (known issues) |
+| `TestErrorHandling` | 2 | ✅ | Error handling |
+
+**Итого:** 24 теста (20 passed, 4 skipped) ✅
+
+### Known Issues
+
+4 теста пропущены из-за импорта `ml_model_registry_integration` (отсутствует `utils.security` в контексте тестирования). Требуется рефакторинг импортов.
+
+---
+
+## 📁 Структура
+
+```
+apps/portfolio_organizer/
+├── src/
+│   ├── api/
+│   │   ├── reasoning_api.py       # Project & portfolio API
+│   │   └── ml_model_registry_integration.py  # ML integration
+│   ├── core/
+│   │   ├── ITCompassAPI.py        # IT-Compass integration
+│   │   └── notification_service.py # Email notifications
+│   └── utils/
+│       └── security.py             # Security utilities
+├── tests/
+│   ├── test_basic.py               # Шаблонные тесты (устарели)
+│   └── test_real.py                # Реальные тесты (20 passed)
+└── Dockerfile                      # Контейнеризация
+```
+
+---
+
+## 🚀 Использование
+
+```python
+# Получить проекты
+GET /api/projects
+
+# Получить рекомендации
+GET /api/projects/1/recommendations
+
+# Анализ портфолио
+GET /api/portfolio/analysis
+```
+
+---
+
+## 📚 Документация
+
+- [ARCHITECTURE.md](../../ARCHITECTURE.md)
+- [ML Model Registry](../ml_model_registry/README.md)
+- [IT-Compass](../it_compass/README.md)
+
+---
+
+*© 2026 Ekaterina Kudelya. Portfolio System Architect*
