@@ -58,7 +58,6 @@ def analyze_file(file_path: Path, relative_path: Path) -> dict:
     }
 
 
-
 def should_process_file(file_path: Path) -> bool:
     """Определяет, нужно ли обрабатывать файл"""
     text_extensions = {
