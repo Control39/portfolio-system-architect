@@ -202,6 +202,14 @@ class TestAPIEndpoints:
         assert response.status_code == 200
         assert "status" in response.json()
 
+    def test_health_endpoint_details(self, client):
+        """Тест health check с проверкой service name"""
+        response = client.get("/health")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "healthy"
+        assert data["service"] == "auth-service"
+
     def test_token_endpoint_with_valid_credentials(self, client):
         """Получение токена с валидными учётными данными"""
         response = client.post("/auth/token", json={"username": "testuser", "password": "testpass"})
@@ -210,6 +218,14 @@ class TestAPIEndpoints:
         assert "access_token" in data
         assert data["token_type"] == "bearer"
         assert data["expires_in"] == JWT_EXPIRATION_HOURS * 3600
+
+    def test_token_endpoint_with_user1(self, client):
+        """Получение токена для user1"""
+        response = client.post("/auth/token", json={"username": "user1", "password": "pass"})
+        assert response.status_code == 200
+        data = response.json()
+        assert "access_token" in data
+        assert data["token_type"] == "bearer"
 
     def test_token_endpoint_blocks_demo_demo(self, client):
         """Блокировка демо-учётных данных"""
@@ -222,17 +238,44 @@ class TestAPIEndpoints:
         response = client.post("/auth/token", json={"username": "testuser", "password": ""})
         assert response.status_code == 401
 
+    def test_token_endpoint_rejects_invalid_credentials(self, client):
+        """Отклонение невалидных учётных данных"""
+        response = client.post("/auth/token", json={"username": "", "password": ""})
+        assert response.status_code == 401
+        assert response.json()["detail"] == "Invalid credentials"
+
     def test_verify_endpoint_with_valid_token(self, client):
         """Верификация валидного токена через API"""
         # Сначала получаем токен
         token_response = client.post("/auth/token", json={"username": "testuser", "password": "testpass"})
-        token_response.json()["access_token"]
+        token = token_response.json()["access_token"]
 
-        # Верифицируем через endpoint (требуется авторизация)
-        # В реальном сценарии это делается через Depends(verify_token)
-        # Здесь проверяем, что эндпоинт существует
-        response = client.get("/health")  # health check работает
+        # Верифицируем через endpoint
+        response = client.post(
+            "/auth/verify",
+            headers={"Authorization": f"Bearer {token}"},
+        )
         assert response.status_code == 200
+        data = response.json()
+        assert data["valid"] is True
+        assert data["username"] == "testuser"
+        assert data["role"] == "user"
+
+    def test_verify_endpoint_with_invalid_token(self, client):
+        """Верификация невалидного токена через API"""
+        response = client.post(
+            "/auth/verify",
+            headers={"Authorization": "Bearer invalid-token"},
+        )
+        assert response.status_code == 401
+        assert response.json()["detail"] == "Invalid token"
+
+    def test_root_endpoint(self, client):
+        """Тест корневого эндпоинта"""
+        response = client.get("/")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["service"] == "Auth Service"
 
 
 class TestEdgeCases:
