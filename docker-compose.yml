@@ -91,14 +91,13 @@ services:
   # Route: /decision-engine
   # ============================================================
   decision-engine:
-    build: ./apps/decision-engine
+    build: ./apps/decision_engine
     environment:
       - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
-      - ./logs:/app/logs
-      - ./apps/decision-engine:/app
+      - ./apps/decision_engine:/app
       - ./data/rag-index:/app/rag-index
     networks:
       - portfolio-network

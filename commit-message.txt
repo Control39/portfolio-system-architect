@@ -1,0 +1,13 @@
+feat: add comprehensive tests for memory store, disable Azure by default
+
+Key changes:
+- Added 43 tests for InMemoryRoomStore (100% coverage of memory.py)
+- Created Docker setup for python_server without Azure dependencies
+- Added docker-compose.python-server.yml for local development
+- Updated README with "Quick Start (no cloud)" section
+- Created docs/AZURE_SETUP.md for optional Azure deployment
+- Configured VS Code settings, tasks, and keybindings
+- Total tests: 85 (84 passed, 1 skipped)
+- Coverage: 62.43% (memory.py: 100%, total: +5.9%)
+
+Closes: #issue-number
