@@ -37,20 +37,16 @@ def create_chat_api_blueprint(
     bp = Blueprint("chat_api", __name__)
 
     def _get_user_id() -> str:
-        user_id = request.headers.get("X-User-Id", "").strip() or "anonymous"
-        return user_id
+        return request.headers.get("X-User-Id", "").strip() or "anonymous"
 
     def _get_chat_service() -> Any:
-        svc = chat_service_ref() if callable(chat_service_ref) else chat_service_ref
-        return svc
+        return chat_service_ref() if callable(chat_service_ref) else chat_service_ref
 
     def _get_loop() -> Any:
-        loop = event_loop_ref() if callable(event_loop_ref) else event_loop_ref
-        return loop
+        return event_loop_ref() if callable(event_loop_ref) else event_loop_ref
 
     def _get_room_store() -> Any:
-        rs = room_store_ref() if callable(room_store_ref) else room_store_ref
-        return rs
+        return room_store_ref() if callable(room_store_ref) else room_store_ref
 
     # ---------------- Common helpers ----------------
     def run_async(

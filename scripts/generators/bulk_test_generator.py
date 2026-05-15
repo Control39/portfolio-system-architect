@@ -16,17 +16,17 @@ import pytest
 
 class Test{class_name}:
     """Tests for {service_name}"""
-    
+
     def test_service_initialization(self):
         """Test that service initializes correctly"""
         # TODO: Implement
         assert True
-    
+
     def test_main_functionality(self):
         """Test main functionality"""
         # TODO: Implement
         assert True
-    
+
     def test_error_handling(self):
         """Test error handling"""
         # TODO: Implement
@@ -35,12 +35,12 @@ class Test{class_name}:
 
 class TestConfiguration:
     """Configuration tests"""
-    
+
     def test_config_loading(self):
         """Test configuration loads"""
         # TODO: Implement
         assert True
-    
+
     def test_required_settings(self):
         """Test required settings exist"""
         # TODO: Implement
@@ -49,7 +49,7 @@ class TestConfiguration:
 
 class TestDependencies:
     """Dependency tests"""
-    
+
     def test_dependencies_available(self):
         """Test required dependencies are available"""
         # TODO: Implement

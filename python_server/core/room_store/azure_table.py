@@ -69,7 +69,7 @@ class AzureTableRoomStore(RoomStore):
             (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata").strip().lower()
         )
         # Lazy cache for list_rooms
-        self._known_rooms: set[str] = set([DEFAULT_ROOM_ID])
+        self._known_rooms: set[str] = {DEFAULT_ROOM_ID}
         if self._conn_str:
             self._svc = _tables_client_cls.from_connection_string(self._conn_str)
         elif self._account_name:

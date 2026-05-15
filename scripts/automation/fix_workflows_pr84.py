@@ -73,7 +73,7 @@ class WorkflowFixer:
                 content = re.sub(rf"\b{re.escape(old)}\b", new, content)
 
         # Count replacements
-        replacements_made = len([1 for _ in re.finditer(r".", original_content)]) - len(
+        len([1 for _ in re.finditer(r".", original_content)]) - len(
             [1 for _ in re.finditer(r".", content)]
         )
         if original_content != content:

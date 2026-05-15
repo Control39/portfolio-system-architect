@@ -143,7 +143,7 @@ class CompleteDiagnostic:
 
         extensions = {}
 
-        for root, dirs, files in os.walk(self.root):
+        for _root, dirs, files in os.walk(self.root):
             dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", "node_modules"]]
 
             for file in files:
@@ -201,7 +201,7 @@ class CompleteDiagnostic:
         if not self.apps_dir.exists():
             return result
 
-        for root, dirs, files in os.walk(self.root):
+        for _root, _dirs, files in os.walk(self.root):
             result["md_files"] += len([f for f in files if f.endswith(".md")])
 
         for service_dir in self.apps_dir.iterdir():

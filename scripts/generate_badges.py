@@ -24,7 +24,7 @@ def load_metrics():
 def generate_badges_section(metrics):
     """Генерировать секцию с бейджами"""
 
-    section = """<!-- REAL METRICS - Updated automatically -->
+    return """<!-- REAL METRICS - Updated automatically -->
 ## 📊 REAL METRICS (Updated Automatically)
 
 <p align="center">
@@ -63,7 +63,6 @@ def generate_badges_section(metrics):
         dockerfiles=metrics["dockerfiles"],
     )
 
-    return section
 
 
 def update_readme(badges_section):

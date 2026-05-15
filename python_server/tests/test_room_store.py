@@ -74,7 +74,7 @@ async def test_create_room_metadata_custom_id_and_duplicate():
 @pytest.mark.asyncio
 async def test_get_update_delete_metadata_flow():
     store = InMemoryRoomStore()
-    created = await store.create_room_metadata("u2", "Original", room_id="rX", description="desc")
+    await store.create_room_metadata("u2", "Original", room_id="rX", description="desc")
     fetched = await store.get_room_metadata("u2", "rX")
     assert fetched is not None and fetched.room_name == "Original"
     updated = await store.update_room_metadata("u2", "rX", room_name="Renamed", description="new")

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 import logging
 from collections.abc import AsyncIterator, Iterable
@@ -214,10 +215,8 @@ class ChatService(ChatServiceBase):
                                 await self.client_manager.add_client_to_group(connection_id, group_name)
                                 room_id = try_room_id_from_group(group_name)
                                 if room_id:
-                                    try:
+                                    with contextlib.suppress(Exception):
                                         await self.room_store.register_room(room_id)
-                                    except Exception:
-                                        pass
                                 ack_message = {
                                     "type": "ack",
                                     "ackId": data.get("ackId", 1),
@@ -406,10 +405,8 @@ class ChatService(ChatServiceBase):
         room_id = group
         group_name = as_room_group(room_id)
         await self.client_manager.add_client_to_group(connection_id, group_name)
-        try:
+        with contextlib.suppress(Exception):
             await self.room_store.register_room(room_id)
-        except Exception:
-            pass
         await self.notify_rooms_changed()
 
     async def remove_from_group(self, connection_id: str, group: str) -> None:

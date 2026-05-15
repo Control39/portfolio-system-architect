@@ -116,7 +116,7 @@ class IntegrationTestGenerator:
         fixtures = self._generate_fixtures(service_name, dependencies)
         tests = self._generate_test_cases(service_name, test_cases)
 
-        content = f'''"""
+        return f'''"""
 Integration Tests for {service_name}
 
 {description}
@@ -135,7 +135,6 @@ Tests:
 
 {tests}
 '''
-        return content
 
     def _generate_imports(self, service_name: str) -> str:
         """Генерировать импорты"""
@@ -188,13 +187,13 @@ def service_instance(service_config, mock_dependencies):
     # from apps.'''
             + service_name
             + '''.src import Service
-    
+
     service = MagicMock()
     service.config = service_config
     service.dependencies = mock_dependencies
-    
+
     yield service
-    
+
     # Cleanup
     service.cleanup() if hasattr(service, 'cleanup') else None
 
@@ -222,20 +221,20 @@ def reset_mocks(mock_dependencies):
 def {test_case}(service_instance, mock_dependencies, service_config):
     """
     Test Case {i}: {test_case.replace("test_", "").replace("_", " ").title()}
-    
+
     Validates integration between {service_name} and its dependencies.
     """
     # Arrange
     assert service_instance is not None
     assert service_config["name"] == "{service_name}"
-    
+
     # Act
     # TODO: Implement actual integration test logic
     result = True
-    
+
     # Assert
     assert result is True, "Integration test should pass"
-    
+
     # Verify dependencies were called appropriately
     # TODO: Add specific dependency assertion calls
 
@@ -245,11 +244,11 @@ async def {test_case}_async(service_instance, mock_dependencies):
     """Async version of {test_case}"""
     # Arrange
     service_instance.initialize = MagicMock(return_value=True)
-    
+
     # Act
     # TODO: Implement async integration logic
     await asyncio.sleep(0.01)  # Simulate async work
-    
+
     # Assert
     assert service_instance.initialize.called
 '''
@@ -278,7 +277,7 @@ def test_error_handling(service_instance, mock_dependencies):
     # Simulate dependency failure
     for dep_mock in mock_dependencies.values():
         dep_mock.side_effect = Exception("Dependency failed")
-    
+
     # Service should handle gracefully
     assert service_instance is not None
 
@@ -292,12 +291,12 @@ def test_resource_cleanup(service_instance):
 def test_performance(service_instance, service_config):
     """Test integration performance"""
     start_time = time.time()
-    
+
     # Simulate work
     time.sleep(0.01)
-    
+
     elapsed = time.time() - start_time
-    
+
     # Should complete within reasonable time
     assert elapsed < service_config["timeout"]
 
@@ -305,14 +304,14 @@ def test_performance(service_instance, service_config):
 def test_concurrent_operations(service_instance, mock_dependencies):
     """Test concurrent operations with dependencies"""
     import concurrent.futures
-    
+
     def operation():
         return service_instance is not None
-    
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         futures = [executor.submit(operation) for _ in range(5)]
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
-    
+
     assert all(results)
 '''
 

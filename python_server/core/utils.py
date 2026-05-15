@@ -29,7 +29,7 @@ def get_query_value(path: str, key: str) -> str | None:
     if "?" in path:
         query_string = path.split("?", 1)[1]
         pairs = [p.split("=", 1) for p in query_string.split("&") if "=" in p]
-        params = {k: v for k, v in pairs}
+        params = dict(pairs)
         return params.get(key)
     return None
 

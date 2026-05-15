@@ -158,7 +158,7 @@ class MetricsCollector:
 
     def generate_badges(self):
         """Генерировать динамические бейджи"""
-        badges = {
+        return {
             "python_files": {
                 "label": "Python Files",
                 "message": str(self.metrics.get("python_files", 0)),
@@ -187,7 +187,6 @@ class MetricsCollector:
             },
         }
 
-        return badges
 
     @staticmethod
     def _format_number(num):
@@ -206,7 +205,7 @@ class MetricsCollector:
         print("DYNAMIC BADGES FOR README.md")
         print("=" * 70 + "\n")
 
-        for badge_id, badge_data in badges.items():
+        for _badge_id, badge_data in badges.items():
             label = badge_data["label"]
             message = badge_data["message"]
             color = badge_data["color"]

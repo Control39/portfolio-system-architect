@@ -48,7 +48,7 @@ def fix_all_workflows():
             with open(workflow_file, "w", encoding="utf-8") as f:
                 f.write(content)
 
-            changes = sum(1 for _ in re.finditer(re.escape(old), original) for old, _ in replacements)
+            sum(1 for _ in re.finditer(re.escape(old), original) for old, _ in replacements)
             print(f"✅ {workflow_file.name:<40} Fixed")
         else:
             print(f"⊘  {workflow_file.name:<40} No changes needed")

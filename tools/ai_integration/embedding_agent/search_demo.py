@@ -13,11 +13,10 @@ from src.embedding_agent.embedder import CodeEmbedder
 def load_full_index(index_file: str):
     """Загружает полный индекс с эмбеддингами"""
     with open(index_file) as f:
-        index_meta = json.load(f)
+        return json.load(f)
 
     # Здесь нужно загружать полные эмбеддинги из отдельного хранилища
     # Для демо будем переиндексировать при поиске
-    return index_meta
 
 
 def search_similar_code(query: str, indexer, embedder, top_k: int = 5):
