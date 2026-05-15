@@ -3,6 +3,9 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
+# Exclude archive from checks
+exclude: docs/archive/
+
 repos:
   # Detect secrets
   - repo: https://github.com/Yelp/detect-secrets
