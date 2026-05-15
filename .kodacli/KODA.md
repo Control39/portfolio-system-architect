@@ -1044,3 +1044,12 @@ make lint && make test
 - [ ] E2E тесты для 4 сервисов
 
 ---
+
+### Долгосрочные задачи (Backlog)
+
+- [ ] **Переименование `cognitive-agent`** → `cognitive_agent` (валидный Python-пакет)
+  - 📄 План: `.koda/plans/cognitive-agent-rename-analysis.md`
+  - ⚠️ Риск: Высокий (800+ файлов), 2-3 часа работы
+  - 🎯 Приоритет: Низкий (не критично, код работает)
+
+---
