@@ -1,19 +1,9 @@
-feat: resolve port conflict & document Traefik routing strategy
+docs: add README and tests for AI tools (MCP server, AI proxy, repo audit)
 
-- Fix: ml-model-registry port 8001 -> 8002 (resolve conflict)
-- Fix: Dockerfile explicit COPY for requirements.txt (httpx fix)
-- Feat: Add direct port exposure (8001, 8002) for Windows compatibility
-- Docs: Explain Traefik limitation in Windows (Docker socket issue)
-- Docs: Add .reports/traefik-routing-analysis.md (detailed analysis)
-- Docs: Add .koda/plans/traefik-decision-plan.md (decision framework)
-- Docs: Update apps/README.md with direct port access instructions
-
-Current State:
-- Both services healthy (decision-engine:8001, ml-model-registry:8002)
-- Direct access working (localhost:8001, localhost:8002)
-- Traefik routing unavailable (Windows Docker socket limitation)
-
-Decision:
-- Keep direct ports for development (current stage)
-- Plan nginx/Traefik migration at 5+ services or production readiness
-- See .reports/traefik-routing-analysis.md for full analysis
+- Added README for tools/ai_integration (MCP server, 12 tools documented)
+- Added README for tools/dev_tools (AI Proxy Server, GigaChat/Codette)
+- Added README for tools/repo_audit (9 checks, 3 levels)
+- Added 12 tests for MCP server (test_mcp_server.py)
+- Added 12 tests for AI proxy (test_server.py)
+- Renamed tools/dev-tools to tools/dev_tools (valid Python module name)
+- Total: 3 READMEs, 24 tests, ~1500 lines of documentation

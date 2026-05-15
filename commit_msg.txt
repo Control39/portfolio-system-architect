@@ -1,5 +1,1 @@
-fix(security): add allowlist comments for test tokens in examples
-
-- JWT header eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 is public info (alg+typ)
-- Test password 'pass123' in docstring is a fake example
-- Both are false positives from detect-secrets scanner
+\"docs: add README and tests for AI tools (MCP server, AI proxy, repo audit)\"
