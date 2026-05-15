@@ -245,7 +245,7 @@ class PortfolioMCP:
                                         ),
                                     }
                                 )
-                            except:
+                            except Exception:
                                 marker_files.append(
                                     {
                                         "file": str(item.relative_to(project_root)),
@@ -336,7 +336,7 @@ class PortfolioMCP:
                                             "matches": content.lower().count(query.lower()),
                                         }
                                     )
-                            except:
+                            except Exception:
                                 continue
 
                 return [
@@ -420,7 +420,7 @@ class PortfolioMCP:
         async def analyze_project_structure() -> list[TextContent]:
             """Анализ структуры проекта"""
             try:
-                structure = {
+                structure: dict[str, dict] = {
                     "apps": {},
                     "docs": {},
                     "scripts": {},
@@ -443,7 +443,7 @@ class PortfolioMCP:
                         }
 
                 # Подсчет файлов по типам
-                file_types = {}
+                file_types: dict[str, int] = {}
                 for _root, dirs, files in os.walk(project_root):
                     # Пропускаем скрытые директории
                     dirs[:] = [d for d in dirs if not d.startswith(".")]

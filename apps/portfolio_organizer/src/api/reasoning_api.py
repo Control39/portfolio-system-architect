@@ -1,22 +1,14 @@
 """
-API для анализа и рекомендаций по проектам портфолио
+API для анализа и рекомендаций по проектам портфолио (FastAPI)
 """
 
-import os
+from datetime import datetime, timezone
 from typing import Any
 
-from flask import Flask, jsonify
-from flask_wtf.csrf import CSRFProtect
+from fastapi import APIRouter, HTTPException
 
 
-app = Flask(__name__)
-
-# Требуется установка SECRET_KEY через переменную окружения
-if not os.environ.get("SECRET_KEY"):
-    raise RuntimeError("SECRET_KEY environment variable is required")
-
-app.secret_key = os.environ.get("SECRET_KEY")
-csrf = CSRFProtect(app)
+router = APIRouter(prefix="/api", tags=["portfolio-reasoning"])
 
 # Демонстрационные данные проектов
 SAMPLE_PROJECTS = [
@@ -56,37 +48,36 @@ SAMPLE_PROJECTS = [
 ]
 
 
-@app.route("/api/projects", methods=["GET"])
-def get_projects():
+@router.get("/projects")
+async def get_projects() -> list[dict[str, Any]]:
     """Получение списка всех проектов"""
-    return jsonify(SAMPLE_PROJECTS)
+    return SAMPLE_PROJECTS
 
 
-@app.route("/api/projects/<int:project_id>", methods=["GET"])
-def get_project(project_id):
+@router.get("/projects/{project_id}")
+async def get_project(project_id: int) -> dict[str, Any]:
     """Получение информации о конкретном проекте"""
     project = next((p for p in SAMPLE_PROJECTS if p["id"] == project_id), None)
     if project:
-        return jsonify(project)
-    return jsonify({"error": "Project not found"}), 404
+        return project
+    raise HTTPException(status_code=404, detail="Project not found")
 
 
-@app.route("/api/projects/<int:project_id>/recommendations", methods=["GET"])
-def get_recommendations(project_id):
+@router.get("/projects/{project_id}/recommendations")
+async def get_recommendations(project_id: int) -> dict[str, Any]:
     """Получение рекомендаций для проекта"""
     project = next((p for p in SAMPLE_PROJECTS if p["id"] == project_id), None)
     if not project:
-        return jsonify({"error": "Project not found"}), 404
+        raise HTTPException(status_code=404, detail="Project not found")
 
     # Генерируем демонстрационные рекомендации
-    recommendations = generate_recommendations(project)
-    return jsonify(recommendations)
+    return generate_recommendations(project)
 
 
-@app.route("/api/portfolio/analysis", methods=["GET"])
-def portfolio_analysis():
+@router.get("/portfolio/analysis")
+async def portfolio_analysis() -> dict[str, Any]:
     """Анализ всего портфолио"""
-    analysis = {
+    return {
         "total_projects": len(SAMPLE_PROJECTS),
         "completed_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "completed"]),
         "in_progress_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"]),
@@ -96,11 +87,11 @@ def portfolio_analysis():
         "technologies": list({tech for p in SAMPLE_PROJECTS for tech in p["technologies"]}),
     }
 
-    return jsonify(analysis)
-
 
 def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
     """Генерация рекомендаций для проекта"""
+    from datetime import datetime, timezone
+
     recommendations = {
         "project_id": project["id"],
         "project_name": project["name"],
@@ -125,10 +116,8 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
             )
 
     # Рекомендации на основе дедлайна
-    from datetime import datetime
-
-    deadline = datetime.strptime(project["deadline"], "%Y-%m-%d")
-    days_until_deadline = (deadline - datetime.now()).days
+    deadline = datetime.strptime(project["deadline"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    days_until_deadline = (deadline - datetime.now(timezone.utc)).days
 
     if days_until_deadline < 30 and project["status"] != "completed":
         recommendations["suggestions"].append(
@@ -159,28 +148,15 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
     return recommendations
 
 
-@app.route("/api/health", methods=["GET"])
-@app.route("/health", methods=["GET"])
-@app.route("/ready", methods=["GET"])
-@app.route("/live", methods=["GET"])
-def health_check():
+@router.get("/health")
+@router.get("/ready")
+@router.get("/live")
+async def health_check() -> dict[str, Any]:
     """Проверка состояния API - поддерживает /health, /ready, /live endpoints"""
-    from datetime import datetime
-
-    return jsonify(
-        {
-            "service": "Portfolio Organizer Reasoning API",
-            "status": "healthy",
-            "version": "0.1.0",
-            "timestamp": datetime.utcnow().isoformat(),
-            "checks": {"api": {"status": "ok"}},
-        }
-    )
-
-
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5000,
-        debug=os.environ.get("FLASK_DEBUG", "False").lower() == "true",
-    )
+    return {
+        "service": "Portfolio Organizer Reasoning API",
+        "status": "healthy",
+        "version": "0.1.0",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "checks": {"api": {"status": "ok"}},
+    }

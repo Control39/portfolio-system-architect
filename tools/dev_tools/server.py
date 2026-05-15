@@ -3,9 +3,13 @@ import json
 import os
 
 import requests
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+
+# Загружаем переменные окружения
+load_dotenv()
 
 app = FastAPI()
 
@@ -64,6 +68,7 @@ async def chat_completions(request: ChatRequest):
                     "prompt": request.messages[-1].content,
                     "stream": False,
                 },
+                timeout=30,
             )
             data = response.json()
             return {
@@ -92,6 +97,7 @@ async def chat_completions(request: ChatRequest):
                     "Authorization": f"Basic {config['gigachat']['api_key']}",
                 },
                 data={"scope": "GIGACHAT_API_PERS"},
+                timeout=30,
             )
             token = auth_response.json().get("access_token")
 
@@ -106,6 +112,7 @@ async def chat_completions(request: ChatRequest):
                     "messages": [{"role": m.role, "content": m.content} for m in request.messages],
                     "temperature": 0.7,
                 },
+                timeout=60,
             )
             data = chat_response.json()
             return {

@@ -1,5 +1,5 @@
 """
-Реальные тесты для portfolio_organizer
+Реальные тесты для portfolio_organizer (FastAPI)
 
 Service Tier: BUSINESS
 Purpose: Unit и functional тесты реальной бизнес-логики
@@ -13,8 +13,10 @@ Test Coverage:
 """
 
 import os
+from datetime import datetime
 
 import pytest
+from fastapi.testclient import TestClient
 
 
 # Устанавливаем SECRET_KEY ДО импорта приложения
@@ -25,21 +27,19 @@ import sys
 
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from apps.portfolio_organizer.src.api.reasoning_api import SAMPLE_PROJECTS, app, generate_recommendations
+from apps.portfolio_organizer.src.api.reasoning_api import SAMPLE_PROJECTS, router
 
 
-# ============================================================================
-# FIXTURES
-# ============================================================================
-
-
+# Создаем тестовый клиент FastAPI
 @pytest.fixture
 def client():
-    """Flask test client"""
-    os.environ["SECRET_KEY"] = "test-secret-key"
-    app.config["TESTING"] = True
-    with app.test_client() as client:
-        yield client
+    """FastAPI test client"""
+    from fastapi import FastAPI
+
+    app = FastAPI()
+    app.include_router(router)
+    with TestClient(app) as test_client:
+        yield test_client
 
 
 @pytest.fixture
@@ -70,7 +70,7 @@ class TestProjectAPI:
         """Test: Получить список всех проектов"""
         response = client.get("/api/projects")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert isinstance(data, list)
         assert len(data) > 0
         assert "id" in data[0]
@@ -80,7 +80,7 @@ class TestProjectAPI:
         """Test: Получить существующий проект по ID"""
         response = client.get("/api/projects/1")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert data["id"] == 1
         assert data["name"] == "E-commerce Platform"
 
@@ -88,14 +88,14 @@ class TestProjectAPI:
         """Test: Получить несуществующий проект возвращает 404"""
         response = client.get("/api/projects/9999")
         assert response.status_code == 404
-        data = response.get_json()
-        assert "error" in data
+        data = response.json()
+        assert "detail" in data
 
     def test_get_project_recommendations(self, client):
         """Test: Получить рекомендации для проекта"""
         response = client.get("/api/projects/1/recommendations")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert "project_id" in data
         assert "suggestions" in data
         assert isinstance(data["suggestions"], list)
@@ -104,12 +104,14 @@ class TestProjectAPI:
         """Test: Рекомендации для незавершенного проекта"""
         response = client.get("/api/projects/1/recommendations")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         # Проект в процессе, прогресс 75%
         assert data["project_id"] == 1
 
     def test_generate_recommendations_logic(self, sample_project):
         """Test: Логика генерации рекомендаций"""
+        from apps.portfolio_organizer.src.api.reasoning_api import generate_recommendations
+
         recommendations = generate_recommendations(sample_project)
         assert recommendations["project_id"] == 999
         assert "suggestions" in recommendations
@@ -130,7 +132,7 @@ class TestPortfolioAnalysis:
         """Test: Анализ портфолио возвращает сводку"""
         response = client.get("/api/portfolio/analysis")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert "total_projects" in data
         assert "completed_projects" in data
         assert "in_progress_projects" in data
@@ -141,7 +143,7 @@ class TestPortfolioAnalysis:
         """Test: Анализ корректно считает итоги"""
         response = client.get("/api/portfolio/analysis")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert data["total_projects"] == len(SAMPLE_PROJECTS)
         assert data["total_budget"] == sum(p["budget"] for p in SAMPLE_PROJECTS)
 
@@ -149,7 +151,7 @@ class TestPortfolioAnalysis:
         """Test: Анализ возвращает уникальные технологии"""
         response = client.get("/api/portfolio/analysis")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert "technologies" in data
         assert isinstance(data["technologies"], list)
         # Python должен быть в списке
@@ -165,28 +167,30 @@ class TestHealthEndpoints:
     """Тесты для health check endpoints"""
 
     def test_health_endpoint(self, client):
-        """Test: /health возвращает healthy"""
-        response = client.get("/health")
+        """Test: /api/health возвращает healthy"""
+        response = client.get("/api/health")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert data["status"] == "healthy"
         assert "service" in data
 
     def test_health_endpoint_has_timestamp(self, client):
         """Test: Health ответ содержит timestamp"""
-        response = client.get("/health")
+        response = client.get("/api/health")
         assert response.status_code == 200
-        data = response.get_json()
+        data = response.json()
         assert "timestamp" in data
+        # Проверка, что timestamp в формате ISO
+        datetime.fromisoformat(data["timestamp"].replace("Z", "+00:00"))
 
     def test_ready_endpoint(self, client):
-        """Test: /ready endpoint работает"""
-        response = client.get("/ready")
+        """Test: /api/ready endpoint работает"""
+        response = client.get("/api/ready")
         assert response.status_code == 200
 
     def test_live_endpoint(self, client):
-        """Test: /live endpoint работает"""
-        response = client.get("/live")
+        """Test: /api/live endpoint работает"""
+        response = client.get("/api/live")
         assert response.status_code == 200
 
 
@@ -297,12 +301,12 @@ class TestErrorHandling:
         """Test: Обработка ошибки проекта не найден"""
         response = client.get("/api/projects/9999")
         assert response.status_code == 404
-        data = response.get_json()
-        assert data["error"] == "Project not found"
+        data = response.json()
+        assert data["detail"] == "Project not found"
 
     def test_recommendations_for_nonexistent_project(self, client):
         """Test: Рекомендации для несуществующего проекта"""
         response = client.get("/api/projects/9999/recommendations")
         assert response.status_code == 404
-        data = response.get_json()
-        assert "error" in data
+        data = response.json()
+        assert "detail" in data
