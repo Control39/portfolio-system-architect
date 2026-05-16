@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-config-manager"
+version = "1.0.0"
+description = "Централизованное управление конфигурациями AI-агентов с поддержкой hot reload"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Ekaterina Kudelya", email = "your.email@example.com"}
+]
+keywords = [
+    "ai",
+    "config",
+    "llm",
+    "agents",
+    "pydantic",
+    "hot-reload",
+    "yaml",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0.0",
+    "watchdog>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Control39/portfolio-system-architect/tree/main/apps/ai-config-manager"
+Documentation = "https://github.com/Control39/portfolio-system-architect#ai-config-manager"
+Repository = "https://github.com/Control39/portfolio-system-architect"
+Issues = "https://github.com/Control39/portfolio-system-architect/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["apps/ai-config-manager/src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B008"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["apps/ai-config-manager/tests"]
+addopts = ["--cov=apps/ai-config-manager/src", "--cov-report=term-missing"]
