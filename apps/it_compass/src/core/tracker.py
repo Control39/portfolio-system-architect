@@ -10,7 +10,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -38,9 +37,18 @@ class SkillData:
 class CareerTracker:
     def __init__(
         self,
-        markers_dir: str = "apps/it_compass/src/data/markers",
-        progress_file: str = "apps/it_compass/src/data/user_progress.json",
+        markers_dir: str | None = None,
+        progress_file: str | None = None,
     ):
+        # Получить корень проекта
+        project_root = Path(__file__).parent.parent.parent
+
+        # Использовать абсолютные пути относительно проекта
+        if markers_dir is None:
+            markers_dir = str(project_root / "src" / "data" / "markers")
+        if progress_file is None:
+            progress_file = str(project_root / "src" / "data" / "user_progress.json")
+
         self.markers_dir = Path(markers_dir)
         self.progress_file = Path(progress_file)
         self._markers_cache: dict[str, SkillData] | None = None
@@ -60,7 +68,9 @@ class CareerTracker:
                     with open(file_path, encoding="utf-8-sig") as f:
                         skill_data_raw = json.load(f)
 
-                    skill_name = skill_data_raw.get("skill_name", file_path.stem.capitalize())
+                    skill_name = skill_data_raw.get(
+                        "skill_name", file_path.stem.capitalize()
+                    )
                     levels = self._parse_skill_levels(skill_data_raw.get("levels", {}))
 
                     markers[skill_name] = SkillData(
@@ -80,8 +90,10 @@ class CareerTracker:
 
         return markers
 
-    def _parse_skill_levels(self, levels_data: dict[str, Any]) -> dict[str, list[Marker]]:
-        levels = {}
+    def _parse_skill_levels(
+        self, levels_data: dict[str, Any]
+    ) -> dict[str, list[Marker]]:
+        levels: dict[str, list[Marker]] = {}
         for level_key, markers_list in levels_data.items():
             levels[level_key] = []
             for marker_data in markers_list:
@@ -94,8 +106,12 @@ class CareerTracker:
                         resources=marker_data.get("resources", []),
                         smart_criteria=marker_data.get("smart_criteria", {}),
                         skill_name=marker_data.get("skill_name"),
-                        methodology_author=marker_data.get("methodology_author", "Ekaterina Kudelya"),
-                        methodology_license=marker_data.get("methodology_license", "CC BY-ND 4.0"),
+                        methodology_author=marker_data.get(
+                            "methodology_author", "Ekaterina Kudelya"
+                        ),
+                        methodology_license=marker_data.get(
+                            "methodology_license", "CC BY-ND 4.0"
+                        ),
                     )
                     levels[level_key].append(marker)
                 except KeyError as e:
@@ -119,15 +135,21 @@ class CareerTracker:
             completed = data.get("completed_markers", [])
             in_progress = data.get("in_progress_markers", [])
 
-            if not isinstance(completed, list) or not all(isinstance(x, str) for x in completed):
+            if not isinstance(completed, list) or not all(
+                isinstance(x, str) for x in completed
+            ):
                 logger.warning("Некорректные данные completed_markers")
                 completed = []
 
-            if not isinstance(in_progress, list) or not all(isinstance(x, str) for x in in_progress):
+            if not isinstance(in_progress, list) or not all(
+                isinstance(x, str) for x in in_progress
+            ):
                 logger.warning("Некорректные данные in_progress_markers")
                 in_progress = []
 
-            logger.info(f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе")
+            logger.info(
+                f"Загружен прогресс: {len(completed)} выполнено, {len(in_progress)} в процессе"
+            )
             return {"completed_markers": completed, "in_progress_markers": in_progress}
 
         except json.JSONDecodeError as e:
@@ -177,7 +199,9 @@ class CareerTracker:
 
             percentage = (completed_count / skill_total) * 100
             progress_bar = self._create_progress_bar(percentage)
-            print(f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})")
+            print(
+                f"{skill_name:<20} {progress_bar} {percentage:5.1f}% ({completed_count}/{skill_total})"
+            )
 
         if total_markers > 0:
             overall_percentage = (total_completed / total_markers) * 100
@@ -232,7 +256,10 @@ class CareerTracker:
         for skill_name, skill_data in self.markers.items():
             for level_markers in skill_data.levels.values():
                 for marker in level_markers:
-                    if marker.id not in self.progress["completed_markers"] and marker.priority == "high":
+                    if (
+                        marker.id not in self.progress["completed_markers"]
+                        and marker.priority == "high"
+                    ):
                         high_priority_markers.append((skill_name, marker))
 
         if not high_priority_markers:
@@ -259,7 +286,7 @@ class CareerTracker:
                     print(f"... и ещё {remaining} рекомендаций")
                 break
 
-    def get_skill_progress(self, skill_name: str) -> dict[str, Any]:
+    def get_skill_progress(self, skill_name: str) -> dict[str, Any] | None:
         skill_data = self.markers.get(skill_name)
         if not skill_data:
             return None
@@ -268,7 +295,6 @@ class CareerTracker:
         total = 0
 
         for _level_key, level_markers in skill_data.levels.items():
-            len(level_markers)
             level_completed = 0
 
             for marker in level_markers:
@@ -286,6 +312,43 @@ class CareerTracker:
             "percentage": overall_percentage,
             "completed_markers": [m.id for m in completed],
             "levels": skill_data.levels,
+        }
+
+    def calculate_progress(self) -> dict[str, Any]:
+        """
+        Рассчитать общий прогресс по всем навыкам.
+
+        Returns:
+            dict: Общий прогресс с разбивкой по навыкам
+        """
+        total_completed = 0
+        total_markers = 0
+        domain_breakdown = {}
+
+        for skill_name, _ in self.markers.items():
+            skill_progress = self.get_skill_progress(skill_name)
+            if skill_progress:
+                completed = skill_progress["completed_count"]
+                total = skill_progress["total_count"]
+
+                total_completed += completed
+                total_markers += total
+
+                domain_breakdown[skill_name] = {
+                    "completed": completed,
+                    "total": total,
+                    "percentage": skill_progress["percentage"],
+                }
+
+        overall_percentage = (
+            (total_completed / total_markers * 100) if total_markers > 0 else 0
+        )
+
+        return {
+            "overall_progress": overall_percentage,
+            "total_completed": total_completed,
+            "total_markers": total_markers,
+            "domain_breakdown": domain_breakdown,
         }
 
 

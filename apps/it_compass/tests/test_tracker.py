@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 
-
 sys.path.append(".")
 
 from apps.it_compass.src.core.tracker import CareerTracker
@@ -12,8 +11,15 @@ from apps.it_compass.src.core.tracker import CareerTracker
 
 def test_tracker_initialization():
     tracker = CareerTracker()
-    assert tracker.markers_dir == Path("apps/it_compass/src/data/markers")
-    assert tracker.progress_file == Path("apps/it_compass/src/data/user_progress.json")
+    # Теперь пути абсолютные, проверяем, что они содержат ожидаемые компоненты
+    markers_dir_str = str(tracker.markers_dir)
+    progress_file_str = str(tracker.progress_file)
+    assert "it_compass" in markers_dir_str
+    assert "src" in markers_dir_str
+    assert "markers" in markers_dir_str
+    assert "it_compass" in progress_file_str
+    assert "src" in progress_file_str
+    assert "user_progress.json" in progress_file_str
 
 
 def test_progress_file_creation():

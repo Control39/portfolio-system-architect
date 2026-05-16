@@ -6,9 +6,13 @@
 
 import json
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
 
+# Добавить корень проекта в путь для корректных импортов
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
 logger = logging.getLogger(__name__)
 
@@ -16,10 +20,29 @@ logger = logging.getLogger(__name__)
 class PortfolioGenerator:
     def __init__(
         self,
-        markers_dir: str = "src/data/markers",
-        progress_file: str = "src/data/user_progress.json",
-        output_file: str = "docs/my_portfolio.md",
+        markers_dir: str | None = None,
+        progress_file: str | None = None,
+        output_file: str | None = None,
     ):
+        # Использовать абсолютные пути относительно проекта
+        if markers_dir is None:
+            markers_dir = str(
+                project_root / "apps" / "it_compass" / "src" / "data" / "markers"
+            )
+        if progress_file is None:
+            progress_file = str(
+                project_root
+                / "apps"
+                / "it_compass"
+                / "src"
+                / "data"
+                / "user_progress.json"
+            )
+        if output_file is None:
+            output_file = str(
+                project_root / "apps" / "it_compass" / "docs" / "my_portfolio.md"
+            )
+
         self.markers_dir = Path(markers_dir)
         self.progress_file = Path(progress_file)
         self.output_file = Path(output_file)
@@ -75,7 +98,7 @@ class PortfolioGenerator:
         if self._markers_cache is not None:
             return self._markers_cache
 
-        markers = {}
+        markers: dict[str, dict] = {}
 
         if not self.markers_dir.exists():
             logger.warning(f"Директория маркеров не найдена: {self.markers_dir}")
@@ -87,7 +110,9 @@ class PortfolioGenerator:
                     with open(json_path, encoding="utf-8") as f:
                         skill_data = json.load(f)
 
-                    skill_name = skill_data.get("skill_name", json_path.stem.capitalize())
+                    skill_name = skill_data.get(
+                        "skill_name", json_path.stem.capitalize()
+                    )
 
                     for level_data in skill_data.get("levels", {}).values():
                         for marker in level_data:
@@ -131,9 +156,13 @@ class PortfolioGenerator:
                 if marker.get("priority") == "high":
                     lines.append(" > ⭐ Высокий приоритет для трудоустройства")
 
-                methodology_author = marker.get("methodology_author", "Ekaterina Kudelya")
+                methodology_author = marker.get(
+                    "methodology_author", "Ekaterina Kudelya"
+                )
                 methodology_license = marker.get("methodology_license", "CC BY-ND 4.0")
-                lines.append(f" > 📋 Методология: © {methodology_author}, {methodology_license}")
+                lines.append(
+                    f" > 📋 Методология: © {methodology_author}, {methodology_license}"
+                )
             lines.append("")
 
         lines.extend(
@@ -151,7 +180,7 @@ class PortfolioGenerator:
         return lines
 
     def _group_markers_by_skill(self, markers: list[dict]) -> dict[str, list[dict]]:
-        grouped = {}
+        grouped: dict[str, list[dict]] = {}
         for marker in markers:
             skill = marker.get("skill_name", "Other")
             grouped.setdefault(skill, []).append(marker)
