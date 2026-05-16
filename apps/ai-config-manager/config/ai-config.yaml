@@ -1,0 +1,106 @@
+# AI Config Manager - Пример конфигурации
+
+version: "1.0.0"
+
+# Конфигурации агентов
+agents:
+  cognitive-agent:
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2048
+    resources:
+      - "code-analyzer"
+      - "test-runner"
+    timeout: 30
+    retry_count: 3
+
+  job-agent:
+    model: "gpt-3.5-turbo"
+    temperature: 0.5
+    max_tokens: 1024
+    resources:
+      - "job-scraper"
+    timeout: 60
+    retry_count: 5
+
+  decision-engine:
+    model: "claude-3"
+    temperature: 0.3
+    max_tokens: 4096
+    resources:
+      - "knowledge-base"
+      - "rag-index"
+    timeout: 120
+    retry_count: 2
+
+# Конфигурации ресурсов
+resources:
+  code-analyzer:
+    name: "code-analyzer"
+    type: "tool"
+    enabled: true
+    config:
+      language: "python"
+      linting: true
+      testing: true
+      max_file_size: 1048576
+    metadata:
+      version: "1.0.0"
+      author: "AI Config Manager"
+
+  test-runner:
+    name: "test-runner"
+    type: "tool"
+    enabled: true
+    config:
+      framework: "pytest"
+      coverage: true
+      parallel: true
+    metadata:
+      version: "1.0.0"
+
+  job-scraper:
+    name: "job-scraper"
+    type: "api"
+    enabled: true
+    config:
+      base_url: "https://api.job-board.com"
+      rate_limit: 100
+      timeout: 30
+    metadata:
+      version: "2.1.0"
+
+  knowledge-base:
+    name: "knowledge-base"
+    type: "database"
+    enabled: true
+    config:
+      connection_string: "${DATABASE_URL}"
+      pool_size: 10
+      max_overflow: 5
+    metadata:
+      version: "1.5.0"
+
+  rag-index:
+    name: "rag-index"
+    type: "storage"
+    enabled: true
+    config:
+      index_path: "./data/rag-index"
+      embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+      top_k: 5
+    metadata:
+      version: "1.0.0"
+
+# Секреты (используют переменные окружения)
+secrets:
+  api_keys:
+    openai: "${OPENAI_API_KEY}"
+    azure: "${AZURE_API_KEY}"
+    anthropic: "${ANTHROPIC_API_KEY}"
+  database_urls:
+    primary: "${DATABASE_URL}"
+    replica: "${DATABASE_REPLICA_URL}"
+  custom:
+    jwt_secret: "${JWT_SECRET}"
+    encryption_key: "${ENCRYPTION_KEY}"
