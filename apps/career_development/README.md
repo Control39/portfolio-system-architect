@@ -32,7 +32,7 @@ career_development/
 │   ├── api/          # API эндпоинты
 │   ├── core/         # Бизнес-логика (CompetencyTracker)
 │   └── models/       # Pydantic модели
-├── tests/            # 56 тестов (100% покрытие)
+├── tests/            # 56 тестов (80% покрытие)
 ├── Dockerfile
 └── requirements.txt
 ```

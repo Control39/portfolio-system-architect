@@ -43,11 +43,19 @@
 | Сервис | Порт | Health Check | Статус |
 |--------|------|--------------|--------|
 | `auth_service/` | 8100 | `http://localhost:8100/health` | ✅ |
-| `career_development/` | 8000 | `http://localhost:8000/health` | ⏳ |
-| `decision_engine/` | **8001** | `http://localhost:8001/api/v1/status` | ✅ |
-| `ml_model_registry/` | **8002** | `http://localhost:8002/health` | ✅ |
+| `career_development/` | 8000 | `http://localhost:8000/health` | ✅ |
+| `decision_engine/` | 8001 | `http://localhost:8001/api/v1/status` | ✅ |
+| `ml_model_registry/` | 8002 | `http://localhost:8002/health` | ✅ |
+| `system_proof/` | 8003 | `http://localhost:8003/health` | ✅ |
+| `portfolio_organizer/` | 8004 | `http://localhost:8004/health` | ✅ |
 | `it_compass/` | 8501 | `http://localhost:8501/_stcore/health` | ✅ |
-| `portfolio_organizer/` | 8004 | `http://localhost:8004/health` | ⏳ |
+| `infra-orchestrator/` | 8005 | `http://localhost:8005/health` | ✅ |
+| `job-automation-agent/` | 8006 | `http://localhost:8006/health` | ✅ |
+| `knowledge_graph/` | 8007 | `http://localhost:8007/health` | ✅ |
+| `mcp_server/` | 8008 | `http://localhost:8008/health` | ✅ |
+| `thought-architecture/` | 8009 | `http://localhost:8009/health` | ✅ |
+| `ai-config-manager/` | 8010 | `http://localhost:8010/health` | ✅ |
+| `cognitive-agent/` | — | CLI (без порта) | ✅ |
 
 ### Маршруты через Traefik (недоступны в Windows)
 
@@ -56,12 +64,10 @@
 | `auth_service/` | `/auth` | 8100 | ❌ 404 |
 | `decision_engine/` | `/decision-engine` | 8001 | ❌ 404 |
 | `ml_model_registry/` | `/ml-registry` | 8002 | ❌ 404 |
+| `system_proof/` | `/system-proof` | 8003 | ❌ 404 |
+| `portfolio_organizer/` | `/portfolio-organizer` | 8004 | ❌ 404 |
 | `it_compass/` | `/it-compass` | 8501 | ❌ 404 |
-
-**Альтернатива:** В Linux/Kubernetes Traefik работает корректно — используйте маршруты `/service-name`.
-| `system_proof/` | Система доказательств (CoT) | 8003 | `/system-proof` | ✅ |
-| `template-service/` | Шаблон микросервиса | — | — | ✅ |
-| `thought-architecture/` | Архитектура мышления | — | — | ✅ |
+| `career_development/` | `/career-dev` | 8000 | ❌ 404 |
 
 > **💡 Маршрутизация:** Все сервисы доступны через единый порт (localhost:80). Порты (8001, 8002 и т.д.) используются **внутри** Docker network для маршрутизации через Traefik.
 

@@ -32,7 +32,7 @@ it_compass/
 │   ├── api/          # API эндпоинты
 │   ├── core/         # Методология (маркеры, трекинг)
 │   └── models/       # Pydantic модели
-├── tests/            # 46 тестов (100% покрытие)
+├── tests/            # 46 тестов (85% покрытие)
 ├── app.py            # Streamlit UI
 ├── Dockerfile
 └── requirements.txt

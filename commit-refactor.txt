@@ -1,0 +1,17 @@
+refactor: root cleanup, docs consolidation, and README synchronization
+
+Changes:
+- Moved 12 temp files to docs/archive/temp-files/ (commit_*.txt, scripts, logs)
+- Consolidated IT-Compass cases into docs/cases/it-compass/ (5 files)
+- Fixed README contradictions:
+  * career_development: 100% → 80% coverage
+  * decision_engine: 100% → 85% coverage
+  * it_compass: 100% → 85% coverage
+- Updated apps/README.md: added 7 missing services, fixed port table
+- Created PROJECT_STATUS_2026-05-16.md (HR/technical report)
+- Created ROOT_CLEANUP_2026-05-16.md (cleanup documentation)
+
+Metrics:
+- Root files: -17 (cleaner)
+- Documentation: +3 new reports
+- README accuracy: 100% (no contradictions)

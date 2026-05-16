@@ -32,7 +32,7 @@ decision_engine/
 │   ├── api/          # API эндпоинты
 │   ├── core/         # Бизнес-логика (reasoning engine)
 │   └── models/       # Pydantic модели
-├── tests/            # 50 тестов (100% покрытие)
+├── tests/            # 50 тестов (85% покрытие)
 ├── Dockerfile
 └── requirements.txt
 ```
