@@ -10,17 +10,17 @@ import logging
 import sys
 from pathlib import Path
 
-
 # Add the project root to the path to allow imports
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 try:
-    from src.core.tracker import CareerTracker
-    from src.utils.portfolio_gen import generate_portfolio
+    from it_compass.src.core.tracker import CareerTracker
+    from it_compass.src.utils.portfolio_gen import generate_portfolio
 except ImportError as e:
     print(f"❌ Ошибка импорта модулей: {e}")
     print("Убедитесь, что вы находитесь в корневой директории проекта")
+    print("Или установите пакет: pip install -e .")
     sys.exit(1)
 
 logging.basicConfig(
@@ -44,7 +44,9 @@ def show_mental_support_message():
     print("Дорогой путешественник в мире IT,")
     print()
     print("Твой путь — это не просто набор маркеров и технологий.")
-    print("Это история твоего роста, преодоления сомнений и открытия своих сильных сторон.")
+    print(
+        "Это история твоего роста, преодоления сомнений и открытия своих сильных сторон."
+    )
     print()
     print("Важно помнить:")
     print("✅ Сравнивай себя не с другими, а с тобой вчерашним")
@@ -122,6 +124,7 @@ class ITCompassApp:
                 return False
             else:
                 print("❌ Неверный выбор. Попробуйте снова.")
+                return True  # Продолжить цикл
         except KeyboardInterrupt:
             print("\n\n👋 Прерывание пользователем. До свидания!")
             return False
@@ -130,6 +133,7 @@ class ITCompassApp:
             print(f"⚠️ Произошла ошибка: {e}")
             print("Попробуйте ещё раз или обратитесь к администратору")
             return True
+        return True  # Гарантированный return для mypy
 
     def show_progress(self):
         print("\n📊 ВАШ ПРОГРЕСС:")
@@ -188,7 +192,7 @@ class ITCompassApp:
             "🏆 Ещё один шаг к карьерным высотам!",
             "🌟 Ваш рост впечатляет! Не останавливайтесь!",
         ]
-        print(f"\n{random.choice(messages)}")
+        print(f"\n{random.choice(messages)}")  # nosec B311
 
     def show_recommendations(self):
         try:
@@ -265,7 +269,9 @@ class ITCompassApp:
         while self.running:
             try:
                 self.show_menu()
-                choice = input("Выберите действие (1-8): ").strip()  # Обновлен диапазон до 8
+                choice = input(
+                    "Выберите действие (1-8): "
+                ).strip()  # Обновлен диапазон до 8
                 if not self.handle_choice(choice):
                     self.running = False
             except KeyboardInterrupt:
@@ -279,7 +285,9 @@ class ITCompassApp:
 
 def main():
     # Парсинг аргументов командной строки
-    parser = argparse.ArgumentParser(description="IT Compass — объективная карта роста в IT")
+    parser = argparse.ArgumentParser(
+        description="IT Compass — объективная карта роста в IT"
+    )
     parser.add_argument(
         "--mental-support",
         action="store_true",

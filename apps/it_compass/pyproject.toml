@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "it-compass"
+version = "1.0.0"
+description = "Методология объективного измерения IT-компетенций через 83 проверочных маркера в 19 доменах"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Ekaterina Kudelya", email = "example@example.com"}
+]
+keywords = [
+    "it",
+    "career",
+    "competencies",
+    "skills",
+    "tracking",
+    "portfolio",
+    "methodology"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Documentation",
+]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "streamlit>=1.30.0",
+    "markdown>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "black>=23.0.0",
+]
+
+[project.scripts]
+it-compass = "it_compass.src.main:main"
+it-compass-ui = "it_compass.app:main"
+
+[project.urls]
+Homepage = "https://github.com/Control39/portfolio-system-architect/apps/it_compass"
+Documentation = "https://github.com/Control39/portfolio-system-architect/blob/main/apps/it_compass/README.md"
+Repository = "https://github.com/Control39/portfolio-system-architect"
+Changelog = "https://github.com/Control39/portfolio-system-architect/blob/main/apps/it_compass/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["it_compass*"]
+
+[tool.setuptools.package-data]
+it_compass = ["src/data/markers/*.json", "src/data/*.json"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "N"]
+ignore = ["E501", "B904"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311", "py312"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --cov=it_compass --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["it_compass"]
+omit = ["*/tests/*", "*/__pycache__/*", "*/ui/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+]
