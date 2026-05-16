@@ -1972,11 +1972,25 @@ make lint && make test
 
 **Оставшиеся проблемы:**
 - ⚠️ Папка `c\Projectsai-config-manager` — некорректное имя, требует ручного удаления через PowerShell
-- ⚠️ Синхронизация `apps/README.md` с README отдельных сервисов
+
+**Созданные файлы:**
+- `docs/archive/ROOT_CLEANUP_2026-05-16.md` — полный отчёт о реорганизации
+- `docs/cases/it-compass/README.md` — навигация по кейсам IT-Compass
+- `docs/reports/PROJECT_STATUS_2026-05-16.md` — статус проекта для HR/рекрутеров
+
+**Git-коммиты:**
+1. `4f25308e` — refactor: root cleanup, docs consolidation, and README synchronization (28 файлов)
+2. `2614ec1d` — chore: remove temporary commit message file
+
+**Метрики сессии:**
+- Перемещено: 17 файлов
+- Исправлено: 4 README
+- Создано: 3 отчёта
+- Коммиты: 2
 
 **Следующие шаги:**
-- [x] ~~Создание отчёта "Статус проекта"~~ ✅ Выполнено (`docs/reports/PROJECT_STATUS_2026-05-16.md`)
-- [ ] Коммит изменений в git
+- [ ] Пуш изменений в origin/main
+- [ ] Удаление папки с некорректным именем (ручное)
 
 ---
 
