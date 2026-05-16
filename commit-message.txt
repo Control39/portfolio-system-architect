@@ -1,9 +1,0 @@
-docs: add README and tests for AI tools (MCP server, AI proxy, repo audit)
-
-- Added README for tools/ai_integration (MCP server, 12 tools documented)
-- Added README for tools/dev_tools (AI Proxy Server, GigaChat/Codette)
-- Added README for tools/repo_audit (9 checks, 3 levels)
-- Added 12 tests for MCP server (test_mcp_server.py)
-- Added 12 tests for AI proxy (test_server.py)
-- Renamed tools/dev-tools to tools/dev_tools (valid Python module name)
-- Total: 3 READMEs, 24 tests, ~1500 lines of documentation

@@ -1,14 +1,28 @@
-# docker/
+# 🐳 Docker Конфигурации
 
-Конфигурации Docker.
+> **Подробное описание:** См. [`../../.reports/docker-report.md`](../../.reports/docker-report.md)
 
-## Назначение
-- Хранение Dockerfile и конфигураций для контейнеризации приложений
-- Определение образов Docker для различных компонентов
-- Обеспечение переносимости приложений
+## 🚀 Быстрый старт
 
-## Структура
-- `base-images/` - базовые образы Docker, используемые в проекте
-  - `python/` - базовые образы Python
+```bash
+# Запуск всего стека
+docker-compose up -d
 
-Этот каталог содержит конфигурации для упаковки приложений в контейнеры, что обеспечивает одинаковое поведение приложения в разных средах (разработка, тестирование, production) и упрощает развертывание.
+# Запуск с мониторингом
+docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
+
+# Остановка
+docker-compose down
+```
+
+## 📁 Структура
+
+- `base-images/` — базовые образы (Python, UI)
+- `postgres-init/` — скрипты инициализации БД
+- `docker-compose.*.yml` — модульные конфигурации (мониторинг, MLflow, RAG, gateway)
+
+## 🔗 Ссылки
+
+- [Полный отчёт](../../.reports/docker-report.md)
+- [Makefile](../../Makefile) — команды `make docker-up`, `make docker-down`
+- [docker-compose.yml](../docker-compose.yml) — основной файл
