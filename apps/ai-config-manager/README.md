@@ -1,8 +1,13 @@
 # AI Config Manager
 
-> **Статус:** Active
+> **Статус:** 🟢 Production Ready (PyPI-ready)
+> **Версия:** 1.0.0
 > **Владелец:** Portfolio System Architect Team
-> **Последнее обновление:** 15 мая 2026 г.
+> **Последнее обновление:** 16 мая 2026 г.
+
+[![PyPI Ready](https://img.shields.io/badge/PyPI-ready-brightgreen)]()
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)]()
+[![Pydantic](https://img.shields.io/badge/pydantic-v2-orange)]()
 
 ---
 
