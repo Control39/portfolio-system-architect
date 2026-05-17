@@ -8,10 +8,10 @@
 
 ### Создана навигация и документация
 - ✅ [ARCHITECTURE_MAP.md](./ARCHITECTURE_MAP.md) — Полная карта проекта
-- ✅ [DASHBOARD.md](./DASHBOARD.md) — Метрики и статус
+- ✅ [README.md](./README.md) — Обновленный README с методологией
 - ✅ [QUICK_REFERENCE_CARD.md](./QUICK_REFERENCE_CARD.md) — Шпаргалка
-- ✅ [navigate.ps1](./navigate.ps1) — Скрипт навигации
-- ✅ [README.md](./README.md) — Обновленный README
+- ✅ [\navigate.ps1](./navigate.ps1) — Скрипт навигации (✅ **Работает**)
+- ✅ [START_HERE.md](./START_HERE.md) — Обновленное руководство для новичков
 
 **Результат**: Теперь **всё видно** и **легко найти что угодно** 🎯
 
@@ -20,10 +20,10 @@
 ## 🎯 ПРИОРИТЕТЫ НА БУДУЩЕЕ
 
 ### TIER 1: URGENT (Do NOW)
-- [ ] **Протестировать navigate.ps1 скрипт** — убедиться что всё работает
 - [ ] **Добавить README в каждый микросервис** — один абзац про каждый
-- [ ] **Создать RUNBOOK для опера** — как восстановить при падении
+- [ ] **Создать RUNBOOK для операций** — как восстановить при падении
 - [ ] **Документировать каждый инструмент** — Koda, Sourcecraft, Continue
+- [ ] **Закрыть 5 незавершенных сервисов** (system_proof, knowledge_graph, thought-architecture, infra-orchestrator, ai-config-manager)
 
 ### TIER 2: IMPORTANT (Next week)
 - [ ] **Консолидировать дублирующиеся skills** — Koda vs Codeassistant
@@ -83,7 +83,7 @@ config/               (SINGLE SOURCE OF TRUTH)
 └── tools/            (Tool-specific configs)
 
 # Использовать env vars для переопределения
-# Создать CI/CD check что confi в одном месте
+# Создать CI/CD check что config в одном месте
 ```
 
 **Результат**: -50% complexity, +80% maintainability
@@ -251,6 +251,7 @@ track-performance-metrics.py
 - [ ] README для всех сервисов
 - [ ] Runbooks для операций
 - [ ] Health check скрипты
+- [ ] Завершить 5 незавершенных сервисов
 
 ### Week 3-4: Consolidation
 - [ ] Объединить tools (Koda + Codeassistant)
@@ -281,9 +282,9 @@ for service in apps/*/; do
 done
 
 # 2. Проверить что navigate.ps1 работает (10 минут)
-./navigate.ps1 -Map
-./navigate.ps1 -Status
-./navigate.ps1 -List
+.\navigate.ps1 -Map
+.\navigate.ps1 -Status
+.\navigate.ps1 -List
 
 # 3. Добавить в .gitignore (5 минут)
 echo "# Config consolidation - use /config instead
@@ -295,7 +296,7 @@ echo "# Config consolidation - use /config instead
 cat > ONBOARDING.md << 'EOF'
 # Onboarding Checklist
 - [ ] Read README.md
-- [ ] Run ./navigate.ps1 -Map
+- [ ] Run .\navigate.ps1 -Map
 - [ ] Pick a service
 - [ ] Read service README
 - [ ] Run tests locally
@@ -309,18 +310,19 @@ EOF
 
 ## 🚀 ВЫ ГОТОВЫ К МАСШТАБИРОВАНИЮ!
 
-**Что у тебя есть:**
-- ✅ Ясная архитектура (14 микросервисов)
-- ✅ Отличный coverage (95%)
+**Что у тебя есть**:
+- ✅ Ясная архитектура (15 микросервисов)
+- ✅ Отличный coverage (~85%)
 - ✅ Полная экосистема инструментов
-- ✅ Производство готово
+- ✅ Production готово
 
-**Что улучшить:**
+**Что улучшить**:
 - Организация знания (documents)
 - Консолидация tools (дублирование)
 - Операционная готовность (runbooks)
+- Завершение 5 сервисов
 
-**На что рассчитывать:**
+**На что рассчитывать**:
 - 🎓 Easier onboarding
 - 🚀 Faster deployments
 - 🔧 Simpler troubleshooting
@@ -333,16 +335,16 @@ EOF
 
 Использовать скрипт:
 ```bash
-./navigate.ps1 -Help              # Справка
-./navigate.ps1 -Status            # Статус
-./navigate.ps1 -Service <name>    # К сервису
+.\navigate.ps1 -Help              # Справка
+.\navigate.ps1 -Status            # Статус
+.\navigate.ps1 -Service <name>    # К сервису
 ```
 
 Проверить документацию:
 ```bash
-cat QUICK_REFERENCE_CARD.md       # Шпаргалка
+cat README.md                     # Основная
 cat ARCHITECTURE_MAP.md           # Архитектура
-cat DASHBOARD.md                  # Метрики
+cat docs/ARCHITECTURE.md          # Детали
 ```
 
 ---
@@ -362,5 +364,6 @@ cat DASHBOARD.md                  # Метрики
 **You've got this!** 💪
 
 Дата создания: 2026-05-04
+Дата обновления: 18 мая 2026 г.
 Статус: 🟢 Ready for next phase
 Confidence level: 🔥 Very High
