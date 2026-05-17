@@ -307,3 +307,56 @@ docker-compose -f docker-compose.yml -f docker-compose.azure.yml up -d
 _Сгенерировано автоматически: 15 May 2026 14:12_
 
 </div>
+
+---
+
+## 🔍 Теги и ключевые слова (SEO)
+
+### 🏗️ Архитектура и технологии
+`Python` `FastAPI` `Microservices` `Kubernetes` `Docker` `Docker Compose` `API Gateway` `Traefik` `PostgreSQL` `Redis` `Kafka` `gRPC` `REST API` `GraphQL` `Event-Driven Architecture` `Domain-Driven Design` `Clean Architecture`
+
+### 🤖 Искусственный интеллект
+`AI Agents` `LLM` `LangChain` `RAG` `Vector Databases` `ChromaDB` `Sentence Transformers` `Prompt Engineering` `Model Context Protocol` `MCP` `AI Automation` `Neural Networks` `Machine Learning` `MLOps` `ML Model Registry`
+
+### 🛡️ DevSecOps и качество
+`DevSecOps` `CI/CD` `GitHub Actions` `GitOps` `Security Scanning` `Trivy` `Bandit` `CodeQL` `Secret Detection` `Vulnerability Assessment` `Penetration Testing` `Compliance` `SAST` `DAST` `Container Security` `Infrastructure as Code` `Terraform`
+
+### 📊 Мониторинг и наблюдаемость
+`Prometheus` `Grafana` `AlertManager` `OpenTelemetry` `Distributed Tracing` `Logging` `ELK Stack` `ELK` `Metrics` `APM` `Observability` `Health Checks` `SLA` `SLO` `SLI`
+
+### 🧪 Тестирование и качество кода
+`Unit Testing` `Integration Testing` `E2E Testing` `Test Coverage` `Pytest` `TDD` `BDD` `Mocking` `Load Testing` `Locust` `Performance Testing` `Quality Gates` `Code Review` `Static Analysis` `MyPy` `Ruff` `Black`
+
+### 🏢 Корпоративные системы
+`Portfolio Management` `Career Development` `Competency Tracking` `IT Framework` `Business Automation` `Workflow Automation` `Decision Support System` `Knowledge Graph` `Architecture Decision Records` `ADR` `System Proof` `Production Readiness`
+
+### 🌐 Облачные технологии
+`AWS` `GCP` `Azure` `Cloud Native` `Serverless` `Container Orchestration` `Service Mesh` `Istio` `Multi-Cloud` `Hybrid Cloud` `Edge Computing`
+
+### 🚀 Методологии и практики
+`Agile` `Scrum` `Kanban` `DevOps` `Site Reliability Engineering` `SRE` `Platform Engineering` `Internal Developer Platform` `Developer Experience` `DX` `GitFlow` `Trunk-Based Development`
+
+---
+
+### 📌 Для GitHub Topics
+*Добавьте эти темы в настройках репозитория (Settings → Options → Topics):*
+```
+python fastapi microservices ai-automation kubernetes docker devsecops ci-cd 
+llm agents rag vector-database prometheus grafana testing coverage 
+portfolio-management career-development knowledge-graph architecture 
+security compliance production-ready
+```
+
+---
+
+### 🌐 Для вынесенного репозитория (ai-config-manager)
+*Используйте эти теги в отдельном репозитории:*
+```
+ai-config agent-configuration llm-prompt-management fastapi python 
+microservices-config centralized-configuration hot-reload 
+ai-agents langchain prompt-engineering configuration-management
+```
+
+---
+
+*Последнее обновление: 17 мая 2026 г.*
