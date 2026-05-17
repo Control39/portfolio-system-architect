@@ -68,26 +68,28 @@
 
 ## 📦 Микросервисы
 
-| Сервис | Статус | Тесты | Покрытие | Описание |
-|--------|--------|-------|----------|----------|
-| **client/** | 🟢 Active | 8+ | ~85% | **Frontend** (React 19 + TS) для чата с ИИ |
-| ai-config-manager | 🟢 Active | 1 тестов | [100%](docs/) | Конфигурация ИИ-агентов |
-| auth-service | 🟢 Active | 3 тестов | [100%](docs/) | JWT аутентификация |
-| career-development | 🟢 Active | 5 тестов | [100%](docs/) | Трекинг компетенций |
-| cognitive-agent | 🟢 Active | 2 тестов | [100%](docs/) | Автономный ИИ-агент |
-| decision-engine | 🟢 Active | 6 тестов | [100%](docs/) | AI Reasoning с RAG |
-| infra-orchestrator | 🟢 Active | 3 тестов | [100%](docs/) | Оркестрация сервисов |
-| it-compass | 🟢 Active | 5 тестов | [100%](docs/) | Методология IT-компетенций |
-| job-automation-agent | 🟢 Active | 3 тестов | [100%](docs/) | Автоматизация поиска работы |
-| knowledge-graph | 🟢 Active | 2 тестов | [100%](docs/) | Граф знаний |
-| mcp-server | 🟢 Active | 5 тестов | [100%](docs/) | MCP-сервер для ИИ |
-| ml-model-registry | 🟢 Active | 12 тестов | [100%](docs/) | Регистр ML-моделей |
-| portfolio-organizer | 🟢 Active | 3 тестов | [100%](docs/) | Сбор доказательств |
-| system-proof | 🟢 Active | 2 тестов | [100%](docs/) | Валидация готовности |
-| template-service | 🟡 Active | 0 тестов | [N/A](docs/) | Шаблон сервиса |
-| thought-architecture | 🟢 Active | 2 тестов | [100%](docs/) | Архитектура решений |
+| Сервис | Статус | Тесты | Покрытие | AI Config | Описание |
+|--------|--------|-------|----------|-----------|----------|
+| **client/** | 🟢 Active | 8+ | ~85% | - | **Frontend** (React 19 + TS) для чата с ИИ |
+| **ai-config-manager** | 🟢 Active | 15 | ~90% | ⚙️ Core | Конфигурация ИИ-агентов (централизованный менеджер) |
+| **auth-service** | 🟢 Active | 21 | ~95% | ✅ Integrated | JWT аутентификация |
+| **career-development** | 🟢 Active | 56 | 80.47% | ✅ Integrated | Трекинг компетенций |
+| **cognitive-agent** | 🟢 Active | 31 | ~85% | ✅ Integrated | Автономный ИИ-агент |
+| **decision-engine** | 🟢 Active | 50 | ~85% | ✅ Integrated | AI Reasoning с RAG |
+| **infra-orchestrator** | 🟢 Active | 58 | ~85% | ⏳ Module | Оркестрация сервисов |
+| **it-compass** | 🟢 Active | 46 | ~85% | ✅ Integrated | Методология IT-компетенций |
+| **job-automation-agent** | 🟢 Active | 32 | ~80% | ✅ Integrated | Автоматизация поиска работы |
+| **knowledge-graph** | 🟢 Active | 39 | ~75% | ⏳ Module | Граф знаний |
+| **mcp-server** | 🟢 Active | 24 | ~85% | ✅ Integrated | MCP-сервер для ИИ |
+| **ml-model-registry** | 🟢 Active | 70 | ~90% | ✅ Integrated | Регистр ML-моделей |
+| **portfolio-organizer** | 🟢 Active | 35 | 92.24% | ✅ Integrated | Сбор доказательств |
+| **system-proof** | 🟢 Active | 40 | ~75% | ⏳ Module | Валидация готовности |
+| **template-service** | 🟡 Active | 0 | N/A | - | Шаблон сервиса |
+| **thought-architecture** | 🟢 Active | 38 | ~85% | ⏳ Module | Архитектура решений |
 
-> **Примечание:** Покрытие обновляется автоматически. См. [`TEST-COVERAGE-METRICS.md`](docs/TEST-COVERAGE-METRICS.md).
+> **AI Config Manager:** 9/14 сервисов активно используют централизованную конфигурацию (`config/ai-config.yaml`).  
+> **Метрики:** 104 теста пройдено (99%), hot reload, fallback на локальные конфиги.  
+> См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для деталей.
 
 ---
 
@@ -148,6 +150,34 @@ graph LR
 - ✅ Sanitization Markdown через DOMPurify
 - ✅ Signed URLs для WebPubSub (короткоживущие токены)
 - ✅ SSRF/Path Traversal защита в бэкенде
+
+---
+
+## 🔧 Централизованная конфигурация (AI Config Manager)
+
+Проект использует **единый источник истины** для всех настроек: `config/ai-config.yaml`.
+
+### Что это дает:
+- **Hot reload** — динамическое обновление конфигов без перезапуска сервисов
+- **Валидация** — Pydantic-валидация всех конфигураций
+- **Fallback** — автоматическое переключение на локальные конфиги при сбое
+- **Singleton** — единый экземпляр конфигурации на сервис
+
+### Статус интеграции:
+- ✅ **9/14 сервисов** активно используют централизованную конфигурацию
+- ✅ **104 теста** пройдено (99%)
+- ✅ Все сервисы имеют модуль интеграции (`src/config_integration.py`)
+
+Пример использования:
+```python
+from apps.YOUR_SERVICE.src.config_integration import get_config
+
+config = get_config()
+settings = config.get_config()
+model = settings.get('ai', {}).get('default_model', 'gpt-4')
+```
+
+См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для полного руководства.
 
 ---
 
