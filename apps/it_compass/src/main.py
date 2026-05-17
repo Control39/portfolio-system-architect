@@ -11,8 +11,20 @@ import sys
 from pathlib import Path
 
 # Add the project root to the path to allow imports
-project_root = Path(__file__).parent.parent
+project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
+
+# Интеграция с AI Config Manager
+try:
+    from apps.it_compass.src.config_integration import get_config
+    AI_CONFIG_AVAILABLE = True
+    config_manager = get_config()
+    compass_config = config_manager.get_config()
+    print("✅ IT Compass: использован AI Config Manager")
+except Exception as e:
+    AI_CONFIG_AVAILABLE = False
+    print(f"⚠️  IT Compass: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    compass_config = {}
 
 try:
     from it_compass.src.core.tracker import CareerTracker
