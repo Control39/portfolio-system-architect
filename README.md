@@ -1,19 +1,51 @@
-# 👋 Hi, I'm Катя (Control39)
+# 🧠 Cognitive Architecture: Systems for Thinking
+
+*A methodology for transforming chaos into evidence. A system that learns how you think.*
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-![Services](https://img.shields.io/badge/Services-14-green?style=flat-square&logo=serverless)
+![Services](https://img.shields.io/badge/Services-15-green?style=flat-square&logo=serverless)
 ![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-red?style=flat-square&logo=security)
-![ADR](https://img.shields.io/badge/ADR-Documented-purple?style=flat-square&logo=book)
+![ADR](https://img.shields.io/badge/ADR-14%20Documented-purple?style=flat-square&logo=book)
 
-**Превращаю бизнес-требования в работающие цифровые продукты**
-*Системное мышление × Автоматизация × ИИ-усиление*
+**Катя (Control39) — Cognitive Architect**
+*Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
 
-[GitHub](https://github.com/Control39) · [LinkedIn](https://linkedin.com/in/your-profile) · [Email](mailto:your-email@example.com)
+[GitHub](https://github.com/Control39) · [LinkedIn](https://linkedin.com/in/your-profile) · [Email](mailto:leadarchitect@yandex.ru)
 
 </div>
+
+---
+
+## 🎯 Who I Am
+
+Я **Cognitive Architect** — проектирую системы, где ИИ-компоненты работают вместе для решения проблем без стандартных решений.
+
+Два года назад у меня не было IT-идентичности. Сегодня я создала **живую систему**, которая:
+1. **Организовала 25,000+** разрозненных заметок и разговоров
+2. **Находит паттерны** в том, как я думаю
+3. **Автоматически генерирует доказательства** моих компетенций
+4. **Масштабируется** от личного знания до корпоративной документации
+
+Этот репозиторий — **работающая архитектура**, а не портфолио прошлых работ.
+
+---
+
+## 💡 The Innovation: Objective Competency Markers
+
+**Традиционный подход:**
+> "Расскажите о вашем опыте с Docker"
+> *Ответ: "Я знаю Docker"*
+
+**Мой подход:**
+> "Что вы реально сделали?"
+> *Ответ: "Создала Dockerfile для Python-приложения, запустила с docker-compose, отладил сетевые проблемы, развернула на staging"*
+
+**Это маркер.** Объективный, проверяемый, не требует лет опыта.
+
+📖 Методология: [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md)
 
 ---
 
@@ -25,9 +57,7 @@
 | API Design & Event-Driven Arch | Model Context Protocol (MCP) | Vulnerability Assessment |
 | Infrastructure as Code (Docker/K8s) | Prompt Engineering & Optimization | Automated Testing & CI/CD |
 
----
-
-## 🧠 Мой подход: 90% окружение + 10% креатив
+### 🧠 Мой подход: 90% окружение + 10% креатив
 
 > **"Правильно настроенное окружение (во всех смыслах) — 90% успеха"**
 
@@ -40,56 +70,28 @@
 
 ---
 
-## 🗺️ Навыки и компетенции
+## 📦 Core Components (15 сервисов)
 
-```
-┌──────────┬────────────────┬──────────┐
-│   Архитектура  │  Автоматизация  │    Безопасность │
-├──────────┼──────────────────┼──────────────────┤
-│ • Микросервисы  │ • CI/CD пайп-    │ • DevSecOps     │
-│ • API Design     │   лайны         │ • Trivy/CodeQL   │
-│ • Kubernetes    │ • Pre-commit    │ • SAST/DAST     │
-│ • Event-Driven  │ • Скрипты вали- │ • Secret mgmt    │
-│                 │   дации         │                 │
-└──────────────────┴────────────────┴──────────┘
-```
+| Сервис | Статус | Покрытие | Описание |
+|--------|--------|----------|----------|
+| **client/** | 🟢 Active | ~85% | **Frontend** (React 19 + TS) для чата с ИИ |
+| **ai-config-manager** | 🟢 Core | ~90% | Централизованный менеджер конфигурации ИИ-агентов |
+| **auth-service** | 🟢 Ready | ~95% | JWT аутентификация |
+| **career-development** | 🟢 Ready | 80.47% | Трекинг компетенций |
+| **cognitive-agent** | 🟢 Core | ~85% | Автономный ИИ-агент |
+| **decision-engine** | 🟢 Ready | ~85% | AI Reasoning с RAG |
+| **infra-orchestrator** | 🟢 Ready | ~75% | Оркестрация сервисов (Python/FastAPI) |
+| **it-compass** | 🟢 Ready | ~85% | Методология IT-компетенций |
+| **job-automation-agent** | 🟢 Ready | ~80% | Автоматизация поиска работы |
+| **knowledge-graph** | 🟢 Ready | ~75% | Граф знаний (сущности/отношения) |
+| **mcp-server** | 🟡 WIP | 46.68% | MCP-сервер для ИИ |
+| **ml-model-registry** | 🟢 Ready | ~90% | Регистр ML-моделей |
+| **portfolio-organizer** | 🟢 Ready | 92.24% | Сбор доказательств |
+| **system-proof** | 🟢 Ready | ~75% | Валидация готовности |
+| **thought-architecture** | 🟢 Ready | ~75% | Архитектура решений (ADR) |
 
-### 🛠️ Инструменты
-
-| Категория | Технологии |
-|------------|------------|
-| **Languages** | Python, TypeScript, SQL, Bash |
-| **Frameworks** | FastAPI, LangChain, Streamlit, React |
-| **Infrastructure** | Docker, Kubernetes, Terraform, AWS/GCP |
-| **AI Tools** | Cursor, Continue, MCP Servers, CodeQL |
-| **Methodology** | ADR, Agile, TDD, DevSecOps |
-
----
-
-## 📦 Микросервисы (14/14 завершено ✅)
-
-| Сервис | Статус | Тесты | Покрытие | AI Config | Описание |
-|--------|--------|-------|----------|-----------|----------|
-| **client/** | 🟢 Active | 8+ | ~85% | - | **Frontend** (React 19 + TS) для чата с ИИ |
-| **ai-config-manager** | 🟢 Core | 15 | ~90% | ⚙️ Core | Конфигурация ИИ-агентов (централизованный менеджер) |
-| **auth-service** | 🟢 Ready | 21 | ~95% | ✅ Integrated | JWT аутентификация |
-| **career-development** | 🟢 Ready | 56 | 80.47% | ✅ Integrated | Трекинг компетенций |
-| **cognitive-agent** | 🟢 Core | 31 | ~85% | ✅ Integrated | Автономный ИИ-агент |
-| **decision-engine** | 🟢 Ready | 50 | ~85% | ✅ Integrated | AI Reasoning с RAG |
-| **infra-orchestrator** | 🟢 Ready | 33 | ~75% | ✅ Integrated | Оркестрация сервисов (deploy/scale) |
-| **it-compass** | 🟢 Ready | 46 | ~85% | ✅ Integrated | Методология IT-компетенций |
-| **job-automation-agent** | 🟢 Ready | 36 | ~80% | ✅ Integrated | Автоматизация поиска работы |
-| **knowledge-graph** | 🟢 Ready | 39 | ~75% | ✅ Integrated | Граф знаний (сущности/отношения) |
-| **mcp-server** | 🟡 WIP | 107 | 46.68% | ✅ Integrated | MCP-сервер для ИИ (активно развивается) |
-| **ml-model-registry** | 🟢 Ready | 70 | ~90% | ✅ Integrated | Регистр ML-моделей |
-| **portfolio-organizer** | 🟢 Ready | 35 | 92.24% | ✅ Integrated | Сбор доказательств |
-| **system-proof** | 🟢 Ready | 40 | ~75% | ✅ Integrated | Валидация готовности |
-| **thought-architecture** | 🟢 Ready | 38 | ~75% | ✅ Integrated | Архитектура решений (ADR) |
-
-> **🎉 11 из 12 сервисов имеют ≥80% покрытие тестами!**
+> **🎉 11 из 15 сервисов имеют ≥80% покрытие тестами!**
 > **Всего тестов:** 610+ (98% прохождение, ~85% среднее покрытие).
-> **AI Config Manager:** 14/14 сервисов интегрированы с централизованной конфигурацией (`config/ai-config.yaml`).
-> См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для деталей.
 
 ---
 
@@ -128,83 +130,77 @@ graph LR
   style F fill:#95e1d3,stroke:#33,stroke-width:2px,color:#000
 ```
 
-**Ключевые компоненты:**
+### Слои системы
 
-| Компонент | Технологии | Роль |
-|-----------|------------|------|
-| **`client/`** | React 19, TypeScript, Vite, TailwindCSS | **Frontend**: UI чата, стриминг ответов ИИ через WebPubSub, мульти-комнатный чат |
-| **`python_server/`** | Flask, AsyncIO, WebPubSub SDK | **Backend**: Оркестрация ИИ, управление сессиями, REST API + WebSocket |
-| **`auth_service/`** | FastAPI, PyJWT | **Безопасность**: JWT токены, RBAC, защита от brute-force |
-| **`ml_model_registry/`** | FastAPI, MLflow | **ML Ops**: Версионирование моделей, A/B тестирование |
-| **`decision_engine/`** | FastAPI, LangChain, RAG | **AI Reasoning**: Принятие решений с объяснимой логикой |
-
-**Поток данных:**
-1. **Пользователь** → отправляет сообщение через `client/`
-2. **`client/`** → отправляет через WebSocket (WebPubSub) в `python_server/`
-3. **`python_server/`** → оркестрирует запрос к ИИ (с RAG из `ChromaDB`)
-4. **ИИ** → стримит ответ обратно через WebPubSub
-5. **`client/`** → рендерит Markdown-ответ с анимацией
-
-**Безопасность:**
-- ✅ JWT-аутентификация для всех API
-- ✅ Sanitization Markdown через DOMPurify
-- ✅ Signed URLs для WebPubSub (короткоживущие токены)
-- ✅ SSRF/Path Traversal защита в бэкенде
+| Слои | Технологии | Что делает |
+|------|------------|------------|
+| **Knowledge Retrieval** | RAG (ChromaDB, Sentence Transformers) | Извлекает контекст из хаоса |
+| **Reasoning** | LangChain, Yandex GPT, Ollama | Анализирует паттерны без внешних API |
+| **Orchestration** | Python, PowerShell | Связывает компоненты в единую систему |
+| **Storage** | Git, JSON, PostgreSQL | Воспроизводимость и аудит |
+| **Deployment** | Docker, Kubernetes | От ноутбука до предприятия |
 
 ---
 
-## 🔧 Централизованная конфигурация (AI Config Manager)
+## 🔧 Централизованная конфигурация
 
-Проект использует **единый источник истины** для всех настроек: `config/ai-config.yaml`.
+Проект использует **единый источник истины**: `config/ai-config.yaml`.
 
-### Что это дает:
-- **Hot reload** — динамическое обновление конфигов без перезапуска сервисов
-- **Валидация** — Pydantic-валидация всех конфигураций
-- **Fallback** — автоматическое переключение на локальные конфиги при сбое
-- **Singleton** — единый экземпляр конфигурации на сервис
+- **Hot reload** — обновление конфигов без перезапуска
+- **Валидация** — Pydantic для всех настроек
+- **Fallback** — переключение на локальные конфиги при сбое
+- **Singleton** — один экземпляр на сервис
 
-### Статус интеграции:
-- ✅ **9/14 сервисов** активно используют централизованную конфигурацию
-- ✅ **104 теста** пройдено (99%)
-- ✅ Все сервисы имеют модуль интеграции (`src/config_integration.py`)
-
-Пример использования:
+Пример:
 ```python
 from apps.YOUR_SERVICE.src.config_integration import get_config
-
 config = get_config()
 settings = config.get_config()
-model = settings.get('ai', {}).get('default_model', 'gpt-4')
 ```
-
-См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для полного руководства.
 
 ---
 
-## 🚀 Быстрый старт (без облака)
+## 📊 Key Metrics
 
-Проект работает **полностью локально** — Azure/облака не требуются.
+| Метрика | Значение |
+|---------|----------|
+| **Файлов обработано** | 5,000+ (inventory scan) |
+| **Репозиториев объединено** | 20+ → 1 система |
+| **Циклов reasoning** | 100+ |
+| **Время разработки** | 2 года (самообучение) |
+| **Определено маркеров компетенций** | 32+ |
+| **Микросервисов** | 15 |
+| **Покрытие тестами** | ~85% |
+| **Уязвимостей** | 0 |
 
-### Минимальный запуск (5 минут)
+---
 
+## 🚀 Quick Start
+
+### Для новых разработчиков (5 мин)
 ```bash
 # 1. Клонируйте репозиторий
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 
-# 2. Запустите Frontend + Backend вместе
+# 2. Запустите Frontend + Backend
 python python_server/start_dev.py
 # Или вручную:
 # Терминал 1: cd client && npm run dev          # http://localhost:5173
 # Терминал 2: cd python_server && python app.py  # http://localhost:5000
 ```
 
-**Что работает из коробки:**
-- ✅ **Frontend**: `client/` (React 19 + TS) на http://localhost:5173
-- ✅ **Backend**: `python_server/` (Flask) на http://localhost:5000
-- ✅ Локальное хранилище (memory store)
-- ✅ Самописный transport (без Azure WebPubSub)
-- ✅ PostgreSQL + Redis (опционально, в Docker)
+### Для исследователей методологии (10 мин)
+```bash
+# Прочитайте методологию
+cat docs/it-compass/METHODOLOGY.md
+
+# Изучите архитектуру
+cat docs/ARCHITECTURE.md
+
+# Посмотрите доказательства
+cat docs/it-compass/PROJECT_ANALYSIS.md
+```
 
 ### Доступ к сервисам
 
@@ -216,52 +212,60 @@ python python_server/start_dev.py
 | **IT-Compass UI** | http://localhost:8501 | Трекинг компетенций (Streamlit) |
 | **Grafana** | http://localhost:3000 | Мониторинг (admin/admin) |
 
-### Запуск с Azure (опционально)
-
-```bash
-# Настройте переменные окружения
-export STORAGE_MODE=table
-export AZURE_STORAGE_CONNECTION_STRING="..."
-export AZURE_STORAGE_ACCOUNT="..."
-
-# Запустите с Azure-конфигом
-docker-compose -f docker-compose.yml -f docker-compose.azure.yml up -d
-```
-
-Подробная инструкция: [`docs/AZURE_SETUP.md`](docs/AZURE_SETUP.md) (в разработке)
-
 ---
 
 ## 📜 Архитектурные решения (ADR)
 
 | ADR | Описание |
 |-----|----------|
-| ADR-001 | [Выбор методологии системного мышления](link) |
-| ADR-002 | [Интеграция компонентов в единую экосистему](link) |
-| ADR-003 | [Архитектура системы управления версиями ML-моделей](link) |
-| ADR-004 | [Выбор формата хранения маркеров компетенций](link) |
-| ADR-005 | [Выбор технологии для пользовательского интерфейса](link) |
-| ADR-006 | [Подход к валидации данных](link) |
-| ADR-007 | [Обоснование технологического стека портфолио](link) |
-| ADR-008 | [Внедрение Service Discovery с использованием Consul](link) |
-| ADR-009 | [Создание базовых Docker образов для стандартизации разработки](link) |
-| ADR-003 | [Выбор формата диаграмм (Mermaid)](link) |
-| ADR-015 | [Граница между `src/` и `apps/` в монорепозитории](link) |
-| ADR-016 | [Стандартизация документации микросервисов через шаблон](link) |
+| ADR-001 | [Выбор методологии системного мышления](docs/architecture/decisions/ADR-001-system-thinking-methodology.md) |
+| ADR-002 | [Интеграция компонентов в единую экосистему](docs/architecture/decisions/ADR-002-component-integration.md) |
+| ADR-003 | [Архитектура системы управления версиями ML-моделей](docs/architecture/decisions/ADR-003-ml-model-versioning-system.md) |
+| ADR-007 | [Обоснование технологического стека](docs/architecture/decisions/ADR-007-technology-stack-justification.md) |
+| ADR-015 | [Граница между `src/` и `apps/`](docs/architecture/decisions/ADR-015-monorepo-boundary.md) |
+| ADR-016 | [Стандартизация документации](docs/architecture/decisions/ADR-016-standardize-documentation.md) |
+| ADR-017 | [MCP Server покрытие](docs/architecture/decisions/ADR-017-mcp-server-coverage-decision.md) |
 
 > **Почему ADR?** Фиксирую **почему выбрано Х, а не Y**. История решений для себя и команды.
 
 ---
 
-## 📈 Метрики
+## 🎯 Для кого этот проект
 
-| Метрика | Значение |
-|---------|----------|
-| **Микросервисов** | 15+ |
-| **Покрытие тестами** | 0% |
-| **Уязвимостей** | 0 |
-| **ADR-документов** | 13 |
-| **Последнее обновление** | 15 May 2026 |
+### 👔 Для HR и hiring managers
+**Что вы видите:**
+- Не портфолио прошлых работ, а **работающую систему, которая думает**
+- Не заявление в резюме, а **исполняемые доказательства**
+- Не одиночного разработчика, а **системного архитектора**, способного заставить ИИ-команды работать
+
+**Что можно нанять:**
+- **AI Systems Architect** — проектирование интеграции ИИ-компонентов
+- **Technical Product Manager** — мост между продуктом и возможностями ИИ
+- **Solutions Architect** — интеграция ИИ в legacy-системы
+- **Knowledge Architect** — превращение хаоса в поисковую интеллектуальную систему
+
+### 💼 Для российского корпоративного сектора
+Компании вроде **Yandex, Sberbank, Tinkoff, VTB, Krok, IBS, Lanit** сталкиваются с теми же проблемами:
+- Legacy-системы без документации
+- Интеграция ИИ без архитектурной строгости
+- Знания заперты в головах сотрудников
+- Найм на роли, которых официально ещё нет
+
+Эта система решает их все:
+- **Knowledge capture** — превращает Slack, заметки и разговоры в поисковую интеллектуальную систему
+- **AI orchestration** — интеграция с Yandex Cloud, Yandex GPT
+- **Compliance** — аудит-трейлы, логирование решений, управление
+- **Modernization** — как постепенно превращать хаос в систему
+
+### 🏆 Для грантовых комитетов (SourceCraft Open Source)
+**Почему это qualifies:**
+- ✅ **Новая методология** — "Objective Competency Markers" не существует больше нигде
+- ✅ **Полностью документировано** — методология, архитектура, код, примеры
+- ✅ **Ценность для сообщества** — любая организация может адаптировать этот паттерн
+- ✅ **Работающая система** — не теория, а живой пример
+- ✅ **Open license** — CC BY-ND 4.0 для методологии, MIT для кода
+
+📄 Детали гранта: [`docs/SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md)
 
 ---
 
@@ -280,10 +284,22 @@ docker-compose -f docker-compose.yml -f docker-compose.azure.yml up -d
 
 ## 🤝 Let's Connect
 
-- 📧 **Email:** [your-email@example.com]
-- 🔗 **LinkedIn:** [linkedin.com/in/your-profile]
-- 🐦 **Twitter/X:** [@yourhandle]
-- 💼 **Telegram:** [@your-telegram]
+- 📧 **Email:** [leadarchitect@yandex.ru](mailto:leadarchitect@yandex.ru)
+- 🔗 **LinkedIn:** [linkedin.com/in/your-profile](https://linkedin.com/in/your-profile)
+- 🐦 **Twitter/X:** [@yourhandle](https://twitter.com/yourhandle)
+- 💼 **Telegram:** [@your-telegram](https://t.me/your-telegram)
+
+---
+
+## 📚 Дополнительная документация
+
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`HIRING_BRIEF.md`](docs/HIRING_BRIEF.md) | HR, hiring managers | Детали для найма |
+| [`SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) | Грантовые комитеты | Заявка на грант |
+| [`FOR-EMPLOYER.md`](docs/FOR-EMPLOYER.md) | Работодатели | Презентация проекта |
+| [`INTERVIEW-QA.md`](docs/INTERVIEW-QA.md) | Интервью | Ответы на вопросы |
+| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
 
 ---
 
@@ -301,10 +317,10 @@ docker-compose -f docker-compose.yml -f docker-compose.azure.yml up -d
 
 <div align="center">
 
-**System Architect × AI-Augmented Developer × DevSecOps Enthusiast**
-*Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
+**Cognitive Architect × AI-Augmented Developer × DevSecOps Enthusiast**
+*Это не портфолио. Это доказательство того, что хаос может стать системой, а мышление — измеримым.*
 
-_Сгенерировано автоматически: 15 May 2026 14:12_
+_Последнее обновление: 18 мая 2026 г._
 
 </div>
 
@@ -312,51 +328,8 @@ _Сгенерировано автоматически: 15 May 2026 14:12_
 
 ## 🔍 Теги и ключевые слова (SEO)
 
-### 🏗️ Архитектура и технологии
-`Python` `FastAPI` `Microservices` `Kubernetes` `Docker` `Docker Compose` `API Gateway` `Traefik` `PostgreSQL` `Redis` `Kafka` `gRPC` `REST API` `GraphQL` `Event-Driven Architecture` `Domain-Driven Design` `Clean Architecture`
-
-### 🤖 Искусственный интеллект
-`AI Agents` `LLM` `LangChain` `RAG` `Vector Databases` `ChromaDB` `Sentence Transformers` `Prompt Engineering` `Model Context Protocol` `MCP` `AI Automation` `Neural Networks` `Machine Learning` `MLOps` `ML Model Registry`
-
-### 🛡️ DevSecOps и качество
-`DevSecOps` `CI/CD` `GitHub Actions` `GitOps` `Security Scanning` `Trivy` `Bandit` `CodeQL` `Secret Detection` `Vulnerability Assessment` `Penetration Testing` `Compliance` `SAST` `DAST` `Container Security` `Infrastructure as Code` `Terraform`
-
-### 📊 Мониторинг и наблюдаемость
-`Prometheus` `Grafana` `AlertManager` `OpenTelemetry` `Distributed Tracing` `Logging` `ELK Stack` `ELK` `Metrics` `APM` `Observability` `Health Checks` `SLA` `SLO` `SLI`
-
-### 🧪 Тестирование и качество кода
-`Unit Testing` `Integration Testing` `E2E Testing` `Test Coverage` `Pytest` `TDD` `BDD` `Mocking` `Load Testing` `Locust` `Performance Testing` `Quality Gates` `Code Review` `Static Analysis` `MyPy` `Ruff` `Black`
-
-### 🏢 Корпоративные системы
-`Portfolio Management` `Career Development` `Competency Tracking` `IT Framework` `Business Automation` `Workflow Automation` `Decision Support System` `Knowledge Graph` `Architecture Decision Records` `ADR` `System Proof` `Production Readiness`
-
-### 🌐 Облачные технологии
-`AWS` `GCP` `Azure` `Cloud Native` `Serverless` `Container Orchestration` `Service Mesh` `Istio` `Multi-Cloud` `Hybrid Cloud` `Edge Computing`
-
-### 🚀 Методологии и практики
-`Agile` `Scrum` `Kanban` `DevOps` `Site Reliability Engineering` `SRE` `Platform Engineering` `Internal Developer Platform` `Developer Experience` `DX` `GitFlow` `Trunk-Based Development`
+`Cognitive Architecture` `AI Systems` `Objective Competency Markers` `Python` `FastAPI` `Microservices` `Kubernetes` `Docker` `DevSecOps` `CI/CD` `LLM Agents` `RAG` `Vector Databases` `ChromaDB` `LangChain` `Model Context Protocol` `MCP` `Prometheus` `Grafana` `Testing` `Coverage` `Portfolio Management` `Career Development` `Knowledge Graph` `Architecture Decision Records` `ADR` `System Proof` `Production Readiness` `Yandex GPT` `Russian Tech`
 
 ---
 
-### 📌 Для GitHub Topics
-*Добавьте эти темы в настройках репозитория (Settings → Options → Topics):*
-```
-python fastapi microservices ai-automation kubernetes docker devsecops ci-cd
-llm agents rag vector-database prometheus grafana testing coverage
-portfolio-management career-development knowledge-graph architecture
-security compliance production-ready
-```
-
----
-
-### 🌐 Для вынесенного репозитория (ai-config-manager)
-*Используйте эти теги в отдельном репозитории:*
-```
-ai-config agent-configuration llm-prompt-management fastapi python
-microservices-config centralized-configuration hot-reload
-ai-agents langchain prompt-engineering configuration-management
-```
-
----
-
-*Последнее обновление: 17 мая 2026 г.*
+*License: Code — MIT, Methodology — CC BY-ND 4.0 (© Ekaterina Kudelya)*

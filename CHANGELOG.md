@@ -8,22 +8,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Repository audit system with comprehensive checklist
-- Security policy and CodeQL setup instructions
-- Structured reports directory for all audit reports
-- Cognitive Automation Agent integration recommendations
-- Repository audit implementation plan
+- **`navigate.ps1`** — PowerShell скрипт навигации по проекту (15 сервисов, инструменты, статус)
+- **`START_HERE.md`** — Обновлённое руководство для новичков с актуальными метриками
+- **`NEXT_STEPS.md`** — Приоритеты на будущее (TIER 1-3, 90-дневный план)
+- AI Config Manager интеграция для **14/14 сервисов** (централизованная конфигурация)
+- **5 новых микросервисов** (итого 15): infra-orchestrator, template-service, system-proof, knowledge_graph, thought-architecture
+- Методология **Objective Competency Markers** в README.md
 
 ### Changed
-- Cleaned up root directory by moving reports to `reports/` folder
-- Removed archive backup folder `.archive-backup-20260425_181308/`
-- Deleted temporary files (`hello_world.py`)
-- Updated documentation structure
+- **Миграция `infra-orchestrator`** с PowerShell на Python/FastAPI (Dockerfile: `python:3.11-slim`)
+- **README.md** — Гибридная версия: методология + GitHub-бейджи + архитектура
+- Обновлены метрики: 15 сервисов, ~85% покрытие, 14 ADR, 0 уязвимостей
+- Обновлены все упоминания "12 сервисов" → "15 сервисов" в документации
+- Исправлены 13 битых ADR-ссылок в README.md
+- **START_HERE.md** — Обновлён с актуальными путями и командами PowerShell
+- **NEXT_STEPS.md** — Добавлены приоритеты на 2026-05-18
 
 ### Fixed
+- Удалена битая директория `c:Projectsai-config-manager/`
+- Исправлены ссылки на несуществующие скрипты в документации
+- Обновлены контакты (email: leadarchitect@yandex.ru)
+- Исправлены упоминания дат (15 May → 18 May 2026)
+
+### Removed
+- PowerShell файлы `infra-orchestrator/InfraOrchestrator.psd1` и `.psm1`
+- Устаревшие упоминания "14 сервисов" в документации
+
+## [0.1.0] - 2026-04-30
+
+### Added
+- Initial repository structure with 8 microservices
+- Cognitive Automation Agent (CAA) with 5 autonomous skills
+- SourceCraft Agent Skills for architectural analysis
+- Comprehensive CI/CD pipeline with 25+ GitHub Actions workflows
+- Production-ready Kubernetes deployment configurations
+- Monitoring stack (Prometheus, Grafana, AlertManager)
+- Security scanning (Bandit, Trivy, pip-audit, gitleaks)
+
+### Changed
+- Refactored project structure for better modularity
+- Standardized coding standards across all components
+- Improved test coverage to 85%+
+
+### Fixed
+- Technical debt from legacy code
 - Security vulnerabilities in dependencies
-- Repository structure issues identified in audit
-- Documentation links and references
+- Infrastructure synchronization issues
 
 ## [0.1.0] - 2026-04-30
 
