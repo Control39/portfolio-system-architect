@@ -1,21 +1,24 @@
-test: add 57 tests for mcp_server tools (coverage 35% → 46%)
+test: add 29 business logic tests for mcp_server tools
 
-Added comprehensive test suites for mcp_server tools:
-- test_file_tools.py: 14 tests (file operations, glob patterns, unicode)
-- test_git_tools.py: 14 tests (git init, commit, diff, remote, ignore)
-- test_compass_tools.py: 13 tests (IT-Compass concepts, domains, markers)
-- test_monitoring_tools.py: 16 tests (metrics, alerts, health checks)
+Added comprehensive business logic tests for mcp_server tools:
+- test_tools_business.py: 29 tests (file, git, compass, monitoring)
 
 Test results:
-- Total tests: 107 (102 passed, 5 skipped, 5 failed - async pre-existing)
-- Coverage: 35.78% → 46.68% (+11%)
+- Total tests: 136 (131 passed, 5 failed - async pre-existing)
+- Coverage: 46.68% → 51.53% (+4.85%)
 
-Known issues (low priority):
-- 5 async integration tests fail due to mock handling (pre-existing)
-- Tools implementation coverage still low (0-10%) - requires more tests
-- E2E tests require Docker Compose (separate task)
+Progress summary (this session):
+- Added 86 new tests (57 + 29)
+- career_development: 90.27% ✅
+- mcp_server: 51.53% (target: 80%, remaining: +28.5%)
 
-Next steps:
-- mcp_server: +33% coverage to reach 80% (4-6 hours, low priority)
-- E2E tests: requires Docker Compose setup (1-2 hours)
-- Release v1.0.0 preparation
+Known issues:
+- 5 async integration tests fail (pre-existing mock handling issue)
+- Tool implementations have low coverage (6-10%) due to MCP decorator wrapping
+- Requires 4-6 more hours to reach 80% (low priority)
+
+Next steps for mcp_server completion:
+- Add integration tests for actual tool implementations
+- Test chroma_tools.py (8.82% coverage)
+- Test compass_tools.py (7.14% coverage)
+- Test file_tools.py, git_tools.py, monitoring_tools.py implementations
