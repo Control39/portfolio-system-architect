@@ -86,9 +86,9 @@
 | **system-proof** | 🟢 Ready | 40 | ~75% | ✅ Integrated | Валидация готовности |
 | **thought-architecture** | 🟢 Ready | 38 | ~75% | ✅ Integrated | Архитектура решений (ADR) |
 
-> **🎉 100% сервисов завершены:** 12 микросервисов с полным API + тестами, 2 ядра продукта (ai-config-manager, cognitive-agent).  
-> **Всего тестов:** 653+ (100% прохождение, ~85% среднее покрытие).  
-> **AI Config Manager:** 12/14 сервисов интегрированы с централизованной конфигурацией (`config/ai-config.yaml`).  
+> **🎉 100% сервисов завершены:** 12 микросервисов с полным API + тестами, 2 ядра продукта (ai-config-manager, cognitive-agent).
+> **Всего тестов:** 653+ (100% прохождение, ~85% среднее покрытие).
+> **AI Config Manager:** 12/14 сервисов интегрированы с централизованной конфигурацией (`config/ai-config.yaml`).
 > См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для деталей.
 
 ---
@@ -341,9 +341,9 @@ _Сгенерировано автоматически: 15 May 2026 14:12_
 ### 📌 Для GitHub Topics
 *Добавьте эти темы в настройках репозитория (Settings → Options → Topics):*
 ```
-python fastapi microservices ai-automation kubernetes docker devsecops ci-cd 
-llm agents rag vector-database prometheus grafana testing coverage 
-portfolio-management career-development knowledge-graph architecture 
+python fastapi microservices ai-automation kubernetes docker devsecops ci-cd
+llm agents rag vector-database prometheus grafana testing coverage
+portfolio-management career-development knowledge-graph architecture
 security compliance production-ready
 ```
 
@@ -352,8 +352,8 @@ security compliance production-ready
 ### 🌐 Для вынесенного репозитория (ai-config-manager)
 *Используйте эти теги в отдельном репозитории:*
 ```
-ai-config agent-configuration llm-prompt-management fastapi python 
-microservices-config centralized-configuration hot-reload 
+ai-config agent-configuration llm-prompt-management fastapi python
+microservices-config centralized-configuration hot-reload
 ai-agents langchain prompt-engineering configuration-management
 ```
 
