@@ -88,7 +88,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 "message": f"Файл успешно записан: {path}",
                 "path": str(file_path.relative_to(PROJECT_ROOT)) if PROJECT_ROOT else str(file_path),
                 "size_bytes": file_size,
-                "size_human": _human_readable_size(file_size),
+                "size_human": format_file_size(file_size),
             }
 
         except PermissionError:
@@ -161,7 +161,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
                                     "path": str(rel_path),
                                     "type": "file",
                                     "size_bytes": stat.st_size,
-                                    "size_human": _human_readable_size(stat.st_size),
+                                    "size_human": format_file_size(stat.st_size),
                                     "modified": stat.st_mtime,
                                 }
                             )
@@ -190,7 +190,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
                                     "path": str(rel_path),
                                     "type": "file",
                                     "size_bytes": size_bytes,
-                                    "size_human": _human_readable_size(size_bytes),
+                                    "size_human": format_file_size(size_bytes),
                                     "modified": stat.st_mtime,
                                 }
                             )
@@ -348,18 +348,16 @@ def _resolve_path(path: str) -> Path:
     return (PROJECT_ROOT / path).resolve()
 
 
-def _human_readable_size(size_bytes: int) -> str:
-    """Преобразование размера в читаемый формат"""
-    if size_bytes == 0:
-        return "0 B"
-
+def format_file_size(size_bytes: int) -> str:
+    """Форматирование размера файла в человекочитаемый вид"""
     units = ["B", "KB", "MB", "GB", "TB"]
     i = 0
-    while size_bytes >= 1024 and i < len(units) - 1:
-        size_bytes /= 1024.0
+    size = float(size_bytes)
+    while size >= 1024 and i < len(units) - 1:
+        size /= 1024.0
         i += 1
 
-    return f"{size_bytes:.2f} {units[i]}"
+    return f"{size:.2f} {units[i]}"
 
 
 # Экспортируем функцию инициализации
