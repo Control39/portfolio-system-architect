@@ -1,21 +1,50 @@
 # 🏛️ Portfolio System Architect - Architecture Guide
 
-**Last Updated**: 2026-05-04  
+**Last Updated**: 2026-05-17  
 **Status**: 🟢 Production Ready  
-**Version**: 2.0 (After Option B Completion)
+**Version**: 2.1 (AI Config Manager Integration)
 
 ---
 
 ## 📚 Table of Contents
 
 1. [System Overview](#system-overview)
-2. [Architecture Layers](#architecture-layers)
-3. [Service Tiers](#service-tiers)
-4. [Data Flow](#data-flow)
-5. [Integration Points](#integration-points)
-6. [Deployment Model](#deployment-model)
-7. [Scalability](#scalability)
-8. [High Availability](#high-availability)
+2. [AI Config Manager](#-ai-config-manager)
+3. [Architecture Layers](#architecture-layers)
+4. [Service Tiers](#service-tiers)
+5. [Data Flow](#data-flow)
+6. [Integration Points](#integration-points)
+7. [Deployment Model](#deployment-model)
+8. [Scalability](#scalability)
+9. [High Availability](#high-availability)
+
+---
+
+## 🔧 AI Config Manager
+
+**Centralized configuration management for all AI services**
+
+### Key Features:
+- **Single Source of Truth**: `config/ai-config.yaml`
+- **Hot Reload**: Dynamic config updates without service restart
+- **Validation**: Pydantic-based validation for all configurations
+- **Fallback**: Automatic switch to local configs on failure
+- **Singleton**: Single config instance per service
+
+### Integration Status:
+- ✅ **9/14 services** actively use centralized configuration (64%)
+- ✅ **104 tests** passed (99% success rate)
+- ✅ All services have integration modules (`src/config_integration.py`)
+
+### Services with Active Integration:
+- cognitive-agent, decision_engine, mcp_server, auth_service
+- portfolio_organizer, it_compass, job-automation-agent
+- ml_model_registry, career_development
+
+### Services with Module Only (no main.py):
+- system_proof, knowledge_graph, thought-architecture, infra-orchestrator
+
+**Documentation**: [`docs/AI_CONFIG_INTEGRATION.md`](AI_CONFIG_INTEGRATION.md)
 
 ---
 
@@ -197,8 +226,12 @@ Portfolio System Architect is a **microservices-based intelligent platform** tha
 - Tests: 15 tests
 
 #### ai-config-manager ⚙️
-- Role: Configuration management
+- Role: Centralized configuration management for all AI services
 - Tests: 15 tests
+- **Integration Status:** 9/14 services actively use centralized config (64%)
+- **Features:** Hot reload, Pydantic validation, fallback mechanism, singleton pattern
+- **Config Location:** `config/ai-config.yaml`
+- **Documentation:** [`docs/AI_CONFIG_INTEGRATION.md`](AI_CONFIG_INTEGRATION.md)
 
 #### template-service 📋
 - Role: Template rendering and management
