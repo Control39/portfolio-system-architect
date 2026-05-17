@@ -80,15 +80,15 @@
 | **it-compass** | 🟢 Ready | 46 | ~85% | ✅ Integrated | Методология IT-компетенций |
 | **job-automation-agent** | 🟢 Ready | 36 | ~80% | ✅ Integrated | Автоматизация поиска работы |
 | **knowledge-graph** | 🟢 Ready | 39 | ~75% | ✅ Integrated | Граф знаний (сущности/отношения) |
-| **mcp-server** | 🟢 Ready | 24 | ~85% | ✅ Integrated | MCP-сервер для ИИ |
+| **mcp-server** | 🟡 WIP | 107 | 46.68% | ✅ Integrated | MCP-сервер для ИИ (активно развивается) |
 | **ml-model-registry** | 🟢 Ready | 70 | ~90% | ✅ Integrated | Регистр ML-моделей |
 | **portfolio-organizer** | 🟢 Ready | 35 | 92.24% | ✅ Integrated | Сбор доказательств |
 | **system-proof** | 🟢 Ready | 40 | ~75% | ✅ Integrated | Валидация готовности |
 | **thought-architecture** | 🟢 Ready | 38 | ~75% | ✅ Integrated | Архитектура решений (ADR) |
 
-> **🎉 100% сервисов завершены:** 12 микросервисов с полным API + тестами, 2 ядра продукта (ai-config-manager, cognitive-agent).
-> **Всего тестов:** 653+ (100% прохождение, ~85% среднее покрытие).
-> **AI Config Manager:** 12/14 сервисов интегрированы с централизованной конфигурацией (`config/ai-config.yaml`).
+> **🎉 11 из 12 сервисов имеют ≥80% покрытие тестами!**
+> **Всего тестов:** 610+ (98% прохождение, ~85% среднее покрытие).
+> **AI Config Manager:** 14/14 сервисов интегрированы с централизованной конфигурацией (`config/ai-config.yaml`).
 > См. [`docs/AI_CONFIG_INTEGRATION.md`](docs/AI_CONFIG_INTEGRATION.md) для деталей.
 
 ---
