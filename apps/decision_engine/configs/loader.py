@@ -1,23 +1,32 @@
 # components/decision-reason/config/loader.py
+import sys
 from pathlib import Path
 
-import yaml
 
+# Добавляем корень проекта в PATH
+REPO_ROOT = Path(__file__).parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-def load_component_config():
-    """Загружает конфигурацию компонента из component-config.yaml в корне проекта."""
-    project_root = Path(__file__).parent.parent.parent
-    config_path = project_root / "component-config.yaml"
+# Приоритет: AI Config Manager → локальный конфиг
+try:
+    from apps.decision_engine.src.config_integration import get_config
 
-    if not config_path.exists():
-        raise FileNotFoundError(f"Файл конфигурации не найден: {config_path}")
+    AI_CONFIG_AVAILABLE = True
+    _config_instance = get_config()
+    COMPONENT_CONFIG = _config_instance.get_config()
+    print("✅ Decision Engine: использован AI Config Manager")
+except Exception as e:
+    AI_CONFIG_AVAILABLE = False
+    print(f"⚠️  Decision Engine: AI Config Manager недоступен ({e}), используется локальный конфиг")
 
-    try:
+    # Fallback на локальный конфиг
+    import yaml
+
+    config_path = REPO_ROOT / "apps" / "decision_engine" / "configs" / "api-gateway.yaml"
+
+    if config_path.exists():
         with open(config_path, encoding="utf-8") as f:
-            return yaml.safe_load(f)
-    except yaml.YAMLError as e:
-        raise ValueError(f"Ошибка парсинга YAML: {e}") from e
-
-
-# Глобальная переменная конфигурации
-COMPONENT_CONFIG = load_component_config()
+            COMPONENT_CONFIG = yaml.safe_load(f) or {}
+    else:
+        COMPONENT_CONFIG = {}

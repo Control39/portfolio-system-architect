@@ -14,9 +14,11 @@ from typing import Any
 
 import yaml
 
+
 # Интеграция с AI Config Manager
 try:
     from cognitive_agent.src.config_integration import get_config
+
     AI_CONFIG_INTEGRATION = True
 except ImportError:
     AI_CONFIG_INTEGRATION = False
@@ -157,7 +159,6 @@ class ProjectScanner:
             "git_repository": self._check_git_repository(project_path),
         }
 
-
     def _analyze_tech_stack(self, project_path: Path) -> dict[str, Any]:
         """Анализ технологического стека"""
         logger.info("Анализ технологического стека...")
@@ -169,7 +170,6 @@ class ProjectScanner:
             "tools": self._detect_tools(project_path),
         }
 
-
     def _analyze_dependencies(self, project_path: Path) -> dict[str, Any]:
         """Анализ зависимостей проекта"""
         logger.info("Анализ зависимостей...")
@@ -179,7 +179,6 @@ class ProjectScanner:
             "nodejs": self._get_nodejs_dependencies(project_path),
             "docker": self._get_docker_dependencies(project_path),
         }
-
 
     def _check_git_repository(self, path: Path) -> bool:
         """Проверка, является ли директория Git репозиторием"""

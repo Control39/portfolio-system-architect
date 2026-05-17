@@ -3,6 +3,7 @@
 
 from pathlib import Path
 
+
 config_file = Path("config/ai-config.yaml")
 content = config_file.read_text(encoding="utf-8")
 
@@ -15,7 +16,9 @@ if not content.startswith("---"):
 
 # Фиксим комментарии (добавляем пробел после #)
 import re
-content = re.sub(r'^( *)(#\S)', r'\1 \2', content, flags=re.MULTILINE)
+
+
+content = re.sub(r"^( *)(#\S)", r"\1 \2", content, flags=re.MULTILINE)
 
 config_file.write_text(content, encoding="utf-8")
 print("✅ config/ai-config.yaml исправлен")
