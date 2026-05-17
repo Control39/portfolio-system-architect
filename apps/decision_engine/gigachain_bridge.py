@@ -7,29 +7,45 @@ Self-Improving Loop stub included.
 import os
 
 from dotenv import load_dotenv
-from langchain.prompts import PromptTemplate
-from langchain_community.llms import Gigachat  # Assuming gigachain provides this
+
+# Langchain 1.x совместимость
+try:
+    from langchain.prompts import PromptTemplate
+except ImportError:
+    from langchain_core.prompts import PromptTemplate
+
+try:
+    from langchain_community.llms import GigaChat
+except ImportError:
+    try:
+        from langchain_gigachat import GigaChat
+    except ImportError:
+        GigaChat = None  # Fallback для тестирования
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 
 
 load_dotenv()
 
 
 class GigaChainSettings(BaseSettings):
-    gigachat_api_key: str = os.getenv("GIGACHAT_API_KEY")
+    model_config = ConfigDict(extra="ignore", env_file=".env")
+    gigachat_api_key: str = ""
     chroma_path: str = "./chroma_db"
     mcp_url: str = "http://localhost:8000/mcp"
-
-    class Config:
-        env_file = ".env"
 
 
 class GigaMCPBridge:
     def __init__(self, settings: GigaChainSettings = GigaChainSettings()):
         self.settings = settings
-        self.llm = Gigachat(
+        if GigaChat is None:
+            raise RuntimeError(
+                "GigaChat не доступен. Установите langchain-community или langchain-gigachat "
+                "и настройте GIGACHAT_API_KEY в .env"
+            )
+        self.llm = GigaChat(
             api_key=settings.gigachat_api_key,
-            model="gigachat:latest",  # Or specific
+            model="gigachat:latest",
             verify_ssl=False,
         )
         self.prompt = PromptTemplate(

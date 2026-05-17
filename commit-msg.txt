@@ -1,17 +1,24 @@
-docs: add SEO keywords and topics for discoverability
+refactor(langchain): migrate to langchain 1.x API
 
-Added:
-- Comprehensive keyword sections for all technology categories
-- GitHub Topics recommendations (30+ tags)
-- Separate tag list for ai-config-manager standalone repo
-- Organized by: Architecture, AI, DevSecOps, Monitoring, Testing, Enterprise, Cloud, Methodologies
+Fixed compatibility issues with langchain 1.x:
+- gigachain_bridge.py:
+  - Added fallback imports for PromptTemplate (langchain vs langchain_core)
+  - Added fallback for GigaChat (langchain_community vs langchain_gigachat)
+  - Updated Pydantic v2 configuration (model_config, removed nested Config)
+  - Added proper error handling when GigaChat is not available
 
-Keywords cover:
-- Python, FastAPI, Microservices, Kubernetes, Docker
-- AI Agents, LLM, LangChain, RAG, Vector Databases
-- DevSecOps, CI/CD, Security Scanning, Compliance
-- Prometheus, Grafana, Observability
-- Testing, TDD, Quality Gates
-- Portfolio Management, Career Development
-- AWS, GCP, Azure, Cloud Native
-- Agile, DevOps, SRE, Platform Engineering
+- orchestrator.py (job-automation-agent):
+  - Added fallback imports for AgentExecutor, create_react_agent
+  - Added fallback for PromptTemplate and Tool imports
+
+- requirements.in:
+  - Added langchain dependencies (1.2+, community 0.4+, openai 1.2+, gigachat 0.5+)
+
+Test results:
+- test_gigachain_bridge.py: 1 passed, 1 skipped (no API key)
+- test_agent_business.py: 21/21 passed (100%)
+- yandex_gpt.py: verified working with fallback imports
+
+Breaking changes:
+- GigaChat requires GIGACHAT_API_KEY environment variable
+- Pydantic v2 configuration in GigaChainSettings

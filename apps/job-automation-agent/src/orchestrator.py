@@ -2,9 +2,15 @@ import asyncio
 import os
 from typing import Any
 
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain.prompts import PromptTemplate
-from langchain.tools import Tool
+# Langchain 1.x совместимость
+try:
+    from langchain.agents import AgentExecutor, create_react_agent
+    from langchain.prompts import PromptTemplate
+    from langchain.tools import Tool
+except ImportError:
+    from langchain_core.agents import AgentExecutor, create_react_agent  # type: ignore
+    from langchain_core.prompts import PromptTemplate
+    from langchain_core.tools import Tool
 from langchain_core.language_models import FakeListLLM  # Fallback
 from langchain_openai import ChatOpenAI
 
