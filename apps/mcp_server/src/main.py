@@ -17,12 +17,31 @@ from fastmcp import FastMCP
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
+# Интеграция с AI Config Manager
+try:
+    from apps.mcp_server.src.config_integration import get_config
+
+    AI_CONFIG_AVAILABLE = True
+    config_manager = get_config()
+    server_config = config_manager.get_config()
+    print("✅ MCP Server: использован AI Config Manager")
+except Exception as e:
+    AI_CONFIG_AVAILABLE = False
+    print(f"⚠️  MCP Server: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    server_config = {}
+
 # Инициализация единого экземпляра MCP сервера
 mcp = FastMCP("Career Autopilot MCP Server")
 
-# Конфигурация
-IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it_compass" / "src" / "data" / "markers"
-PROJECT_ROOT = project_root
+# Конфигурация (из AI Config Manager или fallback)
+if server_config:
+    paths_config = server_config.get("paths", {})
+    IT_COMPASS_MARKERS_PATH = Path(paths_config.get("it_compass_markers", "apps/it_compass/src/data/markers"))
+    PROJECT_ROOT = Path(paths_config.get("project_root", "."))
+else:
+    # Fallback на дефолтные пути
+    IT_COMPASS_MARKERS_PATH = project_root / "apps" / "it_compass" / "src" / "data" / "markers"
+    PROJECT_ROOT = project_root
 
 
 # Ресурсы навигации
