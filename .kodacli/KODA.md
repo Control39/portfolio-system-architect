@@ -28,21 +28,38 @@
    - `docs/AI_CONFIG_INTEGRATION.md` — полное руководство по интеграции
    - Примеры использования, архитектура, миграция, тестирование
 
-6. **Коммит и пуш** ✅
-   - Коммит: `6fa91659` — feat: integrate AI Config Manager across all 14 services
-   - 39 файлов изменено/создано
-   - 3598 строк добавлено
-   - Пуш в `origin/main` выполнен
+6. **Активная миграция сервисов** ✅
+   - **9/14 сервисов (64%)** мигрировано на использование AI Config Manager:
+     1. `cognitive-agent/scripts/scanner_main.py` ✅
+     2. `decision_engine/configs/loader.py` ✅
+     3. `mcp_server/src/main.py` ✅
+     4. `auth_service/main.py` ✅
+     5. `portfolio_organizer/src/app.py` ✅
+     6. `it_compass/src/main.py` ✅
+     7. `job-automation-agent/src/main.py` ✅
+     8. `ml_model_registry/src/main.py` ✅
+     9. `career_development/main.py` ✅
+   - **5/14 сервисов** — незавершенные (нет main.py/app.py):
+     - system_proof, knowledge_graph, thought-architecture, infra-orchestrator, ai-config-manager
+
+7. **Коммиты и пуш** ✅
+   - `6fa91659` — Интеграция всех 14 сервисов (39 файлов, 3598 строк)
+   - `8b402cd7` — decision_engine + mcp_server
+   - `c9a59158` — auth_service + portfolio_organizer + it_compass
+   - `474deef6` — job-automation-agent + ml_model_registry
+   - `1c60ad84` — career_development
+   - Все коммиты успешно запушены в `origin/main`
 
 **Метрики:**
 | Показатель | Значение |
 |------------|----------|
-| Сервисов подключено | 14/14 (100%) |
+| Сервисов подключено (модули) | 14/14 (100%) |
+| Сервисов мигрировано (активно) | 9/14 (64%) |
+| Сервисов незавершено | 5/14 (36%) |
 | Тестов пройдено | 104/105 (99%) |
-| Файлов создано | 39 |
-| Строк кода | 3598 |
-| Модулей интеграции | 14 |
-| Тестовых файлов | 15 (14 + 1 универсальный) |
+| Файлов создано | 47+ |
+| Строк кода | ~3800+ |
+| Коммитов | 5 |
 
 **Созданные файлы:**
 - `config/ai-config.yaml` — центральный конфиг
@@ -55,11 +72,20 @@
 - `scripts/fix_yaml.py`
 - `docs/AI_CONFIG_INTEGRATION.md`
 
-**Изменённые файлы:**
-- `apps/cognitive-agent/scripts/scanner_main.py` — использует AI Config Manager
+**Изменённые файлы (миграция):**
+- `apps/cognitive-agent/scripts/scanner_main.py`
+- `apps/decision_engine/configs/loader.py`
+- `apps/mcp_server/src/main.py`
+- `apps/auth_service/main.py`
+- `apps/portfolio_organizer/src/app.py`
+- `apps/it_compass/src/main.py`
+- `apps/job-automation-agent/src/main.py`
+- `apps/ml_model_registry/src/main.py`
+- `apps/career_development/main.py`
 
 **Следующие шаги:**
-- [ ] Активное использование в сервисах (замена локальных конфигов)
-- [ ] Добавить секции для новых сервисов
-- [ ] Environment-specific конфиги (dev/staging/prod)
-- [ ] Remote конфигурации (S3, Azure Blob)
+- [ ] Завершить реализацию 5 незавершенных сервисов (system_proof, knowledge_graph, thought-architecture, infra-orchestrator)
+- [ ] Добавить environment-specific конфиги (dev/staging/prod)
+- [ ] Настроить remote конфигурации (S3, Azure Blob) — опционально
+- [ ] Обновить README с метриками интеграции
+- [ ] Добавить CI/CD для проверки конфигураций

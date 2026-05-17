@@ -1,9 +1,17 @@
-feat: activate AI Config Manager in decision_engine and mcp_server
+docs: add SEO keywords and topics for discoverability
 
-Updated services to use centralized configuration with fallback:
-- decision_engine/configs/loader.py — uses AI Config Manager
-- mcp_server/src/main.py — uses AI Config Manager for paths
-- Added check_config.py for testing decision_engine config
+Added:
+- Comprehensive keyword sections for all technology categories
+- GitHub Topics recommendations (30+ tags)
+- Separate tag list for ai-config-manager standalone repo
+- Organized by: Architecture, AI, DevSecOps, Monitoring, Testing, Enterprise, Cloud, Methodologies
 
-Both services gracefully fallback to local configs when
-AI Config Manager is not installed as pip package.
+Keywords cover:
+- Python, FastAPI, Microservices, Kubernetes, Docker
+- AI Agents, LLM, LangChain, RAG, Vector Databases
+- DevSecOps, CI/CD, Security Scanning, Compliance
+- Prometheus, Grafana, Observability
+- Testing, TDD, Quality Gates
+- Portfolio Management, Career Development
+- AWS, GCP, Azure, Cloud Native
+- Agile, DevOps, SRE, Platform Engineering
