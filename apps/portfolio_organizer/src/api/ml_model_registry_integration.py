@@ -5,11 +5,19 @@
 
 import os
 import re
+import sys
+from pathlib import Path
 
 import requests
 from flask import Blueprint, jsonify, request
 
-from ...utils.security import is_safe_url, sanitize_error_message
+
+# Добавляем путь к utils внутри portfolio_organizer
+UTILS_PATH = Path(__file__).parent.parent / "utils"
+if str(UTILS_PATH) not in sys.path:
+    sys.path.insert(0, str(UTILS_PATH))
+
+from security import is_safe_url, sanitize_error_message  # noqa: E402
 
 
 bp = Blueprint("ml_model_registry", __name__, url_prefix="/api/ml-model-registry")
