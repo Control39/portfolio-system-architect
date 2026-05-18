@@ -1,5 +1,32 @@
 # Auth Service
 
+## Contributing
+См. [CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+
+## Deployment
+```bash
+docker build -t auth-service .
+docker run -p 8100:8000 auth-service
+```
+
+
+## Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+
+## Features
+- JWT токены
+- OAuth2
+- Rate limiting
+
+
+## Purpose
+Сервис аутентификации и авторизации (JWT).
+
+
 > **Статус:** Active
 > **Владелец:** Portfolio System Architect Team
 > **Последнее обновление:** 15 мая 2026 г.
