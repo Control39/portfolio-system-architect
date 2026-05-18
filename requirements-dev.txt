@@ -735,7 +735,7 @@ regex==2026.5.9
     # via
     #   nltk
     #   tiktoken
-requests==2.34.0
+requests==2.34.2
     # via
     #   -r requirements-dev.in
     #   cachecontrol
