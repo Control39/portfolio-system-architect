@@ -4,11 +4,12 @@
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![Services](https://img.shields.io/badge/Services-15-green?style=flat-square&logo=serverless)
+![Structure](https://img.shields.io/badge/Structure-100%25-brightgreen?style=flat-square&logo=standard)
 ![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-red?style=flat-square&logo=security)
-![ADR](https://img.shields.io/badge/ADR-14%20Documented-purple?style=flat-square&logo=book)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-Auto%20Check-blue?style=flat-square&logo=github-actions)
 
 **Катя (Control39) — Cognitive Architect**
 *Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
@@ -72,10 +73,12 @@
 
 ## 📦 Core Components (15 сервисов)
 
+Все 15 сервисов завершены, имеют **100% соответствие стандарту структуры** (main.py, README.md, Dockerfile, tests/).
+
 | Сервис | Статус | Покрытие | Описание |
 |--------|--------|----------|----------|
 | **client/** | 🟢 Active | ~85% | **Frontend** (React 19 + TS) для чата с ИИ |
-| **ai-config-manager** | 🟢 Core | ~90% | Централизованный менеджер конфигурации ИИ-агентов |
+| **ai-config-manager** | 🟢 Core | ~90% | Централизованный менеджер конфигурации |
 | **auth-service** | 🟢 Ready | ~95% | JWT аутентификация |
 | **career-development** | 🟢 Ready | 80.47% | Трекинг компетенций |
 | **cognitive-agent** | 🟢 Core | ~85% | Автономный ИИ-агент |
@@ -90,8 +93,27 @@
 | **system-proof** | 🟢 Ready | ~75% | Валидация готовности |
 | **thought-architecture** | 🟢 Ready | ~75% | Архитектура решений (ADR) |
 
+> **🎉 15/15 сервисов (100%) соответствуют стандарту структуры!**
 > **🎉 11 из 15 сервисов имеют ≥80% покрытие тестами!**
 > **Всего тестов:** 610+ (98% прохождение, ~85% среднее покрытие).
+
+---
+
+## 🛠️ Инструменты разработки
+
+| Инструмент | Назначение | Документация |
+|------------|------------|--------------|
+| **Koda** | IDE-интеграция, анализ кода | [docs/TOOLS.md](docs/TOOLS.md) |
+| **SourceCraft** | AI-агенты для автоматизации (17 навыков) | [docs/TOOLS.md](docs/TOOLS.md) |
+| **Continue** | AI pair programming (VS Code) | [docs/TOOLS.md](docs/TOOLS.md) |
+| **MCP Server** | Оркестрация агентов, CI/CD | [docs/TOOLS.md](docs/TOOLS.md) |
+
+**Новые инструменты:**
+- **Генератор сервисов** — создание нового сервиса за 2 сек: `python scripts/create_service.py my-service --description="..."`
+- **Проверка структуры** — автоматическая валидация: `python scripts/check_service_structure.py`
+- **CI/CD проверки** — блокировка плохих PR в GitHub Actions
+
+📖 Документация: [`docs/TOOLS.md`](docs/TOOLS.md), [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md)
 
 ---
 
@@ -170,8 +192,11 @@ settings = config.get_config()
 | **Время разработки** | 2 года (самообучение) |
 | **Определено маркеров компетенций** | 32+ |
 | **Микросервисов** | 15 |
+| **Соответствие стандарту структуры** | 15/15 (100%) ✅ |
 | **Покрытие тестами** | ~85% |
 | **Уязвимостей** | 0 |
+| **Автоматических проверок** | CI/CD + pre-commit ✅ |
+| **Генератор сервисов** | 2 сек на сервис ✅ |
 
 ---
 
@@ -293,13 +318,32 @@ cat docs/it-compass/PROJECT_ANALYSIS.md
 
 ## 📚 Дополнительная документация
 
+### Основные руководства
+
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`docs/TOOLS.md`](docs/TOOLS.md) | Все | Обзор инструментов (Koda, SourceCraft, Continue, MCP) |
+| [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md) | Разработчики | Как создавать новые сервисы за 2 сек |
+| [`docs/SERVICE_STRUCTURE_STANDARD.md`](docs/SERVICE_STRUCTURE_STANDARD.md) | Разработчики | Стандарт структуры сервиса (100% соответствие) |
+| [`docs/CI_CD_SERVICE_STRUCTURE.md`](docs/CI_CD_SERVICE_STRUCTURE.md) | DevOps | Настройка CI/CD проверок |
+| [`ops/RUNBOOK.md`](ops/RUNBOOK.md) | Ops | Руководство по операциям и инцидентам |
+
+### Методология и архитектура
+
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md) | Все | Методология объективных маркеров компетенций |
+| [`docs/TOOLS_INTEGRATION.md`](docs/TOOLS_INTEGRATION.md) | Архитекторы | Как инструменты работают вместе |
+| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
+
+### Для HR и работодателей
+
 | Документ | Для кого | Описание |
 |----------|----------|----------|
 | [`HIRING_BRIEF.md`](docs/HIRING_BRIEF.md) | HR, hiring managers | Детали для найма |
 | [`SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) | Грантовые комитеты | Заявка на грант |
 | [`FOR-EMPLOYER.md`](docs/FOR-EMPLOYER.md) | Работодатели | Презентация проекта |
 | [`INTERVIEW-QA.md`](docs/INTERVIEW-QA.md) | Интервью | Ответы на вопросы |
-| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
 
 ---
 
