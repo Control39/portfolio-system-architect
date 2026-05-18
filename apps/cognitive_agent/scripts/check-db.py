@@ -3,8 +3,18 @@
 Проверка структуры базы данных мониторинга
 """
 
+import re
 import sqlite3
 import sys
+
+# Регулярное выражение для валидации имен таблиц SQLite
+# Разрешены только буквы, цифры и подчеркивание, начало с буквы или _
+TABLE_NAME_PATTERN = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
+
+
+def is_valid_table_name(name: str) -> bool:
+    """Проверка имени таблицы на безопасность (защита от SQL injection)"""
+    return bool(TABLE_NAME_PATTERN.match(name))
 
 
 def main():
@@ -28,6 +38,12 @@ def main():
 
         for table_info in tables:
             table_name = table_info[0]
+            
+            # Валидация имени таблицы (защита от SQL injection)
+            if not is_valid_table_name(table_name):
+                print(f"  ⚠️ Недопустимое имя таблицы, пропускаем: {table_name}")
+                continue
+                
             print(f"\n📊 Таблица: {table_name}")
 
             # Получить структуру таблицы

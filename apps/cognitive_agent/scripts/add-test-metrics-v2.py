@@ -233,8 +233,12 @@ class TestMetricsGeneratorV2:
             print("=" * 60)
 
             # Статистика по таблицам
+            # Белый список разрешенных таблиц (защита от SQL injection)
+            ALLOWED_TABLES = {"trigger_events", "trigger_metrics", "trigger_stats"}
             tables = ["trigger_events", "trigger_metrics", "trigger_stats"]
             for table in tables:
+                if table not in ALLOWED_TABLES:
+                    raise ValueError(f"Недопустимое имя таблицы: {table}")
                 cursor.execute(f"SELECT COUNT(*) FROM {table}")
                 count = cursor.fetchone()[0]
                 print(f"{table}: {count} записей")
