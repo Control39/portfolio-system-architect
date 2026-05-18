@@ -2,6 +2,7 @@ FROM python:3.12-slim as builder
 
 WORKDIR /app
 
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
@@ -17,6 +18,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/* \
@@ -25,13 +27,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 
-# Copy shared src from project root
-COPY --chown=appuser:appuser src /app/src
+# Copy service code (context is the service folder)
+COPY . .
 
-# Copy service code
-COPY apps/decision_engine .
 # Copy config file to root
-COPY apps/decision_engine/component-config.yaml /component-config.yaml
+COPY component-config.yaml /component-config.yaml
 
 ENV PYTHONPATH=/app
 
