@@ -3,15 +3,29 @@ API для анализа и рекомендаций по проектам по
 """
 
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, TypedDict
 
 from fastapi import APIRouter, HTTPException
+
+
+class Project(TypedDict, total=False):
+    """Тип для проекта портфолио"""
+
+    id: int
+    name: str
+    description: str
+    status: str
+    progress: int
+    deadline: str
+    technologies: list[str]
+    team_size: int
+    budget: int
 
 
 router = APIRouter(prefix="/api", tags=["portfolio-reasoning"])
 
 # Демонстрационные данные проектов
-SAMPLE_PROJECTS = [
+SAMPLE_PROJECTS: list[Project] = [
     {
         "id": 1,
         "name": "E-commerce Platform",
@@ -49,13 +63,13 @@ SAMPLE_PROJECTS = [
 
 
 @router.get("/projects")
-async def get_projects() -> list[dict[str, Any]]:
+async def get_projects() -> list[Project]:
     """Получение списка всех проектов"""
     return SAMPLE_PROJECTS
 
 
 @router.get("/projects/{project_id}")
-async def get_project(project_id: int) -> dict[str, Any]:
+async def get_project(project_id: int) -> Project:
     """Получение информации о конкретном проекте"""
     project = next((p for p in SAMPLE_PROJECTS if p["id"] == project_id), None)
     if project:
@@ -74,41 +88,51 @@ async def get_recommendations(project_id: int) -> dict[str, Any]:
     return generate_recommendations(project)
 
 
-@router.get("/portfolio/analysis")
-async def portfolio_analysis() -> dict[str, Any]:
+def analyze_portfolio() -> dict[str, Any]:
     """Анализ всего портфолио"""
+    technologies_set: set[str] = set()
+    for p in SAMPLE_PROJECTS:
+        techs = p.get("technologies")
+        if isinstance(techs, list):
+            for tech in techs:
+                if isinstance(tech, str):
+                    technologies_set.add(tech)
+
+    completed = [p for p in SAMPLE_PROJECTS if p.get("status") == "completed"]
+    in_progress = [p for p in SAMPLE_PROJECTS if p.get("status") == "in-progress"]
+    pending = [p for p in SAMPLE_PROJECTS if p.get("status") == "pending"]
+    total_budget = sum(p.get("budget", 0) for p in SAMPLE_PROJECTS)
+    team_sizes = [p.get("team_size", 0) or 0 for p in SAMPLE_PROJECTS]
+
     return {
         "total_projects": len(SAMPLE_PROJECTS),
-        "completed_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "completed"]),
-        "in_progress_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "in-progress"]),
-        "pending_projects": len([p for p in SAMPLE_PROJECTS if p["status"] == "pending"]),
-        "total_budget": sum(p["budget"] for p in SAMPLE_PROJECTS),
-        "average_team_size": sum(p["team_size"] for p in SAMPLE_PROJECTS) / len(SAMPLE_PROJECTS),
-        "technologies": list({tech for p in SAMPLE_PROJECTS for tech in p["technologies"]}),
+        "completed_projects": len(completed),
+        "in_progress_projects": len(in_progress),
+        "pending_projects": len(pending),
+        "total_budget": total_budget,
+        "average_team_size": sum(team_sizes) / len(team_sizes) if team_sizes else 0,
+        "technologies": sorted(technologies_set),
     }
 
 
-def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
+def generate_recommendations(project: Project) -> dict[str, Any]:
     """Генерация рекомендаций для проекта"""
     from datetime import datetime, timezone
 
-    recommendations = {
-        "project_id": project["id"],
-        "project_name": project["name"],
-        "suggestions": [],
-    }
+    suggestions: list[dict[str, str]] = []
 
     # Рекомендации на основе статуса
-    if project["status"] == "in-progress":
-        if project["progress"] < 50:
-            recommendations["suggestions"].append(
+    if project.get("status") == "in-progress":
+        progress = project.get("progress", 0) or 0
+        if progress < 50:
+            suggestions.append(
                 {
                     "type": "warning",
                     "message": "Прогресс проекта ниже 50%. Рассмотрите возможность пересмотра плана или увеличения ресурсов.",
                 }
             )
-        elif project["progress"] > 80:
-            recommendations["suggestions"].append(
+        elif progress > 80:
+            suggestions.append(
                 {
                     "type": "info",
                     "message": "Проект близок к завершению. Начните планирование постпроектного анализа.",
@@ -116,20 +140,27 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
             )
 
     # Рекомендации на основе дедлайна
-    deadline = datetime.strptime(project["deadline"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
-    days_until_deadline = (deadline - datetime.now(timezone.utc)).days
+    deadline_str = project.get("deadline")
+    if deadline_str:
+        try:
+            deadline = datetime.strptime(deadline_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+            days_until_deadline = (deadline - datetime.now(timezone.utc)).days
 
-    if days_until_deadline < 30 and project["status"] != "completed":
-        recommendations["suggestions"].append(
-            {
-                "type": "urgent",
-                "message": f"До дедлайна осталось {days_until_deadline} дней. Приоритизируйте критически важные задачи.",
-            }
-        )
+            if days_until_deadline < 30 and project.get("status") != "completed":
+                suggestions.append(
+                    {
+                        "type": "urgent",
+                        "message": f"До дедлайна осталось {days_until_deadline} дней. Приоритизируйте критически важные задачи.",
+                    }
+                )
+        except ValueError:
+            pass
 
     # Рекомендации на основе технологий
-    if "Python" in project["technologies"] and project["team_size"] > 5:
-        recommendations["suggestions"].append(
+    technologies = project.get("technologies") or []
+    team_size = project.get("team_size") or 0
+    if "Python" in technologies and team_size > 5:
+        suggestions.append(
             {
                 "type": "info",
                 "message": "Для Python проектов с большой командой рассмотрите использование дополнительных инструментов для управления зависимостями.",
@@ -137,15 +168,20 @@ def generate_recommendations(project: dict[str, Any]) -> dict[str, Any]:
         )
 
     # Рекомендации на основе бюджета
-    if project["budget"] > 100000:
-        recommendations["suggestions"].append(
+    budget = project.get("budget") or 0
+    if budget > 100000:
+        suggestions.append(
             {
                 "type": "info",
                 "message": "Проект с крупным бюджетом. Рассмотрите возможность внедрения дополнительных метрик отслеживания ROI.",
             }
         )
 
-    return recommendations
+    return {
+        "project_id": project.get("id"),
+        "project_name": project.get("name"),
+        "suggestions": suggestions,
+    }
 
 
 @router.get("/health")

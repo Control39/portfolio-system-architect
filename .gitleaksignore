@@ -19,3 +19,10 @@ legacy/**
 **/__pycache__/**
 **/.venv/**
 **/node_modules/**
+
+# New scripts and workflows (created 2026-05-18)
+scripts/update_readme_badges.py
+.github/workflows/security-scan.yml
+.github/workflows/test-decision-engine.yml
+.github/workflows/deploy.yml
+docs/index.md

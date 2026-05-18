@@ -104,12 +104,21 @@ jobs:
     strategy:
       matrix:
         include:
-          - service: portfolio-system
-            dockerfile: docker/Dockerfile
+          - service: auth-service
+            dockerfile: apps/auth_service/Dockerfile
+            context: apps/auth_service
           - service: it-compass
-            dockerfile: docker/Dockerfile.it-compass
+            dockerfile: apps/it_compass/Dockerfile
+            context: apps/it_compass
           - service: decision-engine
-            dockerfile: docker/Dockerfile.decision-engine
+            dockerfile: apps/decision_engine/Dockerfile
+            context: apps/decision_engine
+          - service: ml-model-registry
+            dockerfile: apps/ml_model_registry/Dockerfile
+            context: apps/ml_model_registry
+          - service: cognitive-agent
+            dockerfile: apps/cognitive-agent/Dockerfile
+            context: apps/cognitive-agent
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -120,7 +129,7 @@ jobs:
       - name: Build & Scan Docker Image
         run: |
           if [ -f "${{ matrix.dockerfile }}" ]; then
-            docker build -t ${{ matrix.service }}:test -f ${{ matrix.dockerfile }} .
+            docker build -t ${{ matrix.service }}:test -f ${{ matrix.dockerfile }} ${{ matrix.context }}
             trivy image --format sarif --output trivy-${{ matrix.service }}.sarif ${{ matrix.service }}:test
           else
             echo "::warning::Dockerfile ${{ matrix.dockerfile }} not found, skipping"
