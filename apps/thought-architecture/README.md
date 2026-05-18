@@ -1,28 +1,60 @@
 # Thought Architecture
 
-**Сервис управления архитектурными решениями (ADRs)**
+> **Статус:** 🟢 Production Ready
+> **Версия:** 1.0.0
+> **Владелец:** Portfolio System Architect Team
 
 ---
 
 ## 🎯 Назначение
 
-Thought Architecture предоставляет API для:
-- Создания и управления архитектурными решениями
-- Жизненного цикла решений (предложение → одобрение/отклонение → замена)
-- Поиска решений по тексту и тегам
-- Статистики по статусам и уровням решений
-- Управления записями архитектуры
+Thought Architecture — сервис управления архитектурными решениями (ADR) и паттернами мышления. Обеспечивает централизованное хранение, поиск и версионирование архитектурных решений, а также рекомендует паттерны для новых задач.
+
+### Ключевые возможности
+- [x] Управление ADR (Architecture Decision Records)
+- [x] Каталог паттернов мышления (системное мышление, contract-first и др.)
+- [x] Фреймворки принятия решений
+- [x] Векторный поиск по ADR и паттернам
+- [x] Интеграция с docs/architecture/decisions/
+- [x] Интеграция с AI Config Manager
 
 ---
 
-## 📊 Метрики
+## 💼 Архитектурная ценность
 
-| Показатель | Значение |
-|------------|----------|
-| Тестов | **28** (100% проходят) |
-| Покрытие | **~75%** (цель: 80%) |
-| AI Config Manager | ✅ Integrated |
-| Статус | 🟢 Production Ready |
+### Проблема
+
+В сложных проектах архитектурные решения часто:
+- **Разбросаны по документам** — трудно найти историю решений
+- **Не документированы** — новые разработчики не понимают контекст
+- **Повторяются** — изобретают велосипед вместо использования паттернов
+- **Нет версионирования** — сложно отследить эволюцию
+
+### Решение
+
+Thought Architecture предоставляет:
+- **Единое хранилище ADR** с статусами (proposed/accepted/deprecated)
+- **Каталог паттернов** с use cases и связями
+- **Поиск по контексту** — найдите релевантные решения
+- **Фреймворки** для структурированного принятия решений
+
+---
+
+## 📦 Зависимости
+
+Основные зависимости (см. `requirements.txt`):
+
+- **FastAPI** >= 0.100.0 — веб-фреймворк
+- **Pydantic** >= 2.0.0 — валидация данных
+- **Uvicorn** >= 0.20.0 — ASGI сервер
+- **PyYAML** >= 6.0.0 — загрузка конфигов
+- **Sentence Transformers** (опционально) — векторный поиск
+
+Установка:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -38,79 +70,60 @@ docker-compose up -d thought-architecture
 
 ```bash
 cd apps/thought-architecture
-python -m uvicorn main:app --reload --port 8000
+python -m uvicorn main:app --reload --port 8500
 ```
 
-### API Documentation
+### Доступ к API
 
-Откройте [http://localhost:8000/docs](http://localhost:8000/docs) для Swagger UI.
-
----
-
-## 🔧 API Endpoints
-
-### Health Check
-- `GET /health` — Проверка здоровья сервиса
-- `GET /ready` — Readiness probe
-- `GET /live` — Liveness probe
-
-### Решения (Decisions)
-- `GET /decisions` — Список всех решений (с фильтрацией по статусу/уровню/тегу)
-- `POST /decisions` — Создать решение
-- `GET /decisions/{id}` — Получить решение по ID
-- `PUT /decisions/{id}` — Обновить решение
-- `DELETE /decisions/{id}` — Удалить решение
-
-### Жизненный цикл
-- `PUT /decisions/{id}/approve?approver=X` — Одобрить решение
-- `PUT /decisions/{id}/reject?reason=X` — Отклонить решение
-- `PUT /decisions/{id}/supersede?new_decision_id=X` — Заменить решением
-
-### Поиск и статистика
-- `GET /decisions/search?query=X` — Поиск по тексту
-- `GET /statistics` — Статистика по решениям
-
-### Записи архитектуры (Records)
-- `GET /records` — Список записей
-- `POST /records` — Создать запись
-- `GET /records/{id}` — Получить запись
-- `PUT /records/{id}/add_decision?decision_id=X` — Добавить решение к записи
-- `DELETE /records/{id}` — Удалить запись
+- **Swagger UI:** http://localhost:8500/docs
+- **Redoc:** http://localhost:8500/redoc
+- **Health check:** http://localhost:8500/health
 
 ---
 
-## 📦 Примеры использования
+## 🛠️ API Endpoints
 
-### Создание решения
+### Основные
+- `GET /` — Информация о сервисе
+- `GET /health` — Проверка здоровья
+
+### ADR Management
+- `GET /api/v1/adrs` — Список всех ADR (фильтр по статусу/тегу)
+- `POST /api/v1/adrs` — Создать ADR
+- `GET /api/v1/adrs/{adr_id}` — Получить ADR по ID
+- `PUT /api/v1/adrs/{adr_id}` — Обновить статус ADR
+
+### Patterns
+- `GET /api/v1/patterns` — Список паттернов (фильтр по категории)
+- `POST /api/v1/patterns` — Создать паттерн
+
+### Frameworks
+- `GET /api/v1/frameworks` — Список фреймворков
+
+### Поиск
+- `POST /api/v1/query` — Поиск по ADR, паттернам и фреймворкам
+
+### Примеры
 
 ```bash
-curl -X POST http://localhost:8000/decisions \
+# Получить все принятые ADR
+curl "http://localhost:8500/api/v1/adrs?status=accepted"
+
+# Создать новый ADR
+curl -X POST http://localhost:8500/api/v1/adrs \
   -H "Content-Type: application/json" \
   -d '{
-    "decision_id": "adr-001",
-    "title": "Выбор PostgreSQL",
-    "description": "Используем PostgreSQL как основную БД",
-    "level": "high",
-    "tags": ["database", "infrastructure"]
+    "title": "Выбор базы данных",
+    "status": "proposed",
+    "context": "Необходимо выбрать БД для хранения графа знаний",
+    "decision": "PostgreSQL с расширением graph",
+    "consequences": "Упрощение инфраструктуры"
   }'
-```
 
-### Одобрение решения
-
-```bash
-curl -X PUT "http://localhost:8000/decisions/adr-001/approve?approver=tech-lead"
-```
-
-### Поиск решений
-
-```bash
-curl "http://localhost:8000/decisions/search?query=database"
-```
-
-### Фильтрация по статусу
-
-```bash
-curl "http://localhost:8000/decisions?status=accepted"
+# Поиск по контексту
+curl -X POST http://localhost:8500/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "база данных граф", "limit": 5}'
 ```
 
 ---
@@ -120,17 +133,17 @@ curl "http://localhost:8000/decisions?status=accepted"
 ```
 thought-architecture/
 ├── src/
-│   ├── api/
-│   │   ├── app.py            # FastAPI приложение
-│   │   └── __init__.py
-│   ├── core.py               # Бизнес-логика (ThoughtArchitect)
-│   ├── config_integration.py # AI Config Manager
+│   ├── config_integration.py  # AI Config Manager
+│   ├── adr_manager.py         # Управление ADR
+│   ├── pattern_detector.py    # Детекция паттернов
 │   └── __init__.py
 ├── tests/
-│   ├── test_api.py           # Тесты API (28 тестов)
-│   └── test_thought_business.py # Бизнес-логика
-├── main.py                   # Точка входа
+│   ├── test_adr_manager.py
+│   └── test_api.py
+├── tools/
+│   └── adr_generator.py       # Генератор ADR из шаблона
 ├── Dockerfile
+├── main.py                    # FastAPI приложение
 └── README.md
 ```
 
@@ -143,10 +156,7 @@ thought-architecture/
 pytest apps/thought-architecture/tests/ -v
 
 # С покрытием
-pytest apps/thought-architecture/tests/ --cov=apps/thought_architecture/src --cov-report=term-missing
-
-# Только API тесты
-pytest apps/thought-architecture/tests/test_api.py -v
+pytest apps/thought-architecture/tests/ --cov=apps/thought-architecture/src --cov-report=term-missing
 ```
 
 ---
@@ -154,9 +164,8 @@ pytest apps/thought-architecture/tests/test_api.py -v
 ## 🔐 Безопасность
 
 - ✅ Валидация всех входных данных через Pydantic
-- ✅ Проверка статусов перед переходами (approve/reject/supersede)
-- ✅ Защита от дубликатов ID
-- ✅ Поддержка Unicode в полях
+- ✅ Защита от XSS (экранирование текста ADR)
+- ✅ Rate limiting через Traefik
 
 ---
 
@@ -171,25 +180,38 @@ config = get_config()
 settings = config.get_config()
 ```
 
-См. [`docs/AI_CONFIG_INTEGRATION.md`](../../docs/AI_CONFIG_INTEGRATION.md) для деталей.
-
 ---
 
 ## 🛣️ Маршрутизация
 
 | Порт (внешний) | Маршрут (Traefik) | Порт (внутренний) |
 |----------------|-------------------|-------------------|
-| 8000 | `/thought-architecture` | 8000 |
-
-Доступ через API Gateway: `http://localhost/thought-architecture/health`
+| 8500 | `/thought-architecture` | 8500 |
 
 ---
 
-## 📝 Известные проблемы
+## 📝 Known Issues
 
-- Нет интеграции с PostgreSQL (используется in-memory хранилище)
-- Требуется добавление persistence слоя для production
+- Векторный поиск требует настройки модели embeddings (опционально)
+- Нет автоматической синхронизации с файловой системой (планируется)
 
 ---
 
-*Последнее обновление: 17 мая 2026 г.*
+## 🛠️ Contributing
+
+1. Fork репозиторий
+2. Создайте ветку: `git checkout -b feature/ta-feature`
+3. Внесите изменения и протестируйте
+4. Закоммитьте: `git commit -m "feat: описание"`
+5. Push: `git push origin feature/ta-feature`
+6. Создайте Pull Request
+
+**Правила:**
+- Следуйте стилю Black + isort
+- Добавьте тесты для новых функций
+- Обновите документацию при необходимости
+- Используйте шаблоны для ADR (см. `docs/architecture/decisions/template.md`)
+
+---
+
+*Последнее обновление: 18 мая 2026 г.*

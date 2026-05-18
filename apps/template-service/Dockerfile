@@ -1,32 +1,19 @@
-# Template Service
-# Шаблон для создания новых микросервисов
+# Template Service Dockerfile
 
 FROM python:3.11-slim
 
+# Установка зависимостей
 WORKDIR /app
 
-# Копирование файлов зависимостей
+# Копирование requirements
 COPY requirements.txt .
-
-# Установка Python зависимостей
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование кода проекта
+# Копирование кода
 COPY . .
 
-# Добавление корня проекта в PYTHONPATH
-ENV PYTHONPATH=/app:/app/apps:/app/src
+# Экспортируемый порт
+EXPOSE 8900
 
-# Переменные окружения
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Порт для FastAPI
-EXPOSE 8000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
-
-# Запуск
-CMD ["python", "apps/template-service/main.py"]
+# Запуск приложения
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8900"]
