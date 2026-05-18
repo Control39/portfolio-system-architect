@@ -1,5 +1,32 @@
 # AI Config Manager
 
+## Contributing
+См. [CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+
+## Deployment
+```bash
+docker build -t ai-config-manager .
+docker run -p 8000:8000 ai-config-manager
+```
+
+
+## Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+
+## Features
+- Загрузка конфигов из YAML
+- Hot reload
+- Fallback на локальные конфиги
+
+
+## Purpose
+Централизованное управление конфигурациями всех сервисов.
+
+
 > **Статус:** 🟢 Production Ready (PyPI-ready)
 > **Версия:** 1.0.0
 > **Владелец:** Portfolio System Architect Team

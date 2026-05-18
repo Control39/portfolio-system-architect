@@ -1,5 +1,33 @@
 # Job Automation Agent
 
+## Contributing
+См. [CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+
+## Deployment
+```bash
+docker build -t job-automation-agent .
+docker run -p 8000:8000 job-automation-agent
+```
+
+
+## Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+
+## Features
+- Поиск вакансий
+- Анализ требований
+- Автоподача заявок
+- Трекинг откликов
+
+
+## Purpose
+Автоматизация поиска работы, анализа вакансий и подачи заявок.
+
+
 > **Статус:** Active
 > **Владелец:** Portfolio System Architect Team
 > **Последнее обновление:** 15 мая 2026 г.
