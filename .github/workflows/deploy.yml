@@ -1,3 +1,4 @@
+---
 name: Deploy MkDocs Site
 
 permissions:
@@ -7,7 +8,7 @@ permissions:
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -43,7 +44,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/site
+          publish_dir: ./site
+          allow_empty_commit: false
 
       - name: Deploy K8s (if tagged)
         if: startsWith(github.ref, 'refs/tags/v')

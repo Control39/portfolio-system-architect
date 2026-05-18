@@ -38,6 +38,10 @@ def client():
 
     app = FastAPI()
     app.include_router(router)
+    # Подключаем также ML Model Registry router
+    from apps.portfolio_organizer.src.api.ml_model_registry_integration import router as ml_router
+
+    app.include_router(ml_router)
     with TestClient(app) as test_client:
         yield test_client
 
@@ -263,30 +267,29 @@ class TestNotificationService:
 class TestMLModelRegistryIntegration:
     """Тесты для интеграции с ML Model Registry"""
 
-    @pytest.mark.skip(
-        reason="Known issue: ml_model_registry_integration has import issues due to missing utils.security"
-    )
-    def test_ml_registry_blueprint_imports(self):
-        """Test: Blueprint ML Model Registry импортируется"""
-        from apps.portfolio_organizer.src.api.ml_model_registry_integration import bp
+    def test_ml_registry_router_imports(self):
+        """Test: Router ML Model Registry импортируется"""
+        from apps.portfolio_organizer.src.api.ml_model_registry_integration import router
 
-        assert bp is not None
-        assert bp.name == "ml_model_registry"
+        assert router is not None
+        assert router.prefix == "/api/ml-model-registry"
 
-    @pytest.mark.skip(reason="Known issue: ml_model_registry_integration has import issues")
     def test_list_models_endpoint(self, client):
         """Test: Список моделей"""
-        pass
+        response = client.get("/api/ml-model-registry/models")
+        # Ожидаем 503 т.к. ML Model Registry не запущен, но endpoint должен быть доступен
+        assert response.status_code in [200, 503]
 
-    @pytest.mark.skip(reason="Known issue: ml_model_registry_integration has import issues")
     def test_get_model_endpoint(self, client):
         """Test: Получить модель по ID"""
-        pass
+        response = client.get("/api/ml-model-registry/models/test-model-123")
+        # Ожидаем 503 т.к. ML Model Registry не запущен, но endpoint должен быть доступен
+        assert response.status_code in [200, 400, 503]
 
-    @pytest.mark.skip(reason="Known issue: ml_model_registry_integration has import issues")
     def test_get_model_invalid_id(self, client):
         """Test: Невалидный model_id возвращает 400"""
-        pass
+        response = client.get("/api/ml-model-registry/models/invalid model with spaces!")
+        assert response.status_code == 400
 
 
 # ============================================================================

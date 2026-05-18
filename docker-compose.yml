@@ -1,4 +1,5 @@
-﻿version: '3.9'
+﻿---
+version: '3.9'
 
 services:
   # ============================================================
@@ -186,6 +187,8 @@ services:
   # ============================================================
   portfolio_organizer:
     build: ./apps/portfolio_organizer
+    ports:
+      - "8004:8004"  # Direct access: http://localhost:8004
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}

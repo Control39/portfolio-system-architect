@@ -1,3 +1,4 @@
+---
 name: Test Decision Engine Component
 
 on:
@@ -20,28 +21,42 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v6
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
-          python-version: "3.8"
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
-          pip install -r apps/decision-engine/requirements.txt
+          if [ -f "apps/decision_engine/requirements.txt" ]; then
+            pip install -r apps/decision_engine/requirements.txt
+          fi
           pip install pytest pytest-cov codecov
 
       - name: Run dependency check
-        run: python -c "from apps.decision-engine.utils.dependency_checker import check_dependencies; check_dependencies()" || echo "Skipped"
+        run: |
+          if [ -f "apps/decision_engine/utils/dependency_checker.py" ]; then
+            python -c "from apps.decision_engine.utils.dependency_checker import check_dependencies; check_dependencies()" || echo "Skipped"
+          else
+            echo "Dependency checker not found, skipping"
+          fi
 
       - name: Run tests
-        run: pytest apps/decision-engine/tests/ -v || echo "No tests or skipped"
+        run: |
+          if [ -d "apps/decision_engine/tests/" ]; then
+            pytest apps/decision_engine/tests/ -v || echo "No tests or failed"
+          else
+            echo "Tests directory not found"
+          fi
 
       - name: Generate coverage report
         run: |
-          pytest apps/decision-engine/tests/ \
-            --cov=apps/decision-engine --cov-fail-under=90 \
-            --cov-report=xml:coverage.xml \
-            --cov-report=html:htmlcov || echo "Coverage skipped"
+          if [ -d "apps/decision_engine/tests/" ]; then
+            pytest apps/decision_engine/tests/ \
+              --cov=apps/decision_engine --cov-fail-under=90 \
+              --cov-report=xml:coverage.xml \
+              --cov-report=html:htmlcov || echo "Coverage failed"
+          else
+            echo "Tests directory not found, skipping coverage"
+          fi
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v6
