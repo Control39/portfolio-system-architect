@@ -600,7 +600,7 @@ pyarrow==24.0.0
     # via streamlit
 pycparser==3.0
     # via cffi
-pydantic[email]==2.13.3
+pydantic[email]==2.13.4
     # via
     #   fastapi
     #   fastapi-cloud-cli
@@ -615,7 +615,7 @@ pydantic[email]==2.13.3
     #   python-on-whales
     #   safety
     #   safety-schemas
-pydantic-core==2.46.3
+pydantic-core==2.46.4
     # via pydantic
 pydantic-extra-types==2.11.1
     # via fastapi
