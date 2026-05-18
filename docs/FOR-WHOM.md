@@ -56,7 +56,7 @@ This repository serves multiple audiences with different goals. Use this guide t
 ### Quick Path:
 1. **Start with:** [`docs/methodology/ARCHITECTURE.md`](methodology/ARCHITECTURE.md) - Cognitive architecture principles
 2. **Then explore:** [`docs/cases/`](cases/) - Real-world case studies
-3. **For AI orchestration:** [`docs/assistant-orchestrator/DESIGN.md`](assistant-orchestrator/DESIGN.md) - AI agent design
+3. **For AI orchestration:** [`docs/assistant-orchestrator/DESIGN.md`](../docs/assistant-orchestrator/DESIGN.md) - AI agent design (roadmap + distributed implementation)
 4. **For RAG system:** [`docs/CHROMADB-INTEGRATION-README.md`](CHROMADB-INTEGRATION-README.md) - Knowledge management
 
 ### Key Cognitive Concepts:

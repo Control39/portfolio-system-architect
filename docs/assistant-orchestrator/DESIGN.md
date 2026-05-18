@@ -1,5 +1,35 @@
 ﻿# Personal Assistant Orchestrator Design
 
+## 📊 Текущий статус (Май 2026)
+
+| Компонент | Статус | Примечание |
+|-----------|--------|------------|
+| **Дизайн (Phase 1-4)** | ✅ Готово | Полный документ (8 недель roadmap) |
+| **Phase 1: Foundation** | ⏳ Частично | CLI в `cognitive-agent/`, task planner |
+| **Phase 2: Intelligence** | ⏳ Частично | Reasoning в `decision_engine/`, Memory в `knowledge_graph/` |
+| **Phase 3: Automation** | ❌ Не начато | Job boards, LinkedIn, email integration |
+| **Phase 4: Polish & Scale** | ❌ Не начато | Web/Mobile UI, Kubernetes deployment |
+
+## 🏗️ Распределённая реализация
+
+Оркестратор **не создан как единая система**, но его компоненты существуют в виде отдельных сервисов:
+
+| Фича оркестратора | Реализация в проекте | Статус |
+|-------------------|---------------------|--------|
+| **Task Orchestrator** | `cognitive-agent/` (workflows, task planner) | ✅ Работает |
+| **Reasoning Engine** | `decision_engine/` (RAG + LLM) | ✅ Работает |
+| **Memory System** | `knowledge_graph/` (граф знаний) | ✅ Работает |
+| **IT-Compass Adapter** | `apps/it_compass/` (API для маркеров) | ✅ Работает |
+| **Portfolio Adapter** | `apps/portfolio_organizer/` | ✅ Работает |
+| **Job Search** | `apps/job-automation-agent/` | ✅ Работает |
+| **CLI Interface** | `cognitive-agent/scripts/` | ⚠️ Частично |
+| **Web/Mobile UI** | — | ❌ Не реализовано |
+| **External APIs** | — | ❌ Не реализовано |
+
+**План:** После получения гранта/оффера — объединить компоненты в единый `assistant-orchestrator/` с общим CLI и workflow engine.
+
+---
+
 ## 🎯 Overview
 
 The Personal Assistant Orchestrator is an AI-powered system that understands the entire cognitive architecture ecosystem and can automate portfolio management, job search, and professional development tasks. It serves as a "cognitive co-pilot" that extends the user's capabilities through systematic automation.
