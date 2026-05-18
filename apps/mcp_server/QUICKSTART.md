@@ -13,7 +13,7 @@ MCP (Model Context Protocol) сервер предоставляет AI-асси
 3. **IT-Compass Tools** - маркеры компетенций
 4. **ChromaDB Tools** - векторный поиск
 5. **Monitoring Tools** - Prometheus, Grafana
-6. **App Management** - 12 микросервисов
+6. **App Management** - 15 микросервисов
 7. **Security Tools** - bandit, pip-audit
 
 ### 2 типа ресурсов:

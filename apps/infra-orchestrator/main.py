@@ -10,7 +10,7 @@ import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from apps.infra_orchestrator.src.config_integration import get_config
+from .src.config_integration import get_config
 
 
 # Настройка логирования
