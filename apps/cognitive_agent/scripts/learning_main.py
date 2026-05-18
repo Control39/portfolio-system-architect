@@ -422,7 +422,7 @@ class LearningSystem:
         if agent_metrics.efficiency_score < 0.7:
             improvements.append(
                 {
-                    "id": f"improve_{hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]}",
+                    "id": f"improve_{hashlib.sha256(str(datetime.now()).encode()).hexdigest()[:8]}",
                     "type": "efficiency",
                     "title": "Повышение общей эффективности агента",
                     "description": f"Текущая эффективность: {agent_metrics.efficiency_score:.2f}. Необходимо проанализировать узкие места.",
@@ -442,7 +442,7 @@ class LearningSystem:
             if success_rate < 0.8:
                 improvements.append(
                     {
-                        "id": f"success_{hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]}",
+                        "id": f"success_{hashlib.sha256(str(datetime.now()).encode()).hexdigest()[:8]}",
                         "type": "success_rate",
                         "title": "Увеличение успешности выполнения задач",
                         "description": f"Текущая успешность: {success_rate:.1%}. Много неудачных выполнений.",
@@ -460,7 +460,7 @@ class LearningSystem:
         if agent_metrics.avg_quality < 0.7:
             improvements.append(
                 {
-                    "id": f"quality_{hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]}",
+                    "id": f"quality_{hashlib.sha256(str(datetime.now()).encode()).hexdigest()[:8]}",
                     "type": "quality",
                     "title": "Повышение качества выполнения задач",
                     "description": f"Среднее качество: {agent_metrics.avg_quality:.2f}. Необходимо улучшить результаты.",
@@ -479,7 +479,7 @@ class LearningSystem:
             if "улучшить" in suggestion.lower() or "оптимизировать" in suggestion.lower():
                 improvements.append(
                     {
-                        "id": f"sugg_{hashlib.md5(suggestion.encode()).hexdigest()[:8]}",
+                        "id": f"sugg_{hashlib.sha256(suggestion.encode()).hexdigest()[:8]}",
                         "type": "suggestion",
                         "title": suggestion,
                         "description": "Предложение по улучшению на основе анализа метрик",
