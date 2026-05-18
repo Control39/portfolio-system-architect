@@ -1,27 +1,59 @@
 # System Proof
 
-**Сервис валидации критериев производственной готовности**
+> **Статус:** 🟢 Production Ready
+> **Версия:** 1.0.0
+> **Владелец:** Portfolio System Architect Team
 
 ---
 
 ## 🎯 Назначение
 
-System Proof предоставляет API для:
-- Создания и управления доказательствами производственной готовности
-- Верификации шагов доказательств
-- Фильтрации и поиска по доказательствам
-- Генциации статистики по статусам
+System Proof — сервис автоматической валидации критериев производственной готовности микросервисов. Проверяет тестирование, безопасность, документацию, мониторинг и деплоймент, генерируя доказательства готовности к production.
+
+### Ключевые возможности
+- [x] Валидация покрытия тестами (цель: 80%+)
+- [x] Проверка безопасности (Trivy, Bandit, Sealed Secrets)
+- [x] Проверка документации (README, ADR, CONTRIBUTING)
+- [x] Проверка мониторинга (метрики, логирование, health checks)
+- [x] Проверка деплоймента (Dockerfile, K8s manifests)
+- [x] Генерация отчётов о готовности (score 0-100%)
+- [x] Интеграция с AI Config Manager
 
 ---
 
-## 📊 Метрики
+## 💼 Архитектурная ценность
 
-| Показатель | Значение |
-|------------|----------|
-| Тестов | **19** (100% проходят) |
-| Покрытие | **~75%** (цель: 80%) |
-| AI Config Manager | ✅ Integrated |
-| Статус | 🟢 Production Ready |
+### Проблема
+
+При развёртывании микросервисов часто упускаются критические аспекты:
+- **Недостаточное покрытие тестами** → баги в production
+- **Уязвимости безопасности** → компрометация системы
+- **Отсутствие документации** → сложность поддержки
+- **Нет мониторинга** → невозможно отладить инциденты
+
+### Решение
+
+System Proof автоматически проверяет все критерии готовности и выдаёт **объективный score**:
+- **< 70%:** Не готов к production
+- **70-85%:** Готов с оговорками (warning)
+- **85%+:** Production Ready ✅
+
+---
+
+## 📦 Зависимости
+
+Основные зависимости (см. `requirements.txt`):
+
+- **FastAPI** >= 0.100.0 — веб-фреймворк
+- **Pydantic** >= 2.0.0 — валидация данных
+- **Uvicorn** >= 0.20.0 — ASGI сервер
+- **PyYAML** >= 6.0.0 — загрузка конфигов
+
+Установка:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -37,75 +69,36 @@ docker-compose up -d system-proof
 
 ```bash
 cd apps/system_proof
-python -m uvicorn src.app:app --reload --port 8003
+python -m uvicorn main:app --reload --port 8300
 ```
 
-### API Documentation
+### Доступ к API
 
-Откройте [http://localhost:8003/docs](http://localhost:8003/docs) для Swagger UI.
+- **Swagger UI:** http://localhost:8300/docs
+- **Redoc:** http://localhost:8300/redoc
+- **Health check:** http://localhost:8300/health
 
 ---
 
-## 🔧 API Endpoints
+## 🛠️ API Endpoints
 
-### Health Check
-- `GET /health` — Проверка здоровья сервиса
-- `GET /ready` — Readiness probe
-- `GET /live` — Liveness probe
+### Основные
+- `GET /` — Информация о сервисе
+- `GET /health` — Проверка здоровья
 
-### Доказательства
-- `GET /proofs` — Список всех доказательств
-- `POST /proofs` — Создать новое доказательство
-- `GET /proofs/{id}` — Получить доказательство по ID
-- `PUT /proofs/{id}` — Обновить доказательство
-- `DELETE /proofs/{id}` — Удалить доказательство
+### Proof Management
+- `GET /api/v1/proofs` — Список доказательств всех сервисов
+- `GET /api/v1/proofs/{service_name}` — Доказательство конкретного сервиса
+- `POST /api/v1/proofs/{service_name}/validate` — Запустить валидацию
 
-### Шаги доказательств
-- `POST /proofs/{id}/steps` — Добавить шаг к доказательству
-- `POST /proofs/{id}/verify` — Верифицировать все шаги
-
-### Фильтрация
-- `GET /proofs?architecture=microservices` — Фильтр по архитектуре
-- `GET /proofs?status=verified` — Фильтр по статусу
-
-### Статистика
-- `GET /statistics` — Статистика по доказательствам
-
----
-
-## 📦 Примеры использования
-
-### Создание доказательства
+### Примеры
 
 ```bash
-curl -X POST http://localhost:8003/proofs \
-  -H "Content-Type: application/json" \
-  -d '{
-    "proof_id": "proof-001",
-    "architecture": "microservices",
-    "chain_id": "chain-001",
-    "title": "Production Readiness Proof",
-    "description": "Доказательство готовности к production",
-    "steps": []
-  }'
-```
+# Получить proof для cognitive-agent
+curl http://localhost:8300/api/v1/proofs/cognitive-agent
 
-### Добавление шага
-
-```bash
-curl -X POST http://localhost:8003/proofs/proof-001/steps \
-  -H "Content-Type: application/json" \
-  -d '{
-    "step_id": "step-001",
-    "description": "Настроено мониторинг",
-    "evidence": "Grafana дашборд создан"
-  }'
-```
-
-### Верификация
-
-```bash
-curl -X POST http://localhost:8003/proofs/proof-001/verify
+# Запустить валидацию
+curl -X POST http://localhost:8300/api/v1/proofs/cognitive-agent/validate
 ```
 
 ---
@@ -115,15 +108,19 @@ curl -X POST http://localhost:8003/proofs/proof-001/verify
 ```
 system_proof/
 ├── src/
-│   ├── app.py              # FastAPI приложение
-│   ├── config_integration.py # AI Config Manager
-│   ├── core.py             # Бизнес-логика (ProofCollection)
+│   ├── config_integration.py  # AI Config Manager
+│   ├── validators/            # Валидаторы по категориям
+│   │   ├── test_validator.py
+│   │   ├── security_validator.py
+│   │   ├── docs_validator.py
+│   │   ├── monitoring_validator.py
+│   │   └── deployment_validator.py
 │   └── __init__.py
 ├── tests/
-│   ├── test_api.py         # Тесты API (19 тестов)
-│   ├── test_proof_basic.py # Базовые тесты
-│   └── test_proof_business.py # Бизнес-логика
+│   ├── test_validators.py
+│   └── test_api.py
 ├── Dockerfile
+├── main.py                    # FastAPI приложение
 └── README.md
 ```
 
@@ -137,9 +134,6 @@ pytest apps/system_proof/tests/ -v
 
 # С покрытием
 pytest apps/system_proof/tests/ --cov=apps/system_proof/src --cov-report=term-missing
-
-# Только API тесты
-pytest apps/system_proof/tests/test_api.py -v
 ```
 
 ---
@@ -147,9 +141,9 @@ pytest apps/system_proof/tests/test_api.py -v
 ## 🔐 Безопасность
 
 - ✅ Валидация всех входных данных через Pydantic
-- ✅ Проверка существования ресурсов
-- ✅ Защита от дубликатов ID
-- ✅ Поддержка Unicode в полях
+- ✅ Защита от SQL-инъекций (нет SQL)
+- ✅ Rate limiting через Traefik
+- ✅ Маскировка секретов в логах
 
 ---
 
@@ -164,25 +158,37 @@ config = get_config()
 settings = config.get_config()
 ```
 
-См. [`docs/AI_CONFIG_INTEGRATION.md`](../../docs/AI_CONFIG_INTEGRATION.md) для деталей.
-
 ---
 
 ## 🛣️ Маршрутизация
 
 | Порт (внешний) | Маршрут (Traefik) | Порт (внутренний) |
 |----------------|-------------------|-------------------|
-| 8003 | `/system-proof` | 8003 |
-
-Доступ через API Gateway: `http://localhost/system-proof/health`
+| 8300 | `/system-proof` | 8300 |
 
 ---
 
-## 📝 Известные проблемы
+## 📝 Known Issues
 
-- Нет интеграции с PostgreSQL (используется in-memory хранилище)
-- Требуется добавление persistence слоя
+- Требуется настройка путей к сканерам безопасности (Trivy, Bandit)
+- Нет интеграции с CI/CD пайплайнами (планируется)
 
 ---
 
-*Последнее обновление: 17 мая 2026 г.*
+## 🛠️ Contributing
+
+1. Fork репозиторий
+2. Создайте ветку: `git checkout -b feature/sp-feature`
+3. Внесите изменения и протестируйте
+4. Закоммитьте: `git commit -m "feat: описание"`
+5. Push: `git push origin feature/sp-feature`
+6. Создайте Pull Request
+
+**Правила:**
+- Следуйте стилю Black + isort
+- Добавьте тесты для новых валидаторов
+- Обновите документацию при необходимости
+
+---
+
+*Последнее обновление: 18 мая 2026 г.*
