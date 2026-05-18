@@ -145,7 +145,7 @@ class DecisionEngine:
     def _get_cache_key(self, request: DecisionRequest) -> str:
         """Генерация ключа кэша"""
         data = f"{request.user_id}:{request.action}:{request.context.model_dump_json()}"
-        return hashlib.md5(data.encode()).hexdigest()
+        return hashlib.sha256(data.encode()).hexdigest()
 
     def _generate_explanation(self, request: DecisionRequest, decision: str) -> dict[str, Any]:
         """Генерация объяснения решения"""
