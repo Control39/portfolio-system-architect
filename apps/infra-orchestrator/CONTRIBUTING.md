@@ -1,4 +1,4 @@
-﻿# Contributing to Arch-Compass-Framework
+# Contributing to Infra-Orchestrator
 
 This project is part of the [portfolio-system-architect](https://github.com/your-org/portfolio-system-architect) repository. Please refer to the root [CONTRIBUTING.md](../../CONTRIBUTING.md) for general contribution guidelines.
 
@@ -6,23 +6,31 @@ This project is part of the [portfolio-system-architect](https://github.com/your
 
 ### Development setup
 
-1. Ensure you have PowerShell 7.0+ installed.
-2. Import the module:
-   ```powershell
-   Import-Module ./InfraOrchestrator.psm1 -Force
+1. Ensure you have Python 3.10+ installed.
+2. Create and activate virtual environment:
+   ```bash
+   python -m venv .venv
+   # Windows:
+   .venv\Scripts\activate
+   # Linux/Mac:
+   source .venv/bin/activate
    ```
-3. Run tests with Pester:
-   ```powershell
-   Invoke-Pester ./tests/
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run tests with pytest:
+   ```bash
+   pytest tests/ -v
    ```
 
 ### Pull request process
 
-- All changes must be accompanied by Pester tests.
+- All changes must be accompanied by pytest tests.
 - Update the CHANGELOG.md with a brief description of your changes.
-- Ensure the code follows PowerShell best practices (PSScriptAnalyzer).
+- Ensure the code follows Python best practices (Black, Ruff, MyPy).
 - Request a review from the project maintainers.
 
 ### Code style
 
-Follow the PowerShell style guide defined in the repository's `.vscode/settings.json`.
+Follow the Python style guide defined in `pyproject.toml` (Black + isort + Ruff).

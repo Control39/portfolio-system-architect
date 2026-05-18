@@ -225,6 +225,58 @@ services:
         type: "tool"
         enabled: true
 
+  # AI Config Manager
+  ai-config-manager:
+    enabled: true
+    config_path: "config/ai-config.yaml"
+
+    hot_reload:
+      enabled: true
+      watch_interval: 1.0
+
+    resources:
+      - name: "config-watcher"
+        type: "tool"
+        enabled: true
+      - name: "config-validator"
+        type: "tool"
+        enabled: true
+
+  # Thought Architecture
+  thought-architecture:
+    enabled: true
+    adr_path: "docs/architecture/decisions/"
+
+    patterns:
+      enabled: true
+      auto_detect: true
+
+    resources:
+      - name: "adr-manager"
+        type: "tool"
+        enabled: true
+      - name: "pattern-detector"
+        type: "ai"
+        enabled: true
+
+  # Infra Orchestrator
+  infra-orchestrator:
+    enabled: true
+    orchestrator_type: "docker"  # docker, kubernetes, custom
+
+    auto_scale:
+      enabled: false
+      min_replicas: 1
+      max_replicas: 10
+
+    resources:
+      - name: "service-controller"
+        type: "tool"
+        enabled: true
+      - name: "health-monitor"
+        type: "tool"
+        enabled: true
+
 # Ресурсы (глобальные)
 resources:
   - name: "code-analyzer"

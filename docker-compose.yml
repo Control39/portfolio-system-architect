@@ -232,6 +232,32 @@ services:
         condition: service_started
 
   # ============================================================
+  # Infra-Orchestrator (Service Management API)
+  # Route: /infra-orchestrator
+  # ============================================================
+  infra-orchestrator:
+    build:
+      context: ./apps/infra-orchestrator
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.infra-orchestrator.rule=Host(`localhost`) && PathPrefix(`/infra-orchestrator`)"
+      - "traefik.http.routers.infra-orchestrator.service=infra-orchestrator"
+      - "traefik.http.services.infra-orchestrator.loadbalancer.server.port=8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - traefik
+
+  # ============================================================
   # PostgreSQL Database
   # ============================================================
   postgres:

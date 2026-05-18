@@ -94,7 +94,7 @@ GitHub: https://github.com/Control39/portfolio-system-architect
 
 Что я сделала за 2 года:
 
-- 12 микросервисов (Docker, K8s, CI/CD)
+- 15 микросервисов (Docker, K8s, CI/CD)
 - 19 доменов с объективными маркерами компетенций (IT-Compass)
 - MCP Server для AI-интеграции
 

@@ -145,6 +145,7 @@ infra-orchestrator/
 │   └── test_orchestrator_business.py # Бизнес-логика
 ├── main.py                   # Точка входа
 ├── Dockerfile
+├── requirements.txt
 └── README.md
 ```
 
