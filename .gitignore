@@ -88,11 +88,17 @@ secrets.json
 *.key
 *.p12
 .env.gigachat
-\"* (2).*\"
-\"README_REAL.md\"
-\"refactor.sh\"
-\"copy_root_files.py\"
-\"complete_rename.ps1\"
-\"commit_msg2.txt\"
+"* (2).*"
+"README_REAL.md"
+"refactor.sh"
+"copy_root_files.py"
+"complete_rename.ps1"
+"commit_msg2.txt"
 metrics.json
 %USERPROFILE%.gitconfig
+
+# Standalone репозитории (отдельные репо)
+cognitive-agent-standalone/
+it_compass-standalone/
+portfolio_organizer-standalone/
+system_proof-standalone/
