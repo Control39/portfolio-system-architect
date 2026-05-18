@@ -90,3 +90,14 @@ repos:
         pass_filenames: false
         always_run: true
         require_serial: true
+
+  # Service Structure Validation
+  - repo: local
+    hooks:
+      - id: check-service-structure
+        name: Check service structure
+        entry: python scripts/check_service_structure.py
+        language: python
+        pass_filenames: false
+        always_run: true
+        require_serial: true
