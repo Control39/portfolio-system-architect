@@ -108,7 +108,7 @@ comm==0.2.3
     # via
     #   ipykernel
     #   ipywidgets
-commitizen==4.13.9
+commitizen==4.16.0
     # via -r requirements-dev.in
 coverage[toml]==7.14.0
     # via
@@ -504,7 +504,7 @@ ormsgpack==1.12.2
     # via langgraph-checkpoint
 packageurl-python==0.17.6
     # via cyclonedx-python-lib
-packaging==25.0
+packaging==26.2
     # via
     #   altair
     #   black
