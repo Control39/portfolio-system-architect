@@ -132,7 +132,7 @@ graph LR
   end
 
   subgraph Backend
-    B[🐍 python_server/ <br/>Flask + AsyncIO]
+    B[🐍 apps/chat_backend <br/>FastAPI + AsyncIO]
     D[🔐 Auth Service]
     E[(🗄️ PostgreSQL)]
     F[🧠 ChromaDB]
@@ -219,10 +219,10 @@ cd portfolio-system-architect
 cp .vscode/settings-default.json .vscode/settings.json
 
 # 3. Запустите Frontend + Backend
-python python_server/start_dev.py
+python apps/chat_backend/start_dev.py
 # Или вручную:
 # Терминал 1: cd client && npm run dev          # http://localhost:5173
-# Терминал 2: cd python_server && python app.py  # http://localhost:5000
+# Терминал 2: cd apps/chat_backend && python app.py  # http://localhost:8005
 ```
 
 ### Настройка IDE (VS Code)

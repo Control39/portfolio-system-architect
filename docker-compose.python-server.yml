@@ -9,15 +9,15 @@ version: '3.9'
 
 services:
   # ============================================================
-  # Python Chat Server
+  # Chat Backend (Python)
   # Local mode: memory storage, self-hosted transport
   # No Azure credentials required
   # ============================================================
-  python_server:
+  chat_backend:
     build:
-      context: ./python_server
+      context: ./apps/chat_backend
       dockerfile: Dockerfile
-    container_name: python-chat-server
+    container_name: chat-backend-server
     environment:
       # Storage: memory (no Azure needed)
       - STORAGE_MODE=memory
@@ -33,7 +33,7 @@ services:
     networks:
       - portfolio-network
     volumes:
-      - ./python_server:/app
+      - ./apps/chat_backend:/app
       - ./logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
