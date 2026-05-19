@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements from service directory (not root)
-COPY apps/ml_model_registry/requirements.txt .
+# Copy requirements from service directory (relative to build context)
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Runtime stage
@@ -40,7 +40,7 @@ COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 COPY --chown=appuser:appuser src /app/src
 
 # Copy service code
-COPY apps/ml_model_registry .
+COPY . .
 
 ENV PYTHONPATH=/app
 
