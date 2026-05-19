@@ -21,11 +21,12 @@ jobs:
       - name: Add SourceCraft host key
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ssh.sourcecraft.dev >> ~/.ssh/known_hosts
+          ssh-keyscan -H ssh.sourcecraft.dev >> ~/.ssh/known_hosts 2>&1 || true
 
       - name: Push to SourceCraft
         run: |
-          git push ssh://ssh.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git main
+          git remote set-url sourcecraft git@ssh.sourcecraft.dev:leadarchitect-ai/portfolio-system-architect.git
+          git push sourcecraft main
 
       - name: Verify mirror
         run: |
