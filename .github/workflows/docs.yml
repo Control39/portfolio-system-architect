@@ -70,7 +70,7 @@ jobs:
 
     - name: Build documentation with MkDocs
       run: |
-        mkdocs build --config-file mkdocs.yml --site-dir ./site --clean
+        mkdocs build --config-file mkdocs.yml --clean
         echo "✓ Documentation built successfully"
 
     - name: Check for documentation changes
