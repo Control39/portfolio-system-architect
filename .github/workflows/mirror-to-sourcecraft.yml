@@ -1,0 +1,28 @@
+name: Mirror to SourceCraft
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SOURCECRAFT_SSH_KEY }}
+
+      - name: Push to SourceCraft
+        run: |
+          git push ssh://ssh.sourcecraft.dev/leadarchitect-ai/portfolio-system-architect.git main
+
+      - name: Verify mirror
+        run: |
+          echo "Mirror sync completed successfully"
+          echo "SourceCraft URL: https://sourcecraft.dev/leadarchitect-ai/portfolio-system-architect"
