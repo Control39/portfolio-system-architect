@@ -9,7 +9,7 @@ from typing import Dict, List, Tuple
 # Критерии проверки
 CRITERIA = {
     "title": r"^#\s+.+",  # Заголовок # Название
-    "purpose": r"(##\s*Назначение|##\s*Purpose|###\s*Что делает|##\s*Overview|##\s*Описание|###\s*Цель)",
+    "purpose": r"(##\s*.*?Назначение|##\s*.*?Purpose|###\s*.*?Что делает|##\s*.*?Overview|##\s*.*?Описание|###\s*.*?Цель)",
     "features": r"(##\s*Ключевые возможности|##\s*Features|##\s*Основные возможности|Ключевые возможности|##\s*Функции|\[\s*x\s*\])",
     "api": r"(\@\@app\.|/api/|endpoints|ENDPOINTS|API\s*Reference|`\//|##\s*API|###\s*Endpoints)",
     "dependencies": r"(requirements|Dependencies|dependencies|pip install|###\s*Установка|##\s*Установка|###\s*Зависимости|##\s*Зависимости)",
