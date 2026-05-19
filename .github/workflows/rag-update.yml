@@ -27,7 +27,7 @@ jobs:
   update-rag:
     name: Update RAG System
     runs-on: ubuntu-latest
-    continue-on-error: 'true'
+    continue-on-error: true
 
     steps:
       - name: Checkout code
