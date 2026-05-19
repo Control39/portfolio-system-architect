@@ -1,0 +1,1141 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/SERVICE_STRUCTURE_STANDARD/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Стандарт структуры сервиса - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Стандарт структуры сервиса
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Цели стандарта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Стандартная структура
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Обязательные файлы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Обязательные файлы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mainpy-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. main.py (Entry Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-readmemd-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. README.md (7 обязательных секций)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contributing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-requirementstxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. requirements.txt
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Стандарт тестирования
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Проверка соответствия
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Проверка соответствия">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check_readme_qualitypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обязательные файлы (check_readme_quality.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Опциональные файлы
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Инструменты унификации
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Инструменты унификации">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-standardizepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto-standardize.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Метрики стандартизации
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 План миграции
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 План миграции">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Анализ (1 день)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Шаблон (2 дня)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-3-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Миграция (3-5 дней)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Автоматизация (1 день)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Чеклист для новых сервисов
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Стандарт структуры сервиса</h1>
+<blockquote>
+<p><strong>Версия:</strong> 1.0.0<br />
+<strong>Дата:</strong> 18 мая 2026 г.<br />
+<strong>Применимость:</strong> Все сервисы в <code>apps/</code></p>
+</blockquote>
+<hr />
+<h2 id="_2">🎯 Цели стандарта</h2>
+<ol>
+<li><strong>Единый入口</strong> — каждый сервис имеет <code>main.py</code> или <code>app.py</code></li>
+<li><strong>Чёткое разделение</strong> — <code>src/</code> для кода, <code>tests/</code> для тестов, <code>config/</code> для конфигов</li>
+<li><strong>Docker-ready</strong> — каждый сервис имеет <code>Dockerfile</code></li>
+<li><strong>Тестирование</strong> — минимальное покрытие 85%</li>
+<li><strong>Документация</strong> — <code>README.md</code> с API, deployment, contributing</li>
+</ol>
+<hr />
+<h2 id="_3">📁 Стандартная структура</h2>
+<pre><code>&lt;service-name&gt;/
+├── main.py                 # Entry point (FastAPI/Flask app)
+├── README.md              # Документация (7 обязательных секций)
+├── requirements.txt       # Зависимости
+├── Dockerfile            # Контейнеризация (python:3.11-slim)
+├── .dockerignore         # Исключения для Docker
+├── .gitignore            # Исключения для Git
+│
+├── src/                  # Исходный код
+│   ├── __init__.py
+│   ├── core/            # Ядро сервиса
+│   ├── api/             # API endpoints (если FastAPI)
+│   └── utils/           # Вспомогательные функции
+│
+├── tests/               # Тесты
+│   ├── __init__.py
+│   ├── test_core.py    # Юнит-тесты
+│   └── test_api.py     # Интеграционные тесты
+│
+├── config/              # Конфигурации (опционально)
+│   ├── config.yaml
+│   └── settings.py
+│
+└── docs/                # Документация (опционально)
+    ├── architecture.md
+    └── api.md
+</code></pre>
+<hr />
+<h2 id="_4">📋 Обязательные файлы</h2>
+<h3 id="1-mainpy-entry-point">1. main.py (Entry Point)</h3>
+<pre><code class="language-python">&quot;&quot;&quot;
+&lt;service-name&gt; — краткое описание
+
+API:
+    GET /health — проверка здоровья
+    GET / — информация о сервисе
+&quot;&quot;&quot;
+
+from fastapi import FastAPI
+
+app = FastAPI(
+    title=&quot;&lt;service-name&gt;&quot;,
+    description=&quot;&lt;краткое описание&gt;&quot;,
+    version=&quot;1.0.0&quot;
+)
+
+
+@app.get(&quot;/health&quot;)
+async def health_check():
+    &quot;&quot;&quot;Проверка здоровья сервиса.&quot;&quot;&quot;
+    return {&quot;status&quot;: &quot;healthy&quot;, &quot;service&quot;: &quot;&lt;service-name&gt;&quot;}
+
+
+@app.get(&quot;/&quot;)
+async def root():
+    &quot;&quot;&quot;Основная информация о сервисе.&quot;&quot;&quot;
+    return {
+        &quot;name&quot;: &quot;&lt;service-name&gt;&quot;,
+        &quot;version&quot;: &quot;1.0.0&quot;,
+        &quot;docs&quot;: &quot;/docs&quot;
+    }
+
+
+if __name__ == &quot;__main__&quot;:
+    import uvicorn
+    uvicorn.run(app, host=&quot;0.0.0.0&quot;, port=8000)
+</code></pre>
+<h3 id="2-readmemd-7">2. README.md (7 обязательных секций)</h3>
+<pre><code class="language-markdown"># &lt;Service Name&gt;
+
+## Purpose
+&lt;Цель сервиса&gt;
+
+## Features
+- &lt;Функция 1&gt;
+- &lt;Функция 2&gt;
+
+## API
+| Endpoint | Method | Описание |
+|----------|--------|----------|
+| /health | GET | Проверка здоровья |
+| / | GET | Информация о сервисе |
+
+## Dependencies
+```bash
+pip install -r requirements.txt
+</code></pre>
+<h2 id="deployment">Deployment</h2>
+<pre><code class="language-bash">docker build -t &lt;service-name&gt; .
+docker run -p 8000:8000 &lt;service-name&gt;
+</code></pre>
+<h2 id="contributing">Contributing</h2>
+<p>См. <a href="../../CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<pre><code>
+### 3. Dockerfile
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Установка зависимостей
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копирование кода
+COPY . .
+
+# Запуск
+CMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+</code></pre>
+<h3 id="4-requirementstxt">4. requirements.txt</h3>
+<pre><code>fastapi&gt;=0.100.0
+uvicorn&gt;=0.23.0
+pydantic&gt;=2.0.0
+pytest&gt;=7.0.0
+</code></pre>
+<hr />
+<h2 id="_5">🧪 Стандарт тестирования</h2>
+<pre><code>tests/
+├── __init__.py
+├── conftest.py          # Общие fixtures
+├── test_&lt;module&gt;.py     # Юнит-тесты
+└── test_api.py          # API тесты
+</code></pre>
+<p><strong>Пример теста:</strong></p>
+<pre><code class="language-python">import pytest
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    response = client.get(&quot;/health&quot;)
+    assert response.status_code == 200
+    assert response.json()[&quot;status&quot;] == &quot;healthy&quot;
+</code></pre>
+<hr />
+<h2 id="_6">🔍 Проверка соответствия</h2>
+<h3 id="check_readme_qualitypy">Обязательные файлы (check_readme_quality.py)</h3>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Проверка</th>
+<th>Критично</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main.py/app.py</td>
+<td>Entry point существует</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>README.md</td>
+<td>7 секций</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>requirements.txt</td>
+<td>Зависимости</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Dockerfile</td>
+<td>Контейнеризация</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>tests/</td>
+<td>Тесты</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">Опциональные файлы</h3>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Когда нужен</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>config/</td>
+<td>Если есть конфигурация</td>
+</tr>
+<tr>
+<td>docs/</td>
+<td>Если сложная документация</td>
+</tr>
+<tr>
+<td>scripts/</td>
+<td>Если есть скрипты</td>
+</tr>
+<tr>
+<td>examples/</td>
+<td>Если есть примеры использования</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">🛠️ Инструменты унификации</h2>
+<h3 id="auto-standardizepy">auto-standardize.py</h3>
+<pre><code class="language-python">#!/usr/bin/env python
+&quot;&quot;&quot;
+Автоматическая стандартизация структуры сервиса.
+
+Использование:
+    python auto-standardize.py &lt;service-name&gt;
+&quot;&quot;&quot;
+
+import os
+import shutil
+from pathlib import Path
+
+
+def create_standard_structure(service_name: str, base_path: Path):
+    &quot;&quot;&quot;Создать стандартную структуру сервиса.&quot;&quot;&quot;
+    service_path = base_path / service_name
+
+    # Проверка существования
+    if service_path.exists():
+        print(f&quot;⚠️  Сервис {service_name} уже существует&quot;)
+        return
+
+    # Создание директорий
+    (service_path / &quot;src&quot;).mkdir(parents=True)
+    (service_path / &quot;tests&quot;).mkdir(parents=True)
+    (service_path / &quot;src&quot; / &quot;core&quot;).mkdir()
+    (service_path / &quot;src&quot; / &quot;api&quot;).mkdir()
+
+    # Создание файлов
+    (service_path / &quot;__init__.py&quot;).touch()
+    (service_path / &quot;src&quot; / &quot;__init__.py&quot;).touch()
+    (service_path / &quot;tests&quot; / &quot;__init__.py&quot;).touch()
+
+    print(f&quot;✅ Создана стандартная структура для {service_name}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    import sys
+    if len(sys.argv) &lt; 2:
+        print(&quot;Usage: python auto-standardize.py &lt;service-name&gt;&quot;)
+        sys.exit(1)
+
+    service_name = sys.argv[1]
+    base_path = Path(__file__).parent / &quot;apps&quot;
+    create_standard_structure(service_name, base_path)
+</code></pre>
+<hr />
+<h2 id="_9">📊 Метрики стандартизации</h2>
+<table>
+<thead>
+<tr>
+<th>Показатель</th>
+<th>Цель</th>
+<th>Текущее</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Сервисов с main.py</td>
+<td>100%</td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>Сервисов с Dockerfile</td>
+<td>100%</td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>Сервисов с README (7 секций)</td>
+<td>100%</td>
+<td>73% (11/15)</td>
+</tr>
+<tr>
+<td>Сервисов с tests/</td>
+<td>100%</td>
+<td>TBD</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_10">🔄 План миграции</h2>
+<h3 id="phase-1-1">Phase 1: Анализ (1 день)</h3>
+<ul>
+<li>[ ] Провести аудит всех сервисов</li>
+<li>[ ] Составить матрицу соответствия</li>
+<li>[ ] Приоритизировать сервисы для миграции</li>
+</ul>
+<h3 id="phase-2-2">Phase 2: Шаблон (2 дня)</h3>
+<ul>
+<li>[ ] Создать <code>template-service</code> как эталон</li>
+<li>[ ] Написать <code>auto-standardize.py</code></li>
+<li>[ ] Протестировать на тестовом сервисе</li>
+</ul>
+<h3 id="phase-3-3-5">Phase 3: Миграция (3-5 дней)</h3>
+<ul>
+<li>[ ] Мигрировать 5 приоритетных сервисов</li>
+<li>[ ] Протестировать каждый</li>
+<li>[ ] Обновить docker-compose.yml</li>
+</ul>
+<h3 id="phase-4-1">Phase 4: Автоматизация (1 день)</h3>
+<ul>
+<li>[ ] Добавить pre-commit hook для проверки</li>
+<li>[ ] CI/CD проверка структуры</li>
+<li>[ ] Документация для новых сервисов</li>
+</ul>
+<hr />
+<h2 id="_11">✅ Чеклист для новых сервисов</h2>
+<p>Создавая новый сервис, убедись:</p>
+<ul>
+<li>[ ] Создан <code>main.py</code> с FastAPI app</li>
+<li>[ ] Создан <code>README.md</code> с 7 секциями</li>
+<li>[ ] Создан <code>requirements.txt</code></li>
+<li>[ ] Создан <code>Dockerfile</code></li>
+<li>[ ] Созданы <code>src/</code> и <code>tests/</code></li>
+<li>[ ] Добавлен в <code>docker-compose.yml</code></li>
+<li>[ ] Написаны базовые тесты</li>
+<li>[ ] Проходит <code>make lint</code> и <code>make test</code></li>
+</ul>
+<hr />
+<p><em>Последнее обновление: 18 мая 2026 г.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

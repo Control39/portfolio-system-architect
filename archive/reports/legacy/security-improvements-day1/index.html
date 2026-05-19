@@ -1,0 +1,866 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/archive/reports/legacy/security-improvements-day1/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Security & Environment Configuration - Day 1 Complete - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#security-environment-configuration-day-1-complete" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Security &amp; Environment Configuration - Day 1 Complete
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-was-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Was Fixed ✅
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Was Fixed ✅">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-environment-variables-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Environment Variables Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-docker-security-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Docker Security Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-docker-composeyml-refactored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. docker-compose.yml Refactored
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-github-actions-cicd-secured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. GitHub Actions / CI/CD Secured
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-pre-commit-hooks-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pre-commit Hooks Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-kubernetes-secrets-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Kubernetes Secrets Foundation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Use">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-secrets-setup-for-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Secrets Setup (for CI/CD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit-local-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-commit Local Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next-day-2-k8s-manifests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next (Day 2: K8s Manifests)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grant-talking-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grant Talking Points
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="security-environment-configuration-day-1-complete">Security &amp; Environment Configuration - Day 1 Complete</h1>
+<h2 id="what-was-fixed">What Was Fixed ✅</h2>
+<h3 id="1-environment-variables-management">1. <strong>Environment Variables Management</strong></h3>
+<ul>
+<li>✅ Created <code>.env.example</code> - template with all required vars (NO secrets)</li>
+<li>✅ Created <code>.env.local</code> - for local development (gitignored)</li>
+<li>✅ Updated <code>docker-compose.yml</code> - uses <code>${VAR}</code> syntax, loads from .env</li>
+<li>✅ Updated <code>.gitignore</code> - prevents accidental secret commits</li>
+</ul>
+<p><strong>Why this matters for grant</strong>: Shows enterprise-grade secret handling (compliance + security audit points).</p>
+<h3 id="2-docker-security-improvements">2. <strong>Docker Security Improvements</strong></h3>
+<p>All 5 Dockerfiles updated:
+- ✅ <code>USER appuser</code> - containers run as non-root (security best practice)
+- ✅ <code>HEALTHCHECK</code> - proper health checks for orchestration
+- ✅ <code>curl</code> added where needed for health probes
+- ✅ <code>--chown=appuser:appuser</code> for proper file ownership
+- ✅ No hardcoded passwords or credentials</p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Status</th>
+<th>Port</th>
+<th>Health Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>it-compass</td>
+<td>✅</td>
+<td>8501</td>
+<td>Streamlit health</td>
+</tr>
+<tr>
+<td>decision-engine</td>
+<td>✅</td>
+<td>8001</td>
+<td>/api/v1/status</td>
+</tr>
+<tr>
+<td>ml-model-registry</td>
+<td>✅</td>
+<td>8002</td>
+<td>/health</td>
+</tr>
+<tr>
+<td>career-development</td>
+<td>✅</td>
+<td>8005</td>
+<td>Root endpoint</td>
+</tr>
+<tr>
+<td>portfolio-organizer</td>
+<td>✅</td>
+<td>8004</td>
+<td>Root endpoint</td>
+</tr>
+<tr>
+<td>system-proof</td>
+<td>✅</td>
+<td>8003</td>
+<td>/health</td>
+</tr>
+<tr>
+<td>postgres</td>
+<td>✅</td>
+<td>5432</td>
+<td>pg_isready</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-docker-composeyml-refactored">3. <strong>docker-compose.yml Refactored</strong></h3>
+<ul>
+<li>✅ Fixed port conflicts (career-dev: 8005 instead of 8000)</li>
+<li>✅ Added proper <code>depends_on</code> with health checks</li>
+<li>✅ All services use same <code>portfolio-network</code></li>
+<li>✅ Removed arch-compass (PowerShell-specific, build separately)</li>
+<li>✅ All env vars from .env file</li>
+<li>✅ Proper volume mounts for data persistence</li>
+</ul>
+<h3 id="4-github-actions-cicd-secured">4. <strong>GitHub Actions / CI/CD Secured</strong></h3>
+<p>Updated <code>.github/workflows/ci.yml</code>:
+- ✅ Added security scanning job (detect-secrets, Trivy)
+- ✅ Pre-commit hooks validation
+- ✅ Uses GitHub Secrets for sensitive data
+- ✅ Docker image push to GHCR (with secrets)
+- ✅ Telegram notifications use <code>${{ secrets.* }}</code></p>
+<p><strong>No more hardcoded tokens!</strong></p>
+<h3 id="5-pre-commit-hooks-setup">5. <strong>Pre-commit Hooks Setup</strong></h3>
+<p>Created <code>.pre-commit-config.yaml</code>:
+- ✅ Detects private keys &amp; credentials
+- ✅ Prevents large file commits
+- ✅ Validates YAML, Docker, JSON
+- ✅ Runs ruff, black, mypy
+- ✅ Bandit security checks</p>
+<p><strong>Install locally</strong>:</p>
+<pre><code class="language-bash">pip install pre-commit
+pre-commit install
+</code></pre>
+<h3 id="6-kubernetes-secrets-foundation">6. <strong>Kubernetes Secrets Foundation</strong></h3>
+<p>Created <code>deployment/secrets/</code>:
+- ✅ README with sealed-secrets guide
+- ✅ secret.example.yaml template
+- ✅ Instructions for kubeseal integration
+- ✅ Notes on cluster key management</p>
+<h2 id="how-to-use">How to Use</h2>
+<h3 id="local-development">Local Development</h3>
+<pre><code class="language-bash"># Copy template
+cp .env.example .env.local
+
+# Edit with your local values
+nano .env.local
+
+# Run with env file
+docker-compose --env-file .env.local up -d
+</code></pre>
+<h3 id="github-secrets-setup-for-cicd">GitHub Secrets Setup (for CI/CD)</h3>
+<p>Add these to repository secrets:
+1. <code>POSTGRES_PASSWORD</code> - database password
+2. <code>JWT_SECRET</code> - JWT signing key
+3. <code>API_KEY_SECRET</code> - API authentication key
+4. <code>TELEGRAM_BOT_TOKEN</code> - for notifications
+5. <code>TELEGRAM_CHAT_ID</code> - notification target
+6. <code>CODECOV_TOKEN</code> - coverage reporting (optional)</p>
+<p><strong>How</strong>: Settings → Secrets and variables → Actions → New repository secret</p>
+<h3 id="pre-commit-local-checks">Pre-commit Local Checks</h3>
+<pre><code class="language-bash"># Install hooks
+pre-commit install
+
+# Run manually on all files
+pre-commit run --all-files
+
+# Bypass (only for emergency)
+git commit --no-verify
+</code></pre>
+<h2 id="whats-next-day-2-k8s-manifests">What's Next (Day 2: K8s Manifests)</h2>
+<p>Tomorrow we'll create:
+- ✅ <code>deployment/k8s/base/</code> - core manifests for all 7 apps
+- ✅ <code>deployment/k8s/overlays/</code> - dev/staging/prod variations
+- ✅ Kustomize setup for easy customization
+- ✅ Ingress + Network policies
+- ✅ Resource limits &amp; HPA</p>
+<h2 id="grant-talking-points">Grant Talking Points</h2>
+<blockquote>
+<p>"<strong>Security by design</strong>: All credentials managed via environment variables and GitHub Secrets. Docker containers run as non-root users. Pre-commit hooks prevent secrets leakage. K8s integration ready (Sealed Secrets pattern)."</p>
+</blockquote>
+<p>This demonstrates enterprise-level infrastructure practices ✅</p>
+<h2 id="quick-verification">Quick Verification</h2>
+<pre><code class="language-bash"># Check env file is NOT in git
+git status | grep -i &quot;.env&quot;  # Should be empty
+
+# Check Dockerfiles run as non-root
+grep -r &quot;USER appuser&quot; apps/*/Dockerfile
+
+# Test docker-compose
+docker-compose --env-file .env.local config | head -20
+
+# List secrets in GitHub Actions
+# (Settings → Secrets) - should show your configured vars
+</code></pre>
+<hr />
+<p><strong>Status</strong>: ✅ Day 1 Complete - All secrets secured, Docker hardened, CI/CD improved.</p>
+<p><strong>Time spent</strong>: ~3 hours
+<strong>Impact</strong>: 🔥 Enterprise-ready security foundation</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1114 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/archive/IMPLEMENTATION_PLAN/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>📋 ПЛАН ВЫПОЛНЕНИЯ РЕКОМЕНДАЦИЙ ПО РЕПОЗИТОРИЮ - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📋 ПЛАН ВЫПОЛНЕНИЯ РЕКОМЕНДАЦИЙ ПО РЕПОЗИТОРИЮ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 ЦЕЛИ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">📋 ПЛАН ВЫПОЛНЕНИЯ РЕКОМЕНДАЦИЙ ПО РЕПОЗИТОРИЮ</h1>
+<p><strong>Дата создания:</strong> 2026-04-28
+<strong>На основе анализа:</strong> Структура репозитория (99,071 файлов, 2.88 GB)
+<strong>Статус:</strong> В работе</p>
+<hr />
+<h2 id="_2">🎯 ЦЕЛИ</h2>
+<ol>
+<li>✅ Устранить уязвимости безопасности</li>
+<li>🗑️ Очистить репозиторий от мусора</li>
+<li>📦 Уменьшить размер репозитория</li>
+<li>🔄 Унифицировать AI-конфигурации</li>
+<li>📚 Оптимизировать документацию</li>
+<li>🧪 Улучшить покрытие тестами</li>
+</ol>
+<hr />
+<h1 id="1-1-2">🔥 ФАЗА 1: КРАТКОСРОЧНЫЕ ЗАДАЧИ (1-2 недели)</h1>
+<h2 id="11">1.1 Безопасность (Критично)</h2>
+<ul>
+<li>[x] <strong>1.1.1</strong> Обновить pip до 26.0 (3 CVE)</li>
+<li>Команда: python -m pip install --upgrade pip==26.0</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[x] <strong>1.1.2</strong> Обновить    orch до 2.8.0 (4 CVE)</p>
+</li>
+<li>Команда: pip install --upgrade torch==2.8.0</li>
+<li>Размер: ~2GB, время: 5-10 мин</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[x] <strong>1.1.3</strong> Запустить pip-audit для проверки</p>
+</li>
+<li>Команда: pip-audit</li>
+<li>Цель: 0 vulnerabilities</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[x] <strong>1.1.4</strong> Запустить \bandit для проверки кода</p>
+</li>
+<li>Команда: \bandit -r src/ -ll</li>
+<li>Цель: 0 medium/high issues</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h2 id="4-readme-2026">🚀 Фаза 4: Улучшение README и документация (Май 2026)</h2>
+<h3 id="41-readme">4.1 Рефакторинг README</h3>
+<ul>
+<li>[x] <strong>4.1.1</strong> Сократить README до 250 строк</li>
+<li>Удалить дубликаты и устаревшие разделы</li>
+<li>Статус: ✅ Выполнено (3 мая 2026)</li>
+<li>
+<p>Результат: -109 строк, улучшена читаемость</p>
+</li>
+<li>
+<p>[x] <strong>4.1.2</strong> Исправить бейджи</p>
+</li>
+<li>Динамические CI/coverage бейджи</li>
+<li>Верная версия Python (3.10+)</li>
+<li>
+<p>Статус: ✅ Выполнено</p>
+</li>
+<li>
+<p>[x] <strong>4.1.3</strong> Добавить политику безопасности</p>
+</li>
+<li>Создать SECURITY.md</li>
+<li>Статус: ✅ Выполнено</li>
+</ul>
+<h3 id="42">4.2 Рекомендации на будущее</h3>
+<ul>
+<li>[ ] <strong>4.2.1</strong> Видео-демо (2-3 мин)</li>
+<li>Показать работу системы</li>
+<li>Увеличивает конверсию HR на 40%</li>
+<li>
+<p>Приоритет: 🟢 Низкий (после трудоустройства)</p>
+</li>
+<li>
+<p>[ ] <strong>4.2.2</strong> Codecov интеграция</p>
+</li>
+<li>Динамический бейдж покрытия</li>
+<li>Детальные отчёты по тестам</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>4.2.3</strong> Production-деплой пример</p>
+</li>
+<li>Скриншоты Grafana/Kubernetes</li>
+<li>Инструкция "Deploy to Cloud"</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>4.2.4</strong> Тестовый деплой (Docker Compose)</p>
+</li>
+<li><code>docker-compose up</code> для быстрого старта</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<h3 id="43-">4.3 Пост-трудоустройство (Приоритет после найма)</h3>
+<ul>
+<li>[ ] <strong>4.3.1</strong> Миграция langchain 0.3 → 1.x</li>
+<li>План в <code>docs/_drafts/langchain-migration-draft.md</code></li>
+<li>Цель: Устранить уязвимости и деprecation warnings</li>
+<li>
+<p>Приоритет: 🟡 Средний (технический долг)</p>
+</li>
+<li>
+<p>[ ] <strong>4.3.2</strong> Исправление 6 тестов ChromaDB/HF</p>
+</li>
+<li>Описаны в <code>docs/KNOWN_ISSUES.md</code></li>
+<li>Метод: Мокирование или Docker-окружение</li>
+<li>
+<p>Приоритет: 🟡 Средний (стабильность CI)</p>
+</li>
+<li>
+<p>[ ] <strong>4.3.3</strong> Замена Codecov на статический бейдж</p>
+</li>
+<li>Использовать <code>scripts/update-coverage-badge.py</code></li>
+<li>Цель: Защита от "ложных бейджей" (РФ-реалии)</li>
+<li>
+<p>Приоритет: 🟡 Средний (прозрачность)</p>
+</li>
+<li>
+<p>[ ] <strong>4.3.4</strong> Убрать зарплатные ожидания из README</p>
+</li>
+<li>Удалить раздел с зарплатными ожиданиями</li>
+<li>
+<p>Приоритет: 🟢 Низкий (после найма)</p>
+</li>
+<li>
+<p>[ ] <strong>4.3.5</strong> Добавить раздел "🇷🇺 Доступ из России"</p>
+</li>
+<li>Альтернативы: GHCR, VK Видео, HH.ru</li>
+<li>Зеркало на GitLab</li>
+<li>
+<p>Приоритет: 🟡 Средний (доступность)</p>
+</li>
+<li>
+<p>[ ] <strong>4.3.6</strong> Создать зеркало на GitLab</p>
+</li>
+<li>Цель: Резервирование и доступ из РФ</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h2 id="12">1.2 Очистка мусора (Средний приоритет)</h2>
+<ul>
+<li>[x] <strong>1.2.1</strong> Очистить .pytest_cache/</li>
+<li>Команда: Remove-Item -Recurse -Force .pytest_cache/</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟢 Низкий</p>
+</li>
+<li>
+<p>[x] <strong>1.2.2</strong> Очистить .ruff_cache/</p>
+</li>
+<li>Команда: Remove-Item -Recurse -Force .ruff_cache/</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟢 Низкий</p>
+</li>
+<li>
+<p>[x] <strong>1.2.3</strong> Очистить все <strong>pycache</strong>/</p>
+</li>
+<li>Команда: Get-ChildItem -Recurse -Directory <strong>pycache</strong> | Remove-Item -Recurse -Force</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟢 Низкий</p>
+</li>
+<li>
+<p>[x] <strong>1.2.4</strong> Проверить .gitignore для .venv/</p>
+</li>
+<li>Файл: .gitignore</li>
+<li>Строка 150: .gigacode/ - проверить</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h2 id="13">1.3 Верификация</h2>
+<ul>
+<li>[x] <strong>1.3.1</strong> Запустить secrets scanner</li>
+<li>Команда: python .gigacode/tools/secrets-scanner.py</li>
+<li>Цель: &lt; 100 false positives</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[x] <strong>1.3.2</strong> Запустить тесты</p>
+</li>
+<li>Команда: pytest tests/unit/ -v</li>
+<li>Цель: Все тесты проходят</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h1 id="2-1">📦 ФАЗА 2: СРЕДНЕСРОЧНЫЕ ЗАДАЧИ (1 месяц)</h1>
+<h2 id="21">2.1 Оптимизация размера репозитория</h2>
+<ul>
+<li>[x] <strong>2.1.1</strong> Запустить git gc</li>
+<li>Команда: git gc --aggressive --prune=now</li>
+<li>Цель: Уменьшить .git</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[x] <strong>2.1.2</strong> Анализ больших файлов</p>
+</li>
+<li>Команда: git rev-list --objects --all | sort -k 2 | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p' | sort -k 2 -n -r | head -20</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>2.1.3</strong> Удалить большие файлы из git history (если нужно)</p>
+</li>
+<li>Инструмент: BFG Repo-Cleaner</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий (если &gt;1GB)</p>
+</li>
+<li>
+<p>[ ] <strong>2.1.4</strong> Архивировать .archive-backup-*</p>
+</li>
+<li>Папки: .archive-backup-20260425_181308</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟢 Низкий</li>
+</ul>
+<hr />
+<h2 id="22-ai-">2.2 Унификация AI-конфигураций</h2>
+<ul>
+<li>[ ] <strong>2.2.1</strong> Аудит AI-конфигов</li>
+<li>Файлы: .gigacode/, .koda/, codeassistant/, apps/cognitive-agent/</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>2.2.2</strong> Создать единую структуру конфигов</p>
+</li>
+<li>Цель: Избежать дублирования</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>2.2.3</strong> Синхронизировать правила (rules/)</p>
+</li>
+<li>Файлы: coding-standards.md, security-rules.md</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h2 id="23-cicd">2.3 CI/CD</h2>
+<ul>
+<li>[ ] <strong>2.3.1</strong> Настроить GitHub Actions</li>
+<li>Файл: .github/workflows/ci.yml</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[ ] <strong>2.3.2</strong> Добавить automated security scanning</p>
+</li>
+<li>Инструменты: pip-audit, bandit, secrets-scanner</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[ ] <strong>2.3.3</strong> Настроить auto-merge для dependabot</p>
+</li>
+<li>Файл: .github/dependabot.yml</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h1 id="3-3">🏗️ ФАЗА 3: ДОЛГОСРОЧНЫЕ ЗАДАЧИ (3 месяца)</h1>
+<h2 id="31">3.1 Рефакторинг кода</h2>
+<ul>
+<li>[ ] <strong>3.1.1</strong> Аудит неиспользуемого кода</li>
+<li>Инструмент: vulture, dead</li>
+<li>Цель: Выявить dead code</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.1.2</strong> Удалить дубликаты кода</p>
+</li>
+<li>Инструмент: pylint-duplicate, radon</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.1.3</strong> Оптимизировать импорты</p>
+</li>
+<li>Инструмент: isort, autoflake</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟢 Низкий</li>
+</ul>
+<hr />
+<h2 id="32">3.2 Документация</h2>
+<ul>
+<li>[ ] <strong>3.2.1</strong> Аудит документации (481 файл)</li>
+<li>Цель: Выявить устаревшие файлы</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.2.2</strong> Консолидация (481 → ~200 файлов)</p>
+</li>
+<li>Метод: Объединить связанные файлы</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟢 Низкий</p>
+</li>
+<li>
+<p>[ ] <strong>3.2.3</strong> Обновить README.md</p>
+</li>
+<li>Файл: README.md</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.2.4</strong> Настроить MkDocs деплой</p>
+</li>
+<li>Файл: mkdocs.yml</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟢 Низкий</li>
+</ul>
+<hr />
+<h2 id="33">3.3 Тестирование</h2>
+<ul>
+<li>[ ] <strong>3.3.1</strong> Измерить текущий coverage</li>
+<li>Команда: pytest --cov=src/ --cov-report=html</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.3.2</strong> Добавить тесты для критичных модулей</p>
+</li>
+<li>Цель: &gt;80% coverage</li>
+<li>Статус: ✅ Выпо��нено</li>
+<li>
+<p>Приоритет: 🔴 Высокий</p>
+</li>
+<li>
+<p>[ ] <strong>3.3.3</strong> Настроить coverage в CI</p>
+</li>
+<li>Файл: .github/workflows/ci.yml</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟡 Средний</li>
+</ul>
+<hr />
+<h2 id="34">3.4 Мониторинг и наблюдаемость</h2>
+<ul>
+<li>[ ] <strong>3.4.1</strong> Настроить Prometheus метрики</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.4.2</strong> Добавить health checks для сервисов</p>
+</li>
+<li>Статус: ✅ Выполнено</li>
+<li>
+<p>Приоритет: 🟡 Средний</p>
+</li>
+<li>
+<p>[ ] <strong>3.4.3</strong> Настроить алерты в Grafana</p>
+</li>
+<li>Статус: ✅ Выполнено</li>
+<li>Приоритет: 🟢 Низкий</li>
+</ul>
+<hr />
+<h1 id="_3">📊 ПРОГРЕСС</h1>
+<h2 id="_4">Общая статистика</h2>
+<table>
+<thead>
+<tr>
+<th>Фаза</th>
+<th>Всего задач</th>
+<th>Выполнено</th>
+<th>В работе</th>
+<th>Ожидает</th>
+<th>% Выполнения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Фаза 1</strong></td>
+<td>10</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>Фаза 2</strong></td>
+<td>8</td>
+<td>5</td>
+<td>0</td>
+<td>3</td>
+<td>62.5%</td>
+</tr>
+<tr>
+<td><strong>Фаза 3</strong></td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>0%</td>
+</tr>
+<tr>
+<td><strong>Фаза 4.3</strong></td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>0%</td>
+</tr>
+<tr>
+<td><strong>ВСЕГО</strong></td>
+<td><strong>34</strong></td>
+<td><strong>15</strong></td>
+<td><strong>0</strong></td>
+<td><strong>19</strong></td>
+<td><strong>44.1%</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">По приоритетам</h2>
+<table>
+<thead>
+<tr>
+<th>Приоритет</th>
+<th>Количество</th>
+<th>Выполнено</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 Высокий</td>
+<td>7</td>
+<td>0</td>
+</tr>
+<tr>
+<td>🟡 Средний</td>
+<td>17</td>
+<td>2</td>
+</tr>
+<tr>
+<td>🟢 Низкий</td>
+<td>4</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_6">📝 ЖУРНАЛ ИЗМЕНЕНИЙ</h1>
+<table>
+<thead>
+<tr>
+<th>Дата</th>
+<th>Задача</th>
+<th>Статус</th>
+<th>Комментарий</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-05-03</td>
+<td>Добавлена Фаза 4.3 (Пост-трудоустройство)</td>
+<td>✅ Выполнено</td>
+<td>6 задач: langchain миграция, тесты ChromaDB, бейджи, доступ из РФ, GitLab</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>2.1.2 Git LFS tracking</td>
+<td>✅ Выполнено</td>
+<td>.pt, .pth, .onnx, .bin, .model, .h5, .pb</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>2.1.1 git gc</td>
+<td>✅ Выполнено</td>
+<td>.git: 31.26 MB → 8.49 MB (72.7% уменьшение)</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>1.1.3 pip-audit</td>
+<td>✅ Выполнено</td>
+<td>0 vulnerabilities (pip 26.0 → 26.1)</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>1.1.2 Обновить torch</td>
+<td>✅ Выполнено</td>
+<td>torch 2.3.0 → 2.8.0 (4 CVE устранено)</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>1.2.1-1.2.4 Очистка мусора</td>
+<td>✅ Выполнено</td>
+<td>.venv/ (2.86 GB), кэши. Репо: 2.88 GB → 48 MB (98.3%)</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>1.1.1 Обновить pip</td>
+<td>✅ Выполнено</td>
+<td>pip 24.2 → 26.0 (3 CVE устранено)</td>
+</tr>
+<tr>
+<td>2026-04-30</td>
+<td>Реализация auto-audit MVP</td>
+<td>✅ Выполнено</td>
+<td>Создан инструмент аудита репозитория с 10 категориями проверок, интеграцией CI/CD и генерацией отчётов</td>
+</tr>
+<tr>
+<td>2026-05-01</td>
+<td>1.1.4 bandit scan</td>
+<td>✅ Выполнено</td>
+<td>Выявлено 1 medium issue (B104: hardcoded_bind_all_interfaces) в src/main.py, 21 low issues. Добавлен комментарий nosec для исключения ложного срабатывания.</td>
+</tr>
+<tr>
+<td>------</td>
+<td>--------</td>
+<td>--------</td>
+<td>-------------</td>
+</tr>
+<tr>
+<td>2026-04-28</td>
+<td>Создание плана</td>
+<td>✅ Выполнено</td>
+<td>План из 28 задач</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_7">🎯 СЛЕДУЮЩИЕ ДЕЙСТВИЯ</h1>
+<ol>
+<li><strong>Начать с Фазы 1.1</strong> (Безопасность - критично)</li>
+<li><strong>Обновить pip и torch</strong> (7 CVE)</li>
+<li><strong>Запустить pip-audit</strong> для верификации</li>
+</ol>
+<hr />
+<h2 id="_8">💡 КАК ИСПОЛЬЗОВАТЬ</h2>
+<ol>
+<li>Отмечать выполненные задачи: [x] или ✅</li>
+<li>Комментировать в журнале изменений</li>
+<li>Обновлять прогресс после каждой фазы</li>
+<li>Создавать новые задачи по мере необходимости</li>
+</ol>
+<hr />
+<p><strong>Контакты:</strong> @Control39
+<strong>Репозиторий:</strong> github.com/Control39/portfolio-system-architect</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,952 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/cases/it-compass/it-compass-merger/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>План объединения it-compass и it-compass.bak - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#it-compass-it-compassbak" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              План объединения it-compass и it-compass.bak
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Введение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сравнение версий
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сравнение версий">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#it-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        it-compass (методология)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#it-compassbak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        it-compass.bak (приложение)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Принципы объединения
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Детальный план объединения
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Детальный план объединения">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 1: Анализ и подготовка (уже выполнено)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 2: Археология и сохранение истории
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 3: Создание новой структуры проекта
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 4: Интеграция данных и миграция
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 5: Объединение ядра системы
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 6: Объединение пользовательского интерфейса
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 7: Интеграция с экосистемой
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 8: Тестирование и развертывание
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Преимущества объединенной системы
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Риски и меры по их минимизации
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="it-compass-it-compassbak">План объединения it-compass и it-compass.bak</h1>
+<h2 id="_1">Введение</h2>
+<p>На основе анализа двух версий IT-Compass (it-compass и it-compass.bak) предлагается план их объединения в единую мощную систему, сочетающую методологию отслеживания компетенций с удобным пользовательским интерфейсом и расширенными функциями.</p>
+<h2 id="_2">Сравнение версий</h2>
+<h3 id="it-compass">it-compass (методология)</h3>
+<ul>
+<li>Представляет собой авторскую методологию "Объективные маркеры компетенций"</li>
+<li>Фокусируется на системе маркеров, валидации и приоритетах</li>
+<li>Включает систему генерации портфолио</li>
+<li>Ориентирована на методологическую строгость и документацию</li>
+</ul>
+<h3 id="it-compassbak">it-compass.bak (приложение)</h3>
+<ul>
+<li>Представляет собой полноценное приложение с веб-интерфейсом (Streamlit)</li>
+<li>Включает API-интеграции (GitHub, LinkedIn, Coursera)</li>
+<li>Имеет развитую систему психологической поддержки</li>
+<li>Содержит веб-интерфейс и систему рекомендаций</li>
+<li>Является продуктом с широким функционалом</li>
+</ul>
+<h2 id="_3">Принципы объединения</h2>
+<ol>
+<li><strong>Методология определяет что</strong> - сохраняем методологию из it-compass с ее системой маркеров, валидацией и приоритетами</li>
+<li><strong>Приложение определяет как</strong> - интегрируем UI и API-функционал из it-compass.bak</li>
+<li><strong>Сохранение лучших практик</strong> - объединяем сильные стороны обеих версий</li>
+</ol>
+<h2 id="_4">Детальный план объединения</h2>
+<h3 id="1">Этап 1: Анализ и подготовка (уже выполнено)</h3>
+<ul>
+<li>[x] Анализ архитектуры обеих версий</li>
+<li>[x] Сравнение функциональности</li>
+<li>[x] Определение точек интеграции</li>
+</ul>
+<h3 id="2">Этап 2: Археология и сохранение истории</h3>
+<ol>
+<li><strong>Создание архива старой версии</strong></li>
+<li>Переименовать существующую папку <code>it-compass.bak</code> в <code>it-compass.bak.archive</code></li>
+<li>Убедиться, что все файлы сохранены</li>
+<li>
+<p>Добавить README.md в архив с описанием</p>
+</li>
+<li>
+<p><strong>Резервное копирование существующих данных</strong></p>
+</li>
+<li>Создать копию <code>it-compass/src/data/user_progress.json</code> как <code>user_progress.backup.json</code></li>
+<li>Создать копию всех маркеров</li>
+</ol>
+<h3 id="3">Этап 3: Создание новой структуры проекта</h3>
+<ol>
+<li>
+<p><strong>Создание единой структуры проекта</strong>
+   <code>it-compass/
+   ├── docs/
+   │   ├── ARCHITECTURE.md
+   │   ├── METHODOLOGY.md
+   │   └── PSYCHOLOGICAL_SUPPORT.md
+   ├── src/
+   │   ├── core/
+   │   │   ├── tracker.py                # Основной трекер (объединенный)
+   │   │   ├── api_integration.py       # API интеграции
+   │   │   └── mental_support.py        # Психологическая поддержка
+   │   ├── data/
+   │   │   ├── markers/               # Маркеры из it-compass
+   │   │   │   └── *.json
+   │   │   └── user_progress.json     # Прогресс пользователя
+   │   ├── ui/
+   │   │   └── app.py                 # Веб-интерфейс из it-compass.bak
+   │   └── utils/
+   │       ├── portfolio_gen.py      # Генератор портфолио (объединенный)
+   │       └── marker_export.py      # Экспорт маркеров
+   ├── requirements.txt
+   ├── Dockerfile
+   └── README.md</code></p>
+</li>
+<li>
+<p><strong>Инициализация новой структуры</strong></p>
+</li>
+<li>Создать все директории</li>
+<li>Перенести файлы из обеих версий в соответствующие папки</li>
+<li>Убедиться, что структура соответствует плану</li>
+</ol>
+<h3 id="4">Этап 4: Интеграция данных и миграция</h3>
+<ol>
+<li><strong>Миграция данных</strong></li>
+<li>Перенос маркеров из it-compass.bak.archive/src/data/markers/ в it-compass/src/data/markers/</li>
+<li>Адаптация формата маркеров под методологию it-compass (добавление validation, priority и smart_criteria)</li>
+<li>
+<p>Создание скрипта миграции для конвертации существующих данных</p>
+</li>
+<li>
+<p><strong>Объединение системы прогресса</strong></p>
+</li>
+<li>Создать универсальный формат user_progress.json, совместимый с обеими версиями</li>
+<li>Реализовать скрипт миграции для преобразования данных</li>
+</ol>
+<h3 id="5">Этап 5: Объединение ядра системы</h3>
+<ol>
+<li><strong>Объединение модуля tracker</strong></li>
+<li>Сохранить класс <code>CareerTracker</code> из it-compass как основу</li>
+<li>Интегрировать функции из <code>CompetencyTracker</code> из it-compass.bak</li>
+<li>Добавить поддержку уровней уверенности (confidence_level) и психологического состояния</li>
+<li>
+<p>Реализовать метод <code>generate_recommendations()</code> на основе анализа прогресса и психологического состояния</p>
+</li>
+<li>
+<p><strong>Интеграция API-интеграций</strong></p>
+</li>
+<li>Перенести модуль <code>api_integration.py</code> из it-compass.bak.archive</li>
+<li>Адаптировать его для работы с методологией it-compass</li>
+<li>
+<p>Реализовать синхронизацию данных из внешних источников с локальными маркерами</p>
+</li>
+<li>
+<p><strong>Система психологической поддержки</strong></p>
+</li>
+<li>Перене��ти модуль <code>mental_support.py</code> и <code>low_energy_mode.py</code> из it-compass.bak.archive</li>
+<li>Интегрировать с основным трекером</li>
+<li>Реализовать связь между психологическим состоянием и рекомендациями по развитию</li>
+</ol>
+<h3 id="6">Этап 6: Объединение пользовательского интерфейса</h3>
+<ol>
+<li><strong>Веб-интерфейс (Streamlit)</strong></li>
+<li>Сохранить <code>app.py</code> из it-compass.bak.archive как основу</li>
+<li>Адаптировать интерфейс для отображения маркеров it-compass</li>
+<li>Реализовать отображение валидации и приоритетов маркеров</li>
+<li>
+<p>Добавить раздел психологической поддержки</p>
+</li>
+<li>
+<p><strong>Генератор портфолио</strong></p>
+</li>
+<li>Объединить функциональность обоих генераторов</li>
+<li>Сохранить структуру портфолио из it-compass</li>
+<li>Добавить визуальные элементы из it-compass.bak</li>
+<li>Реализовать экспорт в HTML, PDF и Markdown</li>
+</ol>
+<h3 id="7">Этап 7: Интеграция с экосистемой</h3>
+<ol>
+<li><strong>Cloud-Reason</strong></li>
+<li>Реализовать интеграцию для анализа прогресса</li>
+<li>Настроить автоматическую синхронизацию данных</li>
+<li>
+<p>Реализовать сбор метрик для анализа</p>
+</li>
+<li>
+<p><strong>Portfolio-Organizer</strong></p>
+</li>
+<li>Настроить автоматическую генерацию материалов</li>
+<li>Реализовать триггеры для генерации при достижении определенных маркеров</li>
+<li>
+<p>Интегрировать с системой рекомендаций</p>
+</li>
+<li>
+<p><strong>Career Development System</strong></p>
+</li>
+<li>Реализовать синхронизацию карьерных целей</li>
+<li>Настроить отслеживание карьерного роста</li>
+<li>Интегрировать с системой рекомендаций</li>
+</ol>
+<h3 id="8">Этап 8: Тестирование и развертывание</h3>
+<ol>
+<li><strong>Тестирование</strong></li>
+<li>Написание unit-тестов для объединенного кода</li>
+<li>Интеграционное тестирование всех компонентов</li>
+<li>
+<p>Пользовательское тестирование основных сценариев</p>
+</li>
+<li>
+<p><strong>Развертывание</strong></p>
+</li>
+<li>Настройка Docker-контейнера</li>
+<li>Подготовка документации</li>
+<li>Планирование миграции пользователей</li>
+</ol>
+<h2 id="_5">Преимущества объединенной системы</h2>
+<ol>
+<li><strong>Комплексный подход</strong> - сочетание методологической строгости и удобного интерфейса</li>
+<li><strong>Автоматизация</strong> - интеграция с внешними платформами для автоматического сбора данных</li>
+<li><strong>Психологическая поддержка</strong> - система заботы о ментальном здоровье пользователя</li>
+<li><strong>Экосистемная интеграция</strong> - тесная связь с другими компонентами системы</li>
+<li><strong>Гибкость</strong> - возможность адаптации под нужды разных пользователей</li>
+</ol>
+<h2 id="_6">Риски и меры по их минимизации</h2>
+<table>
+<thead>
+<tr>
+<th>Риск</th>
+<th>Меры по минимизации</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Потеря данных при миграции</td>
+<td>Создание резервных копий, пошаговая миграция, тестирование на копии</td>
+</tr>
+<tr>
+<td>Сложность объединения кода</td>
+<td>Постепенная интеграция, написание тестов, код-ревью</td>
+</tr>
+<tr>
+<td>Несовместимость форматов данных</td>
+<td>Разработка скриптов конвертации, валидация данных</td>
+</tr>
+<tr>
+<td>Увеличение сложности системы</td>
+<td>Документирование архитектуры, модульная структура, пошаговое внедрение</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">Заключение</h2>
+<p>Объединение it-compass и it-compass.bak создаст мощную систему, которая:</p>
+<ul>
+<li>Сохранит методологическую основу авторской методики "Объективные маркеры компетенций"</li>
+<li>Добавит удобный веб-интерфейс и API-интеграции</li>
+<li>Включит систему психологической поддержки</li>
+<li>Будет тесно интегрирована с остальной экосистемой</li>
+</ul>
+<p>Предложенный план обеспечит постепенное и безопасное объединение двух версий, минимизируя риски и сохраняя лучшие практики из обеих систем.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
