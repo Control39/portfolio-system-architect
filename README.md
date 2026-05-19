@@ -214,12 +214,44 @@ settings = config.get_config()
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 
-# 2. Запустите Frontend + Backend
+# 2. Настройте окружение IDE
+# Копируйте шаблон настроек (опционально):
+cp .vscode/settings-default.json .vscode/settings.json
+
+# 3. Запустите Frontend + Backend
 python python_server/start_dev.py
 # Или вручную:
 # Терминал 1: cd client && npm run dev          # http://localhost:5173
 # Терминал 2: cd python_server && python app.py  # http://localhost:5000
 ```
+
+### Настройка IDE (VS Code)
+
+**Общие настройки** (в git, обязательны для всех):
+- Форматирование: Black (Python), Prettier (JS/TS)
+- Линтинг: Ruff, mypy
+- Тестирование: pytest с покрытием
+- PowerShell как терминал по умолчанию
+
+**Личные настройки** (игнорируются в git):
+- AI-ассистенты (Koda, Copilot, GigaCode)
+- Тема, шрифты, цвета
+- Горячие клавиши
+
+**Шаблон:** `.vscode/settings-default.json`  
+**Личное:** `.vscode/settings.json` (не коммитить)
+
+**Расширения:**
+```bash
+# Рекомендуемые (установите вручную или через extensions.json)
+- ms-python.python
+- ms-python.black-formatter
+- ms-python.vscode-pylance
+- redhat.vscode-yaml
+- esbenp.prettier-vscode
+```
+
+---
 
 ### Для исследователей методологии (10 мин)
 ```bash

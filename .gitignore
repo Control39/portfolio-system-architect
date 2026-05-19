@@ -26,14 +26,13 @@ logs/
 .DS_Store
 Thumbs.db
 
-# IDE
-.vscode/
+# IDE - личные настройки (общие в .vscode/settings-default.json)
+.vscode/settings.json
 .idea/
 .kodacli/
 .gigaide/
 .koda/
 .obsidian/
-# Continue.dev (moved to tools/ai-agents/continue/)
 .continue/
 
 # GigaCode - игнорируем только секреты и кэш
