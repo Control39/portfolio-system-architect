@@ -39,7 +39,8 @@ jobs:
       - name: Run tests and get coverage
         continue-on-error: true
         run: |
-          pytest tests/ --cov=src --cov=apps --cov-report=json --cov-report=term
+          pytest tests/ --cov=src --cov=apps --cov-report=json --cov-report=term 
+            --ignore=tests/manual/test_rag_simple.py
 
       - name: Extract coverage percentage
         id: coverage
