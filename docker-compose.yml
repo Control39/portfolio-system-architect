@@ -235,12 +235,12 @@ services:
         condition: service_started
 
   # ============================================================
-  # Infra-Orchestrator (Service Management API)
+  # Infra Orchestrator (Service Management API)
   # Route: /infra-orchestrator
   # ============================================================
-  infra-orchestrator:
+  infra_orchestrator:
     build:
-      context: ./apps/infra-orchestrator
+      context: ./apps/infra_orchestrator
       dockerfile: Dockerfile
     environment:
       - PYTHONPATH=/app
@@ -250,7 +250,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.infra-orchestrator.rule=Host(`localhost`) && PathPrefix(`/infra-orchestrator`)"
-      - "traefik.http.routers.infra-orchestrator.service=infra-orchestrator"
+      - "traefik.http.routers.infra-orchestrator.service=infra_orchestrator"
       - "traefik.http.services.infra-orchestrator.loadbalancer.server.port=8000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]

@@ -5,7 +5,7 @@
 import pytest
 import yaml
 
-from src.config_manager import ConfigManager
+from ai_config_manager.config_manager import ConfigManager
 
 
 class TestConfigManager:

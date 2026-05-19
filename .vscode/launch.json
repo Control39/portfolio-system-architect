@@ -115,13 +115,6 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": true
-        },
-        {
-            "name": "Python: Koda CLI",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "koda",
-            "console": "integratedTerminal"
         }
     ]
 }

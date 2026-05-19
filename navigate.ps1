@@ -19,10 +19,11 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [ValidateSet('cognitive-agent', 'decision-engine', 'it-compass', 'portfolio-organizer',
-                 'career-development', 'job-automation-agent', 'knowledge-graph', 'infra-orchestrator',
-                 'ml-model-registry', 'mcp-server', 'auth-service', 'ai-config-manager',
-                 'template-service', 'system-proof', 'thought-architecture', 'client')]
+    [ValidateSet('client', 'ai-config-manager', 'auth-service', 'career-development',
+                 'cognitive-agent', 'decision-engine', 'infra-orchestrator',
+                 'it-compass', 'job-automation-agent', 'knowledge-graph',
+                 'mcp-server', 'ml-model-registry', 'portfolio-organizer',
+                 'system-proof', 'template-service', 'thought-architecture')]
     [string]$Service,
 
     [Parameter(Mandatory=$false)]
@@ -59,20 +60,21 @@ function Show-Services {
     Write-Section "📦 МИКРОСЕРВИСЫ (15)"
     $services = @(
         @{ Name = "client"; Path = "client"; Desc = "Frontend (React 19 + TS)" },
-        @{ Name = "ai-config-manager"; Path = "apps/ai-config-manager"; Desc = "Управление AI конфигами" },
+        @{ Name = "ai-config-manager"; Path = "apps/ai_config_manager"; Desc = "Управление AI конфигами" },
         @{ Name = "auth-service"; Path = "apps/auth_service"; Desc = "Аутентификация" },
         @{ Name = "career-development"; Path = "apps/career_development"; Desc = "Развитие карьеры" },
-        @{ Name = "cognitive-agent"; Path = "apps/cognitive-agent"; Desc = "AI агент для автоматизации" },
+        @{ Name = "cognitive-agent"; Path = "apps/cognitive_agent"; Desc = "AI агент для автоматизации" },
         @{ Name = "decision-engine"; Path = "apps/decision_engine"; Desc = "Движок принятия решений" },
-        @{ Name = "infra-orchestrator"; Path = "apps/infra-orchestrator"; Desc = "Оркестрация инфраструктуры (Python/FastAPI)" },
+        @{ Name = "infra-orchestrator"; Path = "apps/infra_orchestrator"; Desc = "Оркестрация инфраструктуры (Python/FastAPI)" },
         @{ Name = "it-compass"; Path = "apps/it_compass"; Desc = "Методология системного мышления" },
-        @{ Name = "job-automation-agent"; Path = "apps/job-automation-agent"; Desc = "Автоматизация работ" },
+        @{ Name = "job-automation-agent"; Path = "apps/job_automation_agent"; Desc = "Автоматизация работ" },
         @{ Name = "knowledge-graph"; Path = "apps/knowledge_graph"; Desc = "Граф знаний" },
         @{ Name = "mcp-server"; Path = "apps/mcp_server"; Desc = "Model Context Protocol" },
         @{ Name = "ml-model-registry"; Path = "apps/ml_model_registry"; Desc = "Реестр ML моделей" },
         @{ Name = "portfolio-organizer"; Path = "apps/portfolio_organizer"; Desc = "Организация портфолио" },
         @{ Name = "system-proof"; Path = "apps/system_proof"; Desc = "Доказательство системы" },
-        @{ Name = "thought-architecture"; Path = "apps/thought-architecture"; Desc = "Архитектура решений" }
+        @{ Name = "template-service"; Path = "apps/template_service"; Desc = "Шаблон сервиса" },
+        @{ Name = "thought-architecture"; Path = "apps/thought_architecture"; Desc = "Архитектура решений" }
     )
 
     $services | ForEach-Object {
@@ -125,34 +127,51 @@ function Show-Status {
     Write-Host "  • IT-Compass UI: http://localhost:8501" -ForegroundColor Cyan
 }
 
+# Маппинг имен сервисов на реальные пути (snake_case)
+$ServiceMap = @{
+    'client' = 'client'
+    'ai-config-manager' = 'apps/ai_config_manager'
+    'auth-service' = 'apps/auth_service'
+    'career-development' = 'apps/career_development'
+    'cognitive-agent' = 'apps/cognitive_agent'
+    'decision-engine' = 'apps/decision_engine'
+    'infra-orchestrator' = 'apps/infra_orchestrator'
+    'it-compass' = 'apps/it_compass'
+    'job-automation-agent' = 'apps/job_automation_agent'
+    'knowledge-graph' = 'apps/knowledge_graph'
+    'mcp-server' = 'apps/mcp_server'
+    'ml-model-registry' = 'apps/ml_model_registry'
+    'portfolio-organizer' = 'apps/portfolio_organizer'
+    'system-proof' = 'apps/system_proof'
+    'template-service' = 'apps/template_service'
+    'thought-architecture' = 'apps/thought_architecture'
+}
+
 function Go-To-Service {
     param([string]$ServiceName)
 
-    # Обработка пути для client/
-    if ($ServiceName -eq "client") {
-        $servicePath = "client"
-    }
-    else {
-        $servicePath = "apps/" + ($ServiceName -replace "-", "_")
-    }
+    $servicePath = $ServiceMap[$ServiceName]
 
-    if (Test-Path $servicePath) {
-        Write-Success "Открытие $ServiceName..."
-        Write-Host "📁 Путь: $servicePath`n"
+    if ($servicePath -and (Test-Path $servicePath)) {
+        Write-Success "Найден сервис: $ServiceName"
+        $fullPath = Join-Path $PWD.ProviderPath $servicePath
+        Write-Host "📁 Путь: $fullPath`n"
 
-        Get-ChildItem $servicePath -Depth 1 | Select-Object Name, @{
+        Get-ChildItem $servicePath -Depth 1 -Force | Select-Object FullName, @{
             Name = "Type"
             Expression = { if ($_.PSIsContainer) { "📁" } else { "📄" } }
         } | Format-Table -AutoSize
 
+        $fullPath = Join-Path $PWD.ProviderPath $servicePath
         Write-Host "`n💡 Быстрые команды:"
-        Write-Host "  cd $servicePath                    # Перейти в сервис"
-        Write-Host "  ls $servicePath/src                # Исходный код (если есть)"
-        Write-Host "  ls $servicePath/tests              # Тесты (если есть)"
-        Write-Host "  cat $servicePath/README.md         # Документация"
+        Write-Host "  cd '$fullPath'              # Перейти в сервис"
+        Write-Host "  ls '$fullPath\src'          # Исходный код (если есть)"
+        Write-Host "  ls '$fullPath\tests'        # Тесты (если есть)"
+        Write-Host "  cat '$fullPath\README.md'   # Документация"
     }
     else {
-        Write-Error "Сервис не найден: $servicePath"
+        Write-Error "Сервис не найден: $ServiceName"
+        Write-Host "💡 Доступные сервисы: $(($ServiceMap.Keys) -join ', ')"
     }
 }
 
@@ -232,27 +251,28 @@ function Show-Map {
 ├────────────────────────────────────────────────────────────────────┤
 │                                                                    │
 │  🔧 ИНСТРУМЕНТЫ РАЗРАБОТКИ                                        │
-│  ├── .koda/            (Koda IDE + 5 skills)                      │
+│  ├── .koda/            (Koda IDE + правила)                       │
 │  ├── .continue/        (Continue AI agents)                        │
 │  ├── .vscode/          (VS Code settings)                          │
 │  └── codeassistant/    (Code assistant + tools)                   │
 │                                                                    │
-│  🏗️ МИКРОСЕРВИСЫ (15 в PRODUCTION)                                │
+│  🏗️ МИКРОСЕРВИСЫ (16 в apps/)                                     │
 │  ├── client/             (Frontend React 19)                      │
-│  ├── apps/cognitive-agent/      (AI агент)                        │
-│  ├── apps/decision-engine/      (Решения)                         │
-│  ├── apps/it-compass/           (Методология)                     │
-│  ├── apps/knowledge-graph/      (Граф знаний)                     │
-│  ├── apps/portfolio-organizer/  (Портфолио)                       │
-│  ├── apps/career-development/   (Карьера)                         │
-│  ├── apps/job-automation-agent/ (Автоматизация)                   │
-│  ├── apps/infra-orchestrator/   (Инфраструктура)                  │
-│  ├── apps/ml-model-registry/    (ML модели)                       │
-│  ├── apps/mcp-server/           (MCP протокол)                    │
-│  ├── apps/auth-service/         (Аутентификация)                  │
-│  ├── apps/ai-config-manager/    (AI конфигурация)                 │
-│  ├── apps/template-service/     (Шаблоны)                         │
-│  └── apps/system-proof/         (Доказательства)                  │
+│  ├── apps/cognitive_agent/      (AI агент)                        │
+│  ├── apps/decision_engine/      (Решения)                         │
+│  ├── apps/it_compass/           (Методология)                     │
+│  ├── apps/knowledge_graph/      (Граф знаний)                     │
+│  ├── apps/portfolio_organizer/  (Портфолио)                       │
+│  ├── apps/career_development/   (Карьера)                         │
+│  ├── apps/job_automation_agent/ (Автоматизация)                   │
+│  ├── apps/infra_orchestrator/   (Инфраструктура)                  │
+│  ├── apps/ml_model_registry/    (ML модели)                       │
+│  ├── apps/mcp_server/           (MCP протокол)                    │
+│  ├── apps/auth_service/         (Аутентификация)                  │
+│  ├── apps/ai_config_manager/    (AI конфигурация)                 │
+│  ├── apps/template_service/     (Шаблоны)                         │
+│  ├── apps/system_proof/         (Доказательства)                  │
+│  └── apps/thought_architecture/ (Архитектура)                     │
 │                                                                    │
 │  📦 ИНФРАСТРУКТУРА & МОНИТОРИНГ                                   │
 │  ├── deployment/        (K8s manifests)                           │
@@ -268,17 +288,16 @@ function Show-Map {
 │  🧪 ТЕСТИРОВАНИЕ                                                   │
 │  ├── tests/             (Интеграционные тесты)                    │
 │  └── apps/*/tests/      (Unit тесты)                              │
-│  💡 Coverage: ~85% ✅                                               │
 │                                                                    │
 └────────────────────────────────────────────────────────────────────┘
 
 БЫСТРЫЕ КОМАНДЫ:
-  .\navigate.ps1 -Service <name>     # К микросервису
-  .\navigate.ps1 -Tool <name>        # К инструменту
-  .\navigate.ps1 -Status             # Статус проекта
-  .\navigate.ps1 -List               # Все сервисы и инструменты
-  .\navigate.ps1 -Map                # Эта диаграмма
-"@
+  .navigate.ps1 -Service <name>     # К микросервису
+  .navigate.ps1 -Tool <name>        # К инструменту
+  .navigate.ps1 -Status             # Статус проекта
+  .navigate.ps1 -List               # Все сервисы и инструменты
+  .navigate.ps1 -Map                # Эта диаграмма
+" @
 }
 
 # Основная логика

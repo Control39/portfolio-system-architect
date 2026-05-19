@@ -4,8 +4,8 @@
 
 import pytest
 
-from src.resource_pool import ResourcePool
-from src.validators import ResourceConfig, ResourceType
+from ai_config_manager.resource_pool import ResourcePool
+from ai_config_manager.validators import ResourceConfig, ResourceType
 
 
 class TestResourcePool:

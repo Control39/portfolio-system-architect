@@ -1,184 +1,80 @@
 {
-  // ========================================
-  // Python Interpreter
-  // ========================================
+  // ===  ИИ-ассистенты (приоритет Koda, отключение конфликтов) ===
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.tabCompletion": "on",
+  
+  // Koda: включаем как основной источник подсказок
+  "koda.inlineCompletion.enabled": true,
+  "koda.chat.enabled": true,
+  
+  // GigaCode: отключаем фоновую генерацию (причина лагов 20 мин)
+  "gigacode.inlineSuggestion.enabled": false,
+  "gigacode.indexing.enabled": false,
+  "gigacode.enableChat": true, // Оставляем только чат по запросу
+  
+  // Отключаем остальные AI, чтобы не было борьбы за `Tab`
+  "github.copilot.enable": { "*": false },
+  "continue.enableTabAutocomplete": false,
+
+  // === 🐍 Python & Монорепозиторий ===
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
-  "python.terminal.activateEnvironment": true,
-  "python.terminal.useEnvFile": true,
-  // ========================================
-  // Python Analysis (Pylance)
-  // ========================================
-  "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.diagnosticMode": "openFilesOnly",
   "python.analysis.extraPaths": [
-    "${workspaceFolder}/apps",
-    "${workspaceFolder}/src"
+    "./apps",
+    "./src",
+    "./tests",
+    "./tools"
   ],
-  "python.analysis.exclude": [
-    "**/__pycache__",
-    "**/.venv",
-    "**/venv",
-    "**/.pytest_cache",
-    "**/.mypy_cache",
-    "**/.ruff_cache",
-    "**/.cache",
-    "**/node_modules",
-    "**/dist",
-    "**/build",
-    "**/*.egg-info",
-    "**/postgres",
-    "**/migrations",
-    "**/coverage_html",
-    "**/reports",
-    "**/examples",
-    "**/generated_routes",
-    "**/.private"
-  ],
-  "python.analysis.ignore": [
-    "tests/*",
-    "apps/*/tests/*"
-  ],
-  // ========================================
-  // Линтинг и форматирование (Ruff)
-  // ========================================
+  "python.analysis.autoImportCompletions": true,
   "python.linting.enabled": true,
-  "python.linting.ruffEnabled": true,
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": false,
-  "editor.trimAutoWhitespace": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "editor.rulers": [
-    80,
-    100,
-    120
-  ],
-  "editor.renderWhitespace": "selection",
-  "editor.minimap.enabled": true,
-  "workbench.editor.enablePreview": true,
-  // ========================================
-  // Python - специфичные настройки
-  // ========================================
-  "[python]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit",
-      "source.fixAll": "explicit",
-      "source.fixAll.ruff": "explicit"
-    }
-  },
-  // ========================================
-  // Другие языки
-  // ========================================
-  "[json]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[jsonc]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[yaml]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "[powershell]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-vscode.powershell"
-  },
-  "[typescript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[markdown]": {
-    "editor.formatOnSave": false
-  },
-  // ========================================
-  // Файлы - исключения из проводника
-  // ========================================
-  "files.exclude": {
-    "**/.git": true,
-    "**/__pycache__": true,
-    "**/.venv": true,
-    "**/venv": true,
-    "**/.pytest_cache": true,
-    "**/.cache": true,
-    "**/cache": true,
-    "**/logs": true,
-    "**/*.pyc": true,
-    "**/*.pyo": true,
-    "**/*.pyd": true,
-    "**/.DS_Store": true,
-    "**/*.exe": true,
-    "**/*.dll": true,
-    "**/*.so": true,
-    "**/*.local": true
-  },
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/node_modules/**": true,
-    "**/.venv/**": true,
-    "**/venv/**": true,
-    "**/__pycache__/**": true
-  },
-  // ========================================
-  // Тестирование - pytest
-  // ========================================
+  "editor.defaultFormatter": "ms-python.black-formatter",
   "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": false,
-  "python.testing.pytestArgs": [
-    "-p",
-    "no:warnings",
-    "--tb=short"
-  ],
-  // ========================================
-  // Терминал
-  // ========================================
+  "python.testing.pytestArgs": ["tests/", "--cov=apps", "--cov=src"],
+
+  // === 💻 Терминал (PowerShell, чистый запуск) ===
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.profiles.windows": {
     "PowerShell": {
       "source": "PowerShell",
-      "icon": "terminal-powershell"
-    },
-    "Command Prompt": {
-      "path": "C:\\Windows\\System32\\cmd.exe",
-      "icon": "terminal-cmd"
-    },
-    "Git Bash": {
-      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
-      "args": [
-        "--login",
-        "-i"
-      ],
-      "icon": "terminal-git"
+      "icon": "terminal-powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-NoLogo", "-NoProfile"]
     }
   },
-  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.copyOnSelection": true,
-  "terminal.integrated.inheritEnv": true,
-  // ========================================
-  // Git
-  // ========================================
-  "git.openRepositoryInParentFolders": "never",
+
+  // === ⚡ Производительность (критично для монорепы) ===
+  "files.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/node_modules": true,
+    "**/.pytest_cache": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/node_modules": true,
+    "**/.reports": true,
+    "**/legacy": true
+  },
+  "search.followSymlinks": false,
+  "workbench.startupEditor": "none",
+  "editor.minimap.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.closeOnFileDelete": true,
+
+  // === 🔗 Git & Рабочий процесс ===
   "git.autofetch": true,
   "git.confirmSync": false,
-  // ========================================
-  // Прочее
-  // ========================================
-  "explorer.confirmDragAndDrop": false,
-  "editor.cursorBlinking": "smooth",
-  "editor.cursorStyle": "line",
-  "editor.fontSize": 14,
-  "workbench.colorTheme": "Dark Modern",
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "never",
+  "editor.wordWrap": "on",
+  "editor.rulers": [88, 120],
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
-  "git.blame.editorDecoration.enabled": true,
-  "makefile.configureOnOpen": false,
-  "azureTerraform.checkTerraformCmd": false
+  "files.autoSaveDelay": 1000
 }

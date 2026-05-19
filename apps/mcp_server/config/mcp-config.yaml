@@ -1,8 +1,8 @@
 # Единая конфигурация MCP-сервера для Career Autopilot
-# Версия: 1.0.0
-# Дата: 2026-04-07
+# Версия: 2.0.0
+# Дата: 2026-05-18
 
-version: "1.0.0"
+version: "2.0.0"
 name: "Career Autopilot MCP Server"
 description: "MCP сервер с полным доступом к файловой системе, интеграцией с IT-Compass и автоматическим обнаружением маркеров"
 
@@ -42,8 +42,8 @@ tools:
     auto_detect_markers: true
 
   command_execution:
-    allowed_commands: ["python", "pip", "git", "docker", "docker-compose", "kubectl", "helm"]
-    timeout_seconds: 60
+    allowed_commands: ["python", "pip", "git", "docker", "docker-compose"]
+    timeout_seconds: 30
     working_directory: "../../.."
 
 # Ресурсы (resources)
@@ -225,7 +225,7 @@ documentation:
     enabled: true
     path: "/docs"
     title: "Career Autopilot MCP Server API"
-    version: "1.0.0"
+    version: "2.0.0"
 
   examples:
     enabled: true
