@@ -28,14 +28,43 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 from src.common.async_helpers import fetch_with_timeout
 from src.common.health_check import init_health_checks
 
-from ..core.orchestrator import run_core_agent
-from .apps.cognitive_agent.job_search import search_hh_ru
+# ИМПОРТИРУЕМ ЧЕРЕЗ ИНТЕРФЕЙС, а не напрямую!
+# Это архитектурное решение: зависимости внедряются, а не импортируются жёстко.
+from src.interfaces.job_search import IJobSearch
+from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch
+
+
+# Внедрение зависимости (Dependency Injection)
+def get_job_search_provider() -> IJobSearch:
+    """
+    Получение провайдера поиска вакансий.
+
+    Возвращает:
+        Экземпляр, реализующий интерфейс IJobSearch.
+
+    Преимущество:
+        Можно легко заменить реализацию без изменения кода этого модуля.
+        Например: CognitiveJobSearch -> HHruJobSearch -> LinkedInJobSearch
+    """
+    base_url = os.getenv("COGNITIVE_AGENT_URL", "http://cognitive-agent:8006")
+    return CognitiveJobSearch(base_url=base_url)
 
 
 app = FastAPI(title="Job Automation Agent API", version="0.1.0")
 
 # Инициализируем health-check
 init_health_checks(app, service_name="job-automation-agent", version="0.1.0")
+
+# Инициализация провайдера поиска (можно также лениво инициализировать в каждом запросе)
+_job_search_provider: IJobSearch | None = None
+
+
+def get_search_provider() -> IJobSearch:
+    """Ленивая инициализация провайдера поиска."""
+    global _job_search_provider
+    if _job_search_provider is None:
+        _job_search_provider = get_job_search_provider()
+    return _job_search_provider
 
 
 class AgentTask(BaseModel):
@@ -46,14 +75,15 @@ class AgentTask(BaseModel):
 @app.get("/")
 async def root():
     return {
-        "message": "Job Automation Agent running. Core + Search/Resume ready.",
+        "message": "Job Automation Agent running. Core + Search/Resume ready via Dependency Injection.",
         "version": "0.1.0",
+        "architecture": "Dependency Injection (IJobSearch interface)",
         "endpoints": {
             "GET /health": "Health check",
             "GET /ready": "Readiness probe",
             "GET /live": "Liveness probe",
             "POST /core/run": "Execute core agent",
-            "GET /jobs/search/{query}": "Search jobs",
+            "GET /jobs/search/{query}": "Search jobs (via IJobSearch interface)",
             "POST /resume/generate": "Generate resume",
         },
     }
@@ -68,9 +98,17 @@ async def execute_agent(task: AgentTask):
 
 @app.get("/jobs/search/{query}")
 async def search_jobs(query: str):
-    """Job Search Agent endpoint."""
-    vacancies = await search_hh_ru(query)
-    return {"vacancies": vacancies}
+    """
+    Поиск вакансий через интерфейс IJobSearch.
+
+    Архитектурное преимущество:
+    - job_automation_agent НЕ зависит от реализации cognitive_agent
+    - Можно заменить CognitiveJobSearch на HHruJobSearch без изменения этого кода
+    - Тестируется через mock IJobSearch
+    """
+    search_provider = get_search_provider()
+    vacancies = await search_provider.search(query)
+    return {"vacancies": vacancies, "source": "IJobSearch interface"}
 
 
 @app.post("/resume/generate")
@@ -78,6 +116,12 @@ async def gen_resume(job: dict[str, str]):
     """Resume Agent."""
     # Stub profile from career DB (integrate later)
     profile = {"skills": ["Python", "FastAPI", "PostgreSQL"], "name": "Architect"}
+
+    # TODO: Вынести генерацию резюме в отдельный сервис или использовать интерфейс
+    # from src.interfaces.resume_generator import IResumeGenerator
+    # resume_generator = get_resume_generator()
+    # resume_md = await resume_generator.generate(profile, job)
+
     from .apps.cognitive_agent.resume import generate_resume
 
     resume_md = await generate_resume(profile, job)

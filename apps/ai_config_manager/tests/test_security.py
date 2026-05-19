@@ -2,7 +2,7 @@
 Тесты для модуля безопасности (маскирование секретов).
 """
 
-from src.security import mask_dict, mask_sensitive, mask_string
+from ai_config_manager.security import mask_dict, mask_sensitive, mask_string
 
 
 class TestSecretMasking:
