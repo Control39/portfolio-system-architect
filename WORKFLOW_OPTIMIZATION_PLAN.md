@@ -52,7 +52,29 @@
 
 ---
 
-## 📋 **План действий**
+## 🔐 **Настройка Mirror на SourceCraft**
+
+### Шаг 0: Настройка SSH-ключа
+1. **Создать SSH-ключ** (если нет):
+   ```powershell
+   ssh-keygen -t ed25519 -C "github-actions@portfolio-system-architect"
+   ```
+
+2. **Добавить в GitHub Secrets**:
+   - Зайдите: `GitHub → Settings → Secrets and variables → Actions`
+   - Создайте секрет: `SOURCECRAFT_SSH_KEY`
+   - Вставьте содержимое **приватного** ключа (`id_ed25519`)
+
+3. **Добавить публичный ключ в SourceCraft**:
+   - Зайдите в панель SourceCraft
+   - Настройки → SSH Keys → Добавить публичный ключ (`id_ed25519.pub`)
+
+4. **Проверить подключение**:
+   ```powershell
+   # Локально (для теста):
+   ssh-add ~/.ssh/id_ed25519
+   ssh -T ssh.sourcecraft.dev
+   ```
 
 ### Шаг 1: Удалить 9 очевидных дубликатов
 ```powershell
@@ -125,10 +147,36 @@ git diff .github/workflows/deploy-dashboard.yml .github/workflows/update-metrics
 
 | До оптимизации | После оптимизации |
 |----------------|-------------------|
-| 27 workflow | 10 workflow |
-| 4 disabled | 0 disabled |
-| 2 mirror workflow | 1 mirror workflow |
+| 27 workflow | 13 активных + 14 в archive |
+| 4 disabled | 0 disabled (все в archive) |
+| 2 mirror workflow | 1 mirror workflow (упрощён) |
 | ~500 строк YAML | ~250 строк YAML |
+| Нет SSH-ключа в Secrets | ✅ Настроен SOURCECRAFT_SSH_KEY |
+
+---
+
+## ✅ **Выполнено (на 19 мая 2026)**
+
+- [x] Создан `mirror-to-sourcecraft.yml` (простой, без лишних шагов)
+- [x] Перемещено 14 workflow в `.github/workflows/archive/`
+- [x] Настроен `.gitignore` для SSH-ключей
+- [x] Создан `WORKFLOW_OPTIMIZATION_PLAN.md` с инструкциями
+- [x] **SSH-ключ добавлен в GitHub Secrets** (`SOURCECRAFT_SSH_KEY`)
+
+---
+
+## 🚀 **Следующие шаги**
+
+1. **Протестировать mirror**:
+   - Зайдите на GitHub → Actions → "Mirror to SourceCraft"
+   - Нажмите "Run workflow" (branch: main)
+   - Проверьте логи
+
+2. **Проверить дубликаты**:
+   - `deploy-dashboard.yml` vs `update-metrics.yml` vs `update.yml`
+   - Решить, какие оставить
+
+3. **Опционально**: Упростить `cognitive-agent-ci.yml` (если не нужны schedule/monitor-quotas)
 
 ---
 

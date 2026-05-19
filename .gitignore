@@ -68,6 +68,20 @@ test_db/
 # Generated files
 *.tmp
 
+# SSH keys (никогда не коммитить!)
+*.pem
+*.key
+*.p12
+*.ppk
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.pub
+ssh_host_*
+known_hosts
+authorized_keys
+
 # Scan reports
 apps/cognitive-agent/reports/
 
