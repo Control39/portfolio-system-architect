@@ -44,7 +44,7 @@ jobs:
             --format html
 
       - name: Upload reports as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: architecture-reports
           path: docs/archive/reports/

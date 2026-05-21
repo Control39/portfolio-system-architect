@@ -105,7 +105,7 @@ jobs:
           SOURCECRAFT_QUOTA_SAVING: true
 
       - name: Upload scan report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: scan-report
           path: apps/cognitive-agent/reports/ci-scan-report.json
@@ -139,7 +139,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload quota report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: quota-report
           path: apps/cognitive-agent/reports/quota-report.json
