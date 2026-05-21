@@ -45,7 +45,7 @@ jobs:
 
       - name: Enable auto-merge (squash)
         if: steps.check.outcome == 'success'
-        uses: pascalgn/automerge-action@v0.16.0
+        uses: pascalgn/automerge-action@v0.16.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_METHOD: squash
