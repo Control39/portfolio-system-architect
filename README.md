@@ -1,15 +1,9 @@
 # 🧠 Cognitive Architecture: Systems for Thinking
 
-> **Это не портфолио. Это производственная система, доказывающая архитектурное мышление.**
+> **Это не портфолио. Это архитектурное доказательство трансформации: от нуля в IT до production-grade экосистемы за 2 года.**
 
-**Два года назад** — никакого IT-образования, никакой карьерной определённости.  
-**Сегодня** — экосистема из **18+ микросервисов**, спроектированная по принципу **«Атомов и Молекул»**, с **0 уязвимостей**, **85% покрытием тестами**, **Kubernetes-оркестрацией** и **полным CI/CD пайплайном**.
-
-Это не «я изучал Docker». Это **Docker Compose + K8s манифесты**, которые работают.  
-Это не «я понимаю безопасность». Это **Trivy + Bandit + Sealed Secrets** в продакшене.  
-Это не «я знаю про микросервисы». Это **18 сервисов со слабой связанностью (Loose Coupling)**, каждый из которых — **исполняемое доказательство компетенции**.
-
----
+*Compositional Architecture в действии. Построено в коллаборации с ИИ-агентами.*  
+**Быстрые цифры:** 18 сервисов • 610+ тестов • 0 уязвимостей • 2 года от нуля до production.
 
 <div align="center">
 
@@ -17,236 +11,287 @@
 ![Services](https://img.shields.io/badge/Services-18-green?style=flat-square&logo=serverless)
 ![Test Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-success?style=flat-square&logo=security)
+![Last Updated](https://img.shields.io/github/last-commit/Control39/portfolio-system-architect/main?label=Last%20Updated&style=flat-square)
 ![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github-actions&label=CI%2FCD)
 ![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?color=blue&logo=mit)
 
-**Катя (Control39) — Cognitive Systems Architect**  
+**Катя (Control39) — Cognitive Architect**  
 *Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
 
-[GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru) · [Telegram](https://t.me/koda_dev)
+[GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru) · [Issues](https://github.com/Control39/portfolio-system-architect/issues)
 
 </div>
 
 ---
 
-## 🏗️ Архитектура: Атомы и Молекулы (Compositional Architecture)
+## 🎯 Что это такое и почему это уникально
 
-**Это не стандартная микросервисная архитектура.** Это двухуровневая система, где:
+Это **не коллекция микросервисов**. Это **композиционная архитектура** на принципе **«Атомов и Молекул»**: переиспользуемые компоненты в `src/shared/`, `src/core/`, `src/security/` — **Атомы** — собираются в независимые сервисы `apps/` — **Молекулы** — каждая под свою задачу. Они общаются через **слабую связанность (Loose Coupling)**, не зная внутреннего устройства друг друга. Сервис может выглядеть минималистичным, потому что вся сложная логика живёт в Атомах. Это **фича**, а не баг.
 
-| Уровень | Где | Что | Пример |
-|---------|-----|-----|--------|
-| **🧬 Атомы** | `src/shared/`, `src/core/`, `src/security/` | Неделимые переиспользуемые компоненты | `secret_masking.py` (безопасность), `health_check.py` (наблюдаемость) |
-| **🧪 Молекулы** | `apps/*/` | Сервисы, собранные из атомов под конкретную задачу | `job-automation-agent` = атом безопасности + атом методологии + парсер HH.ru |
+**Кто я в IT?** Этот вопрос не давал мне покоя, пока я не создала **IT-Compass** — методологию объективных маркеров компетенций (83 маркера в 19 доменах), которая превращает субъективный опыт в измеримые данные. Но методология без практики — это просто таблица. Поэтому каждый сервис в этой экосистеме — это ответ на конкретную проблему, с которой я столкнулась на пути к ответу:
 
-### Почему это важно для работодателя
+- `job-automation-agent` → «Как искать работу без опыта?»
+- `thought-architecture` → «Как я вообще мыслю?»
+- `career-development` → «Куда расти дальше?»
+- `portfolio-organizer` → «Как доказать, что я умею, не просто сказав об этом?»
 
-✅ **Слабая связанность (Loose Coupling)** — сервисы общаются через HTTP API, а не прямые импорты. Можно удалить/заменить любой сервис без поломки системы.
+**Что это доказывает работодателю:** не заявления о навыках, а **система доказательств**:
+- 🔒 **0 критических уязвимостей** (Trivy + Bandit + CodeQL)
+- 🧪 **85%+ покрытие тестами** (610+ тестов, 98% проходят)
+- 🔄 **Полный CI/CD** + pre-commit hooks
+- 📊 **Production monitoring** (Prometheus + Grafana)
+- 🚀 **Kubernetes-ready** деплой (52 манифеста, GitOps)
 
-✅ **Масштабируемость** — каждый сервис — отдельный Docker-контейнер. Можно масштабировать горизонтально (K8s HPA уже настроен для 7 сервисов).
-
-✅ **Доказательная база** — каждый атом = маркер компетенции. Каждый сервис = решённая реальная проблема (не теоретический exercise).
-
-### Уникальный подход: Архитектура как автобиография
-
-Каждая молекула — это ответ на личную проблему, с которой я столкнулась на пути в IT:
-
-- **job-automation-agent** → «Как искать работу в IT без опыта?» → Теперь знаю
-- **thought-architecture** → «Как понять собственное мышление?» → Теперь понимаю
-- **career-development** → «Куда расти дальше?» → Теперь знаю
-
-**Это не код ради кода.** Это архитектурное портфолио, где каждая строка — след от реального вызова.
+Каждый компонент этой системы — одновременно работающий код и **объективный маркер компетенции**: проверяемый артефакт владения конкретной областью, от DevSecOps до проектирования распределённых систем. Это подтверждение уровня мышления **Senior/Architect**, зафиксированное не в резюме, а в репозитории.
 
 ---
 
-## 🎯 Что вы видите на самом деле
+## 💡 Инновация: Объективные маркеры компетенций
 
-### ❌ Это НЕ:
-- Учебный проект «научился Docker — сделал todo-list»
-- Коллекция скриптов без архитектуры
-- Портфолио «я делал вот это» без доказательств
-- Теория без реализации
+**Традиционный подход:**
+> «Расскажите о вашем опыте с Docker»  
+> *Ответ: «Я знаю Docker»*
 
-### ✅ Это:
-- **Production-ready система** — 18 сервисов, Docker Compose, K8s, Prometheus/Grafana, CI/CD
-- **Исполняемые доказательства** — не «я умею», а вот система, которая доказывает
-- **Архитектурное мышление уровня Senior** — не на словах, а в коде (ADR, Loose Coupling, Observability)
-- **Методология, а не код** — IT-Compass (83 маркера в 19 доменах) — можно адаптировать для любой организации
+**Мой подход:**
+> «Покажите, что вы реально сделали»  
+> *Ответ: «Создала Dockerfile для Python-приложения, отладила сеть в docker-compose, задеплоила на staging»*
+
+**Это маркер.** Объективный, проверяемый, не требует лет опыта.
+
+📖 Методология: [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md)
 
 ---
 
-## 📦 18 Микросервисов (все production-ready)
+## 🏗️ Обзор архитектуры
 
-| Сервис | Статус | Покрытие | Что решает |
-|--------|--------|----------|------------|
-| **ai-config-manager** | 🟢 Core | ~90% | Централизованная конфигурация (hot reload, singleton, fallback) |
-| **auth-service** | 🟢 Ready | ~95% | JWT аутентификация (безопасность по умолчанию) |
-| **career-development** | 🟢 Ready | 80.47% | Трекинг компетенций (визуализация роста) |
-| **cognitive-agent** | 🟢 Core | ~85% | Автономный ИИ-агент (предугадывает потребности) |
-| **decision-engine** | 🟢 Ready | ~85% | AI Reasoning с RAG (объяснимые решения) |
-| **infra-orchestrator** | 🟢 Ready | ~75% | Оркестрация сервисов (Python/FastAPI вместо PowerShell) |
-| **it-compass** | 🟢 Ready | ~85% | Методология IT-компетенций (83 маркера) |
-| **job-automation-agent** | 🟢 Ready | ~80% | Автоматизация поиска работы (парсер HH.ru) |
-| **knowledge-graph** | 🟢 Ready | ~75% | Граф знаний (сущности/отношения/запросы) |
-| **mcp-server** | 🟡 WIP | 46.68% | Model Context Protocol (интеграция агентов) |
-| **ml-model-registry** | 🟢 Ready | ~90% | Регистр ML-моделей (версионирование, A/B тестирование) |
-| **portfolio-organizer** | 🟢 Ready | 92.24% | Автоматический сбор доказательств компетенций |
-| **system-proof** | 🟢 Ready | ~75% | Валидация производственной готовности |
-| **thought-architecture** | 🟢 Ready | ~75% | Управление ADR + паттерны мышления |
-| **template-service** | 🟢 Ready | 100% | Шаблон для создания новых сервисов (2 секунды на сервис) |
-| **client/** | 🟢 Active | ~85% | Frontend (React 19 + TS + Vite) |
-| **chat_backend** | 🟢 Ready | ~85% | Backend API (FastAPI + WebSocket) |
-| **monitoring/** | 🟢 Active | — | Prometheus + Grafana + AlertManager |
+### Ключевые принципы
 
-> **🎉 18/18 сервисов (100%) соответствуют стандарту структуры** (main.py, README.md, Dockerfile, tests/)  
-> **🎉 11 из 18 сервисов имеют ≥80% покрытие тестами!**  
+| Принцип | Реализация | Бизнес-ценность |
+|---------|------------|----------------|
+| **Слабая связанность (Loose Coupling)** | Сервисы общаются через API/конфиги, а не прямые импорты | Изменения в одном сервисе не ломают другие; быстрее итерации |
+| **Атомы → Молекулы** | Переиспользуемые компоненты (`src/shared/`) собираются в сервисы (`apps/*`) | Ускоренная разработка, консистентное качество, проще онбординг |
+| **Документация как код** | ADR, runbooks, самодокументирующиеся сервисы | 0 расхождений между кодом и доками |
+| **Безопасность по умолчанию** | Trivy, Bandit, CodeQL в CI/CD | 0 критических уязвимостей |
+| **ИИ как соисполнитель** | MCP, RAG-пайплайны, промпт-инжиниринг | 15+ сервисов построено в коллаборации с ИИ |
+
+### Основные компоненты (18 сервисов)
+
+Все сервисы соответствуют **100% стандарту структуры** (main.py, README.md, Dockerfile, tests/).
+
+| Сервис | Статус | Покрытие | Описание |
+|--------|--------|----------|----------|
+| **client/** | 🟢 Active | ~85% | **Frontend** (React 19 + TS) для чата с ИИ |
+| **ai-config-manager** | 🟢 Core | ~90% | Централизованный менеджер конфигурации |
+| **auth-service** | 🟢 Ready | ~95% | JWT-аутентификация |
+| **career-development** | 🟢 Ready | 80.47% | Трекинг компетенций |
+| **cognitive-agent** | 🟢 Core | ~85% | Автономный ИИ-агент |
+| **decision-engine** | 🟢 Ready | ~85% | AI reasoning с RAG |
+| **infra-orchestrator** | 🟢 Ready | ~75% | Оркестрация сервисов (Python/FastAPI) |
+| **it-compass** | 🟢 Ready | ~85% | Методология IT-компетенций |
+| **job-automation-agent** | 🟢 Ready | ~80% | Автоматизация поиска работы |
+| **knowledge-graph** | 🟢 Ready | ~75% | Граф знаний (сущности/отношения) |
+| **mcp-server** | 🟡 WIP | 46.68% | MCP-сервер для ИИ-агентов |
+| **ml-model-registry** | 🟢 Ready | ~90% | Регистр ML-моделей |
+| **portfolio-organizer** | 🟢 Ready | 92.24% | Сбор доказательств |
+| **system-proof** | 🟢 Ready | ~75% | Валидация готовности |
+| **thought-architecture** | 🟢 Ready | ~75% | Архитектура решений (ADR) |
+
+> **🎉 18/18 сервисов (100%) соответствуют стандарту структуры!**  
+> **🎉 11 из 15 сервисов имеют ≥80% покрытие тестами!**  
 > **Всего тестов:** 610+ (98% прохождение, ~85% среднее покрытие).
 
 ---
 
-## 🔧 Технологический стек (Production-Grade)
+## 🛠️ Инструменты разработки
 
-| Категория | Технологии | Почему это важно |
-|-----------|------------|------------------|
-| **Язык** | Python 3.12+ | Типизация (Pydantic, MyPy), async/await |
-| **API** | FastAPI | Автоматическая валидация, Swagger UI из коробки |
-| **БД** | PostgreSQL 16, ChromaDB, Redis | Реляционные + векторные + кэш |
-| **Контейнеры** | Docker, Docker Compose | От ноутбука до staging/prod |
-| **Оркестрация** | Kubernetes (Kustomize), GitOps | HPA, NetworkPolicies, Sealed Secrets |
-| **Мониторинг** | Prometheus, Grafana, AlertManager | Метрики, дашборды, алерты |
-| **Безопасность** | Trivy, Bandit, Sealed Secrets | 0 уязвимостей, 152-ФЗ |
-| **CI/CD** | GitHub Actions | Автоматические тесты, lint, deploy |
-| **ИИ** | LangChain, RAG, LLM Agents | Yandex GPT, GigaChat (импортозамещение) |
+| Инструмент | Назначение | Документация |
+|------------|------------|--------------|
+| **Koda** | Интеграция с IDE, анализ кода | [docs/TOOLS.md](docs/TOOLS.md) |
+| **SourceCraft** | ИИ-агенты для автоматизации (17 скиллов) | [docs/TOOLS.md](docs/TOOLS.md) |
+| **Continue** | AI pair programming (VS Code) | [docs/TOOLS.md](docs/TOOLS.md) |
+| **MCP Server** | Оркестрация агентов, CI/CD | [docs/TOOLS.md](docs/TOOLS.md) |
 
----
+**Новые инструменты:**
+* **Генератор сервисов** — создание нового сервиса за 2 сек: `python scripts/create_service.py my-service --description="..."`
+* **Проверка структуры** — авто-валидация: `python scripts/check_service_structure.py`
+* **CI/CD проверки** — блокировка плохих PR в GitHub Actions
 
-## 📊 Ключевые метрики
-
-| Категория | Показатель | Значение | Статус |
-|-----------|------------|----------|--------|
-| **Разработка** | Микросервисов | 18 | ✅ |
-| | Покрытие тестами | 85% | ✅ (цель ≥80%) |
-| | Тестов | 610+ | ✅ |
-| | Генерация сервиса | 2 сек | ✅ |
-| **Безопасность** | Уязвимостей (pip-audit) | 0 | ✅ |
-| | Уязвимостей (Bandit) | 0 | ✅ |
-| | Trivy сканирование | Автоматически | ✅ |
-| **Инфраструктура** | Docker-образов | 16 | ✅ |
-| | K8s манифестов | 52 | ✅ |
-| | HPA-конфигураций | 7 | ✅ |
-| **Документация** | ADR-документов | 19 | ✅ |
-| | README (качество 6+/7) | 11/18 | ✅ |
-| | RUNBOOK | ✅ | ✅ |
+📖 Документация: [`docs/TOOLS.md`](docs/TOOLS.md), [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md)
 
 ---
 
 ## 🚀 Быстрый старт
 
-### Для разработчиков (5 минут)
+### Для новых разработчиков (5 мин)
 ```bash
-# 1. Клонировать
+# 1. Клонируйте репозиторий
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
 
-# 2. Запустить Frontend + Backend
-python apps/chat_backend/start_dev.py
+# 2. Настройте окружение IDE
+# Копируйте шаблон настроек (опционально):
+cp .vscode/settings-default.json .vscode/settings.json
 
+# 3. Запустите Frontend + Backend
+python apps/chat_backend/start_dev.py
 # Или вручную:
 # Терминал 1: cd client && npm run dev          # http://localhost:5173
 # Терминал 2: cd apps/chat_backend && python app.py  # http://localhost:8005
 ```
 
-### Для DevOps (Docker Compose)
+### Настройка IDE (VS Code)
+
+**Общие настройки** (в git, обязательны для всех):
+* Форматирование: Black (Python), Prettier (JS/TS)
+* Линтинг: Ruff, mypy
+* Тестирование: pytest с покрытием
+* PowerShell как терминал по умолчанию
+
+**Личные настройки** (игнорируются в git):
+* ИИ-ассистенты (Koda, Copilot, GigaCode)
+* Тема, шрифты, цвета
+* Горячие клавиши
+
+**Шаблон:** `.vscode/settings-default.json`  
+**Личное:** `.vscode/settings.json` (не коммитить)
+
+**Расширения:**
 ```bash
-# Запустить все сервисы
-docker-compose up -d
-
-# Проверить состояние
-docker-compose ps
-
-# Логи
-docker-compose logs -f
-```
-
-### Для грантовых комитетов (методология)
-```bash
-# Прочитать методологию IT-Compass
-cat docs/it-compass/METHODOLOGY.md
-
-# Изучить архитектуру
-cat docs/ARCHITECTURE.md
+# Рекомендуемые (установите вручную или через extensions.json)
+- ms-python.python
+- ms-python.black-formatter
+- ms-python.vscode-pylance
+- redhat.vscode-yaml
+- esbenp.prettier-vscode
 ```
 
 ---
 
-## 👔 Для кого этот проект
+### Для исследователей методологии (10 мин)
+```bash
+# Прочитайте методологию
+cat docs/it-compass/METHODOLOGY.md
 
-### **HR и Hiring Managers**
+# Изучите архитектуру
+cat docs/ARCHITECTURE.md
 
-**Что вы получаете:**
-- Не резюме с заявлениями, а **исполняемые доказательства**
-- Не «опыт 5 лет», а **архитектуру, которую можно проверить**
-- Не одиночного разработчика, а **системного архитектора**, способного заставить ИИ-команды работать
+# Посмотрите доказательства
+cat docs/it-compass/PROJECT_ANALYSIS.md
+```
 
-**Роли, на которые можно нанять:**
-- **AI Systems Architect** — проектирование интеграции ИИ-компонентов
-- **Technical Product Manager** — мост между продуктом и возможностями ИИ
-- **Solutions Architect** — интеграция ИИ в legacy-системы
-- **DevSecOps Lead** — автоматизация безопасности и CI/CD
+### Доступ к сервисам
 
-### **Российский корпоративный сектор (Yandex, Sber, Tinkoff, VTB)**
+| Сервис | URL | Описание |
+|--------|-----|----------|
+| **Frontend (Chat UI)** | http://localhost:5173 | React-приложение с чатом ИИ |
+| **Backend API** | http://localhost:5000/docs | Swagger UI для REST API |
+| **Auth Service** | http://localhost:8100/docs | JWT-аутентификация |
+| **IT-Compass UI** | http://localhost:8501 | Трекинг компетенций (Streamlit) |
+| **Grafana** | http://localhost:3000 | Мониторинг (admin/admin) |
 
-Проблемы, которые решает эта система:
-- **Legacy без документации** → ADR + RUNBOOK + автоматическая генерация
-- **Интеграция ИИ без архитектуры** → Готовый паттерн (атомы + молекулы)
-- **Знания заперты в головах** → Knowledge Graph + RAG Pipeline
-- **Найм на роли, которых нет** → Методология IT-Compass (объективные маркеры)
+---
 
-### **Грантовые комитеты (SourceCraft Open Source)**
+## 📜 Архитектурные решения (ADR)
 
-**Почему это qualifies:**
-- ✅ **Новая методология** — "Objective Competency Markers" не существует больше нигде
-- ✅ **Полностью документировано** — методология, архитектура, код, примеры
-- ✅ **Ценность для сообщества** — любая организация может адаптировать этот паттерн
-- ✅ **Работающая система** — не теория, а живой пример
-- ✅ **Open license** — CC BY-ND 4.0 (методология), MIT (код)
+| ADR | Описание |
+|-----|----------|
+| ADR‑001 | [Методология системного мышления](docs/architecture/decisions/ADR-001-system-thinking-methodology.md) |
+| ADR‑002 | [Интеграция компонентов в единую экосистему](docs/architecture/decisions/ADR-002-component-integration.md) |
+| ADR‑003 | [Архитектура системы версионирования ML-моделей](docs/architecture/decisions/ADR-003-ml-model-versioning-system.md) |
+| ADR‑007 | [Обоснование технологического стека](docs/architecture/decisions/ADR-007-technology-stack-justification.md) |
+| ADR‑015 | [Граница между `src/` и `apps/`](docs/architecture/decisions/ADR-015-monorepo-boundary.md) |
+| ADR‑016 | [Стандартизация документации](docs/architecture/decisions/ADR-016-standardize-documentation.md) |
+| ADR‑017 | [Покрытие MCP Server](docs/architecture/decisions/ADR-017-mcp-server-coverage-decision.md) |
+
+> **Зачем ADR?** Фиксирую **почему выбрано X, а не Y**. История решений для себя и команды.
+
+---
+
+## 🎯 Для кого этот проект
+
+### 👔 Для HR и нанимающих менеджеров
+
+**Роли для найма:**
+* **AI Systems Architect** — проектирование интеграции ИИ-компонентов
+* **Technical Product Manager** — мост между продуктом и возможностями ИИ
+* **Solutions Architect** — интеграция ИИ в legacy-системы
+* **Knowledge Architect** — превращение хаоса в поисковую интеллектуальную систему
+
+### 💼 Для российского корпоративного сектора
+
+Компании вроде **Yandex, Sberbank, Tinkoff, VTB, Krok, IBS, Lanit** сталкиваются с теми же проблемами:
+* Legacy-системы без документации
+* Интеграция ИИ без архитектурной строгости
+* Знания заперты в головах сотрудников
+* Найм на роли, которых официально ещё нет
+
+Эта система решает их все:
+* **Knowledge capture** — превращает Slack, заметки и разговоры в поисковую интеллектуальную систему
+* **AI orchestration** — интеграция с Yandex Cloud, Yandex GPT
+* **Compliance** — аудит-трейлы, логирование решений, управление
+* **Modernization** — как постепенно превращать хаос в систему
+
+### 🏆 Для грантовых комитетов (SourceCraft Open Source)
+
+**Почему это подходит:**
+* ✅ **Новая методология** — «Objective Competency Markers» не существует больше нигде
+* ✅ **Полностью документировано** — методология, архитектура, код, примеры
+* ✅ **Ценность для сообщества** — любая организация может адаптировать этот паттерн
+* ✅ **Работающая система** — не теория, а живой пример
+* ✅ **Открытая лицензия** — CC BY-ND 4.0 для методологии, MIT для кода
 
 📄 Детали гранта: [`docs/SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md)
 
 ---
 
-## 📚 Документация
+## 🎯 Что я ищу
 
-| Документ | Для кого | Описание |
-|----------|----------|----------|
-| [`docs/TOOLS.md`](docs/TOOLS.md) | Все | Инструменты (Koda, SourceCraft, Continue, MCP) |
-| [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md) | Разработчики | Создание сервиса за 2 сек |
-| [`docs/SERVICE_STRUCTURE_STANDARD.md`](docs/SERVICE_STRUCTURE_STANDARD.md) | Разработчики | Стандарт структуры (100% соответствие) |
-| [`ops/RUNBOOK.md`](ops/RUNBOOK.md) | Ops | Восстановление при сбоях |
-| [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md) | Все | Методология маркеров компетенций |
-| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Архитекторы | Детальная архитектура |
-| [`HIRING_BRIEF.md`](docs/HIRING_BRIEF.md) | HR | Детали для найма |
+* **Роль:** System Architect
+* **Тип задач:** Сложные распределённые системы, микросервисы, автоматизация
+* **Ценности:** Системное мышление, документация, автоматизация рутины, ИИ-усиление
+
+**Готова обсудить:**
+* Как автоматизация экономит 60% времени разработки
+* Как ИИ помогает принимать архитектурные решения (не заменяет)
+* Как создавать окружение, где код работает сам
 
 ---
 
 ## 🤝 Let's Connect
 
-- 📧 **Email:** [leadarchitect@yandex.ru](mailto:leadarchitect@yandex.ru)
-- 💼 **Telegram:** [@koda_dev](https://t.me/koda_dev)
+* 📧 **Email:** [leadarchitect@yandex.ru](mailto:leadarchitect@yandex.ru)
+* 🐙 **GitHub Issues:** [Обсуждения и вопросы](https://github.com/Control39/portfolio-system-architect/issues)
 
 ---
 
-<div align="center">
+## 📚 Дополнительная документация
 
-**Cognitive Architect × AI-Augmented Developer × DevSecOps Enthusiast**
+### Основные руководства
 
-*Это не портфолио. Это доказательство того, что:*
-- *хаос может стать системой*
-- *мышление — измеримым*
-- *ИИ — усилителем, а не заменой архитектора*
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`docs/TOOLS.md`](docs/TOOLS.md) | Все | Обзор инструментов (Koda, SourceCraft, Continue, MCP) |
+| [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md) | Разработчики | Как создавать новые сервисы за 2 сек |
+| [`docs/SERVICE_STRUCTURE_STANDARD.md`](docs/SERVICE_STRUCTURE_STANDARD.md) | Разработчики | Стандарт структуры сервиса (100% соответствие) |
+| [`docs/CI_CD_SERVICE_STRUCTURE.md`](docs/CI_CD_SERVICE_STRUCTURE.md) | DevOps | Настройка CI/CD |
+| [`ops/RUNBOOK.md`](ops/RUNBOOK.md) | Ops | Руководство по операциям и инцидентам |
 
-_Последнее обновление: 22 мая 2026 г._
+### Методология и архитектура
 
-</div>
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md) | Все | Методология объективных маркеров компетенций |
+| [`docs/TOOLS_INTEGRATION.md`](docs/TOOLS_INTEGRATION.md) | Архитекторы | Как инструменты работают вместе |
+| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
+
+### Для HR и работодателей
+
+| Документ | Для кого | Описание |
+|----------|----------|----------|
+| [`HIRING_BRIEF.md`](docs/HIRING_BRIEF.md) | HR, нанимающие менеджеры | Детали для найма |
+| [`SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) | Грантовые комитеты | Заявка на грант |
+| [`FOR-EMPLOYER.md`](docs/FOR-EMPLOYER.md) | Работодатели | Презентация проекта |
+| [`INTERVIEW-QA.md`](docs/INTERVIEW_QA.md) | Интервьюеры | Ответы на вопросы |
 
 ---
 
@@ -256,7 +301,22 @@ _Последнее обновление: 22 мая 2026 г._
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Control39&layout=compact&theme=tokyonight&hide_border=true" alt="Languages" />
 </p>
 
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Control39&theme=tokyonight&hide_border=true" alt="Streak" />
+</p>
+
 ---
 
-*License: Code — MIT, Methodology — CC BY-ND 4.0 (© Ekaterina Kudelya)*  
-*Готово к production, соответствует 152-ФЗ, использует российские ИИ-решения (GigaChat, Yandex GPT).*
+<div align="center">
+
+**Cognitive Architect × AI-Augmented Developer × DevSecOps Enthusiast**  
+*Это не портфолио. Это доказательство того, что хаос может стать системой, а мышление — измеримым.*
+
+</div>
+
+---
+
+*Лицензия: Код — MIT, Методология — CC BY-ND 4.0 (© Екатерина Куделя)*  
+*Production-ready, соответствует 152-ФЗ, использует российские ИИ-решения (GigaChat, Yandex GPT).*
+
+*Последнее обновление: май 2026*
