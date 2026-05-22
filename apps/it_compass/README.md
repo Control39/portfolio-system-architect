@@ -1,10 +1,21 @@
 # 🧭 IT-Compass: Methodological Core
 
-> **Статус:** 🟢 Production Ready  
-> **Версия:** 2.0.0  
-> **Запуск:** Streamlit UI (`localhost:8501`)  
-> **👤 Архитектор:** @Control39  
-> **📄 ADR:** [ADR-001: Выбор методологии системного мышления](../../docs/architecture/decisions/ADR-001-methodology.md)
+> **Методологическое ядро экосистемы. Источник истины о компетенциях.**
+
+*83 проверочных маркера в 19 IT-доменах. Превращает субъективный опыт в измеримые данные.*  
+**Быстрые цифры:** 83 маркера • 19 доменов • 46 тестов • 85% покрытие • 3 уровня (Junior/Middle/Senior)
+
+<div align="center">
+
+![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.0.0-blue?style=flat-square)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
+![Tests](https://img.shields.io/badge/Tests-46-blue?style=flat-square&logo=pytest)
+![License](https://img.shields.io/badge/License-CC%20BY--ND%204.0-lightgrey?style=flat-square)
+
+</div>
+
+**📄 ADR:** [ADR-001: Выбор методологии системного мышления](../../docs/architecture/decisions/ADR-001-methodology.md)
 
 ---
 
@@ -502,4 +513,8 @@ weights = settings.get('marker_weights', {})
 
 ---
 
-**Автор:** @Control39 | **Дата:** 19.05.2026 | **Лицензия:** CC BY-ND 4.0 (методология), MIT (код)
+**Автор:** [@Control39](https://github.com/Control39) · **Обсуждения:** [GitHub Issues](https://github.com/Control39/portfolio-system-architect/issues)
+
+*Это не просто трекер навыков. Это методология, которая доказывает: компетенции можно измерять объективно.*
+
+**Лицензия:** CC BY-ND 4.0 (методология), MIT (код) | **Дата:** 19.05.2026
