@@ -6,6 +6,7 @@ resources:
   - service.yaml
   - configmap.yaml
   - hpa.yaml
+  - network-policy.yaml
 commonLabels:
   app: system-proof
   tier: backend
