@@ -7,9 +7,9 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from python_server.chat_handlers import register_chat_handlers
-from python_server.chat_service.base import ClientConnectionContext
-from python_server.task_manager import ConnectionTaskManager
+from apps.chat_backend.chat_handlers import register_chat_handlers
+from apps.chat_backend.chat_service.base import ClientConnectionContext
+from apps.chat_backend.task_manager import ConnectionTaskManager
 
 
 @pytest.fixture

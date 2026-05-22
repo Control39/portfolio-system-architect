@@ -1,10 +1,11 @@
+from fastapi.testclient import TestClient
 from flask.testing import FlaskClient
 
 
 def test_readyz_endpoint_imports_app_and_returns_json():
     import importlib
 
-    appmod = importlib.import_module("python_server.app")
+    appmod = importlib.import_module("apps.chat_backend.app")
     client: FlaskClient = appmod.app.test_client()
     resp = client.get("/readyz")
     assert resp.status_code == 200

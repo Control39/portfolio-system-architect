@@ -7,7 +7,7 @@ import asyncio
 
 import pytest
 
-from python_server.task_manager import ConnectionTaskManager
+from apps.chat_backend.task_manager import ConnectionTaskManager
 
 
 @pytest.fixture

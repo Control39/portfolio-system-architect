@@ -31,4 +31,4 @@ Services:
 - Generated insights: 100+ cases
 - Auto-updates: Daily PS script
 
-[Add Prometheus/Grafana for prod telemetry]
+TODO: [Add Prometheus/Grafana for prod telemetry]

@@ -1,174 +1,251 @@
-# 🚀 Quick Start Guide - Cognitive Agent Fixed
+# 🚀 Быстрый старт
 
-## 🎯 TL;DR (в спешке?)
+**Цель:** Запустить всю систему за **5 минут**
 
-Агент был **сломан из-за циклических зависимостей при сканировании**.
+---
 
-### Быстрое исправление (уже сделано):
-```python
-# Было:
-for file_path in path.rglob("*"):  # ← БЕСКОНЕЧНАЯ РЕКУРСИЯ!
+## 📋 Предварительные требования
 
-# Стало:
-for file_path in self._safe_rglob(path, "*", max_depth=5):  # ✅ ОГРАНИЧЕНО
-    if count >= self.max_files_to_scan:  # ✅ ЛИМИТ НА ФАЙЛЫ
-        break
+- ✅ Docker Desktop (версия ≥ 20.10)
+- ✅ Python 3.10+ (для локальной разработки)
+- ✅ PowerShell 7+ (для Windows)
+
+---
+
+## ⚡ Запуск всей системы (2 минуты)
+
+### Шаг 1: Перейти в проект
+
+```powershell
+cd C:\repo
+```
+
+### Шаг 2: Запустить все сервисы
+
+```powershell
+docker compose up -d
+```
+
+**Что запустится:**
+- 14 микросервисов (AI Config Manager, IT Compass, MCP Server, и др.)
+- Prometheus + Grafana (мониторинг)
+- Traefik (reverse proxy)
+
+**Ожидание:** 2-3 минуты (первый запуск скачивает образы)
+
+---
+
+## ✅ Проверка работы
+
+### Проверить контейнеры:
+
+```powershell
+docker ps
+```
+
+**Ожидаемый результат:** 15+ контейнеров в статусе `Up`
+
+### Проверить health endpoints:
+
+```powershell
+# AI Config Manager
+curl http://localhost:8000/health
+
+# IT Compass
+curl http://localhost:8501/_stcore/health
+
+# MCP Server
+curl http://localhost:8002/health
+```
+
+**Ожидаемый результат:**
+```json
+{"status": "healthy", "service": "ai-config-manager"}
 ```
 
 ---
 
-## ✅ Проверить что всё работает (30 секунд)
+## 🌐 Доступ к интерфейсам
 
-```bash
-cd portfolio-system-architect
+| Сервис | URL | Логин/пароль |
+|--------|-----|--------------|
+| **Grafana** | http://localhost:3000 | admin/admin |
+| **Prometheus** | http://localhost:9090 | - |
+| **IT Compass** | http://localhost:8501 | - |
+| **AI Config Manager API** | http://localhost:8000/docs | - |
+| **MCP Server API** | http://localhost:8002/docs | - |
 
-# Проверка 1: Статус
-python apps/cognitive-agent/launch-script.py --status
-# Должно вывести JSON с "running": false
+---
 
-# Проверка 2: Сканировать проект
-python apps/cognitive-agent/scripts/scanner_main.py
-# Должно завершиться за ~1 сек
+## 🧪 Запуск тестов (локально)
 
-# Проверка 3: Запустить агент
-python apps/cognitive-agent/launch-script.py --mode minimal
-# Должно запуститься без ошибок
+### AI Config Manager:
+
+```powershell
+cd apps/ai_config_manager
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e ".[dev]"
+pytest tests/ -v --cov=src
+```
+
+**Ожидаемый результат:**
+```
+============================= 71 passed in 0.77s ==============================
+```
+
+### IT Compass:
+
+```powershell
+cd apps/it_compass
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e ".[dev]"
+pytest tests/ -v --cov=src
+```
+
+**Ожидаемый результат:**
+```
+============================= 50+ passed ==============================
 ```
 
 ---
 
-## 📁 Важные файлы
+## 📊 Мониторинг
 
-| Файл | Что это | Статус |
-|------|---------|--------|
-| `apps/cognitive-agent/scripts/scanner_main.py` | Сканер проекта | ✅ **ИСПРАВЛЕН** |
-| `apps/cognitive-agent/launch-script.py` | Запуск агента | ✅ Работает |
-| `apps/cognitive-agent/config/scanner.yaml` | Конфиг сканера | ✅ OK |
-| `AGENT_FIXES_REPORT.md` | Детальный отчёт | 📖 Прочитай это |
-| `AGENT_FIX_COMPLETE.md` | Финальный отчёт | 📖 Это тоже |
+### Запустить только мониторинг:
+
+```powershell
+docker compose -f docker-compose.monitoring.yml up -d
+```
+
+### Проверить Prometheus:
+
+```powershell
+# Открыть в браузере
+start http://localhost:9090
+
+# Проверить job'ы
+# http://localhost:9090/targets
+```
+
+**Ожидаемый результат:** 12 job'ов в статусе `UP`
 
 ---
 
-## 🔥 Что было исправлено (главное)
+## 🛑 Остановка
 
-### Проблема 1: Падение при логировании
-```
-❌ FileNotFoundError: logs/scanner.log
-```
-**Решение**: Создать папку перед инициализацией логирования
-```python
-LOG_DIR = Path("apps/cognitive-agent/logs")
-LOG_DIR.mkdir(parents=True, exist_ok=True)  # ← ДО логирования!
+### Остановить все контейнеры:
+
+```powershell
+docker compose down
 ```
 
-### Проблема 2: Переполнение памяти
-```
-❌ RecursionError или MemoryError
-```
-**Решение**: Ограничить глубину рекурсии
-```python
-def _safe_rglob(self, path, pattern, max_depth=5):  # ← ЛИМИТ!
-    if current_depth > max_depth:
-        return  # ← СТОП!
+### Остановить только мониторинг:
+
+```powershell
+docker compose -f docker-compose.monitoring.yml down
 ```
 
-### Проблема 3: Циклические ссылки
-```
-❌ Бесконечный обход из-за symlink'ов
-```
-**Решение**: Отслеживать посещённые пути
-```python
-self.visited_paths = set()
-if real_path in self.visited_paths:
-    continue  # ← ПРОПУСТИТЬ!
+### Удалить все контейнеры и тома:
+
+```powershell
+docker compose down -v
 ```
 
 ---
 
-## 📊 Результаты
+## 🔧 Локальная разработка
 
-| Метрика | Было | Стало |
-|---------|------|-------|
-| Время сканирования | ∞ (падает) | 0.58 сек |
-| Использование памяти | ∞ (overflow) | ~50 MB |
-| Логирование | ❌ Падает | ✅ Работает |
-| Отчёты | ❌ Не создаются | ✅ Создаются |
+### 1. Создать виртуальное окружение:
 
----
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-## 🎓 Что дальше?
+### 2. Установить зависимости:
 
-### Если всё работает:
-1. ✅ Поздравляю! Агент готов к использованию
-2. 📖 Прочитай подробные отчёты в `AGENT_FIXES_REPORT.md`
-3. 🚀 Начни разработку реальных компонентов
+```powershell
+pip install -r requirements-dev.txt
+```
 
-### Если что-то не работает:
-1. 🔍 Проверь логи: `cat apps/cognitive-agent/logs/scanner.log`
-2. 🐛 Опишись в которой строке ошибка
-3. 📋 Сравни с описанием в `AGENT_FIX_COMPLETE.md`
+### 3. Запустить сервис (пример: AI Config Manager):
 
----
+```powershell
+cd apps/ai_config_manager
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-## 💬 Вопросы и ответы
+### 4. Открыть Swagger:
 
-**Q: Почему агент был сломан?**
-A: Рекурсивное сканирование без ограничений вызывало бесконечный обход и переполнение памяти.
-
-**Q: Это постоянное решение?**
-A: Да, плюс добавлены ограничения и обработка ошибок. Агент теперь стабилен.
-
-**Q: Что дальше нужно делать?**
-A: Реализовать реальную логику компонентов (сейчас они заглушки).
-
-**Q: Где логи?**
-A: `apps/cognitive-agent/logs/` - там всё логируется.
-
-**Q: Как запустить в режиме полной автономии?**
-A: `python apps/cognitive-agent/launch-script.py --mode full`
-
----
-
-## 🏃 Команды для быстрого запуска
-
-```bash
-# Перейти в проект
-cd portfolio-system-architect
-
-# Просмотреть статус агента
-python apps/cognitive-agent/launch-script.py --status
-
-# Запустить сканирование
-python apps/cognitive-agent/scripts/scanner_main.py
-
-# Запустить агента в разных режимах
-python apps/cognitive-agent/launch-script.py --mode minimal
-python apps/cognitive-agent/launch-script.py --mode full
-
-# Просмотреть последние логи
-Get-Content apps/cognitive-agent/logs/scanner.log -Tail 30
-Get-Content apps/cognitive-agent/logs/agent_launch.log -Tail 30
-
-# Просмотреть последний отчёт
-Get-Content apps/cognitive-agent/reports/scans/*.json | ConvertFrom-Json
+```powershell
+start http://localhost:8000/docs
 ```
 
 ---
 
-## 📝 Файлы которые стоит прочитать
+## 🐛 Решение проблем
 
-1. **AGENT_FIX_COMPLETE.md** ← Начни с этого (7 мин)
-2. **AGENT_FIXES_REPORT.md** ← Потом это (15 мин)
-3. **CHECKLIST.md** ← И это (5 мин)
+### Проблема: Контейнеры не запускаются
+
+**Решение:**
+```powershell
+# Проверить логи
+docker compose logs
+
+# Очистить Docker
+docker compose down -v
+docker system prune -a
+
+# Перезапустить
+docker compose up -d --build
+```
+
+### Проблема: Порт занят
+
+**Решение:**
+```powershell
+# Найти процесс на порту 8000
+netstat -ano | findstr :8000
+
+# Убить процесс
+taskkill /PID <PID> /F
+```
 
 ---
 
-## 🎉 Итого
+## 📚 Следующие шаги
 
-✅ Агент исправлен и работает
-✅ Все компоненты инициализируются
-✅ Сканирование работает за <1 сек
-✅ Логирование функционирует
-✅ Готово к дальнейшему развитию
+### После запуска:
 
-**Статус: 🟢 READY**
+1. **Прочитать ASSETS.md** — список всех активов
+2. **Прочитать DEMO_GUIDE.md** — как показать работодателю
+3. **Прочитать DASHBOARD.md** — статус проекта
+4. **Открыть Grafana** — http://localhost:3000
+5. **Открыть IT Compass** — http://localhost:8501
+
+### Для углубления:
+
+- [Архитектура](./ARCHITECTURE.md)
+- [Методология IT Compass](./apps/it_compass/docs/METHODOLOGY.md)
+- [Мониторинг](./monitoring/README.md)
+- [Вклад в проект](./CONTRIBUTING.md)
+
+---
+
+## 🎯 Чеклист первого запуска
+
+- [ ] Docker Desktop запущен
+- [ ] `docker compose up -d` выполнился без ошибок
+- [ ] `docker ps` показывает 15+ контейнеров
+- [ ] Grafana доступна на http://localhost:3000
+- [ ] IT Compass доступен на http://localhost:8501
+- [ ] AI Config Manager API доступен на http://localhost:8000/docs
+- [ ] Пройдены тесты в AI Config Manager (71 тест)
+- [ ] Прочитан ASSETS.md
+- [ ] Прочитан DEMO_GUIDE.md
+
+---
+
+*Документ автоматически обновляется при изменении проекта.*

@@ -1,0 +1,11 @@
+schema_version: 1
+levels:
+  root:
+    required: [overview, architecture, getting-started, contributing, license]
+  group:
+    required: [scope, shared-tools, dependencies, setup]
+  project:
+    required: [description, install, usage, troubleshooting, links]
+rules:
+  inherit_context: true
+  agent_prompt: "Используй templates/{level}/README.md как каркас. Заполняй только отсутствующие required-секции."
