@@ -4,17 +4,19 @@
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
-![Services](https://img.shields.io/badge/Services-15-green?style=flat-square&logo=serverless)
-![Structure](https://img.shields.io/badge/Structure-100%25-brightgreen?style=flat-square&logo=standard)
-![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
-![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-red?style=flat-square&logo=security)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-Auto%20Check-blue?style=flat-square&logo=github-actions)
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![Services](https://img.shields.io/badge/Services-18-green?style=flat-square&logo=serverless)
+![Test Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
+![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-success?style=flat-square&logo=security)
+![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github-actions&label=CI%2FCD)
+![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?color=blue&logo=mit)
+![Issues](https://img.shields.io/github/issues/Control39/portfolio-system-architect?logo=github)
+![Stars](https://img.shields.io/github/stars/Control39/portfolio-system-architect?style=social&logo=github)
 
-**Катя (Control39) — Cognitive Architect**
+**Катя (Control39) — Cognitive Architect**  
 *Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
 
-[GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru)
+[GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru) · [Telegram](https://t.me/koda_dev)
 
 </div>
 
@@ -408,10 +410,40 @@ _Последнее обновление: 18 мая 2026 г._
 
 ---
 
-## 🔍 Теги и ключевые слова (SEO)
+## 📊 Project Metrics
 
-`Cognitive Architecture` `AI Systems` `Objective Competency Markers` `Python` `FastAPI` `Microservices` `Kubernetes` `Docker` `DevSecOps` `CI/CD` `LLM Agents` `RAG` `Vector Databases` `ChromaDB` `LangChain` `Model Context Protocol` `MCP` `Prometheus` `Grafana` `Testing` `Coverage` `Portfolio Management` `Career Development` `Knowledge Graph` `Architecture Decision Records` `ADR` `System Proof` `Production Readiness` `Yandex GPT` `Russian Tech`
+| Категория | Показатель | Значение | Статус |
+|-----------|------------|----------|--------|
+| **Разработка** | Микросервисов | 18 | ✅ |
+| | Покрытие тестами | 85% | ✅ (цель ≥80%) |
+| | Тестов | 610+ | ✅ |
+| | Соответствие стандарту | 100% (18/18) | ✅ |
+| **Безопасность** | Уязвимостей (pip-audit) | 0 | ✅ |
+| | Уязвимостей (Bandit) | 0 | ✅ |
+| | Trivy сканирование | Автоматически | ✅ |
+| **Инфраструктура** | Docker-образов | 16 | ✅ |
+| | Kubernetes манифестов | 52 | ✅ |
+| | HPA-конфигураций | 7 | ✅ |
+| | NetworkPolicies | 100% | ✅ |
+| **Документация** | ADR-документов | 19 | ✅ |
+| | README с высоким качеством | 11/15 | ✅ (6+/7) |
+| | RUNBOOK | ✅ | ✅ |
+| **Производительность** | Время генерации сервиса | 2 сек | ✅ |
+| | Auto-тестирование | GitHub Actions | ✅ |
+| | CI/CD pipeline | Full automation | ✅ |
+
+---
+
+## 🔍 SEO & Discovery
+
+**Ключевые слова для поиска:**
+
+`Cognitive Architecture` `AI Systems` `Objective Competency Markers` `Python` `FastAPI` `Microservices` `Kubernetes` `Docker` `DevSecOps` `CI/CD` `LLM Agents` `RAG` `Vector Databases` `ChromaDB` `LangChain` `Model Context Protocol` `MCP` `Prometheus` `Grafana` `Automated Testing` `Code Coverage` `Portfolio Management` `Career Development Platform` `Knowledge Graph` `Architecture Decision Records` `ADR` `System Proof` `Production Readiness` `Yandex GPT` `GigaChat` `Russian Tech` `Improtozameshchenie` `152-FZ Compliance` `AI Orchestration` `Decision Engine` `Config Manager` `Standalone Products`
+
+**Резервные теги (для альтернативных поисковиков):**
+`system-architect-portfolio` `ai-cognitive-system` `russian-developer` `microservices-python` `devsecops-automation` `knowledge-management` `career-tracking` `decision-support-system`
 
 ---
 
 *License: Code — MIT, Methodology — CC BY-ND 4.0 (© Ekaterina Kudelya)*
+*Готово к production, соответствует 152-ФЗ, использует российские ИИ-решения (GigaChat).*
