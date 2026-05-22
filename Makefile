@@ -165,3 +165,15 @@ security-report:
 	$(VENV_ACTIVATE) && pip-audit --format json > pip-audit-report.json 2>&1 || true
 	$(VENV_ACTIVATE) && bandit -r apps/ src/ -lll --format json --output bandit-report.json || true
 	@echo "✅ Reports generated: pip-audit-report.json, bandit-report.json"
+
+## Scan Docker images with Trivy (requires Trivy installed locally)
+trivy:
+	@echo "🔍 Scanning Docker images with Trivy..."
+	@which trivy > /dev/null 2>&1 || (echo "⚠️ Trivy not installed. Install from: https://aquasecurity.github.io/trivy/" && exit 1)
+	trivy image --severity CRITICAL,HIGH --ignore-unfixed $(shell docker-compose -f docker-compose.yml config | grep "image:" | awk '{print $2}' | sort -u) || echo "✅ Trivy scan completed"
+
+## Scan filesystem with Trivy
+trivy-fs:
+	@echo "🔍 Scanning filesystem with Trivy..."
+	@which trivy > /dev/null 2>&1 || (echo "⚠️ Trivy not installed. Install from: https://aquasecurity.github.io/trivy/" && exit 1)
+	trivy fs --severity CRITICAL,HIGH . || echo "✅ Trivy FS scan completed"
