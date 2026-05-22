@@ -1,6 +1,0 @@
-refactor: переместить python_server в apps/chat_backend (ADR-015)
-
-- Перемещено: python_server/ → apps/chat_backend (git mv)
-- Обновлено: docker-compose.python-server.yml (имя сервиса, пути)
-- Обновлено: README.md (диаграмма, инструкции по запуску)
-- Сохранена Git-история через git mv
