@@ -1,5 +1,0 @@
-chore: clean up temporary commit message files
-
-- Removed commit_msg.txt, commit_msg2-3, commit_msg15.txt
-- These were temporary files used during previous sessions
-- Keeping analyze_audit.py, run_audit.py, audit_results.json (tools)
