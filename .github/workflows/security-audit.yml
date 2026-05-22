@@ -1,0 +1,97 @@
+name: Security Audit
+
+on:
+  push:
+    paths:
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+      - 'apps/**/*.py'
+      - 'src/**/*.py'
+  pull_request:
+    paths:
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+      - 'apps/**/*.py'
+      - 'src/**/*.py'
+  schedule:
+    - cron: '0 0 * * 0'  # Еженедельно в воскресенье
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit bandit
+
+      - name: Run pip-audit (dependencies)
+        run: |
+          echo "🔍 Scanning Python dependencies for vulnerabilities..."
+          pip-audit --format json > pip-audit-report.json 2>&1 || true
+          
+          # Проверить наличие уязвимостей
+          if [ -f pip-audit-report.json ]; then
+            if grep -q '"vulnerability"' pip-audit-report.json; then
+              echo "⚠️ Vulnerabilities found in dependencies!"
+              cat pip-audit-report.json
+              exit 1
+            else
+              echo "✅ No vulnerabilities found in dependencies"
+            fi
+          fi
+
+      - name: Run bandit (static analysis)
+        run: |
+          echo "🔍 Running bandit static analysis..."
+          bandit -r apps/ src/ -lll --format json --output bandit-report.json || true
+          
+          # Проверить критические уязвимости
+          if [ -f bandit-report.json ]; then
+            high_count=$(python -c "import json; data=json.load(open('bandit-report.json')); print(len([r for r in data.get('results', []) if r.get('issue_severity') == 'HIGH']))")
+            if [ "$high_count" -gt 0 ]; then
+              echo "⚠️ $high_count HIGH severity issues found!"
+              exit 1
+            else
+              echo "✅ No HIGH severity issues found"
+            fi
+          fi
+
+      - name: Upload pip-audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pip-audit-report
+          path: pip-audit-report.json
+          retention-days: 30
+
+      - name: Upload bandit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          retention-days: 30
+
+      - name: Summary
+        run: |
+          echo "## Security Audit Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Security scan completed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tools used:**" >> $GITHUB_STEP_SUMMARY
+          echo "- pip-audit: Dependency vulnerability scanning" >> $GITHUB_STEP_SUMMARY
+          echo "- bandit: Static code analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Reports:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [pip-audit report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+          echo "- [bandit report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
