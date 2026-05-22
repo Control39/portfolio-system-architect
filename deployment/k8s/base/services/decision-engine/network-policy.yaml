@@ -1,0 +1,71 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: decision-engine-network-policy
+  labels:
+    app: decision-engine
+spec:
+  podSelector:
+    matchLabels:
+      app: decision-engine
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Разрешить входящие запросы из it-compass
+  - from:
+    - podSelector:
+        matchLabels:
+          app: it-compass
+    ports:
+    - protocol: TCP
+      port: 8001
+  # Разрешить входящие запросы из portfolio-organizer
+  - from:
+    - podSelector:
+        matchLabels:
+          app: portfolio-organizer
+    ports:
+    - protocol: TCP
+      port: 8001
+  # Health checks
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # DNS
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # PostgreSQL
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  # ChromaDB (векторная БД)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: chromadb
+    ports:
+    - protocol: TCP
+      port: 8000
+  # Redis (кэш)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
