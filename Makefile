@@ -136,3 +136,32 @@ giga-vscode:
 	@echo "Updating VS Code settings with GigaChat token..."
 	@cd .gigacode && python update_vscode_token.py
 	@echo "✅ Done! Restart VS Code: Ctrl+Shift+P → 'Developer: Reload Window'"
+
+# =============================================================================
+# SECURITY
+# =============================================================================
+
+.PHONY: security security-audit pip-audit bandit
+
+## Run full security audit (pip-audit + bandit)
+security: security-audit
+
+## Check Python dependencies for vulnerabilities
+pip-audit:
+	@echo "🔍 Scanning dependencies for vulnerabilities..."
+	$(VENV_ACTIVATE) && pip install -q pip-audit
+	$(VENV_ACTIVATE) && pip-audit pyproject.toml || $(VENV_ACTIVATE) && pip-audit requirements.txt || echo "⚠️ Check GitHub Dependabot for transitive vulnerabilities"
+
+## Static code analysis with bandit
+bandit:
+	@echo "🔍 Running bandit static analysis..."
+	$(VENV_ACTIVATE) && pip install -q bandit
+	$(VENV_ACTIVATE) && bandit -r apps/ src/ -lll
+
+## Generate security reports (JSON format)
+security-report:
+	@echo "📊 Generating security reports..."
+	$(VENV_ACTIVATE) && pip install -q pip-audit bandit
+	$(VENV_ACTIVATE) && pip-audit --format json > pip-audit-report.json 2>&1 || true
+	$(VENV_ACTIVATE) && bandit -r apps/ src/ -lll --format json --output bandit-report.json || true
+	@echo "✅ Reports generated: pip-audit-report.json, bandit-report.json"
