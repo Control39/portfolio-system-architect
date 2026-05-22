@@ -12,8 +12,8 @@ metadata:
     tier: data
 spec:
   accessModes:
-    - ReadWriteMany   # Requires storage class that supports RWX (e.g., NFS, Azure Files)
-  storageClassName: standard  # Adjust to your cluster's storage class
+    - ReadWriteOnce  # Changed from RWX to RWO for local testing
+  storageClassName: standard
   resources:
     requests:
-      storage: 10Gi   # Total size for all services
+      storage: 1Gi   # Reduced for local testing

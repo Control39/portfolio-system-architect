@@ -1,5 +1,0 @@
-docs: link TESTING_STRATEGY to ADR-017
-
-- Added link to ADR-017 in TESTING_STRATEGY.md
-- Moved detailed justification to ADR
-- Kept summary in TESTING_STRATEGY
