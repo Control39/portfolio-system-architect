@@ -35,12 +35,13 @@ Thumbs.db
 .obsidian/
 .continue/
 
-# GigaCode - игнорируем только секреты и кэш
+# GigaCode - игнорируем только секреты, кэш и планы
 .gigacode/*.env
 .gigacode/*.env.*
 .gigacode/.token_cache.json
 .gigacode/__pycache__/
 .gigacode/*.pyc
+.gigacode/plans/
 
 # Static and generated files
 python_server/static/
