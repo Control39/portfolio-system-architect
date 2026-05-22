@@ -1,23 +1,4 @@
 {
-  // ===  ИИ-ассистенты (приоритет Koda, отключение конфликтов) ===
-  "editor.inlineSuggest.enabled": true,
-  "editor.suggestOnTriggerCharacters": true,
-  "editor.tabCompletion": "on",
-  
-  // Koda: включаем как основной источник подсказок
-  "koda.inlineCompletion.enabled": true,
-  "koda.chat.enabled": true,
-  
-  // GigaCode: отключаем фоновую генерацию (причина лагов 20 мин)
-  "gigacode.inlineSuggestion.enabled": false,
-  "gigacode.indexing.enabled": false,
-  "gigacode.enableChat": true, // Оставляем только чат по запросу
-  
-  // Отключаем остальные AI, чтобы не было борьбы за `Tab`
-  "github.copilot.enable": { "*": false },
-  "continue.enableTabAutocomplete": false,
-
-  // === 🐍 Python & Монорепозиторий ===
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.analysis.extraPaths": [
     "./apps",
@@ -30,22 +11,20 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "ms-python.black-formatter",
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": ["tests/", "--cov=apps", "--cov=src"],
-
-  // === 💻 Терминал (PowerShell, чистый запуск) ===
+  "python.testing.pytestArgs": [
+    "tests/",
+    "--cov=apps",
+    "--cov=src"
+  ],
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.profiles.windows": {
     "PowerShell": {
       "source": "PowerShell",
-      "icon": "terminal-powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-NoLogo", "-NoProfile"]
+      "icon": "terminal-powershell"
     }
   },
   "terminal.integrated.shellIntegration.enabled": true,
-  "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.copyOnSelection": true,
-
-  // === ⚡ Производительность (критично для монорепы) ===
   "files.exclude": {
     "**/.git": true,
     "**/.venv": true,
@@ -67,14 +46,36 @@
   "editor.minimap.enabled": false,
   "workbench.editor.enablePreview": false,
   "workbench.editor.closeOnFileDelete": true,
-
-  // === 🔗 Git & Рабочий процесс ===
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
   "editor.wordWrap": "on",
-  "editor.rulers": [88, 120],
+  "editor.rulers": [
+    88,
+    120
+  ],
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000
+  "files.autoSaveDelay": 1000,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2
+  },
+  "gigacode.maxContextTokens": 2048,
+  "gigacode.enableWorkspaceContext": false,
+  "gigacode.agent.mode": "lightweight",
+  "gigacode.accessToken": "eyJjdHkiOiJqd3QiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.E_q7xb3FzO5MVkGTqmw88tS-Q64TwYwlPD6BGkjPpkpyCVSl1bXW-LPy9vuy4fPnHnnr8r7Yv9SRzeG6JfhrfXWDDe7Cz1PFr8hU1qePKUZ09zGa03REcfKh5HxjLBL50hfjc_V9CQ2VE1BscKSZxrIogxg4hx9B5X8hZtDqGVZf-Y2LCwTeD1359YkndlESiOGxZf-lxS7F3ay9ragtkvHdoFss6RnB-FShBEaGAtgKqm_w8W05ewTN6-s_DdZWkmp1mIg05eIGApiEwxcukOXmZJ7IPlHc01NUhCJPw8r-u2PMTGCj-q9X5Qe8BVqa50rhnXxVD-zxuSLYPn33NA.d_2B4aDEfrvGF1xVIjf83w.2UPgFPPhv3O_TNB3pYNNDHnJuJa6EmsT0x1d5hmwaLNF7mIbcOtG0kaN_5VJVhj5PTYOl8I12f-h7zEgIHUvdse08SifLudt2asDu6MWt94LohRflBep0T4yaiV6D7J3fq9zRela4objw-z5EPhQaS_PG9aO4FMvEbb5eBzhfS4md1MQT_9rSiLQ0xr_LBOua96HlfzL_BgQM5wfjK6y2sOEEhDPil6cFRPdN67L8j2md0Qm9fJV5LWhwvx5hLYkZuJgRqWlHsnROb22ori1vdKtKYpV8AgeKlbDvrlCyDT-6czn04J1eKT3KrVX1Kg1kQ-5OPSVJ7NpNkKRSgX0mmKsqD4tHZ3ufjxf40aD4lPaYUxbWs2s8JVNVx7Ty-oGyZMOAW_wyMJs_nEYz3wWioTUY-0FFVD3Klt83TRI-eggtMeTWy41vtFCGkzRRNZKmevbMEbXk8ZqOG09hGqg60Mf1CE2lPkF-9fD4Sci0Iz0TN8Lo1TwkbDgEaFoXJjmndkKMmWrAu2mpZBVjBmYSoiw4LOUWUXZk6WBYUH35MBY5QrS7Mv1jM4QNeI4EeCxxFfdsjJEuGXrWWbkXA-ryeTcp5TxihcvcUCAFkW0MDFGo9imVuBgGh_F3-do9NZ5Vh7J90Uj2R2TTM4Q5fsFsicuHr9F3U-heSP_NtT5VAV0g_ur5WpHm5VpssExdYwZ5cD_2i_Uk1buyH1hp-uvHobIsH9HZc34uBU9vfMSU1k.jqX_lmk7Vge9v-WrCVmUeALsYkNKiIIwZuCLT__dMPY",
+  "makefile.configureOnOpen": false,
+  "cSpell.words": [
+    "webpubsub"
+  ]
 }

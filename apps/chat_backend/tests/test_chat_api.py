@@ -8,6 +8,7 @@ Chat API feature tests consolidated:
 import asyncio
 
 import pytest
+from fastapi.testclient import TestClient
 from flask import Flask
 
 from ..core.chat_api import create_chat_api_blueprint

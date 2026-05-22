@@ -7,8 +7,8 @@ from datetime import datetime
 
 import pytest
 
-from python_server.config import DEFAULT_ROOM_ID
-from python_server.core.room_store.memory import InMemoryRoomStore
+from apps.chat_backend.config import DEFAULT_ROOM_ID
+from apps.chat_backend.core.room_store.memory import InMemoryRoomStore
 
 
 @pytest.fixture

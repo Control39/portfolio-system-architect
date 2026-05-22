@@ -39,4 +39,4 @@
 
 *Log updated iteratively. Each shows: I set goals, evaluated AI output critically, chose based on real constraints. AI = orchestra; I = conductor.*
 
-*Timeline: Zero IT (2023) → This ecosystem (2026). Proof against skeptics.*
+*Timeline: Zero IT (2024 → This ecosystem (2026). Proof against skeptics.*

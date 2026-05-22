@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from python_server.core import model_config
+from apps.chat_backend.core import model_config
 
 
 def test_resolve_model_config_uses_env_defaults_when_config_missing(

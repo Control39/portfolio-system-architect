@@ -51,6 +51,26 @@ $Colors = @{
     Info    = 'Cyan'
 }
 
+# ============================================================================
+# ИМПОРТ МОДУЛЕЙ ОРКЕСТРАЦИИ (опционально)
+# ============================================================================
+$OrchestrationModulesPath = Join-Path $PSScriptRoot "tools\orchestration\powershell\modules"
+if (Test-Path $OrchestrationModulesPath) {
+    Write-Verbose "Загрузка модулей оркестрации из: $OrchestrationModulesPath"
+    Get-ChildItem -Path $OrchestrationModulesPath -Filter "*.psm1" | ForEach-Object {
+        try {
+            Import-Module $_.FullName -Force -ErrorAction Stop
+            Write-Verbose "  ✓ Импорт: $($_.Name)"
+        }
+        catch {
+            Write-Warning "  ⚠ Ошибка импорта модуля $($_.Name): $_"
+        }
+    }
+}
+else {
+    Write-Verbose "Модули оркестрации не найдены (опционально)"
+}
+
 function Write-Section { param([string]$Text) Write-Host "`n$Text`n" -ForegroundColor $Colors.Info }
 function Write-Success { param([string]$Text) Write-Host "✅ $Text" -ForegroundColor $Colors.Success }
 function Write-Warn    { param([string]$Text) Write-Host "⚠️  $Text" -ForegroundColor $Colors.Warning }

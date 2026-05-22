@@ -3,6 +3,7 @@ Integration tests for room metadata system with Flask application.
 """
 
 import pytest
+from fastapi.testclient import TestClient
 from flask import Flask
 
 from ..core.chat_api import create_chat_api_blueprint
