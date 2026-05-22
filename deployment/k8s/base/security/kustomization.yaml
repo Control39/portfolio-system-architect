@@ -1,0 +1,16 @@
+# Security Kustomization
+# Includes RBAC, cert-manager, and service-specific network policies
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+resources:
+  - rbac.yaml
+  - cert-manager.yaml
+  - service-network-policies.yaml
+
+commonLabels:
+  component: security
+  managed-by: kustomize

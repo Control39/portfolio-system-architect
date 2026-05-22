@@ -1,0 +1,343 @@
+# Service-specific Network Policies
+# Implements micro-segmentation for each microservice
+# Works on: GKE v1.27+ (network policies enabled), Kind, Minikube
+
+---
+# decision-engine: Only accept requests from IT-Compass and Portfolio-Organizer
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: decision-engine-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: decision-engine
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: it-compass
+    - podSelector:
+        matchLabels:
+          app: portfolio-organizer
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow connection to PostgreSQL
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+
+---
+# it-compass: Only accept requests from Traefik (ingress)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: it-compass-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: it-compass
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8501
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow connection to decision-engine
+  - to:
+    - podSelector:
+        matchLabels:
+          app: decision-engine
+    ports:
+    - protocol: TCP
+      port: 8001
+
+---
+# portfolio-organizer: Accept from Traefik, communicate with decision-engine and system-proof
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: portfolio-organizer-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: portfolio-organizer
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow connection to decision-engine
+  - to:
+    - podSelector:
+        matchLabels:
+          app: decision-engine
+    ports:
+    - protocol: TCP
+      port: 8001
+  # Allow connection to system-proof
+  - to:
+    - podSelector:
+        matchLabels:
+          app: system-proof
+    ports:
+    - protocol: TCP
+      port: 8001
+
+---
+# system-proof: Only accept from portfolio-organizer, no outbound except DNS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: system-proof-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: system-proof
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: portfolio-organizer
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+# auth-service: Accept from all services, communicate with PostgreSQL
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: auth-service-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: auth-service
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector: {}  # All services in namespace
+    ports:
+    - protocol: TCP
+      port: 8100
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow connection to PostgreSQL
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+
+---
+# ml-model-registry: Accept from Traefik, no outbound except DNS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ml-model-registry-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: ml-model-registry
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+# career-development: Accept from Traefik, communicate with decision-engine
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: career-development-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: career-development
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8001
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow connection to decision-engine
+  - to:
+    - podSelector:
+        matchLabels:
+          app: decision-engine
+    ports:
+    - protocol: TCP
+      port: 8001
+
+---
+# postgres: Only accept from backend services on port 5432
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres-network-policy
+  namespace: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: auth-service
+    - podSelector:
+        matchLabels:
+          app: decision-engine
+    ports:
+    - protocol: TCP
+      port: 5432
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow replication (if using replica)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432

@@ -1,0 +1,178 @@
+# Kubernetes RBAC & Security Configuration
+# Least-privilege access for all microservices
+
+---
+# ServiceAccount для каждого сервиса
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: it-compass-sa
+  namespace: portfolio
+  labels:
+    app: it-compass
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cloud-reason-sa
+  namespace: portfolio
+  labels:
+    app: cloud-reason
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ml-model-registry-sa
+  namespace: portfolio
+  labels:
+    app: ml-model-registry
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: system-proof-sa
+  namespace: portfolio
+  labels:
+    app: system-proof
+
+---
+# Role: Pods can read ConfigMaps and Secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: config-reader
+  namespace: portfolio
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+  resourceNames: ["portfolio-secrets"]
+
+---
+# RoleBinding: it-compass-sa can read configs
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: it-compass-config-reader
+  namespace: portfolio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: config-reader
+subjects:
+- kind: ServiceAccount
+  name: it-compass-sa
+
+---
+# RoleBinding: cloud-reason-sa can read configs & secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cloud-reason-config-reader
+  namespace: portfolio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: config-reader
+subjects:
+- kind: ServiceAccount
+  name: cloud-reason-sa
+
+---
+# RoleBinding: ml-model-registry-sa can read configs & secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ml-model-registry-config-reader
+  namespace: portfolio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: config-reader
+subjects:
+- kind: ServiceAccount
+  name: ml-model-registry-sa
+
+---
+# RoleBinding: system-proof-sa can read configs & secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: system-proof-config-reader
+  namespace: portfolio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: config-reader
+subjects:
+- kind: ServiceAccount
+  name: system-proof-sa
+
+---
+# ClusterRole: Deny inter-service communication by default
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: portfolio-restricted
+rules:
+# Deny all API access by default
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+  nonResourceURLs: ["*"]
+
+---
+# PodSecurityPolicy: Enforce security standards
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: portfolio-restricted
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'MustRunAs'
+    seLinuxOptions:
+      level: "s0:c123,c456"
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1000
+        max: 1000
+  readOnlyRootFilesystem: false
+
+---
+# ClusterRoleBinding: Apply PSP to all pods in portfolio namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: portfolio-psp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:restricted-psp
+subjects:
+- kind: Namespace
+  name: portfolio

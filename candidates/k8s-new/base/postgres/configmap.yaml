@@ -1,0 +1,14 @@
+# PostgreSQL ConfigMap
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: portfolio
+data:
+  POSTGRES_DB: portfolio
+  POSTGRES_USER: postgres
+  max_connections: "200"
+  shared_buffers: "256MB"
+  effective_cache_size: "1GB"
