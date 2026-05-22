@@ -41,6 +41,48 @@
 
 ---
 
+### 22 мая 2026 г. — Интеграция кандидатов (K8s, Serverless, PowerShell модули) ✅
+
+**Выполненные задачи:**
+
+1. **Интеграция production-grade K8s манифестов** ✅
+   - Перенесены HPA (Horizontal Pod Autoscaler) для: career-development, portfolio-organizer, system-proof
+   - Добавлен auth-service deployment из candidates/k8s-new
+   - Создана резервная копия: `deployment/k8s_backup_20260522/`
+   - **Ценность**: Демонстрация SRE-практик (автомасштабирование, production-ready инфраструктура)
+
+2. **Оформление Cloud Reason как эксперимента** ✅
+   - Перемещён `candidates/cloud-reason` → `experiments/cloud-reason-serverless/`
+   - Создан `experiments/README.md` с документацией Local vs Cloud архитектуры
+   - **Ценность**: Демонстрация гибкости (On-Premise vs Serverless), cost optimization
+
+3. **Модулизация PowerShell инструментов** ✅
+   - Создана структура: `tools/orchestration/powershell/modules/`
+   - Перенесены модули: SecurityScanner, SecretManager, StructuredLogger
+   - Обновлён `navigate.ps1` с автоматической загрузкой модулей
+   - **Ценность**: Расширяемый CLI дизайн (не одноразовые скрипты)
+
+4. **Коммиты** ✅
+   - `d0b36510` — Интеграция K8s паттернов + serverless эксперимент + PowerShell модули (69 файлов, +5314 строк)
+
+**Метрики:**
+| Показатель | Значение |
+|------------|----------|
+| K8s сервисов с HPA | 4/7 (57%) |
+| PowerShell модулей | 3 (Security, Secrets, Logging) |
+| Экспериментов оформлено | 1 (Cloud Reason Serverless) |
+| Файлов добавлено | 69 |
+| Строк добавлено | +5314 |
+
+**Созданные/изменённые файлы:**
+- `deployment/k8s/base/services/*/hpa.yaml` — HPA для автоскейлинга
+- `experiments/README.md` — документация экспериментов
+- `experiments/cloud-reason-serverless/` — serverless архитектура
+- `tools/orchestration/powershell/modules/*.psm1` — модули оркестрации
+- `navigate.ps1` — улучшенная загрузка модулей
+
+---
+
 ### 19 мая 2026 г. — Унификация README для it_compass ✅
 
 **Выполненные задачи:**

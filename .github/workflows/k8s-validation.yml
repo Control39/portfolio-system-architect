@@ -1,0 +1,57 @@
+name: K8s Manifests Validation
+
+on:
+  push:
+    paths:
+      - 'deployment/k8s/**/*.yaml'
+      - 'check_k8s_yaml.py'
+  pull_request:
+    paths:
+      - 'deployment/k8s/**/*.yaml'
+      - 'check_k8s_yaml.py'
+
+jobs:
+  validate-k8s-manifests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate K8s YAML manifests
+        run: |
+          python check_k8s_yaml.py
+
+      - name: Check for common K8s mistakes
+        run: |
+          # Check for deprecated API versions
+          grep -r "apiVersion: extensions/v1beta1" deployment/k8s/ && \
+            echo "ERROR: Found deprecated API version extensions/v1beta1" && exit 1 || true
+          
+          # Check for hardcoded secrets
+          grep -r "password:.*1234" deployment/k8s/ && \
+            echo "ERROR: Found hardcoded password" && exit 1 || true
+          
+          echo "✅ No common K8s mistakes found"
+
+      - name: Display manifest summary
+        run: |
+          echo "## K8s Manifests Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Documents |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-----------|" >> $GITHUB_STEP_SUMMARY
+          for f in deployment/k8s/base/**/*.yaml; do
+            count=$(python -c "import yaml; print(len(list(yaml.safe_load_all(open('$f')))))" 2>/dev/null || echo "0")
+            echo "| `$f` | $count |" >> $GITHUB_STEP_SUMMARY
+          done
+

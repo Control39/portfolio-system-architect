@@ -291,10 +291,6 @@ automation/
 
 ### Qualitative Metrics
 - **Application Relevance**: Match between applications and target roles
-- **Portfolio Impact**: Effectiveness in demonstrating capabilities
-- **Process Efficiency**: Smoothness of automated workflows
-- **User Satisfaction**: Ease of use and perceived value
-
 ## 🚨 Risk Mitigation
 
 ### Technical Risks

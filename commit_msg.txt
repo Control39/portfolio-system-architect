@@ -1,0 +1,25 @@
+feat(architecture): integrate production-grade K8s patterns & serverless experiment
+
+K8s Enhancements (deployment/k8s/):
+  - Added HPA configurations for career-development, portfolio-organizer, system-proof
+  - Added auth-service deployment from candidates/k8s-new
+  - Demonstrates horizontal scaling patterns (Senior DevOps/SRE level)
+  - Production-grade manifests with autoscaling ready
+
+Serverless Experiment (experiments/):
+  - Moved cloud-reason to experiments/cloud-reason-serverless/
+  - Created experiments/README.md documenting Local vs Cloud architecture
+  - Reference architecture for cost optimization & Yandex Cloud integration
+  - Demonstrates architectural flexibility (On-Premise vs Serverless)
+
+PowerShell Orchestration (tools/orchestration/):
+  - Created modular PowerShell framework in tools/orchestration/powershell/modules/
+  - Added SecurityScanner.psm1, SecretManager.psm1, StructuredLogger.psm1
+  - Enhanced navigate.ps1 with automatic module loading
+  - Shows extensible CLI tool design (not one-off scripts)
+
+Architectural Value:
+  - SRE practices: HPA, backups, network policies
+  - Cost optimization: serverless reference architecture
+  - DevSecOps: security scanning, secret management
+  - Production readiness: scalable, maintainable infrastructure

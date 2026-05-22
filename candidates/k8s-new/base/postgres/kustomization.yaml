@@ -1,0 +1,17 @@
+# Kustomization for PostgreSQL
+# Works on: GKE v1.27+, Kind, Minikube
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+resources:
+  - configmap.yaml
+  - pvc.yaml
+  - deployment.yaml
+  - service.yaml
+
+commonLabels:
+  app: postgres
+  component: database
