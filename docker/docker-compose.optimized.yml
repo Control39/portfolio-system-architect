@@ -1,7 +1,7 @@
 # Оптимизированная конфигурация Docker Compose с использованием шаблонов
 # Использует extends из docker/base-services.yml для устранения дублирования
 
-version: '3.9'
+version: "3.9"
 
 # Импорт базовых конфигураций
 x-base: &base-config
@@ -183,7 +183,7 @@ services:
   # System Proof (CoT Storage)
   # ============================================================
   system-proof:
-    build: ./apps/system-proof
+    build: ./apps/system_proof
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}

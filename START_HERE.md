@@ -19,7 +19,7 @@ cat QUICK_REFERENCE_CARD.md # Шпаргалка с командами
 ### 📚 **Я хочу всё понять (30 минут)**
 1. Прочитай: [README.md](./README.md) — 5 минут
 2. Посмотри: `.\navigate.ps1 -Map` — 3 минуты
-3. Прочитай: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — 10 минут
+3. Прочитай: [ARCHITECTURE.md](ARCHITECTURE.md) — 10 минут
 4. Посмотри: `.\navigate.ps1 -Status` — 2 минуты
 5. Выбери сервис: `.\navigate.ps1 -Service <name>` — 5 минут
 
@@ -28,7 +28,7 @@ cat QUICK_REFERENCE_CARD.md # Шпаргалка с командами
 ---
 
 ### 🚀 **Я лидер проекта (1 час)**
-1. **Структура**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+1. **Структура**: [ARCHITECTURE.md](ARCHITECTURE.md)
 2. **Метрики**: [README.md](README.md) → секция "Key Metrics"
 3. **План**: [NEXT_STEPS.md](NEXT_STEPS.md)
 4. **Статус**: `.\navigate.ps1 -Status`
@@ -90,7 +90,7 @@ cat QUICK_REFERENCE_CARD.md # Шпаргалка с командами
 
 ### Вторая половина дня
 ```
-5. docs/ARCHITECTURE.md (понимание)
+5. ARCHITECTURE.md (понимание)
 6. README.md → Key Metrics (метрики)
 7. Выбранный apps/<service>/README.md
 ```
@@ -113,7 +113,7 @@ cat QUICK_REFERENCE_CARD.md # Шпаргалка с командами
 | **[README.md](./README.md)** | 🏠 Начало + Методология | 5 мин |
 | **[QUICK_START.md](./QUICK_START.md)** | ⚡ Быстро | 2 мин |
 | **[QUICK_REFERENCE_CARD.md](./QUICK_REFERENCE_CARD.md)** | 📌 Шпаргалка | 3 мин |
-| **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)** | 🏗️ Архитектура | 8 мин |
+| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | 🏗️ Архитектура | 8 мин |
 | **[NEXT_STEPS.md](./NEXT_STEPS.md)** | 🎯 План | 10 мин |
 | **[navigate.ps1](./navigate.ps1)** | 🧭 Навигация | Скрипт |
 
@@ -143,7 +143,7 @@ open http://localhost:3000        # Grafana
 ### "Где документация?"
 ```bash
 cat README.md                     # Основная
-cat docs/ARCHITECTURE.md          # Архитектура
+cat ARCHITECTURE.md               # Архитектура
 ls docs/                          # Ещё документы
 ```
 
@@ -284,7 +284,7 @@ pytest tests/ -v
 
 - ⏱️ **Нет времени?** → [QUICK_REFERENCE_CARD.md](./QUICK_REFERENCE_CARD.md)
 - 📖 **Хочу учиться?** → [README.md](./README.md)
-- 🏗️ **Нужна архитектура?** → [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+- 🏗️ **Нужна архитектура?** → [ARCHITECTURE.md](./ARCHITECTURE.md)
 - 📊 **Интересуют метрики?** → [README.md](./README.md) → Key Metrics
 - 🎯 **Что дальше?** → [NEXT_STEPS.md](./NEXT_STEPS.md)
 - 🧭 **Хочу навигировать?** → `.\navigate.ps1 -Help`

@@ -2,20 +2,20 @@
 
 > **Это не портфолио. Это архитектурное доказательство трансформации: от нуля в IT до production-grade экосистемы за 2 года.**
 
-*Compositional Architecture в действии. Построено в коллаборации с ИИ-агентами.*  
-**Быстрые цифры:** 18 сервисов • 610+ тестов • 0 уязвимостей • 2 года от нуля до production.
+*Compositional Architecture в действии. Построено в коллаборации с ИИ-агентами.*
+**Быстрые цифры:** 15 микросервисов • 750+ тестов • 0 уязвимостей • 2 года от нуля до production.
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-![Services](https://img.shields.io/badge/Services-18-green?style=flat-square&logo=serverless)
+![Services](https://img.shields.io/badge/Services-15-green?style=flat-square&logo=serverless)
 ![Test Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat-square&logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-success?style=flat-square&logo=security)
 ![Last Updated](https://img.shields.io/github/last-commit/Control39/portfolio-system-architect/main?label=Last%20Updated&style=flat-square)
 ![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github-actions&label=CI%2FCD)
 ![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?color=blue&logo=mit)
 
-**Катя (Control39) — Cognitive Architect**  
+**Катя (Control39) — Cognitive Architect**
 *Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
 
 [GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru) · [Issues](https://github.com/Control39/portfolio-system-architect/issues)
@@ -37,7 +37,7 @@
 
 **Что это доказывает работодателю:** не заявления о навыках, а **система доказательств**:
 - 🔒 **0 критических уязвимостей** (Trivy + Bandit + CodeQL)
-- 🧪 **85%+ покрытие тестами** (610+ тестов, 98% проходят)
+- 🧪 **~80% покрытие тестами** (750+ тестов, 98% проходят)
 - 🔄 **Полный CI/CD** + pre-commit hooks
 - 📊 **Production monitoring** (Prometheus + Grafana)
 - 🚀 **Kubernetes-ready** деплой (52 манифеста, GitOps)
@@ -49,11 +49,11 @@
 ## 💡 Инновация: Объективные маркеры компетенций
 
 **Традиционный подход:**
-> «Расскажите о вашем опыте с Docker»  
+> «Расскажите о вашем опыте с Docker»
 > *Ответ: «Я знаю Docker»*
 
 **Мой подход:**
-> «Покажите, что вы реально сделали»  
+> «Покажите, что вы реально сделали»
 > *Ответ: «Создала Dockerfile для Python-приложения, отладила сеть в docker-compose, задеплоила на staging»*
 
 **Это маркер.** Объективный, проверяемый, не требует лет опыта.
@@ -74,7 +74,7 @@
 | **Безопасность по умолчанию** | Trivy, Bandit, CodeQL в CI/CD | 0 критических уязвимостей |
 | **ИИ как соисполнитель** | MCP, RAG-пайплайны, промпт-инжиниринг | 15+ сервисов построено в коллаборации с ИИ |
 
-### Основные компоненты (18 сервисов)
+### Основные компоненты (15 микросервисов + frontend)
 
 Все сервисы соответствуют **100% стандарту структуры** (main.py, README.md, Dockerfile, tests/).
 
@@ -96,9 +96,9 @@
 | **system-proof** | 🟢 Ready | ~75% | Валидация готовности |
 | **thought-architecture** | 🟢 Ready | ~75% | Архитектура решений (ADR) |
 
-> **🎉 18/18 сервисов (100%) соответствуют стандарту структуры!**  
-> **🎉 11 из 15 сервисов имеют ≥80% покрытие тестами!**  
-> **Всего тестов:** 610+ (98% прохождение, ~85% среднее покрытие).
+> **🎉 15/15 микросервисов (100%) соответствуют стандарту структуры!**
+> **🎉 11 из 15 сервисов имеют ≥80% покрытие тестами!**
+> **Всего тестов:** 750+ (98% прохождение, ~80% среднее покрытие).
 
 ---
 
@@ -152,7 +152,7 @@ python apps/chat_backend/start_dev.py
 * Тема, шрифты, цвета
 * Горячие клавиши
 
-**Шаблон:** `.vscode/settings-default.json`  
+**Шаблон:** `.vscode/settings-default.json`
 **Личное:** `.vscode/settings.json` (не коммитить)
 
 **Расширения:**
@@ -173,7 +173,7 @@ python apps/chat_backend/start_dev.py
 cat docs/it-compass/METHODOLOGY.md
 
 # Изучите архитектуру
-cat docs/ARCHITECTURE.md
+cat ARCHITECTURE.md
 
 # Посмотрите доказательства
 cat docs/it-compass/PROJECT_ANALYSIS.md
@@ -196,12 +196,23 @@ cat docs/it-compass/PROJECT_ANALYSIS.md
 | ADR | Описание |
 |-----|----------|
 | ADR‑001 | [Методология системного мышления](docs/architecture/decisions/ADR-001-system-thinking-methodology.md) |
-| ADR‑002 | [Интеграция компонентов в единую экосистему](docs/architecture/decisions/ADR-002-component-integration.md) |
-| ADR‑003 | [Архитектура системы версионирования ML-моделей](docs/architecture/decisions/ADR-003-ml-model-versioning-system.md) |
-| ADR‑007 | [Обоснование технологического стека](docs/architecture/decisions/ADR-007-technology-stack-justification.md) |
-| ADR‑015 | [Граница между `src/` и `apps/`](docs/architecture/decisions/ADR-015-monorepo-boundary.md) |
-| ADR‑016 | [Стандартизация документации](docs/architecture/decisions/ADR-016-standardize-documentation.md) |
-| ADR‑017 | [Покрытие MCP Server](docs/architecture/decisions/ADR-017-mcp-server-coverage-decision.md) |
+| ADR‑002 | [Выбор технологического стека](docs/architecture/decisions/ADR-002-consolidated.md) |
+| ADR‑003 | [Интеграция компонентов в единую экосистему](docs/architecture/decisions/ADR-003-component-integration.md) |
+| ADR‑004 | [Формат диаграмм (Mermaid)](docs/architecture/decisions/ADR-004-diagram-format.md) |
+| ADR‑005 | [Архитектура системы версионирования ML-моделей](docs/architecture/decisions/ADR-005-ml-model-versioning-system.md) |
+| ADR‑006 | [Формат хранения маркеров компетенций](docs/architecture/decisions/ADR-006-data-storage-format.md) |
+| ADR‑007 | [Выбор UI-технологии](docs/architecture/decisions/ADR-007-ui-technology-choice.md) |
+| ADR‑008 | [Валидация данных](docs/architecture/decisions/ADR-008-data-validation-approach.md) |
+| ADR‑009 | [Обоснование технологического стека](docs/architecture/decisions/ADR-009-technology-stack-justification.md) |
+| ADR‑010 | [Service Discovery](docs/architecture/decisions/ADR-010-service-discovery.md) |
+| ADR‑011 | [Базовые Docker-образы](docs/architecture/decisions/ADR-011-base-docker-images.md) |
+| ADR‑012 | [Разделение настроек IDE](docs/architecture/decisions/ADR-012-vscode-settings-separation.md) |
+| ADR‑014 | [Граница между `src/` и `apps/`](docs/architecture/decisions/ADR-014-monorepo-boundary.md) |
+| ADR‑015 | [Стандартизация документации](docs/architecture/decisions/ADR-015-standardize-documentation.md) |
+| ADR‑016 | [Покрытие MCP Server](docs/architecture/decisions/ADR-016-mcp-server-coverage-decision.md) |
+| ADR‑017 | [Dependency Injection](docs/architecture/decisions/ADR-017-dependency-injection.md) |
+| ADR‑018 | [Документация и аудит](docs/architecture/decisions/ADR-018-documentation-and-audit-standards.md) |
+| ADR‑019 | [Local vs Cloud LLM](docs/architecture/decisions/ADR-019-local-vs-cloud-llm.md) |
 
 > **Зачем ADR?** Фиксирую **почему выбрано X, а не Y**. История решений для себя и команды.
 
@@ -282,7 +293,7 @@ cat docs/it-compass/PROJECT_ANALYSIS.md
 |----------|----------|----------|
 | [`docs/it-compass/METHODOLOGY.md`](docs/it-compass/METHODOLOGY.md) | Все | Методология объективных маркеров компетенций |
 | [`docs/TOOLS_INTEGRATION.md`](docs/TOOLS_INTEGRATION.md) | Архитекторы | Как инструменты работают вместе |
-| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Технические специалисты | Детальная архитектура |
 
 ### Для HR и работодателей
 
@@ -309,14 +320,14 @@ cat docs/it-compass/PROJECT_ANALYSIS.md
 
 <div align="center">
 
-**Cognitive Architect × AI-Augmented Developer × DevSecOps Enthusiast**  
+**Cognitive Architect × AI-Augmented Developer × DevSecOps Enthusiast**
 *Это не портфолио. Это доказательство того, что хаос может стать системой, а мышление — измеримым.*
 
 </div>
 
 ---
 
-*Лицензия: Код — MIT, Методология — CC BY-ND 4.0 (© Екатерина Куделя)*  
+*Лицензия: Код — MIT, Методология — CC BY-ND 4.0 (© Екатерина Куделя)*
 *Production-ready, соответствует 152-ФЗ, использует российские ИИ-решения (GigaChat, Yandex GPT).*
 
 *Последнее обновление: май 2026*

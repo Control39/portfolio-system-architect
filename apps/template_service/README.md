@@ -170,11 +170,11 @@ isort .
 ## 🔗 Ссылки
 
 - [Основной README](../../README.md)
-- [Документация по архитектуре](../../docs/ARCHITECTURE.md)
+- [Документация по архитектуре](../../ARCHITECTURE.md)
 - [Руководство по контрибуции](../../CONTRIBUTING.md)
 - [AI Config Manager](../ai-config-manager/README.md)
 
 ---
 
-**Автор:** Portfolio System Architect Team  
+**Автор:** Portfolio System Architect Team
 **Дата:** 18 мая 2026 г.

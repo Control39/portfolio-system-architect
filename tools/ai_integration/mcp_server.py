@@ -8,7 +8,6 @@ import os
 import sys
 from pathlib import Path
 
-
 # Добавляем путь к проекту для импорта модулей
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -20,6 +19,8 @@ try:
         from mcp import Server, StdioServerTransport, Tool  # noqa: F401
         from mcp.types import (
             TextContent,
+        )
+        from mcp.types import (
             Tool as ToolType,  # noqa: F401
         )
 
@@ -379,7 +380,7 @@ class PortfolioMCP:
                         "description": "RAG и reasoning система",
                     },
                     "system-proof": {
-                        "path": "apps/system-proof",
+                        "path": "apps/system_proof",
                         "description": "Система доказательств и верификации",
                     },
                 }

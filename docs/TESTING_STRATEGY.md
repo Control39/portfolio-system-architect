@@ -6,13 +6,13 @@
 - **Всего тестов:** 151 (146 passed, 5 failed - pre-existing async issues)
 - **Целевой показатель:** 80%
 - **Статус:** Отложено до v1.1 (низкий приоритет)
-- **Решение задокументировано в:** [ADR-017](./architecture/decisions/ADR-017-mcp-server-coverage-decision.md)
+- **Решение задокументировано в:** [ADR-016](./architecture/decisions/ADR-016-mcp-server-coverage-decision.md)
 
 ---
 
 ## Обоснование решения
 
-**Подробное обоснование, альтернативы и последствия описаны в [ADR-017](./architecture/decisions/ADR-017-mcp-server-coverage-decision.md).**
+**Подробное обоснование, альтернативы и последствия описаны в [ADR-016](./architecture/decisions/ADR-016-mcp-server-coverage-decision.md).**
 
 ### Кратко
 

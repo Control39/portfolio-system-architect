@@ -92,7 +92,7 @@ docker-compose -f docker-compose.yml -f docker-compose.azure.yml up -d
 
 2. **Key Vault**
    - Храните секреты в Azure Key Vault
-   - См. [`docs/SECURITY.md`](SECURITY.md)
+   - См. [`SECURITY.md`](SECURITY.md)
 
 3. **Network Rules**
    - Ограничьте доступ по IP

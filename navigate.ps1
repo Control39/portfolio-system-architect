@@ -246,7 +246,7 @@ function Show-Docs {
         Write-Section "📚 ОСНОВНАЯ ДОКУМЕНТАЦИЯ"
         $docs = @(
             "README.md",
-            "docs/ARCHITECTURE.md",
+            "ARCHITECTURE.md",
             "docs/it-compass/METHODOLOGY.md",
             "docs/architecture/decisions/",
             "docs/HIRING_BRIEF.md",

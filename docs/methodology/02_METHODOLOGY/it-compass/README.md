@@ -96,7 +96,7 @@ python src/main.py
 
 ### Основные документы
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Архитектура проекта в экосистеме
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Архитектура компонента
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Архитектура компонента
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md) - Методология IT Compass
 
 ## Развитие проекта

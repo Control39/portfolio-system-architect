@@ -8,7 +8,6 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-
 # Корень проекта
 PROJECT_ROOT = Path(__file__).parent.parent
 OUTPUT_DIR = PROJECT_ROOT / ".reports" / "READMEs"
@@ -22,7 +21,7 @@ THEME_MAPPING = {
             "apps/decision-engine",
             "apps/it_compass",
             "apps/portfolio_organizer",
-            "apps/system-proof",
+            "apps/system_proof",
             "apps/ml-model-registry",
             "apps/auth_service",
             "apps/career_development",
@@ -206,7 +205,7 @@ def classify_readme(readme_path: Path) -> tuple:
                 "apps/decision-engine",
                 "apps/it_compass",
                 "apps/portfolio_organizer",
-                "apps/system-proof",
+                "apps/system_proof",
                 "apps/ml-model-registry",
                 "apps/auth_service",
                 "apps/career_development",

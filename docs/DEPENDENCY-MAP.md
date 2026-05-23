@@ -90,7 +90,7 @@ locust>=2.28.0
 └── src.core.database
 ```
 
-### 4. **apps/system-proof/** — Валидация готовности
+### 4. **apps/system_proof/** — Валидация готовности
 ```
 Зависимости:
 ├── fastapi

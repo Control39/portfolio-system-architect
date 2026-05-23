@@ -1,4 +1,10 @@
 ﻿{
-  "required_files": ["README.md","docs/ARCHITECTURE.md","LICENSE"],
-  "component_dirs": ["apps/"]
+  "required_files": [
+    "README.md",
+    "ARCHITECTURE.md",
+    "LICENSE"
+  ],
+  "component_dirs": [
+    "apps/"
+  ]
 }

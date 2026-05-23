@@ -20,7 +20,7 @@
         "apps/auth-service" = @()
         "apps/career-development" = @()
         "apps/portfolio-organizer" = @()
-        "apps/system-proof" = @()
+        "apps/system_proof" = @()
         "docs" = @()
         "tools" = @()
         "scripts" = @()

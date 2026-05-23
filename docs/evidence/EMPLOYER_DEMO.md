@@ -17,7 +17,7 @@ STATUS: ⚠️ PARTIALLY OPERATIONAL - Core infra Up, apps need fixes
 
 - **Static Demo**: index.html
 - **Monitoring**: Grafana (3000), Prometheus (9090)
-- **Architecture**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Architecture**: [ARCHITECTURE.md](ARCHITECTURE.md)
 - **Metrics**: 92% test coverage, Docker-multi-service.
 
 ## Screenshots

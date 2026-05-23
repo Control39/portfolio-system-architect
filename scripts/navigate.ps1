@@ -71,7 +71,7 @@ function Show-Services {
         @{ Name = "auth-service"; Path = "apps/auth_service"; Desc = "Аутентификация" },
         @{ Name = "ai-config-manager"; Path = "apps/ai-config-manager"; Desc = "Управление AI конфигами" },
         @{ Name = "template-service"; Path = "apps/template-service"; Desc = "Сервис шаблонов" },
-        @{ Name = "system-proof"; Path = "apps/system-proof"; Desc = "Доказательство системы" }
+        @{ Name = "system-proof"; Path = "apps/system_proof"; Desc = "Доказательство системы" }
     )
 
     $services | ForEach-Object {
@@ -200,7 +200,7 @@ function Show-Docs {
         Write-Section "📚 ОСНОВНАЯ ДОКУМЕНТАЦИЯ"
         $docs = @(
             "ARCHITECTURE_MAP.md",
-            "docs/README.md",
+            "README.md",
             "docs/architecture/",
             "docs/cases/",
             "docs/methodology/"
@@ -243,7 +243,7 @@ function Show-Map {
 │  ├── apps/auth-service/         (Аутентификация)                  │
 │  ├── apps/ai-config-manager/    (AI конфигурация)                 │
 │  ├── apps/template-service/     (Шаблоны)                         │
-│  └── apps/system-proof/         (Доказательства)                  │
+│  └── apps/system_proof/         (Доказательства)                  │
 │                                                                    │
 │  📦 ИНФРАСТРУКТУРА & МОНИТОРИНГ                                   │
 │  ├── deployment/        (K8s manifests)                           │

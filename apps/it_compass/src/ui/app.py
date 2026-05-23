@@ -10,7 +10,6 @@ from pathlib import Path
 
 import streamlit as st
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -173,7 +172,7 @@ def render_documentation():
         st.subheader("🛠 Утилиты")
         st.markdown(
             """
-        - [🤝 Как внести вклад](./docs/CONTRIBUTING.md)
+        - [🤝 Как внести вклад](./CONTRIBUTING.md)
         - [📄 Текущее портфолио](./docs/my_portfolio.md)
         - [⚙️ Настройки проекта](./docs/SETUP.md)
         """
