@@ -2,7 +2,7 @@
 
 > **Методологическое ядро экосистемы. Источник истины о компетенциях.**
 
-*83 проверочных маркера в 19 IT-доменах. Превращает субъективный опыт в измеримые данные.*  
+*83 проверочных маркера в 19 IT-доменах. Превращает субъективный опыт в измеримые данные.*
 **Быстрые цифры:** 83 маркера • 19 доменов • 46 тестов • 85% покрытие • 3 уровня (Junior/Middle/Senior)
 
 <div align="center">
@@ -15,7 +15,7 @@
 
 </div>
 
-**📄 ADR:** [ADR-001: Выбор методологии системного мышления](../../docs/architecture/decisions/ADR-001-methodology.md)
+**📄 ADR:** [ADR-001: Выбор методологии системного мышления](../../docs/architecture/decisions/ADR-001-system-thinking-methodology.md)
 
 ---
 
@@ -141,7 +141,7 @@ graph LR
    # Активация виртуального окружения
    .venv\Scripts\activate  # Windows
    source .venv/bin/activate  # Linux/Mac
-   
+
    pip install -r requirements.txt
    streamlit run app.py
    ```
@@ -149,7 +149,7 @@ graph LR
 3. **Импорт модуля расчёта:**
    ```python
    from it_compass.core.calculator import calculate_markers
-   
+
    markers = calculate_markers(user_id="user123")
    print(f"Общий прогресс: {markers['overall_progress']}%")
    ```
@@ -495,7 +495,7 @@ weights = settings.get('marker_weights', {})
 
 ## 🔗 Ссылки
 
-- [ADR-001: Методология](../../docs/architecture/decisions/ADR-001-methodology.md)
+- [ADR-001: Методология](../../docs/architecture/decisions/ADR-001-system-thinking-methodology.md)
 - [Основной README](../../README.md)
 - [Доказательство роста](../../docs/evidence/it-compass-growth-proof.md)
 - [Грантовая заявка SourceCraft](../../docs/grants/SOURCECRAFT_APPLICATION.md)

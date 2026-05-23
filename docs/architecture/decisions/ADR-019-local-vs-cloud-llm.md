@@ -1,3 +1,10 @@
+> **Former ID:** ADR-019-local-vs-cloud-llm
+> **Former path:** `docs\architecture\decisions\ADR-019-local-vs-cloud-llm.md`
+> **Current ID:** ADR-019
+> **Consolidated:** 2026-05-23
+>
+---
+
 ---
 id: ADR-019
 title: Выбор между Local LLM и Cloud Serverless для AI Reasoning

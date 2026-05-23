@@ -1,3 +1,10 @@
+> **Former ID:** ADR-018-documentation-and-audit-standards
+> **Former path:** `docs\architecture\decisions\ADR-018-documentation-and-audit-standards.md`
+> **Current ID:** ADR-018
+> **Consolidated:** 2026-05-23
+>
+---
+
 # ADR-018: Стандарты документации и аудита сервисов
 
 ## Статус
@@ -34,7 +41,7 @@ Control39
 | Аудитория | Документ | Назначение |
 |----------|----------|------------|
 | **Рекрутеры и HR** | `docs/FOR_HR.md` | Фокус на компетенциях, ролях, объективных маркерах |
-| **Технические лиды** | `docs/ARCHITECTURE.md` | Глубокая архитектура системы, стек технологий, ADR |
+| **Технические лиды** | `ARCHITECTURE.md` | Глубокая архитектура системы, стек технологий, ADR |
 | **Грантовые комитеты** | `docs/GRANT_PROPOSAL.md` | Уникальность методологии, потенциал для сообщества |
 | **Контрибьюторы** | `docs/QUICK_START.md` | Инструкции по настройке и внесению вклада |
 
@@ -96,7 +103,7 @@ Control39
 
 ## Ссылки
 
-- [ADR-015: Граница между `src/` и `apps/`](ADR-015-monorepo-boundary.md)
-- [ADR-017: mcp_server Coverage Target Decision](ADR-017-mcp-server-coverage-decision.md)
+- [ADR-014: Граница между `src/` и `apps/`](ADR-014-monorepo-boundary.md)
+- [ADR-016: mcp_server Coverage Target Decision](ADR-016-mcp-server-coverage-decision.md)
 - [`.reports/.audit/`](../../.reports/.audit/) — папка для отчетов аудита
 - [План аудита `apps/`](../../.reports/.audit/apps_audit_plan.md)

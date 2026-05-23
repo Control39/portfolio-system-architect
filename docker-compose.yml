@@ -209,7 +209,7 @@ services:
   # Route: /system-proof
   # ============================================================
   system-proof:
-    build: ./apps/system-proof
+    build: ./apps/system_proof
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}

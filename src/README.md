@@ -2,7 +2,7 @@
 
 > **Общие библиотеки и ядро системы.** Импортируются микросервисами из `apps/`.
 >
-> 📋 **Архитектурное правило:** код попадает в `src/`, если используется **двумя и более** приложениями из `apps/`. Подробности в [ADR-015](../architecture/decisions/ADR-015-monorepo-boundary.md).
+> 📋 **Архитектурное правило:** код попадает в `src/`, если используется **двумя и более** приложениями из `apps/`. Подробности в [ADR-014](../architecture/decisions/ADR-014-monorepo-boundary.md).
 
 ## Назначение
 - Централизованное расположение общих библиотек и утилит
@@ -34,7 +34,7 @@
 
 ## ✅ Решённые проблемы
 
-- ~~`src/decision_engine/`~~ → архивировано в `legacy/decision_engine_v1/` (см. [ADR-015](../architecture/decisions/ADR-015-monorepo-boundary.md))
-- ~~`src/repo_audit/`~~ → архивировано в `legacy/repo_audit_v1/` (см. [ADR-015](../architecture/decisions/ADR-015-monorepo-boundary.md))
+- ~~`src/decision_engine/`~~ → архивировано в `legacy/decision_engine_v1/` (см. [ADR-014](../architecture/decisions/ADR-014-monorepo-boundary.md))
+- ~~`src/repo_audit/`~~ → архивировано в `legacy/repo_audit_v1/` (см. [ADR-014](../architecture/decisions/ADR-014-monorepo-boundary.md))
 
 > Активные версии: `apps/decision-engine/` и `tools/repo_audit/`.

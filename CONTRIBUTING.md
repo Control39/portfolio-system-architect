@@ -270,9 +270,9 @@ Closes #номер-issue
 - ❌ Обычные фичи или улучшения
 - ❌ Использование уже принятых стандартов
 
-**Где хранить:** `docs/adr/ADR-XXX-название.md`  
-**Шаблон:** `docs/templates/ADR_TEMPLATE.md`  
-**Примеры:** [ADR-001](docs/adr/ADR-001-system-thinking-methodology.md), [ADR-009](docs/adr/ADR-009-base-docker-images.md)
+**Где хранить:** `docs/architecture/decisions/ADR-XXX-название.md`
+**Шаблон:** `docs/templates/ADR_TEMPLATE.md`
+**Примеры:** [ADR-001](docs/architecture/decisions/ADR-001-system-thinking-methodology.md), [ADR-011](docs/architecture/decisions/ADR-011-base-docker-images.md)
 
 ---
 

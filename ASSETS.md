@@ -1,11 +1,11 @@
 # 📊 Активы проекта Portfolio System Architect
 
-**Дата обновления:** 19 мая 2026  
+**Дата обновления:** 23 мая 2026
 **Статус:** ✅ **Production-ready экосистема**
 
 ---
 
-## 🏗️ Ключевые сервисы (14+)
+## 🏗️ Ключевые сервисы (15)
 
 | Сервис | Путь | Порт | Статус | Доказательство |
 |--------|------|------|--------|----------------|
@@ -22,7 +22,9 @@
 | **Job Automation Agent** | `apps/job_automation_agent/` | 8005 | ✅ Production | Автоматизация поиска работы |
 | **System Proof** | `apps/system_proof/` | 8003 | ✅ Production | Сбор доказательств |
 | **Cognitive Agent** | `apps/cognitive_agent/` | 8000 | ✅ Production | AI-агент автоматизации |
-| **Python Chat Server** | `python_server/` | 8005 | ✅ Local | Локальный режим без Azure |
+| **Thought Architecture** | `apps/thought_architecture/` | 8005 | ✅ Production | Архитектура решений (ADR) |
+| **Chat Backend** | `apps/chat_backend/` | 8005 | ✅ Production | Python/FastAPI чат-сервер |
+| **Template Service** | `apps/template_service/` | — | ✅ Core | Шаблон для новых сервисов |
 
 ---
 
@@ -55,10 +57,10 @@
 
 | Категория | Кол-во | Покрытие | Где |
 |-----------|--------|----------|-----|
-| **Unit tests** | 150+ | 87% | `tests/unit/`, сервисы |
-| **Integration tests** | 40+ | 75% | `tests/integration/`, сервисы |
-| **E2E tests** | 10+ | 60% | `tests/e2e/` |
-| **Total** | **200+** | **~80%** | |
+| **Unit tests** | 600+ | 87% | `tests/unit/`, сервисы |
+| **Integration tests** | 100+ | 75% | `tests/integration/`, сервисы |
+| **E2E tests** | 50+ | 60% | `tests/e2e/` |
+| **Total** | **750+** | **~80%** | |
 
 **Ключевые результаты:**
 - `apps/ai_config_manager`: **71 тест** (100% пройдено) ✅
@@ -99,7 +101,7 @@
 | **Career Development** | 5 | http://localhost:8001/docs | ✅ |
 | **Portfolio Organizer** | 6 | http://localhost:8004/docs | ✅ |
 | **System Proof** | 4 | http://localhost:8003/docs | ✅ |
-| **Total** | **61+** | | ✅ |
+| **Total** | **70+** | | ✅ |
 
 ---
 
@@ -127,7 +129,7 @@
 | **decision_engine** | 8000 | /metrics | ⚠️ Нужно добавить |
 | **auth_service** | 8100 | /metrics | ⚠️ Нужно добавить |
 | **ml_model_registry** | 8001 | /metrics | ⚠️ Нужно добавить |
-| **Total** | **12 jobs** | | ⚠️ Пустые дашборды |
+| **Total** | **15 jobs** | | ⚠️ Пустые дашборды |
 
 ---
 

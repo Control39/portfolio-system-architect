@@ -14,7 +14,6 @@ from urllib.parse import urlparse
 
 import requests
 
-
 # Настройки
 README_FILES = ["README.md", "README.ru.md"]
 EXTERNAL_TIMEOUT = 10
