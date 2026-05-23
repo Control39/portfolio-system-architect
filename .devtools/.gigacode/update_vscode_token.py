@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from get_token import get_valid_token
 
 
-VSCODE_SETTINGS = Path(__file__).parent.parent / ".vscode" / "settings.json"
+VSCODE_SETTINGS = Path(__file__).parent.parent.parent / ".vscode" / "settings.json"
 
 
 def update_vscode_settings(access_token: str):
@@ -34,6 +34,7 @@ def update_vscode_settings(access_token: str):
     # Обновляем настройки Gigacode
     settings["gigacode.apiEndpoint"] = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
     settings["gigacode.authorizationHeader"] = f"Bearer {access_token}"
+    settings["gigacode.accessToken"] = access_token
     settings["gigacode.maxContextTokens"] = 4096
     settings["gigacode.maxResponseTokens"] = 2048
     settings["gigacode.enableWorkspaceContext"] = False

@@ -3,37 +3,77 @@
 Автоматическое обновление токена GigaCode
 Запускается каждые 25 минут через Task Scheduler
 """
+import base64
 import json
+import os
 from pathlib import Path
 import requests
 import uuid
 from datetime import datetime, timedelta
 import sys
 
-sys.path.insert(0, r'C:\repo')
+from dotenv import load_dotenv
+
+# Определяем пути относительно корня проекта (scripts/ находится в корне)
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+# Загружаем .env из корня проекта
+load_dotenv(project_root / ".env", override=True)
 
 # Путь к файлам
-gigacode_dir = Path(r'C:\repo\.devtools\.gigacode')
+gigacode_dir = project_root / ".devtools" / ".gigacode"
 env_file = gigacode_dir / "personal.env"
+fallback_env_file = project_root / ".env"
 token_cache_file = gigacode_dir / ".token_cache.json"
-vscode_settings = Path(r'C:\repo\.vscode\settings.json')
+vscode_settings = project_root / ".vscode" / "settings.json"
 
-# 1. Загрузка personal.env
+def resolve_auth_key(env: dict) -> str:
+    """Определяет OAuth auth key из нескольких источников"""
+    auth_key = env.get("GIGACODE_AUTH_KEY")
+    if auth_key:
+        return auth_key
+    auth_key = env.get("GIGACHAT_CREDENTIALS")
+    if auth_key:
+        print("⚠️  Используется GIGACHAT_CREDENTIALS вместо GIGACODE_AUTH_KEY")
+        return auth_key
+    client_id = env.get("GIGACODE_CLIENT_ID")
+    client_secret = env.get("GIGACODE_CLIENT_SECRET")
+    if client_id and client_secret:
+        auth_key = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        print("⚠️  Сгенерирован GIGACODE_AUTH_KEY из CLIENT_ID + CLIENT_SECRET")
+        return auth_key
+    print("❌ Не найден OAuth ключ. Укажите GIGACODE_AUTH_KEY, GIGACHAT_CREDENTIALS или GIGACODE_CLIENT_ID + GIGACODE_CLIENT_SECRET")
+    sys.exit(1)
+
+
+# 1. Загрузка env (personal.env → .env → os.environ/dotenv)
 env = {}
-with open(env_file, encoding="utf-8") as f:
-    for line in f:
-        line = line.strip()
-        if line and not line.startswith("#") and "=" in line:
-            key, value = line.split("=", 1)
-            env[key.strip()] = value.strip()
+source_file = env_file if env_file.exists() else fallback_env_file
+
+if source_file.exists():
+    with open(source_file, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                env[key.strip()] = value.strip()
+elif any(k.startswith(("GIGACODE_", "GIGACHAT_")) for k in os.environ):
+    # Переменные уже загружены dotenv или заданы в системе
+    env = dict(os.environ)
+    print(f"⚠️  .env файлы не найдены, используется os.environ")
+else:
+    print(f"❌ Не найден файл с настройками: ни {env_file}, ни {fallback_env_file}, ни переменные окружения")
+    sys.exit(1)
 
 # 2. Получение нового токена
+auth_key = resolve_auth_key(env)
 url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 headers = {
     "Content-Type": "application/x-www-form-urlencoded",
     "Accept": "application/json",
     "RqUID": str(uuid.uuid4()),
-    "Authorization": f"Basic {env['GIGACODE_AUTH_KEY']}",
+    "Authorization": f"Basic {auth_key}",
 }
 data = {"scope": env.get('GIGACODE_SCOPE', 'GIGACHAT_API_PERS')}
 
