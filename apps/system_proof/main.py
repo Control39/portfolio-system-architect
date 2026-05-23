@@ -16,7 +16,6 @@ from pydantic import BaseModel
 
 from apps.system_proof.src.config_integration import get_config
 
-
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

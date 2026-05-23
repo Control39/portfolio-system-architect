@@ -2,7 +2,7 @@
 
 ## 🏗️ System Architecture at a Glance
 
-This portfolio demonstrates **production-grade cognitive architecture** through 8 integrated microservices, each serving a specific domain in the career development and AI orchestration ecosystem.
+This portfolio demonstrates **production-grade cognitive architecture** through 14+ integrated microservices, each serving a specific domain in the career development and AI orchestration ecosystem.
 
 ### Core Components
 
@@ -99,7 +99,7 @@ This portfolio demonstrates **production-grade cognitive architecture** through 
 
 ## 📚 Further Reading
 
-- [Architecture Decision Records](docs/adr/) - 7 documented decisions
+- [Architecture Decision Records](docs/adr/) - 18 documented decisions (ADR-001..018)
 - [Deployment Guide](deployment/k8s-README.md) - Kubernetes setup
 - [Monitoring Setup](monitoring/README.md) - Observability configuration
 - [Security Implementation](docs/security/SECRETS-MANAGEMENT.md) - Security practices

@@ -5,7 +5,6 @@ ML Model Registry — Entry Point
 FastAPI приложение для управления моделями.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -17,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.ml_model_registry.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     registry_config = config_manager.get_config()
@@ -80,9 +80,9 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = 8003
     if registry_config:
-        port = registry_config.get('ml_model_registry', {}).get('port', 8003)
-    
+        port = registry_config.get("ml_model_registry", {}).get("port", 8003)
+
     uvicorn.run(app, host="0.0.0.0", port=port)

@@ -5,7 +5,6 @@ Template Service — Entry Point
 FastAPI приложение с базовой структурой.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -17,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.template_service.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     template_config = config_manager.get_config()
@@ -55,9 +55,9 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = 8005
     if template_config:
-        port = template_config.get('template_service', {}).get('port', 8005)
-    
+        port = template_config.get("template_service", {}).get("port", 8005)
+
     uvicorn.run(app, host="0.0.0.0", port=port)

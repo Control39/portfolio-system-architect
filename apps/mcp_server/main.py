@@ -5,7 +5,6 @@ MCP Server — Entry Point
 Обеспечивает регистрацию инструментов, управление ресурсами и шаблоны промптов.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -17,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.mcp_server.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     mcp_config = config_manager.get_config()
@@ -30,11 +30,11 @@ except Exception as e:
 def run_mcp_server():
     """Запуск MCP сервера"""
     from apps.mcp_server.src.server import main as mcp_main
-    
+
     port = 8002
     if mcp_config:
-        port = mcp_config.get('mcp_server', {}).get('port', 8002)
-    
+        port = mcp_config.get("mcp_server", {}).get("port", 8002)
+
     print(f"🚀 Запуск MCP Server на port {port}...")
     mcp_main(port=port)
 

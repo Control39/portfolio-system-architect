@@ -14,7 +14,6 @@ from datetime import datetime
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

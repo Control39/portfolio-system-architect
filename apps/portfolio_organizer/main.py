@@ -5,7 +5,6 @@ Portfolio Organizer — Entry Point
 FastAPI приложение для управления портфолио.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -17,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.portfolio_organizer.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     po_config = config_manager.get_config()
@@ -57,9 +57,9 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = 8004
     if po_config:
-        port = po_config.get('portfolio_organizer', {}).get('port', 8004)
-    
+        port = po_config.get("portfolio_organizer", {}).get("port", 8004)
+
     uvicorn.run(app, host="0.0.0.0", port=port)
