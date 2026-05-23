@@ -99,7 +99,7 @@ def main():
 
         # Создаём папку для отчётов
         output_dir = Path(args.output)
-        output_dir.mkdir(exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
 
         # Генерируем имя файла с timestamp
         from datetime import datetime
