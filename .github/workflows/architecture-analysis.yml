@@ -15,7 +15,7 @@ jobs:
     name: Analyze architecture maturity
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Fetch all history for git stats
 
@@ -44,7 +44,7 @@ jobs:
             --format html
 
       - name: Upload reports as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: architecture-reports
           path: docs/archive/reports/
