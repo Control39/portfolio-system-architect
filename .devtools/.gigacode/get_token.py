@@ -12,7 +12,9 @@ SECURITY NOTE:
 - In production, use proper CA certificates or certificate pinning
 """
 
+import base64
 import json
+import os
 import sys
 import uuid
 from datetime import datetime, timedelta
@@ -21,8 +23,12 @@ from typing import Any
 
 import requests
 import urllib3
+from dotenv import load_dotenv
 
 from apps.utils.safe_logger import mask_sensitive
+
+# Загружаем .env из корня проекта (до импорта других модулей)
+load_dotenv(Path(__file__).parent.parent.parent / ".env", override=True)
 
 
 # Disable SSL warnings for corporate proxies (self-signed certs)
@@ -35,6 +41,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Конфигурация
 ENV_FILE = Path(__file__).parent / "personal.env"
+FALLBACK_ENV_FILE = Path(__file__).parent.parent.parent / ".env"
 TOKEN_CACHE_FILE = Path(__file__).parent / ".token_cache.json"
 
 
@@ -49,6 +56,64 @@ def load_env(env_file: Path) -> dict:
                     key, value = line.split("=", 1)
                     env[key.strip()] = value.strip()
     return env
+
+
+def load_env_with_fallback() -> dict:
+    """Загружает переменные из personal.env, fallback .env или os.environ (dotenv)"""
+    # Приоритет 1: personal.env
+    env = load_env(ENV_FILE)
+    if env:
+        return env
+
+    # Приоритет 2: .env в корне
+    env = load_env(FALLBACK_ENV_FILE)
+    if env:
+        print(f"⚠️  personal.env не найден, используется fallback: {FALLBACK_ENV_FILE}")
+        return env
+
+    # Приоритет 3: os.environ (загружено dotenv или задано в системе)
+    gigacode_keys = [k for k in os.environ if k.startswith("GIGACODE_") or k.startswith("GIGACHAT_")]
+    if gigacode_keys:
+        print(f"⚠️  .env файлы не найдены, используется os.environ ({len(gigacode_keys)} переменных)")
+        return dict(os.environ)
+
+    raise FileNotFoundError(
+        f"Не найден файл с настройками: ни {ENV_FILE}, ни {FALLBACK_ENV_FILE}, ни переменные в окружении"
+    )
+
+
+def resolve_auth_key(env: dict) -> str:
+    """
+    Определяет OAuth auth key из нескольких источников:
+    1. GIGACODE_AUTH_KEY (прямой Base64 ключ)
+    2. GIGACHAT_CREDENTIALS (альтернативное имя)
+    3. GIGACODE_CLIENT_ID + GIGACODE_CLIENT_SECRET (генерация Base64)
+    """
+    # Приоритет 1: прямой ключ
+    auth_key = env.get("GIGACODE_AUTH_KEY")
+    if auth_key:
+        return auth_key
+
+    # Приоритет 2: альтернативное имя
+    auth_key = env.get("GIGACHAT_CREDENTIALS")
+    if auth_key:
+        print("⚠️  Используется GIGACHAT_CREDENTIALS вместо GIGACODE_AUTH_KEY")
+        return auth_key
+
+    # Приоритет 3: генерация из ID + Secret
+    client_id = env.get("GIGACODE_CLIENT_ID")
+    client_secret = env.get("GIGACODE_CLIENT_SECRET")
+    if client_id and client_secret:
+        auth_key = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        print("⚠️  Сгенерирован GIGACODE_AUTH_KEY из CLIENT_ID + CLIENT_SECRET")
+        return auth_key
+
+    raise ValueError(
+        "Не найден OAuth ключ. Укажите одно из:\n"
+        "  - GIGACODE_AUTH_KEY (Base64 ClientID:Secret)\n"
+        "  - GIGACHAT_CREDENTIALS\n"
+        "  - GIGACODE_CLIENT_ID + GIGACODE_CLIENT_SECRET"
+    )
 
 
 def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl: bool = False) -> str:
@@ -99,7 +164,7 @@ def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl:
         # - Development/CI environment only
         # - Alternative: install corporate CA cert in trust store
         try:
-            response = requests.post(url, headers=headers, data=data, timeout=30, verify=True)  # nosec B501
+            response = requests.post(url, headers=headers, data=data, timeout=30, verify=False)  # nosec B501
             response.raise_for_status()
             oauth_result: dict[str, Any] = response.json()
             access_token_val: str | None = oauth_result.get("access_token")
@@ -169,12 +234,9 @@ def get_valid_token() -> str:
     # Получаем новый токен
     print("🔄 Получение нового Access Token...")
 
-    env = load_env(ENV_FILE)
-    auth_key = env.get("GIGACODE_AUTH_KEY")
+    env = load_env_with_fallback()
+    auth_key = resolve_auth_key(env)
     scope = env.get("GIGACODE_SCOPE", "GIGACHAT_API_PERS")
-
-    if not auth_key:
-        raise ValueError("GIGACODE_AUTH_KEY не найден в .gigacode/personal.env")
 
     access_token = get_oauth_token(auth_key, scope)
     cache_token(access_token)

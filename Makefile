@@ -130,11 +130,11 @@ check-ports:
 # GigaChat Token Management
 giga-token:
 	@echo "Getting new GigaChat Access Token..."
-	@cd .gigacode && python get_token.py
+	@cd .devtools/.gigacode && python get_token.py
 
 giga-vscode:
 	@echo "Updating VS Code settings with GigaChat token..."
-	@cd .gigacode && python update_vscode_token.py
+	@cd .devtools/.gigacode && python update_vscode_token.py
 	@echo "✅ Done! Restart VS Code: Ctrl+Shift+P → 'Developer: Reload Window'"
 
 # =============================================================================
