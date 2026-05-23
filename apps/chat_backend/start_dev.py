@@ -63,7 +63,7 @@ def start_development() -> None:
     if force_install or not node_modules.exists():
         print("📦 Installing client dependencies (npm install)...")
         try:
-            install_proc = subprocess.run(["npm", "install"], cwd=client_dir, shell=True, check=False)
+            install_proc = subprocess.run(["npm", "install"], cwd=client_dir, check=False)
             if install_proc.returncode != 0:
                 print("⚠️  npm install exited with non-zero status; continuing anyway.")
             else:
@@ -85,13 +85,13 @@ def start_development() -> None:
 
         # Use the start_server.py script to launch the server
         start_server_script = backend_dir / "start_server.py"
-        server_process = subprocess.Popen([sys.executable, str(start_server_script)], cwd=root_dir, shell=True, env=env)
+        server_process = subprocess.Popen([sys.executable, str(start_server_script)], cwd=root_dir, env=env)
         processes.append(("Python Server", server_process))
         time.sleep(2)
 
         # Start React client
         print("⚛️ Starting React client...")
-        client_process = subprocess.Popen(["npm", "run", "dev"], cwd=client_dir, shell=True)
+        client_process = subprocess.Popen(["npm", "run", "dev"], cwd=client_dir)
         processes.append(("React Client", client_process))
 
         print("\n✅ Both services started!")
