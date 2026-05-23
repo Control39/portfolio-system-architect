@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements-dev.txt requirements-dev.in
 #
-aiohappyeyeballs==2.6.1
+aiohappyeyeballs==2.6.2
     # via aiohttp
 aiohttp==3.13.5
     # via langchain-community
@@ -34,7 +34,7 @@ argon2-cffi-bindings==25.1.0
     # via argon2-cffi
 arrow==1.4.0
     # via isoduration
-ast-serialize==0.3.0
+ast-serialize==0.5.0
     # via mypy
 asttokens==3.0.1
     # via stack-data
@@ -57,7 +57,7 @@ bandit==1.9.4
     # via -r requirements-dev.in
 beautifulsoup4==4.14.3
     # via nbconvert
-black==26.3.1
+black==26.5.1
     # via -r requirements-dev.in
 bleach[css]==6.3.0
     # via nbconvert
@@ -71,9 +71,9 @@ cachecontrol[filecache]==0.14.4
     # via
     #   cachecontrol
     #   pip-audit
-cachetools==7.1.1
+cachetools==7.1.4
     # via streamlit
-certifi==2026.4.22
+certifi==2026.5.20
     # via
     #   httpcore
     #   httpx
@@ -90,7 +90,7 @@ charset-normalizer==3.4.7
     #   commitizen
     #   docformatter
     #   requests
-click==8.3.3
+click==8.4.1
     # via
     #   black
     #   mkdocs
@@ -102,13 +102,20 @@ click==8.3.3
     #   uvicorn
 colorama==0.4.6
     # via
+    #   bandit
+    #   click
     #   commitizen
+    #   ipython
+    #   mkdocs
     #   mkdocs-material
+    #   pytest
+    #   tqdm
+    #   uvicorn
 comm==0.2.3
     # via
     #   ipykernel
     #   ipywidgets
-commitizen==4.16.0
+commitizen==4.16.2
     # via -r requirements-dev.in
 coverage[toml]==7.14.0
     # via
@@ -120,13 +127,11 @@ cryptography==48.0.0
     #   joserfc
 cyclonedx-python-lib==11.7.0
     # via pip-audit
-dataclasses-json==0.6.7
-    # via langchain-community
 debugpy==1.8.20
     # via ipykernel
 decli==0.6.3
     # via commitizen
-decorator==5.2.1
+decorator==5.3.1
     # via ipython
 defusedxml==0.7.1
     # via
@@ -134,6 +139,8 @@ defusedxml==0.7.1
     #   py-serializable
 deprecated==1.3.1
     # via commitizen
+detect-installer==0.1.0
+    # via fastapi-cloud-cli
 detect-secrets==1.5.0
     # via -r requirements-dev.in
 distlib==0.4.0
@@ -164,7 +171,7 @@ fastapi[all]==0.136.1
     # via -r requirements-dev.in
 fastapi-cli[standard]==0.0.24
     # via fastapi
-fastapi-cloud-cli==0.17.1
+fastapi-cloud-cli==0.18.0
     # via fastapi-cli
 fastar==0.11.0
     # via fastapi-cloud-cli
@@ -188,7 +195,7 @@ gitdb==4.0.12
     # via gitpython
 gitpython==3.1.50
     # via streamlit
-greenlet==3.5.0
+greenlet==3.5.1
     # via
     #   playwright
     #   sqlalchemy
@@ -217,7 +224,7 @@ httpx-sse==0.4.3
     # via langchain-community
 identify==2.6.19
     # via pre-commit
-idna==3.13
+idna==3.16
     # via
     #   anyio
     #   email-validator
@@ -267,11 +274,11 @@ jinja2==3.1.6
     #   pydeck
     #   pytest-html
     #   safety
-jiter==0.14.0
+jiter==0.15.0
     # via openai
 joblib==1.5.3
     # via nltk
-joserfc==1.6.5
+joserfc==1.6.7
     # via authlib
 json5==0.14.0
     # via jupyterlab-server
@@ -334,11 +341,11 @@ jupyterlab-server==2.28.0
     #   notebook
 jupyterlab-widgets==3.0.16
     # via ipywidgets
-langchain==1.3.0
+langchain==1.3.1
     # via -r requirements-dev.in
 langchain-classic==1.0.7
     # via langchain-community
-langchain-community==0.4.1
+langchain-community==0.4.2
     # via -r requirements-dev.in
 langchain-core==1.4.0
     # via
@@ -351,7 +358,7 @@ langchain-core==1.4.0
     #   langgraph
     #   langgraph-checkpoint
     #   langgraph-prebuilt
-langchain-openai==1.2.1
+langchain-openai==1.2.2
     # via -r requirements-dev.in
 langchain-protocol==0.0.15
     # via langchain-core
@@ -359,17 +366,17 @@ langchain-text-splitters==1.1.2
     # via
     #   -r requirements-dev.in
     #   langchain-classic
-langgraph==1.2.0
+langgraph==1.2.1
     # via langchain
-langgraph-checkpoint==4.1.0
+langgraph-checkpoint==4.1.1
     # via
     #   langgraph
     #   langgraph-prebuilt
 langgraph-prebuilt==1.1.0
     # via langgraph
-langgraph-sdk==0.3.14
+langgraph-sdk==0.3.15
     # via langgraph
-langsmith==0.8.3
+langsmith==0.8.5
     # via
     #   langchain-classic
     #   langchain-community
@@ -398,10 +405,8 @@ markupsafe==3.0.3
     #   mkdocs-autorefs
     #   mkdocstrings
     #   nbconvert
-marshmallow==3.26.2
-    # via
-    #   dataclasses-json
-    #   safety
+marshmallow==4.3.0
+    # via safety
 matplotlib-inline==0.2.2
     # via
     #   ipykernel
@@ -450,8 +455,7 @@ mypy-extensions==1.1.0
     # via
     #   black
     #   mypy
-    #   typing-inspect
-narwhals==2.21.0
+narwhals==2.21.2
     # via altair
 nbclient==0.10.4
     # via nbconvert
@@ -482,7 +486,7 @@ numba==0.65.1
     # via pandas
 numexpr==2.14.1
     # via pandas
-numpy==2.4.4
+numpy==2.4.6
     # via
     #   -r requirements-dev.in
     #   bottleneck
@@ -492,7 +496,7 @@ numpy==2.4.4
     #   pandas
     #   pydeck
     #   streamlit
-openai==2.36.0
+openai==2.38.0
     # via langchain-openai
 openpyxl==3.1.5
     # via -r requirements-dev.in
@@ -517,7 +521,6 @@ packaging==26.2
     #   jupyterlab-server
     #   langchain-core
     #   langsmith
-    #   marshmallow
     #   mkdocs
     #   nbconvert
     #   pip-audit
@@ -541,8 +544,6 @@ pathspec==1.1.1
     #   black
     #   mkdocs
     #   mypy
-pexpect==4.9.0
-    # via ipython
 pillow==12.2.0
     # via streamlit
 pip-api==0.0.34
@@ -559,7 +560,7 @@ platformdirs==4.9.6
     #   pip-audit
     #   python-discovery
     #   virtualenv
-playwright==1.59.0
+playwright==1.60.0
     # via pytest-playwright
 pluggy==1.6.0
     # via
@@ -579,17 +580,13 @@ propcache==0.5.2
     # via
     #   aiohttp
     #   yarl
-protobuf==7.34.1
+protobuf==7.35.0
     # via streamlit
 psutil==7.2.2
     # via
     #   ipykernel
     #   ipython
     #   memory-profiler
-ptyprocess==0.7.0
-    # via
-    #   pexpect
-    #   terminado
 pure-eval==0.2.3
     # via stack-data
 py-serializable==2.1.0
@@ -639,9 +636,9 @@ pygments==2.20.0
     #   nbconvert
     #   pytest
     #   rich
-pyjwt==2.12.1
+pyjwt==2.13.0
     # via -r requirements-dev.in
-pymdown-extensions==10.21.2
+pymdown-extensions==10.21.3
     # via
     #   mkdocs-material
     #   mkdocstrings
@@ -672,7 +669,7 @@ pytest-metadata==3.1.1
     # via pytest-html
 pytest-mock==3.15.1
     # via -r requirements-dev.in
-pytest-playwright==0.7.2
+pytest-playwright==0.8.0
     # via -r requirements-dev.in
 pytest-xdist==3.8.0
     # via -r requirements-dev.in
@@ -682,7 +679,7 @@ python-dateutil==2.9.0.post0
     #   ghp-import
     #   jupyter-client
     #   pandas
-python-discovery==1.3.0
+python-discovery==1.3.1
     # via virtualenv
 python-dotenv==1.2.2
     # via
@@ -690,7 +687,7 @@ python-dotenv==1.2.2
     #   uvicorn
 python-json-logger==4.1.0
     # via jupyter-events
-python-multipart==0.0.28
+python-multipart==0.0.29
     # via
     #   fastapi
     #   streamlit
@@ -700,8 +697,18 @@ python-slugify==8.0.4
     # via pytest-playwright
 pytokens==0.4.1
     # via black
+pywin32==311 ; sys_platform == "win32"
+    # via
+    #   -r requirements-dev.in
+    #   docker
+pywinpty==3.0.3
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
+    #   terminado
 pyyaml==6.0.3
     # via
+    #   -r requirements-dev.in
     #   bandit
     #   commitizen
     #   detect-secrets
@@ -770,7 +777,7 @@ rich==15.0.0
     #   pip-audit
     #   rich-toolkit
     #   typer
-rich-toolkit==0.19.8
+rich-toolkit==0.19.10
     # via
     #   fastapi-cli
     #   fastapi-cloud-cli
@@ -784,7 +791,7 @@ ruamel-yaml==0.19.1
     # via
     #   safety
     #   safety-schemas
-ruff==0.15.12
+ruff==0.15.14
     # via -r requirements-dev.in
 safety==3.7.0
     # via -r requirements-dev.in
@@ -792,7 +799,7 @@ safety-schemas==0.0.16
     # via safety
 send2trash==2.1.0
     # via jupyter-server
-sentry-sdk==2.59.0
+sentry-sdk==2.60.0
     # via fastapi-cloud-cli
 shellingham==1.5.4
     # via typer
@@ -816,11 +823,11 @@ sqlalchemy==2.0.49
     #   langchain-community
 stack-data==0.6.3
     # via ipython
-starlette==1.0.0
+starlette==1.0.1
     # via
     #   fastapi
     #   streamlit
-stevedore==5.7.0
+stevedore==5.8.0
     # via bandit
 streamlit==1.57.0
     # via -r requirements-dev.in
@@ -838,7 +845,7 @@ terminado==0.18.1
     #   jupyter-server-terminals
 text-unidecode==1.3
     # via python-slugify
-tiktoken==0.12.0
+tiktoken==0.13.0
     # via langchain-openai
 tinycss2==1.4.0
     # via bleach
@@ -884,13 +891,13 @@ typer==0.25.1
     #   fastapi-cli
     #   fastapi-cloud-cli
     #   safety
-types-python-dateutil==2.9.0.20260508
+types-python-dateutil==2.9.0.20260518
     # via -r requirements-dev.in
-types-pyyaml==6.0.12.20260510
+types-pyyaml==6.0.12.20260518
     # via -r requirements-dev.in
-types-requests==2.33.0.20260513
+types-requests==2.33.0.20260518
     # via -r requirements-dev.in
-types-setuptools==82.0.0.20260508
+types-setuptools==82.0.0.20260518
     # via -r requirements-dev.in
 typing-extensions==4.15.0
     # via
@@ -918,17 +925,16 @@ typing-extensions==4.15.0
     #   sqlalchemy
     #   starlette
     #   streamlit
-    #   typing-inspect
     #   typing-inspection
-typing-inspect==0.9.0
-    # via dataclasses-json
 typing-inspection==0.4.2
     # via
     #   fastapi
     #   pydantic
     #   pydantic-settings
 tzdata==2026.2
-    # via arrow
+    # via
+    #   arrow
+    #   pandas
 uri-template==1.3.0
     # via jsonschema
 urllib3==2.7.0
@@ -938,26 +944,24 @@ urllib3==2.7.0
     #   requests
     #   sentry-sdk
     #   types-requests
-uuid-utils==0.15.0
+uuid-utils==0.16.0
     # via
     #   langchain-core
     #   langsmith
-uvicorn[standard]==0.47.0 ; sys_platform != "win32"
+uvicorn[standard]==0.47.0 ; sys_platform == "win32"
     # via
     #   -r requirements-dev.in
     #   fastapi
     #   fastapi-cli
     #   fastapi-cloud-cli
     #   streamlit
-uvloop==0.22.1
-    # via uvicorn
-virtualenv==21.3.2
+virtualenv==21.3.3
     # via pre-commit
 watchdog==6.0.0
     # via
     #   mkdocs
     #   streamlit
-watchfiles==1.1.1
+watchfiles==1.2.0
     # via uvicorn
 wcwidth==0.7.0
     # via prompt-toolkit
@@ -975,13 +979,13 @@ websockets==16.0
     #   uvicorn
 widgetsnbextension==4.0.15
     # via ipywidgets
-wrapt==2.1.2
+wrapt==2.2.1
     # via deprecated
 xxhash==3.7.0
     # via
     #   langgraph
     #   langsmith
-yarl==1.23.0
+yarl==1.24.2
     # via aiohttp
 zstandard==0.25.0
     # via langsmith
