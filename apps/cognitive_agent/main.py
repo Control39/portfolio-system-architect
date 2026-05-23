@@ -1,18 +1,16 @@
-""" 
+"""
 Cognitive Automation Agent — автономный ИИ-агент для управления проектами.
 
 API:
     GET /health — проверка здоровья
     POST /tasks — создание задачи
     GET /tasks/{id} — получение задачи
-""" 
+"""
 
 from fastapi import FastAPI
 
 app = FastAPI(
-    title="Cognitive Automation Agent",
-    description="Автономный ИИ-агент для управления проектами",
-    version="1.0.0"
+    title="Cognitive Automation Agent", description="Автономный ИИ-агент для управления проектами", version="1.0.0"
 )
 
 
@@ -27,10 +25,11 @@ async def root():
         "name": "Cognitive Automation Agent",
         "version": "1.0.0",
         "docs": "/docs",
-        "entry": "scripts/scanner_main.py"
+        "entry": "scripts/scanner_main.py",
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

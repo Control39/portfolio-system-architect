@@ -9,11 +9,9 @@ Knowledge Graph — Граф знаний (сущности/отношения)
 """
 
 import logging
-from typing import List, Optional, Dict
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -67,8 +65,8 @@ async def health_check():
     return {"status": "healthy", "service": "knowledge-graph"}
 
 
-@app.get("/api/v1/entities", response_model=List[Entity])
-async def list_entities(entity_type: Optional[str] = None):
+@app.get("/api/v1/entities", response_model=list[Entity])
+async def list_entities(entity_type: str | None = None):
     """Список всех сущностей"""
     # TODO: Интеграция с графовой БД
 

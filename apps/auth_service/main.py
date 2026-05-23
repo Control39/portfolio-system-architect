@@ -4,9 +4,9 @@ JWT Auth Service
 """
 
 import os
+import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-import sys
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.auth_service.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     auth_config = config_manager.get_config()
@@ -32,14 +33,13 @@ from pydantic import BaseModel
 
 from src.common.health_check import init_health_checks
 
-
 app = FastAPI(title="Auth Service", version="1.0.0")
 security = HTTPBearer()
 
 # Конфигурация из AI Config Manager или fallback
 JWT_SECRET = os.getenv("JWT_SECRET")
 if not JWT_SECRET and auth_config:
-    JWT_SECRET = auth_config.get('jwt', {}).get('secret', os.getenv("JWT_SECRET"))
+    JWT_SECRET = auth_config.get("jwt", {}).get("secret", os.getenv("JWT_SECRET"))
 if not JWT_SECRET:
     raise ValueError(
         "JWT_SECRET environment variable is required for production. "
@@ -48,7 +48,7 @@ if not JWT_SECRET:
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 JWT_EXPIRATION_HOURS = 24
 if auth_config:
-    JWT_EXPIRATION_HOURS = auth_config.get('jwt', {}).get('expiry_hours', 24)
+    JWT_EXPIRATION_HOURS = auth_config.get("jwt", {}).get("expiry_hours", 24)
 
 
 class TokenRequest(BaseModel):

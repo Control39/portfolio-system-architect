@@ -21,7 +21,7 @@ This is **not a traditional developer profile**. Instead, it represents a new ty
 
 | Skill Category | Evidence | Level |
 |----------------|----------|-------|
-| **System Architecture** | 8-microservice ecosystem with Kubernetes, monitoring, security | Expert |
+| **System Architecture** | 14+ microservices with Kubernetes, monitoring, security | Expert |
 | **AI/ML Integration** | RAG systems, LLM orchestration, AI-assisted development | Advanced |
 | **DevOps & Cloud** | Production Kubernetes, GitOps, multi-cloud readiness | Expert |
 | **Security & Compliance** | Financial-grade security implementation | Advanced |

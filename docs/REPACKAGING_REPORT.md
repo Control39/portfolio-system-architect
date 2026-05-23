@@ -155,7 +155,6 @@ docs/
 | Способ | Данные |
 |--------|--------|
 | **Email** | leadarchitect@yandex.ru |
-| **Telegram** | @leadarchitect_ai |
 | **GitHub** | https://github.com/Control39/portfolio-system-architect |
 
 ---

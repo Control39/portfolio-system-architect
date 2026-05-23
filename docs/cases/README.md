@@ -1,18 +1,24 @@
 # Cases Overview
 
-## Evolution Cases
-- [01_knowledge_management](evolution-cases/01_knowledge_management/)
-- ...
-- [06_gigachain_rag_self_analysis](evolution-cases/06_gigachain_rag_self_analysis/) - RAG for self-analysis proving systemic thinking (GigaChain, ChromaDB, 111 markers).
+## 🎯 3 Основные Кейса (Презентационные)
+| Кейс | Описание | Ссылка |
+|------|----------|--------|
+| IT-Compass + Portfolio Organizer | Методология оценки компетенций | [`case-1-it-compass-portfolio-organizer/`](case-1-it-compass-portfolio-organizer/) |
+| Infra Orchestrator + Decision Engine | AI Reasoning Engine | [`case-2-infra-orchestrator-decision-engine/`](case-2-infra-orchestrator-decision-engine/) |
+| System Proof + Thought Architecture | Валидация архитектурных решений | [`case-3-system-proof-thought-architecture/`](case-3-system-proof-thought-architecture/) |
 
-## Thinking Cases
-- [01-ai-communication-breakthrough](../thinking-cases/01-ai-communication-breakthrough/)
+## 📊 Бизнес-кейсы (ROI)
+| Кейс | Описание | Ссылка |
+|------|----------|--------|
+| Онбординг оптимизация | Ускорение onboarding в 2.5x | [`business-impact/case-01-onboarding-optimization.md`](business-impact/case-01-onboarding-optimization.md) |
+| AI разработка | Ускорение разработки на 80% | [`business-impact/case-02-ai-development-acceleration.md`](business-impact/case-02-ai-development-acceleration.md) |
+| GitOps эффективность | Снижение операционных затрат | [`business-impact/case-03-gitops-operational-efficiency.md`](business-impact/case-03-gitops-operational-efficiency.md) |
 
-## Presentation Cases
-- [case-1-it-compass-portfolio-organizer](../presentation-cases/case-1-it-compass-portfolio-organizer/)
+## 📈 Эволюционные кейсы
+- [01_knowledge_management](evolution-cases/01_knowledge_management/) — Путь от идеи к архитектуре
+- [06_gigachain_rag_self_analysis](evolution-cases/06_gigachain_rag_self_analysis/) — RAG для self-analysis
 
-
-## 🎯 AI Config Manager (2026-04)
+## 🤖 AI Config Manager (2026-04)
 **Универсальный инструмент управления AI-сервисами**
 - [Подробный кейс](ai-config-manager/README.md)
 - [Technical Deep-Dive](ai-config-manager/TECHNICAL_DEEP_DIVE.md)

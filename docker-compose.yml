@@ -1,5 +1,5 @@
 ﻿---
-version: '3.9'
+version: "3.9"
 
 services:
   # ============================================================
@@ -19,7 +19,7 @@ services:
       - "--log.level=INFO"
     ports:
       - "80:80"
-      - "8080:8080"  # Traefik dashboard: http://localhost:8080
+      - "8080:8080" # Traefik dashboard: http://localhost:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
@@ -96,7 +96,7 @@ services:
       context: .
       dockerfile: apps/decision_engine/Dockerfile
     ports:
-      - "8001:8001"  # Direct access: http://localhost:8001
+      - "8001:8001" # Direct access: http://localhost:8001
     environment:
       - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -133,7 +133,7 @@ services:
       dockerfile: apps/ml_model_registry/Dockerfile
     container_name: portfolio-system-architect-ml-model-registry-1
     ports:
-      - "8002:8002"  # Direct access: http://localhost:8002
+      - "8002:8002" # Direct access: http://localhost:8002
     environment:
       - PYTHONPATH=/app:/app/src
       - DATABASE_URL=${DATABASE_URL}
@@ -165,7 +165,7 @@ services:
   career-development:
     build:
       context: ./apps/career_development
-      dockerfile: Dockerfile  # TODO: добавить Dockerfile
+      dockerfile: Dockerfile # TODO: добавить Dockerfile
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -188,7 +188,7 @@ services:
   portfolio_organizer:
     build: ./apps/portfolio_organizer
     ports:
-      - "8004:8004"  # Direct access: http://localhost:8004
+      - "8004:8004" # Direct access: http://localhost:8004
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -259,6 +259,27 @@ services:
       retries: 3
     depends_on:
       - traefik
+
+  # ============================================================
+  # MCP Server (Model Context Protocol)
+  # Route: Direct access: localhost:8007
+  # Status: WIP - Use profile: wip to run
+  # ============================================================
+  mcp_server:
+    build: ./apps/mcp_server
+    ports:
+      - "8007:8000"
+    profiles:
+      - wip
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - .:/app/mounted-repo:ro
+    networks:
+      - portfolio-network
+    depends_on:
+      - auth_service
 
   # ============================================================
   # PostgreSQL Database

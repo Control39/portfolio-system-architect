@@ -14,6 +14,7 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.career_development.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     career_config = config_manager.get_config()
@@ -27,6 +28,5 @@ except Exception as e:
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from api.app import app
-
 
 __all__ = ["app"]

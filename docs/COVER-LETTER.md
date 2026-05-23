@@ -2,7 +2,6 @@
 
 **Контакты:**
 - Email: leadarchitect@yandex.ru
-- Telegram: @leadarchitect_ai
 - GitHub: https://github.com/Control39/portfolio-system-architect
 
 ---
@@ -79,7 +78,6 @@ Telegram: @leadarchitect_ai
 С уважением,
 [Ваше имя]
 Email: leadarchitect@yandex.ru
-Telegram: @leadarchitect_ai
 GitHub: https://github.com/Control39/portfolio-system-architect
 ```
 
@@ -112,7 +110,7 @@ GitHub: https://github.com/Control39/portfolio-system-architect
 Старт: быстро.
 
 [Ваше имя]
-Telegram: @leadarchitect_ai
+Telegram: Уточняется
 Email: leadarchitect@yandex.ru
 ```
 
