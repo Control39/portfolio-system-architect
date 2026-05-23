@@ -1,0 +1,1213 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/internal/analysis/documentation/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Анализ документации - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Анализ документации
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Введение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Общая структура документации
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Общая структура документации">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Корневая документация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Директория docs/
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Документация для разработчиков
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Документация для разработчиков">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Установка и настройка
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Архитектура и дизайн
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. API документация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Тестирование
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Документация для пользователей
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Документация для пользователей">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Руководство пользователя
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. FAQ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Changelog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Актуальность
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Актуальность">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Сравнение с кодом
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Устаревшие документы
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Форматы и инструменты
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Форматы и инструменты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Используемые форматы
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Инструменты генерации
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Выявленные проблемы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Выявленные проблемы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Критические
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Высокие
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Средние
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4. Низкие
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Рекомендации
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Рекомендации">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Немедленные действия (1-2 дня)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Краткосрочные (1-2 недели)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Долгосрочные (1-2 месяца)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Дорожная карта улучшений
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Анализ документации</h1>
+<p><strong>Направление:</strong> Документация (Documentation)
+<strong>Дата:</strong> 2026-03-21
+<strong>Аналитик:</strong> SourceCraft Code Assistant Agent</p>
+<hr />
+<h2 id="1">1. Введение</h2>
+<p>Цель анализа — оценить качество, полноту и актуальность документации проекта, выявить пробелы и предложить улучшения.</p>
+<p><strong>Методология:</strong>
+- Обзор структуры директории <code>docs/</code>.
+- Проверка README файлов в корне и подпроектах.
+- Оценка наличия руководств для разработчиков, пользователей, API.
+- Анализ актуальности (соответствие коду).</p>
+<hr />
+<h2 id="2">2. Общая структура документации</h2>
+<h3 id="21">2.1. Корневая документация</h3>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Назначение</th>
+<th>Состояние</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>Основное описание проекта</td>
+<td>✅ Хорошо</td>
+</tr>
+<tr>
+<td><code>CONTRIBUTING.md</code></td>
+<td>Руководство для контрибьюторов</td>
+<td>✅ Хорошо</td>
+</tr>
+<tr>
+<td><code>CODE_OF_CONDUCT.md</code></td>
+<td>Кодекс поведения</td>
+<td>✅ Хорошо</td>
+</tr>
+<tr>
+<td><code>LICENSE</code></td>
+<td>Лицензия MIT</td>
+<td>✅ Хорошо</td>
+</tr>
+<tr>
+<td><code>TODO.md</code></td>
+<td>Список задач</td>
+<td>✅ Актуально</td>
+</tr>
+<tr>
+<td><code>QUICKSTART.md</code></td>
+<td>Быстрый старт</td>
+<td>✅ Хорошо</td>
+</tr>
+<tr>
+<td><code>ONBOARDING.md</code></td>
+<td>Онбординг новых участников</td>
+<td>✅ Хорошо</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-docs">2.2. Директория <code>docs/</code></h3>
+<pre><code>docs/
+├── ARCHITECTURE.md          # Архитектура системы
+├── audit-2026-03.md         # Аудит
+├── human-ai-workflow.md     # Рабочий процесс
+├── PORTFOLIO-STORY.md       # История портфолио
+├── PROJECTS-MATRIX.md       # Матрица проектов
+├── scaling-plan.md          # План масштабирования
+├── api/                     # Документация API (Sphinx)
+├── archive/                 # Архивные документы
+├── evidence/                # Доказательства
+├── external-ecosystem/      # Внешние интеграции
+├── features/                # Описание функций
+├── grants/                  # Гранты
+├── integrations/            # Интеграции
+├── methodology/             # Методология
+├── presentations/           # Презентации
+├── quickstart/              # Расширенный quickstart
+└── security/                # Безопасность
+</code></pre>
+<p><strong>Проблемы:</strong>
+- Некоторые файлы дублируются (например, <code>ARCHITECTURE.md</code> в корне и в <code>docs/</code>).
+- Отсутствует единый навигационный индекс.
+- Документация API сгенерирована, но не обновляется автоматически.</p>
+<hr />
+<h2 id="3">3. Документация для разработчиков</h2>
+<h3 id="31">3.1. Установка и настройка</h3>
+<ul>
+<li><code>QUICKSTART.md</code> покрывает базовые шаги.</li>
+<li><code>scripts/dev/setup-dev.ps1</code> — скрипт для Windows.</li>
+<li><strong>Проблемы:</strong> Нет инструкций для macOS/Linux.</li>
+</ul>
+<h3 id="32">3.2. Архитектура и дизайн</h3>
+<ul>
+<li><code>ARCHITECTURE.md</code> детально описывает компоненты.</li>
+<li><code>diagrams/</code> содержит Mermaid-диаграммы.</li>
+<li><strong>Проблемы:</strong> Диаграммы не всегда синхронизированы с кодом.</li>
+</ul>
+<h3 id="33-api">3.3. API документация</h3>
+<ul>
+<li>Используется Sphinx ( <code>docs/api/</code> ).</li>
+<li><strong>Проблемы:</strong> Не все эндпоинты задокументированы, отсутствуют примеры запросов.</li>
+</ul>
+<h3 id="34">3.4. Тестирование</h3>
+<ul>
+<li>Нет отдельного документа о тестировании, кроме <code>CONTRIBUTING.md</code>.</li>
+<li><strong>Рекомендация:</strong> Создать <code>TESTING.md</code> с описанием unit/integration/e2e тестов.</li>
+</ul>
+<hr />
+<h2 id="4">4. Документация для пользователей</h2>
+<h3 id="41">4.1. Руководство пользователя</h3>
+<ul>
+<li>Отсутствует.</li>
+<li><strong>Рекомендация:</strong> Создать <code>docs/user-guide/</code> с пошаговыми инструкциями.</li>
+</ul>
+<h3 id="42-faq">4.2. FAQ</h3>
+<ul>
+<li><code>docs/grants/FAQ.md</code> существует, но только для грантов.</li>
+<li><strong>Рекомендация:</strong> Создать общий FAQ.</li>
+</ul>
+<h3 id="43-changelog">4.3. Changelog</h3>
+<ul>
+<li><code>scripts/dev/CHANGELOG.md</code> есть, но не интегрирован с релизами.</li>
+<li><strong>Рекомендация:</strong> Внедрить автоматическую генерацию changelog из тегов.</li>
+</ul>
+<hr />
+<h2 id="5">5. Актуальность</h2>
+<h3 id="51">5.1. Сравнение с кодом</h3>
+<p>Выборочная проверка:</p>
+<table>
+<thead>
+<tr>
+<th>Документ</th>
+<th>Соответствие коду</th>
+<th>Комментарий</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ARCHITECTURE.md</code></td>
+<td>Частично</td>
+<td>Некоторые сервисы (например, auth-service) описаны, но их реализация изменилась.</td>
+</tr>
+<tr>
+<td><code>deployment/k8s-README.md</code></td>
+<td>Да</td>
+<td>Актуально.</td>
+</tr>
+<tr>
+<td><code>apps/portfolio-organizer/README.md</code></td>
+<td>Да</td>
+<td>Актуально.</td>
+</tr>
+<tr>
+<td><code>apps/decision-engine/README.md</code></td>
+<td>Нет</td>
+<td>Устарело (описывает старую версию).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2. Устаревшие документы</h3>
+<ul>
+<li><code>docs/archive/</code> — помечены как архив, но могут вводить в заблуждение.</li>
+<li><code>docs/grants/grant-ready.md</code> — устаревшие даты.</li>
+</ul>
+<hr />
+<h2 id="6">6. Форматы и инструменты</h2>
+<h3 id="61">6.1. Используемые форматы</h3>
+<ul>
+<li>Markdown (основной).</li>
+<li>Mermaid для диаграмм.</li>
+<li>Sphinx для API.</li>
+</ul>
+<h3 id="62">6.2. Инструменты генерации</h3>
+<ul>
+<li><code>scripts/generate-site.sh</code> — генерация статического сайта.</li>
+<li><code>tools/generate_website.py</code> — скрипт для создания веб-сайта.</li>
+<li><strong>Проблемы:</strong> Нет автоматической публикации документации (например, через GitHub Pages).</li>
+</ul>
+<hr />
+<h2 id="7">7. Выявленные проблемы</h2>
+<h3 id="71">7.1. Критические</h3>
+<ol>
+<li><strong>Отсутствие руководства пользователя</strong> — новые пользователи не знают, как использовать систему.</li>
+<li><strong>Дублирование архитектурной документации</strong> — приводит к рассинхронизации.</li>
+<li><strong>Устаревшая документация по некоторым сервисам</strong> (decision-engine → decision-engine, arch-compass-framework → infra-orchestrator - переименованы, требуется обновление ссылок).</li>
+</ol>
+<h3 id="72">7.2. Высокие</h3>
+<ol>
+<li><strong>Нет единого навигационного индекса</strong> — сложно найти нужный документ.</li>
+<li><strong>Документация API неполная</strong> — отсутствуют примеры, описание ошибок.</li>
+<li><strong>Отсутствие автоматической публикации</strong> — документация не доступна онлайн.</li>
+</ol>
+<h3 id="73">7.3. Средние</h3>
+<ol>
+<li><strong>Нет инструкций для macOS/Linux</strong>.</li>
+<li><strong>Не все диаграммы актуальны</strong>.</li>
+<li><strong>FAQ только для грантов</strong>.</li>
+</ol>
+<h3 id="74">7.4. Низкие</h3>
+<ol>
+<li><strong>Changelog не интегрирован с релизами</strong>.</li>
+<li><strong>Нет документации по тестированию</strong>.</li>
+<li><strong>Отсутствие глоссария терминов</strong>.</li>
+</ol>
+<hr />
+<h2 id="8">8. Рекомендации</h2>
+<h3 id="81-1-2">8.1. Немедленные действия (1-2 дня)</h3>
+<ol>
+<li><strong>Создать навигационный индекс</strong> (<code>docs/INDEX.md</code>) с картой документации.</li>
+<li><strong>Обновить устаревшие README</strong> (decision-engine, arch-compass-framework).</li>
+<li><strong>Удалить дубликаты</strong> (оставить один <code>ARCHITECTURE.md</code> в <code>docs/</code>).</li>
+</ol>
+<h3 id="82-1-2">8.2. Краткосрочные (1-2 недели)</h3>
+<ol>
+<li><strong>Написать руководство пользователя</strong> (user-guide) с пошаговыми сценариями.</li>
+<li><strong>Дополнить документацию API</strong> примерами запросов/ответов, кодами ошибок.</li>
+<li><strong>Создать общий FAQ</strong> на основе частых вопросов.</li>
+<li><strong>Настроить автоматическую публикацию</strong> через GitHub Pages / MkDocs.</li>
+<li><strong>Добавить инструкции для macOS/Linux</strong> в <code>QUICKSTART.md</code>.</li>
+</ol>
+<h3 id="83-1-2">8.3. Долгосрочные (1-2 месяца)</h3>
+<ol>
+<li><strong>Внедрить автоматическую синхронизацию диаграмм</strong> с кодом (например, через PlantUML).</li>
+<li><strong>Интегрировать changelog с релизами</strong> (использовать <code>git-cliff</code> или <code>standard-version</code>).</li>
+<li><strong>Создать глоссарий терминов</strong> и справочник архитектурных решений (ADR).</li>
+<li><strong>Регулярные аудиты документации</strong> (раз в квартал).</li>
+</ol>
+<hr />
+<h2 id="9">9. Дорожная карта улучшений</h2>
+<table>
+<thead>
+<tr>
+<th>Действие</th>
+<th>Срок</th>
+<th>Ответственный</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Создание навигационного индекса</td>
+<td>1 день</td>
+<td>Technical Writer</td>
+</tr>
+<tr>
+<td>Обновление README decision-engine</td>
+<td>2 дня</td>
+<td>Backend Dev</td>
+</tr>
+<tr>
+<td>Удаление дубликатов ARCHITECTURE.md</td>
+<td>1 день</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td>Написание руководства пользователя</td>
+<td>1 неделя</td>
+<td>Technical Writer</td>
+</tr>
+<tr>
+<td>Дополнение API документации</td>
+<td>1 неделя</td>
+<td>Backend Dev</td>
+</tr>
+<tr>
+<td>Настройка GitHub Pages</td>
+<td>3 дня</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td>Добавление инструкций для macOS/Linux</td>
+<td>2 дня</td>
+<td>Backend Dev</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Создание общего FAQ</td>
+<td>1 неделя</td>
+<td>Technical Writer</td>
+</tr>
+<tr>
+<td>Интеграция changelog с релизами</td>
+<td>2 недели</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td>Глоссарий терминов</td>
+<td>2 недели</td>
+<td>Technical Writer</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10">10. Заключение</h2>
+<p>Документация проекта обширна, но страдает от дублирования, устаревания и отсутствия целостной навигации. Критически важно создать руководство пользователя и наладить процессы поддержания актуальности. Реализация рекомендаций сделает документацию полезным активом, а не обузой.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,79 @@
+
+============================================================
+Анализ репозитория: .
+============================================================
+
+📊 Монорепозиторий: ✅ Да
+
+🔍 Сканирование компонентов...
+
+📁 Найдено компонентов: 16
+
+  • ai-config-manager
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • auth_service
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • career_development
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • cognitive-agent
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • decision_engine
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • infra-orchestrator
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • it_compass
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • job-automation-agent
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • knowledge_graph
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • mcp_server
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • ml_model_registry
+    Роль: microservice (confidence: 98%)
+    Признаки: Точка входа (main.py) и Dockerfile, Есть тесты
+
+  • portfolio_organizer
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • system_proof
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • template-service
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • thought-architecture
+    Роль: library (confidence: 90%)
+    Признаки: Библиотека Python (setup.py/pyproject.toml), Имеет структуру src/
+
+  • utils
+    Роль: unknown (confidence: 50%)
+    Признаки: Недостаточно признаков
+
+🔄 Поиск циклов зависимостей...
+  ✅ Циклов не обнаружено
+
+============================================================

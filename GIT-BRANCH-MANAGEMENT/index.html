@@ -1,0 +1,1136 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://leadarchitect-ai.github.io/portfolio-system-architect/GIT-BRANCH-MANAGEMENT/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Git Branch Management & Cleanup Process - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git-branch-management-cleanup-process" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git Branch Management &amp; Cleanup Process
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reasoning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reasoning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Структура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/ROUTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Галерея
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reasoning/TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Шаблон
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visualization/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Визуализация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Branch Naming Convention
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Branch Naming Convention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prefixes-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prefixes &amp; Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Workflow Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Workflow Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creating-a-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Creating a Branch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-making-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Making Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-creating-a-pull-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Creating a Pull Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-after-pr-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. After PR Merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧹 Automated Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧹 Automated Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd-scheduled-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD Scheduled Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protected-branches-never-deleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protected Branches (Never deleted)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-cleanup-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Cleanup Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-health-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Branch Health Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Branch Health Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exception-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 Exception Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Exception Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branches-to-keep-longer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches to Keep Longer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restoring-deleted-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restoring Deleted Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Configuration Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ci-configuration-sourcecraftciyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. CI Configuration (.sourcecraft/ci.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cleanup-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cleanup Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-git-hooks-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Git Hooks (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Do's
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Don'ts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📞 Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📞 Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issues-with-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issues with Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="git-branch-management-cleanup-process">Git Branch Management &amp; Cleanup Process</h1>
+<h2 id="overview">📋 Overview</h2>
+<p>This document defines the branch management strategy for the Portfolio System Architect project. It ensures clean repositories, prevents accumulation of technical debt, and establishes clear workflows for collaboration.</p>
+<h2 id="branch-naming-convention">🎯 Branch Naming Convention</h2>
+<h3 id="prefixes-purpose">Prefixes &amp; Purpose</h3>
+<table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Purpose</th>
+<th>Example</th>
+<th>Auto-cleanup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>feature/</code></td>
+<td>New functionality</td>
+<td><code>feature/audience-docs</code></td>
+<td>30 days after merge</td>
+</tr>
+<tr>
+<td><code>fix/</code></td>
+<td>Bug fixes</td>
+<td><code>fix/docs-time-intervals</code></td>
+<td>30 days after merge</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>Documentation only</td>
+<td><code>docs/readme-update</code></td>
+<td>30 days after merge</td>
+</tr>
+<tr>
+<td><code>enhance/</code></td>
+<td>Improvements (non-breaking)</td>
+<td><code>enhance/ci-performance</code></td>
+<td>30 days after merge</td>
+</tr>
+<tr>
+<td><code>security/</code></td>
+<td>Security fixes</td>
+<td><code>security/sql-injection</code></td>
+<td>Keep until audit</td>
+</tr>
+<tr>
+<td><code>experiment/</code></td>
+<td>Proof of concepts</td>
+<td><code>experiment/new-llm-integration</code></td>
+<td>14 days</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rules">Rules</h3>
+<ol>
+<li>Use kebab-case: <code>feature/my-feature-name</code></li>
+<li>Be descriptive but concise</li>
+<li>Include ticket/issue number if applicable: <code>feature/123-add-auth</code></li>
+</ol>
+<h2 id="workflow-process">🔄 Workflow Process</h2>
+<h3 id="1-creating-a-branch">1. Creating a Branch</h3>
+<pre><code class="language-bash"># Always start from main
+git checkout main
+git pull origin main
+
+# Create new branch
+git checkout -b feature/descriptive-name
+</code></pre>
+<h3 id="2-making-changes">2. Making Changes</h3>
+<ul>
+<li>Commit frequently with clear messages</li>
+<li>Follow conventional commits: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>, etc.</li>
+<li>Keep changes focused on the branch's purpose</li>
+</ul>
+<h3 id="3-creating-a-pull-request">3. Creating a Pull Request</h3>
+<ol>
+<li>Push branch to remote: <code>git push origin feature/descriptive-name</code></li>
+<li>Create PR on <strong>SourceCraft</strong> (not GitHub)</li>
+<li>Add description, link issues, assign reviewers</li>
+<li>Wait for CI checks to pass</li>
+</ol>
+<h3 id="4-after-pr-merge">4. After PR Merge</h3>
+<pre><code class="language-bash"># Delete remote branch (automatically via CI or manually)
+git push origin --delete feature/descriptive-name
+
+# Delete local branch
+git branch -d feature/descriptive-name
+
+# Update local main
+git checkout main
+git pull origin main
+</code></pre>
+<h2 id="automated-cleanup">🧹 Automated Cleanup</h2>
+<h3 id="cicd-scheduled-cleanup">CI/CD Scheduled Cleanup</h3>
+<ul>
+<li><strong>Frequency</strong>: Every Sunday at 03:00 UTC</li>
+<li><strong>Script</strong>: <code>scripts/cleanup-old-branches.sh</code></li>
+<li><strong>Criteria</strong>:</li>
+<li>Branches merged into main (any age)</li>
+<li>Branches older than 30 days (not merged)</li>
+<li>Dependabot branches older than 14 days</li>
+</ul>
+<h3 id="protected-branches-never-deleted">Protected Branches (Never deleted)</h3>
+<ul>
+<li><code>main</code></li>
+<li><code>gh-pages</code></li>
+<li><code>master</code></li>
+<li><code>develop</code></li>
+</ul>
+<h3 id="manual-cleanup-commands">Manual Cleanup Commands</h3>
+<pre><code class="language-bash"># Dry run (see what would be deleted)
+DRY_RUN=true ./scripts/cleanup-old-branches.sh
+
+# Force cleanup (immediate)
+./scripts/cleanup-old-branches.sh
+
+# PowerShell version
+pwsh scripts/cleanup-old-branches.ps1 -DryRun
+</code></pre>
+<h2 id="branch-health-metrics">📊 Branch Health Metrics</h2>
+<h3 id="monitoring">Monitoring</h3>
+<ul>
+<li><strong>Active branches</strong>: <code>git branch -r --no-merged origin/main</code></li>
+<li><strong>Stale branches</strong>: <code>git branch -r --merged origin/main</code></li>
+<li><strong>Branch age</strong>: Script calculates days since last commit</li>
+</ul>
+<h3 id="reports">Reports</h3>
+<p>Weekly CI job generates:
+1. List of branches deleted
+2. Current branch count
+3. Age distribution of active branches</p>
+<h2 id="exception-handling">🚨 Exception Handling</h2>
+<h3 id="branches-to-keep-longer">Branches to Keep Longer</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Retention</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security fixes</td>
+<td>90 days</td>
+<td>Manual review before deletion</td>
+</tr>
+<tr>
+<td>Grant-related work</td>
+<td>Until grant decision</td>
+<td>Tag with <code>grant-2025</code></td>
+</tr>
+<tr>
+<td>Production hotfixes</td>
+<td>60 days</td>
+<td>Linked to incident report</td>
+</tr>
+</tbody>
+</table>
+<h3 id="restoring-deleted-branches">Restoring Deleted Branches</h3>
+<pre><code class="language-bash"># Find commit hash
+git reflog | grep &quot;feature/deleted-branch&quot;
+
+# Restore from commit
+git checkout -b feature/restored-branch &lt;commit-hash&gt;
+</code></pre>
+<h2 id="configuration-files">🔧 Configuration Files</h2>
+<h3 id="1-ci-configuration-sourcecraftciyaml">1. CI Configuration (<code>.sourcecraft/ci.yaml</code>)</h3>
+<ul>
+<li>Defines scheduled cleanup job</li>
+<li>Sets DRY_RUN=false for production</li>
+<li>Configures email notifications</li>
+</ul>
+<h3 id="2-cleanup-scripts">2. Cleanup Scripts</h3>
+<ul>
+<li><code>scripts/cleanup-old-branches.sh</code> - Linux/macOS</li>
+<li><code>scripts/cleanup-old-branches.ps1</code> - Windows/PowerShell</li>
+</ul>
+<h3 id="3-git-hooks-optional">3. Git Hooks (Optional)</h3>
+<ul>
+<li>Pre-commit: Check branch naming</li>
+<li>Pre-push: Warn about stale branches</li>
+</ul>
+<h2 id="best-practices">📝 Best Practices</h2>
+<h3 id="dos">Do's</h3>
+<ul>
+<li>✅ Delete branches immediately after merge</li>
+<li>✅ Use descriptive names</li>
+<li>✅ Keep branches focused (single responsibility)</li>
+<li>✅ Regular cleanup (weekly)</li>
+<li>✅ Document long-running branches</li>
+</ul>
+<h3 id="donts">Don'ts</h3>
+<ul>
+<li>❌ Use generic names (<code>test</code>, <code>update</code>, <code>fix</code>)</li>
+<li>❌ Keep branches after merge</li>
+<li>❌ Work directly on <code>main</code></li>
+<li>❌ Ignore CI cleanup failures</li>
+</ul>
+<h2 id="related-documentation">🔗 Related Documentation</h2>
+<ul>
+<li><a href="SOURCECRAFT-MIRROR-INSTRUCTIONS.md">SourceCraft Mirror Instructions</a></li>
+<li><a href="../.sourcecraft/ci.yaml">CI/CD Configuration</a></li>
+<li><a href="../CONTRIBUTING.md">Contributing Guidelines</a></li>
+</ul>
+<h2 id="support">📞 Support</h2>
+<h3 id="issues-with-cleanup">Issues with Cleanup</h3>
+<ol>
+<li>Check CI logs for errors</li>
+<li>Verify git permissions</li>
+<li>Run manual dry run</li>
+</ol>
+<h3 id="process-questions">Process Questions</h3>
+<ul>
+<li>Open issue with label <code>git-process</code></li>
+<li>Contact maintainers on SourceCraft</li>
+<li>Review this document for updates</li>
+</ul>
+<hr />
+<p><em>Last updated: $(date +%Y-%m-%d)</em>
+<em>Auto-cleanup status: ✅ Active</em>
+<em>Next cleanup: Sunday 03:00 UTC</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
