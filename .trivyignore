@@ -27,3 +27,8 @@ env/
 *.secrets.baseline
 .trivyignore
 trivy-secret.yaml
+
+# Ignore False Positives from PowerShell modules (Trivy mistakes variable assignments for secrets)
+# These are code patterns like: $var = [SomeClass]::Method()
+**/SecretManager.psm1
+**/SecurityScanner.psm1
