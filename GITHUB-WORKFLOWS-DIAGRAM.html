@@ -1,0 +1,756 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://control39.github.io/portfolio-system-architect/GITHUB-WORKFLOWS-DIAGRAM.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>📊 GitHub Workflows — Визуальная карта - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/custom.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#github-workflows" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📊 GitHub Workflows — Визуальная карта
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Общая схема
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Детальный обзор
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Статистика
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Рекомендации по исправлению
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 История изменений
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="github-workflows">📊 GitHub Workflows — Визуальная карта</h1>
+<blockquote>
+<p><strong>Последнее обновление:</strong> 09 May 2026, 02:27
+<strong>Генерируется автоматически:</strong> <code>scripts/generate-workflow-diagram.py</code>
+<strong>Режим:</strong> Исправление проблем (не отключение)</p>
+</blockquote>
+<hr />
+<h2 id="_1">🔄 Общая схема</h2>
+<pre><code class="language-mermaid">graph TD
+    subgraph &quot;Uncategorized&quot;
+        agents-codeassistant-compatibility[&quot;ℹ️ Agents and CodeAssistant Compatibility Check&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style agents-codeassistant-compatibility fill:#2196F3,color:#fff
+        architecture-analysis[&quot;ℹ️ Architecture Maturity Check&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style architecture-analysis fill:#2196F3,color:#fff
+        auto-update-badges[&quot;ℹ️ Auto Update Badges&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style auto-update-badges fill:#2196F3,color:#fff
+        azure-deploy[&quot;ℹ️ Deploy to Azure&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style azure-deploy fill:#2196F3,color:#fff
+        badge-health-monitor[&quot;ℹ️ Badge Health Monitor&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style badge-health-monitor fill:#2196F3,color:#fff
+        ci[&quot;ℹ️ CI / Test &amp; Coverage&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style ci fill:#2196F3,color:#fff
+        code-quality[&quot;ℹ️ Code Quality &amp; Lint&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style code-quality fill:#2196F3,color:#fff
+        codeql[&quot;ℹ️ CodeQL Advanced&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style codeql fill:#2196F3,color:#fff
+        cognitive-agent-ci[&quot;ℹ️ Cognitive Agent CI/CD&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style cognitive-agent-ci fill:#2196F3,color:#fff
+        dependabot-auto-merge[&quot;ℹ️ Dependabot Auto Merge&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style dependabot-auto-merge fill:#2196F3,color:#fff
+        deploy-dashboard[&quot;ℹ️ Deploy Assistant Orchestrator Dashboard&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style deploy-dashboard fill:#2196F3,color:#fff
+        deploy-k8s[&quot;ℹ️ Deploy to Kubernetes&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style deploy-k8s fill:#2196F3,color:#fff
+        deploy-pages[&quot;ℹ️ Deploy Documentation to GitHub Pages&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style deploy-pages fill:#2196F3,color:#fff
+        deploy[&quot;ℹ️ Deploy MkDocs Site&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style deploy fill:#2196F3,color:#fff
+        docs[&quot;ℹ️ Documentation / Generate Documentation&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style docs fill:#2196F3,color:#fff
+        duplicate-check[&quot;ℹ️ Duplicate Check&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style duplicate-check fill:#2196F3,color:#fff
+        gitops-argocd[&quot;ℹ️ GitOps Sync with ArgoCD&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style gitops-argocd fill:#2196F3,color:#fff
+        mirror-sync-enhanced[&quot;ℹ️ Enhanced Mirror Sync &amp; Notification&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style mirror-sync-enhanced fill:#2196F3,color:#fff
+        mirror-to-sourcecraft[&quot;ℹ️ Mirror to SourceCraft&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style mirror-to-sourcecraft fill:#2196F3,color:#fff
+        monitor-mirror-discrepancies[&quot;ℹ️ Monitor Mirror Discrepancies&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style monitor-mirror-discrepancies fill:#2196F3,color:#fff
+        monitoring-alerts[&quot;ℹ️ Monitoring and Alerts&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style monitoring-alerts fill:#2196F3,color:#fff
+        rag-update[&quot;ℹ️ RAG System Update&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style rag-update fill:#2196F3,color:#fff
+        release[&quot;ℹ️ Release&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style release fill:#2196F3,color:#fff
+        repo-audit[&quot;ℹ️ Repository Audit&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style repo-audit fill:#2196F3,color:#fff
+        security-scan[&quot;ℹ️ Security Scan&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style security-scan fill:#2196F3,color:#fff
+        test-decision-engine[&quot;ℹ️ Test Decision Engine Component&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style test-decision-engine fill:#2196F3,color:#fff
+        update-metrics[&quot;ℹ️ Update Metrics &amp; Badges&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style update-metrics fill:#2196F3,color:#fff
+        update[&quot;ℹ️ Ежедневное обновление портфолио&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style update fill:#2196F3,color:#fff
+        vscode-extensions-check[&quot;ℹ️ VS Code Extensions Compliance Check&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style vscode-extensions-check fill:#2196F3,color:#fff
+        ai-configs[&quot;ℹ️ AI Config CI/CD&lt;br/&gt;&lt;small&gt;manual&lt;/small&gt;&quot;]
+        style ai-configs fill:#2196F3,color:#fff
+    end
+
+</code></pre>
+<hr />
+<h2 id="_2">📋 Детальный обзор</h2>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Категория</th>
+<th>Триггеры</th>
+<th>Статус</th>
+<th>Проблема</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agents-codeassistant-compatibility</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>architecture-analysis</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>auto-update-badges</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>azure-deploy</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>badge-health-monitor</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>ci</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>code-quality</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>codeql</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>cognitive-agent-ci</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>dependabot-auto-merge</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>deploy-dashboard</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>deploy-k8s</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>deploy-pages</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>deploy</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>duplicate-check</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>gitops-argocd</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>mirror-sync-enhanced</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>mirror-to-sourcecraft</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>monitor-mirror-discrepancies</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>monitoring-alerts</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>rag-update</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>release</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>repo-audit</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>security-scan</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>test-decision-engine</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>update-metrics</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>vscode-extensions-check</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>ai-configs</code></td>
+<td>Uncategorized</td>
+<td>manual</td>
+<td>ℹ️ Не проверено</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_3">📈 Статистика</h2>
+<table>
+<thead>
+<tr>
+<th>Категория</th>
+<th>Всего</th>
+<th>Работают</th>
+<th>Требуют внимания</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uncategorized</td>
+<td>30</td>
+<td>30</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Всего</strong></td>
+<td><strong>30</strong></td>
+<td><strong>30</strong></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">🔧 Рекомендации по исправлению</h2>
+<p>✅ Нет критических проблем для исправления.</p>
+<hr />
+<h2 id="_5">📝 История изменений</h2>
+<table>
+<thead>
+<tr>
+<th>Дата</th>
+<th>Изменения</th>
+<th>Автор</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09.05.2026</td>
+<td>Автоматическая генерация</td>
+<td>Koda AI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Этот документ генерируется автоматически.</em>
+<em>Для обновления: <code>python scripts/generate-workflow-diagram.py</code></em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.top", "search.suggest"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

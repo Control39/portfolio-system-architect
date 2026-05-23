@@ -1,0 +1,924 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://control39.github.io/portfolio-system-architect/internal/analysis/initial_project_analysis.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Начальный анализ проекта portfolio-system-architect - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#portfolio-system-architect" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../index.html" title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Начальный анализ проекта portfolio-system-architect
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Общая структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Приложения (apps/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Приложения (apps/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-it-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. IT-Compass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cloud-reason-rag-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Cloud-Reason (RAG API)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-ml-model-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. ML-Model-Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-auth-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Auth-Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-career-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Career-Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-portfolio-organizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Portfolio-Organizer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-system-proof-cot-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7. System-Proof (CoT Storage)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-arch-compass-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8. Arch-Compass-Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-thought-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9. Thought-Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Технологический стек
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Технологический стек">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Языки программирования
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Фреймворки и библиотеки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Базы данных
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Инфраструктура
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Безопасность
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Документация и тесты
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Документация и тесты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Документация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Тесты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. CI/CD и автоматизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. CI/CD и автоматизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. GitHub Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Kubernetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Общая оценка состояния проекта
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Общая оценка состояния проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сильные стороны:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Области для улучшения (выявленные на первом уровне):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Общая готовность:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Рекомендации для последующего детального анализа
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="portfolio-system-architect">Начальный анализ проекта portfolio-system-architect</h1>
+<p><strong>Дата анализа:</strong> 2026-03-21
+<strong>Аналитик:</strong> SourceCraft Code Assistant Agent
+<strong>Цель:</strong> Общий обзор структуры, компонентов, технологического стека и состояния проекта для последующего детального анализа по 10 направлениям.</p>
+<hr />
+<h2 id="1">1. Общая структура проекта</h2>
+<p>Проект организован как монорепозиторий с чётким разделением на приложения (<code>apps/</code>), общие модули (<code>modules/</code>), документацию (<code>docs/</code>), скрипты (<code>scripts/</code>), конфигурации развёртывания (<code>deployment/</code>) и инфраструктуру мониторинга (<code>monitoring/</code>).</p>
+<p><strong>Ключевые файлы и директории:</strong>
+- <code>README.md</code> – подробное описание, быстрый старт, архитектура.
+- <code>project-config.yaml</code> – централизованная конфигурация проекта (версии, порты, переменные окружения).
+- <code>pyproject.toml</code> – управление зависимостями Python, линтинг, форматирование (использует <code>ruff</code>, <code>black</code>, <code>mypy</code>).
+- <code>docker-compose.yml</code> – основной файл для запуска всех сервисов локально (8 сервисов + БД).
+- <code>.github/workflows/</code> – набор CI/CD пайплайнов (security, lint, test, docker-build, deploy).
+- <code>docs/</code> – обширная документация, включая архитектуру, методологию, гранты, безопасность.
+- <code>apps/</code> – 8 независимых приложений (микросервисы/инструменты).
+- <code>deployment/k8s/</code> – конфигурации Kubernetes для продакшн-развёртывания.
+- <code>monitoring/</code> – Prometheus, Grafana, Alertmanager.</p>
+<p><strong>Наблюдения:</strong>
+- Структура соответствует современным практикам микросервисной архитектуры.
+- Есть явное разделение ответственности между компонентами.
+- Используется единая точка входа через Traefik (gateway) в Docker Compose.</p>
+<hr />
+<h2 id="2-apps">2. Приложения (apps/)</h2>
+<p>Каждое приложение представляет собой самостоятельный сервис с собственным Dockerfile, зависимостями и тестами.</p>
+<h3 id="21-it-compass">2.1. IT-Compass</h3>
+<ul>
+<li><strong>Цель:</strong> Трекинг компетенций и прогресса в IT-навыках.</li>
+<li><strong>Стек:</strong> Python (FastAPI/Streamlit?), Docker.</li>
+<li><strong>Состояние:</strong> Активно, имеет документацию (<code>ARCHITECTURE.md</code>, <code>METHODOLOGY.md</code>), тесты.</li>
+</ul>
+<h3 id="22-cloud-reason-rag-api">2.2. Cloud-Reason (RAG API)</h3>
+<ul>
+<li><strong>Цель:</strong> API для рассуждений на основе Retrieval-Augmented Generation (RAG).</li>
+<li><strong>Стек:</strong> Python (FastAPI), векторные БД (возможно Chroma/FAISS), Docker.</li>
+<li><strong>Состояние:</strong> Рабочий, есть интеграционные тесты, скрипты для анализа.</li>
+</ul>
+<h3 id="23-ml-model-registry">2.3. ML-Model-Registry</h3>
+<ul>
+<li><strong>Цель:</strong> Реестр версий ML-моделей, управление жизненным циклом.</li>
+<li><strong>Стек:</strong> Python (FastAPI), MLflow (предположительно), Docker.</li>
+<li><strong>Состояние:</strong> Есть базовые тесты безопасности и отказоустойчивости.</li>
+</ul>
+<h3 id="24-auth-service">2.4. Auth-Service</h3>
+<ul>
+<li><strong>Цель:</strong> Аутентификация и выдача JWT-токенов.</li>
+<li><strong>Стек:</strong> Python (FastAPI), JWT, Docker.</li>
+<li><strong>Состояние:</strong> Минимальный сервис, работает в связке с Traefik.</li>
+</ul>
+<h3 id="25-career-development">2.5. Career-Development</h3>
+<ul>
+<li><strong>Цель:</strong> Планирование карьерного роста, рекомендации.</li>
+<li><strong>Стек:</strong> Python (FastAPI), Docker.</li>
+<li><strong>Состояние:</strong> Есть Dockerfile, но код, возможно, требует доработки.</li>
+</ul>
+<h3 id="26-portfolio-organizer">2.6. Portfolio-Organizer</h3>
+<ul>
+<li><strong>Цель:</strong> Организация портфолио проектов, автоматическая генерация отчётов.</li>
+<li><strong>Стек:</strong> Python (FastAPI), Docker.</li>
+<li><strong>Состояние:</strong> Рабочий, есть API и уведомления.</li>
+</ul>
+<h3 id="27-system-proof-cot-storage">2.7. System-Proof (CoT Storage)</h3>
+<ul>
+<li><strong>Цель:</strong> Хранение цепочек мыслей (Chain-of-Thought) для валидации решений.</li>
+<li><strong>Стек:</strong> Python (FastAPI), PostgreSQL, Docker.</li>
+<li><strong>Состояние:</strong> Есть RAG-скрипты на PowerShell, интеграция с БД.</li>
+</ul>
+<h3 id="28-arch-compass-framework">2.8. Arch-Compass-Framework</h3>
+<ul>
+<li><strong>Цель:</strong> Инфраструктурные модули на PowerShell (безопасность, очереди).</li>
+<li><strong>Стек:</strong> PowerShell, Pester (тесты), Docker (возможно).</li>
+<li><strong>Состояние:</strong> Есть модули и юнит-тесты, но интеграция с основным стеком слабая.</li>
+</ul>
+<h3 id="29-thought-architecture">2.9. Thought-Architecture</h3>
+<ul>
+<li><strong>Цель:</strong> Документация и инструменты для архитектуры мышления.</li>
+<li><strong>Стек:</strong> Markdown, PowerShell-скрипты.</li>
+<li><strong>Состояние:</strong> В основном документационный компонент.</li>
+</ul>
+<p><strong>Выводы:</strong>
+- Большинство сервисов написаны на Python с использованием FastAPI.
+- PowerShell-компоненты используются для инфраструктурных задач (безопасность, обработка файлов).
+- Все сервисы контейнеризованы и могут быть запущены через Docker Compose.
+- Тестовое покрытие варьируется; некоторые приложения имеют только базовые тесты.</p>
+<hr />
+<h2 id="3">3. Технологический стек</h2>
+<h3 id="31">3.1. Языки программирования</h3>
+<ul>
+<li><strong>Python 3.11</strong> – основной язык для бэкенд-сервисов.</li>
+<li><strong>PowerShell</strong> – для автоматизации, инфраструктуры, скриптов.</li>
+<li><strong>HTML/CSS/JavaScript</strong> – фронтенд (Streamlit, статические страницы).</li>
+</ul>
+<h3 id="32">3.2. Фреймворки и библиотеки</h3>
+<ul>
+<li><strong>FastAPI</strong> – веб-API.</li>
+<li><strong>Streamlit</strong> – UI для IT-Compass.</li>
+<li><strong>SQLAlchemy, Alembic</strong> – работа с БД.</li>
+<li><strong>Pydantic</strong> – валидация данных.</li>
+<li><strong>Ruff, Black, Mypy</strong> – линтинг и форматирование.</li>
+<li><strong>Pytest</strong> – тестирование.</li>
+<li><strong>Pester</strong> – тестирование PowerShell.</li>
+</ul>
+<h3 id="33">3.3. Базы данных</h3>
+<ul>
+<li><strong>PostgreSQL</strong> – основная реляционная БД.</li>
+<li><strong>SQLite</strong> – для локальной разработки (возможно).</li>
+<li><strong>Векторные БД</strong> (Chroma/FAISS) – для RAG (Cloud-Reason).</li>
+</ul>
+<h3 id="34">3.4. Инфраструктура</h3>
+<ul>
+<li><strong>Docker</strong> – контейнеризация.</li>
+<li><strong>Docker Compose</strong> – оркестрация локально.</li>
+<li><strong>Kubernetes</strong> (k8s) – продакшн-развёртывание (есть конфиги в <code>deployment/k8s/</code>).</li>
+<li><strong>Traefik</strong> – API-шлюз и балансировщик нагрузки.</li>
+<li><strong>GitHub Actions</strong> – CI/CD.</li>
+<li><strong>Prometheus + Grafana</strong> – мониторинг.</li>
+<li><strong>MLflow</strong> – управление ML-моделями (предположительно).</li>
+</ul>
+<h3 id="35">3.5. Безопасность</h3>
+<ul>
+<li><strong>JWT</strong> – аутентификация.</li>
+<li><strong>Trivy</strong> – сканирование уязвимостей в CI.</li>
+<li><strong>detect-secrets</strong> – поиск секретов в коде (временно отключено).</li>
+<li><strong>PSScriptAnalyzer</strong> – анализ PowerShell-скриптов.</li>
+</ul>
+<p><strong>Наблюдения:</strong>
+- Стек современный и соответствует best practices.
+- Используются как облачные (K8s), так и локальные (Docker Compose) среды.
+- Акцент на безопасность и качество кода (линтинг, тесты, сканирование).</p>
+<hr />
+<h2 id="4">4. Документация и тесты</h2>
+<h3 id="41">4.1. Документация</h3>
+<ul>
+<li><strong>Полнота:</strong> Высокая. В <code>docs/</code> находятся архитектурные описания, методологии, грантовая документация, инструкции по онбордингу, security guidelines.</li>
+<li><strong>Актуальность:</strong> Документация регулярно обновляется (судя по последним коммитам).</li>
+<li><strong>Формат:</strong> Markdown, с вложенными структурами, диаграммами Mermaid.</li>
+</ul>
+<h3 id="42">4.2. Тесты</h3>
+<ul>
+<li><strong>Покрытие:</strong> Есть unit-тесты для Python (<code>pytest</code>) и PowerShell (<code>Pester</code>).</li>
+<li><strong>Интеграционные тесты:</strong> Частично присутствуют (например, <code>tests/integration/</code>).</li>
+<li><strong>CI:</strong> В пайплайне запускаются тесты с покрытием (цель 95%).</li>
+<li><strong>Наблюдения:</strong> Некоторые приложения (например, Cloud-Reason) имеют более полные тесты, другие — минимальные. Есть тесты безопасности (<code>test_security.py</code>) и отказоустойчивости (<code>test_resilience.py</code>).</li>
+</ul>
+<hr />
+<h2 id="5-cicd">5. CI/CD и автоматизация</h2>
+<h3 id="51-github-actions">5.1. GitHub Actions</h3>
+<ul>
+<li><strong>ci.yml:</strong> Основной пайплайн (security-check, lint, test, docker-build, notify).</li>
+<li><strong>deploy.yml:</strong> Развёртывание на продакшн (K8s, GitHub Pages).</li>
+<li><strong>code-quality.yml:</strong> Проверка качества кода.</li>
+<li><strong>sync-to-github.yml:</strong> Синхронизация с внешними репозиториями.</li>
+<li><strong>Другие:</strong> Множество специализированных workflow (test-decision-engine, duplicate-check и т.д.).</li>
+</ul>
+<p><strong>Наблюдения:</strong>
+- Пайплайн включает security scanning (Trivy), линтинг (Ruff, Black), тесты с покрытием, сборку Docker-образов и уведомления в Telegram.
+- Используется кэширование зависимостей и артефактов.
+- Есть этап деплоя на GitHub Pages для документации (MkDocs).</p>
+<h3 id="52-docker-compose">5.2. Docker Compose</h3>
+<ul>
+<li>Запускает все 8 сервисов + PostgreSQL + Traefik.</li>
+<li>Настроены health checks, сети, тома.</li>
+<li>Используются переменные окружения из <code>.env.example</code>.</li>
+</ul>
+<h3 id="53-kubernetes">5.3. Kubernetes</h3>
+<ul>
+<li>Конфигурации разделены по окружениям (dev, staging, prod) с использованием Kustomize.</li>
+<li>Есть HPA (Horizontal Pod Autoscaler), Network Policies, Pod Security Policies.</li>
+<li>Используются ConfigMaps, Secrets (примеры).</li>
+</ul>
+<p><strong>Вывод:</strong> CI/CD настроен профессионально, покрывает все ключевые аспекты (безопасность, качество, развёртывание).</p>
+<hr />
+<h2 id="6">6. Общая оценка состояния проекта</h2>
+<h3 id="_1">Сильные стороны:</h3>
+<ol>
+<li><strong>Чёткая архитектура</strong> – микросервисы, разделение ответственности.</li>
+<li><strong>Полная документация</strong> – от быстрого старта до глубоких методологий.</li>
+<li><strong>Современный стек</strong> – Python 3.11, FastAPI, Docker, K8s, современные инструменты линтинга.</li>
+<li><strong>Автоматизация</strong> – CI/CD покрывает security, lint, test, build, deploy.</li>
+<li><strong>Масштабируемость</strong> – готовность к развёртыванию в Kubernetes, наличие мониторинга.</li>
+<li><strong>Безопасность</strong> – сканирование уязвимостей, управление секретами, JWT.</li>
+<li><strong>Поддержка ML</strong> – ML-регистр, RAG API, интеграция с Gigachain.</li>
+</ol>
+<h3 id="_2">Области для улучшения (выявленные на первом уровне):</h3>
+<ol>
+<li><strong>Неравномерность тестового покрытия</strong> – некоторые сервисы имеют минимальные тесты.</li>
+<li><strong>PowerShell-компоненты слабо интегрированы</strong> – возможно, требуют большего внимания в CI.</li>
+<li><strong>Дублирование конфигураций</strong> – несколько похожих workflow файлов (test.yml, test-1.yml и т.д.).</li>
+<li><strong>Отсутствие полной end-to-end тестовой среды</strong> – интеграционные тесты могут быть расширены.</li>
+<li><strong>Секреты в CI</strong> – detect-secrets временно отключен, требуется настройка baseline.</li>
+</ol>
+<h3 id="_3">Общая готовность:</h3>
+<p>Проект находится в <strong>зрелом состоянии</strong>, готов к использованию и дальнейшему развитию. Все компоненты работают в Docker Compose, есть продакшн-конфигурации для K8s, документация позволяет быстро начать работу.</p>
+<hr />
+<h2 id="7">7. Рекомендации для последующего детального анализа</h2>
+<p>На основе этого обзора можно провести углублённый анализ по 10 направлениям:</p>
+<ol>
+<li><strong>Качество кода</strong> – проверить соответствие стандартам (PEP, PSScriptAnalyzer), покрытие тестами, технический долг.</li>
+<li><strong>Производительность</strong> – нагрузочное тестирование сервисов, оптимизация запросов к БД, кэширование.</li>
+<li><strong>Безопасность</strong> – аудит JWT, анализ зависимостей на уязвимости, проверка конфигураций K8s (Pod Security).</li>
+<li><strong>DevOps</strong> – оптимизация CI/CD пайплайнов, настройка мониторинга и алертинга, улучшение deployment-процессов.</li>
+<li><strong>Документация</strong> – проверка актуальности, добавление примеров использования, переводы.</li>
+<li><strong>Масштабируемость</strong> – оценка архитектуры на горизонтальное масштабирование, настройка HPA, балансировка.</li>
+<li><strong>Процессы</strong> – анализ workflow команды (code review, релиз-процессы, управление инцидентами).</li>
+<li><strong>Технологическое обновление</strong> – обновление версий Python, библиотек, Docker-образов, переход на новые инструменты.</li>
+<li><strong>Бизнес-цели</strong> – соответствие функциональности требованиям пользователей, метрики успеха.</li>
+<li><strong>Инновации</strong> – интеграция новых технологий (например, LLM-агенты, автоматическое тестирование).</li>
+</ol>
+<hr />
+<h2 id="8">8. Заключение</h2>
+<p>Проект <code>portfolio-system-architect</code> представляет собой комплексную платформу для управления IT-компетенциями, карьерным развитием и портфолио, построенную на микросервисной архитектуре с использованием современных технологий. Состояние проекта оценивается как <strong>стабильное и готовое к промышленному использованию</strong>, с хорошо налаженными процессами CI/CD, документацией и инфраструктурой.</p>
+<p>Данный отчёт служит основой для детального анализа по каждому из 10 направлений реорганизации.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

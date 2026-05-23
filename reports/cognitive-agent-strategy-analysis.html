@@ -1,0 +1,756 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://control39.github.io/portfolio-system-architect/reports/cognitive-agent-strategy-analysis.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Анализ стратегии Cognitive Agent: Вынос в отдельный репозиторий - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cognitive-agent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Анализ стратегии Cognitive Agent: Вынос в отдельный репозиторий
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Резюме
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Контекст
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Контекст">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Текущее состояние
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Архитектурная роль
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚖️ Анализ «ЗА» и «ПРОТИВ»
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚖️ Анализ «ЗА» и «ПРОТИВ»">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Аргументы ЗА вынос
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Риски и проблемы
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Рекомендация: Гибридный подход
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Рекомендация: Гибридный подход">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mirror-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Вариант А: Mirror-репозиторий (быстро, безопасно)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Вариант Б: Выделенный репо с MVP (рекомендуется)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Вариант Б: Выделенный репо с MVP (рекомендуется)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 1: Подготовка (1-2 недели)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 2: Создание репозитория
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этап 3: Продвижение
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Ожидаемые результаты
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Критерии готовности к выносу
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Следующие шаги
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Примечания
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cognitive-agent">Анализ стратегии Cognitive Agent: Вынос в отдельный репозиторий</h1>
+<p><strong>Дата анализа:</strong> 14 мая 2026 г.
+<strong>Тип документа:</strong> Стратегическое решение
+<strong>Статус:</strong> Завершено</p>
+<hr />
+<h2 id="_1">📋 Резюме</h2>
+<p>Обсуждение целесообразности выноса компонента <code>cognitive-agent</code> из monorepo <code>portfolio-system-architect</code> в отдельный публичный репозиторий для привлечения внимания сообщества.</p>
+<hr />
+<h2 id="_2">🎯 Контекст</h2>
+<h3 id="_3">Текущее состояние</h3>
+<ul>
+<li><strong>Расположение:</strong> <code>apps/cognitive-agent/</code> в monorepo с 14 микросервисами</li>
+<li><strong>Проблема:</strong> Компонент «затерялся» среди других сервисов, не получает должного внимания</li>
+<li><strong>Цель:</strong> Дать сообществу доступ к автономному ИИ-агенту с функциями самообучения</li>
+</ul>
+<h3 id="_4">Архитектурная роль</h3>
+<p><code>cognitive-agent</code> — автономный оркестратор, который:
+1. Сканирует проекты и определяет технологический стек
+2. Планирует задачи автоматически
+3. Выполняет рутинные операции без участия человека
+4. Самообучается на основе метрик эффективности</p>
+<hr />
+<h2 id="_5">⚖️ Анализ «ЗА» и «ПРОТИВ»</h2>
+<h3 id="_6">✅ Аргументы ЗА вынос</h3>
+<table>
+<thead>
+<tr>
+<th>Критерий</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Видимость</strong></td>
+<td>В monorepo с 14 сервисами агент не заметен HR и разработчикам</td>
+</tr>
+<tr>
+<td><strong>Фокус</strong></td>
+<td>Отдельное репо = чёткое позиционирование как «автономный ИИ-агент»</td>
+</tr>
+<tr>
+<td><strong>Сообщество</strong></td>
+<td>Потенциал для коллаборации: новые скиллы, интеграции, перенос на другие языки</td>
+</tr>
+<tr>
+<td><strong>Репутация</strong></td>
+<td>Позиционирование автора как создателя когнитивной архитектуры, а не просто микросервисов</td>
+</tr>
+<tr>
+<td><strong>Упрощение входа</strong></td>
+<td><code>pip install cognitive-agent</code> вместо клонирования 14-сервисного monorepo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">⚠️ Риски и проблемы</h3>
+<table>
+<thead>
+<tr>
+<th>Риск</th>
+<th>Вероятность</th>
+<th>Митигация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Низкое качество кода</strong></td>
+<td>Высокая</td>
+<td>Агент — skeleton, нет реальных интеграций, тесты валидационные</td>
+</tr>
+<tr>
+<td><strong>Отсутствие поддержки</strong></td>
+<td>Высокая</td>
+<td>Кто будет поддерживать issues/PR после выноса?</td>
+</tr>
+<tr>
+<td><strong>Репутационный ущерб</strong></td>
+<td>Средняя</td>
+<td>«Обещали автономность, а код — заглушки»</td>
+</tr>
+<tr>
+<td><strong>Фрагментация</strong></td>
+<td>Средняя</td>
+<td>Дублирование кода с <code>codeassistant/</code> и корневым <code>src/</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">🎯 Рекомендация: Гибридный подход</h2>
+<h3 id="mirror-">Вариант А: Mirror-репозиторий (быстро, безопасно)</h3>
+<pre><code class="language-bash">git remote add mirror git@github.com:yourname/cognitive-agent.git
+git push mirror main:main
+</code></pre>
+<p><strong>Плюсы:</strong> Нет дублирования, можно откатить
+<strong>Минусы:</strong> Те же проблемы с качеством кода</p>
+<h3 id="mvp">Вариант Б: Выделенный репо с MVP (рекомендуется)</h3>
+<h4 id="1-1-2">Этап 1: Подготовка (1-2 недели)</h4>
+<ol>
+<li>Вынести общие зависимости в <code>packages/portfolio-common/</code></li>
+<li>Реализовать минимум рабочего кода:</li>
+<li><code>project-scanner</code>: реальный анализ <code>requirements.txt</code>, <code>package.json</code></li>
+<li><code>task-planner</code>: простой планировщик на YAML</li>
+<li>3 интеграционных теста с mock-сервисами</li>
+<li>Создать <code>README.md</code> для сообщества с демо-сценарием</li>
+</ol>
+<h4 id="2">Этап 2: Создание репозитория</h4>
+<pre><code>cognitive-agent/
+├── README.md (фокус на сообщество, быстрый старт за 5 минут)
+├── docs/
+│   ├── quickstart.md
+│   ├── architecture.md
+│   └── contributing.md
+├── src/
+│   ├── scanner.py
+│   ├── planner.py
+│   └── agent.py
+├── tests/
+│   ├── test_scanner.py
+│   └── test_planner.py
+├── examples/
+│   └── project-setup-demo/
+├── requirements.txt
+└── LICENSE (MIT)
+</code></pre>
+<h4 id="3">Этап 3: Продвижение</h4>
+<ul>
+<li><strong>Reddit:</strong> r/MachineLearning, r/Python, r/devops</li>
+<li><strong>Hacker News:</strong> «I built an autonomous project setup agent»</li>
+<li><strong>LinkedIn/Twitter:</strong> Демонстрация результата («агент настроил проект за 2 минуты»)</li>
+</ul>
+<hr />
+<h2 id="_9">📊 Ожидаемые результаты</h2>
+<table>
+<thead>
+<tr>
+<th>Метрика</th>
+<th>Без отдельного репо</th>
+<th>С отдельным репо (после MVP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stars</strong></td>
+<td>~50 (в составе monorepo)</td>
+<td>200-500</td>
+</tr>
+<tr>
+<td><strong>Contributors</strong></td>
+<td>0-1</td>
+<td>5-10</td>
+</tr>
+<tr>
+<td><strong>Использование</strong></td>
+<td>Только автор</td>
+<td>20-50 проектов/месяц</td>
+</tr>
+<tr>
+<td><strong>Репутация</strong></td>
+<td>«Разработчик микросервисов»</td>
+<td>«Автор автономного ИИ-агента»</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_10">✅ Критерии готовности к выносу</h2>
+<p><strong>СТОИТ выносить, если:</strong>
+- [ ] Реализован минимум рабочего кода (scanner, planner, agent)
+- [ ] Добавлено 3+ интеграционных теста
+- [ ] Написан <code>quickstart.md</code> с демо-сценарием
+- [ ] Готова документация для внешних пользователей
+- [ ] Планируется поддержка (issues, PR) в течение 6+ месяцев</p>
+<p><strong>НЕ СТОИТ выносить, если:</strong>
+- [ ] Агент — «просто демонстрация» без реальной ценности
+- [ ] Нет времени на поддержку
+- [ ] Боитесь критики сообщества</p>
+<hr />
+<h2 id="_11">🚀 Следующие шаги</h2>
+<ol>
+<li><strong>Создать черновик репо</strong> (локально, не пушить)</li>
+<li><strong>Добавить реальные интеграционные тесты</strong> (scanner + planner)</li>
+<li><strong>Написать <code>quickstart.md</code></strong> с примером: «агент настроил FastAPI-проект за 2 минуты»</li>
+<li><strong>Показать на проверку</strong> (Koda/человек)</li>
+<li><strong>Создать публичный репо</strong> и начать продвижение</li>
+</ol>
+<hr />
+<h2 id="_12">📝 Примечания</h2>
+<ul>
+<li><strong>Дата принятия решения:</strong> 14 мая 2026 г.</li>
+<li><strong>Ответственный:</strong> Автор проекта</li>
+<li><strong>Пересмотр:</strong> Через 1 месяц или после реализации MVP</li>
+</ul>
+<hr />
+<p><em>Документ сгенерирован автоматически на основе диалога с Koda CLI.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,696 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://control39.github.io/portfolio-system-architect/architecture/decisions/ADR-017-dependency-injection.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ADR 017 dependency injection - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adr-018-dependency-injection" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../index.html" title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ADR 017 dependency injection
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Контекст
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚖️ Рассмотренные варианты
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚖️ Рассмотренные варианты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Вариант 1: Прямые импорты (отклонено)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-httpgrpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Вариант 2: HTTP/gRPC вызовы без абстракции (отклонено)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dependency-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Вариант 3: Dependency Injection через интерфейсы (выбрано)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Решение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Последствия
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Последствия">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Положительные
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Негативные
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Миграция
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Ссылки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Следующие шаги
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<blockquote>
+<p><strong>Former ID:</strong> ADR-018-dependency-injection
+<strong>Former path:</strong> <code>docs\architecture\decisions\ADR-018-dependency-injection.md</code>
+<strong>Current ID:</strong> ADR-017
+<strong>Consolidated:</strong> 2026-05-23
+</p>
+</blockquote>
+<hr />
+<h1 id="adr-018-dependency-injection">ADR-018: Dependency Injection для взаимодействия между микросервисами</h1>
+<p><strong>Дата:</strong> 18 мая 2026 г.
+<strong>Статус:</strong> ✅ Принято
+<strong>Автор:</strong> Ekaterina Kudelya (Control39)
+<strong>Решение:</strong> Dependency Injection через интерфейсы</p>
+<hr />
+<h2 id="_1">📋 Контекст</h2>
+<p>Проект <code>portfolio-system-architect</code> состоит из 15 микросервисов, которые должны взаимодействовать друг с другом.</p>
+<p><strong>Проблема обнаружена при проверке:</strong>
+- <code>job_automation_agent</code> напрямую импортировал код из <code>cognitive_agent</code>:
+  <code>python
+  from .apps.cognitive_agent.job_search import search_hh_ru</code>
+- Это нарушает границы микросервисов и создаёт жёсткую связанность.</p>
+<p><strong>Требования:</strong>
+1. Сервисы должны быть <strong>независимы</strong> от реализации друг друга
+2. Возможность <strong>замены реализации</strong> без изменения кода потребителя
+3. <strong>Тестируемость</strong> через mock-объекты
+4. <strong>Соблюдение границ</strong> микросервисной архитектуры</p>
+<hr />
+<h2 id="_2">⚖️ Рассмотренные варианты</h2>
+<h3 id="1">Вариант 1: Прямые импорты (отклонено)</h3>
+<pre><code class="language-python">from .apps.cognitive_agent.job_search import search_hh_ru
+</code></pre>
+<p><strong>Плюсы:</strong>
+- Простота реализации
+- Нет накладных расходов на сериализацию</p>
+<p><strong>Минусы:</strong>
+- Нарушение границ микросервисов
+- Жёсткая связанность
+- Невозможность независимого деплоя
+- Сложное тестирование (нужен реальный сервис)</p>
+<p><strong>Причина отклонения:</strong> Возврат к монолитной архитектуре, противоречит принципам микросервисов.</p>
+<hr />
+<h3 id="2-httpgrpc">Вариант 2: HTTP/gRPC вызовы без абстракции (отклонено)</h3>
+<pre><code class="language-python">import httpx
+
+async def search_jobs(query: str):
+    response = await httpx.get(&quot;http://cognitive-agent:8006/search&quot;, params={&quot;q&quot;: query})
+    return response.json()
+</code></pre>
+<p><strong>Плюсы:</strong>
+- Соблюдение границ микросервисов
+- Независимый деплой</p>
+<p><strong>Минусы:</strong>
+- Детали HTTP-протокола размазаны по бизнес-логике
+- При изменении API нужно править все места вызова
+- Сложность рефакторинга</p>
+<p><strong>Причина отклонения:</strong> Отсутствие уровня абстракции усложняет поддержку и изменение реализации.</p>
+<hr />
+<h3 id="3-dependency-injection">Вариант 3: Dependency Injection через интерфейсы (выбрано)</h3>
+<pre><code class="language-python">from src.interfaces.job_search import IJobSearch
+
+class CognitiveJobSearch(IJobSearch):
+    async def search(self, query: str):
+        response = await httpx.get(&quot;http://cognitive-agent:8006/search&quot;, params={&quot;q&quot;: query})
+        return response.json()
+
+# В потребителе
+search_provider: IJobSearch = get_job_search_provider()
+vacancies = await search_provider.search(&quot;Python&quot;)
+</code></pre>
+<p><strong>Плюсы:</strong>
+- Нулевая связанность между сервисами
+- Легкая замена реализации (только один файл)
+- Тестируемость через mock-объекты
+- Соблюдение принципа Dependency Inversion (SOLID D)
+- Детали протокола скрыты в адаптере</p>
+<p><strong>Минусы:</strong>
+- Немного больше кода (интерфейс + адаптер)
+- Необходимость понимания паттерна</p>
+<p><strong>Причина выбора:</strong> Соответствует принципам чистой архитектуры и микросервисов, обеспечивает долгосрочную поддерживаемость.</p>
+<hr />
+<h2 id="_3">✅ Решение</h2>
+<p><strong>1. Создан пакет интерфейсов:</strong></p>
+<pre><code>src/interfaces/
+├── __init__.py
+└── job_search.py  # IJobSearch
+</code></pre>
+<p><strong>2. Создан пакет адаптеров:</strong></p>
+<pre><code>apps/infra_orchestrator/src/adapters/
+├── __init__.py
+└── job_search_adapter.py  # CognitiveJobSearch
+</code></pre>
+<p><strong>3. Обновлены потребители:</strong></p>
+<pre><code>apps/job_automation_agent/src/main.py
+# Теперь использует IJobSearch вместо прямого импорта
+</code></pre>
+<p><strong>4. Создана документация:</strong></p>
+<pre><code>docs/DEPENDENCY_INJECTION.md
+</code></pre>
+<hr />
+<h2 id="_4">📊 Последствия</h2>
+<h3 id="_5">Положительные</h3>
+<table>
+<thead>
+<tr>
+<th>Последствие</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zero Coupling</strong></td>
+<td>Сервисы не зависят от реализации друг друга</td>
+</tr>
+<tr>
+<td><strong>Pluggability</strong></td>
+<td>Замена реализации занимает ~10 минут (править 1 файл)</td>
+</tr>
+<tr>
+<td><strong>Testability</strong></td>
+<td>Тесты на mock-объектах, мгновенные, без поднятия сервисов</td>
+</tr>
+<tr>
+<td><strong>Maintainability</strong></td>
+<td>Изменение API локализовано в адаптере</td>
+</tr>
+<tr>
+<td><strong>SOLID compliance</strong></td>
+<td>Соблюдение принципов D (Dependency Inversion) и I (Interface Segregation)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">Негативные</h3>
+<table>
+<thead>
+<tr>
+<th>Последствие</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Больше кода</strong></td>
+<td>Нужно писать интерфейс + адаптер (~50 строк кода)</td>
+</tr>
+<tr>
+<td><strong>Сложность для новичков</strong></td>
+<td>Требуется понимание паттерна Dependency Injection</td>
+</tr>
+<tr>
+<td><strong>Косвенная зависимость</strong></td>
+<td>Оба сервиса зависят от <code>src/interfaces/</code> (но это допустимо)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">🔄 Миграция</h2>
+<p><strong>Шаги:</strong>
+1. ✅ Создать интерфейс <code>IJobSearch</code> в <code>src/interfaces/</code>
+2. ✅ Создать адаптер <code>CognitiveJobSearch</code> в <code>apps/infra_orchestrator/src/adapters/</code>
+3. ✅ Обновить <code>job_automation_agent</code> для использования интерфейса
+4. ✅ Удалить прямые импорты из <code>job_automation_agent</code>
+5. ✅ Написать тесты на mock-объектах
+6. ✅ Создать документацию в <code>docs/DEPENDENCY_INJECTION.md</code></p>
+<p><strong>Откат:</strong>
+- Вернуть прямые импорты в <code>job_automation_agent</code>
+- Удалить интерфейс и адаптер
+- <strong>Но не рекомендуется</strong> — это шаг назад в архитектуре</p>
+<hr />
+<h2 id="_8">📚 Ссылки</h2>
+<ul>
+<li>ADR-002: Интеграция компонентов в единую экосистему</li>
+<li>ADR-014: Граница между <code>src/</code> и <code>apps/</code></li>
+<li><a href="https://realpython.com/dependency-injection-python/">Dependency Injection в Python</a></li>
+<li><a href="https://www.baeldung.com/solid-principles-dependency-inversion">SOLID Principles — Dependency Inversion</a></li>
+</ul>
+<hr />
+<h2 id="_9">🎯 Следующие шаги</h2>
+<ol>
+<li>Применить паттерн к другим взаимодействиям:</li>
+<li><code>IResumeGenerator</code> — генерация резюме</li>
+<li><code>INotificationService</code> — отправка уведомлений</li>
+<li>
+<p><code>ICareerTracker</code> — трекинг компетенций</p>
+</li>
+<li>
+<p>Рассмотреть внедрение <strong>DI Container</strong> для автоматического управления зависимостями:</p>
+</li>
+<li><code>dependency_injector</code> (Python)</li>
+<li>
+<p><code>injector</code> (Python)</p>
+</li>
+<li>
+<p>Добавить конфигурацию выбора провайдера через переменные окружения:
+   <code>bash
+   export JOB_SEARCH_PROVIDER=cognitive-agent  # или hhru-api, linkedin-api</code></p>
+</li>
+</ol>
+<hr />
+<p><em>ADR-018 принят 18 мая 2026 г.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

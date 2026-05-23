@@ -1,0 +1,925 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://control39.github.io/portfolio-system-architect/SERVICE_GENERATOR.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Генератор сервисов — Руководство - Portfolio System Architect</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/custom.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Portfolio System Architect" class="md-header__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Portfolio System Architect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Генератор сервисов — Руководство
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Portfolio System Architect" class="md-nav__button md-logo" aria-label="Portfolio System Architect" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Portfolio System Architect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Назначение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Использование
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Использование">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовое создание
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Дополнительные опции
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Что создаётся
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📁 Что создаётся">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура сервиса
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Содержимое файлов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Содержимое файлов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        main.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        README.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teststest_mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tests/test_main.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Следующие шаги после создания
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Настройка шаблона
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Настройка шаблона">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Изменить базовые зависимости
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Изменить базовую структуру
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Изменить базовые тесты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Автоматическая проверка
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 Устранение проблем
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Устранение проблем">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ошибка: "Сервис уже существует"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ошибка: "docker-compose.yml не найден"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Тесты не проходят
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Метрики
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Примеры использования
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Примеры использования">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: API для управления задачами
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Фоновый воркер
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 3: Микросервис с БД
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Ссылки
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Генератор сервисов — Руководство</h1>
+<blockquote>
+<p><strong>Версия:</strong> 1.0.0<br />
+<strong>Дата:</strong> 18 мая 2026 г.</p>
+</blockquote>
+<hr />
+<h2 id="_2">🎯 Назначение</h2>
+<p>Автоматическое создание новых микросервисов из шаблона <code>template-service</code> с полной структурой, тестами и документацией.</p>
+<hr />
+<h2 id="_3">🚀 Использование</h2>
+<h3 id="_4">Базовое создание</h3>
+<pre><code class="language-bash">python scripts/create_service.py &lt;service-name&gt; --description &quot;Описание сервиса&quot;
+</code></pre>
+<p><strong>Примеры:</strong></p>
+<pre><code class="language-bash"># Создать сервис с описанием
+python scripts/create_service.py user-service --description=&quot;Управление пользователями&quot;
+
+# Создать сервис без описания (по умолчанию: &quot;Новый сервис&quot;)
+python scripts/create_service.py payment-api
+</code></pre>
+<h3 id="_5">Дополнительные опции</h3>
+<pre><code class="language-bash">python scripts/create_service.py &lt;service-name&gt; --description &quot;...&quot; --add-compose
+</code></pre>
+<p><strong><code>--add-compose</code></strong> — автоматически добавить сервис в <code>docker-compose.yml</code></p>
+<hr />
+<h2 id="_6">📁 Что создаётся</h2>
+<h3 id="_7">Структура сервиса</h3>
+<pre><code>apps/&lt;service-name&gt;/
+├── main.py                 # Entry point (FastAPI app)
+├── README.md              # Документация (7 секций)
+├── requirements.txt       # Зависимости
+├── Dockerfile            # Контейнеризация
+├── .dockerignore         # Исключения Docker
+├── .gitignore            # Исключения Git
+├── __init__.py
+│
+├── src/                  # Исходный код
+│   ├── __init__.py
+│   ├── core/            # Ядро сервиса
+│   │   └── __init__.py
+│   ├── api/             # API endpoints
+│   │   └── __init__.py
+│   └── utils/           # Вспомогательные функции
+│
+└── tests/               # Тесты
+    ├── __init__.py
+    └── test_main.py     # Базовые тесты (2 теста)
+</code></pre>
+<h3 id="_8">Содержимое файлов</h3>
+<h4 id="mainpy">main.py</h4>
+<ul>
+<li>FastAPI приложение с title, description, version</li>
+<li>Эндпоинты <code>/health</code> и <code>/</code></li>
+<li>Готово к запуску через uvicorn</li>
+</ul>
+<h4 id="readmemd">README.md</h4>
+<p>Все 7 обязательных секций:
+1. Purpose
+2. Features
+3. API (таблица эндпоинтов)
+4. Dependencies
+5. Deployment
+6. Contributing</p>
+<h4 id="teststest_mainpy">tests/test_main.py</h4>
+<ul>
+<li><code>test_health_check()</code> — проверка /health</li>
+<li><code>test_root()</code> — проверка /</li>
+</ul>
+<hr />
+<h2 id="_9">📋 Следующие шаги после создания</h2>
+<pre><code class="language-bash"># 1. Перейти в директорию сервиса
+cd apps/&lt;service-name&gt;
+
+# 2. Добавить бизнес-логику
+# Отредактируйте:
+# - src/core/ — ядро сервиса
+# - src/api/ — API endpoints
+# - main.py — роутинг
+
+# 3. Обновить README.md
+# Добавьте детали, примеры использования, схемы данных
+
+# 4. Запустить тесты
+python -m pytest
+
+# 5. Запустить сервис локально
+python main.py
+
+# Или через Docker
+docker-compose up &lt;service-name&gt;
+</code></pre>
+<hr />
+<h2 id="_10">🔧 Настройка шаблона</h2>
+<h3 id="_11">Изменить базовые зависимости</h3>
+<p>Отредактируйте <code>scripts/create_service.py</code>, секция <code>templates["requirements.txt"]</code>:</p>
+<pre><code class="language-python">&quot;requirements.txt&quot;: &quot;&quot;&quot;fastapi&gt;=0.100.0
+uvicorn&gt;=0.23.0
+pydantic&gt;=2.0.0
+pytest&gt;=7.0.0
+# Добавить новые зависимости
+httpx&gt;=0.24.0
+aioredis&gt;=2.0.0
+&quot;&quot;&quot;,
+</code></pre>
+<h3 id="_12">Изменить базовую структуру</h3>
+<p>Отредактируйте <code>scripts/create_service.py</code>, секция <code>dirs</code>:</p>
+<pre><code class="language-python">dirs = [
+    &quot;src&quot;,
+    &quot;src/core&quot;,
+    &quot;src/api&quot;,
+    &quot;src/utils&quot;,
+    &quot;src/models&quot;,      # Добавить
+    &quot;tests&quot;,
+    &quot;tests/integration&quot;  # Добавить
+]
+</code></pre>
+<h3 id="_13">Изменить базовые тесты</h3>
+<p>Отредактируйте <code>scripts/create_service.py</code>, секция <code>test_content</code>:</p>
+<pre><code class="language-python">test_content = f'''&quot;&quot;&quot;Тесты для {sanitized_name}.&quot;&quot;&quot;
+
+import pytest
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    &quot;&quot;&quot;Проверка эндпоинта /health.&quot;&quot;&quot;
+    response = client.get(&quot;/health&quot;)
+    assert response.status_code == 200
+    assert response.json()[&quot;status&quot;] == &quot;healthy&quot;
+    assert response.json()[&quot;service&quot;] == &quot;{sanitized_name}&quot;
+
+
+def test_root():
+    &quot;&quot;&quot;Проверка корневой страницы.&quot;&quot;&quot;
+    response = client.get(&quot;/&quot;)
+    assert response.status_code == 200
+    assert response.json()[&quot;name&quot;] == &quot;{sanitized_name}&quot;
+    assert &quot;version&quot; in response.json()
+
+
+# Добавить дополнительные тесты
+def test_custom_endpoint():
+    &quot;&quot;&quot;Пример кастомного теста.&quot;&quot;&quot;
+    response = client.get(&quot;/custom&quot;)
+    assert response.status_code == 200
+'''
+</code></pre>
+<hr />
+<h2 id="_14">✅ Автоматическая проверка</h2>
+<p>После создания сервиса он автоматически проходит проверку:</p>
+<pre><code class="language-bash"># Запустить проверку структуры
+python scripts/check_service_structure.py --service &lt;service-name&gt;
+
+# Ожидается:
+# ✅ Соответствует: &lt;service-name&gt; (100%)
+</code></pre>
+<hr />
+<h2 id="_15">🚨 Устранение проблем</h2>
+<h3 id="_16">Ошибка: "Сервис уже существует"</h3>
+<pre><code>❌ Ошибка: Сервис 'my-service' уже существует
+</code></pre>
+<p><strong>Решение:</strong> Удалите существующий сервис или используйте другое имя.</p>
+<h3 id="docker-composeyml">Ошибка: "docker-compose.yml не найден"</h3>
+<pre><code>⚠️  docker-compose.yml не найден, пропуск
+</code></pre>
+<p><strong>Решение:</strong> Это предупреждение, не ошибка. Сервис создан, просто не добавлен в docker-compose.</p>
+<h3 id="_17">Тесты не проходят</h3>
+<pre><code class="language-bash"># Установить зависимости
+pip install -r requirements.txt
+
+# Запустить тесты
+python -m pytest -v
+</code></pre>
+<hr />
+<h2 id="_18">📊 Метрики</h2>
+<table>
+<thead>
+<tr>
+<th>Показатель</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Время создания сервиса</td>
+<td>~2 сек</td>
+</tr>
+<tr>
+<td>Файлов создано</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Директорий создано</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Тестов включено</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Покрытие тестами (базовое)</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_19">📚 Примеры использования</h2>
+<h3 id="1-api">Пример 1: API для управления задачами</h3>
+<pre><code class="language-bash">python scripts/create_service.py task-api --description=&quot;REST API для управления задачами&quot;
+
+# Результат:
+# apps/task-api/
+# ├── main.py (с health check и root)
+# ├── README.md (7 секций)
+# ├── src/
+# │   ├── core/ (бизнес-логика задач)
+# │   └── api/ (endpoints: GET/POST/PUT/DELETE /tasks)
+# └── tests/
+#     └── test_main.py (2 базовых теста)
+</code></pre>
+<h3 id="2">Пример 2: Фоновый воркер</h3>
+<pre><code class="language-bash">python scripts/create_service.py background-worker --description=&quot;Фоновая обработка задач&quot;
+
+# После создания:
+# - Измените main.py на asyncio worker
+# - Добавьте Celery/RQ в requirements.txt
+# - Добавьте тесты для воркера
+</code></pre>
+<h3 id="3">Пример 3: Микросервис с БД</h3>
+<pre><code class="language-bash">python scripts/create_service.py user-service --description=&quot;Управление пользователями&quot;
+
+# После создания:
+# - Добавьте SQLAlchemy в requirements.txt
+# - Создайте src/models/user.py
+# - Добавьте миграции Alembic
+# - Обновите README с схемой БД
+</code></pre>
+<hr />
+<h2 id="_20">🔗 Ссылки</h2>
+<ul>
+<li><a href="../docs/SERVICE_STRUCTURE_STANDARD.md">Стандарт структуры сервиса</a></li>
+<li><a href="../apps/template-service/">Шаблон сервиса</a></li>
+<li><a href="../scripts/check_service_structure.py">Проверка структуры</a></li>
+<li><a href="../docker-compose.yml">Docker Compose</a></li>
+</ul>
+<hr />
+<p><em>Последнее обновление: 18 мая 2026 г.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.top", "search.suggest"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
