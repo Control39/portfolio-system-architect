@@ -5,8 +5,7 @@
 """
 
 from .learning_main import LearningSystem
-from .planner_main import Planner
+from .planner_main import TaskPlanner as Planner
 from .scanner_main import Scanner
-
 
 __all__ = ["LearningSystem", "Planner", "Scanner", "TriggerProcessor"]
