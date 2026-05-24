@@ -41,6 +41,8 @@ services:
       context: .
       dockerfile: apps/auth_service/Dockerfile
     container_name: auth_service
+    ports:
+      - "8100:8100" # Direct access: http://localhost:8100
     environment:
       - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-prod}
       - JWT_ALGORITHM=HS256
@@ -66,7 +68,11 @@ services:
   # Route: /it-compass
   # ============================================================
   it-compass:
-    build: ./apps/it_compass
+    build:
+      context: .
+      dockerfile: apps/it_compass/Dockerfile
+    ports:
+      - "8501:8501" # Direct access: http://localhost:8501
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -164,8 +170,8 @@ services:
   # ============================================================
   career-development:
     build:
-      context: ./apps/career_development
-      dockerfile: Dockerfile # TODO: добавить Dockerfile
+      context: .
+      dockerfile: apps/career_development/Dockerfile
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -186,7 +192,9 @@ services:
   # Route: /portfolio-organizer
   # ============================================================
   portfolio_organizer:
-    build: ./apps/portfolio_organizer
+    build:
+      context: .
+      dockerfile: apps/portfolio_organizer/Dockerfile
     ports:
       - "8004:8004" # Direct access: http://localhost:8004
     environment:
@@ -209,7 +217,9 @@ services:
   # Route: /system-proof
   # ============================================================
   system-proof:
-    build: ./apps/system_proof
+    build:
+      context: .
+      dockerfile: apps/system_proof/Dockerfile
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -240,8 +250,8 @@ services:
   # ============================================================
   infra_orchestrator:
     build:
-      context: ./apps/infra_orchestrator
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: apps/infra_orchestrator/Dockerfile
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -257,6 +267,143 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # AI Config Manager
+  # Status: Monitoring & Configuration
+  # ============================================================
+  ai_config_manager:
+    build:
+      context: .
+      dockerfile: apps/ai_config_manager/Dockerfile
+    ports:
+      - "8500:8000"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Chat Backend
+  # Status: Stable
+  # ============================================================
+  chat_backend:
+    build:
+      context: .
+      dockerfile: apps/chat_backend/Dockerfile
+    ports:
+      - "8005:8000"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Knowledge Graph
+  # Status: Stable
+  # ============================================================
+  knowledge_graph:
+    build:
+      context: .
+      dockerfile: apps/knowledge_graph/Dockerfile
+    ports:
+      - "8006:8000"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Cognitive Agent
+  # Status: WIP
+  # ============================================================
+  cognitive_agent:
+    build:
+      context: .
+      dockerfile: apps/cognitive_agent/Dockerfile
+    ports:
+      - "8008:8000"
+    profiles:
+      - wip
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Job Automation Agent
+  # Status: WIP
+  # ============================================================
+  job_automation_agent:
+    build:
+      context: .
+      dockerfile: apps/job_automation_agent/Dockerfile
+    ports:
+      - "8009:8000"
+    profiles:
+      - wip
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Thought Architecture
+  # Status: WIP
+  # ============================================================
+  thought_architecture:
+    build:
+      context: .
+      dockerfile: apps/thought_architecture/Dockerfile
+    ports:
+      - "8010:8000"
+    profiles:
+      - wip
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
+    depends_on:
+      - traefik
+
+  # ============================================================
+  # Template Service
+  # Status: WIP (Template for new services)
+  # ============================================================
+  template_service:
+    build: ./apps/template_service
+    ports:
+      - "8011:8000"
+    profiles:
+      - wip
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    networks:
+      - portfolio-network
     depends_on:
       - traefik
 

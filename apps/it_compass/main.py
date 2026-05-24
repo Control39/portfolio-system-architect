@@ -16,7 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 
 # Интеграция с AI Config Manager
 try:
-    from apps.it_compass.src.config_integration import get_config
+    from src.config_integration import get_config
 
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
@@ -37,7 +37,7 @@ def run_streamlit():
     if not streamlit_script.exists():
         # Фолбэк: если UI не найден, запускаем консольную версию
         print("⚠️  Streamlit UI не найден, запускаем консольную версию...")
-        from apps.it_compass.src.cli import main
+        from src.cli import main
 
         main()
         return

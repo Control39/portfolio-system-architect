@@ -5,19 +5,39 @@ WORKDIR /app
 # Install curl for healthcheck
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Копируем requirements из КОРНЯ (общие зависимости)
+COPY requirements.txt /tmp/requirements-root.txt
+RUN if [ -f /tmp/requirements-root.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-root.txt; \
+    fi
 
-# Copy application code
-COPY . .
+# Копируем requirements из сервиса (специфичные зависимости)
+COPY apps/chat_backend/requirements.txt /tmp/requirements-service.txt
+RUN if [ -f /tmp/requirements-service.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-service.txt; \
+    fi
 
-# Expose port
+# Копируем src/ (общие компоненты)
+COPY src/ /app/src
+
+# Копируем папку сервиса
+COPY apps/chat_backend/ /app
+
+# Конфигурация
+ENV PYTHONPATH=/app:/app/src
+ENV PYTHONUNBUFFERED=1
+
+# Удаляем временные requirements
+RUN rm -f /tmp/requirements-*.txt
+
+# Non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 8000
 
-# Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8000/healthz || exit 1
 
-# Default command (can be overridden)
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Flask (NOT uvicorn/FastAPI)
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=8000"]

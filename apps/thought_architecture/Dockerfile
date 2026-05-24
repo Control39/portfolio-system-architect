@@ -1,32 +1,40 @@
-# Thought Architecture
-# Управление ADR и паттернами мышления
-
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Копирование файлов зависимостей
-COPY requirements.txt .
+# Копируем requirements из КОРНЯ (общие зависимости)
+COPY requirements.txt /tmp/requirements-root.txt
+RUN if [ -f /tmp/requirements-root.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-root.txt; \
+    fi
 
-# Установка Python зависимостей
-RUN pip install --no-cache-dir -r requirements.txt
+# Копируем requirements из сервиса (специфичные зависимости)
+COPY apps/thought_architecture/requirements.txt /tmp/requirements-service.txt
+RUN if [ -f /tmp/requirements-service.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-service.txt; \
+    fi
 
-# Копирование кода проекта
-COPY . .
+# Копируем src/ (общие компоненты)
+COPY src/ /app/src
 
-# Добавление корня проекта в PYTHONPATH
-ENV PYTHONPATH=/app:/app/apps:/app/src
+# Копируем папку сервиса
+COPY apps/thought_architecture/ /app
 
-# Переменные окружения
+# Конфигурация
+ENV PYTHONPATH=/app:/app/src
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Порт для FastAPI
+# Удаляем временные requirements
+RUN rm -f /tmp/requirements-*.txt
+
+# Non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 8000
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
 
-# Запуск
-CMD ["python", "apps/thought-architecture/main.py"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,13 +1,140 @@
-__pycache__/
-*.pyc
+# ============================================================
+# DOCKERIGNORE - Что НЕ копировать в контейнер
+# Отличается от .gitignore!
+# ============================================================
+
+# Git (история коммитов не нужна в контейнере)
 .git/
+.gitignore
+.gitattributes
+
+# Виртуальные окружения (КРИТИЧНО - 23K+ файлов!)
 .venv/
-node_modules/
-*.log
-.env
-.coverage
-htmlcov/
-.pytest_cache/
+venv/
+env/
+ENV/
+
+# Python кэш и артефакты
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
 dist/
 build/
-*.egg-info/
+.eggs/
+
+# Тесты (обычно не нужны в production-образе)
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+junit.xml
+bandit-report.json
+.reports/
+
+# Линтеры и кэш инструментов
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+ruff.toml
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Документация и сайт (не нужны в контейнере)
+docs/
+site/
+*.md
+!README.md
+ARCHITECTURE.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Архитектурная история (не нужна в production)
+legacy/
+experiments/
+backups/
+ARCHIVED/
+*.backup.*
+
+# Конфиги ИИ-агентов (не нужны в контейнере)
+.koda/
+.kodacli/
+.agents/
+.gigacode/
+.gigaide/
+.sourcecraft/
+.cagent/
+.codex/
+.continue/
+.copilot/
+.codeassistant/
+.obsidian/
+.streamlit/
+
+# Инфраструктура (используется снаружи, не внутри контейнера)
+deployment/
+monitoring/
+.github/
+.gitlab-ci.yml
+Makefile
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Node.js (если есть frontend в корне)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Логи и временные файлы
+*.log
+logs/
+*.tmp
+*.bak
+
+# Базы данных (данные монтируются через volumes)
+test_db/
+*.sqlite3
+data/
+
+# Переменные окружения и секреты (БЕЗОПАСНОСТЬ!)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.ppk
+secrets.json
+
+# Отчёты и сканы
+gitleaks-report.json
+apps/*/reports/
+metrics.json
+
+# Standalone репозитории (отдельные проекты)
+*-standalone/
+
+# Специфично для Windows
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Chat logs (приватность)
+.chat-cache/
+
+# Служебные скрипты (не нужны в контейнере)
+diagnosis.ps1
+fix-vscode.ps1
+copy_root_files.py
+complete_rename.ps1
+refactor.sh
+commit_msg2.txt

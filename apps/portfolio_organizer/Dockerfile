@@ -2,19 +2,42 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN useradd -m -u 1000 appuser
+# Install curl
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Копируем requirements из КОРНЯ (общие зависимости)
+COPY requirements.txt /tmp/requirements-root.txt
+RUN if [ -f /tmp/requirements-root.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-root.txt; \
+    fi
 
-COPY --chown=appuser:appuser . .
+# Копируем requirements из сервиса (специфичные зависимости)
+COPY apps/portfolio_organizer/requirements.txt /tmp/requirements-service.txt
+RUN if [ -f /tmp/requirements-service.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-service.txt; \
+    fi
 
-ENV PYTHONPATH=/app
+# Копируем src/ (общие компоненты)
+COPY src/ /app/src
+
+# Копируем папку сервиса
+COPY apps/portfolio_organizer/ /app
+
+# Конфигурация
+ENV PYTHONPATH=/app:/app/src
+ENV PYTHONUNBUFFERED=1
+
+# Удаляем временные requirements
+RUN rm -f /tmp/requirements-*.txt
+
+# Non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
 EXPOSE 8004
 
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8004/health')" || exit 1
+    CMD curl -f http://localhost:8004/health || exit 1
 
-CMD ["python", "main.py"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8004"]

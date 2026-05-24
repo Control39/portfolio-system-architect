@@ -113,6 +113,56 @@ graph LR
 
 ## 🏗️ Обзор архитектуры
 
+### Архитектурная схема: Атомы и Молекулы
+
+```mermaid
+graph TB
+    subgraph "🧬 АТОМЫ (src/)"
+        A1[src/security<br/>Маскирование секретов]
+        A2[src/shared/schemas<br/>career.yaml, proof.yaml]
+        A3[src/config<br/>Hot-reload конфигурация]
+        A4[src/core<br/>Базовые интерфейсы]
+    end
+
+    subgraph "🧪 МОЛЕКУЛЫ (apps/)"
+        M1[auth_service<br/>JWT аутентификация]
+        M2[career_development<br/>Трекинг компетенций]
+        M3[decision_engine<br/>AI reasoning]
+        M4[portfolio_organizer<br/>Сбор доказательств]
+    end
+
+    A1 --> M1
+    A1 --> M2
+    A1 --> M3
+    A1 --> M4
+    A2 --> M2
+    A2 --> M4
+    A3 --> M1
+    A3 --> M2
+    A3 --> M3
+    A3 --> M4
+    A4 --> M3
+
+    style A1 fill:#e1f5ff
+    style A2 fill:#e1f5ff
+    style A3 fill:#e1f5ff
+    style A4 fill:#e1f5ff
+    style M1 fill:#d4edda
+    style M2 fill:#d4edda
+    style M3 fill:#d4edda
+    style M4 fill:#d4edda
+```
+
+**Принцип работы:**
+- **Атомы** (`src/`) — переиспользуемые компоненты, которые ничего не знают друг о друге
+- **Молекулы** (`apps/`) — микросервисы, которые собирают атомы под конкретную задачу
+- **Слабая связанность** — сервисы общаются через API, а не прямые импорты
+
+Это позволяет:
+- ✅ Добавить новый сервис за 2 минуты (генератор: `python scripts/create_service.py`)
+- ✅ Заменить реализацию атома без изменения молекул
+- ✅ Масштабировать систему горизонтально
+
 ### Ключевые принципы
 
 | Принцип | Реализация | Бизнес-ценность |
@@ -172,6 +222,53 @@ graph LR
 ---
 
 ## 🚀 Быстрый старт
+
+### Требования
+- **Docker Desktop** (для запуска сервисов)
+- **Python 3.12+** (для локальной разработки)
+- **Node.js 20+** (для frontend)
+- **PowerShell 7+** (рекомендуется для скриптов)
+
+### Запуск сервисов
+
+```bash
+# 1. Убедись, что Docker Desktop запущен
+docker --version
+
+# 2. Запусти все стабильные сервисы (кроме WIP)
+docker-compose up -d
+
+# 3. Проверь статус
+docker-compose ps
+
+# 4. Открой сервисы
+# Auth Service: http://localhost:8100/docs
+# IT-Compass: http://localhost:8501
+# Decision Engine: http://localhost:8001/docs
+```
+
+> **⚠️ Примечание:** Если Docker не запущен, смотри [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) для пошаговой инструкции.
+
+### Локальная разработка
+
+```bash
+# 1. Клонируй репозиторий
+git clone https://github.com/Control39/portfolio-system-architect.git
+cd portfolio-system-architect
+
+# 2. Создай виртуальное окружение
+python -m venv .venv
+.venv\Scripts\Activate
+
+# 3. Установи зависимости
+pip install -r requirements.txt
+
+# 4. Запусти сервис вручную
+cd apps/auth_service
+python main.py
+```
+
+---
 
 ### Для новых разработчиков (5 мин)
 ```bash
@@ -352,6 +449,12 @@ cat docs/it-compass/PROJECT_ANALYSIS.md
 ---
 
 ## 📚 Дополнительная документация
+
+> **📖 Документация читается напрямую из Markdown-файлов на GitHub.** Это честнее, чем показывать устаревшие страницы MkDocs.
+
+### 📑 Полный индекс документации
+
+**[docs/INDEX.md](docs/INDEX.md)** — навигация по всем 1255 Markdown файлам
 
 ### Основные руководства
 
