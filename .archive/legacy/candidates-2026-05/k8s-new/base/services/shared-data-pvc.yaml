@@ -1,0 +1,19 @@
+# Shared PersistentVolumeClaim for service data
+# Used by cloud-reason, ml-model-registry, system-proof, etc.
+# Mounted as /app/data, /app/models, /app/rag-index, etc.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-data-pvc
+  namespace: portfolio
+  labels:
+    app: portfolio
+    tier: data
+spec:
+  accessModes:
+    - ReadWriteMany   # Requires storage class that supports RWX (e.g., NFS, Azure Files)
+  storageClassName: standard  # Adjust to your cluster's storage class
+  resources:
+    requests:
+      storage: 10Gi   # Total size for all services

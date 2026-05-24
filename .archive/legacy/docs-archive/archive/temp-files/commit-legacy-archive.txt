@@ -1,0 +1,13 @@
+refactor: archive legacy tools to docs/examples/legacy/tools/
+
+Moved old/unused tool directories to preserve history without cluttering active tools/:
+- tools/audit_monitoring/ → docs/examples/legacy/tools/audit_monitoring/
+- tools/documentation/ → docs/examples/legacy/tools/documentation/
+- tools/scripts/scripts/ → docs/examples/legacy/tools/scripts/
+
+Rationale:
+- No imports or references found in active codebase
+- Workflow .github/workflows/repo-audit.yml uses different modules
+- Active tools retained: ai_integration, dev_tools, repo_audit, utilities, utils, visualization
+
+This keeps tools/ directory clean while preserving historical context.

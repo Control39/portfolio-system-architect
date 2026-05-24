@@ -1,0 +1,117 @@
+# Kubernetes CronJob for Automated PostgreSQL Backups
+# Runs daily at 3:00 AM UTC
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: portfolio
+spec:
+  # Daily at 3:00 AM UTC
+  schedule: "0 3 * * *"
+  
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: backup-sa
+          containers:
+          - name: postgres-backup
+            image: google/cloud-sdk:latest
+            env:
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: portfolio-secrets
+                  key: POSTGRES_USER
+            - name: DB_NAME
+              value: "portfolio"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: portfolio-secrets
+                  key: POSTGRES_PASSWORD
+            - name: GCS_BUCKET
+              value: "portfolio-backups"
+            - name: RETENTION_DAYS
+              value: "30"
+            
+            command:
+            - /bin/bash
+            - -c
+            - |
+              apt-get update && apt-get install -y postgresql-client
+              
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_FILE="/tmp/portfolio_${TIMESTAMP}.sql.gz"
+              
+              echo "Starting backup at $(date)"
+              
+              if PGPASSWORD=$DB_PASSWORD pg_dump \
+                -h $DB_HOST \
+                -p $DB_PORT \
+                -U $DB_USER \
+                -d $DB_NAME \
+                | gzip > $BACKUP_FILE; then
+                
+                FILE_SIZE=$(du -h $BACKUP_FILE | cut -f1)
+                echo "✅ Backup completed: $FILE_SIZE"
+                
+                gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/
+                echo "✅ Uploaded to gs://$GCS_BUCKET/"
+              else
+                echo "❌ Backup failed"
+                exit 1
+              fi
+            
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+          
+          volumes:
+          - name: backup-storage
+            emptyDir: {}
+          
+          restartPolicy: OnFailure
+          backoffLimit: 3
+
+---
+# ServiceAccount for CronJob (GCS access)
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backup-sa
+  namespace: portfolio
+
+---
+# Role for backup operations
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: backup-role
+  namespace: portfolio
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+  resourceNames: ["portfolio-secrets"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: backup-rolebinding
+  namespace: portfolio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: backup-role
+subjects:
+- kind: ServiceAccount
+  name: backup-sa
+  namespace: portfolio

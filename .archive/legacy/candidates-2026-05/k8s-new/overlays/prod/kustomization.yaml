@@ -1,0 +1,34 @@
+# Production Environment Overlay
+# Full GKE deployment
+# Works on: GKE v1.27+
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: portfolio
+
+bases:
+  - ../../base
+
+commonLabels:
+  environment: prod
+
+replicas:
+  - name: it-compass
+    count: 3
+  - name: cloud-reason
+    count: 3
+  - name: ml-model-registry
+    count: 3
+  - name: career-development
+    count: 2
+  - name: portfolio-organizer
+    count: 2
+  - name: system-proof
+    count: 2
+
+# Future: Add prod-specific configurations
+# - Ingress with SSL
+# - Pod Disruption Budgets
+# - Vertical Pod Autoscaler
+# - Monitoring ServiceMonitors

@@ -1,0 +1,253 @@
+# Конфигурация сканера проекта Cognitive Automation Agent
+
+# Настройки сканирования
+scanning:
+  # Режим сканирования
+  mode: "deep"  # quick, standard, deep
+  
+  # Включить рекурсивное сканирование
+  recursive: true
+  
+  # Максимальная глубина рекурсии
+  max_depth: 10
+  
+  # Следить за символическими ссылками
+  follow_symlinks: false
+  
+  # Игнорировать скрытые файлы и директории
+  ignore_hidden: true
+  
+  # Параллельное сканирование
+  parallel_scanning: true
+  max_workers: 4
+
+# Настройки обнаружения
+detection:
+  # Типы файлов для анализа
+  file_types:
+    - "*.py"
+    - "*.js"
+    - "*.ts"
+    - "*.java"
+    - "*.go"
+    - "*.rs"
+    - "*.cpp"
+    - "*.h"
+    - "*.cs"
+    - "*.php"
+    - "*.rb"
+    - "*.yml"
+    - "*.yaml"
+    - "*.json"
+    - "*.xml"
+    - "*.md"
+    - "*.txt"
+    - "Dockerfile"
+    - "docker-compose*.yml"
+    - "*.tf"
+    - "*.sh"
+    - "*.ps1"
+    - "*.bat"
+  
+  # Паттерны для игнорирования
+  ignore_patterns:
+    - "**/node_modules/**"
+    - "**/.git/**"
+    - "**/.venv/**"
+    - "**/__pycache__/**"
+    - "**/.pytest_cache/**"
+    - "**/.mypy_cache/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/*.log"
+    - "**/*.tmp"
+    - "**/*.temp"
+  
+  # Минимальный размер файла для анализа (в байтах)
+  min_file_size: 1
+  
+  # Максимальный размер файла для анализа (в байтах)
+  max_file_size: 10485760  # 10 MB
+
+# Настройки анализа
+analysis:
+  # Анализ зависимостей
+  dependency_analysis: true
+  dependency_depth: 3
+  
+  # Анализ архитектурных паттернов
+  architectural_patterns: true
+  patterns_to_detect:
+    - "mvc"
+    - "mvvm"
+    - "microservices"
+    - "event_driven"
+    - "cqs"
+    - "repository"
+    - "factory"
+    - "strategy"
+    - "observer"
+    - "decorator"
+  
+  # Анализ безопасности
+  security_analysis: true
+  security_checks:
+    - "hardcoded_secrets"
+    - "insecure_dependencies"
+    - "sql_injection"
+    - "xss"
+    - "csrf"
+    - "insecure_deserialization"
+  
+  # Анализ качества кода
+  code_quality_analysis: true
+  quality_metrics:
+    - "cyclomatic_complexity"
+    - "cognitive_complexity"
+    - "maintainability_index"
+    - "code_smells"
+    - "duplications"
+    - "test_coverage"
+  
+  # Анализ производительности
+  performance_analysis: true
+  performance_checks:
+    - "n_plus_one"
+    - "memory_leaks"
+    - "inefficient_algorithms"
+    - "blocking_operations"
+
+# Настройки технологического стека
+tech_stack:
+  # Автоматическое определение технологий
+  auto_detect: true
+  
+  # Технологии для поиска
+  technologies:
+    languages:
+      - "python"
+      - "javascript"
+      - "typescript"
+      - "java"
+      - "go"
+      - "rust"
+      - "csharp"
+      - "php"
+      - "ruby"
+    
+    frameworks:
+      - "django"
+      - "flask"
+      - "fastapi"
+      - "react"
+      - "vue"
+      - "angular"
+      - "spring"
+      - "express"
+      - "laravel"
+      - "rails"
+    
+    databases:
+      - "postgresql"
+      - "mysql"
+      - "mongodb"
+      - "redis"
+      - "elasticsearch"
+    
+    tools:
+      - "docker"
+      - "kubernetes"
+      - "terraform"
+      - "ansible"
+      - "jenkins"
+      - "github_actions"
+      - "gitlab_ci"
+
+# Настройки вывода
+output:
+  # Формат вывода
+  format: "json"  # json, yaml, xml, html
+  
+  # Уровень детализации
+  detail_level: "detailed"  # minimal, standard, detailed
+  
+  # Включить статистику
+  include_statistics: true
+  
+  # Включить рекомендации
+  include_recommendations: true
+  
+  # Включить графики
+  include_charts: false
+  
+  # Путь для сохранения отчетов
+  report_path: "reports/scans/"
+  
+  # Имя файла отчета
+  report_filename: "scan_report_{timestamp}.{format}"
+  
+  # Сохранять историю сканирований
+  save_history: true
+  history_size: 10
+
+# Настройки мониторинга
+monitoring:
+  # Включить мониторинг сканирования
+  enabled: true
+  
+  # Метрики для мониторинга
+  metrics:
+    - "files_scanned"
+    - "scan_duration"
+    - "memory_usage"
+    - "cpu_usage"
+    - "issues_found"
+    - "vulnerabilities_detected"
+  
+  # Интервал мониторинга (в секундах)
+  monitoring_interval: 30
+  
+  # Пороги для предупреждений
+  alert_thresholds:
+    scan_duration_exceeded: 300  # секунд
+    memory_exceeded: 0.8  # доля от доступной памяти
+    high_issue_count: 100
+
+# Настройки логирования
+logging:
+  # Уровень логирования
+  level: "INFO"
+  
+  # Файлы логов
+  files:
+    scanner: "logs/scanner.log"
+    analysis: "logs/scanner_analysis.log"
+    errors: "logs/scanner_errors.log"
+  
+  # Максимальный размер файла лога
+  max_file_size: "10MB"
+  
+  # Количество резервных копий
+  backup_count: 5
+  
+  # Формат логов
+  format: "json"
+
+# Настройки интеграции
+integration:
+  # Интеграция с системой хранения данных
+  storage:
+    enabled: true
+    type: "sqlite"  # sqlite, postgres, mysql
+    connection_string: "data/scanner.db"
+  
+  # Интеграция с системой визуализации
+  visualization:
+    enabled: true
+    dashboard_url: "http://localhost:3000/dashboard/scanner"
+  
+  # Интеграция с системой уведомлений
+  notifications:
+    enabled: true
+    channels: ["telegram", "email", "webhook"]
+    events: ["scan_completed", "critical_issue_found", "scan_failed"]
