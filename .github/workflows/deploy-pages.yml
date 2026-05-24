@@ -1,4 +1,4 @@
-name: Deploy Documentation to GitHub Pages
+name: Deploy Documentation to GitHub Pages (Jekyll)
 
 on:
   push:
@@ -9,36 +9,40 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./docs  # Jekyll config is in docs/
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          python-version: '3.12'
+          ruby-version: '3.2'
+          bundler-cache: true
 
-      - name: Verify mkdocs.yml exists
+      - name: Verify _config.yml exists
         run: |
-          if [ ! -f "mkdocs.yml" ]; then
-            echo "ERROR: mkdocs.yml not found in root!"
+          if [ ! -f "_config.yml" ]; then
+            echo "ERROR: _config.yml not found in docs/!"
             exit 1
           fi
-          echo "✓ mkdocs.yml found"
-          cat mkdocs.yml | head -20
+          echo "✓ _config.yml found"
+          cat _config.yml | head -20
 
-      - name: Install MkDocs
+      - name: Install Jekyll dependencies
         run: |
-          pip install --upgrade pip
-          pip install mkdocs-material
-          pip install mkdocs-git-revision-date-localized-plugin
+          gem install bundler
+          bundle install
 
-      - name: Build MkDocs site
+      - name: Build Jekyll site
         run: |
-          echo "Building documentation with mkdocs.yml from root..."
-          mkdocs build --config-file ./mkdocs.yml --site-dir ./site --clean -v
+          echo "Building documentation with Jekyll from docs/..."
+          bundle exec jekyll build --destination ../site --baseurl ""
           echo "✓ Build successful"
-          ls -la site/
+          ls -la ../site/
 
       - name: Deploy to GitHub Pages (main branch only)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

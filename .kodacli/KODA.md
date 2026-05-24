@@ -335,3 +335,38 @@
 - [ ] Удалить резервную копию `README.md.backup_20260522` (опционально)
 - [ ] Проверить, что новый README хорошо читается на GitHub (рендеринг Markdown)
 - [ ] При необходимости адаптировать под конкретные вакансии (добавить ключевые слова)
+
+---
+
+### ✅ GitHub Pages: НАСТРОЕН (Jekyll)
+
+**Изменения (24 мая 2026):**
+- ✅ Отказались от MkDocs в пользу **Jekyll** (встроен в GitHub Pages)
+- ✅ Создан `docs/_config.yml` — конфигурация Jekyll
+- ✅ Создан `docs/Gemfile` — зависимости
+- ✅ Обновлён workflow `.github/workflows/deploy-pages.yml` — теперь деплоит из `docs/`
+- ✅ Создан `docs/README.md` — главная страница сайта
+- ✅ Создана структура `_layouts/`, `assets/` — базовый дизайн
+
+**Что делать дальше:**
+1. **Закоммитить изменения:**
+   ```powershell
+   git add docs/_config.yml docs/Gemfile docs/_layouts/ docs/assets/ .github/workflows/deploy-pages.yml
+   git commit -m "docs: настроить GitHub Pages с Jekyll (отказ от MkDocs)"
+   git push origin main
+   ```
+
+2. **Проверить GitHub Actions:**
+   - Открыть: `https://github.com/control39/portfolio-system-architect/actions/workflows/deploy-pages.yml`
+   - Убедиться, что последний запуск успешен
+
+3. **Проверить сайт:**
+   - Через 2-3 минуты после успешного деплоя: `https://control39.github.io/portfolio-system-architect/`
+
+4. **Включить GitHub Pages в настройках (если не включено):**
+   - Settings → Pages → Source → выбрать `gh-pages` branch
+   - Или: Settings → Pages → Build and deployment → Source → `GitHub Actions`
+
+**Примечание:** План настройки теперь устарел — см. `.codeassistant/plans/GH_PAGES_SETUP.md` (можно удалить или пометить как выполненный).
+
+**Статус:** 🟢 **ГОТОВО** — осталось только запушить и проверить.
