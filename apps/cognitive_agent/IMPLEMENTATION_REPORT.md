@@ -1,4 +1,4 @@
-# Отчет о реализации Cognitive Automation Agent
+﻿# Отчет о реализации Cognitive Automation Agent
 
 ## Обзор
 Cognitive Automation Agent (CAA) - это усиленная версия исходного скилла `full-automation-agent`, реализующая интеллектуальные возможности для полной автономии. Агент обладает контекстным пониманием, проактивным планированием, автономным выполнением и самообучением.
@@ -125,7 +125,7 @@ Cognitive Automation Agent (CAA) - это усиленная версия исх
 
 #### Мониторинг и метрики
 - **База данных метрик**: SQLite база данных содержит историю выполнения триггеров
-- **Логи**: Логи сканирования, планирования, выполнения доступны в `apps/cognitive-agent/logs/`
+- **Логи**: Логи сканирования, планирования, выполнения доступны в `apps/cognitive_agent/logs/`
 - **Отчеты**: Ежедневные отчеты триггеров генерируются автоматически
 
 ### Выводы тестирования
@@ -133,7 +133,7 @@ Cognitive Automation Agent (CAA) - это усиленная версия исх
 ✅ **Агент готов к использованию в production-среде**
 ✅ **Автономные функции реализованы в соответствии с требованиями**
 ✅ **Система самообучения собирает данные для будущих улучшений**
-⚠️ **Рекомендация**: Добавить файл `apps/cognitive-agent/requirements.txt` для полного прохождения валидации
+⚠️ **Рекомендация**: Добавить файл `apps/cognitive_agent/requirements.txt` для полного прохождения валидации
 
 ### Функциональные тесты
 1. **Запуск агента**: ✅ Успешно
@@ -147,17 +147,17 @@ Cognitive Automation Agent (CAA) - это усиленная версия исх
 ### Быстрый старт
 ```bash
 # Запуск агента в минимальном режиме
-python apps/cognitive-agent/launch-script.py --mode=minimal
+python apps/cognitive_agent/launch-script.py --mode=minimal
 
 # Запуск полного сканирования проекта
-python apps/cognitive-agent/launch-script.py --mode=scan
+python apps/cognitive_agent/launch-script.py --mode=scan
 
 # Запуск рабочего процесса настройки проекта
-python apps/cognitive-agent/launch-script.py --workflow=project-setup
+python apps/cognitive_agent/launch-script.py --workflow=project-setup
 ```
 
 ### Конфигурация
-Основные настройки находятся в `apps/cognitive-agent/config/agent-config.yaml`:
+Основные настройки находятся в `apps/cognitive_agent/config/agent-config.yaml`:
 ```yaml
 autonomy:
   level: high
@@ -171,15 +171,15 @@ autonomy:
 ### Мониторинг
 - **Дашборд**: http://localhost:3000/dashboard/cognitive-agent
 - **Метрики**: Prometheus endpoint на порту 9090
-- **Логи**: Директория `apps/cognitive-agent/logs/`
-- **Отчеты**: Директория `apps/cognitive-agent/reports/`
+- **Логи**: Директория `apps/cognitive_agent/logs/`
+- **Отчеты**: Директория `apps/cognitive_agent/reports/`
 
 ## Рекомендации по развертыванию
 
 ### Для разработки
 1. Клонировать репозиторий
-2. Установить зависимости: `pip install -r apps/cognitive-agent/requirements.txt`
-3. Запустить в режиме разработки: `python apps/cognitive-agent/launch-script.py --mode=minimal`
+2. Установить зависимости: `pip install -r apps/cognitive_agent/requirements.txt`
+3. Запустить в режиме разработки: `python apps/cognitive_agent/launch-script.py --mode=minimal`
 
 ### Для production
 1. Настроить переменные окружения
