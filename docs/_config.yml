@@ -1,0 +1,70 @@
+# Jekyll configuration for Portfolio System Architect
+# GitHub Pages will build this site automatically
+
+title: Portfolio System Architect
+description: Production-ready cognitive architecture ecosystem
+author: Your Name
+
+# Theme
+theme: minima
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .github
+  - apps/
+  - deployment/
+  - monitoring/
+  - tools/
+  - scripts/
+  - tests/
+  - *.py
+  - *.ps1
+  - docker-compose.yml
+  - Dockerfile
+  - requirements*.txt
+  - pyproject.toml
+  - Makefile
+  - LICENSE
+  - .koda/
+  - .codeassistant/
+  - .agents/
+  - .gigacode/
+  - .archive/
+
+# Collections (optional, for better organization)
+collections:
+  cases:
+    output: true
+    permalink: /cases/:path/
+  services:
+    output: true
+    permalink: /services/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "cases/*"
+    values:
+      layout: "case"
+      collection: "cases"
+
+# Navigation structure (for manual menu generation)
+# Cases: integration, business, thinking, evolution, methodology, technical
+# Services: ai-config-manager, it-compass, decision-engine, etc.
