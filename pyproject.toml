@@ -18,8 +18,12 @@ classifiers = [
 [project.scripts]
 cognitive-agent = "apps.cognitive_agent.scripts.scanner_main:main"
 
-[tool.setuptools.packages.find]
-where = ["src", "apps", ".agents"]
+[tool.setuptools]
+packages = [
+    "apps",
+    "apps.cognitive_agent",
+    "apps.cognitive_agent.scripts"
+]
 
 # -----------------------------
 # Ruff: lint & format settings
@@ -35,9 +39,6 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-# E402: module level import not at top of file
-# Игнорируем, т.к. в монорепозитории sys.path.insert должен идти ДО импортов Атомов из src/
-# Это архитектурное решение, см. docs/architecture/decisions/ADR-014-monorepo-boundary.md
 extend-ignore = ["E402"]
 
 [tool.ruff.format]
