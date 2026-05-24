@@ -1,4 +1,4 @@
----
+﻿---
 name: cognitive-automation-agent
 description: |
   Когнитивный агент автоматизации с интеллектуальными возможностями для полной автономии.
@@ -125,7 +125,7 @@ python -m agents.models.retrain --data=metrics/latest.json
 ## Конфигурация автономности
 
 ```yaml
-# apps/cognitive-agent/config/autonomy.yaml
+# apps/cognitive_agent/config/autonomy.yaml
 autonomy_levels:
   high:
     approval_required: false
@@ -249,13 +249,13 @@ dashboards:
 ### Частые проблемы и решения
 1. **Агент не активируется**: Проверьте триггеры в конфигурации
 2. **Низкая автономность**: Увеличьте доверенные паттерны
-3. **Ошибки выполнения**: Проверьте логи в `apps/cognitive-agent/logs/`
+3. **Ошибки выполнения**: Проверьте логи в `apps/cognitive_agent/logs/`
 4. **Медленная работа**: Оптимизируйте настройки параллелизма
 
 ### Логи и отладка
 ```bash
 # Просмотр логов агента
-tail -f apps/cognitive-agent/logs/cognitive_agent.log
+tail -f apps/cognitive_agent/logs/cognitive_agent.log
 
 # Детальная отладка
 python -m agents.cognitive_agent --debug --log-level=DEBUG
@@ -267,13 +267,13 @@ python -m agents.diagnostics.generate_report
 ## Развитие и расширение
 
 ### Добавление новых скиллов
-1. Создайте папку в `apps/cognitive-agent/skills/`
+1. Создайте папку в `apps/cognitive_agent/skills/`
 2. Реализуйте логику в Python
 3. Добавьте конфигурацию в `config/skills.yaml`
 4. Протестируйте на изолированном проекте
 
 ### Обучение новых моделей
-1. Соберите данные в `apps/cognitive-agent/data/training/`
+1. Соберите данные в `apps/cognitive_agent/data/training/`
 2. Обучите модель с помощью `agents.models.train`
 3. Валидируйте на тестовом наборе
 4. Разверните в продакшн

@@ -1,4 +1,4 @@
----
+﻿---
 name: task-planner
 description: |
   Интеллектуальный планировщик задач для Cognitive Automation Agent.
@@ -203,7 +203,7 @@ def optimize_sequence(prioritized_tasks, available_resources):
       "rollback_plan": {
         "enabled": true,
         "strategy": "restore_backup",
-        "backup_location": "apps/cognitive-agent/backups/deps_001/"
+        "backup_location": "apps/cognitive_agent/backups/deps_001/"
       }
     },
     {
@@ -248,7 +248,7 @@ def optimize_sequence(prioritized_tasks, available_resources):
       "rollback_plan": {
         "enabled": true,
         "strategy": "remove_configs",
-        "backup_location": "apps/cognitive-agent/backups/monitoring_003/"
+        "backup_location": "apps/cognitive_agent/backups/monitoring_003/"
       }
     }
   ],
@@ -329,18 +329,18 @@ python -m agents.planner --rollback --plan=plan.json --to-checkpoint=checkpoint_
 
 ### Модели планирования
 ```yaml
-# apps/cognitive-agent/config/planner.yaml
+# apps/cognitive_agent/config/planner.yaml
 planning_models:
   ml_based:
     enabled: true
-    training_data: "apps/cognitive-agent/data/training/planner/"
-    model_path: "apps/cognitive-agent/models/planner/ml_model.pkl"
+    training_data: "apps/cognitive_agent/data/training/planner/"
+    model_path: "apps/cognitive_agent/models/planner/ml_model.pkl"
     retrain_schedule: "0 3 * * 0"  # Каждое воскресенье в 3:00
     confidence_threshold: 0.7
 
   rule_based:
     enabled: true
-    rules_directory: "apps/cognitive-agent/config/planner_rules/"
+    rules_directory: "apps/cognitive_agent/config/planner_rules/"
     default_rules: ["tech_stack_rules", "security_rules", "performance_rules"]
 
   hybrid:
@@ -458,7 +458,7 @@ def export_plan(plan, format):
 ## Расширение функциональности
 
 ### Добавление новых правил планирования
-1. Создайте файл правил в `apps/cognitive-agent/config/planner_rules/`
+1. Создайте файл правил в `apps/cognitive_agent/config/planner_rules/`
 2. Реализуйте логику обнаружения и генерации задач
 3. Зарегистрируйте правило в `config/planner_rules.yaml`
 4. Протестируйте на различных проектах
@@ -541,7 +541,7 @@ planner_dashboard:
 python -m agents.planner --debug --log-level=DEBUG --output=debug_plan.json
 
 # Валидация правил планирования
-python -m agents.planner.validate_rules --rules-dir=apps/cognitive-agent/config/planner_rules/
+python -m agents.planner.validate_rules --rules-dir=apps/cognitive_agent/config/planner_rules/
 
 # Тестирование моделей предсказания
 python -m agents.planner.test_model --model=ml_based --test-data=test_data.json

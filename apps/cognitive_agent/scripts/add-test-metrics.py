@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Скрипт для добавления тестовых данных в систему мониторинга триггеров.
 Используется для демонстрации работы дашбордов и отчетов.
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class TestMetricsGenerator:
     """Генератор тестовых метрик для системы мониторинга"""
 
-    def __init__(self, db_path: str = "apps/cognitive-agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_database()

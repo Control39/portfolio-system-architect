@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Тестирование и валидация Cognitive Automation Agent.
 Проверка всех компонентов агента на корректность работы.
@@ -439,14 +439,14 @@ class CognitiveAgentValidator:
 
                 if "structure" in issues:
                     f.write(
-                        "1. Создайте недостающие директории: `mkdir -p apps/cognitive-agent/{config,workflows,logs,scans,reports}`\n"
+                        "1. Создайте недостающие директории: `mkdir -p apps/cognitive_agent/{config,workflows,logs,scans,reports}`\n"
                     )
 
                 if "skills" in issues:
-                    f.write("2. Проверьте наличие обязательных скиллов в `apps/cognitive-agent/skills/`\n")
+                    f.write("2. Проверьте наличие обязательных скиллов в `apps/cognitive_agent/skills/`\n")
 
                 if "configurations" in issues:
-                    f.write("3. Создайте файл конфигурации `apps/cognitive-agent/config/agent-config.yaml`\n")
+                    f.write("3. Создайте файл конфигурации `apps/cognitive_agent/config/agent-config.yaml`\n")
 
                 if "dependencies" in issues:
                     f.write("4. Установите недостающие модули Python\n")

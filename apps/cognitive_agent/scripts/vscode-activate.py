@@ -11,10 +11,10 @@ from pathlib import Path
 
 def activate_cognitive_agent():
     """Активация Cognitive Automation Agent"""
-    agent_path = Path(".agents")
+    agent_path = Path("apps/cognitive_agent")
 
     if not agent_path.exists():
-        print("❌ Директория .agents не найдена")
+        print("❌ Директория apps/cognitive_agent не найдена")
         return False
 
     # Проверяем конфигурацию

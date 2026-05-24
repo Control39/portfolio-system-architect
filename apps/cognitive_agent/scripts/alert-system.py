@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Система оповещений для мониторинга триггеров.
 Проверяет метрики и отправляет уведомления при обнаружении проблем.
@@ -20,7 +20,7 @@ import requests
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("apps/cognitive-agent/logs/alerts.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler("apps/cognitive_agent/logs/alerts.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -28,9 +28,9 @@ logger = logging.getLogger(__name__)
 class AlertSystem:
     """Система оповещений для мониторинга триггеров"""
 
-    def __init__(self, db_path: str = "apps/cognitive-agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
-        self.alerts_dir = Path("apps/cognitive-agent/alerts")
+        self.alerts_dir = Path("apps/cognitive_agent/alerts")
         self.alerts_dir.mkdir(parents=True, exist_ok=True)
 
         # Конфигурация оповещений
@@ -67,7 +67,7 @@ class AlertSystem:
             "check_interval_hours": 1,  # Интервал проверки
         }
 
-        config_path = Path("apps/cognitive-agent/config/alerts.yaml")
+        config_path = Path("apps/cognitive_agent/config/alerts.yaml")
         if config_path.exists():
             try:
                 import yaml

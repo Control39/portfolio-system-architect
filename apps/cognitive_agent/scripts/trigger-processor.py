@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Обработчик автоматических триггеров Cognitive Automation Agent.
 Мониторит события и запускает соответствующие действия.
@@ -26,7 +26,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive-agent/logs/triggers.log"),
+        logging.FileHandler("apps/cognitive_agent/logs/triggers.log"),
         logging.StreamHandler(),
     ],
 )
@@ -142,9 +142,9 @@ class TriggerAction:
     def _find_script(self, script_name: str) -> Path | None:
         """Поиск скрипта в директориях агента"""
         search_paths = [
-            Path(".agents") / "scripts",
-            Path(".agents") / "tests",
-            Path(".agents"),
+            Path("apps/cognitive_agent") / "scripts",
+            Path("apps/cognitive_agent") / "tests",
+            Path("apps/cognitive_agent"),
             Path("."),
         ]
 
@@ -159,7 +159,7 @@ class TriggerAction:
 class TriggerProcessor:
     """Обработчик триггеров"""
 
-    def __init__(self, config_path: str = "apps/cognitive-agent/config/triggers.yaml"):
+    def __init__(self, config_path: str = "apps/cognitive_agent/config/triggers.yaml"):
         self.config_path = Path(config_path)
         self.config = self._load_config()
         self.triggers = self._parse_triggers()
@@ -317,7 +317,7 @@ class TriggerProcessor:
         }
 
         # Сохраняем в файл
-        log_dir = Path("apps/cognitive-agent/logs/triggers")
+        log_dir = Path("apps/cognitive_agent/logs/triggers")
         log_dir.mkdir(exist_ok=True, parents=True)
 
         log_file = log_dir / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -466,7 +466,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Обработчик триггеров Cognitive Automation Agent")
-    parser.add_argument("--config", default="apps/cognitive-agent/config/triggers.yaml", help="Путь к конфигурации")
+    parser.add_argument("--config", default="apps/cognitive_agent/config/triggers.yaml", help="Путь к конфигурации")
     parser.add_argument("--workers", type=int, default=3, help="Количество воркеров")
     parser.add_argument("--simulate", help="Симулировать событие")
     parser.add_argument("--simulate-data", help="Данные для симуляции (JSON)")

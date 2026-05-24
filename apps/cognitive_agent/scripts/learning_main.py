@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Система самообучения для Cognitive Automation Agent.
 
@@ -60,13 +60,13 @@ class AgentMetrics:
 class LearningSystem:
     """Система самообучения агента."""
 
-    def __init__(self, config_path: str = "apps/cognitive-agent/config/learning.yaml"):
+    def __init__(self, config_path: str = "apps/cognitive_agent/config/learning.yaml"):
         """Инициализация системы самообучения."""
         self.config_path = Path(config_path)
         self.config = self._load_config()
 
         # Директории для данных
-        self.data_dir = Path("apps/cognitive-agent/data/learning")
+        self.data_dir = Path("apps/cognitive_agent/data/learning")
         self.metrics_dir = self.data_dir / "metrics"
         self.models_dir = self.data_dir / "models"
         self.reports_dir = self.data_dir / "reports"
@@ -756,7 +756,7 @@ def main():
         results = learning_system.run_learning_cycle()
 
         # Сохранение статуса
-        status_file = Path("apps/cognitive-agent/status/learning_status.json")
+        status_file = Path("apps/cognitive_agent/status/learning_status.json")
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:

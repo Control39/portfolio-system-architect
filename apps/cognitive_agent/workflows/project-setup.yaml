@@ -1,4 +1,4 @@
-# Автоматический рабочий процесс настройки проекта
+﻿# Автоматический рабочий процесс настройки проекта
 # Cognitive Automation Agent - Workflow v1.0
 
 name: "Автоматическая настройка проекта"
@@ -75,9 +75,9 @@ phases:
         priority: "high"
 
         actions:
-          - "load_configuration: apps/cognitive-agent/config/agent-config.yaml"
-          - "initialize_logging: apps/cognitive-agent/logs/setup.log"
-          - "setup_cache: apps/cognitive-agent/cache/"
+          - "load_configuration: apps/cognitive_agent/config/agent-config.yaml"
+          - "initialize_logging: apps/cognitive_agent/logs/setup.log"
+          - "setup_cache: apps/cognitive_agent/cache/"
           - "validate_environment"
 
         resources:
@@ -98,7 +98,7 @@ phases:
           - ".gitignore"
           - ".vscode/"
 
-        backup_location: "apps/cognitive-agent/backups/project_setup_${TIMESTAMP}/"
+        backup_location: "apps/cognitive_agent/backups/project_setup_${TIMESTAMP}/"
         retention: "7 days"
 
         resources:
@@ -131,7 +131,7 @@ phases:
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/scans/tech_stack_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/scans/tech_stack_${TIMESTAMP}.json"
 
         resources:
           cpu: "medium"
@@ -158,7 +158,7 @@ phases:
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/scans/dependencies_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/scans/dependencies_${TIMESTAMP}.json"
 
         resources:
           cpu: "high"
@@ -185,7 +185,7 @@ phases:
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/scans/code_analysis_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/scans/code_analysis_${TIMESTAMP}.json"
 
         resources:
           cpu: "high"
@@ -209,7 +209,7 @@ phases:
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/scans/git_analysis_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/scans/git_analysis_${TIMESTAMP}.json"
 
         resources:
           cpu: "medium"
@@ -232,14 +232,14 @@ phases:
         priority: "high"
 
         inputs:
-          - "apps/cognitive-agent/scans/tech_stack_*.json"
-          - "apps/cognitive-agent/scans/dependencies_*.json"
-          - "apps/cognitive-agent/scans/code_analysis_*.json"
-          - "apps/cognitive-agent/scans/git_analysis_*.json"
+          - "apps/cognitive_agent/scans/tech_stack_*.json"
+          - "apps/cognitive_agent/scans/dependencies_*.json"
+          - "apps/cognitive_agent/scans/code_analysis_*.json"
+          - "apps/cognitive_agent/scans/git_analysis_*.json"
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/scans/consolidated_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/scans/consolidated_${TIMESTAMP}.json"
 
         resources:
           cpu: "low"
@@ -267,7 +267,7 @@ phases:
 
         output:
           format: "json"
-          location: "apps/cognitive-agent/recommendations/project_${TIMESTAMP}.json"
+          location: "apps/cognitive_agent/recommendations/project_${TIMESTAMP}.json"
 
         resources:
           cpu: "medium"
@@ -289,7 +289,7 @@ phases:
 
         output:
           format: "yaml"
-          location: "apps/cognitive-agent/plans/automation_${TIMESTAMP}.yaml"
+          location: "apps/cognitive_agent/plans/automation_${TIMESTAMP}.yaml"
 
         resources:
           cpu: "high"
@@ -454,7 +454,7 @@ phases:
           - "security_improvements"
           - "next_recommendations"
 
-        output_location: "apps/cognitive-agent/reports/project_setup_${TIMESTAMP}/"
+        output_location: "apps/cognitive_agent/reports/project_setup_${TIMESTAMP}/"
 
         resources:
           cpu: "low"
@@ -475,9 +475,9 @@ phases:
           - "improvement_opportunities"
 
         storage:
-          - "database: apps/cognitive-agent/knowledge/"
-          - "models: apps/cognitive-agent/models/"
-          - "configs: apps/cognitive-agent/config/templates/"
+          - "database: apps/cognitive_agent/knowledge/"
+          - "models: apps/cognitive_agent/models/"
+          - "configs: apps/cognitive_agent/config/templates/"
 
         resources:
           cpu: "medium"
@@ -570,19 +570,19 @@ customization:
 outputs:
   artifacts:
     - name: "consolidated_scan_report"
-      path: "apps/cognitive-agent/scans/consolidated_${TIMESTAMP}.json"
+      path: "apps/cognitive_agent/scans/consolidated_${TIMESTAMP}.json"
       description: "Консолидированный отчет сканирования"
 
     - name: "automation_plan"
-      path: "apps/cognitive-agent/plans/automation_${TIMESTAMP}.yaml"
+      path: "apps/cognitive_agent/plans/automation_${TIMESTAMP}.yaml"
       description: "План автоматических улучшений"
 
     - name: "execution_report"
-      path: "apps/cognitive-agent/reports/project_setup_${TIMESTAMP}/"
+      path: "apps/cognitive_agent/reports/project_setup_${TIMESTAMP}/"
       description: "Полный отчет о выполнении"
 
     - name: "knowledge_update"
-      path: "apps/cognitive-agent/knowledge/project_${TIMESTAMP}/"
+      path: "apps/cognitive_agent/knowledge/project_${TIMESTAMP}/"
       description: "Обновления базы знаний"
 
   metrics:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Тестовый скрипт для проверки работы обработчика триггеров Cognitive Automation Agent.
 """
@@ -236,7 +236,7 @@ def test_action_execution():
         # Сохраняем тестовую конфигурацию
         test_config = {"version": "1.0.0", "actions": test_actions}
 
-        config_path = Path("apps/cognitive-agent/config/test-triggers.yaml")
+        config_path = Path("apps/cognitive_agent/config/test-triggers.yaml")
         config_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(config_path, "w", encoding="utf-8") as f:
@@ -260,9 +260,9 @@ def test_integration():
     try:
         # Проверяем существование необходимых файлов
         required_files = [
-            "apps/cognitive-agent/config/triggers.yaml",
-            "apps/cognitive-agent/config/agent-config.yaml",
-            "apps/cognitive-agent/scripts/trigger-processor.py",
+            "apps/cognitive_agent/config/triggers.yaml",
+            "apps/cognitive_agent/config/agent-config.yaml",
+            "apps/cognitive_agent/scripts/trigger-processor.py",
         ]
 
         missing_files = []
@@ -278,9 +278,9 @@ def test_integration():
 
         # Проверяем структуру директорий
         required_dirs = [
-            "apps/cognitive-agent/logs/triggers",
-            "apps/cognitive-agent/plans",
-            "apps/cognitive-agent/scans",
+            "apps/cognitive_agent/logs/triggers",
+            "apps/cognitive_agent/plans",
+            "apps/cognitive_agent/scans",
         ]
 
         for dir_path in required_dirs:
@@ -384,7 +384,7 @@ def simulate_real_scenario():
         print(f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}")
 
         # Сохраняем события в лог
-        log_dir = Path("apps/cognitive-agent/logs/triggers")
+        log_dir = Path("apps/cognitive_agent/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
         log_file = log_dir / f"simulation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -414,12 +414,12 @@ if __name__ == "__main__":
     print("РЕКОМЕНДАЦИИ ПО ИСПОЛЬЗОВАНИЮ:")
     print("=" * 60)
     print("1. Для запуска обработчика триггеров в режиме демона:")
-    print("   python apps/cognitive-agent/scripts/trigger-processor.py --daemon")
+    print("   python apps/cognitive_agent/scripts/trigger-processor.py --daemon")
     print("\n2. Для ручного запуска триггера:")
-    print("   python apps/cognitive-agent/scripts/trigger-processor.py --trigger project_open")
+    print("   python apps/cognitive_agent/scripts/trigger-processor.py --trigger project_open")
     print("\n3. Для просмотра логов:")
-    print("   tail -f apps/cognitive-agent/logs/triggers.log")
+    print("   tail -f apps/cognitive_agent/logs/triggers.log")
     print("\n4. Для интеграции с Git хуками:")
-    print("   Смотрите apps/cognitive-agent/scripts/git-hooks-setup.py")
+    print("   Смотрите apps/cognitive_agent/scripts/git-hooks-setup.py")
 
     sys.exit(0 if tests_passed else 1)

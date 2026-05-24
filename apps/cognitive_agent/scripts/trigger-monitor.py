@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Система мониторинга для работы триггеров Cognitive Automation Agent.
 Собирает метрики, генерирует отчеты и предоставляет дашборд.
@@ -18,7 +18,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive-agent/logs/monitor.log"),
+        logging.FileHandler("apps/cognitive_agent/logs/monitor.log"),
         logging.StreamHandler(),
     ],
 )
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 class TriggerMetricsCollector:
     """Сборщик метрик работы триггеров"""
 
-    def __init__(self, db_path: str = "apps/cognitive-agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_database()
@@ -324,7 +324,7 @@ class TriggerMetricsCollector:
         }
 
         # Сохраняем отчет
-        report_dir = Path("apps/cognitive-agent/reports")
+        report_dir = Path("apps/cognitive_agent/reports")
         report_dir.mkdir(parents=True, exist_ok=True)
 
         report_file = report_dir / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -715,7 +715,7 @@ class TriggerDashboard:
         """
 
         # Сохраняем дашборд
-        dashboard_dir = Path("apps/cognitive-agent/dashboards")
+        dashboard_dir = Path("apps/cognitive_agent/dashboards")
         dashboard_dir.mkdir(parents=True, exist_ok=True)
 
         dashboard_file = dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
@@ -761,8 +761,8 @@ def main():
         print("\n" + "=" * 60)
         print("✅ Мониторинг завершен успешно!")
         print("\n📋 Доступные команды:")
-        print("  - Просмотр отчета: cat apps/cognitive-agent/reports/trigger_report_*.json")
-        print("  - Открыть дашборд: start apps/cognitive-agent/dashboards/trigger_dashboard_*.html")
+        print("  - Просмотр отчета: cat apps/cognitive_agent/reports/trigger_report_*.json")
+        print("  - Открыть дашборд: start apps/cognitive_agent/dashboards/trigger_dashboard_*.html")
         print("  - Запуск в режиме демона: python trigger-monitor.py --daemon")
 
         return True

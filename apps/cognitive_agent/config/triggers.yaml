@@ -1,4 +1,4 @@
-# Конфигурация автоматических триггеров Cognitive Automation Agent
+﻿# Конфигурация автоматических триггеров Cognitive Automation Agent
 version: "1.0.0"
 
 # Основные триггеры
@@ -7,7 +7,7 @@ triggers:
   project_open:
     enabled: true
     conditions:
-      - file_exists: "apps/cognitive-agent/config/agent-config.yaml"
+      - file_exists: "apps/cognitive_agent/config/agent-config.yaml"
       - file_exists: ".git"
     actions:
       - scan_project
@@ -323,7 +323,7 @@ notifications:
 
     file:
       type: "json"
-      path: "apps/cognitive-agent/logs/notifications.log"
+      path: "apps/cognitive_agent/logs/notifications.log"
 
 # Мониторинг триггеров
 monitoring:
