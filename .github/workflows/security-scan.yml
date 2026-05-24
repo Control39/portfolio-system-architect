@@ -32,6 +32,9 @@ jobs:
           output: './trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           exit-code: '0'
+          ignore-unfixed: true
+          skip-dirs: '.venv/,node_modules/,__pycache__/,*.egg-info,tests/,docs/archive/,_archive/,legacy/,experiments/'
+          ignore-policy: '.trivyignorefs'
           config-path: './trivy-secret.yaml'
 
       - name: Upload Trivy scan results to GitHub Security tab

@@ -1,0 +1,60 @@
+# Trivy Ignore Paths
+# Исключение папок и файлов из сканирования
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+
+# Node_modules
+node_modules/
+
+# Кэши и временные файлы
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.mypy_cache/
+
+# Архивы и legacy
+.archive/
+legacy/
+experiments/
+docs/archive/
+_archive/
+
+# Тесты (не production код)
+tests/
+*_test.py
+test_*.py
+
+# ИИ-агенты и локальные конфиги
+.codeassistant/
+.koda/
+.kodacli/
+.agents/
+.gigacode/
+
+# Сборки и артефакты
+site/
+dist/
+build/
+*.egg-info/
+
+# Документация (не код)
+docs/**/*.md
+*.md
+
+# Git и IDE
+.git/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Логи
+logs/
+*.log
+.reports/

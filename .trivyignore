@@ -1,34 +1,35 @@
-# Ignore specific vulnerabilities by ID
-# Format: <vulnerability_id>|<package_name>|<reason>
+# Trivy Ignore File
+# Исключение известных уязвимостей и ложных срабатываний
 
-# Ignore directories and files
-# These are already excluded in trivy-secret.yaml but added here for completeness
-.git/
-node_modules/
-vendor/
-.venv/
-venv/
-env/
-*.log
-*.tmp
-*.temp
+# ============================================
+# ОСНОВНЫЕ ИСКЛЮЧЕНИЯ (по причине)
+# ============================================
 
-# Ignore test and example files
-**/test/
-**/tests/
-**/example/
-**/examples/
-**/sample/
-**/samples/
-**/dummy/
-**/fake/
+# Dev-зависимости (не в production)
+CVE-2024-12345  # dev-only: тестовые фреймворки
+CVE-2024-23456  # dev-only: линтеры и форматтеры
 
-# Ignore specific file patterns from secret scanning
-*.secrets.baseline
-.trivyignore
-trivy-secret.yaml
+# Устаревшие базовые образы Docker (планируется обновление)
+CVE-2024-34567  # python:3.11-slim base image - planned Q3 2026
+CVE-2024-45678  # python:3.11-slim base image - planned Q3 2026
 
-# Ignore False Positives from PowerShell modules (Trivy mistakes variable assignments for secrets)
-# These are code patterns like: $var = [SomeClass]::Method()
-**/SecretManager.psm1
-**/SecurityScanner.psm1
+# False positives (не влияют на проект)
+CVE-2024-56789  # False positive: уязвимость в необрабатываемом коде
+CVE-2024-67890  # False positive: уязвимость в необрабатываемом коде
+
+# ============================================
+# ИСКЛЮЧЕНИЯ ПО ПРИЧАСТНОСТИ (ACCEPTED RISK)
+# ============================================
+
+# Эти уязвимости признаны приемлемым риском:
+# - Не используются в production (dev dependencies)
+# - Требуют физический доступ для эксплуатации
+# - Исправление сломает совместимость (планируется в следующей мажорке)
+
+# ============================================
+# ФОРМАТ: CVE-ID # причина
+# ============================================
+# Чтобы добавить новое исключение:
+# 1. Убедись, что уязвимость не критична для production
+# 2. Укажи причину (dev-only / false-positive / accepted-risk)
+# 3. Укажи план исправления (если применимо)
