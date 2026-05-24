@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 class CognitiveAgentValidator:
     """Валидатор Cognitive Automation Agent"""
 
-    def __init__(self, agent_root: str = ".agents"):
+    def __init__(self, agent_root: str = "apps/cognitive_agent"):
         self.agent_root = Path(agent_root)
         self.validation_results = {
             "overall": "pending",
@@ -463,7 +463,7 @@ class CognitiveAgentValidator:
 # Тесты pytest для автоматического тестирования
 @pytest.fixture
 def validator():
-    # Получаем абсолютный путь к директории .agents относительно корня проекта
+    # Получаем абсолютный путь к директории агента относительно корня проекта
     agent_root = os.path.join(os.path.dirname(__file__), "..")
     return CognitiveAgentValidator(agent_root)
 
