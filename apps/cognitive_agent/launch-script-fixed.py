@@ -18,7 +18,7 @@ from typing import Any
 
 
 # Создание папки логов перед инициализацией логирования
-LOG_DIR = Path("apps/cognitive-agent/logs")
+LOG_DIR = Path("apps/cognitive_agent/logs")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Настройка логирования
@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 class CognitiveAgentLauncher:
     """Запускатель и менеджер Cognitive Automation Agent"""
 
-    def __init__(self, agent_root: str = "apps/cognitive-agent"):
+    def __init__(self, agent_root: str = "apps/cognitive_agent"):
         self.agent_root = Path(agent_root)
         self.processes: dict[str, subprocess.Popen] = {}
         self.monitoring_threads: dict[str, threading.Thread] = {}

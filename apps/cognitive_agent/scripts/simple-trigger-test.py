@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Упрощенный тест для проверки работы системы триггеров.
 """
@@ -145,7 +145,7 @@ def test_event_creation():
         # Сохраняем события в файл для проверки
         events_data = [event.to_dict() for event in events]
 
-        log_dir = Path("apps/cognitive-agent/logs/triggers")
+        log_dir = Path("apps/cognitive_agent/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
         log_file = log_dir / f"test_events_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -356,15 +356,15 @@ def main():
         print("=" * 60)
         print("1. Система триггеров готова к использованию")
         print("2. Для интеграции с Git создайте хуки:")
-        print("   python apps/cognitive-agent/scripts/git-hooks-setup.py")
+        print("   python apps/cognitive_agent/scripts/git-hooks-setup.py")
         print("3. Для мониторинга используйте:")
-        print("   tail -f apps/cognitive-agent/logs/triggers.log")
+        print("   tail -f apps/cognitive_agent/logs/triggers.log")
 
         return True
     print("✗ Некоторые тесты не пройдены")
     print("\nРекомендации по устранению проблем:")
-    print("1. Проверьте наличие файла apps/cognitive-agent/config/triggers.yaml")
-    print("2. Убедитесь, что у вас есть права на запись в apps/cognitive-agent/logs/")
+    print("1. Проверьте наличие файла apps/cognitive_agent/config/triggers.yaml")
+    print("2. Убедитесь, что у вас есть права на запись в apps/cognitive_agent/logs/")
     print("3. Проверьте синтаксис YAML в конфигурационных файлах")
 
     return False

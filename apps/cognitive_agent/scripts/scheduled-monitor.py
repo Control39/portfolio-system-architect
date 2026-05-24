@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Планировщик для автоматического запуска системы мониторинга триггеров.
 Поддерживает различные интервалы: ежечасно, ежедневно, еженедельно.
@@ -18,7 +18,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive-agent/logs/scheduled-monitor.log"),
+        logging.FileHandler("apps/cognitive_agent/logs/scheduled-monitor.log"),
         logging.StreamHandler(),
     ],
 )
@@ -30,7 +30,7 @@ class ScheduledMonitor:
 
     def __init__(self):
         self.script_path = Path(__file__).parent / "trigger-monitor.py"
-        self.logs_dir = Path("apps/cognitive-agent/logs/scheduled")
+        self.logs_dir = Path("apps/cognitive_agent/logs/scheduled")
         self.logs_dir.mkdir(parents=True, exist_ok=True)
 
     def run_monitoring(self, report_type: str = "daily"):

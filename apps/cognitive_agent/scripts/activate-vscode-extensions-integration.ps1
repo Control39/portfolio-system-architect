@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
 Активация интеграции системы автоматизации расширений VS Code с Cognitive Automation Agent
@@ -30,8 +30,8 @@ $ErrorActionPreference = "Stop"
 
 # Конфигурация
 $Config = @{
-    IntegrationConfig = "apps/cognitive-agent/config/vscode-extensions-caa-integration.yaml"
-    CaaSkillPath = "apps/cognitive-agent/skills/vscode-extensions-manager"
+    IntegrationConfig = "apps/cognitive_agent/config/vscode-extensions-caa-integration.yaml"
+    CaaSkillPath = "apps/cognitive_agent/skills/vscode-extensions-manager"
     ScriptsPath = "scripts"
     ReportsPath = "reports"
 }

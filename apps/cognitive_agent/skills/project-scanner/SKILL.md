@@ -1,4 +1,4 @@
----
+﻿---
 name: project-scanner
 description: |
   Интеллектуальный сканер проекта для автоматического определения технологического стека,
@@ -276,7 +276,7 @@ jobs:
 
 ### Уровни сканирования
 ```yaml
-# apps/cognitive-agent/config/scanner.yaml
+# apps/cognitive_agent/config/scanner.yaml
 scan_levels:
   quick:
     enabled: true
@@ -311,7 +311,7 @@ triggers:
 
 output:
   formats: [json, yaml, html]
-  directory: "apps/cognitive-agent/scans/"
+  directory: "apps/cognitive_agent/scans/"
   retention_days: 30
   compare_with_previous: true
 ```
@@ -377,14 +377,14 @@ def distribute_scan_results(scan_results):
 ## Расширение функциональности
 
 ### Добавление новых детекторов
-1. Создайте класс детектора в `apps/cognitive-agent/scanner/detectors/`
+1. Создайте класс детектора в `apps/cognitive_agent/scanner/detectors/`
 2. Реализуйте методы `detect()` и `analyze()`
 3. Зарегистрируйте детектор в `config/detectors.yaml`
 4. Протестируйте на различных проектах
 
 ### Кастомные правила анализа
 ```yaml
-# apps/cognitive-agent/config/custom_rules.yaml
+# apps/cognitive_agent/config/custom_rules.yaml
 rules:
   - name: "no_hardcoded_secrets"
     pattern: "(password|secret|token|key)\\s*=\\s*['\"][^'\"]+['\"]"
@@ -411,7 +411,7 @@ rules:
 ```python
 # Кэширование результатов сканирования для повторного использования
 class ScanCache:
-    def __init__(self, cache_dir="apps/cognitive-agent/cache/scans/"):
+    def __init__(self, cache_dir="apps/cognitive_agent/cache/scans/"):
         self.cache_dir = cache_dir
 
     def get_cached_scan(self, project_hash):

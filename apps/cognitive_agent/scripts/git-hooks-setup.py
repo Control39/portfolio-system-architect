@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Скрипт для настройки Git хуков, интегрированных с Cognitive Automation Agent.
 Создает хуки, которые автоматически запускают триггеры при Git операциях.
@@ -110,7 +110,7 @@ fi
 
 # Запускаем триггер pre_commit через агента
 echo "⚡ Запуск триггера pre_commit..."
-AGENT_SCRIPT="apps/cognitive-agent/scripts/trigger-processor.py"
+AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     python "$AGENT_SCRIPT" --trigger git_pre_commit --data "{\\"files\\": \\"$STAGED_FILES\\"}" || true
 else
@@ -170,7 +170,7 @@ fi
 
 # Запускаем триггер post_commit через агента
 echo "⚡ Запуск триггера post_commit..."
-AGENT_SCRIPT="apps/cognitive-agent/scripts/trigger-processor.py"
+AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -191,7 +191,7 @@ fi
 
 # Генерируем автоматический changelog
 echo "📋 Генерация changelog..."
-CHANGELOG_DIR="apps/cognitive-agent/changelogs"
+CHANGELOG_DIR="apps/cognitive_agent/changelogs"
 if [ ! -d "$CHANGELOG_DIR" ]; then
     mkdir -p "$CHANGELOG_DIR"
 fi
@@ -287,7 +287,7 @@ while read local_ref local_sha remote_ref remote_sha; do
 
     # Запускаем триггер pre_push через агента
     echo "⚡ Запуск триггера pre_push..."
-    AGENT_SCRIPT="apps/cognitive-agent/scripts/trigger-processor.py"
+    AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
     if [ -f "$AGENT_SCRIPT" ]; then
         # Формируем JSON данные для триггера
         JSON_DATA=$(cat <<EOF
@@ -373,7 +373,7 @@ fi
 
 # Запускаем триггер post_merge через агента
 echo "⚡ Запуск триггера post_merge..."
-AGENT_SCRIPT="apps/cognitive-agent/scripts/trigger-processor.py"
+AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -491,7 +491,7 @@ fi
 
 # Запускаем триггер commit_msg через агента
 echo "⚡ Запуск триггера commit_msg..."
-AGENT_SCRIPT="apps/cognitive-agent/scripts/trigger-processor.py"
+AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -558,7 +558,7 @@ def test_hooks():
 
 def create_hooks_config():
     """Создаем конфигурационный файл для хуков"""
-    config_path = Path("apps/cognitive-agent/config/git-hooks.yaml")
+    config_path = Path("apps/cognitive_agent/config/git-hooks.yaml")
 
     config = {
         "version": "1.0.0",

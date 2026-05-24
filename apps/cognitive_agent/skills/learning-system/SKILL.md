@@ -1,4 +1,4 @@
----
+﻿---
 name: learning-system
 description: |
   Система самообучения для Cognitive Automation Agent.
@@ -334,7 +334,7 @@ def validate_and_deploy(algorithm_adjustments, current_system):
 ### Автоматическое самообучение
 ```bash
 # Запуск полного цикла самообучения
-python -m agents.learning --full-cycle --data-dir=apps/cognitive-agent/data/ --output=learning_report.json
+python -m agents.learning --full-cycle --data-dir=apps/cognitive_agent/data/ --output=learning_report.json
 
 # Инкрементальное обучение на новых данных
 python -m agents.learning --incremental --new-data=latest_metrics.json --update-models
@@ -349,7 +349,7 @@ python -m agents.learning --target=prediction_accuracy --goal=0.95 --iterations=
 python -m agents.learning.analyze --period=7d --metrics=all --output=effectiveness_report.html
 
 # Выявление паттернов в исторических данных
-python -m agents.learning.patterns --data-dir=apps/cognitive-agent/data/historical/ --min-confidence=0.8
+python -m agents.learning.patterns --data-dir=apps/cognitive_agent/data/historical/ --min-confidence=0.8
 
 # A/B тестирование новых алгоритмов
 python -m agents.learning.ab_test --algorithm-a=current --algorithm-b=proposed --duration=24h
@@ -372,7 +372,7 @@ python -m agents.learning.import --model-file=improved_model.pkl --deploy
 
 ### Параметры обучения
 ```yaml
-# apps/cognitive-agent/config/learning.yaml
+# apps/cognitive_agent/config/learning.yaml
 learning_parameters:
   learning_rate: adaptive
   min_data_points: 100
@@ -396,7 +396,7 @@ learning_parameters:
 # Сбор данных
 data_collection:
   enabled: true
-  storage: "apps/cognitive-agent/data/"
+  storage: "apps/cognitive_agent/data/"
   retention_days: 365
   compression: true
 
@@ -509,7 +509,7 @@ def import_best_practices(external_sources):
 ## Расширение функциональности
 
 ### Добавление новых метрик
-1. Создайте класс метрики в `apps/cognitive-agent/learning/metrics/`
+1. Создайте класс метрики в `apps/cognitive_agent/learning/metrics/`
 2. Реализуйте методы сбора и расчета
 3. Зарегистрируйте метрику в `config/metrics.yaml`
 4. Определите цели и веса для метрики
@@ -598,7 +598,7 @@ learning_dashboard:
 python -m agents.learning --debug --log-level=DEBUG --output=debug_log.json
 
 # Анализ качества данных
-python -m agents.learning.analyze_data --data-dir=apps/cognitive-agent/data/ --quality-report
+python -m agents.learning.analyze_data --data-dir=apps/cognitive_agent/data/ --quality-report
 
 # Тестирование алгоритмов обучения
 python -m agents.learning.test_algorithm --algorithm=custom_alg --test-set=test_data.json

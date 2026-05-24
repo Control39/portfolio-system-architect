@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Интеграция Cognitive Automation Agent с VS Code.
 Обеспечивает автоматический запуск агента при открытии проекта,
@@ -14,7 +14,7 @@ from typing import Any
 class VSCodeIntegration:
     """Интеграция с VS Code"""
 
-    def __init__(self, agent_root: str = ".agents"):
+    def __init__(self, agent_root: str = "apps/cognitive_agent"):
         self.agent_root = Path(agent_root)
         self.vscode_dir = Path(".vscode")
         self.config = self._load_config()
@@ -66,7 +66,7 @@ class VSCodeIntegration:
                     "type": "shell",
                     "command": "python",
                     "args": [
-                        "${workspaceFolder}/apps/cognitive-agent/launch-script.py",
+                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
                         "--autonomy=medium",
                     ],
                     "group": {"kind": "build", "isDefault": False},
@@ -77,7 +77,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Сканировать проект",
                     "type": "shell",
                     "command": "python",
-                    "args": ["${workspaceFolder}/apps/cognitive-agent/launch-script.py", "--scan"],
+                    "args": ["${workspaceFolder}/apps/cognitive_agent/launch-script.py", "--scan"],
                     "group": "build",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -85,7 +85,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Валидировать",
                     "type": "shell",
                     "command": "python",
-                    "args": ["${workspaceFolder}/apps/cognitive-agent/tests/validation-test.py"],
+                    "args": ["${workspaceFolder}/apps/cognitive_agent/tests/validation-test.py"],
                     "group": "test",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -94,7 +94,7 @@ class VSCodeIntegration:
                     "type": "shell",
                     "command": "python",
                     "args": [
-                        "${workspaceFolder}/apps/cognitive-agent/launch-script.py",
+                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
                         "--optimize",
                     ],
                     "group": "build",
@@ -105,7 +105,7 @@ class VSCodeIntegration:
                     "type": "shell",
                     "command": "python",
                     "args": [
-                        "${workspaceFolder}/apps/cognitive-agent/launch-script.py",
+                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
                         "--dashboard",
                     ],
                     "group": "build",
@@ -141,7 +141,7 @@ class VSCodeIntegration:
             "python.analysis.typeCheckingMode": "basic",
             "terminal.integrated.env.windows": {
                 "COGNITIVE_AGENT_ENABLED": "true",
-                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/.agents",
+                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/apps/cognitive_agent",
             },
         }
 
@@ -209,7 +209,7 @@ class VSCodeIntegration:
             },
         }
 
-        snippets_file = self.vscode_dir / "cognitive-agent.code-snippets"
+        snippets_file = self.vscode_dir / "cognitive_agent.code-snippets"
         with open(snippets_file, "w", encoding="utf-8") as f:
             json.dump(snippets, f, indent=2)
 
@@ -229,10 +229,10 @@ from pathlib import Path
 
 def activate_cognitive_agent():
     """Активация Cognitive Automation Agent"""
-    agent_path = Path(".agents")
+    agent_path = Path("apps/cognitive_agent")
 
     if not agent_path.exists():
-        print("❌ Директория .agents не найдена")
+        print("❌ Директория apps/cognitive_agent не найдена")
         return False
 
     # Проверяем конфигурацию
@@ -306,7 +306,7 @@ if __name__ == "__main__":
                     "name": "Cognitive Agent: Debug",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive-agent/launch-script.py",
+                    "program": "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
                     "args": ["--debug"],
                     "console": "integratedTerminal",
                     "justMyCode": False,
@@ -315,14 +315,14 @@ if __name__ == "__main__":
                     "name": "Cognitive Agent: Validate",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive-agent/tests/validation-test.py",
+                    "program": "${workspaceFolder}/apps/cognitive_agent/tests/validation-test.py",
                     "console": "integratedTerminal",
                 },
                 {
                     "name": "Cognitive Agent: Scanner",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive-agent/launch-script.py",
+                    "program": "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
                     "args": ["--scan", "--deep"],
                     "console": "integratedTerminal",
                 },

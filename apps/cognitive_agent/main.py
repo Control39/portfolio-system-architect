@@ -16,7 +16,7 @@ app = FastAPI(
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "cognitive-agent"}
+    return {"status": "healthy", "service": "cognitive_agent"}
 
 
 @app.get("/")

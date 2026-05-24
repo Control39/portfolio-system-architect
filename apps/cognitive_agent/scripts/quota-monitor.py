@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Мониторинг квот SourceCraft в реальном времени.
 
@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive-agent/logs/quota-monitor.log"),
+        logging.FileHandler("apps/cognitive_agent/logs/quota-monitor.log"),
         logging.StreamHandler(),
     ],
 )
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 class QuotaMonitor:
     """Монитор квот SourceCraft"""
 
-    def __init__(self, config_path: str = "apps/cognitive-agent/config/quota-config.yaml"):
+    def __init__(self, config_path: str = "apps/cognitive_agent/config/quota-config.yaml"):
         self.config_path = Path(config_path)
         self.quota_data = {}
         self.alerts = []
@@ -269,7 +269,7 @@ def main():
     parser.add_argument(
         "--output",
         "-o",
-        default="apps/cognitive-agent/reports/quota-monitor.json",
+        default="apps/cognitive_agent/reports/quota-monitor.json",
         help="Путь для сохранения отчета",
     )
     parser.add_argument(

@@ -16,6 +16,7 @@ psutil>=5.9.0
 # Зависимости для мониторинга
 prometheus-client>=0.16.0
 grafana-api>=1.0.3
+schedule>=1.2.0
 
 # Зависимости для работы с Git
 gitpython>=3.1.43

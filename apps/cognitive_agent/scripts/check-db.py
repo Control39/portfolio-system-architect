@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Проверка структуры базы данных мониторинга
 """
@@ -18,7 +18,7 @@ def is_valid_table_name(name: str) -> bool:
 
 
 def main():
-    db_path = "apps/cognitive-agent/data/trigger_metrics.db"
+    db_path = "apps/cognitive_agent/data/trigger_metrics.db"
 
     try:
         conn = sqlite3.connect(db_path)
