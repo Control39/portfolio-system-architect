@@ -15,6 +15,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.scripts]
+cognitive-agent = "apps.cognitive_agent.main:main"
+
 [tool.setuptools.packages.find]
 where = ["src", "apps", ".agents"]
 
