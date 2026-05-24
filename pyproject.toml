@@ -15,15 +15,24 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.dependencies]
+numpy = "*"
+pandas = "*"
+scikit-learn = "*"
+torch = { version = "*", optional = true }
+transformers = { version = "*", optional = true }
+pyyaml = "*"
+requests = "*"
+python-dotenv = "*"
+typer = "*"
+rich = "*"
+tqdm = "*"
+
 [project.scripts]
 cognitive-agent = "apps.cognitive_agent.scripts.scanner_main:main"
 
-[tool.setuptools]
-packages = [
-    "apps",
-    "apps.cognitive_agent",
-    "apps.cognitive_agent.scripts"
-]
+[tool.setuptools.packages.find]
+where = ["."]
 
 # -----------------------------
 # Ruff: lint & format settings
@@ -39,6 +48,9 @@ exclude = [
 ]
 
 [tool.ruff.lint]
+# E402: module level import not at top of file
+# Игнорируем, т.к. в монорепозитории sys.path.insert должен идти ДО импортов Атомов из src/
+# Это архитектурное решение, см. docs/architecture/decisions/ADR-014-monorepo-boundary.md
 extend-ignore = ["E402"]
 
 [tool.ruff.format]
