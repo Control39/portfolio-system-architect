@@ -1,8 +1,11 @@
-import pytest
 from pathlib import Path
 import sys
 
-# Добавляем путь к src
+# Добавляем корень репо и путь к src
+REPO_ROOT = Path(__file__).parent.parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 SRC_PATH = Path(__file__).parent.parent / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
