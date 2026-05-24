@@ -1,0 +1,10 @@
+# Production dependencies with security patches
+fastapi
+uvicorn
+pydantic
+requests
+gitpython
+chromadb
+langchain
+langsmith
+python-dotenv

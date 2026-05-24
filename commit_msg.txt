@@ -1,9 +1,0 @@
-Исправление HIGH-уязвимостей: удаление shell=True из subprocess
-
-- Удалён параметр shell=True из 3 вызовов subprocess (subprocess.run, subprocess.Popen x2)
-- Уязвимость: возможность injection атак через shell-метаккоды
-- Исправление: использование списков аргументов вместо shell-команд
-- Влияние: безопасность улучшена, функциональность сохранена
-
-Files:
-- apps/chat_backend/start_dev.py (3 строки)
