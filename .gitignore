@@ -87,29 +87,13 @@ authorized_keys
 apps/cognitive-agent/reports/
 
 # Temporary files from tools
-*.pyc
-$null
 diagnosis.ps1
 fix-vscode.ps1
 gitleaks-report.json
 docs/desktop.html
 docs/session-context.md
 ruff.toml
-*.env
-.env.*
 secrets.json
-*.pem
-*.key
-*.p12
-.env.gigachat
-"* (2).*"
-"README_REAL.md"
-"refactor.sh"
-"copy_root_files.py"
-"complete_rename.ps1"
-"commit_msg2.txt"
-metrics.json
-%USERPROFILE%.gitconfig
 
 # Standalone репозитории (отдельные репо)
 cognitive-agent-standalone/
