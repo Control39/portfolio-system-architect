@@ -56,7 +56,7 @@ class CognitiveAgentConfig:
         """Загрузка локальной конфигурации (fallback)"""
         import yaml
 
-        local_config_path = REPO_ROOT / "apps" / "cognitive-agent" / "config" / "agent-config.yaml"
+        local_config_path = REPO_ROOT / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
 
         if local_config_path.exists():
             with open(local_config_path, encoding="utf-8") as f:

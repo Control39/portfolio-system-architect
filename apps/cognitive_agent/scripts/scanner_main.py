@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Основной скрипт сканера проекта для Cognitive Automation Agent.
 Выполняет анализ технологического стека, зависимостей и архитектуры.
@@ -15,6 +15,11 @@ from typing import Any
 import yaml
 
 
+# Добавляем apps/ в sys.path для импортов
+APPS_DIR = Path(__file__).parent.parent.parent
+if str(APPS_DIR) not in sys.path:
+    sys.path.insert(0, str(APPS_DIR))
+
 # Интеграция с AI Config Manager
 try:
     from cognitive_agent.src.config_integration import get_config
@@ -26,7 +31,7 @@ except ImportError:
 
 
 # Создание директорий для логов перед инициализацией логирования
-LOG_DIR = Path("apps/cognitive-agent/logs")
+LOG_DIR = Path("apps/cognitive_agent/logs")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Настройка логирования
@@ -63,7 +68,7 @@ class ProjectScanner:
         self.visited_paths = set()
         self.max_files_to_scan = 5000
 
-    def _load_local_config(self, config_path: str = "apps/cognitive-agent/config/scanner.yaml") -> dict[str, Any]:
+    def _load_local_config(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml") -> dict[str, Any]:
         """Загрузка локальной конфигурации"""
         try:
             with open(config_path, encoding="utf-8") as f:
@@ -323,7 +328,7 @@ class ProjectScanner:
 
     def _save_results(self):
         """Сохранение результатов сканирования"""
-        reports_dir = Path("apps/cognitive-agent/reports/scans")
+        reports_dir = Path("apps/cognitive_agent/reports/scans")
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -363,7 +368,7 @@ def main():
         print("=" * 60)
 
         # Сохранение статуса для мониторинга
-        status_file = Path("apps/cognitive-agent/scans/last_scan_status.json")
+        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:
@@ -383,7 +388,7 @@ def main():
         logger.error(f"Ошибка при сканировании: {e}")
 
         # Сохранение статуса ошибки
-        status_file = Path("apps/cognitive-agent/scans/last_scan_status.json")
+        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:
