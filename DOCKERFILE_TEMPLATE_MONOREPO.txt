@@ -1,0 +1,83 @@
+# ============================================================
+# ШАБЛОН DOCKERFILE ДЛЯ МОНОРЕПОЗИТОРИЯ (Python)
+# ============================================================
+# Используй этот шаблон для ВСЕХ 16 сервисов
+# Ключевые моменты:
+# 1. context: . (корень репо) в docker-compose.yml — ОБЯЗАТЕЛЬНО
+# 2. Копируем src/ в контейнер
+# 3. Копируем requirements из корня И из сервиса
+# 4. PYTHONPATH=/app — для импортов из src/
+# ============================================================
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# ============================================================
+# ШАГ 1: Копируем requirements из КОРНЯ (общие зависимости)
+# ============================================================
+COPY requirements.txt /tmp/requirements-root.txt
+RUN if [ -f /tmp/requirements-root.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-root.txt; \
+    fi
+
+# ============================================================
+# ШАГ 2: Копируем requirements из СЕРВИСА (специфичные зависимости)
+# ============================================================
+# ЗАМЕНИ {{SERVICE_NAME}} на имя папки сервиса (auth_service, decision_engine и т.д.)
+COPY apps/{{SERVICE_NAME}}/requirements.txt /tmp/requirements-service.txt
+RUN if [ -f /tmp/requirements-service.txt ]; then \
+    pip install --no-cache-dir -r /tmp/requirements-service.txt; \
+    fi
+
+# ============================================================
+# ШАГ 3: Копируем src/ (общие компоненты)
+# ============================================================
+COPY src/ /app/src
+
+# ============================================================
+# ШАГ 4: Копируем папку сервиса
+# ============================================================
+# ЗАМЕНИ {{SERVICE_NAME}} на имя папки сервиса
+COPY apps/{{SERVICE_NAME}}/ /app
+
+# ============================================================
+# ШАГ 5: Конфигурация
+# ============================================================
+ENV PYTHONPATH=/app:/app/src
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Удаляем временные requirements после установки
+RUN rm -f /tmp/requirements-*.txt
+
+# ============================================================
+# ШАГ 6: Стартовая команда
+# ============================================================
+# Замени {{PORT}} на номер порта сервиса (8100 для auth_service и т.д.)
+# Замени {{MAIN_MODULE}} на имя main.py или app.py
+EXPOSE {{PORT}}
+CMD ["python", "-m", "uvicorn", "{{MAIN_MODULE}}:app", "--host", "0.0.0.0", "--port", "{{PORT}}"]
+
+# ============================================================
+# DOCKER-COMPOSE.YML КОНФИГ ДЛЯ ЭТОГО DOCKERFILE:
+# ============================================================
+#  {{SERVICE_NAME}}:
+#    build:
+#      context: .
+#      dockerfile: apps/{{SERVICE_NAME}}/Dockerfile
+#    ports:
+#      - "{{PORT}}:{{PORT}}"
+#    environment:
+#      - PYTHONPATH=/app
+#      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+#    networks:
+#      - portfolio-network
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:{{PORT}}/health"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#    depends_on:
+#      - traefik
+# ============================================================

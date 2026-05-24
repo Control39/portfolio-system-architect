@@ -1,0 +1,173 @@
+{
+  "version": "1.0.0",
+  "description": "Guardrails for AI agents working with Portfolio System Architect",
+  "created_by": "Ekaterina Kudelya",
+  "last_updated": "2026-05-24",
+  "critical_note": "🚨 ВАЖНО: Это монорепозиторий с паттерном 'Атомы + Молекулы'. Не удалять компоненты, не трогать архитектуру без явного разрешения.",
+
+  "architecture": {
+    "pattern": "Atoms & Molecules",
+    "description": "Переиспользуемые компоненты (src/) собираются в независимые сервисы (apps/)",
+    "structure": {
+      "src/": {
+        "type": "shared_components",
+        "description": "Атомы: переиспользуемые модули (ai, core, security, infrastructure и т.д.)",
+        "files": [
+          "src/ai/ — AI/LLM интеграции",
+          "src/core/ — основные компоненты",
+          "src/security/ — модули безопасности",
+          "src/infrastructure/ — инфраструктурные инструменты",
+          "src/embedding_agent/ — работа с embeddings",
+          "src/assistant_orchestrator/ — оркестрация агентов"
+        ],
+        "rule": "🚫 НИКОГДА не удаляй файлы из src/, даже если они кажутся неиспользуемыми. Все они импортируются сервисами через: from src.module_name import ..."
+      },
+      "apps/": {
+        "type": "services",
+        "description": "Молекулы: микросервисы, которые импортируют компоненты из src/",
+        "services": [
+          "apps/auth_service/ — JWT токены",
+          "apps/decision_engine/ — RAG + reasoning",
+          "apps/it_compass/ — методология компетенций",
+          "apps/portfolio_organizer/ — система доказательств",
+          "apps/knowledge_graph/ — граф знаний",
+          "apps/ml_model_registry/ — реестр моделей",
+          "apps/career_development/ — карьерное развитие",
+          "apps/system_proof/ — валидация готовности",
+          "apps/infra_orchestrator/ — оркестрация",
+          "apps/ai_config_manager/ — конфигурация AI",
+          "apps/chat_backend/ — чат (Flask, не FastAPI)",
+          "apps/job_automation_agent/ — поиск работы",
+          "apps/cognitive_agent/ — когнитивный агент",
+          "apps/thought_architecture/ — архитектура мышления",
+          "apps/mcp_server/ — MCP протокол",
+          "apps/template_service/ — шаблон для новых сервисов"
+        ],
+        "structure_each_service": {
+          "main.py": "Точка входа FastAPI/Flask",
+          "requirements.txt": "Зависимости",
+          "Dockerfile": "Контейнеризация (обязательно копирует src/)",
+          "src/": "Специфичные компоненты сервиса",
+          "tests/": "Тесты (минимум 80% покрытие)",
+          "README.md": "Документация сервиса"
+        },
+        "rule": "✅ Если в main.py видишь: from src.X import Y — это НОРМАЛЬНО. src/ находится в КОРНЕ репо, не в папке сервиса. Dockerfile должен копировать ОБА: apps/SERVICE_NAME/ И src/"
+      }
+    }
+  },
+
+  "forbidden_actions": {
+    "❌_DO_NOT_DELETE": [
+      "Не удалять папки из src/ — они используются сервисами",
+      "Не удалять main.py из apps/SERVICE_NAME/ — точка входа",
+      "Не удалять Dockerfile — нужен для docker-compose",
+      "Не удалять requirements.txt — зависимости",
+      "Не трогать docker-compose.yml структуру (но можешь обновлять контексты)",
+      "Не удалять docs/architecture/decisions/ (ADR) — история архитектуры"
+    ],
+    "❌_DO_NOT_MODIFY_WITHOUT_APPROVAL": [
+      "Структуру apps/ и src/ — требуется мой explicit review",
+      "Dockerfile сервисов — обязательно проверь, что Dockerfile копирует ОБА пути: COPY src/ И COPY apps/SERVICE/",
+      "docker-compose.yml — если изменяешь, обязательно тести: docker-compose up -d",
+      "PYTHONPATH в Dockerfile — должен быть: ENV PYTHONPATH=/app:/app/src"
+    ]
+  },
+
+  "what_agents_should_do": {
+    "marker_extraction": {
+      "task": "Автоматически извлекать маркеры компетенций из репозитория",
+      "sources": [
+        "docs/architecture/decisions/*.md — ADR (32 найденных решения)",
+        "git log --oneline — коммиты (history of decisions)",
+        "tests/ — покрытие кода (minimum 85%)",
+        "apps/*/README.md — описание сервисов",
+        ".github/workflows/*.yml — CI/CD pipeline"
+      ],
+      "method": "Использовать LLM через reasoning_integration.py (apps/it_compass/scripts/)",
+      "output": "JSON с найденными маркерами (IT-Compass автоматически отметит)"
+    },
+
+    "quality_monitoring": {
+      "task": "Следить за качеством репозитория",
+      "checks": [
+        "docker-compose ps — все 14 сервисов должны быть Up",
+        "pytest --cov — минимум 85% покрытие",
+        "trivy scan — 0 критичных уязвимостей",
+        "bandit — поиск уязвимостей в коде",
+        "Check git commits — есть ли ADR для major changes"
+      ],
+      "report_location": "docs/quality-reports/",
+      "frequency": "После каждого коммита (через GitHub Actions)"
+    },
+
+    "code_analysis": {
+      "task": "Анализировать код и предлагать улучшения",
+      "approach": "1) Не удаляй файлы, даже если они импортируются неправильно. 2) Проверь: может быть, они находятся в src/?",
+      "example": "Если видишь: from src.ai import LLMProvider — это ПРАВИЛЬНО. Файл находится в src/ai/, а Dockerfile копирует src/ в контейнер."
+    }
+  },
+
+  "docker_compose_rules": {
+    "context_requirement": "Все сервисы ДОЛЖНЫ иметь context: . (корень репо, НЕ ./apps/SERVICE_NAME/)",
+    "dockerfile_requirement": "Dockerfile ДОЛЖЕН копировать ОБА пути: COPY src/ /app/src И COPY apps/SERVICE_NAME/ /app",
+    "pythonpath_requirement": "ENV PYTHONPATH=/app:/app/src (в КАЖДОМ Dockerfile)",
+    "example_working_dockerfile": "Смотри apps/auth_service/Dockerfile (уже исправлен)"
+  },
+
+  "if_you_see_error_ModuleNotFoundError": {
+    "problem": "from src.X import Y → ModuleNotFoundError: No module named 'src'",
+    "solution_step_1": "Проверь Dockerfile: есть ли COPY src/ /app/src?",
+    "solution_step_2": "Проверь docker-compose.yml: context: . (не context: ./apps/SERVICE/)?",
+    "solution_step_3": "Проверь Dockerfile: есть ли ENV PYTHONPATH=/app:/app/src?",
+    "solution_step_4": "Если всё правильно — пересобери: docker-compose build SERVICE_NAME",
+    "DO_NOT_DELETE_src": "❌ НИКОГДА не удаляй src/ только потому, что возникла ошибка импорта. Исправь импорт или Dockerfile."
+  },
+
+  "how_it_compass_works": {
+    "autonomous_mode": "IT-Compass НЕ просит тебя отмечать маркеры вручную",
+    "automatic_detection": "Система анализирует репо, находит доказательства в коде/коммитах/ADR и САМА отмечает маркеры",
+    "script_location": "apps/it_compass/scripts/reasoning_integration.py",
+    "how_to_run": "python -m apps.it_compass.scripts.reasoning_integration --repo-root .",
+    "output": "JSON с найденными маркерами + артефактами (docs/evidence/)",
+    "ui_updates": "UI (http://localhost:8501) автоматически обновляется с найденными маркерами",
+    "rule": "✅ ПРАВИЛЬНО: Система анализирует код → находит маркеры → отмечает их",
+    "rule_not": "❌ НЕПРАВИЛЬНО: Пользователь открывает UI и вручную ставит галочки"
+  },
+
+  "recovery_checklist": {
+    "step_1_verify_structure": {
+      "command": "ls -la src/ apps/",
+      "expected": "Все папки на месте (src/ai, src/core, apps/auth_service, apps/decision_engine и т.д.)"
+    },
+    "step_2_verify_imports": {
+      "command": "grep -r 'from src\\.' apps/*/main.py",
+      "expected": "Множество import'ов из src/ — это НОРМАЛЬНО"
+    },
+    "step_3_verify_dockerfiles": {
+      "command": "grep -A 2 'COPY src/' apps/*/Dockerfile",
+      "expected": "Каждый Dockerfile копирует src/"
+    },
+    "step_4_verify_docker_compose": {
+      "command": "docker-compose up -d && docker-compose ps",
+      "expected": "14/14 сервисов в статусе Up (не Exit)"
+    },
+    "step_5_run_marker_extraction": {
+      "command": "python -m apps.it_compass.scripts.reasoning_integration --repo-root .",
+      "expected": "JSON с найденными маркерами в docs/evidence/"
+    }
+  },
+
+  "approval_required_for": [
+    "Удаление ЛЮБЫХ папок из src/",
+    "Изменение структуры apps/ (добавление/удаление сервисов)",
+    "Модификация Dockerfile паттерна",
+    "Изменение PYTHONPATH или docker-compose context"
+  ],
+
+  "contact": {
+    "architect": "Ekaterina Kudelya",
+    "github": "github.com/Control39/portfolio-system-architect",
+    "telegram": "@koda_dev",
+    "note": "⚠️ Если агент видит 'неиспользуемый код' — он ОШИБАЕТСЯ. Проверь src/ перед удалением."
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "timestamp": "2026-05-24T00:04:08.352648",
+  "repo_root": "C:\\repo",
+  "markers_found": [
+    {
+      "marker_id": "system_architecture_3_2",
+      "name": "Microservices Architecture (Atoms & Molecules)",
+      "category": "System Architecture",
+      "confidence": 0.95,
+      "evidence": [
+        "✅ 11 переиспользуемых компонентов (Atoms) в src/",
+        "✅ 18 микросервисов (Molecules) в apps/",
+        "✅ Loose coupling через API",
+        "✅ Каждый сервис имеет собственный Dockerfile и requirements.txt"
+      ]
+    },
+    {
+      "marker_id": "devops_2_1",
+      "name": "Docker Containerization",
+      "category": "DevOps",
+      "confidence": 0.93,
+      "evidence": [
+        "✅ 16 Dockerfile'ов (один для каждого сервиса)",
+        "✅ docker-compose.yml с конфигурацией всех сервисов",
+        "✅ Multi-stage builds для оптимизации размера образов"
+      ]
+    },
+    {
+      "marker_id": "testing_2_2",
+      "name": "Automated Testing",
+      "category": "Quality Assurance",
+      "confidence": 0.88,
+      "evidence": [
+        "✅ 332 файлов с тестами найдено",
+        "✅ Тесты есть в каждом микросервисе (apps/*/tests/)",
+        "✅ Целевое покрытие: ≥85%"
+      ]
+    },
+    {
+      "marker_id": "system_architecture_4_1",
+      "name": "Architecture Decision Records (ADR)",
+      "category": "System Architecture",
+      "confidence": 0.92,
+      "evidence": [
+        "✅ 18 ADR документировано",
+        "✅ Каждое решение обосновано (Problem → Solution → Trade-offs)",
+        "✅ История архитектурных эволюций задокументирована"
+      ]
+    },
+    {
+      "marker_id": "collaboration_2_1",
+      "name": "Version Control & Git",
+      "category": "Collaboration",
+      "confidence": 0.9,
+      "evidence": [
+        "✅ 100 коммитов в истории",
+        "✅ Структурированные commit messages",
+        "✅ Ветвление и merge strategies"
+      ]
+    },
+    {
+      "marker_id": "ai_ml_2_2",
+      "name": "LLM Integration & RAG",
+      "category": "AI/ML",
+      "confidence": 0.89,
+      "evidence": [
+        "✅ Интеграция с GigaChat/OpenAI",
+        "✅ RAG (Retrieval-Augmented Generation) реализована",
+        "✅ Vector databases (ChromaDB) используются"
+      ]
+    },
+    {
+      "marker_id": "security_3_1",
+      "name": "Application Security",
+      "category": "Security",
+      "confidence": 0.87,
+      "evidence": [
+        "✅ JWT токены для аутентификации",
+        "✅ Шифрование чувствительных данных",
+        "✅ Input validation и sanitization"
+      ]
+    },
+    {
+      "marker_id": "devops_4_1",
+      "name": "Observability & Monitoring",
+      "category": "DevOps",
+      "confidence": 0.88,
+      "evidence": [
+        "✅ Prometheus для метрик",
+        "✅ Grafana для дашбордов",
+        "✅ AlertManager для алертов"
+      ]
+    },
+    {
+      "marker_id": "devops_2_3",
+      "name": "CI/CD Pipeline",
+      "category": "DevOps",
+      "confidence": 0.9,
+      "evidence": [
+        "✅ 24 GitHub Actions workflows",
+        "✅ Автоматическое тестирование при коммите",
+        "✅ Автоматический деплой в production"
+      ]
+    }
+  ],
+  "evidence": {},
+  "coverage": {
+    "total_markers_found": 9,
+    "percentage": "9 / 83 маркеров"
+  }
+}
