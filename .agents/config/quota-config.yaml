@@ -1,0 +1,149 @@
+# Конфигурация мониторинга квот SourceCraft
+# Пороговые значения в процентах использования
+
+thresholds:
+  # Нейрокредиты - основной ресурс для AI-запросов
+  neurocredits: 80
+  # Подсказки кода - запросы к Code Assistant
+  code_prompts: 70
+  # Время автоматизаций - выполнение автономных задач
+  automation_time: 75
+  # Публичное хранилище - репозитории и артефакты
+  public_storage: 90
+  # Приватное хранилище - секреты и конфигурации
+  private_storage: 85
+
+# Настройки оповещений
+alerts:
+  # Каналы оповещений
+  channels:
+    - type: log
+      level: warning
+    - type: file
+      path: apps/cognitive-agent/logs/quota-alerts.log
+    - type: email
+      enabled: false
+      recipients: []
+
+  # Частота оповещений (в минутах)
+  frequency: 60
+
+  # Эскалация при критических уровнях
+  escalation:
+    - threshold: 90
+      channels: [log, file, email]
+    - threshold: 95
+      channels: [log, file, email, slack]
+      repeat_interval: 15  # минут
+
+# Стратегии оптимизации
+optimization_strategies:
+  # Для нейрокредитов
+  neurocredits:
+    - name: local_processing
+      enabled: true
+      description: "Локальная обработка простых задач"
+      savings_estimate: "15-30%"
+
+    - name: caching
+      enabled: true
+      description: "Кэширование результатов анализа"
+      savings_estimate: "10-20%"
+
+    - name: batch_processing
+      enabled: true
+      description: "Пакетная обработка запросов"
+      savings_estimate: "20-40%"
+
+  # Для времени автоматизаций
+  automation_time:
+    - name: schedule_optimization
+      enabled: true
+      description: "Оптимизация расписания запусков"
+      savings_estimate: "20-40%"
+
+    - name: parallel_execution
+      enabled: true
+      description: "Параллельное выполнение задач"
+      savings_estimate: "30-50%"
+
+  # Для хранилища
+  storage:
+    - name: cleanup_old_reports
+      enabled: true
+      description: "Очистка старых отчетов и логов"
+      retention_days: 30
+      savings_estimate: "0.5-1.0 GB"
+
+    - name: compression
+      enabled: false
+      description: "Сжатие данных хранилища"
+      savings_estimate: "40-60%"
+
+# Настройки мониторинга
+monitoring:
+  # Режим работы
+  mode: continuous  # continuous, scheduled, on_demand
+
+  # Расписание для scheduled режима
+  schedule:
+    - interval: 3600  # секунд
+      time: "02:00"   # время UTC
+
+    - interval: 1800  # секунд
+      time: "14:00"   # время UTC
+
+  # Сохранение истории
+  history:
+    enabled: true
+    retention_days: 90
+    max_size_gb: 1.0
+
+  # Интеграция с системой обучения
+  learning_integration:
+    enabled: true
+    update_interval: 86400  # секунд (24 часа)
+    model_path: apps/cognitive-agent/models/quota-prediction.pkl
+
+# Интеграции
+integrations:
+  # SourceCraft API
+  sourcecraft:
+    enabled: true
+    api_version: v1
+    cache_ttl: 300  # секунд
+
+  # Внутренние системы
+  internal:
+    - name: agent_config
+      enabled: true
+      config_path: apps/cognitive-agent/config/agent-config.yaml
+
+    - name: trigger_system
+      enabled: true
+      config_path: apps/cognitive-agent/config/triggers.yaml
+
+# Отчетность
+reporting:
+  # Форматы отчетов
+  formats:
+    - json
+    - yaml
+    - html
+    - markdown
+
+  # Директория для отчетов
+  output_dir: apps/cognitive-agent/reports/quota
+
+  # Автоматическая генерация
+  auto_generate:
+    enabled: true
+    on_threshold: true
+    daily: true
+    weekly: true
+
+  # Шаблоны отчетов
+  templates:
+    daily: apps/cognitive-agent/templates/quota-daily.md
+    weekly: apps/cognitive-agent/templates/quota-weekly.md
+    alert: apps/cognitive-agent/templates/quota-alert.md

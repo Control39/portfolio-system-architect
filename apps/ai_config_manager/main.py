@@ -13,7 +13,7 @@ import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from ai_config_manager.config_integration import get_config
+from src.ai_config_manager.config_integration import get_config
 
 # Настройка логирования
 logging.basicConfig(

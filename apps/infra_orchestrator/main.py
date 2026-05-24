@@ -10,7 +10,7 @@ import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from .src.config_integration import get_config
+from src.config_integration import get_config
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

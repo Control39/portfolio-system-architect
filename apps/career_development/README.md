@@ -356,7 +356,7 @@ SECRET_KEY=your-secret-key-change-in-prod  # pragma: allowlist secret
 - 💰 **Финансирование:** Грант на инфраструктуру
 - 📢 **Продвижение:** Рассказывать на митапах
 
-**Контакты для коллаборации:** Telegram: @koda_dev | GitHub: @koda-ai
+**Контакты для коллаборации:**
 
 ---
 
@@ -393,7 +393,7 @@ SECRET_KEY=your-secret-key-change-in-prod  # pragma: allowlist secret
 
 ---
 
-**Автор:** Koda AI Agent
+**Автор:**
 **Первый коммит:** 2026-03-15
 **Последнее обновление:** 2026-05-22
 
