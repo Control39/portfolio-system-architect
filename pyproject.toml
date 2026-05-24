@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "portfolio-system-architect"
 version = "0.1.0"
 description = "Cognitive Agent System for Portfolio Architecture"
-authors = [{name = "Control39", email = "control39@example.com"}]
+authors = [{name = "Control39", email = "leadarchitect@yandex.ru"}]
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
@@ -16,7 +16,7 @@ classifiers = [
 ]
 
 [project.scripts]
-cognitive-agent = "apps.cognitive_agent.main:main"
+cognitive-agent = "apps.cognitive_agent.scripts.scanner_main:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "apps", ".agents"]
