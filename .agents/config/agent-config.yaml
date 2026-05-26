@@ -308,13 +308,30 @@ environments:
 
 # Экспериментальные функции
 experimental:
-  enabled: false
+  enabled: true  # ВКЛЮЧЕНО 24 мая 2026
 
   features:
-    ai_planning: false  # Использование ИИ для планирования
+    ai_planning: true  # Использование ИИ для планирования (включено)
     predictive_maintenance: false  # Предсказательное обслуживание
     autonomous_refactoring: false  # Автономный рефакторинг
-    code_generation: false  # Генерация кода
+    code_generation: true  # Генерация кода (включено для MVP)
+
+  # Настройки ИИ-моделей
+  ai_models:
+    primary: "gigachat"  # Основная модель (GigaChat)
+    fallback: "ollama"   # Резервная модель (Ollama локальная)
+    
+    # Настройки Ollama (резерв)
+    ollama:
+      enabled: true
+      endpoint: "http://localhost:11434"
+      model: "llama3:8b"  # Или "gemma:7b", "mistral:7b"
+      
+    # Настройки GigaChat (основная)
+    gigachat:
+      enabled: true
+      endpoint: "https://gigachat.devices.sberbank.ru/api/v1"
+      model: "GigaChat-Pro"
 
   # Ограничения экспериментальных функций
   constraints:
