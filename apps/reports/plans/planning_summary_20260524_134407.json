@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-05-24T13:44:07.844508",
+  "total_tasks": 5,
+  "tasks_prioritized": 5,
+  "schedule_generated": true,
+  "schedule_tasks": 5,
+  "total_duration_hours": 13.0,
+  "report_files": {
+    "tasks": "C:\\repo\\apps\\reports\\plans\\prioritized_tasks_20260524_134407.json",
+    "schedule": "C:\\repo\\apps\\reports\\plans\\schedule_20260524_134407.json"
+  }
+}
