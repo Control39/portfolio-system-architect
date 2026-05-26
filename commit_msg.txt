@@ -1,0 +1,16 @@
+feat(tests): автоматическая генерация тестов интеграции с AI Config Manager
+
+Добавлен скрипт для автоматического создания тестов для 14 микросервисов:
+- scripts/auto-create-config-tests.py — генератор тестов
+- apps/*/tests/test_config_integration.py — тесты для каждого сервиса
+- apps/ai_config_manager/src/config_integration.py — базовая заглушка
+
+Функционал:
+- Проверка существования сервисов перед созданием тестов
+- Автоматическое создание заглушек config_integration.py при отсутствии
+- Шаблоны тестов: singleton, hot reload, валидация конфигурации
+
+Сервисы: ai_config_manager, auth_service, career_development, 
+cognitive_agent, decision_engine, infra_orchestrator, it_compass,
+job_automation_agent, knowledge_graph, mcp_server, ml_model_registry,
+portfolio_organizer, system_proof, thought_architecture

@@ -1,49 +1,27 @@
 {
+  "gigacode.enable": true,
+  "gigacode.apiKey": "",
+  "gigacode.baseUrl": "https://gigachat.devices.sberbank.ru/api/v1",
+  "gigacode.model": "GigaChat-Lite",
+  "gigacode.maxTokens": 4096,
+  "gigacode.timeout": 30000,
+  "gigacode.sslVerify": false,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
-  "python.envFile": "${workspaceFolder}/.env",
-  "python.terminal.useEnvFile": true,
-  "python.terminal.activateEnvironment": true,
   "python.analysis.extraPaths": [
     "./apps",
     "./src",
     "./tests",
     "./tools"
   ],
-  "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
-  "python.analysis.inlayHints.functionReturnTypes": true,
-  "python.analysis.inlayHints.variableTypes": true,
-  "python.analysis.indexing": true,
-  "python.analysis.packageIndexDepths": [
-    { "name": "fastapi", "depth": 3, "includeAllSymbols": true },
-    { "name": "pydantic", "depth": 3, "includeAllSymbols": true },
-    { "name": "sqlalchemy", "depth": 2, "includeAllSymbols": true },
-    { "name": "langchain", "depth": 2, "includeAllSymbols": true }
-  ],
-  "python.analysis.exclude": [
-    "**/.venv",
-    "**/__pycache__",
-    "**/node_modules",
-    "**/legacy",
-    "**/.pytest_cache",
-    "**/.mypy_cache",
-    "**/.hypothesis"
-  ],
   "python.linting.enabled": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "ms-python.black-formatter",
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": [
     "tests/",
     "--cov=apps",
-    "--cov=src",
-    "--cov-report=term-missing:skip-covered",
-    "--no-cov-on-fail"
+    "--cov=src"
   ],
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.profiles.windows": {
@@ -54,24 +32,13 @@
   },
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.copyOnSelection": true,
-  "terminal.integrated.env.windows": {
-    "PYTHONPATH": "${workspaceFolder};${workspaceFolder}/apps;${workspaceFolder}/src"
-  },
   "files.exclude": {
     "**/.git": true,
     "**/.venv": true,
     "**/__pycache__": true,
     "**/*.pyc": true,
     "**/node_modules": true,
-    "**/.pytest_cache": true,
-    "**/.mypy_cache": true,
-    "**/.hypothesis": true,
-    "**/.coverage": true,
-    "**/htmlcov": true,
-    "**/*.egg-info": true,
-    "**/.tox": true,
-    "**/dist": true,
-    "**/build": true
+    "**/.pytest_cache": true
   },
   "search.exclude": {
     "**/.git": true,
@@ -79,14 +46,7 @@
     "**/__pycache__": true,
     "**/node_modules": true,
     "**/.reports": true,
-    "**/legacy": true,
-    "**/.pytest_cache": true,
-    "**/.mypy_cache": true,
-    "**/.hypothesis": true,
-    "**/.coverage": true,
-    "**/htmlcov": true,
-    "**/*.egg-info": true,
-    "**/.tox": true
+    "**/legacy": true
   },
   "search.followSymlinks": false,
   "workbench.startupEditor": "none",
@@ -97,13 +57,11 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
-  "git.branchProtection": ["main", "master", "production"],
   "editor.wordWrap": "on",
-  "editor.rulers": [88, 120, 160],
-  "editor.stickyScroll.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.indentation": true,
+  "editor.rulers": [
+    88,
+    120
+  ],
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "[python]": {
@@ -119,30 +77,6 @@
     "editor.defaultFormatter": "redhat.vscode-yaml",
     "editor.tabSize": 2
   },
-  "gigacode.maxContextTokens": 2048,
-  "gigacode.enableWorkspaceContext": false,
-  "gigacode.agent.mode": "lightweight",
-  "gigacode.accessToken": "eyJjdHkiOiJqd3QiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.E_q7xb3FzO5MVkGTqmw88tS-Q64TwYwlPD6BGkjPpkpyCVSl1bXW-LPy9vuy4fPnHnnr8r7Yv9SRzeG6JfhrfXWDDe7Cz1PFr8hU1qePKUZ09zGa03REcfKh5HxjLBL50hfjc_V9CQ2VE1BscKSZxrIogxg4hx9B5X8hZtDqGVZf-Y2LCwTeD1359YkndlESiOGxZf-lxS7F3ay9ragtkvHdoFss6RnB-FShBEaGAtgKqm_w8W05ewTN6-s_DdZWkmp1mIg05eIGApiEwxcukOXmZJ7IPlHc01NUhCJPw8r-u2PMTGCj-q9X5Qe8BVqa50rhnXxVD-zxuSLYPn33NA.d_2B4aDEfrvGF1xVIjf83w.2UPgFPPhv3O_TNB3pYNNDHnJuJa6EmsT0x1d5hmwaLNF7mIbcOtG0kaN_5VJVhj5PTYOl8I12f-h7zEgIHUvdse08SifLudt2asDu6MWt94LohRflBep0T4yaiV6D7J3fq9zRela4objw-z5EPhQaS_PG9aO4FMvEbb5eBzhfS4md1MQT_9rSiLQ0xr_LBOua96HlfzL_BgQM5wfjK6y2sOEEhDPil6cFRPdN67L8j2md0Qm9fJV5LWhwvx5hLYkZuJgRqWlHsnROb22ori1vdKtKYpV8AgeKlbDvrlCyDT-6czn04J1eKT3KrVX1Kg1kQ-5OPSVJ7NpNkKRSgX0mmKsqD4tHZ3ufjxf40aD4lPaYUxbWs2s8JVNVx7Ty-oGyZMOAW_wyMJs_nEYz3wWioTUY-0FFVD3Klt83TRI-eggtMeTWy41vtFCGkzRRNZKmevbMEbXk8ZqOG09hGqg60Mf1CE2lPkF-9fD4Sci0Iz0TN8Lo1TwkbDgEaFoXJjmndkKMmWrAu2mpZBVjBmYSoiw4LOUWUXZk6WBYUH35MBY5QrS7Mv1jM4QNeI4EeCxxFfdsjJEuGXrWWbkXA-ryeTcp5TxihcvcUCAFkW0MDFGo9imVuBgGh_F3-do9NZ5Vh7J90Uj2R2TTM4Q5fsFsicuHr9F3U-heSP_NtT5VAV0g_ur5WpHm5VpssExdYwZ5cD_2i_Uk1buyH1hp-uvHobIsH9HZc34uBU9vfMSU1k.jqX_lmk7Vge9v-WrCVmUeALsYkNKiIIwZuCLT__dMPY",
-  "files.associations": {
-    "*.env": "dotenv",
-    "*.env.*": "dotenv",
-    "*.ini": "ini",
-    "Makefile": "makefile",
-    "docker-compose*.yml": "yaml",
-    "docker-compose*.yaml": "yaml"
-  },
-  "makefile.configureOnOpen": false,
-  "workbench.tree.indent": 16,
-  "cSpell.words": [
-    "webpubsub",
-    "gigacode",
-    "gigachat",
-    "pydantic",
-    "fastapi",
-    "sqlalchemy",
-    "langchain",
-    "chromadb",
-    "pytest",
-    "autofetch"
-  ]
+  "gigacode.bearerToken": "eyJjdHkiOiJqd3QiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.TJLF4br2Ex3JfGog8Vu3UoAdxR2TI7JHffMweVffomeeas18VFuoYrnJ3kQJ060yXobs0zNNh9OYeGR0otO4aQIAfqUWa3liXE1A9ZL1gCnNDXnwglxb9Yro0SD5nz7a39D_JUowOjXrCS2s2s95wuTXPe9FBKcQPYJLWnzE3OrzJCMlocApwpDVbsw7lJw3xpPjM0qk68BhgxXrdjFuoeX2-EKvWJ-akxwGkTVkdHqdkLixJChAuaIUJMyhDYT5DFihnrZwV824FnBTft6MG-gGWSx1wri-I6nQB42AvzAscF_8KUUWxylwHw3G0oayn9aMXaVeenkGd33FL-lZDQ.4KTyw10PU4USwIru6zRn9g.6pUUByrJbOuF9QML-GgBV-kNN-XADBXGcczoHrg_cuRUcf5lWF5w_c-t0zHRFWwTNlL2AaZwwAnw_5V8tfOIMUFPZaSp37X-PgsNZM5H0rRowrbYid4ssRTCRRK6ofEjoB3atgz1_9_UrCqgLT0-q0o4onQo9QHuA_re32j6lxhj-vaanelAEsgnQWmezWO84KBpFhkgugfkspQaLi2l8lvpA7hv0eZcxXiMo3LJZgxn77Mimv6IqiiZIiwYq8_Zyie9PS07IuhnGNnZJWwAyedq_s51Hkjr04lPu0DPPM9lZV1bODHrTjDCc6mr-puw3BiOqELbpqetAoxfF7Ln0T-w_LRCRBQif26aimUzZ7iFip1Kj7pQxgQtg78uEm0aIxJcZO3E3l0Y5qj0ACvVGPIWxSoXSYl7k9GPt7ViPu_zo6-oYs4NheavGb9If7vCEE27qppF3iLyVGTNSK_4jxwsmgZYpyRdbjGQFtvIhQzBdSKLjvfiQWGO2QU6Y0K7NjFyTHZ6fRNDGfK2wA1OZBcB0984HDqUzq3N_H3UNthg5wH_RLYHVWOl33pR-zIrtYeV1-w0f7__3hSvtt1SL_qsecctC9BOqzr9GoLFni5OaKmHD1__yVt_Eowg2lIGdUgiihQ3O4QAAaEfvi9Ab06nRURswNE67bfq8pDKjyy9D4Wm2TPEsAPM-847S8zbnCbvgFKapLwntRVXW9SJIzFIbVd5A2DUOZIVWl7UNiU.nBEGJrY8P7iVUEVJfuWlFwD1o4Ci3r2X39LJdJ_Z-S8",
+  "makefile.configureOnOpen": false
 }
