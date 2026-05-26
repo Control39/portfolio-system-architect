@@ -9,20 +9,20 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent
 
 SERVICES = [
-    "ai-config-manager",
+    "ai_config_manager",
     "auth_service",
     "career_development",
-    "cognitive-agent",
+    "cognitive_agent",
     "decision_engine",
-    "infra-orchestrator",
+    "infra_orchestrator",
     "it_compass",
-    "job-automation-agent",
+    "job_automation_agent",
     "knowledge_graph",
     "mcp_server",
     "ml_model_registry",
     "portfolio_organizer",
     "system_proof",
-    "thought-architecture",
+    "thought_architecture",
 ]
 
 TEST_TEMPLATE = '''"""
@@ -104,13 +104,87 @@ def create_test_file(service: str) -> bool:
     service_folder = service
     service_class = service.replace("-", "_").title().replace("_", "")
 
+    # Проверка существования директории сервиса
+    service_path = REPO_ROOT / "apps" / service_folder
+    if not service_path.exists():
+        print(f"⚠️  Сервис {service_folder} не существует, пропускаем")
+        return False
+
+    # Проверка наличия src/config_integration.py
+    integration_file = service_path / "src" / "config_integration.py"
+    if not integration_file.exists():
+        print(f"⚠️  {service_folder}: нет config_integration.py, создаём заглушку")
+        # Создаём базовый модуль интеграции
+        src_dir = service_path / "src"
+        src_dir.mkdir(parents=True, exist_ok=True)
+        
+        stub_content = f'''"""
+Модуль интеграции с AI Config Manager для {service_folder}
+"""
+
+from typing import Dict, Optional
+from pathlib import Path
+
+# Попытка импорта AI Config Manager
+try:
+    from apps.ai_config_manager.src.config_manager import ConfigManager
+    AI_CONFIG_AVAILABLE = True
+except ImportError:
+    AI_CONFIG_AVAILABLE = False
+    ConfigManager = None
+
+
+class {service_class}Config:
+    """Конфигурация {service_folder}"""
+    
+    def __init__(self):
+        self.config_manager = ConfigManager() if AI_CONFIG_AVAILABLE else None
+        self._config: Optional[Dict] = None
+    
+    def get_config(self) -> Dict:
+        """Получить конфигурацию"""
+        if self._config is None and self.config_manager:
+            self._config = self.config_manager.get_service_config("{service_folder}")
+        return self._config or {{}}  # Экранирование фигурных скобок для f-string
+    
+    def is_available(self) -> bool:
+        """Проверка доступности конфигурации"""
+        return self._config is not None
+
+
+# Singleton instance
+_instance: Optional["{service_class}Config"] = None
+
+
+def get_config() -> "{service_class}Config":
+    """Получить singleton инстанс конфигурации"""
+    global _instance
+    if _instance is None:
+        _instance = {service_class}Config()
+    return _instance
+
+
+def reload_config() -> None:
+    """Перезагрузить конфигурацию (hot reload)"""
+    global _instance
+    if _instance:
+        _instance._config = None
+'''
+        
+        with open(integration_file, "w", encoding="utf-8") as f:
+            f.write(stub_content)
+        print(f"✅ Создан заглушка: {integration_file.relative_to(REPO_ROOT)}")
+
+    # Создаём директорию для тестов
     tests_dir = REPO_ROOT / "apps" / service / "tests"
     tests_dir.mkdir(parents=True, exist_ok=True)
 
     test_file = tests_dir / "test_config_integration.py"
 
     content = TEST_TEMPLATE.format(
-        service_name=service.replace("_", " ").title(), service_class=service_class, service_folder=service_folder
+        service_name=service.replace("_", " ").title(), 
+        service_class=service_class, 
+        service_folder=service_folder
     )
 
     with open(test_file, "w", encoding="utf-8") as f:

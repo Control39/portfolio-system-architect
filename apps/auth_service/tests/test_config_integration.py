@@ -2,11 +2,9 @@
 Тесты интеграции с AI Config Manager для Auth Service
 """
 
-import sys
-from pathlib import Path
-
 import pytest
-
+from pathlib import Path
+import sys
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -21,25 +19,15 @@ class TestAuthServiceConfigIntegration:
         """Проверка доступности AI Config Manager"""
         try:
             from apps.ai_config_manager.src.config_manager import ConfigManager
-
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        # Добавляем src в PATH
-        src_path = REPO_ROOT / "apps" / "auth_service" / "src"
-        if str(src_path) not in sys.path:
-            sys.path.insert(0, str(src_path))
-
-        import importlib.util
-
-        spec = importlib.util.spec_from_file_location("config_integration", src_path / "config_integration.py")
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-
-        assert hasattr(module, "AuthServiceConfig")
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "auth_service" / "src"))
+        from config_integration import AuthServiceConfig
+        assert AuthServiceConfig is not None
 
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
@@ -75,7 +63,7 @@ class TestAuthServiceConfigIntegration:
         from config_integration import get_config
 
         config = get_config()
-        assert hasattr(config, "is_available")
+        assert hasattr(config, 'is_available')
         assert callable(config.is_available)
 
 

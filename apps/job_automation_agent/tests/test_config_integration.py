@@ -1,12 +1,10 @@
 """
-Тесты интеграции с AI Config Manager для Job-Automation-Agent
+Тесты интеграции с AI Config Manager для Job Automation Agent
 """
 
-import sys
-from pathlib import Path
-
 import pytest
-
+from pathlib import Path
+import sys
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -15,27 +13,25 @@ if str(REPO_ROOT) not in sys.path:
 
 
 class TestJobAutomationAgentConfigIntegration:
-    """Тесты интеграции конфигурации Job-Automation-Agent"""
+    """Тесты интеграции конфигурации Job Automation Agent"""
 
     def test_config_manager_available(self):
         """Проверка доступности AI Config Manager"""
         try:
             from apps.ai_config_manager.src.config_manager import ConfigManager
-
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "job-automation-agent" / "src"))
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "job_automation_agent" / "src"))
         from config_integration import JobAutomationAgentConfig
-
         assert JobAutomationAgentConfig is not None
 
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "job-automation-agent" / "src"))
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "job_automation_agent" / "src"))
         from config_integration import get_config
 
         config1 = get_config()
@@ -45,7 +41,7 @@ class TestJobAutomationAgentConfigIntegration:
 
     def test_get_config_returns_dict(self):
         """Проверка что get_config возвращает dict"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "job-automation-agent" / "src"))
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "job_automation_agent" / "src"))
         from config_integration import get_config
 
         config = get_config()
@@ -55,7 +51,7 @@ class TestJobAutomationAgentConfigIntegration:
 
     def test_reload_config(self):
         """Проверка hot reload"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "job-automation-agent" / "src"))
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "job_automation_agent" / "src"))
         from config_integration import reload_config
 
         # Не должно выбрасывать исключений
@@ -63,11 +59,11 @@ class TestJobAutomationAgentConfigIntegration:
 
     def test_is_available_method(self):
         """Проверка метода is_available"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "job-automation-agent" / "src"))
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "job_automation_agent" / "src"))
         from config_integration import get_config
 
         config = get_config()
-        assert hasattr(config, "is_available")
+        assert hasattr(config, 'is_available')
         assert callable(config.is_available)
 
 

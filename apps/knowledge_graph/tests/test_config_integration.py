@@ -1,51 +1,71 @@
+"""
+Тесты интеграции с AI Config Manager для Knowledge Graph
+"""
+
+import pytest
 from pathlib import Path
 import sys
 
-# Добавляем путь к src
-SRC_PATH = Path(__file__).parent.parent / "src"
-if str(SRC_PATH) not in sys.path:
-    sys.path.insert(0, str(SRC_PATH))
+# Добавляем корень проекта в PATH
+REPO_ROOT = Path(__file__).parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 class TestKnowledgeGraphConfigIntegration:
-    """Tests for config_integration module"""
+    """Тесты интеграции конфигурации Knowledge Graph"""
+
+    def test_config_manager_available(self):
+        """Проверка доступности AI Config Manager"""
+        try:
+            from apps.ai_config_manager.src.config_manager import ConfigManager
+            assert ConfigManager is not None
+        except ImportError:
+            pytest.skip("AI Config Manager не доступен")
 
     def test_config_integration_module(self):
-        """Test that config_integration module exists and can be imported"""
-        from apps.knowledge_graph.src import config_integration
-        assert hasattr(config_integration, "KnowledgeGraphConfig")
+        """Проверка импорта модуля интеграции"""
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "knowledge_graph" / "src"))
+        from config_integration import KnowledgeGraphConfig
+        assert KnowledgeGraphConfig is not None
 
     def test_get_config_singleton(self):
-        """Test get_config returns singleton instance"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        assert config is not None
-        # Config is KnowledgeGraphConfig object with methods
-        assert hasattr(config, "get_config") or hasattr(config, "is_available")
+        """Проверка singleton паттерна"""
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "knowledge_graph" / "src"))
+        from config_integration import get_config
+
+        config1 = get_config()
+        config2 = get_config()
+
+        assert config1 is config2
 
     def test_get_config_returns_dict(self):
-        """Test get_config returns valid config dict"""
-        from apps.knowledge_graph.src.config_integration import get_config
+        """Проверка что get_config возвращает dict"""
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "knowledge_graph" / "src"))
+        from config_integration import get_config
+
         config = get_config()
-        # Call get_config() method to get actual dict
-        if hasattr(config, "get_config"):
-            config = config.get_config()
-        assert isinstance(config, dict)
+        result = config.get_config()
+
+        assert isinstance(result, dict)
 
     def test_reload_config(self):
-        """Test reload_config function exists"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        # Call reload method if exists
-        if hasattr(config, "reload"):
-            config.reload()
-        # Should not raise
+        """Проверка hot reload"""
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "knowledge_graph" / "src"))
+        from config_integration import reload_config
+
+        # Не должно выбрасывать исключений
+        reload_config()
 
     def test_is_available_method(self):
-        """Test is_available method on config"""
-        from apps.knowledge_graph.src.config_integration import get_config
+        """Проверка метода is_available"""
+        sys.path.insert(0, str(REPO_ROOT / "apps" / "knowledge_graph" / "src"))
+        from config_integration import get_config
+
         config = get_config()
-        # Either has is_available or config exists
-        assert hasattr(config, "is_available") or config is not None
-        if hasattr(config, "is_available"):
-            assert config.is_available() in [True, False]
+        assert hasattr(config, 'is_available')
+        assert callable(config.is_available)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
