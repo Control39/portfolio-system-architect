@@ -2,6 +2,10 @@
 """
 Исправленный скрипт запуска Cognitive Automation Agent.
 Основан на workflow-driven архитектуре.
+
+ИСПРАВЛЕНО: умная политика перезапуска компонентов
+- Exit code 0 = штатное завершение (одноразовые skills)
+- Exit code != 0 = crash (перезапуск только при высокой автономности)
 """
 
 import json
@@ -207,7 +211,15 @@ class CognitiveAgentLauncher:
         self.monitoring_threads["process_monitor"] = monitor_thread
 
     def _monitor_processes(self):
-        """Мониторинг процессов компонентов"""
+        """
+        🔧 ИСПРАВЛЕННЫЙ мониторинг процессов с умной политикой перезапуска
+        
+        Разделяет:
+        - Exit code 0: штатное завершение (для одноразовых skills scanner/planner/learning)
+          → НЕ перезапускаем автоматически, удаляем из активных процессов
+        - Exit code != 0: аварийное завершение (crash)
+          → Перезапускаем только при высокой автономности
+        """
         logger.info("Мониторинг процессов запущен")
 
         while self.running:
@@ -215,11 +227,37 @@ class CognitiveAgentLauncher:
 
             for component, process in list(self.processes.items()):
                 if process.poll() is not None:
-                    logger.warning(f"Компонент {component} завершился с кодом: {process.returncode}")
+                    exit_code = process.returncode
+                    logger.warning(f"Компонент {component} завершился с кодом: {exit_code}")
 
-                    if self.config.get("autonomy", {}).get("level") == "high":
-                        logger.info(f"Попытка перезапуска компонента: {component}")
-                        self._start_component(component)
+                    # 🔧 РАЗДЕЛЕНИЕ: graceful shutdown vs crash
+                    if exit_code == 0:
+                        # Код 0 = штатное завершение (одноразовый skill выполнил работу)
+                        logger.info(
+                            f"ℹ️  {component} завершил работу штатно (код 0). "
+                            f"Это одноразовый skill, не перезапускаем автоматически. "
+                            f"Используйте workflows для запуска по расписанию."
+                        )
+                        # Удаляем из активных процессов
+                        if component in self.processes:
+                            del self.processes[component]
+                    else:
+                        # Код != 0 = аварийное завершение
+                        logger.error(
+                            f"❌ {component} упал с кодом {exit_code}. "
+                            f"Проверьте логи в apps/cognitive_agent/logs/"
+                        )
+                        
+                        # Перезапускаем только при высокой автономности
+                        autonomy_level = self.config.get("autonomy", {}).get("level", "low")
+                        if autonomy_level == "high":
+                            logger.info(f"🔄 Перезапуск компонента: {component}")
+                            self._start_component(component)
+                        else:
+                            logger.info(f"⏸️  Автономность '{autonomy_level}' — перезапуск отключён")
+                            # Удаляем из активных процессов
+                            if component in self.processes:
+                                del self.processes[component]
 
     def stop_agent(self, graceful: bool = True) -> bool:
         """Остановка агента"""

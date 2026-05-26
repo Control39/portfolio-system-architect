@@ -112,7 +112,7 @@ class PortfolioMCP:
                             domains.append(str(item.relative_to(project_root)))
 
                 if not domains:
-                    domains = ["IT-Compass маркеры находятся в apps/it-compass/"]
+                    domains = ["IT-Compass маркеры находятся в apps/it_compass/"]
 
                 return [
                     TextContent(
@@ -368,15 +368,15 @@ class PortfolioMCP:
                         "description": "API Gateway для маршрутизации запросов",
                     },
                     "portfolio-organizer": {
-                        "path": "apps/portfolio-organizer/src/app.py",
+                        "path": "apps/portfolio_organizer/src/app.py",
                         "description": "Организатор портфолио",
                     },
                     "career-development": {
-                        "path": "apps/career-development/src",
+                        "path": "apps/career_development/src",
                         "description": "Система развития карьеры",
                     },
                     "decision-engine": {
-                        "path": "apps/decision-engine",
+                        "path": "apps/decision_engine",
                         "description": "RAG и reasoning система",
                     },
                     "system-proof": {
@@ -496,3 +496,4 @@ if __name__ == "__main__":
     import asyncio
 
     asyncio.run(main())
+

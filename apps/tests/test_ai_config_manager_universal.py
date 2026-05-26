@@ -10,23 +10,21 @@ import pytest
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 
-# Список всех сервисов с их параметрами
 SERVICES: list[dict[str, str]] = [
     {"folder": "auth_service", "class": "AuthServiceConfig", "key": "auth_service"},
     {"folder": "career_development", "class": "CareerDevelopmentConfig", "key": "career_development"},
-    {"folder": "cognitive-agent", "class": "CognitiveAgentConfig", "key": "cognitive-agent"},
+    {"folder": "cognitive_agent", "class": "CognitiveAgentConfig", "key": "cognitive_agent"},
     {"folder": "decision_engine", "class": "DecisionEngineConfig", "key": "decision_engine"},
-    {"folder": "infra-orchestrator", "class": "InfraOrchestratorConfig", "key": "infra-orchestrator"},
+    {"folder": "infra_orchestrator", "class": "InfraOrchestratorConfig", "key": "infra_orchestrator"},
     {"folder": "it_compass", "class": "ItCompassConfig", "key": "it_compass"},
-    {"folder": "job-automation-agent", "class": "JobAutomationAgentConfig", "key": "job-automation-agent"},
+    {"folder": "job_automation_agent", "class": "JobAutomationAgentConfig", "key": "job_automation_agent"},
     {"folder": "knowledge_graph", "class": "KnowledgeGraphConfig", "key": "knowledge_graph"},
     {"folder": "mcp_server", "class": "McpServerConfig", "key": "mcp_server"},
     {"folder": "ml_model_registry", "class": "MlModelRegistryConfig", "key": "ml_model_registry"},
     {"folder": "portfolio_organizer", "class": "PortfolioOrganizerConfig", "key": "portfolio_organizer"},
     {"folder": "system_proof", "class": "SystemProofConfig", "key": "system_proof"},
-    {"folder": "thought-architecture", "class": "ThoughtArchitectureConfig", "key": "thought-architecture"},
+    {"folder": "thought_architecture", "class": "ThoughtArchitectureConfig", "key": "thought_architecture"},
 ]
-
 
 def load_config_module(service: dict[str, str]):
     """Динамическая загрузка модуля интеграции"""
