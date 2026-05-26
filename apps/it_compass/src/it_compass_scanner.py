@@ -27,14 +27,16 @@ REPO_ROOT = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from apps.ai_provider_manager.src.ai_provider_manager import chat_with_fallback, get_provider_manager
-from apps.ai_config_manager.src.config_manager import ConfigManager
 
 # Настройка логирования
+logs_dir = REPO_ROOT / "logs"
+logs_dir.mkdir(exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(REPO_ROOT / "logs" / "it_compass_scanner.log"),
+        logging.FileHandler(logs_dir / "it_compass_scanner.log"),
         logging.StreamHandler()
     ]
 )
@@ -75,7 +77,6 @@ class ITCompassScanner:
         self.portfolio_file = self.compass_dir / "portfolio.json"
         
         # Инициализация
-        self.config = ConfigManager()
         self.ai_manager = get_provider_manager()
         
         # Маркеры компетенций
