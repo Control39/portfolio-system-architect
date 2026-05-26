@@ -75,7 +75,7 @@
 > - Полная синхронизация GitHub + SourceCraft
 > - Чистый `git status`
 >
-> Кейс задокументирован: `docs/cases/infra-sync-hardening-2026.md`"
+> Кейс задокументирован: `docs/cases/technical/infra-sync-hardening-2026.md`"
 
 **Почему это работает:** Конкретные цифры, техника, результат.
 

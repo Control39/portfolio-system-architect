@@ -2,7 +2,6 @@
 System Proof API — валидация критериев производственной готовности
 """
 
-import os
 import sys
 from pathlib import Path
 

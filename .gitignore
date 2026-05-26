@@ -100,4 +100,12 @@ secrets.json
 cognitive-agent-standalone/
 it_compass-standalone/
 portfolio_organizer-standalone/
-system_proof-standalone/
+system_proof-standalone/\"\"  
+\"# Agent-generated artifacts (plans, reports, schedules)\"  
+\"apps/plans/\"  
+\"apps/reports/\" 
+\"\"  
+\"# Agent reports and logs (generated artifacts)\"  
+\"apps/cognitive_agent/reports/\"  
+\".agents/reports/\"  
+\".agents/logs/performance.csv\" 

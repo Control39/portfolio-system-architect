@@ -14,7 +14,6 @@ from watchdog.observers import Observer
 
 from .validators import AgentConfig, AIConfig, ResourceConfig
 
-
 logger = logging.getLogger(__name__)
 
 

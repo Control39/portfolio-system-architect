@@ -12,7 +12,6 @@ Test Coverage:
 import sys
 from pathlib import Path
 
-import pytest
 
 
 # Добавляем корень проекта и apps в путь

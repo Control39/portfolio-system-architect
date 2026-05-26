@@ -118,14 +118,14 @@ D  docs/cases/cases/thinking-cases/README.md
 ```
 U  complete_rename.ps1
 U  update_all_references.ps1
-U  docs/cases/case-1-it-compass-portfolio-organizer/
-U  docs/cases/case-2-infra-orchestrator-decision-engine/
-U  docs/cases/case-3-system-proof-thought-architecture/
+U  docs/cases/integration/case-1-it-compass-portfolio-organizer/
+U  docs/cases/integration/case-2-infra-orchestrator-decision-engine/
+U  docs/cases/integration/case-3-system-proof-thought-architecture/
 U  docs/cases/case-pitch/
 U  docs/cases/case-technical/
 U  docs/cases/case-workshop/
-U  docs/cases/evolution-cases/01_knowledge_management/01_knowledge_management/
-U  docs/cases/thinking-cases/04-documentation-automation/04-documentation-automation/
+U  docs/cases/evolution/evolution-cases/01_knowledge_management/01_knowledge_management/
+U  docs/cases/thinking/thinking-cases/04-documentation-automation/04-documentation-automation/
 ```
 
 **Проблема:** Дублирование структуры `cases/` — старая удалена, новая создана, но не закоммичена. Также появились вложенные папки с дубликатами названий.
@@ -142,8 +142,8 @@ U  docs/cases/thinking-cases/04-documentation-automation/04-documentation-automa
 - `docs/cases/cases/thinking-cases/...`
 
 Новая структура (незакоммиченная):
-- `docs/cases/case-1-it-compass-portfolio-organizer/`
-- `docs/cases/case-2-infra-orchestrator-decision-engine/`
+- `docs/cases/integration/case-1-it-compass-portfolio-organizer/`
+- `docs/cases/integration/case-2-infra-orchestrator-decision-engine/`
 - ...
 
 **Рекомендация:**

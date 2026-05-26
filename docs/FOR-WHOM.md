@@ -71,7 +71,7 @@ This repository serves multiple audiences with different goals. Use this guide t
 ### Quick Path:
 1. **Start with:** [`docs/QUICKSTART.md`](QUICKSTART.md) - Getting started guide
 2. **Then explore:** [`apps/it-compass/`](../apps/it-compass/) - Self-assessment tool
-3. **For examples:** [`docs/cases/thinking-cases/`](cases/thinking-cases/) - Practical thinking cases
+3. **For examples:** [`docs/cases/thinking/thinking-cases/`](cases/thinking-cases/) - Practical thinking cases
 4. **For growth:** [`docs/professional-journey/`](professional-journey/) - Professional development journey
 
 ### Key Learning Resources:

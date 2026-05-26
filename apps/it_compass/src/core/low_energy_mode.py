@@ -7,7 +7,6 @@
 import logging
 from datetime import datetime, timedelta
 
-
 # Импортируем PsychologicalSupport из core.mental
 try:
     from .mental.psychological_support import PsychologicalSupport

@@ -4,7 +4,6 @@ import logging
 import re
 from typing import Any
 
-
 # Шаблоны для обнаружения секретов
 SECRET_PATTERNS = {
     "api_key": re.compile(r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?[a-zA-Z0-9_-]{20,}["\']?'),

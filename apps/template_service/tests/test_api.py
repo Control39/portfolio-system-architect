@@ -1,6 +1,5 @@
 """Тесты для Template Service API"""
 
-import pytest
 from fastapi.testclient import TestClient
 
 from main import app

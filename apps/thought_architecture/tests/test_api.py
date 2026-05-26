@@ -4,7 +4,6 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from datetime import datetime
 
 import sys
 from pathlib import Path
@@ -16,9 +15,7 @@ if str(REPO_ROOT) not in sys.path:
 
 # Импортируем напрямую
 from src.api.app import (
-    app, Decision, ArchitectureRecord,
-    decisions_db, records_db,
-    DecisionStatus, DecisionLevel
+    app, decisions_db, records_db
 )
 
 client = TestClient(app)

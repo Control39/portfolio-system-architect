@@ -10,7 +10,6 @@ import pytest
 import sys
 from pathlib import Path
 from fastapi.testclient import TestClient
-from datetime import datetime
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -19,9 +18,7 @@ if str(REPO_ROOT) not in sys.path:
 
 # Импортируем напрямую
 from src.api.app import (
-    app, ServiceConfig, ServiceInstance,
-    services_db, instances_db, deployment_history,
-    ServiceStatus, ServiceType
+    app, services_db, instances_db, deployment_history
 )
 
 client = TestClient(app)

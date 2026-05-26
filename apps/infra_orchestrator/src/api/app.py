@@ -2,7 +2,6 @@
 Infrastructure Orchestrator API — управление развёртыванием сервисов
 """
 
-import os
 import sys
 from pathlib import Path
 

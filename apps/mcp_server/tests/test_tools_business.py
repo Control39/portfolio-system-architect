@@ -5,7 +5,6 @@ Tests the actual implementation, not just concepts
 import pytest
 from pathlib import Path
 import tempfile
-import os
 
 
 class TestFileToolsBusiness:
@@ -47,7 +46,6 @@ class TestFileToolsBusiness:
 
     def test_search_files_with_pattern(self, temp_dir):
         """Test searching files with glob pattern"""
-        import fnmatch
         
         (temp_dir / "test.py").write_text("1")
         (temp_dir / "main.py").write_text("2")
@@ -132,7 +130,6 @@ class TestGitToolsBusiness:
 
     def test_git_init_creates_git_dir(self, git_repo):
         """Test git init creates .git directory"""
-        import subprocess
         
         # git_repo already initialized by fixture
         assert (git_repo / '.git').exists()

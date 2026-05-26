@@ -1,6 +1,4 @@
-import pytest
 from pathlib import Path
-import sys
 import importlib.util
 
 
