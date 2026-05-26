@@ -122,13 +122,24 @@ class AutonomousCognitiveAgent:
         
         scan_start = datetime.now()
         
-        # 1. Сканирование IT Compass (маркеры компетенций)
+        # 1. Сканирование IT Compass (маркеры компетенций + системное мышление)
         logger.info("🧭 Running IT Compass scan...")
         try:
             compass_scanner = get_scanner()
             compass_results = compass_scanner.scan_project()
+            
+            # Отчет по системному мышлению
+            sys_thinking = compass_results.get("markers", {}).get("sys_thinking", {})
+            if sys_thinking.get("detected"):
+                logger.info(f"   ✅ Системное мышление: {sys_thinking.get('confidence', 0)*100:.0f}%")
+            
             logger.info(f"   IT Compass: {compass_results['markers_detected']}/{compass_results['markers_total']} markers")
             logger.info(f"   Progress: {compass_results['progress']['overall']:.1f}%")
+            
+            # Отчет по категориям
+            for category, progress in compass_results.get("progress", {}).get("categories", {}).items():
+                if category == "systems_thinking":
+                    logger.info(f"   Системное мышление: {progress:.1f}%")
         except Exception as e:
             logger.error(f"IT Compass scan failed: {e}")
             compass_results = None
