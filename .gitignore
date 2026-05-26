@@ -126,3 +126,4 @@ client/dist/
 *.crt
 *.cer
 *.pem
+.archive/
