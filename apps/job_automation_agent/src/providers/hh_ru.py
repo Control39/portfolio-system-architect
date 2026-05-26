@@ -53,14 +53,16 @@ class HHruProvider:
                 "text": query,
                 "area": area,
                 "per_page": per_page,
-                "page": page,
-                "host": "hh.ru"
+                "page": page
             }
             
             headers = {
                 "User-Agent": "JobAutomationAgent/1.0 (ekaterina.kudelya@example.com)",
                 "Accept": "application/json"
             }
+            
+            # Примечание: Для полноценной работы нужна регистрация приложения на https://dev.hh.ru/
+            # Публичный API работает без токена, но с ограничениями
             
             try:
                 response = requests.get(url, params=params, headers=headers, timeout=30)
@@ -135,17 +137,18 @@ class HHruProvider:
 async def search_hh_ru(
     query: str,
     area: str = "113",
-    per_page: int = 20
+    per_page: int = 20,
+    pages: int = 1
 ) -> List[Dict[str, Any]]:
     """Удобная функция для поиска на hh.ru"""
     provider = HHruProvider()
-    return await provider.search(query, area, per_page)
+    return await provider.search(query, area, per_page, pages)
 
 
 if __name__ == "__main__":
     # Тестовый запуск
     async def test():
-        results = await search_hh_ru("Python разработчик системное мышление", pages=2)
+        results = await search_hh_ru("Python", pages=1)
         print(f"🔍 Найдено вакансий: {len(results)}")
         
         for i, v in enumerate(results[:5], 1):
