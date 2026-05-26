@@ -119,9 +119,9 @@ jobs:
           - service: ml-model-registry
             dockerfile: apps/ml_model_registry/Dockerfile
             context: apps/ml_model_registry
-          - service: cognitive-agent
-            dockerfile: apps/cognitive-agent/Dockerfile
-            context: apps/cognitive-agent
+          - service: cognitive_agent
+        dockerfile: apps/cognitive_agent/Dockerfile
+        context: apps/cognitive_agent
     steps:
       - name: Checkout code
         uses: actions/checkout@v5

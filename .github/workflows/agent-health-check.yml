@@ -33,7 +33,7 @@ jobs:
 
       - name: 🚀 Launch Cognitive Agent (Full Mode)
         run: |
-          PYTHONPATH=$PWD/.agents cognitive-agent --mode=full --stop-after=90s
+          PYTHONPATH=$PWD/.agents python -m apps.cognitive_agent.scripts.scanner_main --mode=full --stop-after=90s
         env:
           PYTHONPATH: $PWD/.agents
           LOG_LEVEL: INFO
