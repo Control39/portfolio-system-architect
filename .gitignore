@@ -49,6 +49,9 @@ python_server/static/
 .azure/
 site/  # Generated MkDocs documentation
 
+# Cognitive Agent reports (auto-generated)
+apps/cognitive_agent/reports/
+
 # AI Assistant
 .codeassistant/
 
