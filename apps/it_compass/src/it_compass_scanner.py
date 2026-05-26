@@ -241,42 +241,60 @@ class ITCompassScanner:
         }
     
     def _generate_portfolio(self):
-        """Генерация портфолио через AI"""
+        """Генерация портфолио через AI с пониманием контекста"""
         logger.info("  📝 Generating portfolio...")
         
         if not self.ai_manager.get_active_provider():
             logger.warning("AI provider not available, skipping portfolio generation")
             return
         
-        # Подготовка контекста
-        context = {
+        # Чтение README и документации для понимания контекста
+        context = self._read_project_context()
+        
+        # Подготовка контекста с акцентом на методологию
+        portfolio_context = {
+            "author": "Ekaterina Kudelya",
+            "methodology": "IT Compass - система объективных маркеров компетенций",
             "markers_loaded": len(self.author_markers),
             "tracker_progress": self.scan_results.get("tracker_progress", {}),
             "artifacts_found": sum(len(v) for v in self.scan_results.get("artifacts", {}).values()),
-            "methodology_author": "Ekaterina Kudelya",
-            "methodology_license": "CC BY-ND 4.0"
+            "project_context": context,
+            "note": "Автор - методолог и архитектор когнитивных систем, не чистый разработчик"
         }
         
         prompt = f"""
-На основе сканирования проекта сгенерируй портфолио:
+На основе сканирования проекта сгенерируй карьерные рекомендации.
 
-Контекст:
-{json.dumps(context, indent=2, ensure_ascii=False)}
+ВАЖНО: Автор проекта (Ekaterina Kudelya) - это НЕ чистый разработчик, а **методолог и архитектор когнитивных систем**.
+Она создала IT Compass - методологию для решения проблемы карьерной неопределённости.
 
-Автор методологии: Ekaterina Kudelya (CC BY-ND 4.0)
+Контекст проекта:
+{json.dumps(context, indent=2, ensure_ascii=False, default=str)}
+
+Методология и артефакты:
+{json.dumps(portfolio_context, indent=2, ensure_ascii=False, default=str)}
 
 Сгенерируй портфолио в формате JSON:
 {{
-  "summary": "Краткое описание компетенций",
-  "strengths": ["Список сильных сторон"],
-  "areas_for_improvement": ["Что можно улучшить"],
-  "career_recommendations": ["Карьерные рекомендации"],
-  "next_markers": ["Какие маркеры из IT Compass достичь дальше"]
+  "summary": "Краткое описание уникальной компетенции автора",
+  "strengths": ["Сильные стороны (методология, архитектура, системное мышление)"],
+  "career_profile": "Уникальный карьерный профиль (гибридная роль)",
+  "job_recommendations": [
+    {{
+      "title": "Название вакансии",
+      "level": "Уровень (Junior/Middle/Senior/Lead)",
+      "why": "Почему подходит (связь с методологией и проектом)",
+      "priority": "high/medium/low"
+    }}
+  ],
+  "next_markers": ["Какие маркеры из IT Compass достичь дальше для карьерного роста"]
 }}
+
+Вакансии должны отражать гибридную роль: методология + архитектура + управление + AI
 """
         
         response = chat_with_fallback([
-            {"role": "system", "content": "Ты — карьерный консультант и эксперт по IT."},
+            {"role": "system", "content": "Ты — карьерный консультант для специалистов с нетрадиционным путём. Ты понимаешь ценность методологии, системного мышления и архитектуры когнитивных систем."},
             {"role": "user", "content": prompt}
         ])
         
@@ -287,9 +305,65 @@ class ITCompassScanner:
                 if json_match:
                     portfolio = json.loads(json_match.group())
                     self.scan_results["portfolio"] = portfolio
-                    logger.info("✅ Portfolio generated")
+                    logger.info("✅ Portfolio generated with career recommendations")
+                else:
+                    logger.warning("Failed to parse portfolio JSON")
             except Exception as e:
                 logger.warning(f"Failed to parse portfolio JSON: {e}")
+    
+    def _read_project_context(self) -> Dict[str, Any]:
+        """Прочитать проект и понять контекст (README, docs, ADR)"""
+        context = {
+            "readme_summary": "",
+            "author_profile": "",
+            "project_purpose": "",
+            "key_themes": []
+        }
+        
+        # Прочитать главный README
+        main_readme = self.project_path / "README.md"
+        if main_readme.exists():
+            try:
+                content = main_readme.read_text(encoding="utf-8-sig")[:5000]
+                context["readme_summary"] = "Main README exists - large portfolio system"
+            except:
+                pass
+        
+        # Прочитать README IT Compass
+        compass_readme = self.it_compass_core / "README.md"
+        if compass_readme.exists():
+            try:
+                content = compass_readme.read_text(encoding="utf-8-sig")
+                if "карьерной неопределенности" in content.lower() or "career uncertainty" in content.lower():
+                    context["project_purpose"] = "Решение проблемы карьерной неопределённости"
+                if "методология" in content.lower():
+                    context["author_profile"] = "Методолог и архитектор систем"
+            except:
+                pass
+        
+        # Проверить ADR
+        adr_dir = self.project_path / "docs" / "architecture" / "decisions"
+        if adr_dir.exists():
+            adr_files = list(adr_dir.glob("*.md"))
+            if adr_files:
+                context["key_themes"].append("Архитектурные решения задокументированы")
+        
+        # Проверить экосистему проектов
+        apps_dir = self.project_path / "apps"
+        if apps_dir.exists():
+            projects = [d.name for d in apps_dir.iterdir() if d.is_dir()]
+            context["ecosystem"] = projects
+            context["key_themes"].append(f"Микросервисная экосистема: {len(projects)} проектов")
+        
+        # Ключевые темы
+        context["key_themes"].extend([
+            "Системное мышление",
+            "Методология объективных маркеров",
+            "Архитектура когнитивных систем",
+            "Управление AI-агентами"
+        ])
+        
+        return context
     
     def _save_results(self):
         """Сохранить результаты сканирования"""
