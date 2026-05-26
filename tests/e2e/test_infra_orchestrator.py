@@ -14,7 +14,7 @@ import requests
 class TestInfraOrchestrator:
     """Тесты Infra Orchestrator API"""
 
-    BASE_URL = "http://localhost:8200"
+    BASE_URL = "http://localhost:8000"
 
     def test_service_info(self):
         """Проверяет, что сервис отвечает на root endpoint"""
