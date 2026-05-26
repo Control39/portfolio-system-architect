@@ -1,0 +1,74 @@
+# Cognitive Architect Config (RU Stack)
+# На основе backup из .codeassistant/mcp.json
+
+models:
+  - name: GigaChat Pro Light
+    provider: gigachat
+    model: GigaChat-Pro-Light
+    apiKey: ${GIGACHAT_API_KEY}
+    roles: [chat, edit, reasoning]
+    priority: 1
+
+  - name: Qwen2.5-Coder-7B (локально)
+    provider: ollama
+    model: qwen2.5-coder:7b
+    roles: [chat, edit, coding, apply]
+    priority: 2
+    fallback: true
+
+  - name: Cogito-3B (архитектура)
+    provider: ollama
+    model: cogito:3b
+    roles: [chat, reasoning, architecture]
+    priority: 3
+    fallback: true
+
+  - name: YandexGPT 3 Lite
+    provider: yandexgpt
+    model: yandexgpt-lite
+    apiKey: ${YANDEXGPT_API_KEY}
+    folderId: ${YANDEXGPT_FOLDER_ID}
+    roles: [chat]
+    priority: 4
+    fallback: true
+
+mcpServers:
+  - name: portfolio-mcp
+    type: local
+    command: python
+    args:
+      - "apps/mcp_server/src/main.py"
+    cwd: ${PROJECT_ROOT}
+    env:
+      PROJECT_ROOT: ${PROJECT_ROOT}
+      PYTHONPATH: ${PROJECT_ROOT}
+      DATABASE_URL: ${DATABASE_URL}
+      CHROMA_PATH: ${CHROMA_PATH}
+    
+    tools:
+      enabled:
+        - file_tools        # Работа с файлами проекта
+        - git_tools         # Git операции
+        - compass_tools     # IT-Compass маркеры
+        - chroma_tools      # Векторный поиск
+        - monitoring_tools  # Prometheus, Docker stats
+        - app_management    # Управление микросервисами
+        - security_tools    # bandit, pip-audit
+
+resources:
+  navigation:
+    enabled: true
+    audiences: [hr, tech_lead, grant, community, sourcecraft]
+  it_compass:
+    enabled: true
+    domains: auto-discover
+  knowledge_graph:
+    enabled: true
+    auto_index: true
+
+# Fallback конфигурация
+fallback:
+  enabled: true
+  strategy: priority  # Использовать модели по приоритету
+  timeout: 30000      # 30 секунд на каждую модель
+  retry_count: 2

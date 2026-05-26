@@ -1,0 +1,199 @@
+version: "1.0"
+
+# 🧠 УМНЫЙ ВЫБОР МОДЕЛИ: Cognitive Agent автоматически выбирает модель по типу задачи
+# Используйте модели GigaChat по приоритету: Lite (основная) → Pro (сложные задачи) → Max (критичные решения)
+
+models:
+  # ═══════════════════════════════════════════════════════════
+  # 🏆 LITE - Основная модель (899 799 токенов)
+  # ═══════════════════════════════════════════════════════════
+  - id: "gigachat-lite"
+    name: "GigaChat Lite"
+    provider:
+      type: "gigachat"
+      apiKey: "${GIGACHAT_API_KEY}"
+      model: "GigaChat-Lite"
+    capabilities:
+      chat: true
+      coding: true
+      edit: true
+      functionCalling: true
+    priority: 0
+    fallback: true
+    fallbackModels:
+      - "ollama-qwen2.5-coder"
+      - "ollama-cogito"
+    use_cases:
+      - "daily_coding"      # Ежедневный кодинг
+      - "code_reviews"      # Code review
+      - "refactoring"       # Рефакторинг
+      - "tests"             # Написание тестов
+      - "documentation"     # Документация
+      - "debugging"         # Отладка
+    token_budget: 899799    # Баланс на 26.05.2026
+    auto_select: true       # Автоматический выбор для большинства задач
+
+  # ═══════════════════════════════════════════════════════════
+  # ☁️ PRO - Сложные задачи (50 000 токенов)
+  # ═══════════════════════════════════════════════════════════
+  - id: "gigachat-pro"
+    name: "GigaChat Pro"
+    provider:
+      type: "gigachat"
+      apiKey: "${GIGACHAT_API_KEY}"
+      model: "GigaChat-Pro"
+    capabilities:
+      chat: true
+      coding: true
+      vision: true
+      reasoning: true
+      functionCalling: true
+    priority: 1
+    fallback: true
+    fallbackModels:
+      - "gigachat-lite"
+      - "ollama-qwen2.5-coder"
+    use_cases:
+      - "complex_architecture"  # Сложные архитектурные решения
+      - "system_design"         # Проектирование систем
+      - "integration_planning"  # Планирование интеграций
+      - "security_audit"        # Аудит безопасности
+    token_budget: 50000         # Баланс на 26.05.2026
+    auto_select: false          # Только по явному запросу
+
+  # ═══════════════════════════════════════════════════════════
+  # 🏅 MAX - Критичные решения (45 338 токенов)
+  # ═══════════════════════════════════════════════════════════
+  # ⚠️ ВНИМАНИЕ: Использовать только для критически важных задач!
+  # ═══════════════════════════════════════════════════════════
+  - id: "gigachat-max"
+    name: "GigaChat Max"
+    provider:
+      type: "gigachat"
+      apiKey: "${GIGACHAT_API_KEY}"
+      model: "GigaChat-Max"
+    capabilities:
+      chat: true
+      coding: true
+      vision: true
+      reasoning: true
+      functionCalling: true
+      complex_reasoning: true
+    priority: 2
+    fallback: true
+    fallbackModels:
+      - "gigachat-pro"
+      - "gigachat-lite"
+      - "ollama-cogito"
+    use_cases:
+      - "critical_decisions"    # Критические архитектурные решения
+      - "grant_proposals"       # Грантовые заявки
+      - "strategic_planning"    # Стратегическое планирование
+      - "final_reviews"         # Финальные проверки перед продакшеном
+    token_budget: 45338         # Баланс на 26.05.2026
+    auto_select: false          # Только по явной команде пользователя
+
+  # ═══════════════════════════════════════════════════════════
+  # 💻 LOCAL - Qwen2.5-Coder 7B (кодинг без лимитов)
+  # ═══════════════════════════════════════════════════════════
+  - id: "ollama-qwen2.5-coder"
+    name: "Qwen2.5-Coder 7B"
+    provider:
+      type: "ollama"
+      baseUrl: "http://localhost:11434"
+      model: "qwen2.5-coder:7b"
+    capabilities:
+      chat: true
+      coding: true
+      edit: true
+      reasoning: true
+    priority: 3
+    fallback: false
+    use_cases:
+      - "quick_edits"      # Быстрые правки
+      - "local_development"  # Локальная разработка
+      - "offline_mode"     # Режим без интернета
+    auto_select: false
+
+  # ═══════════════════════════════════════════════════════════
+  # 🏗️ LOCAL - Cogito 3B (архитектура без лимитов)
+  # ═══════════════════════════════════════════════════════════
+  - id: "ollama-cogito"
+    name: "Cogito 3B"
+    provider:
+      type: "ollama"
+      baseUrl: "http://localhost:11434"
+      model: "cogito:3b"
+    capabilities:
+      chat: true
+      reasoning: true
+      architecture: true
+    priority: 4
+    fallback: false
+    use_cases:
+      - "architecture_review"  # Проверка архитектуры
+      - "diagram_generation"    # Генерация диаграмм
+      - "adr_writing"           # Написание ADR
+    auto_select: false
+
+  # ═══════════════════════════════════════════════════════════
+  # 🇷🇺 YandexGPT (дополнительный резерв)
+  # ═══════════════════════════════════════════════════════════
+  - id: "yandexgpt"
+    name: "YandexGPT 3 Lite"
+    provider:
+      type: "yandexgpt"
+      apiKey: "${YANDEXGPT_API_KEY}"
+      folderId: "${YANDEXGPT_FOLDER_ID}"
+      model: "yandexgpt-lite"
+    capabilities:
+      chat: true
+      completion: true
+    priority: 5
+    fallback: true
+    auto_select: false
+
+  # ═══════════════════════════════════════════════════════════
+  # 🔧 YandexGPT OpenAI-совместимый
+  # ═══════════════════════════════════════════════════════════
+  - id: "yandexgpt-openai"
+    name: "YandexGPT (OpenAI Compatible)"
+    provider:
+      type: "openai"
+      baseUrl: "https://ai.api.cloud.yandex.net/v1"
+      apiKey: "${YANDEXGPT_OPENAI_API_KEY}"
+      model: "gpt://b1g8ug48iu3bb3gv8iom/yandexgpt/latest"
+    capabilities:
+      chat: true
+      completion: true
+      vision: false
+      functionCalling: true
+    priority: 6
+    fallback: true
+    auto_select: false
+
+  # ═══════════════════════════════════════════════════════════
+  # 🧠 DeepSeek R1 (для сложных reasoning-задач)
+  # ═══════════════════════════════════════════════════════════
+  - id: "deepseek"
+    name: "DeepSeek R1"
+    provider:
+      type: "deepseek"
+      apiKey: "${DEEPSEEK_API_KEY}"
+    capabilities:
+      chat: true
+      coding: true
+      reasoning: true
+    priority: 7
+    fallback: false
+    auto_select: false
+
+# UI и мониторинг
+ui:
+  theme: "dark"
+  language: "ru"
+
+monitoring:
+  enabled: true
+  interval: 5000
+  track_token_usage: true  # Отслеживать использование токенов
