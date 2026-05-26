@@ -1,32 +1,33 @@
-#!/usr/bin/env python3
+#/usr/bin/env python3
 """
 IT Compass Scanner - Автоматическое сканирование маркеров компетенций
 
+Использует АВТОРСКИЕ маркеры Ekaterina Kudelya из apps/it_compass/
+
 Сканирует проект и:
-1. Находит маркеры компетенций (код, тесты, документация)
-2. Обновляет прогресс в IT Compass
-3. Генерирует портфолио
-4. Дает карьерные советы
+1. Загружает маркеры из apps/it_compass/src/data/markers/*.json
+2. Проверяет наличие артефактов в проекте
+3. Интегрируется с CareerTracker
+4. Генерирует портфолио через AI
+5. Даёт карьерные советы
 
 Интеграция с Cognitive Agent и AI Provider Manager
 """
 
 import os
 import sys
-import time
 import logging
 import json
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Set
-from dataclasses import dataclass, asdict
+from typing import Dict, List, Any, Optional
 from datetime import datetime
-import re
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from apps.ai_provider_manager.src.ai_provider_manager import chat_with_fallback, get_provider_manager
+from apps.it_compass.src.core.tracker import CareerTracker
 
 # Настройка логирования
 logs_dir = REPO_ROOT / "logs"
@@ -43,289 +44,82 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class Marker:
-    """Маркер компетенции"""
-    id: str
-    name: str
-    category: str
-    description: str
-    level: str  # beginner, intermediate, advanced, expert
-    weight: float  # Веса для расчета прогресса
-    detected: bool = False
-    evidence: List[str] = None
-    confidence: float = 0.0
-    last_verified: Optional[str] = None
-
-
 class ITCompassScanner:
     """
     Сканер маркеров компетенций IT Compass
     
-    Пример использования:
-    ```python
-    scanner = ITCompassScanner()
-    results = scanner.scan_project()
-    ```
+    Использует АВТОРСКИЕ маркеры Ekaterina Kudelya из apps/it_compass/
     """
     
     def __init__(self, project_path: str = None):
         self.project_path = Path(project_path) if project_path else REPO_ROOT
+        self.it_compass_core = self.project_path / "apps" / "it_compass"
+        self.markers_dir = self.it_compass_core / "src" / "data" / "markers"
         self.compass_dir = self.project_path / "it_compass"
-        self.markers_file = self.compass_dir / "markers.json"
         self.progress_file = self.compass_dir / "progress.json"
         self.portfolio_file = self.compass_dir / "portfolio.json"
         
         # Инициализация
         self.ai_manager = get_provider_manager()
         
-        # Маркеры компетенций
-        self.markers: Dict[str, Marker] = {}
-        self.progress: Dict[str, Any] = {}
+        # Используем АВТОРСКИЙ CareerTracker
+        self.tracker = CareerTracker()
         
-        # Инициализация маркеров
-        self._init_markers()
+        # Загружаем авторские маркеры
+        self.author_markers = self._load_author_markers()
         
         logger.info(f"🧭 IT Compass Scanner initialized")
         logger.info(f"📁 Project path: {self.project_path}")
+        logger.info(f"📚 Using author markers from: {self.markers_dir}")
+        logger.info(f"👤 Author: Ekaterina Kudelya (CC BY-ND 4.0)")
+        logger.info(f"📊 Loaded {len(self.author_markers)} marker files")
     
-    def _init_markers(self):
-        """Инициализация маркеров компетенций"""
+    def _load_author_markers(self) -> List[Dict[str, Any]]:
+        """Загрузить авторские маркеры из JSON файлов"""
+        markers = []
         
-        # Технические навыки
-        self.markers = {
-            # Архитектура и дизайн
-            "arch_microservices": Marker(
-                id="arch_microservices",
-                name="Микросервисная архитектура",
-                category="architecture",
-                description="Проектирование и реализация микросервисов",
-                level="advanced",
-                weight=10.0
-            ),
-            "arch_domain_driven": Marker(
-                id="arch_domain_driven",
-                name="DDD (Domain-Driven Design)",
-                category="architecture",
-                description="Применение паттернов DDD",
-                level="advanced",
-                weight=10.0
-            ),
-            "arch_cqrs": Marker(
-                id="arch_cqrs",
-                name="CQRS паттерн",
-                category="architecture",
-                description="Разделение операций чтения и записи",
-                level="advanced",
-                weight=8.0
-            ),
-            
-            # Разработка
-            "dev_python": Marker(
-                id="dev_python",
-                name="Python разработка",
-                category="development",
-                description="Продвинутый Python",
-                level="intermediate",
-                weight=5.0
-            ),
-            "dev_async": Marker(
-                id="dev_async",
-                name="Асинхронное программирование",
-                category="development",
-                description="async/await, asyncio",
-                level="advanced",
-                weight=7.0
-            ),
-            "dev_api": Marker(
-                id="dev_api",
-                name="REST API разработка",
-                category="development",
-                description="Проектирование и реализация API",
-                level="intermediate",
-                weight=6.0
-            ),
-            
-            # Тестирование
-            "test_unit": Marker(
-                id="test_unit",
-                name="Модульное тестирование",
-                category="testing",
-                description="Написание unit-тестов",
-                level="intermediate",
-                weight=5.0
-            ),
-            "test_e2e": Marker(
-                id="test_e2e",
-                name="E2E тестирование",
-                category="testing",
-                description="End-to-end тестирование",
-                level="advanced",
-                weight=8.0
-            ),
-            "test_tdd": Marker(
-                id="test_tdd",
-                name="TDD (Test-Driven Development)",
-                category="testing",
-                description="Разработка через тестирование",
-                level="advanced",
-                weight=7.0
-            ),
-            
-            # DevOps
-            "ops_docker": Marker(
-                id="ops_docker",
-                name="Docker контейнеризация",
-                category="devops",
-                description="Работа с Docker",
-                level="intermediate",
-                weight=5.0
-            ),
-            "ops_ci_cd": Marker(
-                id="ops_ci_cd",
-                name="CI/CD пайплайны",
-                category="devops",
-                description="Автоматизация сборки и деплоя",
-                level="advanced",
-                weight=8.0
-            ),
-            "ops_monitoring": Marker(
-                id="ops_monitoring",
-                name="Мониторинг и логирование",
-                category="devops",
-                description="Настройка мониторинга",
-                level="intermediate",
-                weight=5.0
-            ),
-            
-            # Безопасность
-            "sec_auth": Marker(
-                id="sec_auth",
-                name="Аутентификация и авторизация",
-                category="security",
-                description="JWT, OAuth2, роль-based доступ",
-                level="advanced",
-                weight=8.0
-            ),
-            "sec_crypto": Marker(
-                id="sec_crypto",
-                name="Криптография",
-                category="security",
-                description="Хеширование, шифрование",
-                level="intermediate",
-                weight=6.0
-            ),
-            
-        # Документация
-        "doc_api": Marker(
-            id="doc_api",
-            name="API документация",
-            category="documentation",
-            description="OpenAPI/Swagger спецификации",
-            level="intermediate",
-            weight=4.0
-        ),
-        "doc_adr": Marker(
-            id="doc_adr",
-            name="ADR (Architecture Decision Records)",
-            category="documentation",
-            description="Документирование архитектурных решений",
-            level="advanced",
-            weight=6.0
-        ),
+        if not self.markers_dir.exists():
+            logger.warning(f"Markers directory not found: {self.markers_dir}")
+            return markers
         
-        # Системное мышление
-        "sys_thinking": Marker(
-            id="sys_thinking",
-            name="Системное мышление",
-            category="systems_thinking",
-            description="Понимание системных взаимосвязей и эмерджентности",
-            level="advanced",
-            weight=10.0
-        ),
-        "sys_architecture": Marker(
-            id="sys_architecture",
-            name="Системная архитектура",
-            category="systems_thinking",
-            description="Проектирование как сложной системы",
-            level="expert",
-            weight=12.0
-        ),
-        "cognitive_patterns": Marker(
-            id="cognitive_patterns",
-            name="Когнитивные паттерны",
-            category="systems_thinking",
-            description="Ментальные модели и когнитивные фреймы",
-            level="expert",
-            weight=10.0
-        ),
-        "feedback_loops": Marker(
-            id="feedback_loops",
-            name="Петли обратной связи",
-            category="systems_thinking",
-            description="Дизайн и анализ обратных связей",
-            level="advanced",
-            weight=8.0
-        ),
-        "emergence": Marker(
-            id="emergence",
-            name="Эмерджентность",
-            category="systems_thinking",
-            description="Свойства системы, не сводимые к частям",
-            level="expert",
-            weight=10.0
-        ),
-        "boundary_thinking": Marker(
-            id="boundary_thinking",
-            name="Граничное мышление",
-            category="systems_thinking",
-            description="Определение границ систем и подсистем",
-            level="advanced",
-            weight=8.0
-        ),
-        "interdisciplinary": Marker(
-            id="interdisciplinary",
-            name="Междисциплинарный подход",
-            category="systems_thinking",
-            description="Интеграция знаний из разных областей",
-            level="advanced",
-            weight=9.0
-        ),
-        "second_order": Marker(
-            id="second_order",
-            name="Вторичные последствия",
-            category="systems_thinking",
-            description="Анализ долгосрочных и косвенных эффектов",
-            level="expert",
-            weight=10.0
-        ),
-        }
+        for json_file in self.markers_dir.glob("*.json"):
+            try:
+                with open(json_file, "r", encoding="utf-8-sig") as f:
+                    data = json.load(f)
+                    markers.append(data)
+                    logger.debug(f"Loaded: {json_file.name}")
+            except Exception as e:
+                logger.error(f"Error loading {json_file}: {e}")
+        
+        return markers
     
     def scan_project(self) -> Dict[str, Any]:
-        """Сканировать проект на наличие маркеров"""
+        """Сканировать проект на наличие артефактов маркеров"""
         logger.info("🔍 Starting IT Compass scan...")
         
         scan_start = datetime.now()
         
-        # Сброс маркеров
-        for marker in self.markers.values():
-            marker.detected = False
-            marker.evidence = []
-            marker.confidence = 0.0
+        # Получаем прогресс из CareerTracker
+        tracker_progress = self.tracker.calculate_progress()
         
-        # Сканирование по категориям
-        self._scan_architecture()
-        self._scan_development()
-        self._scan_testing()
-        self._scan_devops()
-        self._scan_security()
-        self._scan_documentation()
-        self._scan_systems_thinking()  # ✅ Новые маркеры
+        # Сканируем проект на наличие артефактов
+        artifacts = self._scan_for_artifacts()
         
-        # Расчет прогресса
-        self._calculate_progress()
+        # Расчёт прогресса на основе артефактов
+        artifact_progress = self._calculate_artifact_progress(artifacts)
         
-        # Генерация портфолио
+        # Объединяем результаты
+        self.scan_results = {
+            "timestamp": scan_start.isoformat(),
+            "tracker_progress": tracker_progress,
+            "artifact_progress": artifact_progress,
+            "artifacts": artifacts,
+            "markers_loaded": len(self.author_markers),
+            "methodology_author": "Ekaterina Kudelya",
+            "methodology_license": "CC BY-ND 4.0"
+        }
+        
+        # Генерация портфолио через AI
         self._generate_portfolio()
         
         # Сохранение результатов
@@ -334,323 +128,118 @@ class ITCompassScanner:
         scan_duration = (datetime.now() - scan_start).total_seconds()
         
         logger.info(f"✅ Scan completed in {scan_duration:.2f}s")
-        logger.info(f"   Markers detected: {self._count_detected_markers()}")
-        logger.info(f"   Progress: {self.progress.get('overall', 0):.1f}%")
+        logger.info(f"   Markers loaded: {len(self.author_markers)}")
+        logger.info(f"   Artifacts found: {sum(len(v) for v in artifacts.values())}")
+        logger.info(f"   Tracker progress: {tracker_progress['overall_progress']:.1f}%")
         
-        return {
-            "timestamp": scan_start.isoformat(),
-            "markers_detected": self._count_detected_markers(),
-            "markers_total": len(self.markers),
-            "progress": self.progress,
-            "markers": {k: asdict(v) for k, v in self.markers.items()}
+        return self.scan_results
+    
+    def _scan_for_artifacts(self) -> Dict[str, List[Dict[str, Any]]]:
+        """Сканировать проект на наличие артефактов"""
+        logger.info("  🔍 Scanning for artifacts...")
+        
+        artifacts = {
+            "python": [],
+            "tests": [],
+            "docker": [],
+            "docs": [],
+            "architecture": [],
+            "system_thinking": []
         }
-    
-    def _scan_architecture(self):
-        """Сканирование архитектурных маркеров"""
-        logger.info("  🔍 Scanning architecture...")
         
-        # Микросервисы
-        if (self.project_path / "apps").exists():
-            apps = list((self.project_path / "apps").iterdir())
-            if len(apps) >= 3:
-                marker = self.markers["arch_microservices"]
-                marker.detected = True
-                marker.evidence = [str(a.name) for a in apps[:5]]
-                marker.confidence = min(0.5 + (len(apps) * 0.1), 1.0)
-        
-        # DDD
-        patterns = ["domain", "application", "infrastructure", "entity.py", "repository.py"]
-        for pattern in patterns:
-            if list(self.project_path.rglob(f"**/{pattern}")):
-                marker = self.markers["arch_domain_driven"]
-                marker.detected = True
-                marker.evidence.append(pattern)
-                marker.confidence = 0.7
-                break
-        
-        # CQRS
-        if list(self.project_path.rglob("**/commands.py")) or \
-           list(self.project_path.rglob("**/queries.py")):
-            marker = self.markers["arch_cqrs"]
-            marker.detected = True
-            marker.evidence.append("commands/queries separation")
-            marker.confidence = 0.8
-    
-    def _scan_development(self):
-        """Сканирование маркеров разработки"""
-        logger.info("  🔍 Scanning development...")
-        
-        # Python
+        # Python файлы
         py_files = list(self.project_path.rglob("**/*.py"))
         if len(py_files) >= 10:
-            marker = self.markers["dev_python"]
-            marker.detected = True
-            marker.evidence.append(f"{len(py_files)} Python files")
-            marker.confidence = min(0.5 + (len(py_files) * 0.01), 1.0)
+            artifacts["python"].append({
+                "type": "python_files",
+                "count": len(py_files),
+                "evidence": f"{len(py_files)} Python files found"
+            })
         
-        # Async
-        async_patterns = ["async def", "asyncio", "aiohttp", "fastapi"]
-        for file in py_files[:50]:  # Проверяем первые 50 файлов
-            try:
-                content = file.read_text(encoding="utf-8")
-                for pattern in async_patterns:
-                    if pattern in content:
-                        marker = self.markers["dev_async"]
-                        marker.detected = True
-                        marker.evidence.append(pattern)
-                        marker.confidence = 0.8
-                        break
-            except:
-                pass
-        
-        # API
-        if (self.project_path / "apps" / "auth_service").exists() or \
-           (self.project_path / "apps" / "infra_orchestrator").exists():
-            marker = self.markers["dev_api"]
-            marker.detected = True
-            marker.evidence.append("REST services found")
-            marker.confidence = 0.9
-    
-    def _scan_testing(self):
-        """Сканирование маркеров тестирования"""
-        logger.info("  🔍 Scanning testing...")
-        
-        # Unit tests
+        # Тесты
         test_files = list(self.project_path.rglob("**/test_*.py"))
         if len(test_files) >= 5:
-            marker = self.markers["test_unit"]
-            marker.detected = True
-            marker.evidence.append(f"{len(test_files)} test files")
-            marker.confidence = min(0.5 + (len(test_files) * 0.02), 1.0)
+            artifacts["tests"].append({
+                "type": "unit_tests",
+                "count": len(test_files),
+                "evidence": f"{len(test_files)} test files found"
+            })
         
-        # E2E tests
         e2e_dir = self.project_path / "tests" / "e2e"
         if e2e_dir.exists():
             e2e_files = list(e2e_dir.glob("test_*.py"))
             if e2e_files:
-                marker = self.markers["test_e2e"]
-                marker.detected = True
-                marker.evidence.append(f"{len(e2e_files)} E2E tests")
-                marker.confidence = 0.9
-        
-        # TDD (конвенция test-first)
-        pytest_ini = self.project_path / "pytest.ini"
-        if pytest_ini.exists():
-            marker = self.markers["test_tdd"]
-            marker.detected = True
-            marker.evidence.append("pytest configured")
-            marker.confidence = 0.7
-    
-    def _scan_devops(self):
-        """Сканирование DevOps маркеров"""
-        logger.info("  🔍 Scanning DevOps...")
+                artifacts["tests"].append({
+                    "type": "e2e_tests",
+                    "count": len(e2e_files),
+                    "evidence": f"{len(e2e_files)} E2E tests found"
+                })
         
         # Docker
-        docker_files = [
-            self.project_path / "Dockerfile",
-            self.project_path / "docker-compose.yml"
-        ]
-        docker_found = any(f.exists() for f in docker_files)
-        if docker_found:
-            marker = self.markers["ops_docker"]
-            marker.detected = True
-            marker.evidence.append("docker-compose.yml")
-            marker.confidence = 0.9
+        docker_compose = self.project_path / "docker-compose.yml"
+        if docker_compose.exists():
+            artifacts["docker"].append({
+                "type": "docker_compose",
+                "evidence": "docker-compose.yml found"
+            })
         
-        # CI/CD
-        ci_files = [
-            self.project_path / ".github" / "workflows",
-            self.project_path / ".gitlab-ci.yml"
-        ]
-        ci_found = any(f.exists() for f in ci_files)
-        if ci_found:
-            marker = self.markers["ops_ci_cd"]
-            marker.detected = True
-            marker.evidence.append("CI/CD configuration")
-            marker.confidence = 0.85
+        # Документация
+        docs_dir = self.project_path / "docs"
+        if docs_dir.exists():
+            md_files = list(docs_dir.glob("**/*.md"))
+            if md_files:
+                artifacts["docs"].append({
+                    "type": "documentation",
+                    "count": len(md_files),
+                    "evidence": f"{len(md_files)} markdown files"
+                })
         
-        # Monitoring
-        if list(self.project_path.rglob("**/*monitor*")) or \
-           list(self.project_path.rglob("**/jaeger*")):
-            marker = self.markers["ops_monitoring"]
-            marker.detected = True
-            marker.evidence.append("Monitoring infrastructure")
-            marker.confidence = 0.7
+        # Архитектура
+        apps_dir = self.project_path / "apps"
+        if apps_dir.exists():
+            services = list(apps_dir.iterdir())
+            if len(services) >= 3:
+                artifacts["architecture"].append({
+                    "type": "microservices",
+                    "count": len(services),
+                    "evidence": [s.name for s in services[:5]]
+                })
+        
+        # Системное мышление - IT Compass
+        if self.it_compass_core.exists():
+            artifacts["system_thinking"].append({
+                "type": "it_compass_methodology",
+                "evidence": "IT Compass core found (author methodology)"
+            })
+            
+            # Проверка на маркеры системного мышления
+            system_thinking_file = self.markers_dir / "system_thinking.json"
+            if system_thinking_file.exists():
+                artifacts["system_thinking"].append({
+                    "type": "system_thinking_markers",
+                    "evidence": "System Thinking markers defined"
+                })
+        
+        # Логирование
+        for category, items in artifacts.items():
+            if items:
+                logger.info(f"   ✅ {category}: {len(items)} artifacts")
+        
+        return artifacts
     
-    def _scan_security(self):
-        """Сканирование маркеров безопасности"""
-        logger.info("  🔍 Scanning security...")
+    def _calculate_artifact_progress(self, artifacts: Dict[str, List]) -> Dict[str, Any]:
+        """Рассчитать прогресс на основе артефактов"""
+        total_categories = len(artifacts)
+        categories_with_artifacts = sum(1 for v in artifacts.values() if v)
         
-        # Auth
-        auth_files = [
-            self.project_path / "apps" / "auth_service",
-            self.project_path / "**" / "jwt*.py",
-            self.project_path / "**" / "auth*.py"
-        ]
-        auth_found = any(f.exists() or list(f.parent.glob(f.name)) for f in auth_files[:1])
-        if auth_found or list(self.project_path.rglob("**/jwt*.py")):
-            marker = self.markers["sec_auth"]
-            marker.detected = True
-            marker.evidence.append("Authentication service")
-            marker.confidence = 0.85
-        
-        # Crypto
-        crypto_patterns = ["hashlib", "cryptography", "bcrypt", "passlib"]
-        for file in self.project_path.rglob("**/*.py"):
-            try:
-                content = file.read_text(encoding="utf-8")
-                for pattern in crypto_patterns:
-                    if pattern in content:
-                        marker = self.markers["sec_crypto"]
-                        marker.detected = True
-                        marker.evidence.append(pattern)
-                        marker.confidence = 0.8
-                        break
-            except:
-                pass
-    
-    def _scan_documentation(self):
-        """Сканирование маркеров документации"""
-        logger.info("  🔍 Scanning documentation...")
-        
-        # API docs
-        if (self.project_path / "docs").exists():
-            api_docs = list((self.project_path / "docs").glob("*api*.md"))
-            if api_docs:
-                marker = self.markers["doc_api"]
-                marker.detected = True
-                marker.evidence.append(f"{len(api_docs)} API docs")
-                marker.confidence = 0.75
-        
-        # ADR
-        adr_dir = self.project_path / "docs" / "adr"
-        if adr_dir.exists():
-            adr_files = list(adr_dir.glob("*.md"))
-            if adr_files:
-                marker = self.markers["doc_adr"]
-                marker.detected = True
-                marker.evidence.append(f"{len(adr_files)} ADRs")
-                marker.confidence = 0.9
-    
-    def _scan_systems_thinking(self):
-        """Сканирование маркеров системного мышления"""
-        logger.info("  🧠 Scanning systems thinking...")
-        
-        # 1. Системная архитектура (complex system design)
-        if (self.project_path / "docs" / "system-architecture.md").exists() or \
-           (self.project_path / "docs" / "architecture.md").exists():
-            marker = self.markers["sys_architecture"]
-            marker.detected = True
-            marker.evidence.append("System architecture documentation")
-            marker.confidence = 0.8
-        
-        # 2. Когнитивные паттерны (skills/competencies docs)
-        compass_dir = self.project_path / "apps" / "it_compass"
-        if compass_dir.exists():
-            skills_file = compass_dir / "skills" / "competencies.md"
-            if skills_file.exists():
-                marker = self.markers["cognitive_patterns"]
-                marker.detected = True
-                marker.evidence.append("IT Compass competencies framework")
-                marker.confidence = 0.85
-        
-        # 3. Петли обратной связи (monitoring/metrics)
-        if list(self.project_path.rglob("**/*feedback*")) or \
-           list(self.project_path.rglob("**/*monitor*")) or \
-           list(self.project_path.rglob("**/metrics*.py")):
-            marker = self.markers["feedback_loops"]
-            marker.detected = True
-            marker.evidence.append("Feedback mechanisms")
-            marker.confidence = 0.7
-        
-        # 4. Эмерджентность (documented emergent behaviors)
-        if list(self.project_path.rglob("**/emerg*")) or \
-           list(self.project_path.rglob("**/*properties*.md")):
-            marker = self.markers["emergence"]
-            marker.detected = True
-            marker.evidence.append("Documented emergent properties")
-            marker.confidence = 0.75
-        
-        # 5. Граничное мышление (bounded contexts, domain boundaries)
-        bounded_contexts = list(self.project_path.rglob("**/*bounded*")) or \
-                          list(self.project_path.rglob("**/*context*.py"))
-        if bounded_contexts or (self.project_path / "docs" / "bounded-contexts.md").exists():
-            marker = self.markers["boundary_thinking"]
-            marker.detected = True
-            marker.evidence.append("Bounded contexts defined")
-            marker.confidence = 0.8
-        
-        # 6. Междисциплинарный подход (integrations, multiple domains)
-        integrations = list(self.project_path.rglob("**/*integration*"))
-        multi_domain = len(set([
-            p.parent.name for p in self.project_path.rglob("**/*.py")
-            if p.parent.name in ["ai", "ml", "nlp", "cognitive", "architecture", "systems"]
-        ])) >= 3
-        
-        if len(integrations) >= 3 or multi_domain:
-            marker = self.markers["interdisciplinary"]
-            marker.detected = True
-            marker.evidence.append("Multi-domain integration")
-            marker.confidence = 0.8
-        
-        # 7. Вторичные последствия (risk analysis, impact assessment)
-        if (self.project_path / "docs" / "risk-analysis.md").exists() or \
-           (self.project_path / "docs" / "impact-assessment.md").exists() or \
-           list(self.project_path.rglob("**/*risk*.md")):
-            marker = self.markers["second_order"]
-            marker.detected = True
-            marker.evidence.append("Risk and impact analysis")
-            marker.confidence = 0.85
-        
-        # 8. Системное мышление (общий маркер - если есть несколько других)
-        sys_thinking_markers = [
-            "sys_architecture", "cognitive_patterns", "feedback_loops",
-            "emergence", "boundary_thinking", "interdisciplinary", "second_order"
-        ]
-        detected_count = sum(1 for m in sys_thinking_markers if self.markers[m].detected)
-        
-        if detected_count >= 3:
-            marker = self.markers["sys_thinking"]
-            marker.detected = True
-            marker.evidence.append(f"{detected_count} системных маркеров")
-            marker.confidence = min(0.5 + (detected_count * 0.1), 1.0)
-    
-    def _calculate_progress(self):
-        """Расчет общего прогресса"""
-        total_weight = sum(m.weight for m in self.markers.values())
-        detected_weight = sum(
-            m.weight * m.confidence 
-            for m in self.markers.values() 
-            if m.detected
-        )
-        
-        # Общий прогресс
-        overall = (detected_weight / total_weight * 100) if total_weight > 0 else 0
-        
-        # Прогресс по категориям
-        categories = {}
-        for category in set(m.category for m in self.markers.values()):
-            cat_markers = [m for m in self.markers.values() if m.category == category]
-            cat_weight = sum(m.weight for m in cat_markers)
-            cat_detected = sum(
-                m.weight * m.confidence 
-                for m in cat_markers 
-                if m.detected
-            )
-            categories[category] = (cat_detected / cat_weight * 100) if cat_weight > 0 else 0
-        
-        self.progress = {
-            "overall": overall,
-            "categories": categories,
-            "markers_detected": self._count_detected_markers(),
-            "markers_total": len(self.markers),
-            "last_scan": datetime.now().isoformat()
+        return {
+            "overall": (categories_with_artifacts / total_categories * 100) if total_categories > 0 else 0,
+            "categories": {
+                cat: (len(items) / 3 * 100) if items else 0
+                for cat, items in artifacts.items()
+            }
         }
-
-    def _count_detected_markers(self) -> int:
-        """Подсчитать количество обнаруженных маркеров"""
-        return sum(1 for m in self.markers.values() if m.detected)
-
+    
     def _generate_portfolio(self):
         """Генерация портфолио через AI"""
         logger.info("  📝 Generating portfolio...")
@@ -660,19 +249,21 @@ class ITCompassScanner:
             return
         
         # Подготовка контекста
-        detected_markers = [
-            {"name": m.name, "level": m.level, "confidence": m.confidence}
-            for m in self.markers.values()
-            if m.detected
-        ]
+        context = {
+            "markers_loaded": len(self.author_markers),
+            "tracker_progress": self.scan_results.get("tracker_progress", {}),
+            "artifacts_found": sum(len(v) for v in self.scan_results.get("artifacts", {}).values()),
+            "methodology_author": "Ekaterina Kudelya",
+            "methodology_license": "CC BY-ND 4.0"
+        }
         
         prompt = f"""
-На основе обнаруженных маркеров компетенций сгенерируй портфолио:
+На основе сканирования проекта сгенерируй портфолио:
 
-Обнаруженные маркеры ({len(detected_markers)}):
-{json.dumps(detected_markers, indent=2, ensure_ascii=False)}
+Контекст:
+{json.dumps(context, indent=2, ensure_ascii=False)}
 
-Общий прогресс: {self.progress.get('overall', 0):.1f}%
+Автор методологии: Ekaterina Kudelya (CC BY-ND 4.0)
 
 Сгенерируй портфолио в формате JSON:
 {{
@@ -680,7 +271,7 @@ class ITCompassScanner:
   "strengths": ["Список сильных сторон"],
   "areas_for_improvement": ["Что можно улучшить"],
   "career_recommendations": ["Карьерные рекомендации"],
-  "next_markers": ["Какие маркеры добавить дальше"]
+  "next_markers": ["Какие маркеры из IT Compass достичь дальше"]
 }}
 """
         
@@ -695,56 +286,49 @@ class ITCompassScanner:
                 json_match = re.search(r'\{.*\}', response, re.DOTALL)
                 if json_match:
                     portfolio = json.loads(json_match.group())
-                    self.progress["portfolio"] = portfolio
+                    self.scan_results["portfolio"] = portfolio
                     logger.info("✅ Portfolio generated")
-            except:
-                logger.warning("Failed to parse portfolio JSON")
+            except Exception as e:
+                logger.warning(f"Failed to parse portfolio JSON: {e}")
     
     def _save_results(self):
         """Сохранить результаты сканирования"""
-        # Создаем директории
         self.compass_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Сохраняем маркеры
-        markers_data = {k: asdict(v) for k, v in self.markers.items()}
-        with open(self.markers_file, "w", encoding="utf-8") as f:
-            json.dump(markers_data, f, indent=2, ensure_ascii=False)
         
         # Сохраняем прогресс
         with open(self.progress_file, "w", encoding="utf-8") as f:
-            json.dump(self.progress, f, indent=2, ensure_ascii=False)
+            json.dump(self.scan_results, f, indent=2, ensure_ascii=False)
         
         # Сохраняем портфолио
-        if "portfolio" in self.progress:
+        if "portfolio" in self.scan_results:
             with open(self.portfolio_file, "w", encoding="utf-8") as f:
-                json.dump(self.progress["portfolio"], f, indent=2, ensure_ascii=False)
+                json.dump(self.scan_results["portfolio"], f, indent=2, ensure_ascii=False)
         
         logger.info(f"💾 Results saved to {self.compass_dir}")
     
-    def get_recommendations(self) -> List[Dict[str, str]]:
+    def get_recommendations(self) -> List[str]:
         """Получить карьерные рекомендации"""
-        if "portfolio" not in self.progress:
+        if "portfolio" not in self.scan_results:
             self._generate_portfolio()
         
-        return self.progress.get("portfolio", {}).get("career_recommendations", [])
+        return self.scan_results.get("portfolio", {}).get("career_recommendations", [])
     
-    def get_next_markers(self) -> List[Dict[str, str]]:
+    def get_next_markers(self) -> List[str]:
         """Получить список следующих маркеров для достижения"""
-        if "portfolio" not in self.progress:
+        if "portfolio" not in self.scan_results:
             self._generate_portfolio()
         
-        return self.progress.get("portfolio", {}).get("next_markers", [])
+        return self.scan_results.get("portfolio", {}).get("next_markers", [])
     
     def get_status(self) -> Dict[str, Any]:
         """Получить статус IT Compass"""
         return {
             "project_path": str(self.project_path),
-            "markers_detected": self._count_detected_markers(),
-            "markers_total": len(self.markers),
-            "progress": self.progress.get("overall", 0),
-            "categories": self.progress.get("categories", {}),
-            "last_scan": self.progress.get("last_scan"),
-            "ai_provider": self.ai_manager.get_active_provider()
+            "markers_loaded": len(self.author_markers),
+            "methodology_author": "Ekaterina Kudelya",
+            "methodology_license": "CC BY-ND 4.0",
+            "tracker_progress": self.scan_results.get("tracker_progress", {}),
+            "last_scan": self.scan_results.get("timestamp")
         }
 
 
@@ -767,7 +351,6 @@ def scan_it_compass(project_path: str = None) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    # CLI интерфейс
     import argparse
     
     parser = argparse.ArgumentParser(description="IT Compass Scanner")
@@ -781,8 +364,8 @@ if __name__ == "__main__":
         scanner = ITCompassScanner(project_path=args.project)
         results = scanner.scan_project()
         print(f"\n✅ Scan completed!")
-        print(f"   Markers: {results['markers_detected']}/{results['markers_total']}")
-        print(f"   Progress: {results['progress']['overall']:.1f}%")
+        print(f"   Markers loaded: {results['markers_loaded']}")
+        print(f"   Tracker progress: {results['tracker_progress']['overall_progress']:.1f}%")
     
     elif args.status:
         scanner = get_scanner()
