@@ -1,4 +1,3 @@
-from fastapi.testclient import TestClient
 from flask.testing import FlaskClient
 
 

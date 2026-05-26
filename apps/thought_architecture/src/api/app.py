@@ -2,7 +2,6 @@
 Thought Architecture API — управление архитектурными решениями
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -25,7 +24,7 @@ except Exception as e:
 
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from datetime import datetime
 from enum import Enum
 

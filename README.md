@@ -184,7 +184,7 @@ graph TB
 | **auth_service** | 🟢 Ready | ~95% | JWT-аутентификация |
 | **career_development** | 🟢 Ready | 80.47% | Трекинг компетенций |
 | **chat_backend** | 🟢 Ready | ~78% | WebSocket-сервер для чата |
-| **cognitive_agent** | 🟢 Core | ~85% | Автономный ИИ-агент |
+| **cognitive_agent** | 🟡 MVP | ~55% | Автономный ИИ-агент ([📖 README](apps/cognitive_agent/README.md)) |
 | **decision_engine** | 🟢 Ready | ~85% | AI reasoning с RAG |
 | **infra_orchestrator** | 🟢 Ready | ~75% | Оркестрация сервисов (FastAPI) |
 | **it_compass** | 🟢 Ready | ~85% | Методология IT-компетенций |

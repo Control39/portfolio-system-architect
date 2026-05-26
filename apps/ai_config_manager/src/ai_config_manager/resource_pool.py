@@ -8,7 +8,6 @@ from typing import Any
 
 from .validators import ResourceConfig, ResourceType
 
-
 logger = logging.getLogger(__name__)
 
 

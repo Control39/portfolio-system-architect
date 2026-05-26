@@ -1,8 +1,6 @@
 """
 Tests for mcp_server compass_tools - Simplified
 """
-import pytest
-from pathlib import Path
 
 
 class TestCompassToolsModule:
@@ -21,7 +19,6 @@ class TestCompassToolsModule:
 
     def test_project_root_variable(self):
         """Test PROJECT_ROOT variable exists"""
-        from apps.mcp_server.src.tools import compass_tools
         # May or may not exist depending on implementation
         pass  # Skip if not available
 

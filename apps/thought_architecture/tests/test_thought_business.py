@@ -12,10 +12,8 @@ Test Coverage:
 """
 
 import pytest
-from datetime import datetime
 
 from src.core import (
-    Decision,
     DecisionStatus,
     DecisionLevel,
     ArchitectureRecord,

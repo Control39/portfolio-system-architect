@@ -8,7 +8,6 @@ from pathlib import Path
 
 from ..core.tracker import CareerTracker, Marker
 
-
 logger = logging.getLogger(__name__)
 
 

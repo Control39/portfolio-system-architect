@@ -5,7 +5,13 @@
 import pytest
 from pydantic import ValidationError
 
-from ai_config_manager.validators import AgentConfig, AIConfig, ResourceConfig, ResourceType, SecretsConfig
+from ai_config_manager.validators import (
+    AgentConfig,
+    AIConfig,
+    ResourceConfig,
+    ResourceType,
+    SecretsConfig,
+)
 
 
 class TestAgentConfig:
