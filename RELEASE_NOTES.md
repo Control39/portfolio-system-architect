@@ -42,11 +42,11 @@
 
 | Показатель | Значение |
 |------------|----------|
-| **Коммитов** | 11 осмысленных |
+| **Коммитов** | 14 осмысленных |
 | **Файлов изменено** | 41 файл |
 | **Строк добавлено** | ~2246 |
 | **Строк удалено** | ~595 |
-| **E2E тестов** | 14 тестов (2 сервиса) |
+| **E2E тестов** | 14 тестов (2 сервиса, 100% пройдено) |
 | **Сервисов с фиксом** | 16 сервисов |
 | **AI Config Manager** | ✅ Работает |
 
@@ -57,7 +57,7 @@
 ### Auth Service ✅
 ```bash
 pytest tests/e2e/test_auth_service.py -v
-# 8 passed in 25.93s
+# 8 passed in 0.95s
 ```
 
 **Покрытие:**
@@ -70,14 +70,21 @@ pytest tests/e2e/test_auth_service.py -v
 - ✅ `test_verify_valid_token` - Валидация токена
 - ✅ `test_verify_invalid_token` - Отклонение невалидного токена
 
-### Infra Orchestrator ⚠️
+### Infra Orchestrator ✅
 ```bash
 pytest tests/e2e/test_infra_orchestrator.py -v
-# 0/6 passed (Docker port mapping issue)
+# 6 passed in 0.70s
 ```
 
-**Проблема:** Контейнер не маппит порт 8000 наружу  
-**Решение:** Обновить `docker-compose.yml` для Infra Orchestrator
+**Покрытие:**
+- ✅ `test_service_info` - Root endpoint
+- ✅ `test_health_check` - Health check
+- ✅ `test_list_services` - Список сервисов
+- ✅ `test_deploy_service` - Деплой сервиса
+- ✅ `test_scale_service` - Масштабирование
+- ✅ `test_restart_service` - Перезапуск сервиса
+
+### Итого: **14/14 тестов пройдено** ✅
 
 ---
 
