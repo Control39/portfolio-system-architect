@@ -318,3 +318,4 @@ class TestIntegration:
     def test_error_recovery(self, project_root):
         """Тест восстановления после ошибки"""
         # Создать ошибку, затем убедиться, что сервер продолжает работать
+
