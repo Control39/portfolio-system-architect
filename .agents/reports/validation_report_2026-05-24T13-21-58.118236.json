@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-05-24T13:21:57.834523",
+  "agent_version": "2.0",
+  "tests": {
+    "structure": {
+      "passed": [
+        "skills",
+        "config",
+        "workflows",
+        "tests",
+        "logs",
+        "scans",
+        "reports",
+        "backups",
+        "cache",
+        "models",
+        "data",
+        "knowledge"
+      ],
+      "missing": [
+        "alerts"
+      ],
+      "optional": []
+    },
+    "skills": {
+      "found": [
+        "cognitive-automation-agent",
+        "project-scanner",
+        "task-planner",
+        "learning-system"
+      ],
+      "missing": [],
+      "valid": [
+        "cognitive-automation-agent",
+        "project-scanner",
+        "task-planner",
+        "learning-system"
+      ],
+      "invalid": []
+    },
+    "configurations": {
+      "found": [
+        "agent-config.yaml",
+        "integrations.yaml",
+        "planner.yaml",
+        "learning.yaml",
+        "scanner.yaml"
+      ],
+      "missing": [],
+      "valid_yaml": [
+        "agent-config.yaml",
+        "integrations.yaml",
+        "planner.yaml",
+        "learning.yaml",
+        "scanner.yaml"
+      ],
+      "invalid_yaml": []
+    },
+    "workflows": {
+      "found": [
+        "project-setup.yaml"
+      ],
+      "missing": [],
+      "valid": [
+        "project-setup.yaml"
+      ],
+      "invalid": []
+    },
+    "integrations": {
+      "file_exists": true,
+      "content_valid": true,
+      "integration_points": 3
+    },
+    "dependencies": {
+      "requirements_exists": true,
+      "python_version": "3.12",
+      "required_modules": [
+        "yaml",
+        "json",
+        "pathlib",
+        "pytest"
+      ],
+      "missing_modules": []
+    }
+  },
+  "overall": "FAILED"
+}
