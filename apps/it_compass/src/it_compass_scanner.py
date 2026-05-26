@@ -216,23 +216,89 @@ class ITCompassScanner:
                 weight=6.0
             ),
             
-            # Документация
-            "doc_api": Marker(
-                id="doc_api",
-                name="API документация",
-                category="documentation",
-                description="OpenAPI/Swagger спецификации",
-                level="intermediate",
-                weight=4.0
-            ),
-            "doc_adr": Marker(
-                id="doc_adr",
-                name="ADR (Architecture Decision Records)",
-                category="documentation",
-                description="Документирование архитектурных решений",
-                level="advanced",
-                weight=6.0
-            ),
+        # Документация
+        "doc_api": Marker(
+            id="doc_api",
+            name="API документация",
+            category="documentation",
+            description="OpenAPI/Swagger спецификации",
+            level="intermediate",
+            weight=4.0
+        ),
+        "doc_adr": Marker(
+            id="doc_adr",
+            name="ADR (Architecture Decision Records)",
+            category="documentation",
+            description="Документирование архитектурных решений",
+            level="advanced",
+            weight=6.0
+        ),
+        
+        # Системное мышление
+        "sys_thinking": Marker(
+            id="sys_thinking",
+            name="Системное мышление",
+            category="systems_thinking",
+            description="Понимание системных взаимосвязей и эмерджентности",
+            level="advanced",
+            weight=10.0
+        ),
+        "sys_architecture": Marker(
+            id="sys_architecture",
+            name="Системная архитектура",
+            category="systems_thinking",
+            description="Проектирование как сложной системы",
+            level="expert",
+            weight=12.0
+        ),
+        "cognitive_patterns": Marker(
+            id="cognitive_patterns",
+            name="Когнитивные паттерны",
+            category="systems_thinking",
+            description="Ментальные модели и когнитивные фреймы",
+            level="expert",
+            weight=10.0
+        ),
+        "feedback_loops": Marker(
+            id="feedback_loops",
+            name="Петли обратной связи",
+            category="systems_thinking",
+            description="Дизайн и анализ обратных связей",
+            level="advanced",
+            weight=8.0
+        ),
+        "emergence": Marker(
+            id="emergence",
+            name="Эмерджентность",
+            category="systems_thinking",
+            description="Свойства системы, не сводимые к частям",
+            level="expert",
+            weight=10.0
+        ),
+        "boundary_thinking": Marker(
+            id="boundary_thinking",
+            name="Граничное мышление",
+            category="systems_thinking",
+            description="Определение границ систем и подсистем",
+            level="advanced",
+            weight=8.0
+        ),
+        "interdisciplinary": Marker(
+            id="interdisciplinary",
+            name="Междисциплинарный подход",
+            category="systems_thinking",
+            description="Интеграция знаний из разных областей",
+            level="advanced",
+            weight=9.0
+        ),
+        "second_order": Marker(
+            id="second_order",
+            name="Вторичные последствия",
+            category="systems_thinking",
+            description="Анализ долгосрочных и косвенных эффектов",
+            level="expert",
+            weight=10.0
+        ),
         }
     
     def scan_project(self) -> Dict[str, Any]:
@@ -254,6 +320,7 @@ class ITCompassScanner:
         self._scan_devops()
         self._scan_security()
         self._scan_documentation()
+        self._scan_systems_thinking()  # ✅ Новые маркеры
         
         # Расчет прогресса
         self._calculate_progress()
@@ -465,6 +532,89 @@ class ITCompassScanner:
                 marker.evidence.append(f"{len(adr_files)} ADRs")
                 marker.confidence = 0.9
     
+    def _scan_systems_thinking(self):
+        """Сканирование маркеров системного мышления"""
+        logger.info("  🧠 Scanning systems thinking...")
+        
+        # 1. Системная архитектура (complex system design)
+        if (self.project_path / "docs" / "system-architecture.md").exists() or \
+           (self.project_path / "docs" / "architecture.md").exists():
+            marker = self.markers["sys_architecture"]
+            marker.detected = True
+            marker.evidence.append("System architecture documentation")
+            marker.confidence = 0.8
+        
+        # 2. Когнитивные паттерны (skills/competencies docs)
+        compass_dir = self.project_path / "apps" / "it_compass"
+        if compass_dir.exists():
+            skills_file = compass_dir / "skills" / "competencies.md"
+            if skills_file.exists():
+                marker = self.markers["cognitive_patterns"]
+                marker.detected = True
+                marker.evidence.append("IT Compass competencies framework")
+                marker.confidence = 0.85
+        
+        # 3. Петли обратной связи (monitoring/metrics)
+        if list(self.project_path.rglob("**/*feedback*")) or \
+           list(self.project_path.rglob("**/*monitor*")) or \
+           list(self.project_path.rglob("**/metrics*.py")):
+            marker = self.markers["feedback_loops"]
+            marker.detected = True
+            marker.evidence.append("Feedback mechanisms")
+            marker.confidence = 0.7
+        
+        # 4. Эмерджентность (documented emergent behaviors)
+        if list(self.project_path.rglob("**/emerg*")) or \
+           list(self.project_path.rglob("**/*properties*.md")):
+            marker = self.markers["emergence"]
+            marker.detected = True
+            marker.evidence.append("Documented emergent properties")
+            marker.confidence = 0.75
+        
+        # 5. Граничное мышление (bounded contexts, domain boundaries)
+        bounded_contexts = list(self.project_path.rglob("**/*bounded*")) or \
+                          list(self.project_path.rglob("**/*context*.py"))
+        if bounded_contexts or (self.project_path / "docs" / "bounded-contexts.md").exists():
+            marker = self.markers["boundary_thinking"]
+            marker.detected = True
+            marker.evidence.append("Bounded contexts defined")
+            marker.confidence = 0.8
+        
+        # 6. Междисциплинарный подход (integrations, multiple domains)
+        integrations = list(self.project_path.rglob("**/*integration*"))
+        multi_domain = len(set([
+            p.parent.name for p in self.project_path.rglob("**/*.py")
+            if p.parent.name in ["ai", "ml", "nlp", "cognitive", "architecture", "systems"]
+        ])) >= 3
+        
+        if len(integrations) >= 3 or multi_domain:
+            marker = self.markers["interdisciplinary"]
+            marker.detected = True
+            marker.evidence.append("Multi-domain integration")
+            marker.confidence = 0.8
+        
+        # 7. Вторичные последствия (risk analysis, impact assessment)
+        if (self.project_path / "docs" / "risk-analysis.md").exists() or \
+           (self.project_path / "docs" / "impact-assessment.md").exists() or \
+           list(self.project_path.rglob("**/*risk*.md")):
+            marker = self.markers["second_order"]
+            marker.detected = True
+            marker.evidence.append("Risk and impact analysis")
+            marker.confidence = 0.85
+        
+        # 8. Системное мышление (общий маркер - если есть несколько других)
+        sys_thinking_markers = [
+            "sys_architecture", "cognitive_patterns", "feedback_loops",
+            "emergence", "boundary_thinking", "interdisciplinary", "second_order"
+        ]
+        detected_count = sum(1 for m in sys_thinking_markers if self.markers[m].detected)
+        
+        if detected_count >= 3:
+            marker = self.markers["sys_thinking"]
+            marker.detected = True
+            marker.evidence.append(f"{detected_count} системных маркеров")
+            marker.confidence = min(0.5 + (detected_count * 0.1), 1.0)
+    
     def _calculate_progress(self):
         """Расчет общего прогресса"""
         total_weight = sum(m.weight for m in self.markers.values())
@@ -496,11 +646,11 @@ class ITCompassScanner:
             "markers_total": len(self.markers),
             "last_scan": datetime.now().isoformat()
         }
-    
+
     def _count_detected_markers(self) -> int:
         """Подсчитать количество обнаруженных маркеров"""
         return sum(1 for m in self.markers.values() if m.detected)
-    
+
     def _generate_portfolio(self):
         """Генерация портфолио через AI"""
         logger.info("  📝 Generating portfolio...")
