@@ -36,6 +36,9 @@ Thumbs.db
 .obsidian/
 .continue/
 
+# Archives
+.archive/
+
 # GigaCode - игнорируем только секреты, кэш и планы
 .gigacode/*.env
 .gigacode/*.env.*
@@ -47,7 +50,7 @@ Thumbs.db
 # Static and generated files
 python_server/static/
 .azure/
-site/  # Generated MkDocs documentation
+site/
 
 # Cognitive Agent reports (auto-generated)
 apps/cognitive_agent/reports/
@@ -63,7 +66,7 @@ coverage.xml
 junit.xml
 bandit-report.json
 
-# Chat logs (исключить из git для приватности)
+# Chat logs
 .chat-cache/
 
 # Databases
@@ -73,7 +76,7 @@ test_db/
 # Generated files
 *.tmp
 
-# SSH keys (никогда не коммитить!)
+# SSH keys (never commit!)
 *.pem
 *.key
 *.p12
@@ -88,27 +91,26 @@ known_hosts
 authorized_keys
 
 # Scan reports
-apps/cognitive-agent/reports/
+gitleaks-report.json
 
 # Temporary files from tools
 diagnosis.ps1
 fix-vscode.ps1
-gitleaks-report.json
-docs/desktop.html
-docs/session-context.md
 ruff.toml
 secrets.json
 
-# Standalone репозитории (отдельные репо)
+# Standalone repositories
 cognitive-agent-standalone/
 it_compass-standalone/
 portfolio_organizer-standalone/
-system_proof-standalone/\"\"  
-\"# Agent-generated artifacts (plans, reports, schedules)\"  
-\"apps/plans/\"  
-\"apps/reports/\" 
-\"\"  
-\"# Agent reports and logs (generated artifacts)\"  
-\"apps/cognitive_agent/reports/\"  
-\".agents/reports/\"  
-\".agents/logs/performance.csv\" 
+system_proof-standalone/
+
+# Agent-generated artifacts (plans, reports, schedules)
+apps/plans/
+apps/reports/
+.agents/reports/
+.agents/logs/performance.csv
+
+# Client (frontend) - если нужно
+client/node_modules/
+client/dist/
