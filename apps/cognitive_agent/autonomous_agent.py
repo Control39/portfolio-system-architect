@@ -33,6 +33,7 @@ from apps.ai_provider_manager.src.ai_provider_manager import (
     get_provider_manager
 )
 from apps.ai_config_manager.src.config_manager import ConfigManager
+from apps.it_compass.src.it_compass_scanner import ITCompassScanner, get_scanner
 
 # Настройка логирования
 logging.basicConfig(
@@ -116,12 +117,27 @@ class AutonomousCognitiveAgent:
                 logger.error(f"Error in background loop: {e}")
     
     def scan_project(self):
-        """Сканировать проект"""
+        """Сканировать проект (с IT Compass)"""
         logger.info(f"🔍 Scanning project: {self.project_path}")
         
         scan_start = datetime.now()
         
-        # Сбор метаданных
+        # 1. Сканирование IT Compass (маркеры компетенций)
+        logger.info("🧭 Running IT Compass scan...")
+        try:
+            compass_scanner = get_scanner()
+            compass_results = compass_scanner.scan_project()
+            logger.info(f"   IT Compass: {compass_results['markers_detected']}/{compass_results['markers_total']} markers")
+            logger.info(f"   Progress: {compass_results['progress']['overall']:.1f}%")
+        except Exception as e:
+            logger.error(f"IT Compass scan failed: {e}")
+            compass_results = None
+        
+        # 2. Проверка: есть ли хотя бы минимальные маркеры
+        if compass_results and compass_results['markers_detected'] < 3:
+            logger.warning("⚠️  Low marker count - project may be incomplete")
+        
+        # 3. Сбор метаданных проекта
         self.scan_results = {
             "timestamp": scan_start.isoformat(),
             "agent_id": self.agent_id,
@@ -130,6 +146,7 @@ class AutonomousCognitiveAgent:
             "directories": self._count_directories(),
             "languages": self._detect_languages(),
             "frameworks": self._detect_frameworks(),
+            "it_compass": compass_results,
             "issues": self._detect_issues(),
             "recommendations": self._generate_recommendations()
         }
@@ -283,7 +300,7 @@ class AutonomousCognitiveAgent:
 Предложи 3-5 конкретных рекомендаций по улучшению кода и архитектуры.
 Формат: JSON массив с полями: priority (high/medium/low), category, message.
 """
-            
+        
             response = chat_with_fallback([
                 {"role": "system", "content": "Ты — эксперт по анализу кода и архитектуры."},
                 {"role": "user", "content": prompt}
@@ -337,11 +354,11 @@ class AutonomousCognitiveAgent:
             "total_scans": len(self.scan_results),
             "total_recommendations": len(self.recommendations)
         }
-    
+
     def execute_task(self, task: str, auto_approve: bool = False) -> Dict[str, Any]:
         """
         Выполнить задачу через AI
-        
+
         Args:
             task: Описание задачи
             auto_approve: Автоматически выполнять без подтверждения
