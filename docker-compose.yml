@@ -1,5 +1,4 @@
-﻿---
-version: "3.9"
+﻿version: "3.9"
 
 services:
   # ============================================================
@@ -42,12 +41,15 @@ services:
       dockerfile: apps/auth_service/Dockerfile
     container_name: auth_service
     ports:
-      - "8100:8100" # Direct access: http://localhost:8100
+      - "8100:8100"
     environment:
       - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-prod}
       - JWT_ALGORITHM=HS256
       - LOG_LEVEL=INFO
       - PYTHONPATH=/app
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=auth_service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     labels:
@@ -102,12 +104,14 @@ services:
       context: .
       dockerfile: apps/decision_engine/Dockerfile
     ports:
-      - "8001:8001" # Direct access: http://localhost:8001
+      - "8001:8001"
     environment:
       - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
-
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=decision_engine
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     volumes:
       - ./apps/decision_engine:/app
       - ./data/rag-index:/app/rag-index
@@ -301,6 +305,9 @@ services:
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=chat_backend
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     healthcheck:
@@ -324,6 +331,9 @@ services:
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=knowledge_graph
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     depends_on:
@@ -344,6 +354,9 @@ services:
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=cognitive_agent
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     depends_on:
