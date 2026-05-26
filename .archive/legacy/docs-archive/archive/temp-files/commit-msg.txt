@@ -1,7 +1,0 @@
-docs: standardize README for 14 microservices
-
-- Updated thought-architecture README to match full template
-- All 14 services now have consistent documentation structure
-- Added test files for python_server
-- Added automation scripts (check_coverage.py, generate_readme.py)
-- Updated CI workflow for local testing support
