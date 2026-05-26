@@ -114,3 +114,15 @@ apps/reports/
 # Client (frontend) - если нужно
 client/node_modules/
 client/dist/
+
+# Certificates (never commit!)
+*.crt
+*.cer
+*.pem
+*.der
+*.p12
+*.pfx
+*.key
+*.crt
+*.cer
+*.pem
