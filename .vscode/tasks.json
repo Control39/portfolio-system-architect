@@ -154,6 +154,75 @@
         "panel": "shared",
         "clear": true
       }
+    },
+    {
+      "label": "Cognitive Agent: Start",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --start --project ${workspaceFolder}",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Stop",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --stop",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Status",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --status",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Scan",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --scan --project ${workspaceFolder}",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Auto-start on open",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --start --project ${workspaceFolder} --foreground",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      },
+      "problemMatcher": []
     }
   ]
 }
