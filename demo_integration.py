@@ -41,9 +41,9 @@ def demo_it_compass_scan():
 
 
 def demo_job_search(progress, tracker):
-    """2. Поиск вакансий через Job Agent"""
+    """2. Поиск вакансий через реальные сервисы"""
     print("\n" + "="*60)
-    print("💼 STEP 2: Job Automation Agent")
+    print("💼 STEP 2: Job Automation Agent (REAL SEARCH)")
     print("="*60)
     
     # Получаем ваши навыки из завершённых маркеров
@@ -55,68 +55,77 @@ def demo_job_search(progress, tracker):
         for level_markers in skill_data.levels.values():
             for marker in level_markers:
                 if marker.id in completed_markers:
-                    # Извлекаем навыки из ID маркера
                     skill_lower = skill_name.lower()
-                    if 'python' in skill_lower or 'devops' in skill_lower or 'system' in skill_lower:
+                    if any(x in skill_lower for x in ['python', 'devops', 'system', 'docker', 'git']):
                         key_skills.append(skill_name)
     
-    key_skills = list(set(key_skills))[:5]  # Ограничиваем до 5
+    key_skills = list(set(key_skills))[:5]
     
     print(f"\n🔍 Ваши ключевые навыки:")
     for skill in key_skills:
         print(f"   • {skill}")
     
-    # Имитация поиска вакансий (без реального API)
-    print(f"\n🔎 Поиск вакансий для профиля:")
-    print(f"   Навыки: {', '.join(key_skills)}")
-    print(f"   Прогресс: {progress['overall_progress']:.1f}%")
+    # Формируем поисковый запрос
+    search_query = f"{', '.join(key_skills)} архитектор системное мышление методология"
+    print(f"\n🔎 Поиск вакансий по запросу:")
+    print(f"   \"{search_query}\"")
     
-    # Пример вакансий (шаблон)
-    sample_vacancies = [
-        {
-            "title": "Cognitive Systems Architect",
-            "company": "AI Innovation Lab",
-            "level": "Senior",
-            "match": "95%",
-            "why": "Методология IT Compass + архитектура когнитивных систем"
-        },
-        {
-            "title": "Technical Program Manager (AI/ML)",
-            "company": "TechCorp",
-            "level": "Senior",
-            "match": "88%",
-            "why": "Управление микросервисной экосистемой + AI-агенты"
-        },
-        {
-            "title": "Career Technology Product Owner",
-            "company": "CareerTech Solutions",
-            "level": "Lead",
-            "match": "92%",
-            "why": "Решение проблемы карьерной неопределённости через методологию"
-        },
-        {
-            "title": "AI Product Methodologist",
-            "company": "EdTech Innovations",
-            "level": "Middle+",
-            "match": "85%",
-            "why": "Методология + AI-автоматизация карьерного роста"
-        },
-        {
-            "title": "System Thinking Consultant",
-            "company": "Architecture Partners",
-            "level": "Senior",
-            "match": "90%",
-            "why": "Системное мышление + DDD + микросервисы"
-        }
-    ]
+    # Имитация реального поиска (раскомментируйте для работы)
+    try:
+        from apps.job_automation_agent.src.job_search import search_all_jobs
+        import asyncio
+        
+        print(f"\n   ⏳ Поиск на hh.ru и Habr Career...")
+        vacancies = asyncio.run(search_all_jobs(search_query, area="113"))
+        
+        if vacancies:
+            print(f"\n   ✅ Найдено {len(vacancies)} вакансий!")
+        else:
+            print(f"\n   ⚠️  Вакансий не найдено. Используем шаблон.")
+            vacancies = []
+            
+    except Exception as e:
+        print(f"\n   ⚠️  Ошибка поиска: {e}")
+        print(f"   Используем шаблон вакансий...")
+        vacancies = []
+    
+    # Если поиск не дал результатов или для демо, используем шаблон
+    if not vacancies:
+        vacancies = [
+            {
+                "title": "Cognitive Systems Architect",
+                "company": "AI Innovation Lab",
+                "level": "Senior",
+                "match": "95%",
+                "why": "Методология IT Compass + архитектура когнитивных систем",
+                "source": "Шаблон"
+            },
+            {
+                "title": "Technical Program Manager (AI/ML)",
+                "company": "TechCorp",
+                "level": "Senior",
+                "match": "88%",
+                "why": "Управление микросервисной экосистемой + AI-агенты",
+                "source": "Шаблон"
+            },
+            {
+                "title": "Career Technology Product Owner",
+                "company": "CareerTech Solutions",
+                "level": "Lead",
+                "match": "92%",
+                "why": "Решение проблемы карьерной неопределённости через методологию",
+                "source": "Шаблон"
+            }
+        ]
     
     print(f"\n💡 Рекомендованные вакансии:")
-    for i, vac in enumerate(sample_vacancies, 1):
+    for i, vac in enumerate(vacancies[:5], 1):
         print(f"\n   {i}. {vac['title']} @ {vac['company']}")
         print(f"      Уровень: {vac['level']} | Совпадение: {vac['match']}")
         print(f"      Почему подходит: {vac['why']}")
+        print(f"      Источник: {vac.get('source', 'hh.ru/Habr Career')}")
     
-    return sample_vacancies
+    return vacancies
 
 
 def demo_next_steps(progress, vacancies):

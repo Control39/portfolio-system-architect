@@ -1,11 +1,14 @@
 """Job search с использованием централизованной SSRF-защиты."""
 
 import asyncio
-
-import requests
+import os
+from typing import List, Dict, Any
 
 from .utils.security import is_safe_url, sanitize_error_message
 
+# Импортируем провайдеры
+from .providers.hh_ru import HHruProvider, search_hh_ru
+from .providers.habr_career import HabrCareerProvider, search_habr_career
 
 ALLOWED_HOSTS = {
     "localhost",
@@ -15,55 +18,39 @@ ALLOWED_HOSTS = {
 }
 
 
-async def search_hh_ru(query: str, area: str = "1") -> list[dict]:
-    """Парсер hh.ru API."""
-    url = f"https://api.hh.ru/vacancies?text={query}&area={area}&per_page=10"
-
-    # Валидация URL (SSRF-защита)
-    is_safe_url(url, ALLOWED_HOSTS)
-
-    headers = {"User-Agent": "JobAutomationAgent/1.0"}
-    try:
-        response = requests.get(url, headers=headers, timeout=30)
-        response.raise_for_status()
-        data = response.json()
-        vacancies = data.get("items", [])
-        return [
-            {
-                "id": v.get("id"),
-                "name": v.get("name"),
-                "employer": v.get("employer", {}).get("name"),
-                "salary": v.get("salary"),
-                "url": v.get("alternate_url"),
-            }
-            for v in vacancies
-        ]
-    except requests.RequestException as e:
-        # Санитизация ошибки перед логированием
-        safe_message = sanitize_error_message(e, url)
-        print(f"Ошибка запроса к hh.ru: {safe_message}")
-        return []
-
-
-async def search_habr_career(query: str) -> list[dict]:
-    """Поиск вакансий на Хабр Карьере (упрощённый)."""
-    # Заглушка
-    return [
-        {
-            "id": "1",
-            "name": f"{query} разработчик",
-            "employer": "Компания Х",
-            "salary": "от 150 000 руб.",
-            "url": "https://career.habr.com/vacancies/1",
-        }
-    ]
-
-
-async def search_all_jobs(query: str) -> list[dict]:
-    """Объединённый поиск по всем источникам."""
-    hh_results = await search_hh_ru(query)
-    habr_results = await search_habr_career(query)
-    return hh_results + habr_results
+async def search_all_jobs(
+    query: str,
+    enable_hh: bool = True,
+    enable_habr: bool = True,
+    area: str = "113"  # Россия
+) -> List[Dict[str, Any]]:
+    """
+    Объединённый поиск по всем источникам
+    
+    Args:
+        query: Строка поиска (например, "Python архитектор системное мышление")
+        enable_hh: Включить hh.ru
+        enable_habr: Включить Habr Career
+        area: Регион для hh.ru (113=Россия)
+    
+    Returns:
+        Список вакансий со всех источников
+    """
+    results = []
+    
+    if enable_hh:
+        print(f"🔍 Поиск на hh.ru...")
+        hh_results = await search_hh_ru(query, area=area, pages=2)
+        results.extend(hh_results)
+        print(f"   Найдено: {len(hh_results)} вакансий")
+    
+    if enable_habr:
+        print(f"🔍 Поиск на Habr Career...")
+        habr_results = await search_habr_career(query)
+        results.extend(habr_results)
+        print(f"   Найдено: {len(habr_results)} вакансий")
+    
+    return results
 
 
 if __name__ == "__main__":
