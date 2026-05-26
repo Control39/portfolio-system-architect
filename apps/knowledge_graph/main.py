@@ -10,6 +10,12 @@ Knowledge Graph — Граф знаний (сущности/отношения)
 
 import logging
 
+# --- OpenTelemetry Tracing ---
+try:
+    from config.otel import OTEL_ENABLED
+except ImportError:
+    OTEL_ENABLED = False
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -25,6 +31,15 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+# Если трейсинг включён — инструментируем
+if OTEL_ENABLED:
+    try:
+        from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+        FastAPIInstrumentor.instrument_app(app)
+        logger.info("✅ OpenTelemetry FastAPI Instrumentation активировано")
+    except Exception as e:
+        logger.warning(f"⚠️ OpenTelemetry не настроен: {e}")
 
 
 class Entity(BaseModel):

@@ -50,7 +50,7 @@
   },
   "search.followSymlinks": false,
   "workbench.startupEditor": "none",
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   "workbench.editor.enablePreview": false,
   "workbench.editor.closeOnFileDelete": true,
   "git.autofetch": true,
