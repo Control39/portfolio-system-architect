@@ -32,8 +32,9 @@ from apps.ai_provider_manager.src.ai_provider_manager import (
     chat_with_fallback,
     get_provider_manager
 )
-from apps.ai_config_manager.src.config_manager import ConfigManager
+from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
 from apps.it_compass.src.it_compass_scanner import ITCompassScanner, get_scanner
+from apps.cognitive_agent.src.project_scanner import ProjectScanner
 
 # Настройка логирования
 logging.basicConfig(
@@ -62,11 +63,12 @@ class AutonomousCognitiveAgent:
         self.project_path = Path(project_path) if project_path else REPO_ROOT
         self.agent_id = f"agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
         self.running = False
-        self.scan_interval = 300  # 5 минут
+        self.scan_interval = 1800  # 30 минут (экономия ресурсов)
         self.last_scan: Optional[datetime] = None
         
         # Инициализация
-        self.config = ConfigManager()
+        config_path = self.project_path / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
+        self.config = ConfigManager(str(config_path)) if config_path.exists() else None
         self.ai_manager = get_provider_manager()
         
         # Результаты сканирования
@@ -116,64 +118,109 @@ class AutonomousCognitiveAgent:
             except Exception as e:
                 logger.error(f"Error in background loop: {e}")
     
-    def scan_project(self):
-        """Сканировать проект (с IT Compass)"""
-        logger.info(f"🔍 Scanning project: {self.project_path}")
+    def scan_project(self, mode: str = "auto"):
+        """
+        Сканировать проект
+        
+        Args:
+            mode: Режим сканирования
+                - "auto": автоматический (git diff если есть изменения, иначе skip)
+                - "git_diff": только изменённые файлы
+                - "full": полное сканирование
+                - "paths": выборочное (конфигурируется в self.scan_paths)
+        """
+        logger.info(f"🔍 Сканирование проекта: {self.project_path} (режим: {mode})")
         
         scan_start = datetime.now()
         
-        # 1. Сканирование IT Compass (маркеры компетенций + системное мышление)
+        # 1. Инициализация проектного сканера
+        project_scanner = ProjectScanner(str(self.project_path))
+        
+        # 2. Выбор режима сканирования
+        if mode == "auto":
+            # Пробуем git diff, если пусто — пропускаем
+            git_results = project_scanner.scan_git_diff()
+            if git_results["scanned_files"] == 0:
+                logger.info("✅ Нет изменённых файлов. Пропуск сканирования.")
+                # Всё равно запускаем IT Compass для прогресса
+                compass_results = self._run_compass_scan()
+                self.scan_results = {
+                    "mode": "auto",
+                    "timestamp": scan_start.isoformat(),
+                    "agent_id": self.agent_id,
+                    "project_path": str(self.project_path),
+                    "incremental": git_results,
+                    "it_compass": compass_results,
+                    "status": "no_changes"
+                }
+                return self.scan_results
+            # Если есть изменения — продолжаем с ними
+            scan_data = git_results
+        elif mode == "git_diff":
+            scan_data = project_scanner.scan_git_diff()
+        elif mode == "full":
+            scan_data = project_scanner.scan_full()
+        elif mode == "paths":
+            paths = getattr(self, 'scan_paths', ['apps/', '.agents/'])
+            scan_data = project_scanner.scan_paths(paths)
+        else:
+            logger.warning(f"Неизвестный режим: {mode}, используем auto")
+            scan_data = project_scanner.scan_git_diff()
+        
+        # 3. Сканирование IT Compass (маркеры компетенций)
         logger.info("🧭 Running IT Compass scan...")
-        try:
-            compass_scanner = get_scanner()
-            compass_results = compass_scanner.scan_project()
-            
-            # Отчет по системному мышлению
-            sys_thinking = compass_results.get("markers", {}).get("sys_thinking", {})
-            if sys_thinking.get("detected"):
-                logger.info(f"   ✅ Системное мышление: {sys_thinking.get('confidence', 0)*100:.0f}%")
-            
-            logger.info(f"   IT Compass: {compass_results['markers_detected']}/{compass_results['markers_total']} markers")
-            logger.info(f"   Progress: {compass_results['progress']['overall']:.1f}%")
-            
-            # Отчет по категориям
-            for category, progress in compass_results.get("progress", {}).get("categories", {}).items():
-                if category == "systems_thinking":
-                    logger.info(f"   Системное мышление: {progress:.1f}%")
-        except Exception as e:
-            logger.error(f"IT Compass scan failed: {e}")
-            compass_results = None
+        compass_results = self._run_compass_scan()
         
-        # 2. Проверка: есть ли хотя бы минимальные маркеры
-        if compass_results and compass_results['markers_detected'] < 3:
-            logger.warning("⚠️  Low marker count - project may be incomplete")
-        
-        # 3. Сбор метаданных проекта
+        # 4. Сбор метаданных проекта
         self.scan_results = {
+            "mode": mode,
             "timestamp": scan_start.isoformat(),
             "agent_id": self.agent_id,
             "project_path": str(self.project_path),
-            "files": self._count_files(),
-            "directories": self._count_directories(),
-            "languages": self._detect_languages(),
-            "frameworks": self._detect_frameworks(),
+            "incremental": scan_data,
+            "files": scan_data.get("scanned_files", 0),
             "it_compass": compass_results,
-            "issues": self._detect_issues(),
+            "issues": self._detect_issues_from_scan(scan_data),
             "recommendations": self._generate_recommendations()
         }
         
         self.last_scan = scan_start
         
         logger.info(f"✅ Scan completed in {(datetime.now() - scan_start).total_seconds():.2f}s")
-        logger.info(f"   Files: {self.scan_results['files']}")
-        logger.info(f"   Languages: {len(self.scan_results['languages'])}")
-        logger.info(f"   Issues: {len(self.scan_results['issues'])}")
-        logger.info(f"   Recommendations: {len(self.scan_results['recommendations'])}")
+        logger.info(f"   Mode: {mode}")
+        logger.info(f"   Files scanned: {self.scan_results['files']}")
+        if compass_results:
+            logger.info(f"   IT Compass markers: {compass_results.get('markers_detected', 0)}/{compass_results.get('markers_total', 0)}")
         
         # Сохранение результатов
         self._save_scan_results()
         
         return self.scan_results
+    
+    def _run_compass_scan(self):
+        """Запустить сканирование IT Compass"""
+        try:
+            compass_scanner = get_scanner()
+            return compass_scanner.scan_project()
+        except Exception as e:
+            logger.error(f"IT Compass scan failed: {e}")
+            return None
+    
+    def _detect_issues_from_scan(self, scan_data: Dict) -> List[Dict[str, str]]:
+        """Обнаружить проблемы на основе данных сканирования"""
+        issues = []
+        
+        # Анализ изменённых файлов
+        for file_info in scan_data.get("files", []):
+            # Проверка на большие файлы
+            if file_info.get("size", 0) > 1_000_000:
+                issues.append({
+                    "type": "large_file",
+                    "path": file_info["path"],
+                    "message": f"Большой файл: {file_info['size'] / 1_000_000:.1f} MB"
+                })
+        
+        return issues
     
     def _count_files(self) -> int:
         """Подсчитать количество файлов"""

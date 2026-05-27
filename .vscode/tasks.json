@@ -211,18 +211,7 @@
       },
       "problemMatcher": []
     },
-    {
-      "label": "Cognitive Agent: Auto-start on open",
-      "type": "shell",
-      "command": "python -m apps.cognitive_agent.autonomous_agent --start --project ${workspaceFolder} --foreground",
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
-      "presentation": {
-        "reveal": "silent",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    }
+    // Автозапуск отключён — слишком ресурсоёмко для 6321 файла
+    // Запускать вручную: Ctrl+Shift+P → "Tasks: Run Task" → "Cognitive Agent: Start"
   ]
 }
