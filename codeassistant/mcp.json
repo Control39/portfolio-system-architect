@@ -44,6 +44,10 @@
 				"auth_key_env": "GIGACODE_AUTH_KEY",
 				"scope_env": "GIGACODE_SCOPE"
 			}
+		},
+		"portfolio-local-mcp": {
+			"type": "streamable-http",
+			"url": "http://localhost:8007/mcp"
 		}
 	}
 }
