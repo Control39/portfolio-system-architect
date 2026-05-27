@@ -1,0 +1,54 @@
+---
+title: mcp-server — Model Context Protocol Server
+---
+
+graph TD
+    subgraph "Inputs"
+        U[AI client / cognitive-agent]
+        CFG[ai-config-manager — config]
+        REQ[Tool requests (MCP)]
+    end
+
+    subgraph "Core"
+        ROUTER[Request router]
+        TOOLS[Tool registry]
+    end
+
+    subgraph "AI Core"
+        MARSHAL[Request normalization]
+        CTX[Context assembly]
+    end
+
+    subgraph "Storage / Memory"
+        CACHE[(Tool / context cache)]
+        LOGS[(Traces / audit)]
+    end
+
+    subgraph "Dependencies"
+        KG[knowledge-graph]
+        DE[decision-engine]
+        FS[file tools]
+        GIT[git tools]
+        CHROMA[chroma tools]
+        MON[monitoring tools]
+    end
+
+    U --> ROUTER
+    REQ --> ROUTER
+    CFG --> MARSHAL
+
+    ROUTER --> TOOLS
+    TOOLS --> MARSHAL
+    MARSHAL --> CTX
+
+    CTX --> CHROMA
+    CTX --> FS
+    CTX --> GIT
+    CTX --> MON
+
+    DE --> CTX
+    KG --> CTX
+
+    ROUTER --> CACHE
+    ROUTER --> LOGS
+
