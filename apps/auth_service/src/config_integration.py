@@ -93,6 +93,7 @@ def get_config() -> AuthServiceConfig:
     return _config_instance
 
 
+
 def reload_config() -> None:
     """Перезагрузить глобальную конфигурацию"""
     global _config_instance

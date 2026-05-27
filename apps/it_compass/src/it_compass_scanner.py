@@ -170,6 +170,11 @@ def scan_it_compass(project_path: str = None) -> Dict[str, Any]:
     return scanner.scan_project()
 
 
+def get_scanner():
+    """Получить экземпляр сканера"""
+    return ITCompassScanner()
+
+
 if __name__ == "__main__":
     import argparse
     

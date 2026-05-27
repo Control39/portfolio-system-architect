@@ -68,23 +68,87 @@
 
 ## Использование
 
-### Автоматический запуск
-Агент автоматически активируется при:
-- Открытии проекта в VS Code
-- Клонировании репозитория
-- Изменении конфигурационных файлов
-- Обнаружении проблем в коде
+### ⚙️ Управление автозапуском
 
-### Ручной запуск
-```bash
-# Запуск полной автоматизации
+По умолчанию **автозапуск отключён** для экономии ресурсов системы.
+Чтобы включить автоматический запуск при открытии проекта:
+
+```yaml
+# .agents/config/triggers.yaml
+triggers:
+  project_open:
+    enabled: true  # Включить автозапуск
+```
+
+### 🚀 Ручной запуск агента
+
+#### Быстрый старт
+
+```powershell
+# Из корня проекта
+python -m agents.cognitive_agent --mode=full
+```
+
+#### Режимы работы
+
+```powershell
+# Полная автоматизация (сканирование + планирование + выполнение)
 python -m agents.cognitive_agent --mode=full
 
-# Сканирование проекта
+# Только сканирование проекта и анализ
 python -m agents.cognitive_agent --mode=scan
 
-# Оптимизация среды
+# Оптимизация среды и зависимостей
 python -m agents.cognitive_agent --mode=optimize
+
+# Анализ архитектуры
+python -m agents.cognitive_agent --mode=architecture
+
+# Исправление ошибок
+python -m agents.cognitive_agent --mode=fix --issue="описание проблемы"
+```
+
+#### Через VS Code
+
+Если установлено расширение CAA:
+
+```
+Командная палитра (Ctrl+Shift+P)
+→ Cognitive Agent: Scan Project
+→ Cognitive Agent: Run Full Automation
+→ Cognitive Agent: Optimize Environment
+```
+
+#### Скрипт запуска
+
+```powershell
+# .agents/launch_script.py
+python .agents/launch_script.py --mode=full --verbose
+```
+
+#### Параметры
+
+| Параметр | Описание | Значение по умолчанию |
+|----------|----------|----------------------|
+| `--mode` | Режим работы | `scan` |
+| `--verbose` | Детальный лог | `false` |
+| `--dry-run` | Без применения изменений | `false` |
+| `--autonomy-level` | Уровень автономности | `medium` |
+| `--timeout` | Таймаут в секундах | `300` |
+
+Пример:
+```powershell
+python -m agents.cognitive_agent --mode=full --verbose --dry-run
+```
+
+#### Фоновый режим
+
+```powershell
+# Запуск в фоне (Windows)
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "python -m agents.cognitive_agent --mode=full"
+
+# Запуск в фоне (Linux/Mac)
+nohup python -m agents.cognitive_agent --mode=full > agent.log 2>&1 &
 ```
 
 ## Конфигурация
@@ -114,6 +178,30 @@ approval_bypass_patterns:
 - **Точность**: >95% успешно выполненных задач
 - **Самообучение**: Улучшение показателей на 10% в месяц
 - **Интеграция**: Подключение 5+ внешних систем
+
+## Мониторинг и управление
+
+### Проверка состояния агента
+
+```powershell
+# Проверка запущенных процессов
+Get-Process | Where-Object {$_.ProcessName -like '*code*' -or $_.ProcessName -like '*agent*'}
+
+# Просмотр логов
+Get-Content .agents/logs/agent.log -Tail 50
+
+# Мониторинг ресурсов
+Get-Counter '\Process(_Total)\% Processor Time' -Continuous
+```
+
+### Остановка агента
+
+```powershell
+# Остановить все процессы агента
+Get-Process | Where-Object {$_.ProcessName -like '*code*'} | Stop-Process -Force
+
+# Или через VS Code: Закройте все окна с проектом
+```
 
 ## Разработка
 

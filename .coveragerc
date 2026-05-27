@@ -61,20 +61,10 @@ exclude_lines =
     raise NotImplementedError
 
 
-# Добавлено из .coveragerc.cd
-[run]
-source =
-    apps/career_development
-omit =
-    */__pycache__/*
-    */db_sync.py
-    */main.py
-    */core/__init__.py
-    */api/*
-    */config/*
-    */src/tests/*
 
-[report]
-fail_under = 80
-precision = 2
-show_missing = true
+
+# Добавлено из .coveragerc.cd
+# Примечание: ранее здесь дублировался секционный заголовок [run],
+# что приводило к DuplicateSectionError в coverage.
+# Для совместимости оставляем настройки в рамках существующего [run]/[report].
+
