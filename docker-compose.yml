@@ -256,6 +256,8 @@ services:
     build:
       context: .
       dockerfile: apps/infra_orchestrator/Dockerfile
+    ports:
+      - "8200:8000"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}

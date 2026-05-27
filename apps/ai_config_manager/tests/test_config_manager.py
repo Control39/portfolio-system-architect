@@ -5,6 +5,15 @@
 import pytest
 import yaml
 
+import sys
+from pathlib import Path
+
+# Ensure package import works when pytest runs from repo root or from within the app.
+REPO_ROOT = Path(__file__).resolve().parents[3]
+APP_SRC = REPO_ROOT / "apps" / "ai_config_manager" / "src"
+if str(APP_SRC) not in sys.path:
+    sys.path.insert(0, str(APP_SRC))
+
 from ai_config_manager.config_manager import ConfigManager
 
 

@@ -7,7 +7,8 @@ from pathlib import Path
 import sys
 
 # Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent.parent
+
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -25,8 +26,11 @@ class TestAiConfigManagerConfigIntegration:
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
+        import importlib
         sys.path.insert(0, str(REPO_ROOT / "apps" / "ai_config_manager" / "src"))
-        from config_integration import AiConfigManagerConfig
+        config_integration = importlib.import_module("config_integration")
+        AiConfigManagerConfig = getattr(config_integration, "AiConfigManagerConfig")
+
         assert AiConfigManagerConfig is not None
 
     def test_get_config_singleton(self):

@@ -21,6 +21,7 @@ description: Production-ready cognitive architecture ecosystem
 
 ### For Technical Interviewers (10 min read)
 - [Architecture Overview](./ARCHITECTURE.md)
+- [Master diagram (Mermaid)](./diagrams/master-system.mmd)
 - [Integration Cases](./cases/integration/README.md)
 - [Technical Deep Dives](./cases/technical/README.md)
 
@@ -113,3 +114,4 @@ This portfolio demonstrates **production-grade thinking**:
 ---
 
 *Last updated: {{ site.time | date: "%Y-%m-%d" }}*
+

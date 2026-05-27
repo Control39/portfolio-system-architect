@@ -5,7 +5,7 @@ version: "1.0.0"
 triggers:
   # Триггер при открытии проекта
   project_open:
-    enabled: true
+    enabled: false  # ОТКЛЮЧЕНО: ручное управление для экономии ресурсов
     conditions:
       - file_exists: "apps/cognitive-agent/config/agent-config.yaml"
       - file_exists: ".git"
