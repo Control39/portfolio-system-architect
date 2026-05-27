@@ -1,0 +1,56 @@
+---
+title: cognitive-agent — Cognitive Automation Agent
+---
+
+graph TD
+    subgraph "Inputs"
+        U[User / CLI / Orchestrator Task]
+        CFG[ai-config-manager — конфиг]
+        DOCS[Docs / Context]
+    end
+
+    subgraph "Core"
+        SCAN[Project Scanner]
+        PLAN[Task Planner]
+        LEARN[Learning System]
+        TRIG[Trigger System]
+    end
+
+    subgraph "AI Core"
+        RAG[RAG / Retriever]
+        LLM[LLM Reasoning]
+    end
+
+    subgraph "Memory / Storage"
+        CHROMA[ChromaDB]
+        METRICS[Task Metrics]
+        STATUS[Task Status]
+    end
+
+    subgraph "External Dependencies"
+        DE[decision-engine]
+        KG[knowledge-graph]
+        MCP[mcp-server]
+    end
+
+    U --> SCAN
+    U --> PLAN
+    CFG --> SCAN
+
+    DOCS --> RAG
+    SCAN --> RAG
+    PLAN --> LLM
+    LEARN --> CHROMA
+    TRIG --> STATUS
+
+    RAG --> LLM
+    LLM --> DE
+    LLM --> KG
+    MCP --> LLM
+
+    DE --> KG
+    DE --> CHROMA
+
+    STATUS --> METRICS
+    CHROMA --> LEARN
+

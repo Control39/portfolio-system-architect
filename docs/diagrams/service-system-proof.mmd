@@ -1,0 +1,54 @@
+---
+title: system-proof — System Validation & Proof Generation
+---
+
+graph TD
+    subgraph "Inputs"
+        U[User / orchestrator request]
+        CFG[ai-config-manager — config]
+        DOCS[Validation criteria / evidence requirements]
+    end
+
+    subgraph "Core"
+        VALIDATE[Validation engine]
+        PROOF[Proof generation]
+        SCORE[Readiness scoring]
+    end
+
+    subgraph "AI Core"
+        RAG[RAG evidence retrieval]
+        LLM[Explain/justify readiness]
+    end
+
+    subgraph "Storage / Memory"
+        DB[(PostgreSQL evidence)]
+        CHROMA[(ChromaDB)]
+        REPORTS[(Reports / artifacts)]
+    end
+
+    subgraph "Dependencies"
+        DE[decision-engine]
+        KG[knowledge-graph]
+        PO[portfolio-organizer]
+    end
+
+    U --> VALIDATE
+    U --> PROOF
+    CFG --> VALIDATE
+    DOCS --> VALIDATE
+
+    VALIDATE --> RAG
+    PROOF --> RAG
+
+    RAG --> LLM
+    LLM --> SCORE
+
+    SCORE --> REPORTS
+    VALIDATE --> DB
+
+    LLM --> DE
+    KG --> RAG
+    PO --> VALIDATE
+
+    LLM --> CHROMA
+

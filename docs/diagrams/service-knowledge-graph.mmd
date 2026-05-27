@@ -1,0 +1,57 @@
+---
+title: knowledge-graph — Knowledge Management Service
+---
+
+graph TD
+    subgraph "Inputs"
+        U[User / API request]
+        CFG[ai-config-manager — config]
+        DOCS[Schema / methodology]
+    end
+
+    subgraph "Core"
+        ENT[Entity extraction]
+        REL[Relation management]
+        QUERY[Graph querying]
+    end
+
+    subgraph "AI Core"
+        RAG[RAG / embedding lookup]
+        LLM[LLM assistance (optional)]
+    end
+
+    subgraph "Storage / Memory"
+        NE04J[(Neo4j / Graph store)]
+        CACHE[(Redis)]
+        CHROMA[(ChromaDB)]
+    end
+
+    subgraph "Dependencies"
+        DE[decision-engine]
+        IT[it_compass]
+        PO[portfolio-organizer]
+    end
+
+    U --> ENT
+    U --> REL
+    CFG --> ENT
+    DOCS --> QUERY
+
+    ENT --> NE04J
+    REL --> NE04J
+
+    DE --> QUERY
+    IT --> QUERY
+
+    QUERY --> NE04J
+
+    QUERY --> CHROMA
+    RAG --> LLM
+
+    DE --> RAG
+    IT --> RAG
+
+    NE04J --> CACHE
+
+    PO --> REL
+

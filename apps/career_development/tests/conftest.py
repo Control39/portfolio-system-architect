@@ -1,4 +1,4 @@
-"""Local test configuration for chat_backend molecule.
+"""Local test configuration for career_development molecule.
 
 This follows the Compositional Architecture pattern:
 - Molecule sees its own src/
