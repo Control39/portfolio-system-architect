@@ -1,33 +1,91 @@
-# Environment
+# =============================================================================
+# PYTHON
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.tmp
+
+# Virtual environments
 .venv/
 venv/
 env/
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*.class
+ENV/
 
 # Distribution / packaging
-dist/
-build/
 *.egg-info/
 
-# Logs
+# =============================================================================
+# LOGS & ARTIFACTS
+# =============================================================================
 *.log
 logs/
-!.agents/logs/
+.reports/
+.coverage
+htmlcov/
+coverage.xml
+junit.xml
+bandit-report.json
+gitleaks-report.json
 
-# Environment variables
+# Agent-generated artifacts (auto-generated, do not commit)
+.agents/reports/
+.agents/logs/performance.csv
+apps/cognitive_agent/reports/
+apps/plans/
+apps/reports/
+agent-logs-*.zip
+
+# Scan caches
+cognitive_agent/scans/
+it_compass/*.json
+.cognitive_agent_scan_cache.json
+
+# =============================================================================
+# ENVIRONMENT & SECRETS (NEVER COMMIT)
+# =============================================================================
 .env
 .env.local
 .env.*
+*.pem
+*.key
+*.p12
+*.ppk
+*.pub
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+ssh_host_*
+known_hosts
+authorized_keys
+*.crt
+*.cer
+*.der
+*.pfx
+secrets.json
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# IDE - личные настройки (общие в .vscode/settings-default.json)
+# =============================================================================
+# IDE & TOOLS (личные настройки)
+# =============================================================================
+# VS Code: общие настройки в settings-default.json, личные игнорируем
 .vscode/settings.json
 .idea/
 .kodacli/
@@ -35,11 +93,9 @@ Thumbs.db
 .koda/
 .obsidian/
 .continue/
+.ruff_cache/
 
-# Archives
-.archive/
-
-# GigaCode - игнорируем только секреты, кэш и планы
+# GigaCode: игнорируем секреты и кэш, но не код
 .gigacode/*.env
 .gigacode/*.env.*
 .gigacode/.token_cache.json
@@ -47,97 +103,54 @@ Thumbs.db
 .gigacode/*.pyc
 .gigacode/plans/
 
-# Static and generated files
-python_server/static/
-.azure/
-site/
-
-# Cognitive Agent reports (auto-generated)
-apps/cognitive_agent/reports/
-
-# AI Assistant
+# AI Assistants
 .codeassistant/
-
-# Test reports and coverage
-.reports/
-.coverage
-htmlcov/
-coverage.xml
-junit.xml
-bandit-report.json
-
-# Chat logs
 .chat-cache/
+
+# =============================================================================
+# GENERATED & STATIC FILES
+# =============================================================================
+# MkDocs / static site output
+docs/archive/site-html-build/
+docs/_site/
+site/
+python_server/static/
+
+# Frontend build artifacts
+client/node_modules/
+client/dist/
 
 # Databases
 test_db/
 *.sqlite3
 
-# Generated files
-*.tmp
+# =============================================================================
+# OS & TEMP
+# =============================================================================
+.DS_Store
+Thumbs.db
+.azure/
 
-# SSH keys (never commit!)
-*.pem
-*.key
-*.p12
-*.ppk
-id_rsa
-id_rsa.*
-id_ed25519
-id_ed25519.*
-*.pub
-ssh_host_*
-known_hosts
-authorized_keys
+# =============================================================================
+# ARCHIVE (для локального хранения, не коммитить)
+# =============================================================================
+.archive/
 
-# Scan reports
-gitleaks-report.json
-
-# Temporary files from tools
-diagnosis.ps1
-fix-vscode.ps1
-ruff.toml
-secrets.json
-
-# Standalone repositories
+# =============================================================================
+# STANDALONE REPOS (если клонируешь отдельно)
+# =============================================================================
 cognitive-agent-standalone/
 it_compass-standalone/
 portfolio_organizer-standalone/
 system_proof-standalone/
 
-# Agent-generated artifacts (plans, reports, schedules)
-apps/plans/
-apps/reports/
-.agents/reports/
-.agents/logs/performance.csv
-
-# Client (frontend) - если нужно
-client/node_modules/
-client/dist/
-
-# Certificates (never commit!)
-*.crt
-*.cer
-*.pem
-*.der
-*.p12
-*.pfx
-*.key
-*.crt
-*.cer
-*.pem
-.archive/
-# Временные и служебные файлы
-*.backup
-*.pyc
-__pycache__/
-cognitive_agent/scans/
-it_compass/*.json
-reports/
-
-0.12.0
-commit_msg*.txt
+# =============================================================================
+# TEMPORARY TOOL FILES
+# =============================================================================
+diagnosis.ps1
+fix-vscode.ps1
+ruff.toml
 fix_*.py
 _debug_*.py
 sitecustomize.py
-. cognitive_agent_scan_cache.json
+commit_msg*.txt

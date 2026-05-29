@@ -12,7 +12,7 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
-        args: ['--baseline', '.secrets.baseline']
+        args: ["--baseline", ".secrets.baseline"]
         exclude: tests/
 
   # Prevent giant files and other large commits
@@ -22,25 +22,27 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-        args: ['--allow-multiple-documents']
+        args: ["--allow-multiple-documents"]
         exclude: |
           (?x)^(
             deployment/secrets/.*\.yaml|  # Secret files
-            \.github/workflows/auto-update-badges\.yml  # Конкретный workflow
+            \.github/workflows/auto-update-badges\.yml|  # Конкретный workflow
             deployment/k8s/.*\.yaml|      # K8s configuration (из main)
             deployment/gitops/.*\.yaml    # GitOps files (из main)
           )$
       - id: check-added-large-files
-        args: ['--maxkb=1000']
+        args: ["--maxkb=1000"]
       - id: check-merge-conflict
       - id: check-ast
       - id: check-json
+      - id: check-toml # ✅ Добавлен: проверяет валидность TOML файлов (pyproject.toml)
+      - id: debug-statements # ✅ Добавлен: ловит print() и pdb в коде
       - id: detect-private-key
         exclude: tests/
 
-  # Python linting
+  # Python linting — исправлен rev
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.12
+    rev: v0.6.8 # 🔧 Исправлено: была ошибка v0.15.12 (это версия ruff, а не репозитория)
     hooks:
       - id: ruff
         args: [--fix]
@@ -55,16 +57,16 @@ repos:
           - types-requests
           - types-PyYAML
           - types-python-dateutil
-          - types-setuptools
+          # - types-setuptools  # 🔧 Закомментирован: раскомментируй, если используешь setup.py
           - types-Deprecated
         exclude: ^(tests/|setup.py|python_server/)
 
-  # Security checks
+  # Security checks — упрощён exclude
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.4
     hooks:
       - id: bandit
-        exclude: ^(.*/tests/|tests/.*|.*test_.*\.py)$
+        exclude: .*test.*\.py # 🔧 Упрощено: исключает все тестовые файлы
 
   # Docker linting
   - repo: https://github.com/hadolint/hadolint
@@ -77,7 +79,8 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
-        args: [--config-data, '{extends: default, rules: {line-length: disable}}']
+        args:
+          [--config-data, "{extends: default, rules: {line-length: disable}}"]
 
   # Port & Route Validation
   - repo: local

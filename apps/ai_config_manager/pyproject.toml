@@ -86,3 +86,12 @@ disallow_untyped_defs = false
 [tool.pytest.ini_options]
 testpaths = ["apps/ai_config_manager/tests"]
 addopts = ["--cov=apps/ai_config_manager/src", "--cov-report=term-missing"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:"
+]
