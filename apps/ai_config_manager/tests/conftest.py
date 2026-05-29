@@ -1,23 +1,25 @@
-"""Local test configuration for ai_config_manager molecule.
-
-This keeps imports scoped to the ai_config_manager molecule (apps/level)
-while still allowing the package under apps/ai_config_manager/src to be imported.
+# apps/ai_config_manager/tests/conftest.py
 """
-
-from __future__ import annotations
+Фикстуры и настройки для всех тестов.
+Автоматически добавляет src/ в sys.path.
+"""
 
 import sys
 from pathlib import Path
+import pytest
 
+# Определяем пути
+REPO_ROOT = Path(__file__).resolve().parents[2]  # до /apps/ai_config_manager
+SRC_PATH = REPO_ROOT / "src"
 
-def _add_paths() -> None:
-    tests_dir = Path(__file__).resolve().parent
-    app_root = tests_dir.parent  # apps/ai_config_manager
-    app_src = app_root / "src"
+# Добавляем src в путь, если ещё не добавлен
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
-    # Ensure the molecule package is importable: `import ai_config_manager...`
-    sys.path.insert(0, str(app_src))
-
-
-_add_paths()
-
+# Автоматическая очистка (опционально)
+@pytest.fixture(autouse=True)
+def ensure_path_cleanup():
+    """Убедиться, что sys.path не засоряется."""
+    old_path = sys.path.copy()
+    yield
+    sys.path[:] = old_path  # восстанавливаем после теста
