@@ -1,0 +1,66 @@
+{%- macro separator() -%}
+================================================================================
+{%- endmacro -%}
+
+{{ separator() }}
+КОНТЕКСТ ПРОЕКТА ДЛЯ LLM
+{{ separator() }}
+Сгенерировано: {{ generated_at }}
+Корень проекта: {{ project_root }}
+{% if subpath %}Подпуть: {{ subpath }}{% endif %}
+Статус: {% if structure_only %}ТОЛЬКО СТРУКТУРА{% else %}ПОЛНЫЙ КОНТЕКСТ{% endif %}
+{{ separator() }}
+
+{% if stats %}
+📊 СТАТИСТИКА
+{{ separator() }}
+Всего файлов: {{ stats.total_files }}
+Общий размер: {{ "%.2f"|format(stats.total_size_mb) }} MB
+Всего строк: {{ stats.total_lines }}
+
+{% if stats.tokens %}
+Токены ({{ stats.tokens.exact_tokens }}):
+  - DeepSeek/GPT-4: ~{{ stats.tokens.exact_tokens }} токенов
+  - Символов: {{ stats.tokens.approx_chars }}
+  {% if stats.tokens.warning %}
+  ⚠️ {{ stats.tokens.warning }} — может превысить лимит контекста
+  {% endif %}
+{% endif %}
+
+Распределение по расширениям:
+{% for ext, count in stats.extensions.items() %}
+  {{ ext }}: {{ count }}
+{% endfor %}
+
+{{ separator() }}
+{% endif %}
+
+📁 СТРУКТУРА ПРОЕКТА
+{{ separator() }}
+{% for file in files %}
+{{ file.rel_path }}
+{% endfor %}
+
+{% if not structure_only %}
+{{ separator() }}
+💻 ИСХОДНЫЙ КОД
+{{ separator() }}
+
+{% for file in files %}
+{{ separator() }}
+ФАЙЛ: {{ file.rel_path }}
+Расширение: {{ file.extension }}
+Размер: {{ "%.2f"|format(file.size / 1024) }} KB
+Строк: {{ file.lines }}
+{{ separator() }}
+
+{{ file.content if file.content else '[НЕТ СОДЕРЖИМОГО]' }}
+{% if not file.content.endswith('\n') %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{{ separator() }}
+КОНЕЦ КОНТЕКСТА
+{{ separator() }}

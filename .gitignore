@@ -153,4 +153,4 @@ ruff.toml
 fix_*.py
 _debug_*.py
 sitecustomize.py
-commit_msg*.txt
+commit_msg*.txtdocs/reports/archive/
