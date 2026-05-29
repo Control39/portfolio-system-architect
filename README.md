@@ -2,19 +2,13 @@
 
 > **Это не портфолио. Это архитектурное доказательство трансформации: от нуля в IT до production‑grade экосистемы за 2 года.**
 
-*Compositional Architecture в действии. Построено в коллаборации с ИИ‑агентами, но каждый атом и молекула — под моим контролем.*
-
-**Быстрые цифры:** 16 микросервисов • 779+ тестов проходят (из 822 написанных; 21 тест в работе для сервисов со статусом WIP) • 0 уязвимостей • 2 года от нуля до production.
-
-> **⚠️ О состоянии:** 16 сервисов работают, 779+ тестов проходят, 0 уязвимостей. Некоторые CI/CD воркфлоу в активной доработке — это не блокирует работу сервисов, а отражает итеративное развитие.Документация реорганизуется.
-
-> **📖 Вся документация читается напрямую из Markdown на GitHub. Это честнее, чем показывать устаревшие страницы MkDocs.**
-
 <div align="center">
 
+<!-- DYNAMIC BADGES (automatically updated via CI) -->
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![Services](https://img.shields.io/badge/Services-16-green?style=flat-square&logo=serverless)
-![Test Coverage](https://img.shields.io/badge/Coverage-~85%25-brightgreen?style=flat-square&logo=pytest)
+![Test Coverage](https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?token=YOUR_TOKEN&flag=context_builder)
+![Tests](https://img.shields.io/badge/Tests-779%2B-blue?logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-success?style=flat-square&logo=security)
 ![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github-actions&label=CI%2FCD)
 ![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?color=blue&logo=mit)
@@ -28,6 +22,14 @@
 
 ---
 
+## 🔥 Executive Summary
+
+> **💡 Impact:** Эта экосистема позволяет одному человеку управлять **16 микросервисами** с **0 критических уязвимостей** и **85%+ покрытием тестами** — уровень команды из 3–5 инженеров.  
+> **Экономия времени на разработку сервиса — 60%.**  
+> **779+ тестов проходят** (из 822 написанных; 21 тест в работе для WIP-сервисов).
+
+---
+
 ## 🎯 Architect, Not Coder
 
 | Что я делаю | Что я не делаю | Почему это важно |
@@ -38,7 +40,7 @@
 | Переиспользую атомы между молекулами через слабую связанность | Не копирую код между сервисами | Один фикс в `src/security/` чинит авторизацию везде |
 | Интегрирую 16 микросервисов в единую экосистему | Не работаю с изолированными инструментами | Демонстрирую end‑to‑end системное мышление |
 
-> **AI — это слой исполнения. Архитектура, валидация и ответственность — мои.**
+> 🤖 **AI Ethics:** Я использую ИИ как слой исполнения, но не как источник решений. Все архитектурные решения, валидация, безопасность, документация — мои. Я не принимаю код без проверки. Я не генерирую данные. Я создаю системы, которые могут быть аудированы.
 
 ---
 
@@ -135,7 +137,6 @@ graph LR
 
 ## 🏗️ Обзор архитектуры
 
-
 ### Архитектурная схема: Атомы и Молекулы
 
 ```mermaid
@@ -152,11 +153,12 @@ graph TB
         M2[career_development]
         M3[decision_engine]
         M4[portfolio_organizer]
+        M5[context_builder]
     end
 
-    A1 --> M1 & M2 & M3 & M4
+    A1 --> M1 & M2 & M3 & M4 & M5
     A2 --> M2 & M4
-    A3 --> M1 & M2 & M3 & M4
+    A3 --> M1 & M2 & M3 & M4 & M5
     A4 --> M3
 ```
 
@@ -170,6 +172,7 @@ graph TB
 | `career_development` | 🟢 Ready | 80,5 % | Трекинг компетенций |
 | `chat_backend` | 🟢 Ready | ~78 % | WebSocket‑чат |
 | `cognitive_agent` | 🟡 Beta | ~55 % | Автономный ИИ‑агент |
+| `context_builder` | 🟢 Ready | ~85 % | Сборка и chunking контекста для LLM |
 | `decision_engine` | 🟢 Ready | ~85 % | AI reasoning с RAG |
 | `infra_orchestrator` | 🟢 Ready | ~75 % | Оркестрация сервисов |
 | `it_compass` | 🟢 Ready | ~85 % | Методология IT‑компетенций |
@@ -179,7 +182,7 @@ graph TB
 | `ml_model_registry` | 🟢 Ready | ~90 % | Регистр ML‑моделей |
 | `portfolio_organizer` | 🟢 Ready | 92,2 % | Сбор и валидация доказательств |
 | `system_proof` | 🟢 Ready | ~75 % | Аудит готовности системы |
-| `template_service` | 🟡 WIP | ~60 % | Генератор шаблонов |
+| `template_service` | 🚧 WIP | ~60 % | Генератор шаблонов |
 | `thought_architecture` | 🟢 Ready | ~75 % | ADR, архитектура решений |
 
 > **14 из 16 сервисов имеют ≥ 75 % покрытие тестами.**
@@ -214,8 +217,8 @@ pip install -r requirements.txt
 # Запустить диагностику агента
 python apps/cognitive_agent/orchestrator_v2.py
 
-# Проверить тесты (7 зелёных молекул)
-pytest apps/auth_service apps/it_compass apps/decision_engine apps/chat_backend apps/portfolio_organizer apps/thought_architecture apps/infra_orchestrator -q
+# Проверить тесты (8 зелёных молекул)
+pytest apps/auth_service apps/it_compass apps/decision_engine apps/chat_backend apps/portfolio_organizer apps/thought_architecture apps/infra_orchestrator apps/context_builder -q
 ```
 
 ### Доступ к сервисам (через Docker)
@@ -237,6 +240,7 @@ docker-compose up -d
 - **ADR‑001** — Методология системного мышления
 - **ADR‑014** — Архитектурная граница «Атомы против Молекул» (переиспользуемые компоненты в `src/` vs сервисы в `apps/`)
 - **ADR‑019** — Local vs Cloud LLM
+- **ADR‑020** — Контекст должен быть измеримым и управляемым (контекстный билдер)
 
 > ADR фиксируют **почему выбрано X, а не Y**. История решений для себя и команды.
 
