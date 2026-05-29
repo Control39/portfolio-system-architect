@@ -154,3 +154,4 @@ fix_*.py
 _debug_*.py
 sitecustomize.py
 commit_msg*.txtdocs/reports/archive/
+docs-archive/
