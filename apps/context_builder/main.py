@@ -2,7 +2,10 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks, Request
 from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from prometheus_fastapi_instrumentator import Instrumentator
+try:
+    from prometheus_fastapi_instrumentator import Instrumentator
+except ModuleNotFoundError:  # pragma: no cover
+    Instrumentator = None
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -10,14 +13,29 @@ import logging
 import uuid
 from pathlib import Path
 
-from .config.settings import settings
-from .models.schemas import (
-    BuildContextRequest, BuildContextResponse,
-    FilterConfigRequest, FilterConfigResponse
-)
-from .core.scanner import ProjectScanner
-from .core.builder import ContextBuilder
-from .core.filters import FileFilter
+try:
+    from .config.settings import settings
+    from .models.schemas import (
+        BuildContextRequest, BuildContextResponse,
+        FilterConfigRequest, FilterConfigResponse,
+    )
+    from .core.scanner import ProjectScanner
+    from .core.builder import ContextBuilder
+    from .core.filters import FileFilter
+except ImportError:  # pragma: no cover
+    # Fallback for tests that import `main` as a top-level module.
+    from config.settings import settings
+    from models.schemas import (
+        BuildContextRequest, BuildContextResponse,
+        FilterConfigRequest, FilterConfigResponse,
+    )
+    from core.scanner import ProjectScanner
+    from core.builder import ContextBuilder
+    from core.filters import FileFilter
+
+
+# © 2025 Ekaterina Kudelya. Licensed under CC BY‑ND 4.0
+# See LICENSE file for details.
 
 # Настройка логирования
 logging.basicConfig(
@@ -50,7 +68,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Context Builder Service",
-    description="Сборка контекста проекта для LLM с поддержкой .gitignore, бинарных файлов, токенов и chunking",
+    description="Сборка контекста проекта для LLM с поддержкой .gitignore, бинарных файлов, токенов и chunking. Приоритет: российские модели (Сбер, Яндекс, VK)",
     version="2.0.0",
     lifespan=lifespan,
     docs_url="/docs",
