@@ -95,13 +95,13 @@ secrets.json
 .continue/
 .ruff_cache/
 
-# GigaCode: игнорируем секреты и кэш, но не код
-.gigacode/*.env
-.gigacode/*.env.*
-.gigacode/.token_cache.json
-.gigacode/__pycache__/
-.gigacode/*.pyc
-.gigacode/plans/
+# GigaCode: игнорируем секреты и кэш, но не код (везде в проекте)
+**/.gigacode/*.env
+**/.gigacode/*.env.*
+**/.gigacode/.token_cache.json
+**/.gigacode/__pycache__/
+**/.gigacode/*.pyc
+**/.gigacode/plans/
 
 # AI Assistants
 .codeassistant/
