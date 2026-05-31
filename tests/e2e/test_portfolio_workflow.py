@@ -19,8 +19,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # Flask тестовый клиент для portfolio_organizer
-from apps.portfolio_organizer.src.app import app as portfolio_flask_app  # noqa: E402
-
+from apps.portfolio_organizer.src.app import app as portfolio_flask_app
 
 portfolio_client = portfolio_flask_app.test_client()
 

@@ -1,0 +1,28 @@
+service:
+  name: competency_gap_engine
+  version: 1.0.0
+  port: 8300
+
+gap_analysis:
+  # Веса доменов для приоритизации разрывов
+  domain_weights:
+    architecture: 2.0
+    devops: 1.8
+    ai_ml: 1.7
+    python: 1.5
+    default: 1.0
+  min_gap_threshold: 0.3 # Игнорировать разрывы <30%
+  max_recommendations: 10
+
+integrations:
+  it_compass_base_url: "http://it_compass:8501"
+  job_automation_base_url: "http://job_automation_agent:8009"
+  career_dev_base_url: "http://career-development:8101"
+  timeout_seconds: 10
+  retry_attempts: 3
+  retry_backoff_factor: 0.5
+
+cache:
+  enabled: true
+  ttl_seconds: 3600
+  stale_while_revalidate: 300

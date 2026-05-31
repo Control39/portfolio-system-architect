@@ -478,36 +478,5 @@ networks:
   portfolio-network:
     driver: bridge
 
-# ============================================================
-# Context builder
-# ============================================================
-context_builder:
-  build:
-    context: ./apps/context_builder
-    dockerfile: Dockerfile
-  container_name: context_builder
-  ports:
-    - "8600:8600"
-  volumes:
-    - .:/app
-    - context_cache:/tmp/contexts
-  environment:
-    - CONTEXT_BUILDER_PORT=8600
-    - PROJECT_ROOT=/app
-    - DEBUG=${DEBUG:-false}
-    - ENABLE_CHUNKING=${ENABLE_CHUNKING:-false}
-    - MAX_TOKENS_PER_CHUNK=100000
-    - RESPECT_GITIGNORE=true
-    - DETECT_BINARY=true
-    - RATE_LIMIT_ENABLED=${RATE_LIMIT_ENABLED:-true}
-  networks:
-    - portfolio-network
-  labels:
-    - "traefik.enable=true"
-    - "traefik.http.routers.context-builder.rule=Host(`localhost`) && PathPrefix(`/context-builder`)"
-    - "traefik.http.routers.context-builder.service=context-builder"
-    - "traefik.http.services.context-builder.loadbalancer.server.port=8600"
-  restart: unless-stopped
 
-volumes:
-  context_cache:
+

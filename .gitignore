@@ -25,6 +25,7 @@ wheels/
 
 # Virtual environments
 .venv/
+.venv_local/   # added
 venv/
 env/
 ENV/
@@ -38,6 +39,7 @@ ENV/
 *.log
 logs/
 .reports/
+reports/       # added (для корневой папки)
 .coverage
 htmlcov/
 coverage.xml
@@ -57,6 +59,12 @@ agent-logs-*.zip
 cognitive_agent/scans/
 it_compass/*.json
 .cognitive_agent_scan_cache.json
+
+# Test & Diagnostic reports (added)
+diagnostic_report.json
+health_check_report.json
+*_test_results.json
+phase2_*_test_results.json
 
 # =============================================================================
 # ENVIRONMENT & SECRETS (NEVER COMMIT)
@@ -85,8 +93,8 @@ secrets.json
 # =============================================================================
 # IDE & TOOLS (личные настройки)
 # =============================================================================
-# VS Code: общие настройки в settings-default.json, личные игнорируем
-.vscode/settings.json
+# VS Code: игнорируем всю папку целиком, так как общие настройки в settings-default.json
+.vscode/       # changed
 .idea/
 .kodacli/
 .gigaide/
@@ -98,7 +106,7 @@ secrets.json
 # GigaCode: игнорируем секреты и кэш, но не код (везде в проекте)
 **/.gigacode/*.env
 **/.gigacode/*.env.*
-**/.gigacode/.token_cache.json
+**/.gigacode/**/*.token_cache.json
 **/.gigacode/__pycache__/
 **/.gigacode/*.pyc
 **/.gigacode/plans/
@@ -117,7 +125,7 @@ site/
 python_server/static/
 
 # Frontend build artifacts
-client/node_modules/
+**/node_modules/ # added (на случай других фронтов)
 client/dist/
 
 # Databases
@@ -131,10 +139,16 @@ test_db/
 Thumbs.db
 .azure/
 
+# Windows duplicates & temp files (added)
+* (*).*
+*.bak
+*.tmp
+
 # =============================================================================
 # ARCHIVE (для локального хранения, не коммитить)
 # =============================================================================
 .archive/
+legacy/        # added
 
 # =============================================================================
 # STANDALONE REPOS (если клонируешь отдельно)
@@ -155,6 +169,11 @@ _debug_*.py
 sitecustomize.py
 commit_msg*.txt
 
+# Local temp scripts (added)
+decode_key.py
+temp_get_token.py
+run-tests-safe.py
+
 # =============================================================================
 # TEMP / WORKING DIRS (локальные черновики)
 # =============================================================================
@@ -165,4 +184,3 @@ no_commit/
 # =============================================================================
 docs/reports/archive/
 docs-archive/
-

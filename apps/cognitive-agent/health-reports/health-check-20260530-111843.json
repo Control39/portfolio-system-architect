@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-05-30T11:18:43.235254",
+  "duration_seconds": 0.002908,
+  "checks_performed": 11,
+  "results": [
+    {
+      "timestamp": "2026-05-30T11:18:43.235254",
+      "level": "error",
+      "component": "CAA Structure",
+      "message": "Директория отсутствует: apps/cognitive-agent/config"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.236146",
+      "level": "success",
+      "component": "SourceCraft Structure",
+      "message": "Директория существует: codeassistant/skills"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.236246",
+      "level": "success",
+      "component": "SourceCraft Structure",
+      "message": "Файл существует: codeassistant/context.md"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.236246",
+      "level": "success",
+      "component": "SourceCraft Structure",
+      "message": "Файл существует: codeassistant/mcp.json"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.236246",
+      "level": "success",
+      "component": "SourceCraft Structure",
+      "message": "Skill caa-audit существует: codeassistant/skills/caa-audit/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.237224",
+      "level": "success",
+      "component": "Architecture Documentation",
+      "message": "Документация существует: ARCHITECTURE.md"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.237224",
+      "level": "warning",
+      "component": "Architecture Documentation",
+      "message": "Документация отсутствует: diagrams/agents-codeassistant-dependencies.mmd"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.237224",
+      "level": "warning",
+      "component": "CI/CD Workflow",
+      "message": "CI/CD workflow отсутствует: .github/workflows/agents-codeassistant-compatibility.yml"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.238082",
+      "level": "warning",
+      "component": "CAA Operational Status",
+      "message": "Статус файл отсутствует: apps/cognitive-agent/plans/last_plan_status.json"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.238162",
+      "level": "warning",
+      "component": "CAA Operational Status",
+      "message": "Статус файл отсутствует: apps/cognitive-agent/scans/last_scan_status.json"
+    },
+    {
+      "timestamp": "2026-05-30T11:18:43.238162",
+      "level": "warning",
+      "component": "Changelog Integrity",
+      "message": "Директория changelogs отсутствует"
+    }
+  ],
+  "summary": {
+    "success": 5,
+    "warning": 5,
+    "error": 1
+  }
+}
