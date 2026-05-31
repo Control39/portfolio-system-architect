@@ -16,7 +16,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from get_token import get_valid_token
 
 
-VSCODE_SETTINGS = Path(__file__).parent.parent.parent / ".vscode" / "settings.json"
+# Путь к .vscode в корне проекта (абсолютный)
+VSCODE_SETTINGS = Path(r"C:\repo\.vscode\settings.json")
 
 
 def update_vscode_settings(access_token: str):
