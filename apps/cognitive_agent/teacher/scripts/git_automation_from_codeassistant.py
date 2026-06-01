@@ -5,6 +5,7 @@
 
 import json
 import subprocess
+import shlex
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -19,8 +20,8 @@ class GitAutomation:
         """Выполнить git команду"""
         try:
             result = subprocess.run(
-                f"git {command}",
-                shell=True,
+                shlex.split(f"git {command}"),
+                shell=False,
                 cwd=self.repo_path,
                 capture_output=True,
                 text=True,
@@ -129,7 +130,7 @@ class GitAutomation:
 
         # Размер репозитория
         size_result = subprocess.run(
-            "du -sh .", shell=True, cwd=self.repo_path, capture_output=True, text=True
+            ["du", "-sh", "."], cwd=self.repo_path, capture_output=True, text=True
         )
         repo_size = size_result.stdout.strip() if size_result.stdout else "Unknown"
 

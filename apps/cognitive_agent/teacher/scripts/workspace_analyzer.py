@@ -170,7 +170,7 @@ class WorkspaceAnalyzer:
 
     def _calculate_hash(self, filepath: Path, chunk_size: int = 8192) -> str:
         """Рассчитать хеш файла"""
-        hash_md5 = hashlib.md5()
+        hash_md5 = hashlib.md5(usedforsecurity=False)
         with open(filepath, "rb") as f:
             for chunk in iter(lambda: f.read(chunk_size), b""):
                 hash_md5.update(chunk)
