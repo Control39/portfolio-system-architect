@@ -255,3 +255,14 @@ apps/cognitive_agent/models/
 apps/cognitive_agent/recommendations/
 apps/cognitive_agent/knowledge/
 apps/cognitive_agent/__pycache__/
+
+# Virtual environments (НИКОГДА не коммитить)
+.venv/
+.venv_local/
+venv/
+env/
+*.pyc
+__pycache__/
+
+# Персональные скрипты окружения (не коммитить)
+.scripts/

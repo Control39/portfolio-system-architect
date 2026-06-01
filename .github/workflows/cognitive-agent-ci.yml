@@ -1,4 +1,3 @@
----
 name: Cognitive Agent CI/CD
 
 on:
@@ -12,7 +11,6 @@ on:
     paths:
       - 'apps/cognitive_agent/**'
   schedule:
-    # Запускать ежедневно в 2:00 UTC для мониторинга квот
     - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
@@ -22,10 +20,14 @@ on:
         default: 'minimal'
         type: choice
         options:
-        - minimal
-        - standard
-        - deep
-        - full
+          - minimal
+          - standard
+          - deep
+          - full
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-config:
@@ -33,10 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -59,10 +61,10 @@ jobs:
     needs: validate-config
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -75,7 +77,7 @@ jobs:
           cd apps/cognitive_agent && python -m pytest tests/ -v --cov=agents --cov-report=xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v4
         with:
           file: apps/cognitive_agent/coverage.xml
           flags: cognitive-agent
@@ -86,10 +88,10 @@ jobs:
     needs: test-agent
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -105,7 +107,7 @@ jobs:
           SOURCECRAFT_QUOTA_SAVING: true
 
       - name: Upload scan report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: scan-report
           path: apps/cognitive_agent/reports/ci-scan-report.json
@@ -116,10 +118,10 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -139,7 +141,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload quota report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: quota-report
           path: apps/cognitive_agent/reports/quota-report.json
@@ -151,16 +153,18 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Build agent package
         run: |
-          cd apps/cognitive_agent && python setup.py sdist bdist_wheel
+          cd apps/cognitive_agent
+          pip install build
+          python -m build
 
       - name: Publish to PyPI (optional)
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
@@ -185,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -204,7 +208,7 @@ jobs:
     name: Notify on Failure
     runs-on: ubuntu-latest
     needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, security-scan]
-    if: failure()
+    if: failure() && env.SLACK_WEBHOOK_URL != ''
     steps:
       - name: Send Slack notification
         uses: 8398a7/action-slack@v3
@@ -213,7 +217,3 @@ jobs:
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
