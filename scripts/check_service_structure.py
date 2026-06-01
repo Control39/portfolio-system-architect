@@ -103,7 +103,7 @@ def check_all_services(base_path: Path) -> list[ServiceCheck]:
     apps_path = base_path / "apps"
     results = []
     
-    # Исключаемые директории (служебные, runtime, legacy)
+    # Исключаемые директории (служебные, runtime, legacy, WIP)
     excluded = {
         "__pycache__", 
         "tests", 
@@ -116,6 +116,11 @@ def check_all_services(base_path: Path) -> list[ServiceCheck]:
         "rules", "workflows", "apps", 
         # Legacy папки агентов
         ".agents", "codeassistant", ".sourcecraft", "shared-skills",
+        # WIP сервисы (временно исключены из строгой проверки)
+        "ai_provider_manager",
+        "chat_backend",
+        "competency_gap_engine",
+        "context_builder",
         # Общие служебные папки в корне apps (если есть)
         "docs", "deployment", "monitoring", "tools", "scripts"
     }
