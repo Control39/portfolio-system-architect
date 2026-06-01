@@ -30,7 +30,7 @@ jobs:
       # Только для JS/TS
       - name: Setup Node.js
         if: matrix.language != 'python'  # ✅ Пропуск для Python
-        uses: actions/setup-node@v4  # ✅ Исправлено: v6 → v4
+        uses: actions/setup-node@v6  # ✅ Исправлено: v6 → v4
         with:
           node-version: '20'
 
