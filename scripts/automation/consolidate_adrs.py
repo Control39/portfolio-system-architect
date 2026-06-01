@@ -77,7 +77,7 @@ FILE_MAP = [
         "Documentation standard — was ADR-016",
     ),
     (
-        "docs/architecture/decisions/ADR-017-mcp-server-coverage-decision.md",
+        "docs/architecture/decisions/ADR-017-mcp_server-coverage-decision.md",
         16,
         "MCP Server coverage — was ADR-017",
     ),

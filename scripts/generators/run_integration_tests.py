@@ -14,11 +14,11 @@ class IntegrationTestRunner:
     def __init__(self):
         self.root = Path(".").resolve()
         self.critical_services = [
-            "cognitive-agent",
-            "decision-engine",
+            "cognitive_agent",
+            "decision_engine",
             "it_compass",
-            "mcp-server",
-            "infra-orchestrator",
+            "mcp_server",
+            "infra_orchestrator",
         ]
         self.results = {}
 

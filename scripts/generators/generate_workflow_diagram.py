@@ -36,8 +36,8 @@ CATEGORIES = {
         "code-quality.yml",
         "security-scan.yml",
         "codeql.yml",
-        "cognitive-agent-ci.yml",
-        "test-decision-engine.yml",
+        "cognitive_agent-ci.yml",
+        "test-decision_engine.yml",
     ],
     "Monitoring & Alerts": [
         "monitoring-alerts.yml",
@@ -48,7 +48,7 @@ CATEGORIES = {
     ],
     "Metrics & Badges": ["update-metrics.yml", "auto-update-badges.yml"],
     "Documentation": ["docs.yml"],
-    "Specialized Tests": ["cognitive-agent-ci.yml", "test-decision-engine.yml"],
+    "Specialized Tests": ["cognitive_agent-ci.yml", "test-decision_engine.yml"],
     "Utilities": [
         "repo-audit.yml",
         "architecture-analysis.yml",

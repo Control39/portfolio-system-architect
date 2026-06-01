@@ -9,21 +9,21 @@ from pathlib import Path
 
 
 services = [
-    "cognitive-agent",
-    "decision-engine",
+    "cognitive_agent",
+    "decision_engine",
     "it_compass",
-    "knowledge-graph",
+    "knowledge_graph",
     "auth_service",
-    "mcp-server",
-    "infra-orchestrator",
-    "ml-model-registry",
+    "mcp_server",
+    "infra_orchestrator",
+    "ml_model_registry",
     "portfolio_organizer",
     "career_development",
-    "job-automation-agent",
-    "ai-config-manager",
-    "template-service",
-    "system-proof",
-    "thought-architecture",
+    "job_automation_agent",
+    "ai_config_manager",
+    "template_service",
+    "system_proof",
+    "thought_architecture",
 ]
 
 results = {}

@@ -10,15 +10,15 @@ SERVICES = [
     "auth_service",
     "career_development",
     "decision_engine",
-    "infra-orchestrator",
+    "infra_orchestrator",
     "it_compass",
-    "job-automation-agent",
+    "job_automation_agent",
     "knowledge_graph",
     "mcp_server",
     "ml_model_registry",
     "portfolio_organizer",
     "system_proof",
-    "thought-architecture",
+    "thought_architecture",
 ]
 
 for service in SERVICES:

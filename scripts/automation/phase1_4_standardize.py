@@ -55,14 +55,14 @@ print("\n2️⃣  Adding requirements.txt to Python services...")
 services_needing_reqs = [
     "auth_service",
     "career_development",
-    "decision-engine",
-    "infra-orchestrator",
-    "job-automation-agent",
-    "knowledge-graph",
-    "ml-model-registry",
+    "decision_engine",
+    "infra_orchestrator",
+    "job_automation_agent",
+    "knowledge_graph",
+    "ml_model_registry",
     "portfolio_organizer",
-    "system-proof",
-    "thought-architecture",
+    "system_proof",
+    "thought_architecture",
 ]
 
 req_template = """# Portfolio System Architect - Service Dependencies

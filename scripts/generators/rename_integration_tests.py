@@ -7,11 +7,11 @@ from pathlib import Path
 
 
 services = [
-    "cognitive-agent",
-    "decision-engine",
+    "cognitive_agent",
+    "decision_engine",
     "it_compass",
-    "mcp-server",
-    "infra-orchestrator",
+    "mcp_server",
+    "infra_orchestrator",
 ]
 
 root = Path(".").resolve() / "apps"

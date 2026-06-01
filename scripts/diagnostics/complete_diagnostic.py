@@ -89,15 +89,15 @@ class CompleteDiagnostic:
         }
 
         # Tier classification
-        tier1 = ["cognitive-agent", "decision-engine", "it_compass", "knowledge-graph"]
-        tier2 = ["infra-orchestrator", "auth_service", "mcp-server", "ml-model-registry"]
+        tier1 = ["cognitive_agent", "decision_engine", "it_compass", "knowledge_graph"]
+        tier2 = ["infra_orchestrator", "auth_service", "mcp_server", "ml_model_registry"]
         tier3 = [
             "portfolio_organizer",
             "career_development",
-            "job-automation-agent",
-            "ai-config-manager",
-            "template-service",
-            "system-proof",
+            "job_automation_agent",
+            "ai_config_manager",
+            "template_service",
+            "system_proof",
         ]
 
         if not self.apps_dir.exists():

@@ -3,13 +3,13 @@ from pathlib import Path
 
 
 # Определяем путь к директории с маркерами
-markers_dir = Path("apps/it-compass/src/data/markers")
+markers_dir = Path("apps/it_compass/src/data/markers")
 
 # Счетчики
 total_files = 0
 total_markers = 0
 
-print("Анализ файлов маркеров IT-Compass...")
+print("Анализ файлов маркеров it_compass...")
 print("=" * 50)
 
 # Проходим по всем JSON файлам в директории

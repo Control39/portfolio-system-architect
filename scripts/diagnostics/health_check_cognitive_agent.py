@@ -38,10 +38,10 @@ class HealthChecker:
 
         # Проверка обязательных директорий
         required_dirs = [
-            "apps/cognitive-agent/config",
-            "apps/cognitive-agent/skills",
-            "apps/cognitive-agent/changelogs",
-            "apps/cognitive-agent/scripts",
+            "apps/cognitive_agent/config",
+            "apps/cognitive_agent/skills",
+            "apps/cognitive_agent/changelogs",
+            "apps/cognitive_agent/scripts",
         ]
 
         for dir_path in required_dirs:
@@ -53,9 +53,9 @@ class HealthChecker:
 
         # Проверка обязательных файлов
         required_files = [
-            "apps/cognitive-agent/config/agent-config.yaml",
-            "apps/cognitive-agent/config/triggers.yaml",
-            "apps/cognitive-agent/README.md",
+            "apps/cognitive_agent/config/agent-config.yaml",
+            "apps/cognitive_agent/config/triggers.yaml",
+            "apps/cognitive_agent/README.md",
         ]
 
         for file_path in required_files:
@@ -147,8 +147,8 @@ class HealthChecker:
 
         # Проверка статусов планировщика и сканера
         status_files = [
-            "apps/cognitive-agent/plans/last_plan_status.json",
-            "apps/cognitive-agent/scans/last_scan_status.json",
+            "apps/cognitive_agent/plans/last_plan_status.json",
+            "apps/cognitive_agent/scans/last_scan_status.json",
         ]
 
         for status_file in status_files:
@@ -186,7 +186,7 @@ class HealthChecker:
         """Проверка целостности changelog"""
         component = "Changelog Integrity"
 
-        changelog_path = "apps/cognitive-agent/changelogs/"
+        changelog_path = "apps/cognitive_agent/changelogs/"
         if os.path.exists(changelog_path):
             changelog_files = [f for f in os.listdir(changelog_path) if f.endswith(".md")]
 
@@ -242,7 +242,7 @@ class HealthChecker:
         }
 
         # Сохранение отчета в файл
-        report_dir = "apps/cognitive-agent/health-reports"
+        report_dir = "apps/cognitive_agent/health-reports"
         os.makedirs(report_dir, exist_ok=True)
 
         report_file = os.path.join(

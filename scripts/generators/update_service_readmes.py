@@ -148,21 +148,21 @@ MIT License - See LICENSE file for details
 """
 
 service_descriptions = {
-    "cognitive-agent": "AI-powered automation agent for intelligent task execution and learning",
-    "decision-engine": "Core decision-making system for complex reasoning and choices",
+    "cognitive_agent": "AI-powered automation agent for intelligent task execution and learning",
+    "decision_engine": "Core decision-making system for complex reasoning and choices",
     "it_compass": "System thinking methodology for architecture analysis",
-    "knowledge-graph": "Knowledge management and relationship tracking system",
-    "infra-orchestrator": "Infrastructure orchestration and management service",
+    "knowledge_graph": "Knowledge management and relationship tracking system",
+    "infra_orchestrator": "Infrastructure orchestration and management service",
     "auth_service": "Authentication and authorization service",
-    "mcp-server": "Model Context Protocol implementation server",
-    "ml-model-registry": "Machine learning model registry and versioning",
+    "mcp_server": "Model Context Protocol implementation server",
+    "ml_model_registry": "Machine learning model registry and versioning",
     "portfolio_organizer": "Portfolio management and organization service",
     "career_development": "Career path and skill development tracking",
-    "job-automation-agent": "Task automation and job scheduling agent",
-    "ai-config-manager": "Configuration management for AI services",
-    "template-service": "Template rendering and management service",
-    "system-proof": "System validation and proof generation",
-    "thought-architecture": "Thought architecture design and optimization",
+    "job_automation_agent": "Task automation and job scheduling agent",
+    "ai_config_manager": "Configuration management for AI services",
+    "template_service": "Template rendering and management service",
+    "system_proof": "System validation and proof generation",
+    "thought_architecture": "Thought architecture design and optimization",
 }
 
 root = Path("apps")

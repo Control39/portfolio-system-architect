@@ -10,11 +10,11 @@ GITHUB_TOKEN = os.getenv("GH_TOKEN", os.getenv("GITHUB_TOKEN"))
 REPO_OWNER = "Control39"
 REPO_NAME = "portfolio-system-architect"
 
-TITLE = "📝 Documentation: Audit & Refactoring Case for mcp-server"
+TITLE = "📝 Documentation: Audit & Refactoring Case for mcp_server"
 
 BODY = """## 1️⃣ ЗАПРОС (REQUEST)
 
-Провести глубокий аудит микросервиса `apps/mcp-server` после глобальной реорганизации репозитория. Выполнить статический анализ импортов без выполнения кода.
+Провести глубокий аудит микросервиса `apps/mcp_server` после глобальной реорганизации репозитория. Выполнить статический анализ импортов без выполнения кода.
 
 Цель: выявить нарушения импортов, отсутствующие модули и архитектурные проблемы перед интеграцией в CI/CD.
 
@@ -33,8 +33,8 @@ BODY = """## 1️⃣ ЗАПРОС (REQUEST)
 | 5 | Зависимости | Отсутствуют явные зависимости в requirements.txt |
 
 **Отсутствующие файлы:**
-- `apps/mcp-server/navigation.py` — модуль навигации
-- `apps/mcp-server/command_tools.py` — модуль команд
+- `apps/mcp_server/navigation.py` — модуль навигации
+- `apps/mcp_server/command_tools.py` — модуль команд
 - `src/shared/llm/__init__.py` — требуется проверка
 
 **Критическая проблема:** Дублирование экземпляров FastMCP (строки 20 и 35 в main.py) — может привести к конфликтам регистрации инструментов.

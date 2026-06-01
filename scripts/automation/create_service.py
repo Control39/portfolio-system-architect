@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Генератор новых сервисов из template-service.
+Генератор новых сервисов из template_service.
 
 Использование:
     python create_service.py <service-name> [--description "Описание"]

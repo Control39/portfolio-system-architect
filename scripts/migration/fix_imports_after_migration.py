@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Скрипт для обновления импортов после миграции директорий:
-- .agents/ → apps/cognitive-agent/
+- .agents/ → apps/cognitive_agent/
 - .codeassistant/ → codeassistant/
 
 ВАЖНО: Сначала нужно выполнить git mv для директорий!
@@ -38,15 +38,15 @@ def main():
 
     # Проверка миграции директорий
     old_agents = project_root / ".agents"
-    new_cognitive_agent = project_root / "apps" / "cognitive-agent"
+    new_cognitive_agent = project_root / "apps" / "cognitive_agent"
     old_codeassistant = project_root / ".codeassistant"
     new_codeassistant = project_root / "codeassistant"
 
     print("🔍 Проверка миграции директорий...")
 
     if old_agents.exists() and not new_cognitive_agent.exists():
-        print("⚠️  .agents/ существует, apps/cognitive-agent/ не существует")
-        print("💡 Сначала выполните: git mv .agents apps/cognitive-agent")
+        print("⚠️  .agents/ существует, apps/cognitive_agent/ не существует")
+        print("💡 Сначала выполните: git mv .agents apps/cognitive_agent")
         return
 
     if old_codeassistant.exists() and not new_codeassistant.exists():
@@ -60,16 +60,16 @@ def main():
 
         # Списки замен только для кода (не документации)
         replacements = [
-            # .agents/ → apps/cognitive-agent/
-            (".agents/config/", "apps/cognitive-agent/config/"),
-            (".agents/skills/", "apps/cognitive-agent/skills/"),
-            (".agents/workflows/", "apps/cognitive-agent/workflows/"),
-            (".agents/data/", "apps/cognitive-agent/data/"),
-            (".agents/reports/", "apps/cognitive-agent/reports/"),
-            (".agents/scans/", "apps/cognitive-agent/scans/"),
-            (".agents/plans/", "apps/cognitive-agent/plans/"),
-            (".agents/changelogs/", "apps/cognitive-agent/changelogs/"),
-            (".agents/metrics/", "apps/cognitive-agent/metrics/"),
+            # .agents/ → apps/cognitive_agent/
+            (".agents/config/", "apps/cognitive_agent/config/"),
+            (".agents/skills/", "apps/cognitive_agent/skills/"),
+            (".agents/workflows/", "apps/cognitive_agent/workflows/"),
+            (".agents/data/", "apps/cognitive_agent/data/"),
+            (".agents/reports/", "apps/cognitive_agent/reports/"),
+            (".agents/scans/", "apps/cognitive_agent/scans/"),
+            (".agents/plans/", "apps/cognitive_agent/plans/"),
+            (".agents/changelogs/", "apps/cognitive_agent/changelogs/"),
+            (".agents/metrics/", "apps/cognitive_agent/metrics/"),
             # .codeassistant/ → codeassistant/
             (".codeassistant/", "codeassistant/"),
         ]

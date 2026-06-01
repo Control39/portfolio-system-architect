@@ -21,13 +21,13 @@ def fix_all_workflows():
         ("leadarchitect-ai.github.io", "control39.github.io"),
         ("leadarchitect-ai.sourcecraft", "control39.sourcecraft"),
         # Path fixes
-        ("config/agent-config.yaml", "apps/cognitive-agent/config/agent-config.yaml"),
-        ("config/triggers.yaml", "apps/cognitive-agent/config/triggers.yaml"),
-        ("config/learning.yaml", "apps/cognitive-agent/config/learning.yaml"),
+        ("config/agent-config.yaml", "apps/cognitive_agent/config/agent-config.yaml"),
+        ("config/triggers.yaml", "apps/cognitive_agent/config/triggers.yaml"),
+        ("config/learning.yaml", "apps/cognitive_agent/config/learning.yaml"),
         # CAA-audit skill path
         (".codeassistant/skills/caa-audit", ".codeassistant/skills/caa-audit"),
         # .agents → apps reference (old path)
-        ("cd .agents", "cd apps/cognitive-agent"),
+        ("cd .agents", "cd apps/cognitive_agent"),
         # Fix mkdocs references
         ("--config-file ./config/mkdocs.yml", "--config-file ./mkdocs.yml"),
         # pytest paths
@@ -59,7 +59,7 @@ def fix_all_workflows():
     print("  1. leadarchitect-ai → Control39 (organization)")
     print("  2. Config paths → correct locations")
     print("  3. CAA references → correct structure")
-    print("  4. .agents → apps/cognitive-agent")
+    print("  4. .agents → apps/cognitive_agent")
     print("  5. mkdocs, pytest paths → root")
 
 

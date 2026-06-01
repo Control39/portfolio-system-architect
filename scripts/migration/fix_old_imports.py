@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Скрипт для исправления старых импортов после миграции:
-- apps/cognitive-agent/ → apps/cognitive-agent/
+- apps/cognitive_agent/ → apps/cognitive_agent/
 - codeassistant/ → codeassistant/ (уже правильный путь)
 
 Запуск: python scripts/fix-old-imports.py
@@ -36,17 +36,17 @@ def main():
 
     # Списки замен
     replacements = [
-        # apps/cognitive-agent/ → apps/cognitive-agent/
-        ("apps/cognitive-agent/config/", "apps/cognitive-agent/config/"),
-        ("apps/cognitive-agent/skills/", "apps/cognitive-agent/skills/"),
-        ("apps/cognitive-agent/workflows/", "apps/cognitive-agent/workflows/"),
-        ("apps/cognitive-agent/data/", "apps/cognitive-agent/data/"),
-        ("apps/cognitive-agent/reports/", "apps/cognitive-agent/reports/"),
-        ("apps/cognitive-agent/scans/", "apps/cognitive-agent/scans/"),
-        ("apps/cognitive-agent/plans/", "apps/cognitive-agent/plans/"),
-        ("apps/cognitive-agent/changelogs/", "apps/cognitive-agent/changelogs/"),
-        ("apps/cognitive-agent/metrics/", "apps/cognitive-agent/metrics/"),
-        ("apps/cognitive-agent/", "apps/cognitive-agent/"),
+        # apps/cognitive_agent/ → apps/cognitive_agent/
+        ("apps/cognitive_agent/config/", "apps/cognitive_agent/config/"),
+        ("apps/cognitive_agent/skills/", "apps/cognitive_agent/skills/"),
+        ("apps/cognitive_agent/workflows/", "apps/cognitive_agent/workflows/"),
+        ("apps/cognitive_agent/data/", "apps/cognitive_agent/data/"),
+        ("apps/cognitive_agent/reports/", "apps/cognitive_agent/reports/"),
+        ("apps/cognitive_agent/scans/", "apps/cognitive_agent/scans/"),
+        ("apps/cognitive_agent/plans/", "apps/cognitive_agent/plans/"),
+        ("apps/cognitive_agent/changelogs/", "apps/cognitive_agent/changelogs/"),
+        ("apps/cognitive_agent/metrics/", "apps/cognitive_agent/metrics/"),
+        ("apps/cognitive_agent/", "apps/cognitive_agent/"),
         # codeassistant/ → codeassistant/ (убираем точку)
         ("codeassistant/", "codeassistant/"),
     ]
