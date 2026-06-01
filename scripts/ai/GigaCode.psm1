@@ -1,6 +1,14 @@
 # GigaCode Helper Module
 # Автоматическое управление токенами и настройками
 
+# Секреты загружаются из переменных окружения или .env файла
+$ClientId = $env:GIGACHAT_CLIENT_ID
+$ClientSecret = $env:GIGACHAT_CLIENT_SECRET
+
+if (-not $ClientId -or -not $ClientSecret) {
+    Write-Warning "Переменные окружения GIGACHAT_CLIENT_ID или GIGACHAT_CLIENT_SECRET не установлены"
+}
+
 $ExportedFunctions = @(
     'Get-GigaChatToken',
     'Get-CachedToken',
@@ -15,9 +23,13 @@ function Get-GigaChatToken {
     """
     Получает новый Access Token от GigaChat
     """
-    $ClientId = "54b03e66-d6b4-4945-aae4-e071d1439347"
-    $ClientSecret = "ce27d5bc-193c-4f26-a28f-ff0ba390f3a8"
-    $AuthHeader = "NTRiMDNlNjYtZDZiNC00OTQ1LWFhZTQtZTA3MWQxNDM5MzQ3OmNlMjdkNWJjLTE5M2MtNGYyNi1hMjhmLWZmMGJhMzkwZjNhOA=="
+    if (-not $ClientId -or -not $ClientSecret) {
+        Write-Error "Client ID или Client Secret не настроены. Установите переменные окружения."
+        return $null
+    }
+
+    $AuthString = "$ClientId:$ClientSecret"
+    $AuthHeader = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($AuthString))
 
     try {
         $headers = @{
