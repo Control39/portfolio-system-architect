@@ -66,7 +66,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
             "## Purpose": "## Purpose\nЦентрализованное управление конфигурациями всех сервисов.\n",
             "## Features": "## Features\n- Загрузка конфигов из YAML\n- Hot reload\n- Fallback на локальные конфиги\n",
             "## Dependencies": "## Dependencies\n```bash\npip install -r requirements.txt\n```\n",
-            "## Deployment": "## Deployment\n```bash\ndocker build -t ai-config-manager .\ndocker run -p 8000:8000 ai-config-manager\n```\n",
+            "## Deployment": "## Deployment\n```bash\ndocker build -t ai_config_manager .\ndocker run -p 8000:8000 ai_config_manager\n```\n",
             "## Contributing": "## Contributing\nСм. [CONTRIBUTING.md](../../CONTRIBUTING.md)\n",
         }
 
@@ -119,7 +119,7 @@ def fix_auth_service(service_path: Path) -> list[FixTask]:
             "## Purpose": "## Purpose\nСервис аутентификации и авторизации (JWT).\n",
             "## Features": "## Features\n- JWT токены\n- OAuth2\n- Rate limiting\n",
             "## Dependencies": "## Dependencies\n```bash\npip install -r requirements.txt\n```\n",
-            "## Deployment": "## Deployment\n```bash\ndocker build -t auth-service .\ndocker run -p 8100:8000 auth-service\n```\n",
+            "## Deployment": "## Deployment\n```bash\ndocker build -t auth_service .\ndocker run -p 8100:8000 auth_service\n```\n",
             "## Contributing": "## Contributing\nСм. [CONTRIBUTING.md](../../CONTRIBUTING.md)\n",
         }
 
@@ -170,7 +170,7 @@ app = FastAPI(
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "cognitive-agent"}
+    return {"status": "healthy", "service": "cognitive_agent"}
 
 
 @app.get("/")
@@ -206,7 +206,7 @@ if __name__ == "__main__":
             "## Purpose": "## Purpose\nАвтономный ИИ-агент для управления проектами с навыками самообучения.\n",
             "## Features": "## Features\n- Project Scanner\n- Task Planner\n- Learning System\n- Trigger System\n",
             "## Dependencies": "## Dependencies\n```bash\npip install -r requirements.txt\n```\n",
-            "## Deployment": "## Deployment\n```bash\ndocker build -t cognitive-agent .\ndocker run -p 8000:8000 cognitive-agent\n```\n",
+            "## Deployment": "## Deployment\n```bash\ndocker build -t cognitive_agent .\ndocker run -p 8000:8000 cognitive_agent\n```\n",
             "## Contributing": "## Contributing\nСм. [CONTRIBUTING.md](../../CONTRIBUTING.md)\n",
         }
 
@@ -259,7 +259,7 @@ app = FastAPI(
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "job-automation-agent"}
+    return {"status": "healthy", "service": "job_automation_agent"}
 
 
 @app.get("/")
@@ -295,7 +295,7 @@ if __name__ == "__main__":
             "## Purpose": "## Purpose\nАвтоматизация поиска работы, анализа вакансий и подачи заявок.\n",
             "## Features": "## Features\n- Поиск вакансий\n- Анализ требований\n- Автоподача заявок\n- Трекинг откликов\n",
             "## Dependencies": "## Dependencies\n```bash\npip install -r requirements.txt\n```\n",
-            "## Deployment": "## Deployment\n```bash\ndocker build -t job-automation-agent .\ndocker run -p 8000:8000 job-automation-agent\n```\n",
+            "## Deployment": "## Deployment\n```bash\ndocker build -t job_automation_agent .\ndocker run -p 8000:8000 job_automation_agent\n```\n",
             "## Contributing": "## Contributing\nСм. [CONTRIBUTING.md](../../CONTRIBUTING.md)\n",
         }
 
