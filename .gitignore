@@ -184,3 +184,74 @@ no_commit/
 # =============================================================================
 docs/reports/archive/
 docs-archive/
+
+# =============================================================================
+# Личные настройки агентов (логи, кэш, метрики)
+# =============================================================================
+.agents/logs/
+.agents/metrics/
+.agents/scans/
+.agents/data/
+.agents/cache/
+.agents/reports/
+.agents/agent-logs-*.zip
+.agents/changelogs/
+.agents/logs/performance.csv
+
+# Персональные настройки инструментов
+.koda/
+.sourcecraft/
+.gigacode/plans/
+.gigacode/*.env
+.gigacode/*.env.*
+.gigacode/*.token_cache.json
+.gigacode/__pycache__/
+.gigacode/*.pyc
+
+
+# Личные данные когнитивного агента
+apps/cognitive_agent/logs/
+apps/cognitive_agent/metrics/
+apps/cognitive_agent/scans/
+apps/cognitive_agent/data/
+apps/cognitive_agent/cache/
+apps/cognitive_agent/reports/
+# === Личные данные Cognitive Agent (после миграции) ===
+apps/cognitive_agent/logs/
+apps/cognitive_agent/metrics/
+apps/cognitive_agent/scans/
+apps/cognitive_agent/data/
+apps/cognitive_agent/cache/
+apps/cognitive_agent/reports/
+apps/cognitive_agent/status/
+apps/cognitive_agent/backups/
+
+# Промежуточный слой консолидации (устарел после миграции в apps/cognitive_agent/)
+shared-skills/
+
+# Knowledge extractor artifacts (large exports and generated files)
+tools/knowledge-extractor/*.json
+tools/knowledge-extractor/extracted_cases.md
+tools/knowledge-extractor/outputs/
+
+# Устаревшие kebab-case дубликаты сервисов (используйте snake_case)
+apps/cognitive-agent/
+apps/decision-engine/
+apps/infra-orchestrator/
+apps/job-automation-agent/
+apps/mcp-server/
+apps/thought-architecture/
+apps/ai-config-manager/
+
+# Runtime-данные Cognitive Agent (скрыть из Git)
+apps/cognitive_agent/logs/
+apps/cognitive_agent/data/
+apps/cognitive_agent/cache/
+apps/cognitive_agent/scans/
+apps/cognitive_agent/status/
+apps/cognitive_agent/reports/
+apps/cognitive_agent/backups/
+apps/cognitive_agent/models/
+apps/cognitive_agent/recommendations/
+apps/cognitive_agent/knowledge/
+apps/cognitive_agent/__pycache__/

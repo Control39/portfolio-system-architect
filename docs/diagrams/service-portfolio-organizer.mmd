@@ -1,0 +1,55 @@
+---
+title: portfolio-organizer — Evidence Collection Service
+---
+
+graph TD
+    subgraph "Inputs"
+        U[User / agent request]
+        CFG[ai-config-manager — config]
+        DOCS[Project / proof requirements]
+    end
+
+    subgraph "Core"
+        CAPTURE[Evidence capture]
+        NORMALIZE[Normalize & tag]
+        EXPORT[Export (PDF/MD/assets)]
+    end
+
+    subgraph "AI Core"
+        RAG[RAG / retrieval]
+        LLM[Summarization & mapping]
+    end
+
+    subgraph "Storage / Memory"
+        DB[(PostgreSQL)]
+        CHROMA[(ChromaDB)]
+        FILES[(Evidence files)]
+    end
+
+    subgraph "Dependencies"
+        AUTH[auth_service]
+        IT[it_compass]
+        SP[system-proof]
+        TH[thought-architecture]
+    end
+
+    U --> CAPTURE
+    U --> EXPORT
+    CFG --> CAPTURE
+    DOCS --> NORMALIZE
+
+    CAPTURE --> RAG
+    NORMALIZE --> LLM
+
+    RAG --> LLM
+    LLM --> EXPORT
+
+    EXPORT --> FILES
+    EXPORT --> DB
+
+    IT --> NORMALIZE
+    SP --> LLM
+    TH --> LLM
+    AUTH --> CAPTURE
+
+    LLM --> CHROMA

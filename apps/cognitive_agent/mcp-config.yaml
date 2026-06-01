@@ -1,5 +1,5 @@
 # Cognitive Architect Config (RU Stack)
-# На основе backup из .codeassistant/mcp.json
+# На основе backup из apps/cognitive_agent/mcp.json
 
 models:
   - name: GigaChat Pro Light
@@ -44,7 +44,7 @@ mcpServers:
       PYTHONPATH: ${PROJECT_ROOT}
       DATABASE_URL: ${DATABASE_URL}
       CHROMA_PATH: ${CHROMA_PATH}
-    
+
     tools:
       enabled:
         - file_tools        # Работа с файлами проекта
