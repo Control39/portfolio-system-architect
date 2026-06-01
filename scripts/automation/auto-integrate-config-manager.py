@@ -10,20 +10,20 @@ REPO_ROOT = Path(__file__).parent.parent
 
 # Список всех сервисов
 SERVICES = [
-    "ai-config-manager",
+    "ai_config_manager",
     "auth_service",
     "career_development",
-    "cognitive-agent",
+    "cognitive_agent",
     "decision_engine",
-    "infra-orchestrator",
+    "infra_orchestrator",
     "it_compass",
-    "job-automation-agent",
+    "job_automation_agent",
     "knowledge_graph",
     "mcp_server",
     "ml_model_registry",
     "portfolio_organizer",
     "system_proof",
-    "thought-architecture",
+    "thought_architecture",
 ]
 
 # Шаблон модуля интеграции

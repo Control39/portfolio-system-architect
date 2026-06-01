@@ -30,7 +30,7 @@ def create_file_if_missing(path: Path, content: str = "") -> bool:
 
 
 def fix_ai_config_manager(service_path: Path) -> list[FixTask]:
-    """Исправить ai-config-manager."""
+    """Исправить ai_config_manager."""
     fixes = []
 
     # Создать Dockerfile
@@ -49,7 +49,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
     if create_file_if_missing(service_path / "Dockerfile", dockerfile):
         fixes.append(
             FixTask(
-                service="ai-config-manager",
+                service="ai_config_manager",
                 action="create",
                 path="Dockerfile",
                 description="Создан Dockerfile",
@@ -80,7 +80,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(
             FixTask(
-                service="ai-config-manager",
+                service="ai_config_manager",
                 action="update",
                 path="README.md",
                 description="Добавлены missing секции",
@@ -141,7 +141,7 @@ def fix_auth_service(service_path: Path) -> list[FixTask]:
 
 
 def fix_cognitive_agent(service_path: Path) -> list[FixTask]:
-    """Исправить cognitive-agent."""
+    """Исправить cognitive_agent."""
     fixes = []
 
     # Проверить наличие entry point в scripts/
@@ -190,7 +190,7 @@ if __name__ == "__main__":
         if create_file_if_missing(main_py, main_content):
             fixes.append(
                 FixTask(
-                    service="cognitive-agent",
+                    service="cognitive_agent",
                     action="create",
                     path="main.py",
                     description="Создан main.py как entry point",
@@ -219,7 +219,7 @@ if __name__ == "__main__":
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(
             FixTask(
-                service="cognitive-agent",
+                service="cognitive_agent",
                 action="update",
                 path="README.md",
                 description="Добавлены missing секции",
@@ -230,7 +230,7 @@ if __name__ == "__main__":
 
 
 def fix_job_automation_agent(service_path: Path) -> list[FixTask]:
-    """Исправить job-automation-agent."""
+    """Исправить job_automation_agent."""
     fixes = []
 
     # Проверить наличие entry point в src/
@@ -279,7 +279,7 @@ if __name__ == "__main__":
         if create_file_if_missing(main_py, main_content):
             fixes.append(
                 FixTask(
-                    service="job-automation-agent",
+                    service="job_automation_agent",
                     action="create",
                     path="main.py",
                     description="Создан main.py как entry point",
@@ -308,7 +308,7 @@ if __name__ == "__main__":
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(
             FixTask(
-                service="job-automation-agent",
+                service="job_automation_agent",
                 action="update",
                 path="README.md",
                 description="Добавлены missing секции",
@@ -323,10 +323,10 @@ def fix_all_services(base_path: Path) -> list[FixTask]:
     all_fixes = []
 
     service_fixers = {
-        "ai-config-manager": fix_ai_config_manager,
+        "ai_config_manager": fix_ai_config_manager,
         "auth_service": fix_auth_service,
-        "cognitive-agent": fix_cognitive_agent,
-        "job-automation-agent": fix_job_automation_agent,
+        "cognitive_agent": fix_cognitive_agent,
+        "job_automation_agent": fix_job_automation_agent,
     }
 
     apps_path = base_path / "apps"
@@ -403,10 +403,10 @@ def main():
 
         # Выбор фиксера
         fixers = {
-            "ai-config-manager": fix_ai_config_manager,
+            "ai_config_manager": fix_ai_config_manager,
             "auth_service": fix_auth_service,
-            "cognitive-agent": fix_cognitive_agent,
-            "job-automation-agent": fix_job_automation_agent,
+            "cognitive_agent": fix_cognitive_agent,
+            "job_automation_agent": fix_job_automation_agent,
         }
 
         if args.service in fixers:
