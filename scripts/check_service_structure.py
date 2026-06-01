@@ -103,8 +103,22 @@ def check_all_services(base_path: Path) -> list[ServiceCheck]:
     apps_path = base_path / "apps"
     results = []
     
-    # Исключаемые директории (служебные)
-    excluded = {"__pycache__", "tests", "utils", "__init__.py"}
+    # Исключаемые директории (служебные, runtime, legacy)
+    excluded = {
+        "__pycache__", 
+        "tests", 
+        "utils", 
+        "__init__.py",
+        # Runtime-данные Cognitive Agent
+        "logs", "plans", "reports", "data", "cache", "status", 
+        "backups", "models", "knowledge", "recommendations", 
+        "scans", "changelogs", "dashboards", "integrations", 
+        "rules", "workflows", "apps", 
+        # Legacy папки агентов
+        ".agents", "codeassistant", ".sourcecraft", "shared-skills",
+        # Общие служебные папки в корне apps (если есть)
+        "docs", "deployment", "monitoring", "tools", "scripts"
+    }
     
     for service_dir in apps_path.iterdir():
         if service_dir.is_dir() and service_dir.name not in excluded:
