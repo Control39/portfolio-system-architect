@@ -102,13 +102,13 @@ class HealthCheckService:
         else:
             status = "healthy"
 
-        # ✅ ИСПРАВЛЕНО: datetime.utcnow() deprecated в Python 3.12+
+        # ✅ ИСПРАВЛЕНО: datetime.now(timezone.utc) для Python 3.12+
         return HealthCheckResponse(
             service=self.service_name,
             status=status,
             version=self.version,
             checks=results,
-            timestamp=datetime.now(timezone.UTC).isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
 

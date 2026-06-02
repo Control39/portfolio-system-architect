@@ -129,7 +129,7 @@
 | `scripts/analyze_code_organization.py` | Дубликат `scripts/diagnostics/analyze_code_organization.py` | Удалить |
 | `scripts/analyze_nesting.py` | Дубликат `scripts/diagnostics/analyze_nesting.py` | Нет |
 | `scripts/collect-readmes.py` | Дубликат `scripts/migration/collect-readmes.py` | Удалить |
-| `scripts/ci/check_ports.py` | Тот же что `scripts/check_ports.py` | Удалить один |
+| `scripts/ci/check_ports.py` | Тот же что `scripts/check_ports.py` | пре-коммит |
 
 ---
 
