@@ -1,5 +1,5 @@
 """
-Enhanced Tests for cognitive-agent
+Enhanced Tests for cognitive_agent
 
 Service Tier: CORE
 Purpose: Comprehensive unit and functional testing
@@ -28,7 +28,7 @@ import pytest
 def config():
     """Service configuration fixture"""
     return {
-        "service_name": "cognitive-agent",
+        "service_name": "cognitive_agent",
         "environment": "test",
         "debug": True,
         "timeout": 5.0,

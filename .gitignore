@@ -269,3 +269,5 @@ __pycache__/
 
 # Отчёты планирования (локальные)
 reports/planning/
+
+cognitive-agent/

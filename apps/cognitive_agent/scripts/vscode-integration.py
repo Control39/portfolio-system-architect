@@ -28,7 +28,7 @@ class VSCodeIntegration:
 
                 with open(config_path, "r", encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
-            except:
+            except Exception:
                 pass
         return {}
 
@@ -145,7 +145,7 @@ class VSCodeIntegration:
                     existing_settings = json.load(f)
                 # Объединяем настройки
                 settings = {**existing_settings, **settings}
-            except:
+            except Exception:
                 pass
 
         with open(settings_file, "w", encoding="utf-8") as f:
@@ -200,7 +200,7 @@ class VSCodeIntegration:
             },
         }
 
-        snippets_file = self.vscode_dir / "cognitive-agent.code-snippets"
+        snippets_file = self.vscode_dir / "cognitive_agent.code-snippets"
         with open(snippets_file, "w", encoding="utf-8") as f:
             json.dump(snippets, f, indent=2)
 
@@ -333,7 +333,7 @@ if __name__ == "__main__":
                     existing_config["configurations"] = launch_config["configurations"]
 
                 launch_config = existing_config
-            except:
+            except Exception:
                 pass
 
         with open(launch_file, "w", encoding="utf-8") as f:

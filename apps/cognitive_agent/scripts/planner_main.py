@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive-agent/logs/planner.log"),
+        logging.FileHandler("apps/cognitive_agent/logs/planner.log"),
         logging.StreamHandler(),
     ],
 )
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 class TaskPlanner:
     """Планировщик задач для оптимизации и приоритизации"""
 
-    def __init__(self, config_path: str = "apps/cognitive-agent/config/planner.yaml"):
+    def __init__(self, config_path: str = "apps/cognitive_agent/config/planner.yaml"):
         self.config_path = Path(config_path)
         self.config = self._load_config()
         self.tasks = []
@@ -46,7 +46,7 @@ class TaskPlanner:
             return {}
 
     def load_tasks(
-        self, tasks_file: str = "apps/cognitive-agent/data/tasks.json"
+        self, tasks_file: str = "apps/cognitive_agent/data/tasks.json"
     ) -> list[dict[str, Any]]:
         """Загрузка задач из файла"""
         try:
@@ -393,7 +393,7 @@ class TaskPlanner:
 
     def save_results(self):
         """Сохранение результатов планирования"""
-        reports_dir = Path("apps/cognitive-agent/reports/plans")
+        reports_dir = Path("apps/cognitive_agent/reports/plans")
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -480,7 +480,7 @@ def main():
         print("=" * 60)
 
         # Сохранение статуса для мониторинга
-        status_file = Path("apps/cognitive-agent/plans/last_plan_status.json")
+        status_file = Path("apps/cognitive_agent/plans/last_plan_status.json")
         status_file.parent.mkdir(exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:
@@ -501,7 +501,7 @@ def main():
         logger.error(f"Ошибка при планировании: {e}")
 
         # Сохранение статуса ошибки
-        status_file = Path("apps/cognitive-agent/plans/last_plan_status.json")
+        status_file = Path("apps/cognitive_agent/plans/last_plan_status.json")
         status_file.parent.mkdir(exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:

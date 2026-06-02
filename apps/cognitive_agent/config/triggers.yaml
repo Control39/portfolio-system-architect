@@ -7,7 +7,7 @@ triggers:
   project_open:
     enabled: false  # ОТКЛЮЧЕНО: ручное управление для экономии ресурсов
     conditions:
-      - file_exists: "apps/cognitive-agent/config/agent-config.yaml"
+      - file_exists: "apps/cognitive_agent/config/agent-config.yaml"
       - file_exists: ".git"
     actions:
       - scan_project
@@ -323,7 +323,7 @@ notifications:
 
     file:
       type: "json"
-      path: "apps/cognitive-agent/logs/notifications.log"
+      path: "apps/cognitive_agent/logs/notifications.log"
 
 # Мониторинг триггеров
 monitoring:

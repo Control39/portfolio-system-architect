@@ -20,7 +20,7 @@ alerts:
     - type: log
       level: warning
     - type: file
-      path: apps/cognitive-agent/logs/quota-alerts.log
+      path: apps/cognitive_agent/logs/quota-alerts.log
     - type: email
       enabled: false
       recipients: []
@@ -103,7 +103,7 @@ monitoring:
   learning_integration:
     enabled: true
     update_interval: 86400  # секунд (24 часа)
-    model_path: apps/cognitive-agent/models/quota-prediction.pkl
+    model_path: apps/cognitive_agent/models/quota-prediction.pkl
 
 # Интеграции
 integrations:
@@ -117,11 +117,11 @@ integrations:
   internal:
     - name: agent_config
       enabled: true
-      config_path: apps/cognitive-agent/config/agent-config.yaml
+      config_path: apps/cognitive_agent/config/agent-config.yaml
 
     - name: trigger_system
       enabled: true
-      config_path: apps/cognitive-agent/config/triggers.yaml
+      config_path: apps/cognitive_agent/config/triggers.yaml
 
 # Отчетность
 reporting:
@@ -133,7 +133,7 @@ reporting:
     - markdown
 
   # Директория для отчетов
-  output_dir: apps/cognitive-agent/reports/quota
+  output_dir: apps/cognitive_agent/reports/quota
 
   # Автоматическая генерация
   auto_generate:
@@ -144,6 +144,6 @@ reporting:
 
   # Шаблоны отчетов
   templates:
-    daily: apps/cognitive-agent/templates/quota-daily.md
-    weekly: apps/cognitive-agent/templates/quota-weekly.md
-    alert: apps/cognitive-agent/templates/quota-alert.md
+    daily: apps/cognitive_agent/templates/quota-daily.md
+    weekly: apps/cognitive_agent/templates/quota-weekly.md
+    alert: apps/cognitive_agent/templates/quota-alert.md

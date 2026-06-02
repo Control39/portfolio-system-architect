@@ -1,5 +1,5 @@
 """
-Integration Tests for cognitive-agent
+Integration Tests for cognitive_agent
 
 AI-powered automation engine
 
@@ -27,7 +27,7 @@ import pytest
 def service_config():
     """Service configuration fixture"""
     return {
-        "name": "cognitive-agent",
+        "name": "cognitive_agent",
         "environment": "test",
         "timeout": 5.0,
         "retry_attempts": 3,
@@ -47,7 +47,7 @@ def mock_dependencies():
 def service_instance(service_config, mock_dependencies):
     """Create service instance with mocks"""
     # Import would happen here in real scenario
-    # from apps.cognitive-agent.src import Service
+    # from apps.cognitive_agent.src import Service
 
     service = MagicMock()
     service.config = service_config
@@ -75,11 +75,11 @@ def test_agent_with_decision_engine(service_instance, mock_dependencies, service
     """
     Test Case 1: Agent With Decision Engine
 
-    Validates integration between cognitive-agent and its dependencies.
+    Validates integration between cognitive_agent and its dependencies.
     """
     # Arrange
     assert service_instance is not None
-    assert service_config["name"] == "cognitive-agent"
+    assert service_config["name"] == "cognitive_agent"
 
     # Act
     # TODO: Implement actual integration test logic
@@ -110,11 +110,11 @@ def test_agent_with_knowledge_graph(service_instance, mock_dependencies, service
     """
     Test Case 2: Agent With Knowledge Graph
 
-    Validates integration between cognitive-agent and its dependencies.
+    Validates integration between cognitive_agent and its dependencies.
     """
     # Arrange
     assert service_instance is not None
-    assert service_config["name"] == "cognitive-agent"
+    assert service_config["name"] == "cognitive_agent"
 
     # Act
     # TODO: Implement actual integration test logic
@@ -145,11 +145,11 @@ def test_agent_decision_integration(service_instance, mock_dependencies, service
     """
     Test Case 3: Agent Decision Integration
 
-    Validates integration between cognitive-agent and its dependencies.
+    Validates integration between cognitive_agent and its dependencies.
     """
     # Arrange
     assert service_instance is not None
-    assert service_config["name"] == "cognitive-agent"
+    assert service_config["name"] == "cognitive_agent"
 
     # Act
     # TODO: Implement actual integration test logic
@@ -180,11 +180,11 @@ def test_agent_context_management(service_instance, mock_dependencies, service_c
     """
     Test Case 4: Agent Context Management
 
-    Validates integration between cognitive-agent and its dependencies.
+    Validates integration between cognitive_agent and its dependencies.
     """
     # Arrange
     assert service_instance is not None
-    assert service_config["name"] == "cognitive-agent"
+    assert service_config["name"] == "cognitive_agent"
 
     # Act
     # TODO: Implement actual integration test logic
@@ -215,11 +215,11 @@ def test_agent_error_handling(service_instance, mock_dependencies, service_confi
     """
     Test Case 5: Agent Error Handling
 
-    Validates integration between cognitive-agent and its dependencies.
+    Validates integration between cognitive_agent and its dependencies.
     """
     # Arrange
     assert service_instance is not None
-    assert service_config["name"] == "cognitive-agent"
+    assert service_config["name"] == "cognitive_agent"
 
     # Act
     # TODO: Implement actual integration test logic

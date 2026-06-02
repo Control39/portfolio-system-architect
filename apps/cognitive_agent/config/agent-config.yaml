@@ -40,7 +40,7 @@ scanning:
 
   output:
     formats: [json, yaml]
-    directory: "apps/cognitive-agent/scans/"
+    directory: "apps/cognitive_agent/scans/"
     retention_days: 30
     compare_with_previous: true
 
@@ -79,7 +79,7 @@ learning:
   metrics_collection:
     enabled: true
     interval: 300  # Секунды
-    storage: "apps/cognitive-agent/metrics/"
+    storage: "apps/cognitive_agent/metrics/"
 
   # Анализ эффективности
   effectiveness_analysis:
@@ -230,7 +230,7 @@ performance:
 # Логирование и отладка
 logging:
   level: INFO  # DEBUG, INFO, WARNING, ERROR
-  directory: "apps/cognitive-agent/logs/"
+  directory: "apps/cognitive_agent/logs/"
   retention_days: 30
   rotation: "daily"
 
@@ -279,7 +279,7 @@ extensions:
 
   # Кастомные скиллы
   custom_skills:
-    directory: "apps/cognitive-agent/skills/custom/"
+    directory: "apps/cognitive_agent/skills/custom/"
     auto_load: true
 
   # Плагины сообщества

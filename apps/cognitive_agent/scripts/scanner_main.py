@@ -26,7 +26,7 @@ except ImportError:
 
 
 # Создание директорий для логов перед инициализацией логирования
-LOG_DIR = Path("apps/cognitive-agent/logs")
+LOG_DIR = Path("apps/cognitive_agent/logs")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Настройка логирования
@@ -64,7 +64,7 @@ class ProjectScanner:
         self.max_files_to_scan = 5000
 
     def _load_local_config(
-        self, config_path: str = "apps/cognitive-agent/config/scanner.yaml"
+        self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"
     ) -> dict[str, Any]:
         """Загрузка локальной конфигурации"""
         try:
@@ -325,7 +325,7 @@ class ProjectScanner:
 
     def _save_results(self):
         """Сохранение результатов сканирования"""
-        reports_dir = Path("apps/cognitive-agent/reports/scans")
+        reports_dir = Path("apps/cognitive_agent/reports/scans")
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -365,7 +365,7 @@ def main():
         print("=" * 60)
 
         # Сохранение статуса для мониторинга
-        status_file = Path("apps/cognitive-agent/scans/last_scan_status.json")
+        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:
@@ -385,7 +385,7 @@ def main():
         logger.error(f"Ошибка при сканировании: {e}")
 
         # Сохранение статуса ошибки
-        status_file = Path("apps/cognitive-agent/scans/last_scan_status.json")
+        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:

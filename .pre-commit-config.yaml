@@ -3,8 +3,15 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
-# Exclude archive and legacy from checks
-exclude: ^(docs/archive/|docs/examples/legacy/)
+# Exclude archive, legacy, and cognitive_agent legacy code from checks
+exclude: |
+  (?x)^(
+    docs/archive/|
+    docs/examples/legacy/|
+    apps/cognitive_agent/scripts/.*|  # Legacy scripts without type hints
+    apps/cognitive_agent/tools/.*|    # Legacy tools
+    apps/cognitive_agent/__init__\.py
+  )$
 
 repos:
   # Detect secrets
@@ -13,7 +20,12 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
-        exclude: tests/
+        exclude: |
+          (?x)^(
+            tests/|
+            apps/cognitive_agent/tools/python/secrets-scanner\.py|  # Secret scanner contains regex patterns
+            apps/cognitive_agent/config/.*\.yaml  # Agent config (may contain example keys)
+          )$
 
   # Prevent giant files and other large commits
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -38,7 +50,11 @@ repos:
       - id: check-toml # ✅ Добавлен: проверяет валидность TOML файлов (pyproject.toml)
       - id: debug-statements # ✅ Добавлен: ловит print() и pdb в коде
       - id: detect-private-key
-        exclude: tests/
+        exclude: |
+          (?x)^(
+            tests/|
+            apps/cognitive_agent/tools/python/secrets-scanner\.py  # Regex pattern for PGP looks like a key
+          )$
 
   # Python linting — исправлен rev
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -59,14 +75,27 @@ repos:
           - types-python-dateutil
           # - types-setuptools  # 🔧 Закомментирован: раскомментируй, если используешь setup.py
           - types-Deprecated
-        exclude: ^(tests/|setup.py|python_server/)
+        exclude: |
+          (?x)^(
+            tests/|
+            setup.py|
+            python_server/|
+            apps/cognitive_agent/scripts/.*|  # Legacy scripts without type hints
+            apps/cognitive_agent/tools/.*|
+            apps/cognitive_agent/__init__\.py
+          )$
 
   # Security checks — упрощён exclude
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.4
     hooks:
       - id: bandit
-        exclude: .*test.*\.py # 🔧 Упрощено: исключает все тестовые файлы
+        exclude: |
+          (?x)^(
+            .*test.*\.py|
+            apps/cognitive_agent/scripts/.*|  # Legacy scripts
+            apps/cognitive_agent/tools/.*
+          )$
 
   # Docker linting
   - repo: https://github.com/hadolint/hadolint

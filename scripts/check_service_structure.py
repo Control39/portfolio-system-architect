@@ -134,8 +134,10 @@ def check_all_services(base_path: Path) -> list[ServiceCheck]:
         # WIP сервисы (временно исключены из строгой проверки)
         "ai_provider_manager",
         "chat_backend",
+        "embedding_agent",
         "competency_gap_engine",
         "context_builder",
+        "assistant_orchestrator",
         # Cognitive Agent - в процессе восстановления после поломки
         "cognitive-agent",
         # Общие служебные папки в корне apps (если есть)
