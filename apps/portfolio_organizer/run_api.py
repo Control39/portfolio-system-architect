@@ -6,7 +6,6 @@
 автозагрузку конфигурации и безопасную инициализацию приложения.
 """
 
-import os
 import sys
 import logging
 import argparse
@@ -212,9 +211,7 @@ if __name__ == "__main__":
     python run_api.py --mode prod --port 8080 --workers 8
         """,
     )
-    parser.add_argument(
-        "--mode", choices=["dev", "prod"], default="dev", help="Режим запуска"
-    )
+    parser.add_argument("--mode", choices=["dev", "prod"], default="dev", help="Режим запуска")
     parser.add_argument("--host", default="0.0.0.0", help="Хост сервера")  # nosec B104
     parser.add_argument("--port", type=int, default=None, help="Порт (из конфига, если не указан)")
     parser.add_argument("--workers", type=int, default=4, help="Воркеры (только prod)")
