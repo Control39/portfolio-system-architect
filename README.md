@@ -6,7 +6,7 @@
 
 <!-- DYNAMIC BADGES (automatically updated via CI) -->
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-![Services](https://img.shields.io/badge/Services-16-green?style=flat-square&logo=serverless)
+![Services](https://img.shields.io/badge/Services-21-green?style=flat-square&logo=serverless)
 ![Test Coverage](https://img.shields.io/codecov/c/github/Control39/portfolio-system-architect?token=YOUR_TOKEN&flag=context_builder)
 ![Tests](https://img.shields.io/badge/Tests-779%2B-blue?logo=pytest)
 ![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-success?style=flat-square&logo=security)
@@ -24,9 +24,9 @@
 
 ## 🔥 Executive Summary
 
-> **💡 Impact:** Эта экосистема позволяет одному человеку управлять **16 микросервисами** с **0 критических уязвимостей** и **85%+ покрытием тестами** — уровень команды из 3–5 инженеров.  
+> **💡 Impact:** Эта экосистема позволяет одному человеку управлять **21 микросервисом** с **0 критических уязвимостей** и **85%+ покрытием тестами** — уровень команды из 3–5 инженеров.  
 > **Экономия времени на разработку сервиса — 60%.**  
-> **779+ тестов проходят** (из 822 написанных; 21 тест в работе для WIP-сервисов).
+> **779+ тестов проходят** (из 822 написанных; ~40 тестов в новых сервисах в работе).
 
 ---
 
@@ -51,7 +51,7 @@
 | 🎯 **HR / Нанимающий менеджер** | [`docs/HIRING_BRIEF.md`](docs/HIRING_BRIEF.md) | Бизнес‑ценность, доказательства компетенций, вопросы для интервью |
 | 💻 **Техлид / Архитектор** | [`docs/architecture/decisions/`](docs/architecture/decisions/) | ADR, стандарты валидации, паттерны интеграции |
 | 🛠️ **DevOps / SRE** | [`deployment/`](deployment/) + [`monitoring/`](monitoring/) | GitOps, K8s манифесты, sealed secrets, CI/CD |
-| 🏛️ **Грантовые комитеты** | [`docs/SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) | Доказательства влияния, масштабируемость, социальная ценность |
+| 🏛️ **Грантовые комитеты** | [`docs/SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) *(WIP)* | Доказательства влияния, масштабируемость, социальная ценность |
 | 🌱 **Начинающие / Менторы** | [`apps/it_compass/`](apps/it_compass/) | Методология самооценки, трекинг роста, реальные кейсы |
 
 ---
@@ -105,7 +105,7 @@
 | Настройка CI/CD и деплоя | 1–2 | 0,3 (20 мин) | ~85 % |
 | **Итого на один сервис** | **8–13 часов** | **1,15 часа** | **~85 % на сервис** |
 
-> *Консервативная оценка с учётом валидации и интеграции: **60 % экономии** на 16 сервисах.*
+> *Консервативная оценка с учётом валидации и интеграции: **60 % экономии** на 21 сервисе.*
 
 **Почему не 85 %?** В расчёт включены: время на валидацию сгенерированного кода, рефакторинг под архитектуру, интеграция сервисов между собой, документирование и аудит.
 
@@ -168,12 +168,16 @@ graph TB
 |--------|--------|----------|----------|
 | `client/` | 🟢 Active | ~85 % | Frontend (React 19 + TS) |
 | `ai_config_manager` | 🟢 Core | ~90 % | Централизованная конфигурация |
+| `ai_provider_manager` | 🟢 Ready | ~75 % | Управление провайдерами AI |
+| `assistant_orchestrator` | 🟢 Ready | ~80 % | Оркестрация ассистентов |
 | `auth_service` | 🟢 Ready | ~95 % | JWT‑аутентификация |
 | `career_development` | 🟢 Ready | 80,5 % | Трекинг компетенций |
 | `chat_backend` | 🟢 Ready | ~78 % | WebSocket‑чат |
 | `cognitive_agent` | 🟡 Beta | ~55 % | Автономный ИИ‑агент |
+| `competency_gap_engine` | 🟢 Ready | ~70 % | Анализ разрывов компетенций |
 | `context_builder` | 🟢 Ready | ~85 % | Сборка и chunking контекста для LLM |
 | `decision_engine` | 🟢 Ready | ~85 % | AI reasoning с RAG |
+| `embedding_agent` | 🟢 Ready | ~75 % | Векторные эмбеддинги документов |
 | `infra_orchestrator` | 🟢 Ready | ~75 % | Оркестрация сервисов |
 | `it_compass` | 🟢 Ready | ~85 % | Методология IT‑компетенций |
 | `job_automation_agent` | 🟢 Ready | ~80 % | Автоматизация поиска работы |
@@ -185,7 +189,7 @@ graph TB
 | `template_service` | 🚧 WIP | ~60 % | Генератор шаблонов |
 | `thought_architecture` | 🟢 Ready | ~75 % | ADR, архитектура решений |
 
-> **14 из 16 сервисов имеют ≥ 75 % покрытие тестами.**
+> **21 сервис в экосистеме.**
 
 ---
 
@@ -261,8 +265,8 @@ docker-compose up -d
 
 ## 📚 Дополнительная документация
 
-- [`docs/INDEX.md`](docs/INDEX.md) — полный индекс документации (1255 файлов, часть требует реорганизации — WIP)
-- [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md) — создание нового сервиса за 2 секунды
+- [`docs/INDEX.md`](docs/INDEX.md) — полный индекс документации (WIP, реорганизация в процессе)
+- [`docs/SERVICE_GENERATOR.md`](docs/SERVICE_GENERATOR.md) *(WIP)* — создание нового сервиса за 2 секунды
 - [`ops/RUNBOOK.md`](ops/RUNBOOK.md) — руководство по инцидентам
 
 ---
