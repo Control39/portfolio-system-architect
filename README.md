@@ -4,6 +4,12 @@
 
 <div align="center">
 
+<!-- 🚧 DO NOT EDIT BELOW THIS LINE - AUTO-UPDATED DOCUMENTATION STATUS -->
+
+> <kbd>📢</kbd> **Внимание:** Документация реорганизована и актуализируется. Все файлы перемещены в [`docs/`](docs/) для лучшей структуры.
+
+<!-- 🚧 END AUTO-UPDATED SECTION -->
+
 <!-- DYNAMIC BADGES (automatically updated via CI) -->
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![Services](https://img.shields.io/badge/Services-21-green?style=flat-square&logo=serverless)
@@ -53,6 +59,19 @@
 | 🛠️ **DevOps / SRE** | [`deployment/`](deployment/) + [`monitoring/`](monitoring/) | GitOps, K8s манифесты, sealed secrets, CI/CD |
 | 🏛️ **Грантовые комитеты** | [`docs/SOURCECRAFT_GRANT_APPLICATION.md`](docs/SOURCECRAFT_GRANT_APPLICATION.md) *(WIP)* | Доказательства влияния, масштабируемость, социальная ценность |
 | 🌱 **Начинающие / Менторы** | [`apps/it_compass/`](apps/it_compass/) | Методология самооценки, трекинг роста, реальные кейсы |
+
+---
+
+## 🤖 Для ИИ‑ассистентов (ВАЖНО!)
+
+> <kbd>⚠️</kbd> **Внимательно прочитайте перед началом работы:**
+> 
+> Все работы в этом проекте выполняются **строго через ИИ‑инструкции**. Перед любыми изменениями:
+> 1. Прочитайте [`docs/ai/AI_INSTRUCTIONS.md`](docs/ai/AI_INSTRUCTIONS.md) — архитектурные правила и контекст
+> 2. Изучите [`docs/ai/AI_PROVIDER_SETUP.md`](docs/ai/AI_PROVIDER_SETUP.md) — настройка провайдеров
+> 3. Ознакомьтесь с [`docs/ai/gigacode/`](docs/ai/gigacode/) — гайды по GigaCode
+>
+> **Почему это важно:** Проект использует **композиционную архитектуру** («Атомы и Молекулы»). Без понимания этих принципов изменения могут нарушить целостность системы.
 
 ---
 
@@ -247,6 +266,8 @@ docker-compose up -d
 - **ADR‑020** — Контекст должен быть измеримым и управляемым (контекстный билдер)
 
 > ADR фиксируют **почему выбрано X, а не Y**. История решений для себя и команды.
+
+📖 **Полное руководство по архитектуре:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
 ---
 
