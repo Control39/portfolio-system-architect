@@ -161,26 +161,31 @@ class ProjectScanner:
             return False
 
     def _is_git_repo(self) -> bool:
-        """Проверить, является ли проект Git‑репозиторием"""
+        """Проверить, является ли проект Git-репозиторием"""
         try:
             result = subprocess.run(
                 ["git", "rev-parse", "--is-inside-work-tree"],
                 cwd=self.project_path,
                 capture_output=True,
                 text=True,
+                timeout=5,  # Добавлен таймаут для предотвращения зависаний
             )
             return result.returncode == 0
+        except subprocess.TimeoutExpired:
+            logger.warning("Git check timed out after 5 seconds")
+            return False
         except (FileNotFoundError, OSError):
             return False
 
     def _get_all_changed_files(self) -> List[Path]:
-        """Получить все изменённые файлы (working tree + staged)"""
+        """Получить все изменённые файлы (working tree + staged + untracked)"""
         if not self._is_git_repo():
-            logger.warning("Проект не является Git‑репозиторием")
+            logger.warning("Проект не является Git-репозиторием")
             return []
 
         try:
-            result = subprocess.run(
+            # Изменённые и staged файлы
+            result_changed = subprocess.run(
                 ["git", "diff", "--name-only", "--diff-filter=ACMRTUXB"],
                 cwd=self.project_path,
                 capture_output=True,
@@ -188,15 +193,35 @@ class ProjectScanner:
                 timeout=self.config.timeout,
             )
 
-            if result.returncode != 0:
-                logger.warning(f"Git diff failed: {result.stderr}")
-                return []
+            # Untracked файлы (новые, ещё не добавленные в git)
+            result_untracked = subprocess.run(
+                ["git", "ls-files", "--others", "--exclude-standard"],
+                cwd=self.project_path,
+                capture_output=True,
+                text=True,
+                timeout=self.config.timeout,
+            )
 
-            changed = [Path(p) for p in result.stdout.strip().split("\n") if p.strip()]
-            logger.info(f"🔍 Найдено {len(changed)} изменённых файлов")
-            return changed
-        except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-            logger.error(f"Ошибка git diff: {e}")
+            changed = []
+            if result_changed.returncode == 0:
+                changed = [Path(p) for p in result_changed.stdout.strip().split("\n") if p.strip()]
+
+            untracked = []
+            if result_untracked.returncode == 0:
+                untracked = [Path(p) for p in result_untracked.stdout.strip().split("\n") if p.strip()]
+
+            # Объединить и логировать
+            all_files = changed + untracked
+            logger.info(
+                f"🔍 Найдено {len(changed)} изменённых + {len(untracked)} новых файлов"
+            )
+            return all_files
+
+        except subprocess.TimeoutExpired as e:
+            logger.error(f"Git command timed out: {e}")
+            return []
+        except (subprocess.CalledProcessError, OSError) as e:
+            logger.error(f"Ошибка git: {e}")
             return []
 
     def _filter_by_extension(self, file_path: Path) -> bool:
@@ -270,9 +295,9 @@ class ProjectScanner:
                 # Собираем результаты
                 for future in concurrent.futures.as_completed(tasks):
                     result = future.result()
+                    pbar.update(1)  # Обновляем прогресс-бар ВСЕГДА, не только для результатов
                     if result:
                         results.append(result)
-                        pbar.update(1)
 
         return results
 
