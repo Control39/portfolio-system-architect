@@ -10,7 +10,7 @@ from typing import Any
 
 # Try to import embedding_agent, but make it optional
 try:
-    from src.embedding_agent.search import DocumentSearcher
+    from apps.embedding_agent.search import DocumentSearcher
 
     RAG_AVAILABLE = True
 except ImportError:

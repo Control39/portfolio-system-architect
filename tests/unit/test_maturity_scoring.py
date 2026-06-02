@@ -1,6 +1,6 @@
 """Unit tests for maturity scoring."""
 
-from src.assistant_orchestrator.core.maturity_scoring import MaturityScorer
+from apps.assistant_orchestrator.core.maturity_scoring import MaturityScorer
 
 
 def test_maturity_scorer_empty():
