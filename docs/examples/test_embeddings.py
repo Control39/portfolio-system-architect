@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from src.embedding_agent.embedder import CodeEmbedder
+from apps.embedding_agent.embedder import CodeEmbedder
 
 
 def test_embedder():

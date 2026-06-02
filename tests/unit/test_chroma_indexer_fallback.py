@@ -15,7 +15,7 @@ def test_chroma_indexer_add_documents_from_files_fallback(tmp_path: Path):
     # Ensure chromadb is considered unavailable
     with patch.dict("sys.modules", {"chromadb": None, "chromadb.config": None}):
         # Import inside context to re-evaluate CHROMA_AVAILABLE
-        from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+        from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
         # Create a couple of small md files
         (tmp_path / "a.md").write_text("Alpha\n\nBeta", encoding="utf-8")
@@ -41,7 +41,7 @@ def test_chroma_indexer_search_empty_embedding_returns_empty(tmp_path: Path):
     sentence-transformers, чтобы не триггерить edge-case с numpy в окружении.
     """
     with patch.dict("sys.modules", {"chromadb": None, "chromadb.config": None}):
-        from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+        from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
         embedder = MagicMock()
         embedder.embed = MagicMock(return_value=[])
@@ -59,8 +59,8 @@ def test_chroma_indexer_search_empty_embedding_returns_empty(tmp_path: Path):
 def test_chroma_indexer_search_filters_empty_ids(monkeypatch, tmp_path: Path):
     """If chroma returns empty ids, search should produce empty formatted results."""
     with patch.dict("sys.modules", {"chromadb": None, "chromadb.config": None}):
-        from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
-        from src.embedding_agent.embedder import DocumentEmbedder
+        from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+        from apps.embedding_agent.embedder import DocumentEmbedder
 
         embedder = DocumentEmbedder()
         embedder.embed = MagicMock(return_value=[0.1, 0.2, 0.3])

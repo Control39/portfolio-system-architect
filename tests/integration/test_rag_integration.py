@@ -16,8 +16,8 @@ import requests
 # Добавляем путь к проекту
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
-from src.embedding_agent.embedder import DocumentEmbedder
+from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+from apps.embedding_agent.embedder import DocumentEmbedder
 
 
 class TestRAGIntegration:
@@ -145,7 +145,7 @@ import streamlit as st
 import sys
 sys.path.insert(0, '.')
 
-from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 import tempfile
 import os
 

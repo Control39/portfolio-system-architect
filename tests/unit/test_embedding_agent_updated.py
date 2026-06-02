@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 def test_document_embedder_initialization():
     """Test initialization of DocumentEmbedder."""
-    from src.embedding_agent.embedder import DocumentEmbedder
+    from apps.embedding_agent.embedder import DocumentEmbedder
 
     embedder = DocumentEmbedder(model_name="test-model")
     assert embedder is not None
@@ -16,10 +16,10 @@ def test_document_embedder_initialization():
 
 def test_document_embedder_embed():
     """Test embedding generation for a document."""
-    from src.embedding_agent.embedder import DocumentEmbedder
+    from apps.embedding_agent.embedder import DocumentEmbedder
 
     # Mock the SentenceTransformer model
-    with patch("src.embedding_agent.embedder.SentenceTransformer") as mock_model:
+    with patch("apps.embedding_agent.embedder.SentenceTransformer") as mock_model:
         mock_model.return_value.encode.return_value = [0.1, 0.2, 0.3]
 
         embedder = DocumentEmbedder(model_name="test-model")
@@ -32,8 +32,8 @@ def test_document_embedder_embed():
 
 def test_document_indexer_initialization():
     """Test initialization of DocumentIndexer."""
-    from src.embedding_agent.embedder import DocumentEmbedder
-    from src.embedding_agent.indexer import DocumentIndexer
+    from apps.embedding_agent.embedder import DocumentEmbedder
+    from apps.embedding_agent.indexer import DocumentIndexer
 
     embedder = DocumentEmbedder(model_name="test-model")
     indexer = DocumentIndexer(embedder=embedder)
@@ -46,8 +46,8 @@ def test_document_indexer_initialization():
 
 def test_document_indexer_add_document():
     """Test adding a document to the index."""
-    from src.embedding_agent.embedder import DocumentEmbedder
-    from src.embedding_agent.indexer import DocumentIndexer
+    from apps.embedding_agent.embedder import DocumentEmbedder
+    from apps.embedding_agent.indexer import DocumentIndexer
 
     # Mock the embedder
     with patch.object(DocumentEmbedder, "embed", return_value=[0.1, 0.2, 0.3]):
@@ -64,7 +64,7 @@ def test_document_indexer_add_document():
 
 def test_document_searcher_initialization():
     """Test initialization of DocumentSearcher."""
-    from src.embedding_agent.search import DocumentSearcher
+    from apps.embedding_agent.search import DocumentSearcher
 
     searcher = DocumentSearcher()
     assert searcher is not None
@@ -73,7 +73,7 @@ def test_document_searcher_initialization():
 
 def test_document_searcher_build_index():
     """Test building index from files."""
-    from src.embedding_agent.search import DocumentSearcher
+    from apps.embedding_agent.search import DocumentSearcher
 
     # Mock the add_documents_from_files method
     with patch.object(DocumentSearcher, "build_index", return_value={"total_documents": 5}):
@@ -85,7 +85,7 @@ def test_document_searcher_build_index():
 
 def test_chroma_document_indexer_initialization():
     """Test initialization of ChromaDocumentIndexer."""
-    from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+    from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
     # Mock chromadb to avoid import error
     with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}):
@@ -98,12 +98,12 @@ def test_chroma_document_indexer_initialization():
 
 def test_chroma_document_indexer_add_document():
     """Test adding a document to ChromaDocumentIndexer."""
-    from src.embedding_agent.chroma_indexer import ChromaDocumentIndexer
+    from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
     # Mock dependencies
     with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}):
         with patch("uuid.uuid4", return_value="test-uuid"):
-            with patch("src.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder:
+            with patch("apps.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder:
                 mock_embedder.return_value.embed.return_value = [0.1, 0.2, 0.3]
 
                 indexer = ChromaDocumentIndexer(persist_directory="./test_db")
