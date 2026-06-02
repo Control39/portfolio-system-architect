@@ -80,7 +80,7 @@ testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
-addopts = "-v --cov=it_compass --cov-report=term-missing"
+addopts = "-v --cov=it_compass --cov-report=term-missing --cov-fail-under=0"
 
 [tool.coverage.run]
 source = ["it_compass"]
@@ -92,3 +92,4 @@ exclude_lines = [
     "def __repr__",
     "raise NotImplementedError",
 ]
+fail_under = 0

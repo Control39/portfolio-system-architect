@@ -1,25 +1,26 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Скрипт для добавления тестовых данных в систему мониторинга триггеров.
 Адаптирован под существующую структуру базы данных.
 """
 
-import json
-import logging
-import random
 import sqlite3
+import random
 from datetime import datetime, timedelta
 from pathlib import Path
+import logging
+import json
 
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
 class TestMetricsGeneratorV2:
     """Генератор тестовых метрик для системы мониторинга (версия 2)"""
 
-    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = ".agents/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -66,10 +67,7 @@ class TestMetricsGeneratorV2:
                 seconds_ago = random.randint(0, 59)
 
                 timestamp = datetime.now() - timedelta(
-                    days=days_ago,
-                    hours=hours_ago,
-                    minutes=minutes_ago,
-                    seconds=seconds_ago,
+                    days=days_ago, hours=hours_ago, minutes=minutes_ago, seconds=seconds_ago
                 )
 
                 execution_time = random.uniform(0.1, 10.0)  # в секундах
@@ -233,12 +231,8 @@ class TestMetricsGeneratorV2:
             print("=" * 60)
 
             # Статистика по таблицам
-            # Белый список разрешенных таблиц (защита от SQL injection)
-            ALLOWED_TABLES = {"trigger_events", "trigger_metrics", "trigger_stats"}
             tables = ["trigger_events", "trigger_metrics", "trigger_stats"]
             for table in tables:
-                if table not in ALLOWED_TABLES:
-                    raise ValueError(f"Недопустимое имя таблицы: {table}")
                 cursor.execute(f"SELECT COUNT(*) FROM {table}")
                 count = cursor.fetchone()[0]
                 print(f"{table}: {count} записей")
@@ -291,18 +285,19 @@ def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Генератор тестовых метрик для системы мониторинга (v2)")
+    parser = argparse.ArgumentParser(
+        description="Генератор тестовых метрик для системы мониторинга (v2)"
+    )
     parser.add_argument(
-        "--events",
-        type=int,
-        default=50,
-        help="Количество тестовых событий для генерации",
+        "--events", type=int, default=50, help="Количество тестовых событий для генерации"
     )
     parser.add_argument("--metrics", action="store_true", help="Добавить тестовые метрики")
     parser.add_argument("--stats", action="store_true", help="Добавить статистические данные")
     parser.add_argument("--all", action="store_true", help="Добавить все типы данных")
     parser.add_argument("--show", action="store_true", help="Показать статистику базы данных")
-    parser.add_argument("--reset", action="store_true", help="Очистить базу данных перед добавлением")
+    parser.add_argument(
+        "--reset", action="store_true", help="Очистить базу данных перед добавлением"
+    )
 
     args = parser.parse_args()
 
@@ -332,12 +327,18 @@ def main():
 
     if not any([args.events > 0, args.metrics, args.stats, args.all, args.show, args.reset]):
         print("Использование:")
-        print("  python add-test-metrics-v2.py --events 100          # Добавить 100 тестовых событий")
+        print(
+            "  python add-test-metrics-v2.py --events 100          # Добавить 100 тестовых событий"
+        )
         print("  python add-test-metrics-v2.py --metrics             # Добавить тестовые метрики")
-        print("  python add-test-metrics-v2.py --stats               # Добавить статистические данные")
+        print(
+            "  python add-test-metrics-v2.py --stats               # Добавить статистические данные"
+        )
         print("  python add-test-metrics-v2.py --all                 # Добавить все типы данных")
         print("  python add-test-metrics-v2.py --show                # Показать статистику")
-        print("  python add-test-metrics-v2.py --reset --events 50   # Очистить и добавить 50 событий")
+        print(
+            "  python add-test-metrics-v2.py --reset --events 50   # Очистить и добавить 50 событий"
+        )
 
 
 if __name__ == "__main__":

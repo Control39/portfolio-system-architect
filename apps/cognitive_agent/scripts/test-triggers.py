@@ -1,15 +1,13 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Тестовый скрипт для проверки работы обработчика триггеров Cognitive Automation Agent.
 """
 
-import json
 import sys
-from datetime import datetime
-from pathlib import Path
-
+import json
 import yaml
-
+from pathlib import Path
+from datetime import datetime
 
 # Добавляем путь к скриптам агента
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -19,7 +17,9 @@ try:
     # Создаем временный модуль для импорта
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("trigger_processor", Path(__file__).parent / "trigger-processor.py")
+    spec = importlib.util.spec_from_file_location(
+        "trigger_processor", Path(__file__).parent / "trigger-processor.py"
+    )
     trigger_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(trigger_module)
 
@@ -61,10 +61,7 @@ except ImportError as e:
         @staticmethod
         def create_project_open_trigger(project_path):
             return TriggerEvent(
-                "project_open",
-                "system",
-                {"project_path": project_path},
-                TriggerPriority.HIGH,
+                "project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH
             )
 
         @staticmethod
@@ -226,17 +223,13 @@ def test_action_execution():
                 "timeout": 5,
                 "allowed_failures": 0,
             },
-            "python_version": {
-                "command": "python --version",
-                "timeout": 5,
-                "allowed_failures": 0,
-            },
+            "python_version": {"command": "python --version", "timeout": 5, "allowed_failures": 0},
         }
 
         # Сохраняем тестовую конфигурацию
         test_config = {"version": "1.0.0", "actions": test_actions}
 
-        config_path = Path("apps/cognitive_agent/config/test-triggers.yaml")
+        config_path = Path(".agents/config/test-triggers.yaml")
         config_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(config_path, "w", encoding="utf-8") as f:
@@ -260,9 +253,9 @@ def test_integration():
     try:
         # Проверяем существование необходимых файлов
         required_files = [
-            "apps/cognitive_agent/config/triggers.yaml",
-            "apps/cognitive_agent/config/agent-config.yaml",
-            "apps/cognitive_agent/scripts/trigger-processor.py",
+            ".agents/config/triggers.yaml",
+            ".agents/config/agent-config.yaml",
+            ".agents/scripts/trigger-processor.py",
         ]
 
         missing_files = []
@@ -277,11 +270,7 @@ def test_integration():
         print("✓ Все необходимые файлы существуют")
 
         # Проверяем структуру директорий
-        required_dirs = [
-            "apps/cognitive_agent/logs/triggers",
-            "apps/cognitive_agent/plans",
-            "apps/cognitive_agent/scans",
-        ]
+        required_dirs = [".agents/logs/triggers", ".agents/plans", ".agents/scans"]
 
         for dir_path in required_dirs:
             Path(dir_path).mkdir(parents=True, exist_ok=True)
@@ -339,8 +328,9 @@ def run_all_tests():
     if failed == 0:
         print("✓ Все тесты успешно пройдены!")
         return True
-    print("✗ Некоторые тесты не пройдены")
-    return False
+    else:
+        print("✗ Некоторые тесты не пройдены")
+        return False
 
 
 def simulate_real_scenario():
@@ -379,12 +369,18 @@ def simulate_real_scenario():
         # Показываем статистику
         print("\nСтатистика событий:")
         print(f"  - Всего событий в очереди: {len(processor.event_queue)}")
-        print(f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}")
-        print(f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}")
-        print(f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}")
+        print(
+            f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}"
+        )
+        print(
+            f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}"
+        )
+        print(
+            f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}"
+        )
 
         # Сохраняем события в лог
-        log_dir = Path("apps/cognitive_agent/logs/triggers")
+        log_dir = Path(".agents/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
         log_file = log_dir / f"simulation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -414,12 +410,12 @@ if __name__ == "__main__":
     print("РЕКОМЕНДАЦИИ ПО ИСПОЛЬЗОВАНИЮ:")
     print("=" * 60)
     print("1. Для запуска обработчика триггеров в режиме демона:")
-    print("   python apps/cognitive_agent/scripts/trigger-processor.py --daemon")
+    print("   python .agents/scripts/trigger-processor.py --daemon")
     print("\n2. Для ручного запуска триггера:")
-    print("   python apps/cognitive_agent/scripts/trigger-processor.py --trigger project_open")
+    print("   python .agents/scripts/trigger-processor.py --trigger project_open")
     print("\n3. Для просмотра логов:")
-    print("   tail -f apps/cognitive_agent/logs/triggers.log")
+    print("   tail -f .agents/logs/triggers.log")
     print("\n4. Для интеграции с Git хуками:")
-    print("   Смотрите apps/cognitive_agent/scripts/git-hooks-setup.py")
+    print("   Смотрите .agents/scripts/git-hooks-setup.py")
 
     sys.exit(0 if tests_passed else 1)

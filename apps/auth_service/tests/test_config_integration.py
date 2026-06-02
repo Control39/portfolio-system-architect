@@ -2,14 +2,12 @@
 Тесты интеграции с AI Config Manager для Auth Service
 """
 
-import sys
-from pathlib import Path
-
 import pytest
-
+from pathlib import Path
+import sys
 
 # Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent.parent  # apps/auth_service/tests -> repo root
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -21,62 +19,79 @@ class TestAuthServiceConfigIntegration:
         """Проверка доступности AI Config Manager"""
         try:
             from apps.ai_config_manager.src.config_manager import ConfigManager
-
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        # Добавляем src в PATH
-        src_path = REPO_ROOT / "apps" / "auth_service" / "src"
-        if str(src_path) not in sys.path:
-            sys.path.insert(0, str(src_path))
-
+        # Импортируем прямо из auth_service/src
         import importlib.util
-
-        spec = importlib.util.spec_from_file_location("config_integration", src_path / "config_integration.py")
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-
-        assert hasattr(module, "AuthServiceConfig")
+        spec = importlib.util.spec_from_file_location(
+            "config_integration",
+            REPO_ROOT / "apps" / "auth_service" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        assert hasattr(config_integration, 'AuthServiceConfig')
 
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "auth_service" / "src"))
-        from config_integration import get_config
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test",
+            REPO_ROOT / "apps" / "auth_service" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config1 = config_integration.get_config()
+        config2 = config_integration.get_config()
 
-        config1 = get_config()
-        config2 = get_config()
-
-        assert config1 is config2
+        assert config1 is config2, "get_config() должен возвращать один и тот же объект (singleton)"
 
     def test_get_config_returns_dict(self):
-        """Проверка что get_config возвращает dict"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "auth_service" / "src"))
-        from config_integration import get_config
-
-        config = get_config()
+        """Проверка что config.get_config() возвращает dict"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test2",
+            REPO_ROOT / "apps" / "auth_service" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config = config_integration.get_config()
         result = config.get_config()
 
-        assert isinstance(result, dict)
+        assert isinstance(result, dict), "get_config() должен возвращать dict"
 
     def test_reload_config(self):
         """Проверка hot reload"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "auth_service" / "src"))
-        from config_integration import reload_config
-
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test3",
+            REPO_ROOT / "apps" / "auth_service" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
         # Не должно выбрасывать исключений
-        reload_config()
+        config_integration.reload_config()
 
     def test_is_available_method(self):
         """Проверка метода is_available"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "auth_service" / "src"))
-        from config_integration import get_config
-
-        config = get_config()
-        assert hasattr(config, "is_available")
-        assert callable(config.is_available)
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test4",
+            REPO_ROOT / "apps" / "auth_service" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config = config_integration.get_config()
+        assert hasattr(config, 'is_available'), "Объект должен иметь метод is_available"
+        assert callable(config.is_available), "is_available должен быть методом"
 
 
 if __name__ == "__main__":

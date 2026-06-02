@@ -7,7 +7,7 @@ from pathlib import Path
 # Добавляем путь к src
 sys.path.append(str(Path(__file__).parent.parent))
 
-from src.embedding_agent.embedder import CodeEmbedder
+from apps.embedding_agent.embedder import CodeEmbedder
 
 
 def load_full_index(index_file: str):
@@ -59,7 +59,7 @@ def main():
 
     # Для демо используем простой подход - переиндексируем при поиске
     # В реальном проекте нужно сохранять эмбеддинги отдельно
-    from src.embedding_agent.indexer import CodeIndexer
+    from apps.embedding_agent.indexer import CodeIndexer
 
     indexer = CodeIndexer(embedder)
 

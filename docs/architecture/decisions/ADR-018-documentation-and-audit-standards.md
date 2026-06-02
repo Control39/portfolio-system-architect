@@ -1,6 +1,13 @@
 > **Former ID:** ADR-018-documentation-and-audit-standards
 > **Former path:** `docs\architecture\decisions\ADR-018-documentation-and-audit-standards.md`
 > **Current ID:** ADR-018
+> **Consolidated:** 2026-05-30
+>
+---
+
+> **Former ID:** ADR-018-documentation-and-audit-standards
+> **Former path:** `docs\architecture\decisions\ADR-018-documentation-and-audit-standards.md`
+> **Current ID:** ADR-018
 > **Consolidated:** 2026-05-23
 >
 ---

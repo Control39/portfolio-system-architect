@@ -236,4 +236,3 @@ cat ~/.ssh/known_hosts
 ---
 
 *Создано: 19 мая 2026 г.*
-*Автор: Koda AI Assistant*

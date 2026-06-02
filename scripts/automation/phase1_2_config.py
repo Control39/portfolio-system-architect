@@ -7,18 +7,18 @@ from pathlib import Path
 
 
 services = [
-    "ai-config-manager",
+    "ai_config_manager",
     "auth_service",
     "career_development",
-    "cognitive-agent",
-    "decision-engine",
-    "job-automation-agent",
-    "knowledge-graph",
-    "ml-model-registry",
+    "cognitive_agent",
+    "decision_engine",
+    "job_automation_agent",
+    "knowledge_graph",
+    "ml_model_registry",
     "portfolio_organizer",
-    "system-proof",
-    "template-service",
-    "thought-architecture",
+    "system_proof",
+    "template_service",
+    "thought_architecture",
 ]
 
 print("📁 ADDING CONFIG DIRECTORIES")

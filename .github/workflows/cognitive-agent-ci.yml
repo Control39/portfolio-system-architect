@@ -1,18 +1,16 @@
----
 name: Cognitive Agent CI/CD
 
 on:
   push:
     branches: [main, develop]
     paths:
-      - 'apps/cognitive-agent/**'
+      - 'apps/cognitive_agent/**'
       - '.github/workflows/cognitive-agent-ci.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'apps/cognitive-agent/**'
+      - 'apps/cognitive_agent/**'
   schedule:
-    # Запускать ежедневно в 2:00 UTC для мониторинга квот
     - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
@@ -22,10 +20,14 @@ on:
         default: 'minimal'
         type: choice
         options:
-        - minimal
-        - standard
-        - deep
-        - full
+          - minimal
+          - standard
+          - deep
+          - full
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-config:
@@ -33,25 +35,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
           pip install pyyaml jsonschema
-          if [ -f "apps/cognitive-agent/requirements.txt" ]; then
-            pip install -r apps/cognitive-agent/requirements.txt
+          if [ -f "apps/cognitive_agent/requirements.txt" ]; then
+            pip install -r apps/cognitive_agent/requirements.txt
           fi
 
       - name: Validate configuration files
         run: |
-          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/agent-config.yaml
-          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/triggers.yaml
-          python apps/mcp-server/scripts/validate-config.py --config apps/cognitive-agent/apps/cognitive-agent/config/learning.yaml
+          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/agent-config.yaml
+          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/triggers.yaml
+          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/learning.yaml
 
   test-agent:
     name: Test Agent Components
@@ -59,25 +61,25 @@ jobs:
     needs: validate-config
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install agent package
         run: |
-          cd apps/cognitive-agent && pip install -e .
+          cd apps/cognitive_agent && pip install -e .
 
       - name: Run unit tests
         run: |
-          cd apps/cognitive-agent && python -m pytest tests/ -v --cov=agents --cov-report=xml
+          cd apps/cognitive_agent && python -m pytest tests/ -v --cov=agents --cov-report=xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v4
         with:
-          file: apps/cognitive-agent/coverage.xml
+          file: apps/cognitive_agent/coverage.xml
           flags: cognitive-agent
 
   run-scanner:
@@ -86,29 +88,29 @@ jobs:
     needs: test-agent
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install agent package
         run: |
-          cd apps/cognitive-agent && pip install -e .
+          cd apps/cognitive_agent && pip install -e .
 
       - name: Run scanner in safe mode
         run: |
-          python -m agents.scripts.scanner_main --mode=safe --output=apps/cognitive-agent/reports/ci-scan-report.json
+          python -m apps.cognitive_agent.scripts.scanner_main --mode=safe --output=apps/cognitive_agent/reports/ci-scan-report.json
         env:
           AGENT_MODE: ci
           SOURCECRAFT_QUOTA_SAVING: true
 
       - name: Upload scan report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: scan-report
-          path: apps/cognitive-agent/reports/ci-scan-report.json
+          path: apps/cognitive_agent/reports/ci-scan-report.json
 
   monitor-quotas:
     name: Monitor SourceCraft Quotas
@@ -116,33 +118,33 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install agent package
         run: |
-          cd apps/cognitive-agent && pip install -e .
+          cd apps/cognitive_agent && pip install -e .
 
       - name: Run quota monitor
         run: |
-          python apps/cognitive-agent/scripts/check-db.py --quota-check --output=apps/cognitive-agent/reports/quota-report.json
+          python apps/cognitive_agent/scripts/check_db.py --quota-check --output=apps/cognitive_agent/reports/quota-report.json
         env:
           SOURCECRAFT_API_KEY: ${{ secrets.SOURCECRAFT_API_KEY }}
 
       - name: Check quota thresholds
         run: |
-          python apps/cognitive-agent/scripts/alert-system.py --report=apps/cognitive-agent/reports/quota-report.json --threshold=80
+          python apps/cognitive_agent/scripts/alert_system.py --report=apps/cognitive_agent/reports/quota-report.json --threshold=80
         continue-on-error: true
 
       - name: Upload quota report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: quota-report
-          path: apps/cognitive-agent/reports/quota-report.json
+          path: apps/cognitive_agent/reports/quota-report.json
 
   deploy-agent:
     name: Deploy Agent Updates
@@ -151,21 +153,23 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Build agent package
         run: |
-          cd apps/cognitive-agent && python setup.py sdist bdist_wheel
+          cd apps/cognitive_agent
+          pip install build
+          python -m build
 
       - name: Publish to PyPI (optional)
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         run: |
-          cd apps/cognitive-agent && pip install twine
+          cd apps/cognitive_agent && pip install twine
           twine upload dist/* --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
         env:
           TWINE_USERNAME: __token__
@@ -173,10 +177,10 @@ jobs:
 
       - name: Update documentation
         run: |
-          python apps/cognitive-agent/scripts/add-test-metrics.py --update-docs
+          python apps/cognitive_agent/scripts/add_test_metrics.py --update-docs
           git config --global user.name "Cognitive Agent CI"
           git config --global user.email "agent-ci@example.com"
-          git add apps/cognitive-agent/IMPLEMENTATION_REPORT.md apps/cognitive-agent/USAGE.md
+          git add apps/cognitive_agent/IMPLEMENTATION_REPORT.md apps/cognitive_agent/USAGE.md
           git commit -m "docs: update agent documentation [skip ci]" || echo "No changes to commit"
           git push origin main || echo "Nothing to push"
 
@@ -185,13 +189,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          scan-ref: 'apps/cognitive-agent/'
+          scan-ref: 'apps/cognitive_agent/'
           format: 'sarif'
           output: 'trivy-results.sarif'
 
@@ -204,7 +208,7 @@ jobs:
     name: Notify on Failure
     runs-on: ubuntu-latest
     needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, security-scan]
-    if: failure()
+    if: failure() && env.SLACK_WEBHOOK_URL != ''
     steps:
       - name: Send Slack notification
         uses: 8398a7/action-slack@v3
@@ -213,7 +217,3 @@ jobs:
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true

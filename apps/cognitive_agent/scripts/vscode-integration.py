@@ -1,34 +1,34 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Интеграция Cognitive Automation Agent с VS Code.
 Обеспечивает автоматический запуск агента при открытии проекта,
 команды для палитры команд и уведомления.
 """
 
-import json
 import os
+import json
 from pathlib import Path
-from typing import Any
+from typing import Dict, Any
 
 
 class VSCodeIntegration:
     """Интеграция с VS Code"""
 
-    def __init__(self, agent_root: str = "apps/cognitive_agent"):
+    def __init__(self, agent_root: str = ".agents"):
         self.agent_root = Path(agent_root)
         self.vscode_dir = Path(".vscode")
         self.config = self._load_config()
 
-    def _load_config(self) -> dict[str, Any]:
+    def _load_config(self) -> Dict[str, Any]:
         """Загрузка конфигурации"""
         config_path = self.agent_root / "config" / "agent-config.yaml"
         if config_path.exists():
             try:
                 import yaml
 
-                with open(config_path, encoding="utf-8") as f:
+                with open(config_path, "r", encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
-            except (FileNotFoundError, OSError, yaml.YAMLError):
+            except Exception:
                 pass
         return {}
 
@@ -65,10 +65,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Активировать",
                     "type": "shell",
                     "command": "python",
-                    "args": [
-                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
-                        "--autonomy=medium",
-                    ],
+                    "args": ["${workspaceFolder}/.agents/launch-script.py", "--autonomy=medium"],
                     "group": {"kind": "build", "isDefault": False},
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                     "problemMatcher": [],
@@ -77,7 +74,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Сканировать проект",
                     "type": "shell",
                     "command": "python",
-                    "args": ["${workspaceFolder}/apps/cognitive_agent/launch-script.py", "--scan"],
+                    "args": ["${workspaceFolder}/.agents/launch-script.py", "--scan"],
                     "group": "build",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -85,7 +82,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Валидировать",
                     "type": "shell",
                     "command": "python",
-                    "args": ["${workspaceFolder}/apps/cognitive_agent/tests/validation-test.py"],
+                    "args": ["${workspaceFolder}/.agents/tests/validation-test.py"],
                     "group": "test",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -93,10 +90,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Оптимизировать",
                     "type": "shell",
                     "command": "python",
-                    "args": [
-                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
-                        "--optimize",
-                    ],
+                    "args": ["${workspaceFolder}/.agents/launch-script.py", "--optimize"],
                     "group": "build",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -104,10 +98,7 @@ class VSCodeIntegration:
                     "label": "Cognitive Agent: Показать дашборд",
                     "type": "shell",
                     "command": "python",
-                    "args": [
-                        "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
-                        "--dashboard",
-                    ],
+                    "args": ["${workspaceFolder}/.agents/launch-script.py", "--dashboard"],
                     "group": "build",
                     "presentation": {"reveal": "always", "panel": "dedicated"},
                 },
@@ -141,7 +132,7 @@ class VSCodeIntegration:
             "python.analysis.typeCheckingMode": "basic",
             "terminal.integrated.env.windows": {
                 "COGNITIVE_AGENT_ENABLED": "true",
-                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/apps/cognitive_agent",
+                "COGNITIVE_AGENT_PATH": "${workspaceFolder}/.agents",
             },
         }
 
@@ -150,11 +141,11 @@ class VSCodeIntegration:
         # Если файл уже существует, объединяем настройки
         if settings_file.exists():
             try:
-                with open(settings_file, encoding="utf-8") as f:
+                with open(settings_file, "r", encoding="utf-8") as f:
                     existing_settings = json.load(f)
                 # Объединяем настройки
                 settings = {**existing_settings, **settings}
-            except (FileNotFoundError, OSError, json.JSONDecodeError):
+            except Exception:
                 pass
 
         with open(settings_file, "w", encoding="utf-8") as f:
@@ -229,10 +220,10 @@ from pathlib import Path
 
 def activate_cognitive_agent():
     """Активация Cognitive Automation Agent"""
-    agent_path = Path("apps/cognitive_agent")
+    agent_path = Path(".agents")
 
     if not agent_path.exists():
-        print("❌ Директория apps/cognitive_agent не найдена")
+        print("❌ Директория .agents не найдена")
         return False
 
     # Проверяем конфигурацию
@@ -287,13 +278,9 @@ if __name__ == "__main__":
         with open(script_file, "w", encoding="utf-8") as f:
             f.write(script_content)
 
-        # Устанавливаем безопасные права на файл
+        # Делаем скрипт исполняемым (для Unix-систем)
         if os.name != "nt":
-            os.chmod(script_file, 0o600)
-        else:
-            # На Windows права устанавливаются через другие механизмы
-            # или можно использовать win32security, если установлен
-            pass
+            os.chmod(script_file, 0o755)
 
         print(f"🚀 Создан скрипт активации: {script_file}")
 
@@ -306,7 +293,7 @@ if __name__ == "__main__":
                     "name": "Cognitive Agent: Debug",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
+                    "program": "${workspaceFolder}/.agents/launch-script.py",
                     "args": ["--debug"],
                     "console": "integratedTerminal",
                     "justMyCode": False,
@@ -315,14 +302,14 @@ if __name__ == "__main__":
                     "name": "Cognitive Agent: Validate",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive_agent/tests/validation-test.py",
+                    "program": "${workspaceFolder}/.agents/tests/validation-test.py",
                     "console": "integratedTerminal",
                 },
                 {
                     "name": "Cognitive Agent: Scanner",
                     "type": "python",
                     "request": "launch",
-                    "program": "${workspaceFolder}/apps/cognitive_agent/launch-script.py",
+                    "program": "${workspaceFolder}/.agents/launch-script.py",
                     "args": ["--scan", "--deep"],
                     "console": "integratedTerminal",
                 },
@@ -334,7 +321,7 @@ if __name__ == "__main__":
         # Если файл уже существует, добавляем конфигурации
         if launch_file.exists():
             try:
-                with open(launch_file, encoding="utf-8") as f:
+                with open(launch_file, "r", encoding="utf-8") as f:
                     existing_config = json.load(f)
 
                 # Добавляем наши конфигурации в начало
@@ -346,7 +333,7 @@ if __name__ == "__main__":
                     existing_config["configurations"] = launch_config["configurations"]
 
                 launch_config = existing_config
-            except (FileNotFoundError, OSError, json.JSONDecodeError):
+            except Exception:
                 pass
 
         with open(launch_file, "w", encoding="utf-8") as f:

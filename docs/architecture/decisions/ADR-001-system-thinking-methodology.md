@@ -1,6 +1,13 @@
 > **Former ID:** ADR-001-system-thinking-methodology
 > **Former path:** `docs\architecture\decisions\ADR-001-system-thinking-methodology.md`
 > **Current ID:** ADR-001
+> **Consolidated:** 2026-05-30
+>
+---
+
+> **Former ID:** ADR-001-system-thinking-methodology
+> **Former path:** `docs\architecture\decisions\ADR-001-system-thinking-methodology.md`
+> **Current ID:** ADR-001
 > **Consolidated:** 2026-05-23
 >
 ---

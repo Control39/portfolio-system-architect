@@ -1,4 +1,4 @@
-﻿# Конфигурация Cognitive Automation Agent
+# Конфигурация Cognitive Automation Agent
 # Версия: 2.0
 
 # Уровень автономности агента
@@ -308,13 +308,148 @@ environments:
 
 # Экспериментальные функции
 experimental:
-  enabled: false
+  enabled: true  # ВКЛЮЧЕНО 24 мая 2026
 
   features:
-    ai_planning: false  # Использование ИИ для планирования
+    ai_planning: true  # Использование ИИ для планирования (включено)
     predictive_maintenance: false  # Предсказательное обслуживание
     autonomous_refactoring: false  # Автономный рефакторинг
-    code_generation: false  # Генерация кода
+    code_generation: true  # Генерация кода (включено для MVP)
+
+  # Настройки ИИ-моделей
+  ai_models:
+    # ═══════════════════════════════════════════════════════════
+    # 🧠 УМНЫЙ ВЫБОР МОДЕЛИ
+    # Cognitive Agent автоматически выбирает модель по типу задачи
+    # ═══════════════════════════════════════════════════════════
+
+    # По умолчанию использовать GigaChat Lite (основная работа)
+    default: "gigachat-lite"
+
+    # ═══════════════════════════════════════════════════════════
+    # 🎯 АВТОМАТИЧЕСКИЙ ВЫБОР ПО ТИПУ ЗАДАЧИ
+    # ═══════════════════════════════════════════════════════════
+    model_selection:
+      enabled: true
+      strategy: "task_based"  # Выбор на основе типа задачи
+
+      # Правила выбора модели
+      rules:
+        # ─────────────────────────────────────────────────────
+        # GigaChat Lite (899k токенов) - ОСНОВНАЯ РАБОТА
+        # ─────────────────────────────────────────────────────
+        - condition: "task_type in ['coding', 'refactoring', 'testing', 'documentation', 'debugging']"
+          model: "gigachat-lite"
+          reason: "Экономия токенов Pro/Max, Lite достаточно для повседневных задач"
+
+        # ─────────────────────────────────────────────────────
+        # GigaChat Pro (50k токенов) - СЛОЖНЫЕ АРХИТЕКТУРНЫЕ ЗАДАЧИ
+        # ─────────────────────────────────────────────────────
+        - condition: "task_type in ['architecture', 'system_design', 'integration_planning'] OR complexity == 'high'"
+          model: "gigachat-pro"
+          reason: "Требуется более глубокое понимание и reasoning"
+
+        # ─────────────────────────────────────────────────────
+        # GigaChat Max (45k токенов) - КРИТИЧНЫЕ РЕШЕНИЯ
+        # ─────────────────────────────────────────────────────
+        - condition: "task_type in ['critical_decision', 'grant_proposal', 'strategic_planning'] OR complexity == 'critical'"
+          model: "gigachat-max"
+          reason: "Максимальное качество для критически важных решений"
+          warning: "⚠️ Использовать только при необходимости! Ограниченный бюджет токенов"
+
+        # ─────────────────────────────────────────────────────
+        # Ollama Qwen2.5-Coder - БЫСТРЫЕ ПРАВКИ / ОФФЛАЙН
+        # ─────────────────────────────────────────────────────
+        - condition: "task_type == 'quick_edit' OR offline_mode == true OR gigachat_unavailable == true"
+          model: "ollama-qwen2.5-coder"
+          reason: "Локальная модель без лимитов токенов"
+
+        # ─────────────────────────────────────────────────────
+        # Ollama Cogito - АРХИТЕКТУРНЫЙ ОБЗОР / DIAGRAMS
+        # ─────────────────────────────────────────────────────
+        - condition: "task_type in ['architecture_review', 'diagram_generation', 'adr_writing'] AND offline_mode == true"
+          model: "ollama-cogito"
+          reason: "Специализирована на reasoning и архитектуре"
+
+      # Приоритет fallback-цепочки
+      fallback_chain:
+        primary: "gigachat-lite"
+        chain:
+          - id: "gigachat-pro"
+            trigger: "complexity == 'high' OR timeout == true"
+          - id: "gigachat-max"
+            trigger: "complexity == 'critical' OR explicit_request == true"
+          - id: "ollama-qwen2.5-coder"
+            trigger: "gigachat_unavailable == true OR offline_mode == true"
+          - id: "ollama-cogito"
+            trigger: "architecture_task == true"
+          - id: "yandexgpt"
+            trigger: "all_others_failed == true"
+
+      # Настройки таймаутов и повторных попыток
+      timeout:
+        gigachat: 60s
+        ollama: 120s
+        yandexgpt: 60s
+
+      retry:
+        count: 2
+        backoff: "exponential"  # Экспоненциальная задержка
+
+      # Логирование выбора модели
+      logging:
+        log_model_selection: true
+        log_token_usage: true
+        log_fallbacks: true
+
+    # ═══════════════════════════════════════════════════════════
+    # 📊 МОНИТОРИНГ БЮДЖЕТА ТОКЕНОВ
+    # ═══════════════════════════════════════════════════════════
+    token_budget:
+      enabled: true
+      limits:
+        gigachat-lite: 899799
+        gigachat-pro: 50000
+        gigachat-max: 45338
+
+      alerts:
+        low_budget: 10000          # Предупреждение при остатке < 10k
+        critical_budget: 5000      # Критический уровень < 5k
+
+      actions:
+        on_low_budget: "switch_to_lite"  # Переключиться на Lite
+        on_critical: "require_approval"  # Требовать подтверждения пользователя
+
+    # ═══════════════════════════════════════════════════════════
+    # ☁️ GigaChat (облачные модели)
+    # ═══════════════════════════════════════════════════════════
+    gigachat:
+      enabled: true
+      endpoint: "https://gigachat.devices.sberbank.ru/api/v1"
+      api_key_env: "GIGACHAT_API_KEY"
+      models:
+        - "GigaChat-Lite"    # Основная
+        - "GigaChat-Pro"     # Сложные задачи
+        - "GigaChat-Max"     # Критичные решения
+
+    # ═══════════════════════════════════════════════════════════
+    # 💻 Ollama (локальные модели)
+    # ═══════════════════════════════════════════════════════════
+    ollama:
+      enabled: true
+      endpoint: "http://localhost:11434"
+      models:
+        - "qwen2.5-coder:7b"  # Кодинг
+        - "cogito:3b"         # Архитектура
+
+    # ═══════════════════════════════════════════════════════════
+    # 🇷🇺 YandexGPT (дополнительный резерв)
+    # ═══════════════════════════════════════════════════════════
+    yandexgpt:
+      enabled: true
+      api_key_env: "YANDEXGPT_API_KEY"
+      folder_id_env: "YANDEXGPT_FOLDER_ID"
+      model: "yandexgpt-lite"
 
   # Ограничения экспериментальных функций
   constraints:

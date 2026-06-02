@@ -1,11 +1,11 @@
-﻿# Конфигурация автоматических триггеров Cognitive Automation Agent
+# Конфигурация автоматических триггеров Cognitive Automation Agent
 version: "1.0.0"
 
 # Основные триггеры
 triggers:
   # Триггер при открытии проекта
   project_open:
-    enabled: true
+    enabled: false  # ОТКЛЮЧЕНО: ручное управление для экономии ресурсов
     conditions:
       - file_exists: "apps/cognitive_agent/config/agent-config.yaml"
       - file_exists: ".git"

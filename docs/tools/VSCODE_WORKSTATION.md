@@ -115,5 +115,3 @@ format:
 ├── python.snippets          # Снаппеты
 └── chat-logger.py           # Логгер
 ```
-
-

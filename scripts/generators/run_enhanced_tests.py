@@ -105,21 +105,21 @@ class EnhancedTestRunner:
         print(f"  {'-' * 25} {'-' * 8} {'-' * 8} {'-' * 20}")
 
         tiers = {
-            "cognitive-agent": "Core",
-            "decision-engine": "Core",
+            "cognitive_agent": "Core",
+            "decision_engine": "Core",
             "it_compass": "Core",
-            "knowledge-graph": "Core",
-            "infra-orchestrator": "Infra",
+            "knowledge_graph": "Core",
+            "infra_orchestrator": "Infra",
             "auth_service": "Infra",
-            "mcp-server": "Infra",
-            "ml-model-registry": "Infra",
+            "mcp_server": "Infra",
+            "ml_model_registry": "Infra",
             "portfolio_organizer": "Biz",
             "career_development": "Biz",
-            "job-automation-agent": "Biz",
-            "ai-config-manager": "Biz",
-            "template-service": "Biz",
-            "system-proof": "Biz",
-            "thought-architecture": "Biz",
+            "job_automation_agent": "Biz",
+            "ai_config_manager": "Biz",
+            "template_service": "Biz",
+            "system_proof": "Biz",
+            "thought_architecture": "Biz",
         }
 
         for service in self.services:

@@ -1,11 +1,8 @@
-﻿---
-version: "3.9"
+﻿version: "3.9"
 
 services:
   # ============================================================
   # API Gateway & Load Balancer (Traefik)
-  # Single entry point: localhost:80
-  # Dashboard: localhost:8080
   # ============================================================
   traefik:
     image: traefik:v3.0
@@ -19,7 +16,7 @@ services:
       - "--log.level=INFO"
     ports:
       - "80:80"
-      - "8080:8080" # Traefik dashboard: http://localhost:8080
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
@@ -33,8 +30,6 @@ services:
 
   # ============================================================
   # JWT Auth Service
-  # Issues & validates tokens
-  # Endpoint: POST /auth/token (demo: username=demo, password=demo)
   # ============================================================
   auth_service:
     build:
@@ -42,12 +37,15 @@ services:
       dockerfile: apps/auth_service/Dockerfile
     container_name: auth_service
     ports:
-      - "8100:8100" # Direct access: http://localhost:8100
+      - "8100:8100"
     environment:
       - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-prod}
       - JWT_ALGORITHM=HS256
       - LOG_LEVEL=INFO
       - PYTHONPATH=/app
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=auth_service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     labels:
@@ -65,14 +63,13 @@ services:
 
   # ============================================================
   # IT-Compass (Skill Tracking UI)
-  # Route: /it-compass
   # ============================================================
   it-compass:
     build:
       context: .
       dockerfile: apps/it_compass/Dockerfile
     ports:
-      - "8501:8501" # Direct access: http://localhost:8501
+      - "8501:8501"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -95,19 +92,20 @@ services:
 
   # ============================================================
   # Decision Engine (RAG API)
-  # Route: /decision-engine (via Traefik) or direct: localhost:8001
   # ============================================================
   decision-engine:
     build:
       context: .
       dockerfile: apps/decision_engine/Dockerfile
     ports:
-      - "8001:8001" # Direct access: http://localhost:8001
+      - "8001:8001"
     environment:
       - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=${DATABASE_URL}
-
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=decision_engine
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     volumes:
       - ./apps/decision_engine:/app
       - ./data/rag-index:/app/rag-index
@@ -131,7 +129,6 @@ services:
 
   # ============================================================
   # ML Model Registry
-  # Route: /ml-registry (via Traefik) or direct: localhost:8002
   # ============================================================
   ml-model-registry:
     build:
@@ -139,7 +136,7 @@ services:
       dockerfile: apps/ml_model_registry/Dockerfile
     container_name: portfolio-system-architect-ml-model-registry-1
     ports:
-      - "8002:8002" # Direct access: http://localhost:8002
+      - "8002:8002"
     environment:
       - PYTHONPATH=/app:/app/src
       - DATABASE_URL=${DATABASE_URL}
@@ -166,12 +163,13 @@ services:
 
   # ============================================================
   # Career Development
-  # Route: /career-dev
   # ============================================================
   career-development:
     build:
       context: .
       dockerfile: apps/career_development/Dockerfile
+    ports:
+      - "8101:8101"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -183,20 +181,19 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.career-dev.rule=Host(`localhost`) && PathPrefix(`/career-dev`)"
       - "traefik.http.routers.career-dev.service=career-dev"
-      - "traefik.http.services.career-dev.loadbalancer.server.port=8000"
+      - "traefik.http.services.career-dev.loadbalancer.server.port=8101"
     depends_on:
       - traefik
 
   # ============================================================
   # Portfolio Organizer
-  # Route: /portfolio-organizer
   # ============================================================
   portfolio_organizer:
     build:
       context: .
       dockerfile: apps/portfolio_organizer/Dockerfile
     ports:
-      - "8004:8004" # Direct access: http://localhost:8004
+      - "8004:8004"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -214,12 +211,13 @@ services:
 
   # ============================================================
   # System Proof (CoT Storage)
-  # Route: /system-proof
   # ============================================================
   system-proof:
     build:
       context: .
       dockerfile: apps/system_proof/Dockerfile
+    ports:
+      - "8003:8003"
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -246,12 +244,13 @@ services:
 
   # ============================================================
   # Infra Orchestrator (Service Management API)
-  # Route: /infra-orchestrator
   # ============================================================
   infra_orchestrator:
     build:
       context: .
       dockerfile: apps/infra_orchestrator/Dockerfile
+    ports:
+      - "8200:8200"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -261,9 +260,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.infra-orchestrator.rule=Host(`localhost`) && PathPrefix(`/infra-orchestrator`)"
       - "traefik.http.routers.infra-orchestrator.service=infra_orchestrator"
-      - "traefik.http.services.infra-orchestrator.loadbalancer.server.port=8000"
+      - "traefik.http.services.infra_orchestrator.loadbalancer.server.port=8200"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8200/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -272,14 +271,13 @@ services:
 
   # ============================================================
   # AI Config Manager
-  # Status: Monitoring & Configuration
   # ============================================================
   ai_config_manager:
     build:
       context: .
       dockerfile: apps/ai_config_manager/Dockerfile
     ports:
-      - "8500:8000"
+      - "8500:8500"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -290,21 +288,23 @@ services:
 
   # ============================================================
   # Chat Backend
-  # Status: Stable
   # ============================================================
   chat_backend:
     build:
       context: .
       dockerfile: apps/chat_backend/Dockerfile
     ports:
-      - "8005:8000"
+      - "8005:8005"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=chat_backend
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -313,52 +313,55 @@ services:
 
   # ============================================================
   # Knowledge Graph
-  # Status: Stable
   # ============================================================
   knowledge_graph:
     build:
       context: .
       dockerfile: apps/knowledge_graph/Dockerfile
     ports:
-      - "8006:8000"
+      - "8006:8006"
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=knowledge_graph
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     depends_on:
       - traefik
 
   # ============================================================
-  # Cognitive Agent
-  # Status: WIP
+  # Cognitive Agent (WIP)
   # ============================================================
   cognitive_agent:
     build:
       context: .
       dockerfile: apps/cognitive_agent/Dockerfile
     ports:
-      - "8008:8000"
+      - "8008:8008"
     profiles:
       - wip
     environment:
       - PYTHONPATH=/app
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - OTEL_ENABLED=${OTEL_ENABLED:-true}
+      - SERVICE_NAME=cognitive_agent
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
     networks:
       - portfolio-network
     depends_on:
       - traefik
 
   # ============================================================
-  # Job Automation Agent
-  # Status: WIP
+  # Job Automation Agent (WIP)
   # ============================================================
   job_automation_agent:
     build:
       context: .
       dockerfile: apps/job_automation_agent/Dockerfile
     ports:
-      - "8009:8000"
+      - "8009:8009"
     profiles:
       - wip
     environment:
@@ -370,15 +373,14 @@ services:
       - traefik
 
   # ============================================================
-  # Thought Architecture
-  # Status: WIP
+  # Thought Architecture (WIP)
   # ============================================================
   thought_architecture:
     build:
       context: .
       dockerfile: apps/thought_architecture/Dockerfile
     ports:
-      - "8010:8000"
+      - "8010:8010"
     profiles:
       - wip
     environment:
@@ -390,13 +392,12 @@ services:
       - traefik
 
   # ============================================================
-  # Template Service
-  # Status: WIP (Template for new services)
+  # Template Service (WIP)
   # ============================================================
   template_service:
     build: ./apps/template_service
     ports:
-      - "8011:8000"
+      - "8011:8011"
     profiles:
       - wip
     environment:
@@ -408,14 +409,12 @@ services:
       - traefik
 
   # ============================================================
-  # MCP Server (Model Context Protocol)
-  # Route: Direct access: localhost:8007
-  # Status: WIP - Use profile: wip to run
+  # MCP Server (WIP)
   # ============================================================
   mcp_server:
     build: ./apps/mcp_server
     ports:
-      - "8007:8000"
+      - "8007:8007"
     profiles:
       - wip
     environment:
@@ -478,3 +477,6 @@ volumes:
 networks:
   portfolio-network:
     driver: bridge
+
+
+

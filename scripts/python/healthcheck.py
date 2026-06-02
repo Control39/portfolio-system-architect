@@ -12,9 +12,9 @@ SERVICES = {
     "pgadmin": "localhost:5050",
     "prometheus": "localhost:9090",
     "grafana": "localhost:3000",
-    "career-development": "localhost:8001/health",  # Adjust port
-    "it-compass": "localhost:8501/health",
-    "decision-engine": "localhost:8000/health",
+    "career_development": "localhost:8001/health",  # Adjust port
+    "it_compass": "localhost:8501/health",
+    "decision_engine": "localhost:8000/health",
 }
 
 

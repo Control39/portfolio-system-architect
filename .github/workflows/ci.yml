@@ -49,9 +49,9 @@ jobs:
           pytest apps/*/tests/test_*.py \
             --ignore=apps/template-service/tests \
             --deselect=apps/career_development/tests/test_helpers.py \
-            --deselect=apps/infra-orchestrator/tests/test_integration_infra_orchestrator.py \
-            --deselect=apps/mcp-server/tests/test_integration_mcp_server.py::test_mcp_resource_management_async \
-            --deselect=apps/mcp-server/tests/test_server_impl.py::TestMCPIntegration::test_config_validation \
+            --deselect=apps/infra_orchestrator/tests/test_integration_infra_orchestrator.py \
+            --deselect=apps/mcp_server/tests/test_integration_mcp_server.py::test_mcp_resource_management_async \
+            --deselect=apps/mcp_server/tests/test_server_impl.py::TestMCPIntegration::test_config_validation \
             --cov=apps \
             --cov-report=xml \
             --cov-report=term \

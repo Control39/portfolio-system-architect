@@ -8,6 +8,7 @@
 import asyncio
 import logging
 from collections.abc import Callable
+from datetime import datetime, timezone
 from typing import Any, TypedDict
 
 from fastapi import APIRouter, HTTPException
@@ -44,7 +45,9 @@ class HealthCheckService:
         self.checks: dict[str, CheckInfo] = {}
         self.required_checks: set[str] = set()  # Checks that must pass for "healthy" status
 
-    def register_check(self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5):
+    def register_check(
+        self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5
+    ):
         """
         Регистрирует функцию проверки.
 
@@ -60,8 +63,6 @@ class HealthCheckService:
 
     async def get_health(self) -> HealthCheckResponse:
         """Получить полный статус здоровья сервиса."""
-        from datetime import datetime
-
         results = {}
         failed_required = []
 
@@ -101,12 +102,13 @@ class HealthCheckService:
         else:
             status = "healthy"
 
+        # ✅ ИСПРАВЛЕНО: datetime.now(timezone.utc) для Python 3.12+
         return HealthCheckResponse(
             service=self.service_name,
             status=status,
             version=self.version,
             checks=results,
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
 
@@ -168,9 +170,9 @@ def init_health_checks(
     if external_services:
         import httpx
 
-        for service_key, url in external_services.items():
-
-            async def check_external(url=url, key=service_key):
+        # ✅ ИСПРАВЛЕНО: фабрика для избежания бага с замыканием в цикле
+        def _create_external_checker(url: str, key: str):
+            async def checker():
                 try:
                     async with httpx.AsyncClient(timeout=5) as client:
                         response = await client.get(f"{url}/health")
@@ -185,7 +187,15 @@ def init_health_checks(
                     logger.warning(f"External service check for {key} failed: {e}")
                     return {"status": "error", "service": key, "error": str(e)}
 
-            service.register_check(f"external_{service_key}", check_external, required=False, timeout=10)
+            return checker
+
+        for service_key, url in external_services.items():
+            service.register_check(
+                f"external_{service_key}",
+                _create_external_checker(url, service_key),
+                required=False,
+                timeout=10,
+            )
 
     # Регистрируем endpoints
     @router.get("/health")

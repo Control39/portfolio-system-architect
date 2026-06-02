@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Мониторинг квот SourceCraft в реальном времени.
 
@@ -6,23 +6,19 @@
 и других ресурсов для оптимизации использования квот.
 """
 
-import argparse
 import json
-import logging
 import time
+import logging
+import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import Any
-
+from typing import Dict, List, Optional, Any
 
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("apps/cognitive_agent/logs/quota-monitor.log"),
-        logging.StreamHandler(),
-    ],
+    handlers=[logging.FileHandler(".agents/logs/quota-monitor.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -30,7 +26,7 @@ logger = logging.getLogger(__name__)
 class QuotaMonitor:
     """Монитор квот SourceCraft"""
 
-    def __init__(self, config_path: str = "apps/cognitive_agent/config/quota-config.yaml"):
+    def __init__(self, config_path: str = ".agents/config/quota-config.yaml"):
         self.config_path = Path(config_path)
         self.quota_data = {}
         self.alerts = []
@@ -51,7 +47,7 @@ class QuotaMonitor:
             import yaml
 
             if self.config_path.exists():
-                with open(self.config_path, encoding="utf-8") as f:
+                with open(self.config_path, "r", encoding="utf-8") as f:
                     config = yaml.safe_load(f)
                     if config and "thresholds" in config:
                         self.thresholds.update(config["thresholds"])
@@ -60,7 +56,7 @@ class QuotaMonitor:
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
 
-    def get_current_quotas(self) -> dict[str, Any]:
+    def get_current_quotas(self) -> Dict[str, Any]:
         """
         Получение текущих данных о квотах.
         В реальной реализации здесь будет API-запрос к SourceCraft.
@@ -100,7 +96,7 @@ class QuotaMonitor:
             },
         }
 
-    def check_thresholds(self, quota_data: dict[str, Any]) -> list[dict[str, Any]]:
+    def check_thresholds(self, quota_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Проверка превышения пороговых значений"""
         alerts = []
 
@@ -121,11 +117,15 @@ class QuotaMonitor:
                     }
                     alerts.append(alert)
 
-                    logger.warning(f"Превышен порог для {quota_name}: {percentage}% (порог: {threshold}%)")
+                    logger.warning(
+                        f"Превышен порог для {quota_name}: {percentage}% " f"(порог: {threshold}%)"
+                    )
 
         return alerts
 
-    def generate_optimization_recommendations(self, quota_data: dict[str, Any]) -> list[dict[str, Any]]:
+    def generate_optimization_recommendations(
+        self, quota_data: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Генерация рекомендаций по оптимизации квот"""
         recommendations = []
 
@@ -176,7 +176,7 @@ class QuotaMonitor:
 
         return recommendations
 
-    def save_report(self, report: dict[str, Any], output_path: str):
+    def save_report(self, report: Dict[str, Any], output_path: str):
         """Сохранение отчета в файл"""
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -186,7 +186,7 @@ class QuotaMonitor:
 
         logger.info(f"Отчет сохранен: {output_file}")
 
-    def run_monitoring(self, output_path: str | None = None) -> dict[str, Any]:
+    def run_monitoring(self, output_path: Optional[str] = None) -> Dict[str, Any]:
         """Запуск мониторинга квот"""
         logger.info("Запуск мониторинга квот SourceCraft...")
 
@@ -222,7 +222,7 @@ class QuotaMonitor:
 
         return report
 
-    def print_summary(self, report: dict[str, Any]):
+    def print_summary(self, report: Dict[str, Any]):
         """Вывод сводки мониторинга"""
         print("\n" + "=" * 60)
         print("СВОДКА МОНИТОРИНГА КВОТ SOURCECRAFT")
@@ -252,7 +252,9 @@ class QuotaMonitor:
         if alerts:
             print(f"\n\033[93mВНИМАНИЕ: {len(alerts)} предупреждений:\033[0m")
             for alert in alerts:
-                print(f"  • {alert['quota']}: {alert['percentage']}% (порог: {alert['threshold']}%)")
+                print(
+                    f"  • {alert['quota']}: {alert['percentage']}% (порог: {alert['threshold']}%)"
+                )
 
         recommendations = report.get("recommendations", [])
         if recommendations:
@@ -269,7 +271,7 @@ def main():
     parser.add_argument(
         "--output",
         "-o",
-        default="apps/cognitive_agent/reports/quota-monitor.json",
+        default=".agents/reports/quota-monitor.json",
         help="Путь для сохранения отчета",
     )
     parser.add_argument(
@@ -281,17 +283,13 @@ def main():
     )
     parser.add_argument("--continuous", "-c", action="store_true", help="Непрерывный мониторинг")
     parser.add_argument(
-        "--threshold",
-        "-t",
-        type=int,
-        default=80,
-        help="Порог предупреждения в процентах",
+        "--threshold", "-t", type=int, default=80, help="Порог предупреждения в процентах"
     )
 
     args = parser.parse_args()
 
     monitor = QuotaMonitor()
-    monitor.thresholds = dict.fromkeys(monitor.thresholds, args.threshold)
+    monitor.thresholds = {k: args.threshold for k in monitor.thresholds}
 
     if args.continuous:
         logger.info(f"Запуск непрерывного мониторинга с интервалом {args.interval} секунд")

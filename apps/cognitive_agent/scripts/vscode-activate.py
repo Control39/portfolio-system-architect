@@ -11,10 +11,10 @@ from pathlib import Path
 
 def activate_cognitive_agent():
     """Активация Cognitive Automation Agent"""
-    agent_path = Path("apps/cognitive_agent")
+    agent_path = Path(".agents")
 
     if not agent_path.exists():
-        print("❌ Директория apps/cognitive_agent не найдена")
+        print("❌ Директория .agents не найдена")
         return False
 
     # Проверяем конфигурацию
@@ -28,7 +28,9 @@ def activate_cognitive_agent():
     if validation_script.exists():
         import subprocess
 
-        result = subprocess.run([sys.executable, str(validation_script)], capture_output=True, text=True)
+        result = subprocess.run(
+            [sys.executable, str(validation_script)], capture_output=True, text=True
+        )
 
         if result.returncode == 0:
             print("✅ Cognitive Agent прошел валидацию")

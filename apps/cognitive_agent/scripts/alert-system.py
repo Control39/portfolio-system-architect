@@ -1,26 +1,24 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Система оповещений для мониторинга триггеров.
 Проверяет метрики и отправляет уведомления при обнаружении проблем.
 """
 
-import json
-import logging
-import smtplib
 import sqlite3
+import json
 from datetime import datetime, timedelta
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from pathlib import Path
-from typing import Any
-
+import logging
+from typing import Dict, List, Any
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import requests
-
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("apps/cognitive_agent/logs/alerts.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(".agents/logs/alerts.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -28,15 +26,15 @@ logger = logging.getLogger(__name__)
 class AlertSystem:
     """Система оповещений для мониторинга триггеров"""
 
-    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = ".agents/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
-        self.alerts_dir = Path("apps/cognitive_agent/alerts")
+        self.alerts_dir = Path(".agents/alerts")
         self.alerts_dir.mkdir(parents=True, exist_ok=True)
 
         # Конфигурация оповещений
         self.alert_config = self._load_alert_config()
 
-    def _load_alert_config(self) -> dict[str, Any]:
+    def _load_alert_config(self) -> Dict[str, Any]:
         """Загрузка конфигурации оповещений"""
         default_config = {
             "thresholds": {
@@ -56,23 +54,19 @@ class AlertSystem:
                     "sender_password": "",
                     "recipients": [],
                 },
-                "slack": {
-                    "enabled": False,
-                    "webhook_url": "",
-                    "channel": "#monitoring",
-                },
+                "slack": {"enabled": False, "webhook_url": "", "channel": "#monitoring"},
                 "telegram": {"enabled": False, "bot_token": "", "chat_id": ""},
             },
             "alert_cooldown_minutes": 30,  # Время между повторными оповещениями
             "check_interval_hours": 1,  # Интервал проверки
         }
 
-        config_path = Path("apps/cognitive_agent/config/alerts.yaml")
+        config_path = Path(".agents/config/alerts.yaml")
         if config_path.exists():
             try:
                 import yaml
 
-                with open(config_path, encoding="utf-8") as f:
+                with open(config_path, "r", encoding="utf-8") as f:
                     user_config = yaml.safe_load(f)
                     # Объединяем с конфигурацией по умолчанию
                     return self._merge_configs(default_config, user_config)
@@ -81,7 +75,7 @@ class AlertSystem:
 
         return default_config
 
-    def _merge_configs(self, default: dict, user: dict) -> dict:
+    def _merge_configs(self, default: Dict, user: Dict) -> Dict:
         """Рекурсивное объединение конфигураций"""
         result = default.copy()
         for key, value in user.items():
@@ -91,7 +85,7 @@ class AlertSystem:
                 result[key] = value
         return result
 
-    def check_metrics(self, hours: int = 24) -> list[dict[str, Any]]:
+    def check_metrics(self, hours: int = 24) -> List[Dict[str, Any]]:
         """Проверка метрик и генерация оповещений"""
         alerts = []
 
@@ -163,7 +157,7 @@ class AlertSystem:
 
         return alerts
 
-    def _get_event_stats(self, hours: int) -> dict[str, Any]:
+    def _get_event_stats(self, hours: int) -> Dict[str, Any]:
         """Получение статистики событий за указанный период"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
@@ -235,7 +229,7 @@ class AlertSystem:
                 "error_count": error_count,
             }
 
-    def _get_common_errors(self, hours: int) -> list[tuple]:
+    def _get_common_errors(self, hours: int) -> List[tuple]:
         """Получение самых частых ошибок"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
@@ -256,7 +250,7 @@ class AlertSystem:
 
             return cursor.fetchall()
 
-    def _check_performance_issues(self, hours: int) -> list[dict[str, Any]]:
+    def _check_performance_issues(self, hours: int) -> List[Dict[str, Any]]:
         """Проверка проблем с производительностью"""
         alerts = []
 
@@ -326,7 +320,7 @@ class AlertSystem:
             return True
 
         try:
-            with open(cooldown_file) as f:
+            with open(cooldown_file, "r") as f:
                 cooldown_data = json.load(f)
 
             last_alert_time = cooldown_data.get(alert_type)
@@ -338,8 +332,9 @@ class AlertSystem:
 
             if (datetime.now() - last_time).total_seconds() > cooldown_minutes * 60:
                 return True
-            logger.debug(f"Оповещение {alert_type} в режиме охлаждения")
-            return False
+            else:
+                logger.debug(f"Оповещение {alert_type} в режиме охлаждения")
+                return False
 
         except Exception as e:
             logger.warning(f"Ошибка при проверке времени охлаждения: {e}")
@@ -351,7 +346,7 @@ class AlertSystem:
 
         try:
             if cooldown_file.exists():
-                with open(cooldown_file) as f:
+                with open(cooldown_file, "r") as f:
                     cooldown_data = json.load(f)
             else:
                 cooldown_data = {}
@@ -364,7 +359,7 @@ class AlertSystem:
         except Exception as e:
             logger.error(f"Ошибка при обновлении времени охлаждения: {e}")
 
-    def send_notifications(self, alerts: list[dict[str, Any]]):
+    def send_notifications(self, alerts: List[Dict[str, Any]]):
         """Отправка уведомлений"""
         if not alerts:
             logger.info("Нет оповещений для отправки")
@@ -382,23 +377,26 @@ class AlertSystem:
         notifications_sent = 0
 
         # Email уведомления
-        if self.alert_config["notification"]["email"]["enabled"] and self._send_email_alert(message):
-            notifications_sent += 1
+        if self.alert_config["notification"]["email"]["enabled"]:
+            if self._send_email_alert(message):
+                notifications_sent += 1
 
         # Slack уведомления
-        if self.alert_config["notification"]["slack"]["enabled"] and self._send_slack_alert(message):
-            notifications_sent += 1
+        if self.alert_config["notification"]["slack"]["enabled"]:
+            if self._send_slack_alert(message):
+                notifications_sent += 1
 
         # Telegram уведомления
-        if self.alert_config["notification"]["telegram"]["enabled"] and self._send_telegram_alert(message):
-            notifications_sent += 1
+        if self.alert_config["notification"]["telegram"]["enabled"]:
+            if self._send_telegram_alert(message):
+                notifications_sent += 1
 
         # Локальное сохранение оповещений
         self._save_alerts_locally(alerts)
 
         logger.info(f"Отправлено {notifications_sent} уведомлений о {len(alerts)} оповещениях")
 
-    def _format_alert_message(self, high: list, medium: list, low: list) -> str:
+    def _format_alert_message(self, high: List, medium: List, low: List) -> str:
         """Форматирование сообщения об оповещениях"""
         lines = []
 
@@ -472,8 +470,9 @@ class AlertSystem:
             if response.status_code == 200:
                 logger.info("Slack оповещение отправлено")
                 return True
-            logger.error(f"Ошибка Slack: {response.status_code} - {response.text}")
-            return False
+            else:
+                logger.error(f"Ошибка Slack: {response.status_code} - {response.text}")
+                return False
 
         except Exception as e:
             logger.error(f"Ошибка при отправке в Slack: {e}")
@@ -485,25 +484,22 @@ class AlertSystem:
             config = self.alert_config["notification"]["telegram"]
 
             url = f"https://api.telegram.org/bot{config['bot_token']}/sendMessage"
-            payload = {
-                "chat_id": config["chat_id"],
-                "text": message,
-                "parse_mode": "HTML",
-            }
+            payload = {"chat_id": config["chat_id"], "text": message, "parse_mode": "HTML"}
 
             response = requests.post(url, json=payload)
 
             if response.status_code == 200:
                 logger.info("Telegram оповещение отправлено")
                 return True
-            logger.error(f"Ошибка Telegram: {response.status_code} - {response.text}")
-            return False
+            else:
+                logger.error(f"Ошибка Telegram: {response.status_code} - {response.text}")
+                return False
 
         except Exception as e:
             logger.error(f"Ошибка при отправке в Telegram: {e}")
             return False
 
-    def _save_alerts_locally(self, alerts: list[dict[str, Any]]):
+    def _save_alerts_locally(self, alerts: List[Dict[str, Any]]):
         """Сохранение оповещений локально"""
         try:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

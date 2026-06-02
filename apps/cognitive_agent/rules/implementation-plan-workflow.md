@@ -3,37 +3,48 @@ apply: Always
 mode: Agent
 ---
 
-# 📋 PLAN WORKFLOW
+# 📋 IMPLEMENTATION PLAN WORKFLOW
 
-## 🔍 BEFORE WORK
-1. Read IMPLEMENTATION_PLAN.md
-2. Find next [ ] task by priority (🔴>🟡>🟢)
-3. Show user: task #, name, priority, commands
-4. Wait for confirmation
+## 🔍 ПЕРЕД НАЧАЛОМ РАБОТЫ
 
-## ✅ AFTER COMPLETION
-1. Update: [ ] → [x]
-2. Add to changelog
-3. Commit & push:
-   `
-   git add IMPLEMENTATION_PLAN.md
-   git commit -m "chore: task X.X.X done"
-   git push origin main && git push sourcecraft main
-   `
-4. Show progress + next task
+1. **Прочитать IMPLEMENTATION_PLAN.md**
+2. **Найти первую незавершённую задачу** (статус [ ])
+3. **Сообщить пользователю** о следующей задаче с приоритетом
+4. **Получить подтверждение** перед выполнением
 
-## ➕ ADD TASKS
-If user requests:
-1. Determine phase & priority
-2. Add to plan
-3. Update counters
-4. Commit & push
+## ✅ ПОСЛЕ ВЫПОЛНЕНИЯ
 
-## 🚫 RULES
-- ✅ ALWAYS read plan first
-- ✅ ALWAYS update after
-- ✅ ALWAYS commit
-- ❌ NO without confirmation
+1. **Обновить план:** [ ] → [x]
+2. **Добавить запись в журнал изменений** с датой
+3. **Создать коммит:** git add IMPLEMENTATION_PLAN.md && git commit -m "chore: задача X.X.X выполнена"
+4. **Отправить в репозитории:** git push origin main && git push sourcecraft main
+5. **Показать прогресс** и следующую задачу
+
+## ➕ ДОБАВЛЕНИЕ НОВЫХ ЗАДАЧ
+
+Если пользователь просит добавить что-то в план:
+
+1. **Определить фазу** и приоритет
+2. **Добавить задачу** в соответствующий раздел
+3. **Обновить счётчики** в таблице прогресса
+4. **Создать коммит** с описанием новой задачи
+5. **Отправить в репозитории**
+
+## 🚫 ПРАВИЛА
+
+- ✅ ВСЕГДА читать план перед работой
+- ✅ ВСЕГДА обновлять после выполнения
+- ✅ ВСЕГДА делать коммит и push
+- ❌ НЕ выполнять без подтверждения (кроме security 🔴)
+- ❌ НЕ пропускать задачи по порядку приоритета
+
+## 🎯 ПРИОРИТЕТЫ
+
+1. 🔴 Высокий — Безопасность
+2. 🟡 Средний — Оптимизация, CI/CD
+3. 🟢 Низкий — Документация, рефакторинг
 
 ---
-**Updated:** 2026-04-28
+
+**Активация:** Всегда в режиме Agent
+**Обновлено:** 2026-04-28

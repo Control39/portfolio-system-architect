@@ -4,9 +4,9 @@ Pydantic модели для сущностей и связей в графе з
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, ClassVar
+from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class EntityType(str, Enum):
@@ -62,8 +62,8 @@ class Entity(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
     updated_at: datetime = Field(default_factory=datetime.now, description="Время последнего обновления")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "id": "fastapi-001",
                 "name": "FastAPI",
@@ -74,6 +74,7 @@ class Entity(BaseModel):
                 "source": "api/main.py",
             }
         }
+    )
 
 
 class Relationship(BaseModel):
@@ -89,8 +90,8 @@ class Relationship(BaseModel):
     confidence: float = Field(1.0, ge=0.0, le=1.0, description="Уверенность в существовании связи")
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "id": "rel-001",
                 "source_id": "architect-assistant-001",
@@ -101,6 +102,7 @@ class Relationship(BaseModel):
                 "confidence": 0.9,
             }
         }
+    )
 
 
 class GraphQuery(BaseModel):
@@ -113,14 +115,15 @@ class GraphQuery(BaseModel):
     parameters: dict[str, Any] = Field(default_factory=dict, description="Параметры запроса")
     limit: int | None = Field(100, description="Максимальное количество результатов")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "query_type": "find_entities",
                 "parameters": {"type": "technology", "name_contains": "fast"},
                 "limit": 10,
             }
         }
+    )
 
 
 class GraphResponse(BaseModel):
@@ -133,8 +136,8 @@ class GraphResponse(BaseModel):
     message: str | None = Field(None, description="Сообщение об ошибке или информации")
     processing_time_ms: float = Field(..., description="Время обработки запроса в миллисекундах")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "success": True,
                 "entities": [
@@ -149,6 +152,7 @@ class GraphResponse(BaseModel):
                 "processing_time_ms": 45.2,
             }
         }
+    )
 
 
 class TextExtractionRequest(BaseModel):
@@ -158,14 +162,15 @@ class TextExtractionRequest(BaseModel):
     extract_relationships: bool = Field(True, description="Извлекать ли связи между сущностями")
     language: str = Field("ru", description="Язык текста")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "text": "Architect Assistant использует FastAPI и ChromaDB для RAG поиска.",
                 "extract_relationships": True,
                 "language": "ru",
             }
         }
+    )
 
 
 class TextExtractionResponse(BaseModel):
@@ -175,8 +180,8 @@ class TextExtractionResponse(BaseModel):
     relationships: list[Relationship] = Field(default_factory=list, description="Извлеченные связи")
     processing_time_ms: float = Field(..., description="Время обработки в миллисекундах")
 
-    class Config:
-        json_schema_extra: ClassVar[dict] = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "entities": [
                     {
@@ -204,3 +209,4 @@ class TextExtractionResponse(BaseModel):
                 "processing_time_ms": 120.5,
             }
         }
+    )

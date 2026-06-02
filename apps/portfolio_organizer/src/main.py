@@ -2,12 +2,23 @@
 Portfolio Organizer Service - FastAPI application
 """
 
-from fastapi import FastAPI
+import logging
+import sys
+from pathlib import Path
+
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Добавляем корень проекта в PYTHONPATH для импорта из src/
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+from src.common.health_check import init_health_checks
+from src.security.secret_masking import create_fastapi_secret_middleware
 from .api.ml_model_registry_integration import router as ml_model_registry_router
 from .api.reasoning_api import router as reasoning_router
+from apps.portfolio_organizer.api.v1.portfolios import router as portfolios_router
 
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Portfolio Organizer API",
@@ -24,39 +35,41 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Подключаем router с reasoning API
-app.include_router(reasoning_router)
+# Middleware для маскировки секретов
+app.add_middleware(create_fastapi_secret_middleware())
+logger.info("Secret masking middleware added")
 
-# Подключаем router для интеграции с ML Model Registry
-app.include_router(ml_model_registry_router)
+# Health Checks
+health_service = init_health_checks(
+    app,
+    service_name="portfolio-organizer",
+    version="1.0.0",
+)
+logger.info("Health checks initialized")
+
+# Основной роутер для API v1
+api_v1_router = APIRouter(prefix="/api/v1", tags=["v1"])
+
+# Подключаем ресурсные роутеры к основному
+api_v1_router.include_router(portfolios_router)
 
 
-@app.get("/")
+# Root endpoint
+@api_v1_router.get("/")
 async def root():
-    """Root endpoint"""
+    """Root endpoint."""
     return {
-        "service": "Portfolio Organizer",
+        "message": "Portfolio Organizer API",
         "status": "running",
         "version": "1.0.0",
-        "integrations": {
-            "reasoning_api": "✅ Available",
-            "ml_model_registry": "✅ Available",
-            "it_compass": "✅ Available",
-            "notifications": "✅ Available",
-        },
+        "documentation": "/docs",
     }
 
 
-@app.get("/health")
-async def health():
-    """Health check endpoint"""
-    return {"status": "healthy"}
-
-
-@app.get("/ready")
-async def ready():
-    """Readiness check endpoint"""
-    return {"status": "ready"}
+# Подключаем существующие роутеры
+app.include_router(reasoning_router)
+app.include_router(ml_model_registry_router)
+app.include_router(api_v1_router)
 
 
 if __name__ == "__main__":

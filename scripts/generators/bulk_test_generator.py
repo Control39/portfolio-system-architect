@@ -62,13 +62,13 @@ INIT_FILE = '''"""
 '''
 
 SERVICES_NEEDING_TESTS = [
-    ("ai-config-manager", "AIConfigManager"),
+    ("ai_config_manager", "AIConfigManager"),
     ("auth_service", "AuthService"),
-    ("infra-orchestrator", "InfraOrchestrator"),
-    ("job-automation-agent", "JobAutomationAgent"),
+    ("infra_orchestrator", "InfraOrchestrator"),
+    ("job_automation_agent", "JobAutomationAgent"),
     ("portfolio_organizer", "PortfolioOrganizer"),
-    ("system-proof", "SystemProof"),
-    ("thought-architecture", "ThoughtArchitecture"),
+    ("system_proof", "SystemProof"),
+    ("thought_architecture", "ThoughtArchitecture"),
 ]
 
 

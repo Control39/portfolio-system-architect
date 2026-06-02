@@ -23,11 +23,17 @@ SECRET_PATTERNS = [
     # Database URLs with credentials
     (r"(?i)(postgres(?:ql)?|mysql|mongodb|redis)://([^:]+):([^@]+)@", r"\1://\2:****@"),
     # Generic secrets
-    (r'(?i)(secret[_-]?key|secretkey|password|pwd|token)\s*[:=]\s*["\']?([a-zA-Z0-9_\-\.]{8,})["\']?', r"\1=****"),
+    (
+        r'(?i)(secret[_-]?key|secretkey|password|pwd|token)\s*[:=]\s*["\']?([a-zA-Z0-9_\-\.]{8,})["\']?',
+        r"\1=****",
+    ),
     # JWT tokens
     (r"(eyJ[a-zA-Z0-9_-]*\.eyJ[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*)", "JWT_TOKEN****"),
     # Private keys
-    (r"-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----[^-]*-----END\s+(RSA\s+)?PRIVATE\s+KEY-----", "PRIVATE_KEY****"),
+    (
+        r"-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----[^-]*-----END\s+(RSA\s+)?PRIVATE\s+KEY-----",
+        "PRIVATE_KEY****",
+    ),
 ]
 
 # Скомпилированные паттерны для производительности
@@ -83,14 +89,14 @@ def mask_secrets_dict(data: dict[str, Any]) -> dict[str, Any]:
             if isinstance(value, str):
                 result[key] = "****"
             elif isinstance(value, (int, float)):
-                result[key] = "0"  # type: ignore[assignment]
-            else:
-                result[key] = "****"
+                result[key] = "****"  # ✅ Консистентно
+
         elif isinstance(value, dict):
             result[key] = mask_secrets_dict(value)  # type: ignore[assignment]
         elif isinstance(value, list):
             result[key] = [  # type: ignore[assignment]
-                mask_secrets_dict(item) if isinstance(item, dict) else mask_secrets(str(item)) for item in value
+                mask_secrets_dict(item) if isinstance(item, dict) else mask_secrets(str(item))
+                for item in value
             ]
         else:
             result[key] = mask_secrets(str(value)) if isinstance(value, str) else value
@@ -155,7 +161,9 @@ class SecretMaskingHandler(logging.Handler):
 
             # Проверяем, есть ли в сообщении ключи, содержащие секреты
             if hasattr(record, "args") and record.args:
-                args = mask_secrets_dict(record.args) if isinstance(record.args, dict) else record.args
+                args = (
+                    mask_secrets_dict(record.args) if isinstance(record.args, dict) else record.args
+                )
                 record.args = args
 
             record.msg = masked_message
@@ -298,7 +306,9 @@ def create_fastapi_secret_middleware():
                     response_body += chunk
                     # Маскируем в чанках для стриминга
                     if b"password" in chunk.lower() or b"secret" in chunk.lower():
-                        masked_chunk = mask_secrets(chunk.decode("utf-8", errors="ignore")).encode("utf-8")
+                        masked_chunk = mask_secrets(chunk.decode("utf-8", errors="ignore")).encode(
+                            "utf-8"
+                        )
                         response_body = response_body.replace(chunk, masked_chunk)
 
                 return Response(

@@ -96,6 +96,35 @@ def wait_until_ready(timeout: float = 5.0) -> None:
         _ready_event.wait(timeout=timeout)
 
 
+# --- OpenTelemetry Tracing ---
+try:
+    from config.otel import OTEL_ENABLED
+except ImportError:
+    OTEL_ENABLED = False
+
+# Load environment variables from .env file
+load_dotenv()
+
+# -----------------------------------------------------
+# Configuration (deployment friendly)
+# -----------------------------------------------------
+# In Azure App Service (or container) a PORT env var is often provided.
+# Bind 0.0.0.0 so the container ingress can reach the process.
+host = os.getenv("HOST", "localhost")
+port = int(os.getenv("PORT", "5000"))
+
+# Static client assets: during azd packaging we copy ../client/dist => python_server/static
+_here = Path(__file__).parent.resolve()
+_packaged_static = _here / "static"
+_dev_dist = (_here.parent / "client" / "dist").resolve()
+STATIC_DIST = _packaged_static if _packaged_static.exists() else _dev_dist
+
+# --- OpenTelemetry Tracing ---
+try:
+    from config.otel import OTEL_ENABLED
+except ImportError:
+    OTEL_ENABLED = False
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -115,6 +144,15 @@ STATIC_DIST = _packaged_static if _packaged_static.exists() else _dev_dist
 
 # Flask app for HTTP endpoints.
 app = Flask(__name__)
+
+# Если трейсинг включён — инструментируем
+if OTEL_ENABLED:
+    try:
+        from opentelemetry.instrumentation.flask import FlaskInstrumentor
+        FlaskInstrumentor().instrument_app(app)
+        app.logger.info("OpenTelemetry Flask Instrumentation активировано")
+    except Exception as e:
+        app.logger.warning(f"OpenTelemetry не настроен: {e}")
 
 # -----------------------------------------------------
 # Logging configuration (deployment + local friendly)

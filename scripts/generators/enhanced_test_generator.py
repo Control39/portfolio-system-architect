@@ -13,7 +13,7 @@ class EnhancedTestGenerator:
         self.apps_dir = self.root / "apps"
 
         self.services = {
-            "cognitive-agent": {
+            "cognitive_agent": {
                 "tier": "core",
                 "test_cases": [
                     "test_agent_initialization_with_config",
@@ -21,7 +21,7 @@ class EnhancedTestGenerator:
                     "test_agent_handles_invalid_input",
                 ],
             },
-            "decision-engine": {
+            "decision_engine": {
                 "tier": "core",
                 "test_cases": [
                     "test_decision_engine_basic_decision",
@@ -37,7 +37,7 @@ class EnhancedTestGenerator:
                     "test_compass_suggests_improvements",
                 ],
             },
-            "knowledge-graph": {
+            "knowledge_graph": {
                 "tier": "core",
                 "test_cases": [
                     "test_knowledge_graph_stores_entities",
@@ -45,7 +45,7 @@ class EnhancedTestGenerator:
                     "test_knowledge_graph_query_performance",
                 ],
             },
-            "infra-orchestrator": {
+            "infra_orchestrator": {
                 "tier": "infra",
                 "test_cases": [
                     "test_orchestrator_deploys_services",
@@ -61,7 +61,7 @@ class EnhancedTestGenerator:
                     "test_auth_permission_checking",
                 ],
             },
-            "mcp-server": {
+            "mcp_server": {
                 "tier": "infra",
                 "test_cases": [
                     "test_mcp_server_starts",
@@ -69,7 +69,7 @@ class EnhancedTestGenerator:
                     "test_mcp_server_cleanup",
                 ],
             },
-            "ml-model-registry": {
+            "ml_model_registry": {
                 "tier": "infra",
                 "test_cases": [
                     "test_registry_stores_model",
@@ -93,7 +93,7 @@ class EnhancedTestGenerator:
                     "test_learning_recommendations",
                 ],
             },
-            "job-automation-agent": {
+            "job_automation_agent": {
                 "tier": "business",
                 "test_cases": [
                     "test_job_creation",
@@ -101,7 +101,7 @@ class EnhancedTestGenerator:
                     "test_job_error_handling",
                 ],
             },
-            "ai-config-manager": {
+            "ai_config_manager": {
                 "tier": "business",
                 "test_cases": [
                     "test_config_loading",
@@ -109,7 +109,7 @@ class EnhancedTestGenerator:
                     "test_config_hot_reload",
                 ],
             },
-            "template-service": {
+            "template_service": {
                 "tier": "business",
                 "test_cases": [
                     "test_template_rendering",
@@ -117,7 +117,7 @@ class EnhancedTestGenerator:
                     "test_template_error_handling",
                 ],
             },
-            "system-proof": {
+            "system_proof": {
                 "tier": "business",
                 "test_cases": [
                     "test_proof_validation",
@@ -125,7 +125,7 @@ class EnhancedTestGenerator:
                     "test_proof_caching",
                 ],
             },
-            "thought-architecture": {
+            "thought_architecture": {
                 "tier": "business",
                 "test_cases": [
                     "test_architecture_design",

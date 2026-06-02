@@ -1,0 +1,61 @@
+# apps/context_builder/config.yaml.example
+# Пример конфигурации для Context Builder Service
+# Скопируйте этот файл в config.yaml и настройте под себя
+
+extensions:
+  - .py
+  - .md
+  - .yaml
+  - .yml
+  - .json
+  - .txt
+  - .env
+  - .sh
+  - .sql
+  - .html
+  - .css
+  - .js
+  - .ts
+  - .vue
+  - .j2
+
+exclude_dirs:
+  - .git
+  - .venv
+  - __pycache__
+  - node_modules
+  - .pytest_cache
+  - .mypy_cache
+  - .ruff_cache
+  - logs
+  - data
+  - backups
+  - old
+  - .idea
+  - .vscode
+  - dist
+  - build
+
+exclude_files:
+  - .DS_Store
+  - Thumbs.db
+  - .env.local
+
+max_file_size_mb: 2
+max_total_size_mb: 10
+max_files: 500
+
+# Список поддерживаемых российских LLM моделей (приоритет)
+llm_models_ru:
+  - sberbank-ai/sber-gpt
+  - yandexgpt-lite
+  - vk-ai/vk-gpt-3
+  - sberbank-ai/giga-chat
+
+# Список поддерживаемых зарубежных LLM моделей
+llm_models_int:
+  - openai/gpt-4
+  - anthropic/claude-3
+  - google/gemini-pro
+  - meta/llama-3
+  - mistralai/mistral-large

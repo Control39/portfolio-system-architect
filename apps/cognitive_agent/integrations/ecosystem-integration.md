@@ -1,4 +1,4 @@
-﻿# Интеграция Cognitive Automation Agent с существующей экосистемой
+# Интеграция Cognitive Automation Agent с существующей экосистемой
 
 ## Обзор интеграций
 
@@ -11,7 +11,7 @@ Cognitive Automation Agent (CAA) разработан для максималь�
 ```yaml
 integration_points:
   - component: "IT-Compass Framework"
-    location: "apps/infra-orchestrator/"
+    location: "apps/arch-compass-framework/"
     integration_type: "bidirectional"
 
     data_flow:
@@ -39,8 +39,8 @@ integration_points:
 ### 2. Интеграция с Cloud-Reason
 ```yaml
 integration_points:
-  - component: "Decision Engine"
-    location: "src/decision-engine/"
+  - component: "Cloud-Reason"
+    location: "src/cloud_reason/"
     integration_type: "event_driven"
 
     events:
@@ -187,9 +187,9 @@ secrets_integration:
     secret_name: "cognitive-agent-secrets"
 
     data:
-      - "AGENT_CONFIG: apps/cognitive_agent/config/agent-config.yaml"
-      - "LEARNING_MODELS: apps/cognitive_agent/models/"
-      - "SCAN_CACHE: apps/cognitive_agent/cache/"
+      - "AGENT_CONFIG: .agents/config/agent-config.yaml"
+      - "LEARNING_MODELS: .agents/models/"
+      - "SCAN_CACHE: .agents/cache/"
 
     mount_path: "/etc/cognitive-agent/"
 
@@ -453,7 +453,7 @@ communications:
 
 ### Файл конфигурации интеграций
 ```yaml
-# apps/cognitive_agent/config/integrations.yaml
+# .agents/config/integrations.yaml
 integrations:
   enabled: true
 
@@ -548,7 +548,7 @@ integrations:
 ### Проверка совместимости
 ```bash
 # Проверка совместимости интеграций
-python -m agents.integrations.validate --config=apps/cognitive_agent/config/integrations.yaml
+python -m agents.integrations.validate --config=.agents/config/integrations.yaml
 
 # Тестирование конкретной интеграции
 python -m agents.integrations.test --integration=git --verbose
@@ -566,19 +566,19 @@ data_migration:
     - phase: "1"
       description: "Миграция конфигураций"
       source: "legacy_configs/"
-      target: "apps/cognitive_agent/config/"
+      target: ".agents/config/"
       validation: "config_validation"
 
     - phase: "2"
       description: "Миграция исторических данных"
       source: "historical_metrics/"
-      target: "apps/cognitive_agent/data/historical/"
+      target: ".agents/data/historical/"
       validation: "data_integrity_check"
 
     - phase: "3"
       description: "Миграция моделей"
       source: "legacy_models/"
-      target: "apps/cognitive_agent/models/"
+      target: ".agents/models/"
       validation: "model_performance_test"
 
   rollback_plan:

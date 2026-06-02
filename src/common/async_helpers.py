@@ -68,7 +68,9 @@ async def fetch_parallel_safe(*tasks: Coroutine) -> list[Any | None]:
     return processed
 
 
-async def fetch_with_timeout(coro: Coroutine, timeout: int = 30, default_value: Any | None = None) -> Any:
+async def fetch_with_timeout(
+    coro: Coroutine, timeout: int = 30, default_value: Any | None = None
+) -> Any:
     """
     Выполнить async задачу с таймаутом.
 
@@ -181,7 +183,9 @@ async def batch_async_operations(
         batch = items[i : i + batch_size]
         logger.info(f"Processing batch {i // batch_size + 1} ({len(batch)} items)")
 
-        batch_results = await fetch_parallel(*[async_fn(item) for item in batch])
+        # ✅ ИСПРАВЛЕНО: используем fetch_parallel_safe вместо fetch_parallel
+        # чтобы один сбой не валил весь батч
+        batch_results = await fetch_parallel_safe(*[async_fn(item) for item in batch])
         results.extend(batch_results)
 
         # Добавить задержку между батчами (кроме последнего)
@@ -240,7 +244,9 @@ def async_retry(max_retries: int = 3, delay: float = 1.0):
                     last_exception = e
 
                     if attempt < max_retries - 1:
-                        logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s...")
+                        logger.warning(
+                            f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s..."
+                        )
                         await asyncio.sleep(delay)
 
             raise last_exception

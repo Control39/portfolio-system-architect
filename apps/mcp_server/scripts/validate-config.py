@@ -91,19 +91,19 @@ class ConfigValidator:
             },
             # AI Config Manager
             {
-                "path": project_root / "apps" / "ai-config-manager" / "config" / "default.yaml",
+                "path": project_root / "apps" / "ai_config_manager" / "config" / "ai-config.yaml",
                 "type": "yaml",
                 "description": "AI Config Manager конфигурация",
             },
             # Общая конфигурация проекта
             {
-                "path": project_root / "project-config.yaml",
+                "path": project_root / "apps/cognitive_agent/config/agent-config.yaml",
                 "type": "yaml",
                 "description": "Общая конфигурация проекта",
             },
             # MCP сервер конфигурация
             {
-                "path": project_root / "apps" / "mcp-server" / "config" / "mcp-config.yaml",
+                "path": project_root / "apps" / "mcp_server" / "config" / "mcp-config.yaml",
                 "type": "yaml",
                 "description": "MCP сервер конфигурация",
             },
@@ -208,7 +208,9 @@ class ConfigValidator:
 
         return problems
 
-    def fix_outdated_models(self, file_path: Path, file_type: str, original_content: str) -> list[str]:
+    def fix_outdated_models(
+        self, file_path: Path, file_type: str, original_content: str
+    ) -> list[str]:
         """Исправление устаревших моделей AI"""
         fixes = []
 

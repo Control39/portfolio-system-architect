@@ -2,7 +2,6 @@
 Knowledge Graph API — управление графом знаний
 """
 
-import os
 import sys
 from pathlib import Path
 

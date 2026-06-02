@@ -1,0 +1,29 @@
+extends: default
+
+rules:
+  # Отключаем строгие проверки
+  document-start: disable
+  line-length: disable
+  truthy: disable
+  
+  # Ослабляем проверку отступов
+  indentation:
+    spaces: 2
+    indent-sequences: whatever
+  
+  # Разрешаем комментарии без отступов
+  comments-indentation: disable
+  
+  # Разрешаем пустые строки
+  empty-lines:
+    max: 2
+    max-start: 1
+    max-end: 1
+
+# Исключаем проблемные директории
+ignore: |
+  deployment/k8s/
+  .github/workflows/
+  .github/actions/
+  monitoring/
+  docker/

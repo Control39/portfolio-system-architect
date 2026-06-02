@@ -1,24 +1,14 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Проверка структуры базы данных мониторинга
 """
 
-import re
 import sqlite3
 import sys
 
-# Регулярное выражение для валидации имен таблиц SQLite
-# Разрешены только буквы, цифры и подчеркивание, начало с буквы или _
-TABLE_NAME_PATTERN = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
-
-
-def is_valid_table_name(name: str) -> bool:
-    """Проверка имени таблицы на безопасность (защита от SQL injection)"""
-    return bool(TABLE_NAME_PATTERN.match(name))
-
 
 def main():
-    db_path = "apps/cognitive_agent/data/trigger_metrics.db"
+    db_path = ".agents/data/trigger_metrics.db"
 
     try:
         conn = sqlite3.connect(db_path)
@@ -38,12 +28,6 @@ def main():
 
         for table_info in tables:
             table_name = table_info[0]
-            
-            # Валидация имени таблицы (защита от SQL injection)
-            if not is_valid_table_name(table_name):
-                print(f"  ⚠️ Недопустимое имя таблицы, пропускаем: {table_name}")
-                continue
-                
             print(f"\n📊 Таблица: {table_name}")
 
             # Получить структуру таблицы
@@ -52,7 +36,7 @@ def main():
 
             print("  Колонки:")
             for col in columns:
-                _col_id, col_name, col_type, _not_null, _default_val, pk = col
+                col_id, col_name, col_type, not_null, default_val, pk = col
                 print(f"    {col_name}: {col_type} {'PRIMARY KEY' if pk else ''}")
 
             # Получить количество записей
@@ -66,7 +50,7 @@ def main():
                 rows = cursor.fetchall()
                 print("  Примеры записей:")
                 for i, row in enumerate(rows):
-                    print(f"    Запись {i + 1}: {row}")
+                    print(f"    Запись {i+1}: {row}")
 
         print("\n" + "=" * 60)
 

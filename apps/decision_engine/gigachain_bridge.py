@@ -4,7 +4,6 @@ Integrates GigaChat API with it-compass context and Chroma RAG.
 Self-Improving Loop stub included.
 """
 
-import os
 
 from dotenv import load_dotenv
 

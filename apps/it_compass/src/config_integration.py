@@ -8,13 +8,12 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 # Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent.parent  # корень проекта (на уровень выше apps/)
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 try:
-    from apps.ai_config_manager.src.config_manager import ConfigManager
-
+    from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
     AI_CONFIG_AVAILABLE = True
 except ImportError:
     AI_CONFIG_AVAILABLE = False
@@ -45,7 +44,7 @@ class ItCompassConfig:
         try:
             self._config_manager = ConfigManager(config_path=self.config_path)
             if not self._config_manager.validate():
-                print("⚠️  Конфигурация не валидна, используется fallback")
+                print(f"⚠️  Конфигурация не валидна, используется fallback")
                 self._load_local_config()
         except Exception as e:
             print(f"⚠️  Ошибка инициализации ConfigManager: {e}")
@@ -54,11 +53,10 @@ class ItCompassConfig:
     def _load_local_config(self) -> None:
         """Загрузка локальной конфигурации (fallback)"""
         import yaml
-
         local_config_path = REPO_ROOT / "apps" / "it_compass" / "config" / "config.yaml"
 
         if local_config_path.exists():
-            with open(local_config_path, "r", encoding="utf-8") as f:
+            with open(local_config_path, 'r', encoding='utf-8') as f:
                 self._local_config = yaml.safe_load(f)
         else:
             self._local_config = {}
@@ -86,7 +84,6 @@ class ItCompassConfig:
 
 # Singleton для удобства
 _config_instance: Optional[ItCompassConfig] = None
-
 
 def get_config() -> ItCompassConfig:
     """Получить глобальный экземпляр конфигурации"""

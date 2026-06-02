@@ -154,6 +154,64 @@
         "panel": "shared",
         "clear": true
       }
-    }
+    },
+    {
+      "label": "Cognitive Agent: Start",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --start --project ${workspaceFolder}",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Stop",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --stop",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Status",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --status",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Cognitive Agent: Scan",
+      "type": "shell",
+      "command": "python -m apps.cognitive_agent.autonomous_agent --scan --project ${workspaceFolder}",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    // Автозапуск отключён — слишком ресурсоёмко для 6321 файла
+    // Запускать вручную: Ctrl+Shift+P → "Tasks: Run Task" → "Cognitive Agent: Start"
   ]
 }

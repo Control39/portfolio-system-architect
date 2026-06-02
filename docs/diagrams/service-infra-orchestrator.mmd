@@ -1,0 +1,51 @@
+---
+title: infra-orchestrator — Infrastructure Orchestration Service
+---
+
+graph TD
+    subgraph "Inputs"
+        U[Admin / API request]
+        CFG[ai-config-manager — config]
+        DOCS[Deployment / K8s context]
+    end
+
+    subgraph "Core"
+        DISC[Service discovery]
+        ORCH[Deployment & orchestration]
+        OPS[Ops controls]
+    end
+
+    subgraph "AI Core"
+        PLAN[Planning / reconciliation]
+        GUARD[Health & policy checks]
+    end
+
+    subgraph "Storage / Memory"
+        STATE[(Deployment state)]
+        LOGS[(Audit logs)]
+    end
+
+    subgraph "Dependencies"
+        AUTH[auth_service]
+        MCP[mcp-server]
+        ML[ml-model-registry]
+        CFGM[ai-config-manager]
+    end
+
+    U --> DISC
+    U --> ORCH
+    CFG --> ORCH
+    DOCS --> PLAN
+
+    DISC --> OPS
+    ORCH --> PLAN
+
+    PLAN --> GUARD
+    GUARD --> ORCH
+
+    ORCH --> AUTH
+    MCP --> ORCH
+    ML --> ORCH
+
+    ORCH --> STATE
+    OPS --> LOGS

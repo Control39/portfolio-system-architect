@@ -4,11 +4,9 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from datetime import datetime
 
 from apps.knowledge_graph.src.api.main import (
-    app, Entity, Relationship, 
-    entities_db, relationships_db
+    app, entities_db, relationships_db
 )
 
 client = TestClient(app)

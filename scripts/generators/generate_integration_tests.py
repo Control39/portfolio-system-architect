@@ -14,9 +14,9 @@ class IntegrationTestGenerator:
 
         # Определение критических сервисов
         self.critical_services = {
-            "cognitive-agent": {
+            "cognitive_agent": {
                 "description": "AI-powered automation engine",
-                "dependencies": ["decision-engine", "knowledge-graph"],
+                "dependencies": ["decision_engine", "knowledge_graph"],
                 "test_cases": [
                     "test_agent_with_decision_engine",
                     "test_agent_with_knowledge_graph",
@@ -25,9 +25,9 @@ class IntegrationTestGenerator:
                     "test_agent_error_handling",
                 ],
             },
-            "decision-engine": {
+            "decision_engine": {
                 "description": "Core decision-making system",
-                "dependencies": ["cognitive-agent", "it_compass"],
+                "dependencies": ["cognitive_agent", "it_compass"],
                 "test_cases": [
                     "test_decision_logic_consistency",
                     "test_decision_with_cognitive_agent",
@@ -38,7 +38,7 @@ class IntegrationTestGenerator:
             },
             "it_compass": {
                 "description": "System thinking methodology",
-                "dependencies": ["decision-engine", "knowledge-graph"],
+                "dependencies": ["decision_engine", "knowledge_graph"],
                 "test_cases": [
                     "test_compass_reasoning_integration",
                     "test_compass_with_decision_engine",
@@ -47,9 +47,9 @@ class IntegrationTestGenerator:
                     "test_compass_performance",
                 ],
             },
-            "mcp-server": {
+            "mcp_server": {
                 "description": "Model Context Protocol server",
-                "dependencies": ["cognitive-agent", "decision-engine"],
+                "dependencies": ["cognitive_agent", "decision_engine"],
                 "test_cases": [
                     "test_mcp_protocol_compliance",
                     "test_mcp_agent_integration",
@@ -58,9 +58,9 @@ class IntegrationTestGenerator:
                     "test_mcp_resource_management",
                 ],
             },
-            "infra-orchestrator": {
+            "infra_orchestrator": {
                 "description": "Infrastructure management",
-                "dependencies": ["auth_service", "mcp-server"],
+                "dependencies": ["auth_service", "mcp_server"],
                 "test_cases": [
                     "test_orchestration_workflow",
                     "test_orchestration_auth_integration",

@@ -1,32 +1,27 @@
+"""Local test configuration for chat_backend molecule.
+
+This follows the Compositional Architecture pattern:
+- Molecule sees its own src/
+- Molecule sees repo root (for cross-molecule imports like apps.ai_config_manager...)
+- No global PYTHONPATH pollution
+"""
+
 import sys
 from pathlib import Path
 
-import pytest
+
+def _configure_imports() -> None:
+    tests_dir = Path(__file__).resolve().parent
+    molecule_root = tests_dir.parent
+    repo_root = molecule_root.parent.parent
+
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+
+    molecule_src = molecule_root / "src"
+    if molecule_src.exists() and str(molecule_src) not in sys.path:
+        sys.path.insert(0, str(molecule_src))
 
 
-# Ensure project root is on sys.path so `import python_server` works when tests
-# run from environments that don't automatically include CWD.
-_ROOT = Path(__file__).resolve().parents[2]
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+_configure_imports()
 
-
-@pytest.fixture(autouse=True)
-def clear_env(monkeypatch):
-    # Ensure test isolation for mode-related env vars
-    for var in [
-        "TRANSPORT_MODE",
-        "STORAGE_MODE",
-        "WEBPUBSUB_ENDPOINT",
-        "WEB_PUBSUB_ENDPOINT",
-        "WEBPUBSUB_CONNECTION_STRING",
-        "WEB_PUBSUB_CONNECTION_STRING",
-        "AZURE_STORAGE_CONNECTION_STRING",
-        "AZURE_STORAGE_ACCOUNT",
-        "CHAT_TABLE_NAME",
-    ]:
-        monkeypatch.delenv(var, raising=False)
-    # Default modes
-    monkeypatch.setenv("TRANSPORT_MODE", "self")
-    monkeypatch.setenv("STORAGE_MODE", "memory")
-    yield

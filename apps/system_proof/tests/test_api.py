@@ -4,9 +4,8 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from datetime import datetime
 
-from apps.system_proof.src.app import app, ProofRecord, ProofStep, proofs_db
+from apps.system_proof.src.app import app, proofs_db
 
 # Очистка базы перед тестами
 @pytest.fixture(autouse=True)

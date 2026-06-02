@@ -1,52 +1,97 @@
+"""
+Тесты интеграции с AI Config Manager для Knowledge Graph
+"""
+
 import pytest
 from pathlib import Path
 import sys
 
-# Добавляем путь к src
-SRC_PATH = Path(__file__).parent.parent / "src"
-if str(SRC_PATH) not in sys.path:
-    sys.path.insert(0, str(SRC_PATH))
+# Добавляем корень проекта в PATH
+REPO_ROOT = Path(__file__).parent.parent.parent.parent  # apps/knowledge_graph/tests -> repo root
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 class TestKnowledgeGraphConfigIntegration:
-    """Tests for config_integration module"""
+    """Тесты интеграции конфигурации Knowledge Graph"""
+
+    def test_config_manager_available(self):
+        """Проверка доступности AI Config Manager"""
+        try:
+            from apps.ai_config_manager.src.config_manager import ConfigManager
+            assert ConfigManager is not None
+        except ImportError:
+            pytest.skip("AI Config Manager не доступен")
 
     def test_config_integration_module(self):
-        """Test that config_integration module exists and can be imported"""
-        from apps.knowledge_graph.src import config_integration
-        assert hasattr(config_integration, "KnowledgeGraphConfig")
+        """Проверка импорта модуля интеграции"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration",
+            REPO_ROOT / "apps" / "knowledge_graph" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        assert hasattr(config_integration, 'KnowledgeGraphConfig')
 
     def test_get_config_singleton(self):
-        """Test get_config returns singleton instance"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        assert config is not None
-        # Config is KnowledgeGraphConfig object with methods
-        assert hasattr(config, "get_config") or hasattr(config, "is_available")
+        """Проверка singleton паттерна"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test",
+            REPO_ROOT / "apps" / "knowledge_graph" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config1 = config_integration.get_config()
+        config2 = config_integration.get_config()
+
+        assert config1 is config2, "get_config() должен возвращать один и тот же объект (singleton)"
 
     def test_get_config_returns_dict(self):
-        """Test get_config returns valid config dict"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        # Call get_config() method to get actual dict
-        if hasattr(config, "get_config"):
-            config = config.get_config()
-        assert isinstance(config, dict)
+        """Проверка что config.get_config() возвращает dict"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test2",
+            REPO_ROOT / "apps" / "knowledge_graph" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config = config_integration.get_config()
+        result = config.get_config()
+
+        assert isinstance(result, dict), "get_config() должен возвращать dict"
 
     def test_reload_config(self):
-        """Test reload_config function exists"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        # Call reload method if exists
-        if hasattr(config, "reload"):
-            config.reload()
-        # Should not raise
+        """Проверка hot reload"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test3",
+            REPO_ROOT / "apps" / "knowledge_graph" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        # Не должно выбрасывать исключений
+        config_integration.reload_config()
 
     def test_is_available_method(self):
-        """Test is_available method on config"""
-        from apps.knowledge_graph.src.config_integration import get_config
-        config = get_config()
-        # Either has is_available or config exists
-        assert hasattr(config, "is_available") or config is not None
-        if hasattr(config, "is_available"):
-            assert config.is_available() in [True, False]
+        """Проверка метода is_available"""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "config_integration_test4",
+            REPO_ROOT / "apps" / "knowledge_graph" / "src" / "config_integration.py"
+        )
+        config_integration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_integration)
+        
+        config = config_integration.get_config()
+        assert hasattr(config, 'is_available'), "Объект должен иметь метод is_available"
+        assert callable(config.is_available), "is_available должен быть методом"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

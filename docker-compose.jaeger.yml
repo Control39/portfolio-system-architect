@@ -1,0 +1,45 @@
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.60
+    container_name: jaeger
+    ports:
+      - "16686:16686"  # UI (доступен извне)
+      - "14269:14269"  # Admin / Health check port
+      # Порты 4317, 4318 и 14250 убраны из маппинга, 
+      # так как трафик должен идти через OTEL Collector
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - monitoring
+    healthcheck:
+      # Используем админский порт 14269, он всегда отдает 200 OK на /
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:14269/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.113.0
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./config/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "8888:8888"   # Metrics OTEL Collector
+      - "4318:4318"   # OTLP HTTP (Точка входа для приложений)
+      - "4317:4317"   # OTLP gRPC (Точка входа для приложений)
+    networks:
+      - monitoring
+    depends_on:
+      jaeger:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  monitoring:
+    driver: bridge

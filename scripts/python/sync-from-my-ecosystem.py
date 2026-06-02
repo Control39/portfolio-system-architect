@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Safe sync script from my-ecosystem-FINAL to _sync/ with diff previews.
 Inspired by my-ecosystem/scripts/analyze_all.py, git_fix_history.py.
-Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview
+Usage: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it_compass/src/data/markers --target _sync/it_compass/markers --preview
 """
 
 import argparse
@@ -43,9 +43,9 @@ def main():
     parser.add_argument(
         "--source",
         required=True,
-        help="Source dir e.g. C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers/",
+        help="Source dir e.g. C:/Users/Z/my-ecosystem-FINAL/it_compass/src/data/markers/",
     )
-    parser.add_argument("--target", default="_sync/it-compass", help="Target _sync subdir")
+    parser.add_argument("--target", default="_sync/it_compass", help="Target _sync subdir")
     parser.add_argument("--preview", action="store_true", help="Preview diffs only")
     args = parser.parse_args()
 
@@ -60,4 +60,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Example: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it-compass/src/data/markers --target _sync/it-compass/markers --preview
+# Example: python scripts/sync-from-my-ecosystem.py --source C:/Users/Z/my-ecosystem-FINAL/it_compass/src/data/markers --target _sync/it_compass/markers --preview

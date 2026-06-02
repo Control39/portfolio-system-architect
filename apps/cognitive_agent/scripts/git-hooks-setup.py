@@ -1,15 +1,15 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Скрипт для настройки Git хуков, интегрированных с Cognitive Automation Agent.
 Создает хуки, которые автоматически запускают триггеры при Git операциях.
 """
 
 import os
-import shutil
-import stat
 import sys
-from datetime import datetime
+import stat
+import shutil
 from pathlib import Path
+from datetime import datetime
 
 
 def check_git_repository():
@@ -82,7 +82,7 @@ done
 echo "🚀 Запуск автоматических проверок..."
 
 # Проверяем Python файлы
-PYTHON_FILES=$(echo "$STAGED_FILES" | grep -E '\\.py$' || true)
+PYTHON_FILES=$(echo "$STAGED_FILES" | grep -E '\.py$' || true)
 if [ -n "$PYTHON_FILES" ]; then
     echo "🐍 Проверка Python файлов..."
     # Здесь можно добавить проверки: flake8, black, mypy и т.д.
@@ -96,7 +96,7 @@ if [ -n "$PYTHON_FILES" ]; then
 fi
 
 # Проверяем YAML файлы
-YAML_FILES=$(echo "$STAGED_FILES" | grep -E '\\.(yaml|yml)$' || true)
+YAML_FILES=$(echo "$STAGED_FILES" | grep -E '\.(yaml|yml)$' || true)
 if [ -n "$YAML_FILES" ]; then
     echo "📄 Проверка YAML файлов..."
     for file in $YAML_FILES; do
@@ -110,7 +110,7 @@ fi
 
 # Запускаем триггер pre_commit через агента
 echo "⚡ Запуск триггера pre_commit..."
-AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
+AGENT_SCRIPT=".agents/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     python "$AGENT_SCRIPT" --trigger git_pre_commit --data "{\\"files\\": \\"$STAGED_FILES\\"}" || true
 else
@@ -170,7 +170,7 @@ fi
 
 # Запускаем триггер post_commit через агента
 echo "⚡ Запуск триггера post_commit..."
-AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
+AGENT_SCRIPT=".agents/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -191,7 +191,7 @@ fi
 
 # Генерируем автоматический changelog
 echo "📋 Генерация changelog..."
-CHANGELOG_DIR="apps/cognitive_agent/changelogs"
+CHANGELOG_DIR=".agents/changelogs"
 if [ ! -d "$CHANGELOG_DIR" ]; then
     mkdir -p "$CHANGELOG_DIR"
 fi
@@ -236,7 +236,7 @@ def create_pre_push_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = r"""#!/bin/bash
+    hook_content = """#!/bin/bash
 #
 # Pre-push hook для Cognitive Automation Agent
 # Проверяет код перед отправкой в удаленный репозиторий
@@ -287,7 +287,7 @@ while read local_ref local_sha remote_ref remote_sha; do
 
     # Запускаем триггер pre_push через агента
     echo "⚡ Запуск триггера pre_push..."
-    AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
+    AGENT_SCRIPT=".agents/scripts/trigger-processor.py"
     if [ -f "$AGENT_SCRIPT" ]; then
         # Формируем JSON данные для триггера
         JSON_DATA=$(cat <<EOF
@@ -329,7 +329,7 @@ def create_post_merge_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = r"""#!/bin/bash
+    hook_content = """#!/bin/bash
 #
 # Post-merge hook для Cognitive Automation Agent
 # Обрабатывает изменения после слияния веток
@@ -373,7 +373,7 @@ fi
 
 # Запускаем триггер post_merge через агента
 echo "⚡ Запуск триггера post_merge..."
-AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
+AGENT_SCRIPT=".agents/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -422,7 +422,7 @@ def create_commit_msg_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = r"""#!/bin/bash
+    hook_content = """#!/bin/bash
 #
 # Commit-msg hook для Cognitive Automation Agent
 # Проверяет формат сообщений коммитов
@@ -491,7 +491,7 @@ fi
 
 # Запускаем триггер commit_msg через агента
 echo "⚡ Запуск триггера commit_msg..."
-AGENT_SCRIPT="apps/cognitive_agent/scripts/trigger-processor.py"
+AGENT_SCRIPT=".agents/scripts/trigger-processor.py"
 if [ -f "$AGENT_SCRIPT" ]; then
     # Формируем JSON данные для триггера
     JSON_DATA=$(cat <<EOF
@@ -530,12 +530,16 @@ def test_hooks():
     test_results = []
 
     for hook_file in hooks_dir.glob("*"):
-        if hook_file.is_file() and not hook_file.name.endswith(".sample") and not hook_file.name.endswith(".backup"):
+        if (
+            hook_file.is_file()
+            and not hook_file.name.endswith(".sample")
+            and not hook_file.name.endswith(".backup")
+        ):
             # Проверяем, является ли файл исполняемым
             is_executable = os.access(hook_file, os.X_OK)
 
             # Проверяем содержимое
-            with open(hook_file, encoding="utf-8") as f:
+            with open(hook_file, "r", encoding="utf-8") as f:
                 content = f.read()
                 has_cognitive_agent = "Cognitive Automation Agent" in content
 
@@ -558,7 +562,7 @@ def test_hooks():
 
 def create_hooks_config():
     """Создаем конфигурационный файл для хуков"""
-    config_path = Path("apps/cognitive_agent/config/git-hooks.yaml")
+    config_path = Path(".agents/config/git-hooks.yaml")
 
     config = {
         "version": "1.0.0",
@@ -581,11 +585,7 @@ def create_hooks_config():
             "pre-push": {
                 "enabled": True,
                 "description": "Проверка перед отправкой в удаленный репозиторий",
-                "actions": [
-                    "run_integration_tests",
-                    "check_security",
-                    "validate_dependencies",
-                ],
+                "actions": ["run_integration_tests", "check_security", "validate_dependencies"],
             },
             "post-merge": {
                 "enabled": True,
@@ -593,11 +593,7 @@ def create_hooks_config():
                 "actions": ["update_dependencies", "run_tests", "clear_caches"],
             },
         },
-        "settings": {
-            "auto_update": True,
-            "backup_existing": True,
-            "notify_on_failure": True,
-        },
+        "settings": {"auto_update": True, "backup_existing": True, "notify_on_failure": True},
     }
 
     import yaml

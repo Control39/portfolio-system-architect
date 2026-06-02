@@ -1,0 +1,10 @@
+# GigaCode Token Cache
+.gigacode_token_cache.json
+
+# Logs
+*.log
+logs/
+
+# Temp files
+*.tmp
+*.temp

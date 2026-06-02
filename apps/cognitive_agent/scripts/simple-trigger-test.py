@@ -1,15 +1,14 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Упрощенный тест для проверки работы системы триггеров.
 """
 
-import json
 import sys
+import json
+import yaml
+from pathlib import Path
 from datetime import datetime
 from enum import Enum
-from pathlib import Path
-
-import yaml
 
 
 # Заглушки для тестирования
@@ -42,10 +41,7 @@ class CommonTriggers:
     @staticmethod
     def create_project_open_trigger(project_path):
         return TriggerEvent(
-            "project_open",
-            "system",
-            {"project_path": project_path},
-            TriggerPriority.HIGH,
+            "project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH
         )
 
     @staticmethod
@@ -85,7 +81,7 @@ class MockTriggerProcessor:
     def load_config(self, config_path):
         """Загрузка конфигурации триггеров"""
         try:
-            with open(config_path, encoding="utf-8") as f:
+            with open(config_path, "r", encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             if "triggers" in config:
@@ -145,7 +141,7 @@ def test_event_creation():
         # Сохраняем события в файл для проверки
         events_data = [event.to_dict() for event in events]
 
-        log_dir = Path("apps/cognitive_agent/logs/triggers")
+        log_dir = Path(".agents/logs/triggers")
         log_dir.mkdir(parents=True, exist_ok=True)
 
         log_file = log_dir / f"test_events_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -245,11 +241,7 @@ def test_integration():
         print("✓ Все необходимые файлы существуют")
 
         # Проверяем структуру директорий
-        required_dirs = [
-            base_path / "logs" / "triggers",
-            base_path / "plans",
-            base_path / "scans",
-        ]
+        required_dirs = [base_path / "logs" / "triggers", base_path / "plans", base_path / "scans"]
 
         for dir_path in required_dirs:
             dir_path.mkdir(parents=True, exist_ok=True)
@@ -356,18 +348,19 @@ def main():
         print("=" * 60)
         print("1. Система триггеров готова к использованию")
         print("2. Для интеграции с Git создайте хуки:")
-        print("   python apps/cognitive_agent/scripts/git-hooks-setup.py")
+        print("   python .agents/scripts/git-hooks-setup.py")
         print("3. Для мониторинга используйте:")
-        print("   tail -f apps/cognitive_agent/logs/triggers.log")
+        print("   tail -f .agents/logs/triggers.log")
 
         return True
-    print("✗ Некоторые тесты не пройдены")
-    print("\nРекомендации по устранению проблем:")
-    print("1. Проверьте наличие файла apps/cognitive_agent/config/triggers.yaml")
-    print("2. Убедитесь, что у вас есть права на запись в apps/cognitive_agent/logs/")
-    print("3. Проверьте синтаксис YAML в конфигурационных файлах")
+    else:
+        print("✗ Некоторые тесты не пройдены")
+        print("\nРекомендации по устранению проблем:")
+        print("1. Проверьте наличие файла .agents/config/triggers.yaml")
+        print("2. Убедитесь, что у вас есть права на запись в .agents/logs/")
+        print("3. Проверьте синтаксис YAML в конфигурационных файлах")
 
-    return False
+        return False
 
 
 if __name__ == "__main__":

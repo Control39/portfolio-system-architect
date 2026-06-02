@@ -1,26 +1,22 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Система мониторинга для работы триггеров Cognitive Automation Agent.
 Собирает метрики, генерирует отчеты и предоставляет дашборд.
 """
 
-import json
-import logging
-import sqlite3
 import sys
-from datetime import datetime, timedelta
+import json
+import sqlite3
 from pathlib import Path
-from typing import Any
-
+from datetime import datetime, timedelta
+from typing import Dict, List, Any, Optional
+import logging
 
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("apps/cognitive_agent/logs/monitor.log"),
-        logging.StreamHandler(),
-    ],
+    handlers=[logging.FileHandler(".agents/logs/monitor.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -28,7 +24,7 @@ logger = logging.getLogger(__name__)
 class TriggerMetricsCollector:
     """Сборщик метрик работы триггеров"""
 
-    def __init__(self, db_path: str = "apps/cognitive_agent/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = ".agents/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_database()
@@ -39,8 +35,7 @@ class TriggerMetricsCollector:
         cursor = conn.cursor()
 
         # Таблица событий
-        cursor.execute(
-            """
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 event_name TEXT NOT NULL,
@@ -53,12 +48,10 @@ class TriggerMetricsCollector:
                 error_message TEXT,
                 metadata TEXT
             )
-        """
-        )
+        """)
 
         # Таблица метрик
-        cursor.execute(
-            """
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_metrics (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 metric_name TEXT NOT NULL,
@@ -67,12 +60,10 @@ class TriggerMetricsCollector:
                 period TEXT NOT NULL,
                 tags TEXT
             )
-        """
-        )
+        """)
 
         # Таблица статистики
-        cursor.execute(
-            """
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS trigger_stats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 stat_name TEXT NOT NULL,
@@ -80,14 +71,17 @@ class TriggerMetricsCollector:
                 timestamp DATETIME NOT NULL,
                 period TEXT NOT NULL
             )
-        """
-        )
+        """)
 
         # Индексы для производительности
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_events_timestamp ON trigger_events(timestamp)"
+        )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_name ON trigger_events(event_name)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_status ON trigger_events(status)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON trigger_metrics(timestamp)"
+        )
 
         conn.commit()
         conn.close()
@@ -100,10 +94,10 @@ class TriggerMetricsCollector:
         source: str,
         priority: int,
         status: str,
-        execution_time: float | None = None,
-        success: bool | None = None,
-        error_message: str | None = None,
-        metadata: dict | None = None,
+        execution_time: Optional[float] = None,
+        success: Optional[bool] = None,
+        error_message: Optional[str] = None,
+        metadata: Optional[Dict] = None,
     ):
         """Запись события триггера"""
         conn = sqlite3.connect(self.db_path)
@@ -138,7 +132,7 @@ class TriggerMetricsCollector:
         metric_name: str,
         metric_value: float,
         period: str = "instant",
-        tags: dict | None = None,
+        tags: Optional[Dict] = None,
     ):
         """Запись метрики"""
         conn = sqlite3.connect(self.db_path)
@@ -183,7 +177,7 @@ class TriggerMetricsCollector:
 
         logger.debug(f"Записана статистика: {stat_name}")
 
-    def get_event_stats(self, hours: int = 24) -> dict[str, Any]:
+    def get_event_stats(self, hours: int = 24) -> Dict[str, Any]:
         """Получение статистики событий за указанный период"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -266,7 +260,7 @@ class TriggerMetricsCollector:
         conn.close()
         return stats
 
-    def get_metrics_summary(self, hours: int = 24) -> dict[str, Any]:
+    def get_metrics_summary(self, hours: int = 24) -> Dict[str, Any]:
         """Получение сводки метрик"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -300,7 +294,7 @@ class TriggerMetricsCollector:
         conn.close()
         return metrics
 
-    def generate_report(self, report_type: str = "daily") -> dict[str, Any]:
+    def generate_report(self, report_type: str = "daily") -> Dict[str, Any]:
         """Генерация отчета"""
         if report_type == "daily":
             hours = 24
@@ -324,10 +318,13 @@ class TriggerMetricsCollector:
         }
 
         # Сохраняем отчет
-        report_dir = Path("apps/cognitive_agent/reports")
+        report_dir = Path(".agents/reports")
         report_dir.mkdir(parents=True, exist_ok=True)
 
-        report_file = report_dir / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = (
+            report_dir
+            / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        )
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
 
@@ -337,7 +334,7 @@ class TriggerMetricsCollector:
         logger.info(f"Сгенерирован отчет: {report_file}")
         return report
 
-    def _generate_recommendations(self, event_stats: dict, metrics_summary: dict) -> list[str]:
+    def _generate_recommendations(self, event_stats: Dict, metrics_summary: Dict) -> List[str]:
         """Генерация рекомендаций на основе статистики"""
         recommendations = []
 
@@ -371,7 +368,8 @@ class TriggerMetricsCollector:
         failed_events = event_stats.get("failed_events", 0)
         if failed_events > 10:
             recommendations.append(
-                f"Обнаружено много неудачных событий: {failed_events}. Рекомендуется провести анализ причин сбоев."
+                f"Обнаружено много неудачных событий: {failed_events}. "
+                "Рекомендуется провести анализ причин сбоев."
             )
 
         if not recommendations:
@@ -379,7 +377,7 @@ class TriggerMetricsCollector:
 
         return recommendations
 
-    def _generate_human_readable_report(self, report: dict, json_report_path: Path):
+    def _generate_human_readable_report(self, report: Dict, json_report_path: Path):
         """Генерация читаемого отчета в markdown"""
         md_report_path = json_report_path.with_suffix(".md")
 
@@ -396,7 +394,9 @@ class TriggerMetricsCollector:
             f.write(f"- Успешных событий: **{event_stats['successful_events']}**\n")
             f.write(f"- Неудачных событий: **{event_stats['failed_events']}**\n")
             f.write(f"- Процент успеха: **{event_stats['success_rate']:.1f}%**\n")
-            f.write(f"- Среднее время выполнения: **{event_stats['avg_execution_time']:.2f} секунд**\n\n")
+            f.write(
+                f"- Среднее время выполнения: **{event_stats['avg_execution_time']:.2f} секунд**\n\n"
+            )
 
             # События по типам
             f.write("### События по типам\n\n")
@@ -431,7 +431,7 @@ class TriggerDashboard:
         """Генерация HTML дашборда"""
         # Получаем статистику
         stats = self.collector.get_event_stats(24)
-        self.collector.get_metrics_summary(24)
+        metrics = self.collector.get_metrics_summary(24)
 
         # Генерируем HTML
         html = f"""
@@ -557,32 +557,32 @@ class TriggerDashboard:
                 <div class="header">
                     <h1>📊 Дашборд мониторинга триггеров</h1>
                     <div class="subtitle">
-                        Cognitive Automation Agent • {datetime.now().strftime("%d.%m.%Y %H:%M")}
+                        Cognitive Automation Agent • {datetime.now().strftime('%d.%m.%Y %H:%M')}
                     </div>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h3>Всего событий</h3>
-                        <div class="stat-value stat-info">{stats["total_events"]}</div>
+                        <div class="stat-value stat-info">{stats['total_events']}</div>
                         <p>За последние 24 часа</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Успешность</h3>
-                        <div class="stat-value stat-success">{stats["success_rate"]:.1f}%</div>
-                        <p>{stats["successful_events"]} успешных из {stats["total_events"]}</p>
+                        <div class="stat-value stat-success">{stats['success_rate']:.1f}%</div>
+                        <p>{stats['successful_events']} успешных из {stats['total_events']}</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Среднее время</h3>
-                        <div class="stat-value">{stats["avg_execution_time"]:.2f}с</div>
+                        <div class="stat-value">{stats['avg_execution_time']:.2f}с</div>
                         <p>Среднее время выполнения события</p>
                     </div>
 
                     <div class="stat-card">
                         <h3>Неудачных событий</h3>
-                        <div class="stat-value stat-danger">{stats["failed_events"]}</div>
+                        <div class="stat-value stat-danger">{stats['failed_events']}</div>
                         <p>Требуют внимания</p>
                     </div>
                 </div>
@@ -616,16 +616,16 @@ class TriggerDashboard:
                 </div>
 
                 <div class="footer">
-                    <p>Дашборд обновлен: {datetime.now().strftime("%d.%m.%Y %H:%M:%S")}</p>
+                    <p>Дашборд обновлен: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}</p>
                     <p>Cognitive Automation Agent • Система автоматического мониторинга</p>
                 </div>
             </div>
 
             <script>
                 // Данные для графиков
-                const eventsData = {json.dumps([e["event_name"] for e in stats["events_by_type"]])};
-                const eventsCount = {json.dumps([e["count"] for e in stats["events_by_type"]])};
-                const successRates = {json.dumps([e["success_rate"] for e in stats["events_by_type"]])};
+                const eventsData = {json.dumps([e['event_name'] for e in stats['events_by_type']])};
+                const eventsCount = {json.dumps([e['count'] for e in stats['events_by_type']])};
+                const successRates = {json.dumps([e['success_rate'] for e in stats['events_by_type']])};
 
                 // График распределения событий
                 const eventsCtx = document.getElementById('eventsChart').getContext('2d');
@@ -715,10 +715,12 @@ class TriggerDashboard:
         """
 
         # Сохраняем дашборд
-        dashboard_dir = Path("apps/cognitive_agent/dashboards")
+        dashboard_dir = Path(".agents/dashboards")
         dashboard_dir.mkdir(parents=True, exist_ok=True)
 
-        dashboard_file = dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+        dashboard_file = (
+            dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+        )
         with open(dashboard_file, "w", encoding="utf-8") as f:
             f.write(html)
 
@@ -761,8 +763,8 @@ def main():
         print("\n" + "=" * 60)
         print("✅ Мониторинг завершен успешно!")
         print("\n📋 Доступные команды:")
-        print("  - Просмотр отчета: cat apps/cognitive_agent/reports/trigger_report_*.json")
-        print("  - Открыть дашборд: start apps/cognitive_agent/dashboards/trigger_dashboard_*.html")
+        print("  - Просмотр отчета: cat .agents/reports/trigger_report_*.json")
+        print("  - Открыть дашборд: start .agents/dashboards/trigger_dashboard_*.html")
         print("  - Запуск в режиме демона: python trigger-monitor.py --daemon")
 
         return True
