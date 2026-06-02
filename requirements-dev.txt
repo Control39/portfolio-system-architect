@@ -654,7 +654,7 @@ pymdown-extensions==10.21.3
     #   mkdocstrings
 pyparsing==3.3.2
     # via pip-requirements-parser
-pyright==1.1.409
+pyright==1.1.410
     # via -r requirements-dev.in
 pytest==9.0.3
     # via
