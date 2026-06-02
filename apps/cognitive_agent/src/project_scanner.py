@@ -1,55 +1,49 @@
-"""
-Оптимизированный сканер проекта для Cognitive Agent
-
-Функции:
-1. Уважение .gitignore (исключение node_modules, .venv, __pycache__ и т.д.)
-2. Git diff режим: сканировать только изменённые файлы
-3. Инкрементальное сканирование по хэшам
-4. Выборочное сканирование по директориям
-
-Использование:
-    # Полный скан (с игнорированием .gitignore)
-    scan = ProjectScanner("C:/repo")
-    results = scan.scan_full()
-
-    # Git diff скан (только изменённые файлы)
-    results = scan.scan_git_diff()
-
-    # Скан конкретных директорий
-    results = scan.scan_paths(["apps/cognitive_agent", ".agents"])
-"""
-
 import os
 import hashlib
 import json
 import logging
 import subprocess
+import concurrent.futures
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from datetime import datetime
+from dataclasses import dataclass
+from tqdm import tqdm  # Для прогресс‑бара
 
 try:
     import pathspec
-
     HAS_PATHSPEC = True
 except ImportError:
     HAS_PATHSPEC = False
-    logger = logging.getLogger(__name__)
-    logger.warning(
-        "pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec"
-    )
 
 logger = logging.getLogger(__name__)
 
 
-class ProjectScanner:
-    """Оптимизированный сканер проекта"""
+@dataclass
+class ScannerConfig:
+    """Конфигурация сканера"""
+    timeout: int = 10
+    max_workers: int = 4
+    max_file_size: int = 100 * 1024 * 1024  # 100 MB
+    include_extensions: List[str] = None
+    extra_ignores: List[str] = None
+    cache_file: str = ".cognitive_agent_scan_cache.json"
 
-    def __init__(self, project_path: str):
+    def __post_init__(self):
+        if self.include_extensions is None:
+            self.include_extensions = ['.py', '.js', '.ts', '.jsx', '.tsx', '.json', '.yml', '.yaml', '.md']
+        if self.extra_ignores is None:
+            self.extra_ignores = ['node_modules', '.venv', '__pycache__', '.git']
+
+class ProjectScanner:
+    """Оптимизированный сканер проекта с улучшенной производительностью и гибкостью"""
+
+    def __init__(self, project_path: str, config: Optional[ScannerConfig] = None):
         self.project_path = Path(project_path)
+        self.config = config or ScannerConfig()
         self.gitignore_spec = None
         self.last_scan_cache: Dict[str, str] = {}
-        self.cache_file = self.project_path / ".cognitive_agent_scan_cache.json"
+        self.cache_file = self.project_path / self.config.cache_file
 
         # Загрузка .gitignore
         self._load_gitignore()
@@ -60,9 +54,12 @@ class ProjectScanner:
     def _load_gitignore(self):
         """Загрузить правила .gitignore"""
         if not HAS_PATHSPEC:
+            logger.warning("pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec")
             return
 
         gitignore_path = self.project_path / ".gitignore"
+        patterns = []
+
         if gitignore_path.exists():
             with open(gitignore_path, "r", encoding="utf-8") as f:
                 patterns = f.read().splitlines()
@@ -70,13 +67,14 @@ class ProjectScanner:
             # Фильтрация пустых строк и комментариев
             patterns = [p.strip() for p in patterns if p.strip() and not p.startswith("#")]
 
-            try:
-                self.gitignore_spec = pathspec.PathSpec.from_lines("gitwildmatch", patterns)
-                logger.info(f"✅ Загружено {len(patterns)} правил из .gitignore")
-            except Exception as e:
-                logger.error(f"Ошибка загрузки .gitignore: {e}")
-        else:
-            logger.warning(".gitignore не найден")
+        # Добавляем дополнительные игнорируемые директории
+        patterns.extend(self.config.extra_ignores)
+
+        try:
+            self.gitignore_spec = pathspec.PathSpec.from_lines("gitwildmatch", patterns)
+            logger.info(f"✅ Загружено {len(patterns)} правил из .gitignore и конфигурации")
+        except Exception as e:
+            logger.error(f"Ошибка загрузки .gitignore: {e}")
 
     def _load_cache(self):
         """Загрузить кэш хэшей файлов"""
@@ -85,7 +83,7 @@ class ProjectScanner:
                 with open(self.cache_file, "r", encoding="utf-8") as f:
                     self.last_scan_cache = json.load(f)
                 logger.info(f"✅ Кэш загружен: {len(self.last_scan_cache)} файлов")
-            except Exception as e:
+            except (json.JSONDecodeError, IOError) as e:
                 logger.error(f"Ошибка загрузки кэша: {e}")
                 self.last_scan_cache = {}
 
@@ -94,18 +92,43 @@ class ProjectScanner:
         try:
             with open(self.cache_file, "w", encoding="utf-8") as f:
                 json.dump(self.last_scan_cache, f, indent=2)
-        except Exception as e:
+        except IOError as e:
             logger.error(f"Ошибка сохранения кэша: {e}")
 
+    def _cleanup_cache(self):
+        """Удалить записи для несуществующих файлов"""
+        existing_files = set()
+
+        for root, dirs, files in os.walk(self.project_path):
+            root_path = Path(root)
+            if self._is_ignored(root_path):
+                dirs.clear()
+                continue
+            for file in files:
+                file_path = (root_path / file).relative_to(self.project_path)
+                existing_files.add(str(file_path))
+
+        # Удаляем из кэша записи для удалённых файлов
+        to_remove = [k for k in self.last_scan_cache if k not in existing_files]
+        for key in to_remove:
+            del self.last_scan_cache[key]
+
+        logger.info(f"🗑️  Удалено {len(to_remove)} устаревших записей из кэша")
+
     def _calculate_file_hash(self, file_path: Path) -> str:
-        """Вычислить MD5 хэш файла"""
+        """Вычислить MD5 хэш файла с учётом ограничений по размеру"""
+        file_size = file_path.stat().st_size
+        if file_size > self.config.max_file_size:
+            logger.debug(f"Пропускаем большой файл: {file_path} ({file_size} байт)")
+            return ""
+
         try:
             hash_md5 = hashlib.md5(usedforsecurity=False)
             with open(file_path, "rb") as f:
                 for chunk in iter(lambda: f.read(4096), b""):
                     hash_md5.update(chunk)
             return hash_md5.hexdigest()
-        except Exception as e:
+        except (OSError, IOError) as e:
             logger.warning(f"Не удалось вычислить хэш {file_path}: {e}")
             return ""
 
@@ -114,20 +137,40 @@ class ProjectScanner:
         if not self.gitignore_spec:
             return False
 
-        rel_path = path.relative_to(self.project_path)
-        rel_path_str = str(rel_path).replace("\\", "/")
+        try:
+            rel_path = path.relative_to(self.project_path)
+            rel_path_str = rel_path.as_posix()  # Гарантированно Unix‑стиль
+            return self.gitignore_spec.match_file(rel_path_str)
+        except ValueError:
+            # Если путь не внутри проекта
+            return False
 
-        return self.gitignore_spec.match_file(rel_path_str)
-
-    def _get_changed_files(self) -> List[Path]:
-        """Получить список изменённых файлов через git diff"""
+    def _is_git_repo(self) -> bool:
+        """Проверить, является ли проект Git‑репозиторием"""
         try:
             result = subprocess.run(
-                ["git", "diff", "--name-only", "HEAD"],
+                ["git", "rev-parse", "--is-inside-work-tree"],
                 cwd=self.project_path,
                 capture_output=True,
                 text=True,
-                timeout=10,
+            )
+            return result.returncode == 0
+        except (FileNotFoundError, OSError):
+            return False
+
+    def _get_all_changed_files(self) -> List[Path]:
+        """Получить все изменённые файлы (working tree + staged)"""
+        if not self._is_git_repo():
+            logger.warning("Проект не является Git‑репозиторием")
+            return []
+
+        try:
+            result = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=ACMRTUXB"],
+                cwd=self.project_path,
+                capture_output=True,
+                text=True,
+                timeout=self.config.timeout,
             )
 
             if result.returncode != 0:
@@ -137,30 +180,84 @@ class ProjectScanner:
             changed = [Path(p) for p in result.stdout.strip().split("\n") if p.strip()]
             logger.info(f"🔍 Найдено {len(changed)} изменённых файлов")
             return changed
-        except Exception as e:
+        except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
             logger.error(f"Ошибка git diff: {e}")
             return []
 
-    def _get_staged_files(self) -> List[Path]:
-        """Получить список зафиксированных файлов"""
+    def _filter_by_extension(self, file_path: Path) -> bool:
+        """Проверить, соответствует ли файл разрешённым расширениям"""
+        return not self.config.include_extensions or file_path.suffix in self.config.include_extensions
+
+    def _process_file(self, file_path: Path, rel_path: Path) -> Optional[Dict[str, Any]]:
+        """Обработать один файл — вычислить хэш и собрать информацию"""
+        if not file_path.is_file():
+            return None
+
+        # Проверка расширения
+        if not self._filter_by_extension(file_path):
+            logger.debug(f"⏭️  Игнорируется по расширению: {file_path}")
+            return None
+
+        # Проверка .gitignore
+        if self._is_ignored(file_path):
+            logger.debug(f"⏭️  Игнорируется: {file_path}")
+            return None
+
         try:
-            result = subprocess.run(
-                ["git", "diff", "--cached", "--name-only"],
-                cwd=self.project_path,
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
+            # Получаем текущий хэш
+            current_hash = self._calculate_file_hash(file_path)
+            if not current_hash:  # Файл слишком большой или ошибка
+                return None
 
-            if result.returncode != 0:
-                return []
+            # Получаем предыдущий хэш из кэша
+            last_hash = self.last_scan_cache.get(str(rel_path))
 
-            staged = [Path(p) for p in result.stdout.strip().split("\n") if p.strip()]
-            logger.info(f"🔍 Найдено {len(staged)} staged файлов")
-            return staged
-        except Exception as e:
-            logger.error(f"Ошибка git diff --cached: {e}")
-            return []
+            # Если файл не изменился, пропускаем
+            if current_hash == last_hash:
+                logger.debug(f"⏭️  Без изменений: {file_path}")
+                return None
+
+            # Собираем информацию о файле
+            file_stat = file_path.stat()
+            return {
+                "path": str(rel_path),
+                "hash": current_hash,
+                "size": file_stat.st_size,
+                "mtime": file_stat.st_mtime,
+            }
+
+        except (OSError, IOError) as e:
+            logger.warning(f"Ошибка обработки файла {file_path}: {e}")
+            return None
+
+    def _parallel_scan_files(self, file_list: List[Path]) -> List[Dict[str, Any]]:
+        """Параллельное сканирование файлов с прогресс-баром"""
+        results = []
+        total_files = len(file_list)
+
+        if total_files == 0:
+            return results
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.config.max_workers) as executor:
+            # Создаём прогресс-бар
+            with tqdm(total=total_files, desc="Сканирование файлов", unit="file") as pbar:
+                # Подготавливаем задачи
+                tasks = []
+                for file_path in file_list:
+                    try:
+                        rel_path = file_path.relative_to(self.project_path)
+                        tasks.append(executor.submit(self._process_file, file_path, rel_path))
+                    except ValueError:
+                        continue
+
+                # Собираем результаты
+                for future in concurrent.futures.as_completed(tasks):
+                    result = future.result()
+                    if result:
+                        results.append(result)
+                        pbar.update(1)
+
+        return results
 
     def scan_git_diff(self) -> Dict[str, Any]:
         """Сканировать только изменённые файлы (git diff)"""
@@ -168,13 +265,9 @@ class ProjectScanner:
         start_time = datetime.now()
 
         # Получаем изменённые файлы
-        changed_files = self._get_changed_files()
-        staged_files = self._get_staged_files()
+        changed_files = self._get_all_changed_files()
 
-        # Объединяем списки
-        all_changed = list(set(changed_files + staged_files))
-
-        if not all_changed:
+        if not changed_files:
             logger.info("✅ Нет изменённых файлов. Скан не требуется.")
             return {
                 "mode": "git_diff",
@@ -186,57 +279,30 @@ class ProjectScanner:
                 "summary": "Нет изменений",
             }
 
-        scanned = []
-        for file_path in all_changed:
-            full_path = self.project_path / file_path
+        # Параллельное сканирование
+        scanned = self._parallel_scan_files(changed_files)
 
-            if not full_path.exists():
-                continue
-
-            if not full_path.is_file():
-                continue
-
-            # Проверка .gitignore
-            if self._is_ignored(full_path):
-                logger.debug(f"⏭️  Игнорируется: {file_path}")
-                continue
-
-            # Вычисляем хэш
-            current_hash = self._calculate_file_hash(full_path)
-            last_hash = self.last_scan_cache.get(str(file_path))
-
-            if current_hash == last_hash:
-                logger.debug(f"⏭️  Без изменений: {file_path}")
-                continue
-
-            # Файл изменился — сканируем
-            scanned.append(
-                {
-                    "path": str(file_path),
-                    "hash": current_hash,
-                    "size": full_path.stat().st_size,
-                    "status": "modified" if file_path in changed_files else "staged",
-                }
-            )
-
-            # Обновляем кэш
-            self.last_scan_cache[str(file_path)] = current_hash
+        # Обновляем кэш только для отсканированных файлов
+        for file_info in scanned:
+            self.last_scan_cache[file_info["path"]] = file_info["hash"]
 
         # Сохраняем кэш
         self._save_cache()
 
         duration = (datetime.now() - start_time).total_seconds()
+        skipped = len(changed_files) - len(scanned)
 
         logger.info(f"✅ Сканирование завершено за {duration:.2f}s")
-        logger.info(f"   Изменённых файлов: {len(all_changed)}")
+        logger.info(f"   Изменённых файлов: {len(changed_files)}")
         logger.info(f"   Сканировано: {len(scanned)}")
-        logger.info(f"   Пропущено (без изменений): {len(all_changed) - len(scanned)}")
+        logger.info(f"   Пропущено (без изменений/ошибки): {skipped}")
+
 
         return {
             "mode": "git_diff",
-            "changed_files": len(all_changed),
+            "changed_files": len(changed_files),
             "scanned_files": len(scanned),
-            "skipped_files": len(all_changed) - len(scanned),
+            "skipped_files": skipped,
             "duration": duration,
             "files": scanned,
             "timestamp": start_time.isoformat(),
@@ -247,10 +313,7 @@ class ProjectScanner:
         logger.info("🔄 Запуск полного сканирования проекта...")
         start_time = datetime.now()
 
-        total_files = 0
-        scanned_files = 0
-        ignored_files = 0
-        file_details = []
+        all_files = []
 
         for root, dirs, files in os.walk(self.project_path):
             root_path = Path(root)
@@ -258,52 +321,38 @@ class ProjectScanner:
             # Проверка директории на игнорирование
             if self._is_ignored(root_path):
                 dirs.clear()  # Не спускаться в игнорируемые директории
-                ignored_files += len(files)
                 continue
 
             for file in files:
                 file_path = root_path / file
-                rel_path = file_path.relative_to(self.project_path)
-                rel_path_str = str(rel_path).replace("\\", "/")
+                all_files.append(file_path)
 
-                total_files += 1
 
-                # Проверка .gitignore
-                if self._is_ignored(file_path):
-                    ignored_files += 1
-                    continue
+        # Параллельное сканирование всех файлов
+        scanned = self._parallel_scan_files(all_files)
 
-                # Вычисляем хэш
-                current_hash = self._calculate_file_hash(file_path)
-                last_hash = self.last_scan_cache.get(str(rel_path))
+        # Обновляем кэш
+        for file_info in scanned:
+            self.last_scan_cache[file_info["path"]] = file_info["hash"]
 
-                # Обновляем кэш
-                self.last_scan_cache[str(rel_path)] = current_hash
-
-                # Добавляем в результаты
-                file_details.append(
-                    {"path": rel_path_str, "hash": current_hash, "size": file_path.stat().st_size}
-                )
-
-                scanned_files += 1
-
+        # Очистка кэша от устаревших записей
+        self._cleanup_cache()
         # Сохраняем кэш
         self._save_cache()
 
         duration = (datetime.now() - start_time).total_seconds()
 
         logger.info(f"✅ Полное сканирование завершено за {duration:.2f}s")
-        logger.info(f"   Всего файлов: {total_files}")
-        logger.info(f"   Сканировано: {scanned_files}")
-        logger.info(f"   Игнорировано: {ignored_files}")
+        logger.info(f"   Всего файлов для проверки: {len(all_files)}")
+        logger.info(f"   Сканировано: {len(scanned)}")
 
         return {
             "mode": "full",
-            "total_files": total_files,
-            "scanned_files": scanned_files,
-            "ignored_files": ignored_files,
+            "total_files": len(all_files),
+            "scanned_files": len(scanned),
+            "ignored_files": len(all_files) - len(scanned),
             "duration": duration,
-            "files": file_details,
+            "files": scanned,
             "timestamp": start_time.isoformat(),
         }
 
@@ -312,8 +361,7 @@ class ProjectScanner:
         logger.info(f"🔄 Запуск выборочного сканирования: {paths}")
         start_time = datetime.now()
 
-        scanned_files = 0
-        file_details = []
+        target_files = []
 
         for path_pattern in paths:
             target_path = self.project_path / path_pattern
@@ -323,44 +371,136 @@ class ProjectScanner:
                 continue
 
             if target_path.is_file():
-                # Одиночный файл
-                if not self._is_ignored(target_path):
-                    current_hash = self._calculate_file_hash(target_path)
-                    file_details.append(
-                        {
-                            "path": str(target_path.relative_to(self.project_path)),
-                            "hash": current_hash,
-                            "size": target_path.stat().st_size,
-                        }
-                    )
-                    scanned_files += 1
+                target_files.append(target_path)
             elif target_path.is_dir():
-                # Директория
-                for file_path in target_path.rglob("*"):
-                    if file_path.is_file() and not self._is_ignored(file_path):
-                        current_hash = self._calculate_file_hash(file_path)
-                        rel_path = file_path.relative_to(self.project_path)
-                        file_details.append(
-                            {
-                                "path": str(rel_path),
-                                "hash": current_hash,
-                                "size": file_path.stat().st_size,
-                            }
-                        )
-                        scanned_files += 1
+                # Рекурсивно добавляем все файлы в директории
+                target_files.extend(target_path.rglob("*"))
 
+
+        # Фильтруем только файлы
+        file_list = [f for f in target_files if f.is_file()]
+
+
+        # Параллельное сканирование
+        scanned = self._parallel_scan_files(file_list)
+
+        # Обновляем кэш
+        for file_info in scanned:
+            self.last_scan_cache[file_info["path"]] = file_info["hash"]
+        # Сохраняем кэш
         self._save_cache()
 
         duration = (datetime.now() - start_time).total_seconds()
 
         logger.info(f"✅ Выборочное сканирование завершено за {duration:.2f}s")
-        logger.info(f"   Сканировано файлов: {scanned_files}")
+        logger.info(f"   Всего файлов для проверки: {len(file_list)}")
+        logger.info(f"   Сканировано: {len(scanned)}")
 
         return {
             "mode": "paths",
             "paths": paths,
-            "scanned_files": scanned_files,
+            "total_files": len(file_list),
+            "scanned_files": len(scanned),
             "duration": duration,
-            "files": file_details,
+            "files": scanned,
             "timestamp": start_time.isoformat(),
         }
+
+    def export_results(self, results: Dict[str, Any], output_file: str, format: str = "json") -> None:
+        """Экспортировать результаты в указанный формат"""
+        try:
+            if format == "json":
+                with open(output_file, "w", encoding="utf-8") as f:
+                    json.dump(results, f, indent=2, ensure_ascii=False)
+                logger.info(f"✅ Результаты экспортированы в JSON: {output_file}")
+
+            elif format == "csv":
+                import csv
+                with open(output_file, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.DictWriter(f, fieldnames=["path", "hash", "size", "mtime"])
+                    writer.writeheader()
+                    for file_info in results.get("files", []):
+                        # Конвертируем mtime в читаемый формат, если есть
+                        if "mtime" in file_info:
+                            file_info["mtime"] = datetime.fromtimestamp(file_info["mtime"]).isoformat()
+                        writer.writerow(file_info)
+                logger.info(f"✅ Результаты экспортированы в CSV: {output_file}")
+
+            else:
+                logger.error(f"Неподдерживаемый формат экспорта: {format}")
+        except (IOError, csv.Error) as e:
+            logger.error(f"Ошибка экспорта в {format}: {e}")
+
+    @classmethod
+    def load_config(cls, config_file: str) -> ScannerConfig:
+        """Загрузить конфигурацию из файла"""
+        if not Path(config_file).exists():
+            logger.warning(f"Файл конфигурации не найден: {config_file}. Используются настройки по умолчанию.")
+            return ScannerConfig()
+
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                config_data = json.load(f)
+            return ScannerConfig(**config_data)
+        except (json.JSONDecodeError, IOError) as e:
+            logger.error(f"Ошибка загрузки конфигурации: {e}")
+            return ScannerConfig()
+
+
+
+# CLI-интерфейс
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Оптимизированный сканер проекта для Cognitive Agent")
+    parser.add_argument("project_path", help="Путь к проекту")
+    parser.add_argument("--mode", choices=["full", "git_diff", "paths"], default="full",
+                       help="Режим сканирования")
+    parser.add_argument("--paths", nargs="*", default=[],
+               help="Пути для выборочного сканирования (используется с --mode paths)")
+    parser.add_argument("--config", help="Файл конфигурации сканера")
+    parser.add_argument("--export", help="Файл для экспорта результатов")
+    parser.add_argument("--format", choices=["json", "csv"], default="json",
+               help="Формат экспорта")
+
+    args = parser.parse_args()
+
+    # Загрузка конфигурации
+    config = ProjectScanner.load_config(args.config) if args.config else ScannerConfig()
+
+    # Создание сканера
+    scanner = ProjectScanner(args.project_path, config)
+
+    # Выполнение сканирования
+    if args.mode == "full":
+        results = scanner.scan_full()
+    elif args.mode == "git_diff":
+        results = scanner.scan_git_diff()
+    else:  # paths
+        if not args.paths:
+            parser.error("--paths требуется для режима paths")
+        results = scanner.scan_paths(args.paths)
+
+    # Экспорт результатов
+    if args.export:
+        scanner.export_results(results, args.export, args.format)
+
+    # Вывод краткой статистики
+    print(f"\n📊 Статистика сканирования:")
+    print(f"Режим: {results['mode']}")
+    print(f"Длительность: {results['duration']:.2f} сек")
+    if results['mode'] == 'full':
+        print(f"Всего файлов: {results['total_files']}")
+        print(f"Сканировано: {results['scanned_files']}")
+        print(f"Игнорировано: {results['ignored_files']}")
+    elif results['mode'] == 'git_diff':
+        print(f"Изменённых файлов: {results['changed_files']}")
+        print(f"Сканировано: {results['scanned_files']}")
+        print(f"Пропущено: {results['skipped_files']}")
+    else:
+        print(f"Всего для проверки: {results['total_files']}")
+        print(f"Сканировано: {results['scanned_files']}")
+
+
+if __name__ == "__main__":
+    main()
