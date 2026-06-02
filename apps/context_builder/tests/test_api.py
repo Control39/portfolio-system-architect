@@ -28,10 +28,9 @@ def test_get_filter():
 
 
 def test_update_filter():
-    response = client.post("/filter", json={
-        "add_extensions": ["xyz"],
-        "add_exclude_dirs": ["temp"]
-    })
+    response = client.post(
+        "/filter", json={"add_extensions": ["xyz"], "add_exclude_dirs": ["temp"]}
+    )
     assert response.status_code == 200
     data = response.json()
     assert "xyz" in data["extensions"]

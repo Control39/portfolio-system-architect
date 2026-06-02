@@ -26,14 +26,7 @@ def test_chunker_preserves_file_boundaries():
 
 def test_chunk_header_format():
     chunker = ContextChunker(max_tokens_per_chunk=1000)
-    chunk = Chunk(
-        index=1,
-        total=3,
-        content="...",
-        files=["a.py", "b.py"],
-        tokens=150,
-        size_mb=0.1
-    )
+    chunk = Chunk(index=1, total=3, content="...", files=["a.py", "b.py"], tokens=150, size_mb=0.1)
     header = chunker.get_chunk_header(chunk)
     assert "ЧАСТЬ 1 ИЗ 3" in header
     assert "- a.py" in header

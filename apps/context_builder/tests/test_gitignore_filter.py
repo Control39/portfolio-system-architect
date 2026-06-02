@@ -1,6 +1,5 @@
 # apps/context_builder/tests/test_gitignore_filter.py
 from pathlib import Path
-import pytest
 
 from apps.context_builder.core.gitignore_filter import GitIgnoreFilter
 

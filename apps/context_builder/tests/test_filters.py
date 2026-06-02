@@ -1,9 +1,6 @@
 # apps/context_builder/tests/test_filters.py
-from pathlib import Path
-import pytest
 
 from apps.context_builder.core.filters import FileFilter
-from apps.context_builder.config.settings import settings
 
 
 def test_filter_includes_allowed_extension(sample_project_structure):

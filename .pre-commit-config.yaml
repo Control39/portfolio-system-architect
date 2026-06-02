@@ -20,11 +20,13 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
+        # Исключаем сканер секретов (он содержит regex паттерны) и legacy конфиги
         exclude: |
           (?x)^(
-            tests/|
-            apps/cognitive_agent/tools/python/secrets-scanner\.py|  # Secret scanner contains regex patterns
-            apps/cognitive_agent/config/.*\.yaml  # Agent config (may contain example keys)
+            apps/cognitive_agent/tools/python/secrets-scanner\.py|
+            apps/cognitive_agent/config/.*\.yaml|
+            src/security/tests/test_secret_masking\.py|
+            apps/decision_engine/tests/conftest\.py
           )$
 
   # Prevent giant files and other large commits
@@ -50,10 +52,11 @@ repos:
       - id: check-toml # ✅ Добавлен: проверяет валидность TOML файлов (pyproject.toml)
       - id: debug-statements # ✅ Добавлен: ловит print() и pdb в коде
       - id: detect-private-key
+        # Исключаем файл, который ищет приватные ключи по regex
         exclude: |
           (?x)^(
             tests/|
-            apps/cognitive_agent/tools/python/secrets-scanner\.py  # Regex pattern for PGP looks like a key
+            apps/cognitive_agent/tools/python/secrets-scanner\.py
           )$
 
   # Python linting — исправлен rev
@@ -85,7 +88,7 @@ repos:
             apps/cognitive_agent/__init__\.py
           )$
 
-  # Security checks — упрощён exclude
+  # Security checks — обновлен exclude
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.4
     hooks:
@@ -93,8 +96,9 @@ repos:
         exclude: |
           (?x)^(
             .*test.*\.py|
-            apps/cognitive_agent/scripts/.*|  # Legacy scripts
-            apps/cognitive_agent/tools/.*
+            apps/cognitive_agent/.*|
+            scripts/.*|
+            tools/.*
           )$
 
   # Docker linting

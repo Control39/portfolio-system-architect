@@ -1,5 +1,4 @@
 # apps/context_builder/tests/test_token_counter.py
-import pytest
 from apps.context_builder.core.token_counter import TokenCounter
 
 

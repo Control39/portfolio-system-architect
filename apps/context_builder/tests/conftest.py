@@ -38,7 +38,7 @@ def sample_project_structure(test_dir):
     (test_dir / "README.md").write_text("# Project\n", encoding="utf-8")
 
     # Бинарный файл
-    (test_dir / "image.png").write_bytes(b'\x89PNG\r\n\x1a\n' + b'\x00' * 100)
+    (test_dir / "image.png").write_bytes(b"\x89PNG\r\n\x1a\n" + b"\x00" * 100)
 
     # .gitignore
     (test_dir / ".gitignore").write_text("*.log\n__pycache__/\n", encoding="utf-8")

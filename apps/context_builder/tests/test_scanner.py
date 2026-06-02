@@ -1,8 +1,6 @@
 # apps/context_builder/tests/test_scanner.py
-from pathlib import Path
 
 from apps.context_builder.core.scanner import ProjectScanner
-from apps.context_builder.config.settings import settings
 
 
 def test_scanner_finds_text_files(sample_project_structure):

@@ -1,6 +1,4 @@
 # apps/context_builder/tests/test_config.py
-import os
-from pathlib import Path
 
 from apps.context_builder.config.settings import settings
 
