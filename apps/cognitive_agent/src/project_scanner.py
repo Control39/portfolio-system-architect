@@ -12,6 +12,7 @@ from tqdm import tqdm  # Для прогресс‑бара
 
 try:
     import pathspec
+
     HAS_PATHSPEC = True
 except ImportError:
     HAS_PATHSPEC = False
@@ -22,6 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ScannerConfig:
     """Конфигурация сканера"""
+
     timeout: int = 10
     max_workers: int = 4
     max_file_size: int = 100 * 1024 * 1024  # 100 MB
@@ -31,9 +33,20 @@ class ScannerConfig:
 
     def __post_init__(self):
         if self.include_extensions is None:
-            self.include_extensions = ['.py', '.js', '.ts', '.jsx', '.tsx', '.json', '.yml', '.yaml', '.md']
+            self.include_extensions = [
+                ".py",
+                ".js",
+                ".ts",
+                ".jsx",
+                ".tsx",
+                ".json",
+                ".yml",
+                ".yaml",
+                ".md",
+            ]
         if self.extra_ignores is None:
-            self.extra_ignores = ['node_modules', '.venv', '__pycache__', '.git']
+            self.extra_ignores = ["node_modules", ".venv", "__pycache__", ".git"]
+
 
 class ProjectScanner:
     """Оптимизированный сканер проекта с улучшенной производительностью и гибкостью"""
@@ -54,7 +67,9 @@ class ProjectScanner:
     def _load_gitignore(self):
         """Загрузить правила .gitignore"""
         if not HAS_PATHSPEC:
-            logger.warning("pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec")
+            logger.warning(
+                "pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec"
+            )
             return
 
         gitignore_path = self.project_path / ".gitignore"
@@ -186,7 +201,9 @@ class ProjectScanner:
 
     def _filter_by_extension(self, file_path: Path) -> bool:
         """Проверить, соответствует ли файл разрешённым расширениям"""
-        return not self.config.include_extensions or file_path.suffix in self.config.include_extensions
+        return (
+            not self.config.include_extensions or file_path.suffix in self.config.include_extensions
+        )
 
     def _process_file(self, file_path: Path, rel_path: Path) -> Optional[Dict[str, Any]]:
         """Обработать один файл — вычислить хэш и собрать информацию"""
@@ -297,7 +314,6 @@ class ProjectScanner:
         logger.info(f"   Сканировано: {len(scanned)}")
         logger.info(f"   Пропущено (без изменений/ошибки): {skipped}")
 
-
         return {
             "mode": "git_diff",
             "changed_files": len(changed_files),
@@ -326,7 +342,6 @@ class ProjectScanner:
             for file in files:
                 file_path = root_path / file
                 all_files.append(file_path)
-
 
         # Параллельное сканирование всех файлов
         scanned = self._parallel_scan_files(all_files)
@@ -376,10 +391,8 @@ class ProjectScanner:
                 # Рекурсивно добавляем все файлы в директории
                 target_files.extend(target_path.rglob("*"))
 
-
         # Фильтруем только файлы
         file_list = [f for f in target_files if f.is_file()]
-
 
         # Параллельное сканирование
         scanned = self._parallel_scan_files(file_list)
@@ -406,7 +419,9 @@ class ProjectScanner:
             "timestamp": start_time.isoformat(),
         }
 
-    def export_results(self, results: Dict[str, Any], output_file: str, format: str = "json") -> None:
+    def export_results(
+        self, results: Dict[str, Any], output_file: str, format: str = "json"
+    ) -> None:
         """Экспортировать результаты в указанный формат"""
         try:
             if format == "json":
@@ -416,13 +431,16 @@ class ProjectScanner:
 
             elif format == "csv":
                 import csv
+
                 with open(output_file, "w", newline="", encoding="utf-8") as f:
                     writer = csv.DictWriter(f, fieldnames=["path", "hash", "size", "mtime"])
                     writer.writeheader()
                     for file_info in results.get("files", []):
                         # Конвертируем mtime в читаемый формат, если есть
                         if "mtime" in file_info:
-                            file_info["mtime"] = datetime.fromtimestamp(file_info["mtime"]).isoformat()
+                            file_info["mtime"] = datetime.fromtimestamp(
+                                file_info["mtime"]
+                            ).isoformat()
                         writer.writerow(file_info)
                 logger.info(f"✅ Результаты экспортированы в CSV: {output_file}")
 
@@ -435,7 +453,9 @@ class ProjectScanner:
     def load_config(cls, config_file: str) -> ScannerConfig:
         """Загрузить конфигурацию из файла"""
         if not Path(config_file).exists():
-            logger.warning(f"Файл конфигурации не найден: {config_file}. Используются настройки по умолчанию.")
+            logger.warning(
+                f"Файл конфигурации не найден: {config_file}. Используются настройки по умолчанию."
+            )
             return ScannerConfig()
 
         try:
@@ -447,21 +467,26 @@ class ProjectScanner:
             return ScannerConfig()
 
 
-
 # CLI-интерфейс
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="Оптимизированный сканер проекта для Cognitive Agent")
+    parser = argparse.ArgumentParser(
+        description="Оптимизированный сканер проекта для Cognitive Agent"
+    )
     parser.add_argument("project_path", help="Путь к проекту")
-    parser.add_argument("--mode", choices=["full", "git_diff", "paths"], default="full",
-                       help="Режим сканирования")
-    parser.add_argument("--paths", nargs="*", default=[],
-               help="Пути для выборочного сканирования (используется с --mode paths)")
+    parser.add_argument(
+        "--mode", choices=["full", "git_diff", "paths"], default="full", help="Режим сканирования"
+    )
+    parser.add_argument(
+        "--paths",
+        nargs="*",
+        default=[],
+        help="Пути для выборочного сканирования (используется с --mode paths)",
+    )
     parser.add_argument("--config", help="Файл конфигурации сканера")
     parser.add_argument("--export", help="Файл для экспорта результатов")
-    parser.add_argument("--format", choices=["json", "csv"], default="json",
-               help="Формат экспорта")
+    parser.add_argument("--format", choices=["json", "csv"], default="json", help="Формат экспорта")
 
     args = parser.parse_args()
 
@@ -486,14 +511,14 @@ def main():
         scanner.export_results(results, args.export, args.format)
 
     # Вывод краткой статистики
-    print(f"\n📊 Статистика сканирования:")
+    print("\n📊 Статистика сканирования:")
     print(f"Режим: {results['mode']}")
     print(f"Длительность: {results['duration']:.2f} сек")
-    if results['mode'] == 'full':
+    if results["mode"] == "full":
         print(f"Всего файлов: {results['total_files']}")
         print(f"Сканировано: {results['scanned_files']}")
         print(f"Игнорировано: {results['ignored_files']}")
-    elif results['mode'] == 'git_diff':
+    elif results["mode"] == "git_diff":
         print(f"Изменённых файлов: {results['changed_files']}")
         print(f"Сканировано: {results['scanned_files']}")
         print(f"Пропущено: {results['skipped_files']}")
