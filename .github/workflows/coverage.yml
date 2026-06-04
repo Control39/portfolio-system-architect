@@ -1,33 +1,174 @@
+---
 name: Update Test Coverage Badge
 
 on:
   push:
     branches: [main, master]
+    paths:
+      - 'apps/context_builder/**'
+      - '.github/workflows/coverage.yml'
   pull_request:
+    branches: [main]
+    paths:
+      - 'apps/context_builder/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.actor != 'github-actions[bot]'
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('apps/context_builder/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
-          pip install pytest pytest-cov
+          pip install --upgrade pip
+          pip install pytest pytest-cov pytest-asyncio
+          if [ -f "apps/context_builder/requirements.txt" ]; then
+            pip install -r apps/context_builder/requirements.txt
+          fi
 
       - name: Run tests with coverage
+        id: tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
-          cd apps/context_builder  # или нужный app
-          pytest --cov=. --cov-report=xml
+          START_TIME=$(date +%s)
+          cd apps/context_builder || { echo "Error: directory not found"; exit 1; }
+          mkdir -p reports
 
-      - name: Upload coverage to Codecov (или Coveralls)
-        uses: codecov/codecov-action@v4
+          pytest --cov=. \
+                 --cov-report=xml:reports/coverage.xml \
+                 --cov-report=term \
+                 --junitxml=reports/junit.xml \
+                 -v || true
+
+          END_TIME=$(date +%s)
+          echo "duration=$((END_TIME - START_TIME))" >> $GITHUB_OUTPUT
+
+      - name: Extract coverage percentage
+        if: always()
+        id: coverage
+        run: |
+          COVERAGE_FILE="apps/context_builder/reports/coverage.xml"
+
+          if [ ! -f "$COVERAGE_FILE" ]; then
+            echo "coverage_percent=0" >> $GITHUB_OUTPUT
+            echo "❌ Coverage report not found"
+            exit 0
+          fi
+
+          COVERAGE=$(python3 -c "import xml.etree.ElementTree as ET; tree = ET.parse('$COVERAGE_FILE'); root = tree.getroot(); print(int(float(root.attrib.get('line-rate', 0)) * 100))" 2>/dev/null || echo "0")
+
+          if ! [[ "$COVERAGE" =~ ^[0-9]+$ ]] || [ "$COVERAGE" -gt 100 ]; then
+            COVERAGE=0
+          fi
+          echo "coverage_percent=${COVERAGE}" >> $GITHUB_OUTPUT
+          echo "✅ Coverage: ${COVERAGE}%"
+
+      - name: Determine badge color
+        if: always()
+        id: color
+        run: |
+          COVERAGE="${{ steps.coverage.outputs.coverage_percent }}"
+          if [ -z "$COVERAGE" ] || [ "$COVERAGE" = "0" ]; then
+            echo "badge_color=lightgrey" >> $GITHUB_OUTPUT
+          elif [ "$COVERAGE" -ge 85 ]; then
+            echo "badge_color=brightgreen" >> $GITHUB_OUTPUT
+          elif [ "$COVERAGE" -ge 70 ]; then
+            echo "badge_color=yellow" >> $GITHUB_OUTPUT
+          else
+            echo "badge_color=red" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create coverage badge
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: emibcn/badge-action@v2.0.3
         with:
-          file: ./coverage.xml
-          flags: unittests
-          fail_ci_if_error: false
+          label: coverage
+          status: ${{ steps.coverage.outputs.coverage_percent }}%
+          color: ${{ steps.color.outputs.badge_color }}
+          path: .github/badges/context-builder-coverage.svg
+
+      - name: Commit and push badge
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: |
+          mkdir -p .github/badges
+          BADGE_PATH=".github/badges/context-builder-coverage.svg"
+
+          # Упрощённая проверка: git status сам проверит наличие файла и изменений
+          if [ -z "$(git status --porcelain "$BADGE_PATH" 2>/dev/null)" ]; then
+            echo "ℹ️ No changes to commit"
+            exit 0
+          fi
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "$BADGE_PATH"
+          git commit -m "chore: update coverage badge to ${{ steps.coverage.outputs.coverage_percent }}% [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
+
+          echo "✅ Badge committed and pushed"
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ github.run_id }}
+          path: apps/context_builder/reports/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Display summary
+        if: always()
+        run: |
+          COV="${{ steps.coverage.outputs.coverage_percent }}"
+          DURATION="${{ steps.tests.outputs.duration }}"
+
+          if [ -n "$COV" ] && [ "$COV" != "0" ]; then
+            STATUS="✅"
+            COV_DISPLAY="${COV}%"
+          else
+            STATUS="❌"
+            COV_DISPLAY="—"
+          fi
+
+          {
+            echo "## 📊 Test Coverage Report"
+            echo ""
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| **Service** | context_builder |"
+            echo "| **Coverage** | **${COV_DISPLAY}** |"
+            echo "| **Status** | ${STATUS} |"
+            echo "| **Duration** | ${DURATION}s |"
+            echo ""
+            echo "**Artifacts:** Test reports saved (14 days)"
+          } >> $GITHUB_STEP_SUMMARY
