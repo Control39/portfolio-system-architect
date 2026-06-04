@@ -208,7 +208,7 @@ jobs:
     name: Notify on Failure
     runs-on: ubuntu-latest
     needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, security-scan]
-    if: failure()
+    if: always() && failure()
     steps:
       - name: Send Slack notification
         uses: 8398a7/action-slack@v3
