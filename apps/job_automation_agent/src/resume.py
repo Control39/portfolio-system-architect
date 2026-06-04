@@ -126,7 +126,10 @@ class ResumeParser:
 template_dir = os.path.join(os.path.dirname(__file__), "../../templates")
 if os.path.exists(template_dir):
     env = Environment(
-        loader=FileSystemLoader(template_dir), block_start_string="[%", block_end_string="%]", autoescape=True
+        loader=FileSystemLoader(template_dir),
+        block_start_string="[%",
+        block_end_string="%]",
+        autoescape=True,
     )
 else:
     env = Environment(loader=BaseLoader(), autoescape=True)  # Fallback empty
@@ -137,7 +140,9 @@ async def generate_resume(profile: dict, job_description: dict) -> str:
     """Генерирует резюме на основе профиля и описания вакансии."""
     try:
         template = env.get_template("resume.md.j2")
-        return template.render(profile=profile, job=job_description, generated_at=os.path.abspath(__file__))
+        return template.render(
+            profile=profile, job=job_description, generated_at=os.path.abspath(__file__)
+        )
     except Exception as e:
         print(f"Ошибка генерации резюме: {e}")
         # Fallback simple resume

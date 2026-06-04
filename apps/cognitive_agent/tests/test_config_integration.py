@@ -19,6 +19,7 @@ class TestCognitiveAgentConfigIntegration:
         """Проверка доступности AI Config Manager"""
         try:
             from apps.ai_config_manager.src.config_manager import ConfigManager
+
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
@@ -27,6 +28,7 @@ class TestCognitiveAgentConfigIntegration:
         """Проверка импорта модуля интеграции"""
         sys.path.insert(0, str(REPO_ROOT / "apps" / "cognitive_agent" / "src"))
         from config_integration import CognitiveAgentConfig
+
         assert CognitiveAgentConfig is not None
 
     def test_get_config_singleton(self):
@@ -63,7 +65,7 @@ class TestCognitiveAgentConfigIntegration:
         from config_integration import get_config
 
         config = get_config()
-        assert hasattr(config, 'is_available')
+        assert hasattr(config, "is_available")
         assert callable(config.is_available)
 
 

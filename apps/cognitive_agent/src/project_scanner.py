@@ -208,13 +208,13 @@ class ProjectScanner:
 
             untracked = []
             if result_untracked.returncode == 0:
-                untracked = [Path(p) for p in result_untracked.stdout.strip().split("\n") if p.strip()]
+                untracked = [
+                    Path(p) for p in result_untracked.stdout.strip().split("\n") if p.strip()
+                ]
 
             # Объединить и логировать
             all_files = changed + untracked
-            logger.info(
-                f"🔍 Найдено {len(changed)} изменённых + {len(untracked)} новых файлов"
-            )
+            logger.info(f"🔍 Найдено {len(changed)} изменённых + {len(untracked)} новых файлов")
             return all_files
 
         except subprocess.TimeoutExpired as e:

@@ -203,10 +203,12 @@ async def health_check() -> dict[str, Any]:
         "checks": {"api": {"status": "ok"}},
     }
 
+
 @router.get("/live")
 async def live():
     """Liveness probe."""
     return {"status": "alive"}
+
 
 # Добавляем реальные реализации для отсутствующих эндпоинтов
 @router.get("/projects")
@@ -217,6 +219,7 @@ async def get_all_projects():
         {"id": 2, "name": "AI Assistant", "technologies": ["Python", "LangChain"]},
     ]
 
+
 @router.get("/portfolio/analysis")
 async def analyze_full_portfolio():
     """Analyze entire portfolio."""
@@ -225,8 +228,5 @@ async def analyze_full_portfolio():
         "total_projects": 2,
         "total_technologies": 4,
         "analysis": "Portfolio shows strong Python backend focus with modern APIs",
-        "recommendations": [
-            "Add more frontend projects",
-            "Consider mobile development"
-        ]
+        "recommendations": ["Add more frontend projects", "Consider mobile development"],
     }

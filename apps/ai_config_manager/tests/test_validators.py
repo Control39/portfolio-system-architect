@@ -91,7 +91,7 @@ class TestResourceConfig:
         assert config.name == "test-resource"
         assert config.type == ResourceType.TOOL
         assert config.enabled is True
-        assert config.config == {"key": " "value"}
+        assert config.config == {"key": "value"}
         assert config.metadata == {"version": "1.0"}
 
     @pytest.mark.parametrize("rtype", [ResourceType.TOOL, ResourceType.MODEL, ResourceType.API])
@@ -173,9 +173,9 @@ def test_secret_field_repr_masks_value():
     # Пропускаем тест, если SecretField не определён
     if "SecretField" not in globals():
         pytest.skip("SecretField not defined in validators.py")
-    
+
     secret = SecretField("my-super-secret-key")
-    
+
     # Проверяем, что repr не раскрывает секрет
     repr_str = repr(secret)
     assert "my-super-secret-key" not in repr_str
@@ -242,7 +242,7 @@ class TestAIConfig:
         for v in ["1.0.0", "2.1.3", "0.0.1", "10.20.30"]:
             config = AIConfig(version=v)
             assert config.version == v
-        
+
         # Невалидные версии (если валидация есть в модели)
         invalid_versions = ["invalid", "1.0", "v1.0.0", "1.0.0-beta"]
         for v in invalid_versions:
@@ -260,7 +260,7 @@ class TestAIConfig:
             agents={"a1": AgentConfig(model="gpt-4")},
             resources={"r1": ResourceConfig(name="r1", type=ResourceType.TOOL)}
         )
-        
+
         assert "a1" in config.agents
         assert "r1" in config.resources
         assert "a1" not in config.resources
@@ -285,7 +285,7 @@ class TestConfigIntegration:
                 "tool1": ResourceConfig(name="tool1", type=ResourceType.TOOL)
             }
         )
-        
+
         assert config.agents["agent1"].resources == ["tool1"]
         assert config.resources["tool1"].name == "tool1"
 
@@ -293,10 +293,11 @@ class TestConfigIntegration:
         """secrets — опциональное поле в AIConfig."""
         config = AIConfig(agents={}, resources={})
         assert config.secrets is None
-        
+
         config_with_secrets = AIConfig(
             agents={},
             resources={},
             secrets=SecretsConfig(api_keys={"test": "key"})
         )
         assert config_with_secrets.secrets is not None
+

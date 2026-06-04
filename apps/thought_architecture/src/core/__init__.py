@@ -1,5 +1,7 @@
 """Core module for thought_architecture."""
+
 from enum import Enum
+
 
 class DecisionStatus(str, Enum):
     PENDING = "pending"
@@ -8,5 +10,6 @@ class DecisionStatus(str, Enum):
     IN_PROGRESS = "in_progress"
     IMPLEMENTED = "implemented"
     CANCELLED = "cancelled"
+
 
 __all__ = ["DecisionStatus"]

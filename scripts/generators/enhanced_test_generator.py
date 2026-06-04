@@ -158,14 +158,20 @@ class EnhancedTestGenerator:
 
         test_basic_file = tests_dir / "test_basic.py"
 
-        content = self._generate_enhanced_test_content(service_name, config["tier"], config["test_cases"])
+        content = self._generate_enhanced_test_content(
+            service_name, config["tier"], config["test_cases"]
+        )
 
         with open(test_basic_file, "w") as f:
             f.write(content)
 
-        print(f"✅ {service_name:<25} ({config['tier']:<8}) - Enhanced with {len(config['test_cases'])} new tests")
+        print(
+            f"✅ {service_name:<25} ({config['tier']:<8}) - Enhanced with {len(config['test_cases'])} new tests"
+        )
 
-    def _generate_enhanced_test_content(self, service_name: str, tier: str, test_cases: list[str]) -> str:
+    def _generate_enhanced_test_content(
+        self, service_name: str, tier: str, test_cases: list[str]
+    ) -> str:
         imports = self._generate_imports()
         fixtures = self._generate_fixtures(service_name)
         tests = self._generate_test_cases(service_name, test_cases)

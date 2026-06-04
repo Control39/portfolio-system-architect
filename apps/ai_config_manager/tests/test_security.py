@@ -46,13 +46,20 @@ class TestSecretMasking:
 
     def test_mask_jwt_token(self):
         """Маскирование JWT токена."""
-        input_str = "token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.signature"
+        input_str = (
+            "token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.signature"
+        )
         result = mask_string(input_str)
         assert "***" in result
 
     def test_mask_dict_with_sensitive_keys(self):
         """Маскирование словаря с чувствительными ключами."""
-        input_dict = {"api_key": "secret123", "username": "user", "password": "pass456", "normal_key": "normal_value"}
+        input_dict = {
+            "api_key": "secret123",
+            "username": "user",
+            "password": "pass456",
+            "normal_key": "normal_value",
+        }
         result = mask_dict(input_dict)
 
         assert result["api_key"] == "***"

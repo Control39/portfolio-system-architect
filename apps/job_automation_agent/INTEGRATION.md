@@ -51,7 +51,7 @@ async def search():
         enable_hh=True,
         enable_habr=True
     )
-    
+
     print(f"Найдено: {len(vacancies)} вакансий")
     for v in vacancies[:5]:
         print(f"- {v['name']} @ {v['employer']}")
@@ -123,7 +123,7 @@ vacancies = await search_habr_career(
 1. **IT Compass сканирует прогресс:**
    ```python
    from apps.it_compass.src.core.tracker import CareerTracker
-   
+
    tracker = CareerTracker()
    progress = tracker.calculate_progress()
    completed_markers = tracker.progress.get("completed_markers", [])
@@ -142,7 +142,7 @@ vacancies = await search_habr_career(
 3. **Ищет вакансии:**
    ```python
    from apps.job_automation_agent.src.job_search import search_all_jobs
-   
+
    query = f"{', '.join(key_skills[:5])} архитектор методология"
    vacancies = await search_all_jobs(query)
    ```
@@ -209,17 +209,17 @@ async def find_jobs_for_user():
     # 1. Получить прогресс
     tracker = CareerTracker()
     progress = tracker.calculate_progress()
-    
+
     # 2. Извлечь навыки
     completed = tracker.progress.get("completed_markers", [])
-    skills = [name for name, data in tracker.markers.items() 
-              for level in data.levels.values() 
+    skills = [name for name, data in tracker.markers.items()
+              for level in data.levels.values()
               for m in level if m.id in completed]
-    
+
     # 3. Поиск вакансий
     query = f"{', '.join(skills[:5])} архитектор системное мышление"
     vacancies = await search_all_jobs(query, area="113")
-    
+
     # 4. Показать результаты
     print(f"🎯 Найдено {len(vacancies)} вакансий")
     for v in vacancies[:10]:
@@ -297,10 +297,10 @@ docker run -p 8005:8005 job-automation-agent
 
 ## 👩‍💻 Автор
 
-**Ekaterina Kudelya** — Architect & Methodologist  
+**Ekaterina Kudelya** — Architect & Methodologist
 **Лицензия:** CC BY-ND 4.0
 
 ---
 
-**Дата:** 27 мая 2026  
+**Дата:** 27 мая 2026
 **Статус:** ✅ Интеграция готова

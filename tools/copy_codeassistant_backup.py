@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(backup_path):
         src_file = Path(root) / file
         rel_path = src_file.relative_to(backup_path)
         dst_file = target_path / rel_path
-        
+
         if dst_file.exists():
             conflicts.append(str(rel_path))
             print(f"⏭️  Пропущено (существует): {rel_path}")
@@ -28,9 +28,9 @@ for root, dirs, files in os.walk(backup_path):
             print(f"✅ Скопировано: {rel_path}")
 
 # Сохраняем список конфликтов
-with open(conflicts_file, 'w', encoding='utf-8') as f:
+with open(conflicts_file, "w", encoding="utf-8") as f:
     f.write("# Конфликты при восстановлении из backup\n\n")
-    f.write(f"Дата: 26 мая 2026\n")
+    f.write("Дата: 26 мая 2026\n")
     f.write(f"Скопировано файлов: {copied_count}\n")
     f.write(f"Пропущено (уже существовали): {len(conflicts)}\n\n")
     f.write("## Список пропущенных файлов:\n\n")
@@ -38,12 +38,12 @@ with open(conflicts_file, 'w', encoding='utf-8') as f:
         f.write(f"- {conflict}\n")
 
 print(f"\n{'='*50}")
-print(f"ИТОГ:")
+print("ИТОГ:")
 print(f"✅ Скопировано: {copied_count} файлов")
 print(f"⏭️  Пропущено (конфликты): {len(conflicts)} файлов")
 print(f"📄 Список конфликтов: {conflicts_file}")
 
 if conflicts:
-    print(f"\n⚠️  Внимание! Следующие файлы были пропущены, так как уже существуют:")
+    print("\n⚠️  Внимание! Следующие файлы были пропущены, так как уже существуют:")
     for c in conflicts:
         print(f"   - {c}")

@@ -87,14 +87,17 @@ class TestPathTraversalProtection:
 
     def test_path_traversal_blocked_simple(self, client):
         """Проверяем, что ../../etc/passwd заблокирован"""
-        response = client.post("/api/models/upload", json={"filename": "../../etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "../../etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_deep(self, client):
         """Проверяем, что многоуровневый обход заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "../../../../../../etc/passwd", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "../../../../../../etc/passwd", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
@@ -102,21 +105,25 @@ class TestPathTraversalProtection:
     def test_path_traversal_blocked_windows_style(self, client):
         """Проверяем, что Windows-стиль обхода заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "..\\..\\..\\windows\\system32\\config\\sam", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "..\\..\\..\\windows\\system32\\config\\sam", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_mixed_separators(self, client):
         """Проверяем, что смешанные разделители заблокированы"""
-        response = client.post("/api/models/upload", json={"filename": "..\\../..\\/etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "..\\../..\\/etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_url_encoded(self, client):
         """Проверяем, что URL-encoded обход заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "..%2f..%2f..%2fetc%2fpasswd", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "..%2f..%2f..%2fetc%2fpasswd", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
@@ -124,7 +131,8 @@ class TestPathTraversalProtection:
     def test_path_traversal_blocked_double_encoded(self, client):
         """Проверяем, что double-encoded обход заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "..%252f..%252f..%252fetc%252fpasswd", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "..%252f..%252f..%252fetc%252fpasswd", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
@@ -132,7 +140,8 @@ class TestPathTraversalProtection:
     def test_path_traversal_blocked_unicode_encoding(self, client):
         """Проверяем, что Unicode encoding обход заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "..%c0%af..%c0%af..%c0%afetc%c0%afpasswd", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "..%c0%af..%c0%af..%c0%afetc%c0%afpasswd", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
@@ -140,46 +149,60 @@ class TestPathTraversalProtection:
     def test_path_traversal_blocked_null_byte(self, client):
         """Проверяем, что null byte injection заблокирован"""
         response = client.post(
-            "/api/models/upload", json={"filename": "....//....//etc/passwd%00.txt", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "....//....//etc/passwd%00.txt", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_absolute_path(self, client):
         """Проверяем, что абсолютные пути заблокированы"""
-        response = client.post("/api/models/upload", json={"filename": "/etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "/etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
-        assert "path traversal" in response.json()["error"].lower() or "absolute" in response.json()["error"].lower()
+        assert (
+            "path traversal" in response.json()["error"].lower()
+            or "absolute" in response.json()["error"].lower()
+        )
 
     def test_path_traversal_blocked_absolute_windows_path(self, client):
         """Проверяем, что абсолютные Windows пути заблокированы"""
         response = client.post(
-            "/api/models/upload", json={"filename": "C:\\Windows\\System32\\config\\SAM", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "C:\\Windows\\System32\\config\\SAM", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "absolute" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_dotfile_access(self, client):
         """Проверяем, что доступ к скрытым файлам заблокирован"""
-        response = client.post("/api/models/upload", json={"filename": "../../.ssh/id_rsa", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "../../.ssh/id_rsa", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_blocked_env_vars(self, client):
         """Проверяем, что доступ к переменным окружения заблокирован"""
-        response = client.post("/api/models/upload", json={"filename": "../../../.env", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "../../../.env", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_valid_filename_allowed(self, client):
         """Проверяем, что валидные имена файлов разрешены"""
-        response = client.post("/api/models/upload", json={"filename": "model_v1.pkl", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "model_v1.pkl", "model_data": "test"}
+        )
         assert response.status_code == 200
 
     def test_valid_filename_with_subdir_allowed(self, client):
         """Проверяем, что валидные поддиректории разрешены"""
         response = client.post(
-            "/api/models/upload", json={"filename": "models/prod/model_v1.pkl", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "models/prod/model_v1.pkl", "model_data": "test"},
         )
         assert response.status_code == 200
 
@@ -207,7 +230,9 @@ class TestPathTraversalIntegration:
 
     def test_path_traversal_with_file_rename(self, client):
         """Проверяем защиту от Path Traversal при переименовании файлов"""
-        response = client.put("/api/models/rename", json={"old_name": "model.pkl", "new_name": "../../etc/passwd"})
+        response = client.put(
+            "/api/models/rename", json={"old_name": "model.pkl", "new_name": "../../etc/passwd"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
@@ -215,7 +240,8 @@ class TestPathTraversalIntegration:
         """Проверяем, что безопасные имена файлов нормализуются корректно"""
         # ./models/./prod/../dev/model.pkl - безопасный путь (не выходит за пределы)
         response = client.post(
-            "/api/models/upload", json={"filename": "./models/./prod/../dev/model.pkl", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "./models/./prod/../dev/model.pkl", "model_data": "test"},
         )
         # Может быть заблокирован из-за ../, но это допустимо (строгая защита)
         # Главное - что не ошибка Path Traversal
@@ -223,26 +249,33 @@ class TestPathTraversalIntegration:
 
     def test_path_traversal_bypass_attempt_1(self, client):
         """Проверяем попытку обхода через ..;"""
-        response = client.post("/api/models/upload", json={"filename": "..;../../etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "..;../../etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_bypass_attempt_2(self, client):
         """Проверяем попытку обхода через ....//"""
-        response = client.post("/api/models/upload", json={"filename": "....//....//etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": "....//....//etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_bypass_attempt_3(self, client):
         """Проверяем попытку обхода через .../"""
-        response = client.post("/api/models/upload", json={"filename": ".%2e/.%2e/etc/passwd", "model_data": "test"})
+        response = client.post(
+            "/api/models/upload", json={"filename": ".%2e/.%2e/etc/passwd", "model_data": "test"}
+        )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
 
     def test_path_traversal_bypass_attempt_4(self, client):
         """Проверяем попытку обхода через %2e%2e%2f"""
         response = client.post(
-            "/api/models/upload", json={"filename": "%2e%2e%2f%2e%2e%2fetc%2fpasswd", "model_data": "test"}
+            "/api/models/upload",
+            json={"filename": "%2e%2e%2f%2e%2e%2fetc%2fpasswd", "model_data": "test"},
         )
         assert response.status_code == 400
         assert "path traversal" in response.json()["error"].lower()
@@ -264,12 +297,14 @@ class TestPathTraversalSecurityRegression:
         ]
 
         for filename in malicious_filenames:
-            response = client.post("/api/models/upload", json={"filename": filename, "model_data": "test"})
+            response = client.post(
+                "/api/models/upload", json={"filename": filename, "model_data": "test"}
+            )
             assert response.status_code == 400, f"Path traversal не заблокирован для: {filename}"
             error_lower = response.json().get("error", "").lower()
-            assert "path traversal" in error_lower or "absolute" in error_lower, (
-                f"Сообщение об ошибке не содержит 'path traversal' или 'absolute' для: {filename}"
-            )
+            assert (
+                "path traversal" in error_lower or "absolute" in error_lower
+            ), f"Сообщение об ошибке не содержит 'path traversal' или 'absolute' для: {filename}"
 
 
 if __name__ == "__main__":

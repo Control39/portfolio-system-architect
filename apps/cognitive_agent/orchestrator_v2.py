@@ -12,9 +12,7 @@ Cognitive Agent Orchestrator v2
 import json
 import logging
 import signal
-import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -48,6 +46,7 @@ class CognitiveOrchestrator:
         """Загрузка конфигурации через существующий config_integration.py"""
         try:
             from apps.cognitive_agent.src.config_integration import get_config
+
             config_wrapper = get_config()
             config = config_wrapper.get_config()
             logger.info(f"✅ Конфиг загружен (AI Config Manager: {config_wrapper.is_available()})")
@@ -62,34 +61,35 @@ class CognitiveOrchestrator:
         Напрямую читает маркеры компетенций из apps/it_compass/src/data/markers/
         """
         markers_dir = REPO_ROOT / "apps" / "it_compass" / "src" / "data" / "markers"
-        
+
         if not markers_dir.exists():
             # Попробуем альтернативный путь
             markers_dir = REPO_ROOT / "apps" / "it_compass"
-        
+
         markers = {}
-        
+
         if markers_dir.exists():
             for marker_file in markers_dir.glob("*.json"):
                 try:
-                    with open(marker_file, 'r', encoding='utf-8-sig') as f:
+                    with open(marker_file, "r", encoding="utf-8-sig") as f:
                         data = json.load(f)
-                        skill_name = data.get('skill_name', marker_file.stem)
+                        skill_name = data.get("skill_name", marker_file.stem)
                         markers[skill_name] = {
-                            'file': str(marker_file.relative_to(REPO_ROOT)),
-                            'levels': len(data.get('levels', {})),
-                            'markers_count': sum(
-                                len(v) for v in data.get('levels', {}).values()
+                            "file": str(marker_file.relative_to(REPO_ROOT)),
+                            "levels": len(data.get("levels", {})),
+                            "markers_count": sum(
+                                len(v)
+                                for v in data.get("levels", {}).values()
                                 if isinstance(v, list)
                             ),
                         }
                 except Exception as e:
                     logger.warning(f"Не удалось прочитать {marker_file}: {e}")
-        
+
         logger.info(f"✅ Загружено {len(markers)} маркеров из IT-Compass")
         for name, info in list(markers.items())[:5]:
             logger.info(f"   • {name}: {info['markers_count']} маркеров")
-        
+
         return markers
 
     def run_workflow(self, workflow_name: str) -> bool:
@@ -107,20 +107,21 @@ class CognitiveOrchestrator:
 
         try:
             import yaml
-            with open(workflow_path, encoding='utf-8') as f:
+
+            with open(workflow_path, encoding="utf-8") as f:
                 workflow = yaml.safe_load(f)
 
             logger.info(f"🚀 Workflow: {workflow.get('name', workflow_name)}")
             logger.info(f"   Описание: {workflow.get('description', 'N/A')[:80]}...")
 
-            steps = workflow.get('steps', [])
+            steps = workflow.get("steps", [])
             logger.info(f"   Шагов: {len(steps)}")
 
             for i, step in enumerate(steps, 1):
-                step_name = step.get('name', f'step_{i}')
-                script = step.get('script')
+                step_name = step.get("name", f"step_{i}")
+                script = step.get("script")
                 logger.info(f"   [{i}/{len(steps)}] {step_name}")
-                
+
                 if script:
                     script_path = REPO_ROOT / "apps" / "cognitive_agent" / script
                     if script_path.exists():
@@ -141,13 +142,22 @@ class CognitiveOrchestrator:
         Проверяет доступность адаптера для поиска работы.
         """
         try:
-            adapter_path = REPO_ROOT / "apps" / "infra_orchestrator" / "src" / "adapters" / "job_search_adapter.py"
+            adapter_path = (
+                REPO_ROOT
+                / "apps"
+                / "infra_orchestrator"
+                / "src"
+                / "adapters"
+                / "job_search_adapter.py"
+            )
             if not adapter_path.exists():
                 logger.warning("❌ job_search_adapter.py не найден")
                 return False
 
             logger.info("✅ job_search_adapter доступен")
-            logger.info("   Для использования: from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch")
+            logger.info(
+                "   Для использования: from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch"
+            )
             return True
 
         except Exception as e:
@@ -196,15 +206,17 @@ class CognitiveOrchestrator:
         logger.info("=" * 60)
         logger.info("📊 ИТОГ: Все связи восстановлены!")
         logger.info(f"   • IT-Compass маркеров: {len(markers)}")
-        logger.info(f"   • Workflows доступны: marker-extraction, project-setup")
+        logger.info("   • Workflows доступны: marker-extraction, project-setup")
         logger.info("   • job_search_adapter: готов")
         logger.info("   • FastAPI endpoint: готов")
         logger.info("=" * 60)
 
         # Сохраняем отчёт
-        report_path = REPO_ROOT / "apps" / "cognitive_agent" / "reports" / "orchestrator_status.json"
+        report_path = (
+            REPO_ROOT / "apps" / "cognitive_agent" / "reports" / "orchestrator_status.json"
+        )
         report_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         report = {
             "timestamp": datetime.now().isoformat(),
             "status": "all_connections_restored",
@@ -212,21 +224,18 @@ class CognitiveOrchestrator:
                 "it_compass_markers": {
                     "status": "ok",
                     "count": len(markers),
-                    "sample": list(markers.keys())[:5]
+                    "sample": list(markers.keys())[:5],
                 },
-                "workflows": {
-                    "status": "ok",
-                    "available": ["marker-extraction", "project-setup"]
-                },
+                "workflows": {"status": "ok", "available": ["marker-extraction", "project-setup"]},
                 "job_search_adapter": {"status": "ok"},
                 "fastapi_endpoint": {"status": "ok"},
-                "mcp_server": {"status": "pending", "reason": "requires SDK upgrade"}
-            }
+                "mcp_server": {"status": "pending", "reason": "requires SDK upgrade"},
+            },
         }
-        
-        with open(report_path, 'w', encoding='utf-8') as f:
+
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
-        
+
         logger.info(f"📝 Отчёт сохранён: {report_path.relative_to(REPO_ROOT)}")
 
 

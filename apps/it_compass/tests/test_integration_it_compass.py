@@ -67,7 +67,9 @@ def reset_mocks(mock_dependencies):
 # ============================================================================
 
 
-def test_compass_reasoning_integration(service_instance, mock_dependencies, service_config):
+def test_compass_reasoning_integration(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 1: Compass Reasoning Integration
 
@@ -99,7 +101,9 @@ async def test_compass_reasoning_integration_async():
     assert service_instance.initialize.called
 
 
-def test_compass_with_decision_engine(service_instance, mock_dependencies, service_config):
+def test_compass_with_decision_engine(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 2: Compass With Decision Engine
 
@@ -131,7 +135,9 @@ async def test_compass_with_decision_engine_async():
     assert service_instance.initialize.called
 
 
-def test_compass_knowledge_extraction(service_instance, mock_dependencies, service_config):
+def test_compass_knowledge_extraction(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 3: Compass Knowledge Extraction
 

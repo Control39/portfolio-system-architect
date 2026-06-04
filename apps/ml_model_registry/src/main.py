@@ -10,13 +10,16 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.ml_model_registry.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     ml_config = config_manager.get_config()
     print("✅ ML Model Registry: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    print(
+        f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг"
+    )
     ml_config = {}
 
 from fastapi import FastAPI

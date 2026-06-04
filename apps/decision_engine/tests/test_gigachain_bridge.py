@@ -6,7 +6,6 @@ Validates integration with GigaChat API through mocks
 
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -28,12 +27,12 @@ def test_gigachain_bridge_init(mock_gigachat, mock_prompt_template):
 def test_gigachain_bridge_mock_llm(mock_gigachat):
     """Test that mock GigaChat works correctly"""
     assert mock_gigachat is not None
-    assert hasattr(mock_gigachat, 'invoke')
+    assert hasattr(mock_gigachat, "invoke")
 
     # Invoke должен вернуть mock response
     response = mock_gigachat.invoke("Test query")
     assert response is not None
-    assert hasattr(response, 'content')
+    assert hasattr(response, "content")
 
 
 def test_gigachain_bridge_settings():

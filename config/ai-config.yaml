@@ -6,7 +6,7 @@ global:
   log_level: INFO
   monitoring:
     enabled: true
-  
+
   # Глобальные ресурсы (словарь)
   resources:
     code-analyzer:
@@ -33,7 +33,7 @@ services:
       git-operations:
         type: tool
         enabled: true
-  
+
   decision-engine:
     enabled: true
     port: 8001
@@ -44,7 +44,7 @@ services:
       rag-search:
         type: tool
         enabled: true
-  
+
   infra-orchestrator:
     enabled: true
     port: 8200

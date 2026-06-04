@@ -33,7 +33,9 @@ def update_vscode_settings(access_token: str):
             settings = json.load(f)
 
     # Обновляем настройки Gigacode
-    settings["gigacode.apiEndpoint"] = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
+    settings["gigacode.apiEndpoint"] = (
+        "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
+    )
     settings["gigacode.authorizationHeader"] = f"Bearer {access_token}"
     settings["gigacode.accessToken"] = access_token
     settings["gigacode.maxContextTokens"] = 4096

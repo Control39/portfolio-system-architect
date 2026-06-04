@@ -5,7 +5,7 @@ services:
     ports:
       - "16686:16686"  # UI (доступен извне)
       - "14269:14269"  # Admin / Health check port
-      # Порты 4317, 4318 и 14250 убраны из маппинга, 
+      # Порты 4317, 4318 и 14250 убраны из маппинга,
       # так как трафик должен идти через OTEL Collector
     environment:
       - COLLECTOR_OTLP_ENABLED=true

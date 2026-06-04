@@ -39,7 +39,9 @@ def analyze(root: Path) -> dict[str, Any]:
             if app.is_dir():
                 # Check if it looks like a service
                 has_docker = (app / "Dockerfile").exists()
-                has_requirements = (app / "requirements.txt").exists() or (app / "pyproject.toml").exists()
+                has_requirements = (app / "requirements.txt").exists() or (
+                    app / "pyproject.toml"
+                ).exists()
                 has_tests = (app / "tests").exists() or (app / "test").exists()
 
                 if has_docker or has_requirements:

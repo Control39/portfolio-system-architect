@@ -20,7 +20,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Настройка логирования
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 # Инициализация FastAPI приложения
@@ -36,6 +38,7 @@ app = FastAPI(
 if OTEL_ENABLED:
     try:
         from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
         FastAPIInstrumentor.instrument_app(app)
         logger.info("✅ OpenTelemetry FastAPI Instrumentation активировано")
     except Exception as e:
@@ -88,9 +91,17 @@ async def list_entities(entity_type: str | None = None):
     # Пример сущностей
     entities = [
         Entity(
-            id="1", name="Cognitive Architect", type="role", properties={"description": "Проектирование систем с ИИ"}
+            id="1",
+            name="Cognitive Architect",
+            type="role",
+            properties={"description": "Проектирование систем с ИИ"},
         ),
-        Entity(id="2", name="Python", type="technology", properties={"category": "programming_language"}),
+        Entity(
+            id="2",
+            name="Python",
+            type="technology",
+            properties={"category": "programming_language"},
+        ),
     ]
 
     if entity_type:
@@ -123,10 +134,14 @@ async def delete_entity(entity_id: str):
 
 
 @app.get("/api/v1/relationships", response_model=list[Relationship])
-async def list_relationships(source: str | None = None, target: str | None = None, relation_type: str | None = None):
+async def list_relationships(
+    source: str | None = None, target: str | None = None, relation_type: str | None = None
+):
     """Список отношений"""
     # TODO: Интеграция с графовой БД
-    relationships = [Relationship(source="1", target="2", type="uses", properties={"confidence": 0.95})]
+    relationships = [
+        Relationship(source="1", target="2", type="uses", properties={"confidence": 0.95})
+    ]
 
     if source:
         relationships = [r for r in relationships if r.source == source]

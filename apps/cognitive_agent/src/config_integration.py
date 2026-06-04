@@ -14,6 +14,7 @@ if str(REPO_ROOT) not in sys.path:
 
 try:
     from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
+
     AI_CONFIG_AVAILABLE = True
 except ImportError:
     AI_CONFIG_AVAILABLE = False
@@ -44,7 +45,7 @@ class CognitiveAgentConfig:
         try:
             self._config_manager = ConfigManager(config_path=self.config_path)
             if not self._config_manager.validate():
-                print(f"⚠️  Конфигурация не валидна, используется fallback")
+                print("⚠️  Конфигурация не валидна, используется fallback")
                 self._load_local_config()
         except Exception as e:
             print(f"⚠️  Ошибка инициализации ConfigManager: {e}")
@@ -53,10 +54,11 @@ class CognitiveAgentConfig:
     def _load_local_config(self) -> None:
         """Загрузка локальной конфигурации (fallback)"""
         import yaml
+
         local_config_path = REPO_ROOT / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
 
         if local_config_path.exists():
-            with open(local_config_path, 'r', encoding='utf-8') as f:
+            with open(local_config_path, "r", encoding="utf-8") as f:
                 self._local_config = yaml.safe_load(f)
         else:
             self._local_config = {}
@@ -84,6 +86,7 @@ class CognitiveAgentConfig:
 
 # Singleton для удобства
 _config_instance: Optional[CognitiveAgentConfig] = None
+
 
 def get_config() -> CognitiveAgentConfig:
     """Получить глобальный экземпляр конфигурации"""

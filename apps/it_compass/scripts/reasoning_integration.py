@@ -22,7 +22,9 @@ from src.utils.portfolio_gen import PortfolioGenerator  # noqa: E402
 class ReasoningIntegrator:
     def __init__(self, tracker: CareerTracker):
         self.tracker = tracker
-        self.reasoning_api_url = os.getenv("REASONING_API_URL", "https://api.openai.com/v1/chat/completions")
+        self.reasoning_api_url = os.getenv(
+            "REASONING_API_URL", "https://api.openai.com/v1/chat/completions"
+        )
         self.reasoning_api_key = os.getenv("REASONING_API_KEY")
         self.reasoning_model = os.getenv("REASONING_MODEL", "gpt-4")
 
@@ -73,7 +75,9 @@ class ReasoningIntegrator:
         }
 
         try:
-            response = requests.post(self.reasoning_api_url, json=payload, headers=headers)
+            response = requests.post(
+                self.reasoning_api_url, json=payload, headers=headers
+            )
             response.raise_for_status()
             data = response.json()
             reasoning_output_text = data["choices"][0]["message"]["content"].strip()
@@ -114,7 +118,10 @@ class ReasoningIntegrator:
             for skill_data in self.tracker.markers.values():
                 for level_markers in skill_data.levels.values():
                     for marker in level_markers:
-                        if "python" in marker.marker.lower() or "script" in marker.marker.lower():
+                        if (
+                            "python" in marker.marker.lower()
+                            or "script" in marker.marker.lower()
+                        ):
                             found_markers.append(
                                 {
                                     "matched_marker_id": marker.id,

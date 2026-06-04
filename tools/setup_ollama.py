@@ -2,10 +2,10 @@
 """
 Запуск Ollama сервера и скачивание модели
 """
+
 import subprocess
 import time
 import sys
-from pathlib import Path
 
 print("=" * 60)
 print("🤖 Подключение Cognitive Agent к Ollama")
@@ -66,10 +66,7 @@ print(f"   Вопрос: {prompt}")
 
 try:
     result = subprocess.run(
-        ["ollama", "run", model, prompt],
-        capture_output=True,
-        text=True,
-        timeout=30
+        ["ollama", "run", model, prompt], capture_output=True, text=True, timeout=30
     )
     print(f"   Ответ:\n{result.stdout[:500]}")
 except Exception as e:
@@ -79,6 +76,6 @@ print("\n" + "=" * 60)
 print("✅ Ollama подключена и готова к работе!")
 print("=" * 60)
 print("\n💡 Теперь Cognitive Agent может использовать:")
-print(f"   - Основную модель: GigaChat (если настроен)")
+print("   - Основную модель: GigaChat (если настроен)")
 print(f"   - Fallback: {model} (локальная)")
 print("\nСледующий шаг: Закоммитить изменения и протестировать агент")

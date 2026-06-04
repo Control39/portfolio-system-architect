@@ -24,7 +24,7 @@ from pydantic import ValidationError
 
 # conftest.py добавляет apps/ai_config_manager/src в sys.path
 from ai_config_manager.config_manager import ConfigManager
-from ai_config_manager.validators import AIConfig, AgentConfig, ResourceConfig, ResourceType
+from ai_config_manager.validators import AIConfig, ResourceType
 
 
 def _write_yaml(tmp_path: Path, data: dict[str, Any]) -> str:
@@ -69,6 +69,7 @@ def valid_config_data() -> dict[str, Any]:
 # =============================================================================
 # БАЗОВЫЕ ТЕСТЫ: загрузка и валидация
 # =============================================================================
+
 
 def test_load_valid_config(tmp_path: Path, valid_config_data: dict[str, Any]):
     """Загрузка валидного конфига → корректный объект AIConfig."""
@@ -133,6 +134,7 @@ def test_get_config_requires_load(tmp_path: Path):
 # ТЕСТЫ: обновление конфигурации (в памяти)
 # =============================================================================
 
+
 def test_update_agent_config_updates_in_memory(tmp_path: Path, valid_config_data: dict[str, Any]):
     """update_agent_config() меняет значение в памяти, но не на диске."""
     config_path = _write_yaml(tmp_path, valid_config_data)
@@ -158,30 +160,30 @@ def test_update_agent_config_validation_error(tmp_path: Path, valid_config_data:
     """Обновление с невалидными данными → ValidationError, старое значение сохраняется."""
     config_path = _write_yaml(tmp_path, valid_config_data)
     cm = ConfigManager(config_path, auto_reload=False)
-    
+
     # temperature должен быть 0.0-2.0, передаём 3.0 → ошибка валидации
     with pytest.raises(ValidationError):
         cm.update_agent_config("test-agent", {"temperature": 3.0})
-    
+
     # Убедиться, что старое значение сохранилось (атомарность обновления)
     assert cm.get_agent_config("test-agent").temperature == 0.7
 
 
-@pytest.mark.parametrize("bad_value,field", [
-    (3.0, "temperature"),      # > 2.0
-    (-0.1, "temperature"),     # < 0.0
-    (0, "max_tokens"),         # ноль (если min_tokens=1)
-])
+@pytest.mark.parametrize(
+    "bad_value,field",
+    [
+        (3.0, "temperature"),  # > 2.0
+        (-0.1, "temperature"),  # < 0.0
+        (0, "max_tokens"),  # ноль (если min_tokens=1)
+    ],
+)
 def test_agent_config_validation_parametrized(
-    tmp_path: Path, 
-    valid_config_data: dict[str, Any], 
-    bad_value: Any, 
-    field: str
+    tmp_path: Path, valid_config_data: dict[str, Any], bad_value: Any, field: str
 ):
     """Параметризованный тест: невалидные значения полей → ValidationError."""
     valid_config_data["agents"]["test-agent"][field] = bad_value
     config_path = _write_yaml(tmp_path, valid_config_data)
-    
+
     with pytest.raises(ValidationError):
         ConfigManager(config_path, auto_reload=False)
 
@@ -214,6 +216,7 @@ def test_validate_true_on_good_config(tmp_path: Path, valid_config_data: dict[st
 # ТЕСТЫ: reload и hot-reload
 # =============================================================================
 
+
 def test_hot_reload_calls_load(tmp_path: Path, valid_config_data: dict[str, Any]):
     """reload() перечитывает файл и обновляет конфигурацию в памяти."""
     config_path = _write_yaml(tmp_path, valid_config_data)
@@ -233,16 +236,15 @@ def test_reload_with_invalid_file_raises(tmp_path: Path, valid_config_data: dict
     """reload() с битым файлом → ValidationError, старая конфигурация не теряется."""
     config_path = _write_yaml(tmp_path, valid_config_data)
     cm = ConfigManager(config_path, auto_reload=False)
-    
+
     # Записываем невалидный конфиг (температура > 2.0)
     Path(config_path).write_text(
-        "agents:\n  test-agent:\n    temperature: 999\n    model: gpt-4",
-        encoding="utf-8"
+        "agents:\n  test-agent:\n    temperature: 999\n    model: gpt-4", encoding="utf-8"
     )
-    
+
     with pytest.raises(ValidationError):
         cm.reload()
-    
+
     # Старая конфигурация должна остаться в памяти (политика: не терять рабочее состояние)
     assert cm._config is not None
     assert cm.get_agent_config("test-agent").temperature == 0.7
@@ -252,16 +254,17 @@ def test_get_config_returns_cached_object(tmp_path: Path, valid_config_data: dic
     """get_config() возвращает кэшированный объект (одинаковый экземпляр)."""
     config_path = _write_yaml(tmp_path, valid_config_data)
     cm = ConfigManager(config_path, auto_reload=False)
-    
+
     cfg1 = cm.get_config()
     cfg2 = cm.get_config()
-    
+
     assert cfg1 is cfg2  # same object = cached, экономия памяти
 
 
 # =============================================================================
 # ТЕСТЫ: валидация уникальности ресурсов
 # =============================================================================
+
 
 def test_resource_name_uniqueness_validation(tmp_path: Path):
     """validate_resource_names проверяет уникальность r.name среди ресурсов."""
@@ -284,8 +287,11 @@ def test_resource_name_uniqueness_validation(tmp_path: Path):
 # ТЕСТЫ: watchdog / hot-reload lifecycle (с моками)
 # =============================================================================
 
+
 @patch("ai_config_manager.config_manager.Observer")
-def test_start_stop_watching_lifecycle(mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]):
+def test_start_stop_watching_lifecycle(
+    mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]
+):
     """start_watching() / stop_watching() корректно управляют Observer (mock)."""
     observer_instance = MagicMock()
     mock_observer.return_value = observer_instance
@@ -306,7 +312,9 @@ def test_start_stop_watching_lifecycle(mock_observer, tmp_path: Path, valid_conf
 
 
 @patch("ai_config_manager.config_manager.Observer")
-def test_context_manager_stops_watching(mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]):
+def test_context_manager_stops_watching(
+    mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]
+):
     """Контекстный менеджер автоматически останавливает наблюдение при выходе."""
     observer_instance = MagicMock()
     mock_observer.return_value = observer_instance
@@ -321,11 +329,13 @@ def test_context_manager_stops_watching(mock_observer, tmp_path: Path, valid_con
 
 
 @patch("ai_config_manager.config_manager.Observer")
-def test_no_observer_when_auto_reload_false(mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]):
+def test_no_observer_when_auto_reload_false(
+    mock_observer, tmp_path: Path, valid_config_data: dict[str, Any]
+):
     """При auto_reload=False Observer не создаётся (экономия ресурсов)."""
     config_path = _write_yaml(tmp_path, valid_config_data)
     cm = ConfigManager(config_path, auto_reload=False)
-    
+
     mock_observer.assert_not_called()
     assert cm._observer is None
 
@@ -333,6 +343,7 @@ def test_no_observer_when_auto_reload_false(mock_observer, tmp_path: Path, valid
 # =============================================================================
 # ТЕСТЫ: потокобезопасность
 # =============================================================================
+
 
 def test_thread_safety_update_agent_config(tmp_path: Path, valid_config_data: dict[str, Any]):
     """update_agent_config() потокобезопасен: нет гонок данных при параллельных обновлениях."""
@@ -362,14 +373,17 @@ def test_thread_safety_update_agent_config(tmp_path: Path, valid_config_data: di
 # ТЕСТЫ: безопасность (маскирование секретов в логах)
 # =============================================================================
 
-def test_secrets_are_masked_in_logs(tmp_path: Path, valid_config_data: dict[str, Any], caplog: pytest.LogCaptureFixture):
+
+def test_secrets_are_masked_in_logs(
+    tmp_path: Path, valid_config_data: dict[str, Any], caplog: pytest.LogCaptureFixture
+):
     """Секреты не попадают в логи в открытом виде (маскирование)."""
     config_path = _write_yaml(tmp_path, valid_config_data)
-    
+
     with caplog.at_level(logging.INFO):
         cm = ConfigManager(config_path, auto_reload=False)
         cm.get_config()
-    
+
     # Секреты не должны попадать в логи в открытом виде
     log_text = caplog.text
     assert "sk-..." not in log_text

@@ -1,6 +1,7 @@
 """
 Автоматическая настройка путей для тестов job_automation_agent.
 """
+
 import sys
 from pathlib import Path
 

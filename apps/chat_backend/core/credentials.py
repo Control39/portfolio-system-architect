@@ -52,7 +52,9 @@ def get_azure_credential() -> CredentialType:
             _LOG.info("Using ManagedIdentityCredential")
             return cred
         except Exception as e:
-            _LOG.warning("ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e)
+            _LOG.warning(
+                "ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e
+            )
 
     _LOG.info("Using DefaultAzureCredential")
     return DefaultAzureCredential()

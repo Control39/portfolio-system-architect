@@ -17,6 +17,7 @@ class TestMainModule:
         """Test that main.py can be imported without errors"""
         try:
             from apps.career_development import main
+
             assert hasattr(main, "app")
             assert main.__all__ == ["app"]
         except Exception as e:
@@ -26,4 +27,5 @@ class TestMainModule:
     def test_main_app_exists(self):
         """Test that app is exported from main"""
         from apps.career_development.main import app
+
         assert app is not None

@@ -73,7 +73,11 @@ for i, service in enumerate(services, 1):
 
         total_passed += passed
         total_failed += failed
-        results[service] = {"passed": passed, "failed": failed, "status": "PASS" if failed == 0 else "FAIL"}
+        results[service] = {
+            "passed": passed,
+            "failed": failed,
+            "status": "PASS" if failed == 0 else "FAIL",
+        }
 
         if failed == 0 and passed > 0:
             print(f"✅ {passed} tests passed")
@@ -92,7 +96,9 @@ print("=" * 80)
 print(f"Total Services: {len(services)}")
 print(f"Total Tests Passed: {total_passed}")
 print(f"Total Tests Failed: {total_failed}")
-print(f"Services with All Tests Passing: {sum(1 for r in results.values() if r['failed'] == 0)}/{len(services)}")
+print(
+    f"Services with All Tests Passing: {sum(1 for r in results.values() if r['failed'] == 0)}/{len(services)}"
+)
 
 print("\n" + "=" * 80)
 print("✅ ENHANCED TESTS COMPLETED")

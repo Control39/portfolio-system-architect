@@ -5,15 +5,15 @@ rules:
   document-start: disable
   line-length: disable
   truthy: disable
-  
+
   # Ослабляем проверку отступов
   indentation:
     spaces: 2
     indent-sequences: whatever
-  
+
   # Разрешаем комментарии без отступов
   comments-indentation: disable
-  
+
   # Разрешаем пустые строки
   empty-lines:
     max: 2

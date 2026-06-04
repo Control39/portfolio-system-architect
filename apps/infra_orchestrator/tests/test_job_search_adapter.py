@@ -34,7 +34,9 @@ class TestCognitiveJobSearch:
         mock_response.raise_for_status = lambda: None
 
         # Патчим HTTP-клиент
-        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
+        with patch(
+            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
+        ) as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance
@@ -55,7 +57,7 @@ class TestCognitiveJobSearch:
             # Проверяем, что HTTP-запрос был вызван с правильными параметрами
             mock_client_instance.get.assert_called_once_with(
                 "http://test:8000/api/v1/jobs/search",
-                params={"query": "Python Developer", "location": "Москва"}
+                params={"query": "Python Developer", "location": "Москва"},
             )
 
     @pytest.mark.asyncio
@@ -65,7 +67,9 @@ class TestCognitiveJobSearch:
         mock_response.json.return_value = {"vacancies": []}
         mock_response.raise_for_status = lambda: None
 
-        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
+        with patch(
+            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
+        ) as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance
@@ -91,7 +95,9 @@ class TestCognitiveJobSearch:
         }
         mock_response.raise_for_status = lambda: None
 
-        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
+        with patch(
+            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
+        ) as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance
@@ -119,6 +125,7 @@ class TestJobSearchInterface:
     def test_search_signature(self):
         """Тест сигнатуры метода search."""
         import inspect
+
         sig = inspect.signature(IJobSearch.search)
         params = list(sig.parameters.keys())
         assert "self" in params

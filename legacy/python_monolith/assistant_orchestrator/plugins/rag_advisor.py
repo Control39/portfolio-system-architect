@@ -287,7 +287,7 @@ def search_docs(root: Path, query: str) -> list[dict[str, Any]]:
 
 
 if __name__ == "__main__":
-    
+
     # Test the plugin
 
     test_root = Path(".").resolve()

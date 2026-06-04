@@ -16,36 +16,39 @@ def mock_db_dependencies():
     mock_sqlalchemy.Integer = MagicMock()
     mock_sqlalchemy.String = MagicMock()
     mock_sqlalchemy.func = MagicMock()
-    
+
     mock_asyncio = MagicMock()
     mock_asyncio.AsyncSession = MagicMock()
     mock_asyncio.async_sessionmaker = MagicMock()
     mock_asyncio.create_async_engine = MagicMock(return_value=MagicMock())
-    
+
     mock_orm = MagicMock()
     mock_orm.DeclarativeBase = MagicMock()
     mock_orm.Mapped = MagicMock()
     mock_orm.mapped_column = MagicMock()
-    
+
     # Patch sys.modules temporarily
     original_modules = sys.modules.copy()
-    
-    with patch.dict('sys.modules', {
-        'sqlalchemy': mock_sqlalchemy,
-        'sqlalchemy.ext': MagicMock(),
-        'sqlalchemy.ext.asyncio': mock_asyncio,
-        'sqlalchemy.orm': mock_orm,
-    }):
+
+    with patch.dict(
+        "sys.modules",
+        {
+            "sqlalchemy": mock_sqlalchemy,
+            "sqlalchemy.ext": MagicMock(),
+            "sqlalchemy.ext.asyncio": mock_asyncio,
+            "sqlalchemy.orm": mock_orm,
+        },
+    ):
         # Force reimport
-        modules_to_remove = [k for k in sys.modules.keys() if 'career_development.src.core' in k]
+        modules_to_remove = [k for k in sys.modules.keys() if "career_development.src.core" in k]
         for mod in modules_to_remove:
             if mod in sys.modules:
                 del sys.modules[mod]
-        
+
         from apps.career_development.src.core import db
-        
+
         yield db
-        
+
         # Restore original modules
         sys.modules.clear()
         sys.modules.update(original_modules)
@@ -92,6 +95,7 @@ class TestDBFunctions:
     def test_get_db_returns_generator(self, mock_db_dependencies):
         """Test get_db is an async generator function"""
         import inspect
+
         assert inspect.isasyncgenfunction(mock_db_dependencies.get_db)
 
     @pytest.mark.asyncio
@@ -99,6 +103,6 @@ class TestDBFunctions:
         """Test pydantic_to_orm is a placeholder"""
         mock_profile = MagicMock()
         mock_session = MagicMock()
-        
+
         result = await mock_db_dependencies.pydantic_to_orm(mock_profile, mock_session)
         assert result is None  # Currently a placeholder

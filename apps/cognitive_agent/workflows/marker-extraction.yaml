@@ -19,7 +19,7 @@ steps:
     action: project_scan
     script: scripts/scanner_main.py
     timeout: 120
-    
+
   - name: extract_markers
     action: skill_execution
     script: scripts/extract_markers.py
@@ -30,7 +30,7 @@ steps:
     timeout: 300
     depends_on:
       - scan_repository
-      
+
   - name: update_ui
     action: notification
     message: "Маркеры обновлены: {markers_found} найдено"

@@ -144,7 +144,11 @@ class TestJWTTokenVerification:
         # Подделываем payload
         import base64
 
-        tampered_payload = base64.urlsafe_b64encode(b'{"username": "hacker", "role": "admin"}').rstrip(b"=").decode()
+        tampered_payload = (
+            base64.urlsafe_b64encode(b'{"username": "hacker", "role": "admin"}')
+            .rstrip(b"=")
+            .decode()
+        )
 
         tampered_token = f"{parts[0]}.{tampered_payload}.{parts[2]}"
 
@@ -247,7 +251,9 @@ class TestAPIEndpoints:
     def test_verify_endpoint_with_valid_token(self, client):
         """Верификация валидного токена через API"""
         # Сначала получаем токен
-        token_response = client.post("/auth/token", json={"username": "testuser", "password": "testpass"})
+        token_response = client.post(
+            "/auth/token", json={"username": "testuser", "password": "testpass"}
+        )
         token = token_response.json()["access_token"]
 
         # Верифицируем через endpoint

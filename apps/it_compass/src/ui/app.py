@@ -133,7 +133,10 @@ def render_progress_dashboard():
             for skill_name, skill_data in tracker.markers.items():
                 for level_markers in skill_data.levels.values():
                     for marker in level_markers:
-                        if marker.id not in tracker.progress["completed_markers"] and marker.priority == "high":
+                        if (
+                            marker.id not in tracker.progress["completed_markers"]
+                            and marker.priority == "high"
+                        ):
                             high_priority.append((skill_name, marker))
 
             if high_priority:
@@ -294,7 +297,9 @@ def main():
     st.sidebar.markdown("---")
 
     # Навигация
-    menu_option = st.sidebar.selectbox("Навигация", ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"], index=0)
+    menu_option = st.sidebar.selectbox(
+        "Навигация", ["📊 Прогресс", "📚 Документация", "🚀 Стратегия"], index=0
+    )
 
     # Информация о проекте
     st.sidebar.markdown("---")

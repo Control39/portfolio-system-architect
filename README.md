@@ -6,7 +6,7 @@
 
 <!-- 🚧 DO NOT EDIT BELOW THIS LINE - AUTO-UPDATED DOCUMENTATION STATUS -->
 
-> <kbd>📢</kbd> **Внимание:** Документация реорганизована и актуализируется. Все файлы перемещены в [`docs/`](docs/) для лучшей структуры.
+> <kbd>📢</kbd> **Внимание:** Документация реорганизована и актуализируется.
 
 <!-- 🚧 END AUTO-UPDATED SECTION -->
 
@@ -19,7 +19,7 @@
 ![CI/CD](https://img.shields.io/github/actions/workflow/status/Control39/portfolio-system-architect/ci.yml?logo=github-actions&label=CI%2FCD)
 ![License](https://img.shields.io/github/license/Control39/portfolio-system-architect?color=blue&logo=mit)
 
-**Катя (Control39) — Cognitive Architect**  
+**Катя (Control39) — Cognitive Architect**
 *Превращаю хаос в систему, рутину в автоматизацию, идеи в продукты*
 
 [GitHub](https://github.com/Control39) · [Email](mailto:leadarchitect@yandex.ru) · [Issues](https://github.com/Control39/portfolio-system-architect/issues)
@@ -30,8 +30,8 @@
 
 ## 🔥 Executive Summary
 
-> **💡 Impact:** Эта экосистема позволяет одному человеку управлять **21 микросервисом** с **0 критических уязвимостей** и **85%+ покрытием тестами** — уровень команды из 3–5 инженеров.  
-> **Экономия времени на разработку сервиса — 60%.**  
+> **💡 Impact:** Эта экосистема позволяет одному человеку управлять **21 микросервисом** с **0 критических уязвимостей** и **85%+ покрытием тестами** — уровень команды из 3–5 инженеров.
+> **Экономия времени на разработку сервиса — 60%.**
 > **779+ тестов проходят** (из 822 написанных; ~40 тестов в новых сервисах в работе).
 
 ---
@@ -65,7 +65,7 @@
 ## 🤖 Для ИИ‑ассистентов (ВАЖНО!)
 
 > <kbd>⚠️</kbd> **Внимательно прочитайте перед началом работы:**
-> 
+>
 > Все работы в этом проекте выполняются **строго через ИИ‑инструкции**. Перед любыми изменениями:
 > 1. Прочитайте [`docs/ai/AI_INSTRUCTIONS.md`](docs/ai/AI_INSTRUCTIONS.md) — архитектурные правила и контекст
 > 2. Изучите [`docs/ai/AI_PROVIDER_SETUP.md`](docs/ai/AI_PROVIDER_SETUP.md) — настройка провайдеров

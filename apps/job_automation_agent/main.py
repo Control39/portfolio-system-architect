@@ -9,7 +9,11 @@ API:
 
 from fastapi import FastAPI
 
-app = FastAPI(title="Job Automation Agent", description="Автоматизация поиска работы и подачи заявок", version="1.0.0")
+app = FastAPI(
+    title="Job Automation Agent",
+    description="Автоматизация поиска работы и подачи заявок",
+    version="1.0.0",
+)
 
 
 @app.get("/health")
@@ -19,7 +23,12 @@ async def health_check():
 
 @app.get("/")
 async def root():
-    return {"name": "Job Automation Agent", "version": "1.0.0", "docs": "/docs", "entry": "src/main.py"}
+    return {
+        "name": "Job Automation Agent",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "entry": "src/main.py",
+    }
 
 
 if __name__ == "__main__":

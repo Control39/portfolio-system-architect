@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 if OTEL_ENABLED:
     try:
         from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
         FastAPIInstrumentor.instrument_app(app)
         logger.info("✅ OpenTelemetry FastAPI Instrumentation активировано")
     except Exception as e:
@@ -31,7 +32,11 @@ if OTEL_ENABLED:
 
 def run_server():
     # Берём команду запуска из конфигурации
-    api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
+    api_script = next(
+        script
+        for script in COMPONENT_CONFIG["automation"]["scripts"]
+        if script["name"] == "run_api"
+    )
 
     print(f"Запуск API: {api_script['command']}")
 

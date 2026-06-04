@@ -19,7 +19,7 @@ on:
 jobs:
   security-audit:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "🔍 Scanning Python dependencies for vulnerabilities..."
           pip-audit --format json > pip-audit-report.json 2>&1 || true
-          
+
           # Проверить наличие уязвимостей
           if [ -f pip-audit-report.json ]; then
             if grep -q '"vulnerability"' pip-audit-report.json; then
@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "🔍 Running bandit static analysis..."
           bandit -r apps/ src/ -lll --format json --output bandit-report.json || true
-          
+
           # Проверить критические уязвимости
           if [ -f bandit-report.json ]; then
             high_count=$(python -c "import json; data=json.load(open('bandit-report.json')); print(len([r for r in data.get('results', []) if r.get('issue_severity') == 'HIGH']))")

@@ -136,7 +136,12 @@ class TestCompetencyTracker(unittest.TestCase):
         from apps.career_development.src.core.models import CompetencyMarker, Skill
 
         marker = CompetencyMarker(
-            id="marker_003", title="Test", validation="test", priority="high", skill_name="Python", status="pending"
+            id="marker_003",
+            title="Test",
+            validation="test",
+            priority="high",
+            skill_name="Python",
+            status="pending",
         )
         skill = Skill(name="Python", markers=[marker], progress=0, status="in_progress")
         self.profile.skills.append(skill)
@@ -161,10 +166,20 @@ class TestCompetencyTracker(unittest.TestCase):
 
         # Создаём маркеры
         marker1 = CompetencyMarker(
-            id="m1", title="Test1", validation="test", priority="high", skill_name="Python", status="completed"
+            id="m1",
+            title="Test1",
+            validation="test",
+            priority="high",
+            skill_name="Python",
+            status="completed",
         )
         marker2 = CompetencyMarker(
-            id="m2", title="Test2", validation="test", priority="high", skill_name="Python", status="pending"
+            id="m2",
+            title="Test2",
+            validation="test",
+            priority="high",
+            skill_name="Python",
+            status="pending",
         )
         skill = Skill(name="Python", markers=[marker1, marker2], progress=0, status="in_progress")
         self.profile.skills.append(skill)
@@ -182,10 +197,20 @@ class TestCompetencyTracker(unittest.TestCase):
         from apps.career_development.src.core.models import CompetencyMarker, Skill
 
         marker1 = CompetencyMarker(
-            id="m1", title="Test1", validation="test", priority="high", skill_name="Python", status="completed"
+            id="m1",
+            title="Test1",
+            validation="test",
+            priority="high",
+            skill_name="Python",
+            status="completed",
         )
         marker2 = CompetencyMarker(
-            id="m2", title="Test2", validation="test", priority="high", skill_name="Python", status="pending"
+            id="m2",
+            title="Test2",
+            validation="test",
+            priority="high",
+            skill_name="Python",
+            status="pending",
         )
         skill = Skill(name="Python", markers=[marker1, marker2], progress=0, status="in_progress")
         self.profile.skills.append(skill)

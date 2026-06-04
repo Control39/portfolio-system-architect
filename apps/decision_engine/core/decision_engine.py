@@ -47,12 +47,21 @@ class DecisionEngine:
             self._rules = {
                 "allow_list": [],
                 "deny_list": [],
-                "required_roles": {"delete_production": ["admin"], "deploy_production": ["admin", "devops"]},
-                "environments": {"production": {"requires_approval": True}, "staging": {"requires_approval": False}},
+                "required_roles": {
+                    "delete_production": ["admin"],
+                    "deploy_production": ["admin", "devops"],
+                },
+                "environments": {
+                    "production": {"requires_approval": True},
+                    "staging": {"requires_approval": False},
+                },
             }
 
     def make_decision(
-        self, request: DecisionRequest, custom_rules: dict[str, Any] | None = None, include_explanation: bool = False
+        self,
+        request: DecisionRequest,
+        custom_rules: dict[str, Any] | None = None,
+        include_explanation: bool = False,
     ) -> DecisionResponse:
         """
         Принятие решения на основе запроса.
@@ -132,7 +141,10 @@ class DecisionEngine:
         if request.action in required_roles:
             allowed_roles = required_roles[request.action]
             if request.context.user_role not in allowed_roles:
-                return "deny", f"Role '{request.context.user_role}' not authorized for '{request.action}'"
+                return (
+                    "deny",
+                    f"Role '{request.context.user_role}' not authorized for '{request.action}'",
+                )
 
         # Проверка окружения
         env_config = rules.get("environments", {}).get(request.context.environment, {})
@@ -173,7 +185,11 @@ class DecisionEngine:
             RAG ответ с рекомендацией
         """
         # Заглушка - в реализации будет реальный RAG
-        return {"recommendation": "allow", "confidence": 0.85, "sources": ["internal_docs", "best_practices"]}
+        return {
+            "recommendation": "allow",
+            "confidence": 0.85,
+            "sources": ["internal_docs", "best_practices"],
+        }
 
     def _prioritize(self, decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """

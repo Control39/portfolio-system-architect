@@ -15,7 +15,9 @@ except Exception:  # pragma: no cover
 from ..runtime_config import StorageMode
 
 
-def build_room_store(app_logger: logging.Logger, *, storage_mode: StorageMode = StorageMode.MEMORY) -> RoomStore:
+def build_room_store(
+    app_logger: logging.Logger, *, storage_mode: StorageMode = StorageMode.MEMORY
+) -> RoomStore:
     """Create the RoomStore based on explicit StorageMode enum."""
     if not isinstance(storage_mode, StorageMode):
         raise RuntimeError("storage_mode must be a StorageMode enum instance")
@@ -29,8 +31,14 @@ def build_room_store(app_logger: logging.Logger, *, storage_mode: StorageMode = 
     if AzureTableRoomStore is None:
         raise RuntimeError("STORAGE_MODE=table but azure-data-tables dependency not installed")
     if not (az_conn or acct):
-        raise RuntimeError("STORAGE_MODE=table requires AZURE_STORAGE_CONNECTION_STRING or AZURE_STORAGE_ACCOUNT")
-    store = AzureTableRoomStore(connection_string=az_conn) if az_conn else AzureTableRoomStore(account_name=acct)
+        raise RuntimeError(
+            "STORAGE_MODE=table requires AZURE_STORAGE_CONNECTION_STRING or AZURE_STORAGE_ACCOUNT"
+        )
+    store = (
+        AzureTableRoomStore(connection_string=az_conn)
+        if az_conn
+        else AzureTableRoomStore(account_name=acct)
+    )
     app_logger.info("RoomStore: TABLE (%s)", "conn_str" if az_conn else "account")
     return store
 

@@ -1,9 +1,11 @@
 import hashlib
 from pathlib import Path
 
+
 def get_hash(path):
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         return hashlib.md5(f.read()).hexdigest()
+
 
 # Проверка всех файлов в skills/ и .agents/skills/
 base_root = Path("skills")
@@ -22,18 +24,18 @@ for file_path in base_root.rglob("*"):
     if file_path.is_file():
         relative_path = file_path.relative_to(base_root)
         agents_path = base_agents / relative_path
-        
+
         files_checked += 1
-        
+
         if not agents_path.exists():
             print(f"❌ {relative_path} — отсутствует в .agents/skills/")
             missing_in_agents += 1
             only_in_root.append(str(relative_path))
             continue
-        
+
         hash1 = get_hash(file_path)
         hash2 = get_hash(agents_path)
-        
+
         if hash1 == hash2:
             identical += 1
         else:
@@ -58,7 +60,7 @@ print(f"ℹ️ Только в .agents/skills/ (новые): {len(only_in_agents
 
 if only_in_agents:
     print("\nНовые скиллы только в .agents/skills/:")
-    for skill in set([p.split('/')[0] for p in only_in_agents]):
+    for skill in set([p.split("/")[0] for p in only_in_agents]):
         print(f"  - {skill}")
 
 if different == 0 and missing_in_agents == 0:

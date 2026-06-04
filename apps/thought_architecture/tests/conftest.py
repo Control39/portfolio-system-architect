@@ -1,4 +1,5 @@
 """Pytest configuration for thought_architecture."""
+
 import sys
 from pathlib import Path
 

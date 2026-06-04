@@ -170,7 +170,9 @@ class TestBruteForceProtection:
         """Проверяем, что множественные неудачные попытки блокируются"""
         failed_attempts = 0
         for i in range(10):
-            response = client.post("/auth/login", json={"username": "admin", "password": f"wrong{i}"})
+            response = client.post(
+                "/auth/login", json={"username": "admin", "password": f"wrong{i}"}
+            )
             if response.status_code == 401:
                 failed_attempts += 1
 
@@ -213,7 +215,9 @@ class TestTokenSecurity:
         response = client.post("/auth/login", json={"username": "admin", "password": "admin123"})
         token = response.json()["token"]
 
-        payload = jwt.decode(token, client.secret_key, algorithms=["HS256"], options={"verify_exp": False})
+        payload = jwt.decode(
+            token, client.secret_key, algorithms=["HS256"], options={"verify_exp": False}
+        )
         assert "exp" in payload
 
     def test_invalid_token_rejected(self, client):
@@ -310,7 +314,9 @@ class TestPasswordPolicy:
 
     def test_strong_password_accepted(self, client):
         """Проверяем принятие сильных паролей"""
-        response = client.post("/auth/register", json={"username": "newuser", "password": "StrongP@ssw0rd123!"})
+        response = client.post(
+            "/auth/register", json={"username": "newuser", "password": "StrongP@ssw0rd123!"}
+        )
         assert response.status_code == 201
 
     def test_password_change_requires_old_password(self, client):
@@ -320,7 +326,9 @@ class TestPasswordPolicy:
         token = response.json()["token"]
 
         # Смена пароля без старого
-        response = client.post("/auth/change-password", json={"token": token, "new_password": "NewP@ssw0rd123!"})
+        response = client.post(
+            "/auth/change-password", json={"token": token, "new_password": "NewP@ssw0rd123!"}
+        )
         assert response.status_code in [400, 401]  # Missing data или Invalid token
 
     def test_password_change_with_wrong_old_password(self, client):
@@ -332,7 +340,11 @@ class TestPasswordPolicy:
         # Смена пароля с неверным старым
         response = client.post(
             "/auth/change-password",
-            json={"token": token, "old_password": "wrong_password", "new_password": "NewP@ssw0rd123!"},
+            json={
+                "token": token,
+                "old_password": "wrong_password",
+                "new_password": "NewP@ssw0rd123!",
+            },
         )
         assert response.status_code == 401
 
@@ -344,7 +356,8 @@ class TestPasswordPolicy:
 
         # Смена на слабый пароль
         response = client.post(
-            "/auth/change-password", json={"token": token, "old_password": "admin123", "new_password": "123"}
+            "/auth/change-password",
+            json={"token": token, "old_password": "admin123", "new_password": "123"},
         )
         assert response.status_code == 400
 

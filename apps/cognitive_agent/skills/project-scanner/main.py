@@ -2,6 +2,7 @@
 Интеллектуальный сканер проекта: определяет технологии, архитектуру, проблемы.
 Работает в 3 фазы: быстрая, глубокая, контекстная.
 """
+
 import os
 import json
 from pathlib import Path
@@ -13,11 +14,11 @@ class ProjectScanner:
         self.report_dir = "reports/"
         Path(self.report_dir).mkdir(exist_ok=True)
         self.extensions = {
-            'python': ['.py'],
-            'docker': ['.dockerfile', 'Dockerfile'],
-            'k8s': ['.yml', '.yaml'],
-            'infra': ['.tf', '.hcl', '.json'],
-            'docs': ['.md', '.adoc']
+            "python": [".py"],
+            "docker": [".dockerfile", "Dockerfile"],
+            "k8s": [".yml", ".yaml"],
+            "infra": [".tf", ".hcl", ".json"],
+            "docs": [".md", ".adoc"],
         }
 
     def quick_scan(self):
@@ -31,8 +32,10 @@ class ProjectScanner:
             "languages_found": list(found.keys()),
             "file_counts": found,
             "has_ci": os.path.exists(".github/workflows"),
-            "has_tests": bool(list(Path("tests").rglob("*.py"))) if os.path.exists("tests") else False,
-            "test_coverage": self._mock_coverage()  # Заглушка — будет реальная в будущем
+            "has_tests": bool(list(Path("tests").rglob("*.py")))
+            if os.path.exists("tests")
+            else False,
+            "test_coverage": self._mock_coverage(),  # Заглушка — будет реальная в будущем
         }
 
     def deep_scan(self):
@@ -42,7 +45,7 @@ class ProjectScanner:
             "security": self._check_security_files(),
             "docker_files": self._find_docker(),
             "k8s_files": self._find_k8s(),
-            "large_files": self._find_large_files()
+            "large_files": self._find_large_files(),
         }
 
     def context_scan(self):
@@ -51,7 +54,7 @@ class ProjectScanner:
             "adr_present": bool(list(Path("docs").rglob("*adr*.md"))),
             "adr_count": len(list(Path("docs").rglob("*adr*.md"))),
             "business_logic_keywords": self._search_keywords(["domain", "service", "use case"]),
-            "integration_points": self._find_integrations()
+            "integration_points": self._find_integrations(),
         }
 
     def _scan_requirements(self):
@@ -62,7 +65,7 @@ class ProjectScanner:
         return {
             "secrets_detected": False,
             "trivy_config": os.path.exists("trivy.yaml"),
-            "bandit_config": os.path.exists("pyproject.toml") or os.path.exists("bandit.yml")
+            "bandit_config": os.path.exists("pyproject.toml") or os.path.exists("bandit.yml"),
         }
 
     def _find_docker(self):
@@ -77,18 +80,20 @@ class ProjectScanner:
             try:
                 if p.is_file() and p.stat().st_size > 10_000_000:  # >10MB
                     large.append({"file": str(p), "size_mb": round(p.stat().st_size / 1e6, 2)})
-            except: pass
+            except:
+                pass
         return large
 
     def _search_keywords(self, keywords):
         found = []
         for p in Path("src").rglob("*.py"):
             try:
-                content = p.read_text(encoding='utf-8', errors='ignore').lower()
+                content = p.read_text(encoding="utf-8", errors="ignore").lower()
                 for kw in keywords:
                     if kw.lower() in content:
                         found.append({"file": str(p), "keyword": kw})
-            except: pass
+            except:
+                pass
         return found
 
     def _find_integrations(self):
@@ -96,16 +101,18 @@ class ProjectScanner:
         hits = []
         for p in Path("src").rglob("*.py"):
             try:
-                content = p.read_text(encoding='utf-8', errors='ignore').lower()
+                content = p.read_text(encoding="utf-8", errors="ignore").lower()
                 for svc in integrations:
                     if svc in content:
                         hits.append({"file": str(p), "integration": svc})
-            except: pass
+            except:
+                pass
         return hits
 
     def _mock_coverage(self):
         # В будущем будет реальный pytest --cov
         import random
+
         return round(random.uniform(70, 95), 1)
 
     def scan(self):
@@ -113,10 +120,10 @@ class ProjectScanner:
             "timestamp": datetime.utcnow().isoformat(),
             "quick": self.quick_scan(),
             "deep": self.deep_scan(),
-            "context": self.context_scan()
+            "context": self.context_scan(),
         }
         path = f"{self.report_dir}project-analysis.json"
-        with open(path, 'w', encoding='utf-8') as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
         print(f"✅ Отчёт сканирования сохранён: {path}")
         return report

@@ -5,7 +5,7 @@ Includes mocks for GigaChat API to avoid external dependencies
 
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -24,8 +24,8 @@ class MockGigaChat:
     """Mock for langchain_community.llms.GigaChat"""
 
     def __init__(self, *args, **kwargs):
-        self.api_key = kwargs.get('api_key', '')
-        self.model = kwargs.get('model', 'gigachat:latest')
+        self.api_key = kwargs.get("api_key", "")
+        self.model = kwargs.get("model", "gigachat:latest")
 
     def invoke(self, text):
         """Mock invoke method"""
@@ -40,8 +40,8 @@ class MockPromptTemplate:
     """Mock for langchain_core.prompts.PromptTemplate"""
 
     def __init__(self, *args, **kwargs):
-        self.template = kwargs.get('template', '')
-        self.input_variables = kwargs.get('input_variables', [])
+        self.template = kwargs.get("template", "")
+        self.input_variables = kwargs.get("input_variables", [])
 
     def __or__(self, other):
         """Mock the | operator for chaining"""
@@ -59,31 +59,31 @@ def mock_langchain_modules():
     # Mock langchain imports
     mock_langchain = MagicMock()
     mock_langchain.prompts.PromptTemplate = MockPromptTemplate
-    sys.modules['langchain'] = mock_langchain
-    sys.modules['langchain.prompts'] = MagicMock(PromptTemplate=MockPromptTemplate)
+    sys.modules["langchain"] = mock_langchain
+    sys.modules["langchain.prompts"] = MagicMock(PromptTemplate=MockPromptTemplate)
 
     # Mock langchain_core imports
     mock_langchain_core = MagicMock()
     mock_langchain_core.prompts.PromptTemplate = MockPromptTemplate
-    sys.modules['langchain_core'] = mock_langchain_core
-    sys.modules['langchain_core.prompts'] = MagicMock(PromptTemplate=MockPromptTemplate)
+    sys.modules["langchain_core"] = mock_langchain_core
+    sys.modules["langchain_core.prompts"] = MagicMock(PromptTemplate=MockPromptTemplate)
 
     # Mock langchain_community imports
     mock_langchain_community = MagicMock()
     mock_langchain_community.llms.GigaChat = MockGigaChat
-    sys.modules['langchain_community'] = mock_langchain_community
-    sys.modules['langchain_community.llms'] = MagicMock(GigaChat=MockGigaChat)
+    sys.modules["langchain_community"] = mock_langchain_community
+    sys.modules["langchain_community.llms"] = MagicMock(GigaChat=MockGigaChat)
 
     # Mock langchain_gigachat
     mock_langchain_gigachat = MagicMock()
     mock_langchain_gigachat.GigaChat = MockGigaChat
-    sys.modules['langchain_gigachat'] = mock_langchain_gigachat
+    sys.modules["langchain_gigachat"] = mock_langchain_gigachat
 
     yield
 
     # Cleanup
     for key in list(sys.modules.keys()):
-        if key.startswith('langchain'):
+        if key.startswith("langchain"):
             del sys.modules[key]
 
 
@@ -97,8 +97,7 @@ def mock_gigachat():
 def mock_prompt_template():
     """Fixture providing a mock PromptTemplate instance"""
     return MockPromptTemplate(
-        input_variables=["context", "query"],
-        template="Context: {context}\nQuery: {query}"
+        input_variables=["context", "query"], template="Context: {context}\nQuery: {query}"
     )
 
 

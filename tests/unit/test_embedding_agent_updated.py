@@ -89,7 +89,9 @@ def test_chroma_document_indexer_initialization():
 
     # Mock chromadb to avoid import error
     with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}):
-        indexer = ChromaDocumentIndexer(persist_directory="./test_db", collection_name="test_collection")
+        indexer = ChromaDocumentIndexer(
+            persist_directory="./test_db", collection_name="test_collection"
+        )
 
         assert indexer is not None
         assert indexer.persist_directory.name == "test_db"
@@ -117,7 +119,9 @@ def test_chroma_document_indexer_add_document():
                     metadatas=[
                         {
                             "source": "test.py",
-                            "timestamp": (indexer.collection.add.call_args[1]["metadatas"][0]["timestamp"]),
+                            "timestamp": (
+                                indexer.collection.add.call_args[1]["metadatas"][0]["timestamp"]
+                            ),
                             "embedding_model": mock_embedder.return_value.model_name,
                             "text_length": 9,
                         }

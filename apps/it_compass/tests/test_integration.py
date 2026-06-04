@@ -11,17 +11,16 @@ Tests:
 - Resource management
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from typing import Generator
 import asyncio
 import time
+from unittest.mock import MagicMock
 
-
+import pytest
 
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
+
 
 @pytest.fixture
 def service_config():
@@ -56,7 +55,7 @@ def service_instance(service_config, mock_dependencies):
     yield service
 
     # Cleanup
-    service.cleanup() if hasattr(service, 'cleanup') else None
+    service.cleanup() if hasattr(service, "cleanup") else None
 
 
 @pytest.fixture(autouse=True)
@@ -66,13 +65,14 @@ def reset_mocks(mock_dependencies):
         mock.reset_mock()
 
 
-
 # ============================================================================
 # INTEGRATION TESTS
 # ============================================================================
 
 
-def test_compass_reasoning_integration(service_instance, mock_dependencies, service_config):
+def test_compass_reasoning_integration(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 1: Compass Reasoning Integration
 
@@ -107,7 +107,9 @@ async def test_compass_reasoning_integration_async(service_instance, mock_depend
     assert service_instance.initialize.called
 
 
-def test_compass_with_decision_engine(service_instance, mock_dependencies, service_config):
+def test_compass_with_decision_engine(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 2: Compass With Decision Engine
 
@@ -142,7 +144,9 @@ async def test_compass_with_decision_engine_async(service_instance, mock_depende
     assert service_instance.initialize.called
 
 
-def test_compass_knowledge_extraction(service_instance, mock_dependencies, service_config):
+def test_compass_knowledge_extraction(
+    service_instance, mock_dependencies, service_config
+):
     """
     Test Case 3: Compass Knowledge Extraction
 
@@ -251,6 +255,7 @@ async def test_compass_performance_async(service_instance, mock_dependencies):
 # COMMON INTEGRATION TESTS
 # ============================================================================
 
+
 def test_service_initialization(service_instance, mock_dependencies):
     """Test service initializes with all dependencies"""
     assert service_instance is not None
@@ -304,4 +309,3 @@ def test_concurrent_operations(service_instance, mock_dependencies):
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
 
     assert all(results)
-

@@ -3,7 +3,7 @@
 Сканирование безопасности: анализ уязвимостей зависимостей
 Цель: Разобрать 365 Security Alerts на GitHub
 """
-import os
+
 import json
 import subprocess
 from pathlib import Path
@@ -29,9 +29,9 @@ try:
         ["C:\\repo\\.venv\\Scripts\\pip-audit", "--format", "json"],
         capture_output=True,
         text=True,
-        timeout=120
+        timeout=120,
     )
-    
+
     if result.returncode == 0:
         vulnerabilities = json.loads(result.stdout)
         print(f"   ✅ Найдено {len(vulnerabilities)} уязвимостей")
@@ -65,7 +65,7 @@ report = {
     "total_vulnerabilities": len(vulnerabilities),
     "by_severity": dict(severity_counts),
     "files_scanned": [str(f.relative_to(ROOT)) for f in requirements_files],
-    "vulnerabilities": vulnerabilities[:50]  # Первые 50 для примера
+    "vulnerabilities": vulnerabilities[:50],  # Первые 50 для примера
 }
 
 report_path = OUTPUT_DIR / "security_scan_2026-05-24.json"

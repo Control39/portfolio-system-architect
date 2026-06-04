@@ -13,7 +13,9 @@ from pydantic import BaseModel
 from src.config_integration import get_config
 
 # Настройка логирования
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 # Инициализация FastAPI приложения
@@ -53,7 +55,12 @@ class ScaleRequest(BaseModel):
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {"service": "Infra-Orchestrator", "status": "running", "version": "1.0.0", "docs": "/docs"}
+    return {
+        "service": "Infra-Orchestrator",
+        "status": "running",
+        "version": "1.0.0",
+        "docs": "/docs",
+    }
 
 
 @app.get("/health")
@@ -80,7 +87,9 @@ async def list_services():
 async def deploy_service(service_name: str, request: DeployRequest):
     """Деплой сервиса"""
     # TODO: Реализация деплоя через Kubernetes/Docker
-    logger.info(f"Deploying {service_name} version {request.version} with {request.replicas} replicas")
+    logger.info(
+        f"Deploying {service_name} version {request.version} with {request.replicas} replicas"
+    )
 
     return ServiceStatus(name=service_name, status="running", health="healthy")
 

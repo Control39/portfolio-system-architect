@@ -93,7 +93,11 @@ class StructureCheck(BaseCheck):
         }
         clutter = []
         for f in root_files:
-            if f.is_file() and f.suffix not in allowed_extensions and f.name not in root_allowed_configs:
+            if (
+                f.is_file()
+                and f.suffix not in allowed_extensions
+                and f.name not in root_allowed_configs
+            ):
                 clutter.append(f.name)
         if clutter:
             self._add_result(

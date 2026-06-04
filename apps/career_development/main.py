@@ -21,7 +21,9 @@ try:
     print("✅ Career Development: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(f"⚠️  Career Development: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    print(
+        f"⚠️  Career Development: AI Config Manager недоступен ({e}), используется локальный конфиг"
+    )
     career_config = {}
 
 # Добавляем путь к корню проекта (src уже в /app/src благодаря Dockerfile)

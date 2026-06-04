@@ -4,7 +4,6 @@ Integrates GigaChat API with it-compass context and Chroma RAG.
 Self-Improving Loop stub included.
 """
 
-
 from dotenv import load_dotenv
 
 # Langchain 1.x совместимость
@@ -49,7 +48,9 @@ class GigaMCPBridge:
         )
         self.prompt = PromptTemplate(
             input_variables=["context", "query"],
-            template=("Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:"),
+            template=(
+                "Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:"
+            ),
         )
         self.chain = self.prompt | self.llm
 

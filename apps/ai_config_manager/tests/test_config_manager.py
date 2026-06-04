@@ -10,16 +10,14 @@
 """
 
 import logging
+import sys
 import threading
-import time
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
+from unittest.mock import MagicMock, patch
 
 import pytest
 import yaml
-from unittest.mock import MagicMock, patch
-
-import sys
 
 # Настройка пути к src
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -34,7 +32,7 @@ class TestConfigManager:
     """Тесты для ConfigManager."""
 
     @pytest.fixture
-    def temp_config_data(self) -> Dict[str, Any]:
+    def temp_config_data(self) -> dict[str, Any]:
         """Фикстура: валидные данные конфига."""
         return {
             "agents": {
@@ -45,12 +43,8 @@ class TestConfigManager:
                     "resources": ["tool1"],
                 }
             },
-            "resources": {
-                "tool1": {"name": "tool1", "type": "tool", "enabled": True}
-            },
-            "secrets": {
-                "api_keys": {"openai": "sk-test-1234567890abcdef"}
-            },
+            "resources": {"tool1": {"name": "tool1", "type": "tool", "enabled": True}},
+            "secrets": {"api_keys": {"openai": "sk-test-1234567890abcdef"}},
             "version": "1.0.0",
         }
 
@@ -130,7 +124,9 @@ class TestConfigManager:
         cm = ConfigManager(temp_config_file, auto_reload=False)
 
         # Пишем битый YAML
-        Path(temp_config_file).write_text("agents:\n  test-agent:\n    model: gpt-4\n    bad-indent >> key", encoding="utf-8")
+        Path(temp_config_file).write_text(
+            "agents:\n  test-agent:\n    model: gpt-4\n    bad-indent >> key", encoding="utf-8"
+        )
 
         with caplog.at_level(logging.ERROR):
             with pytest.raises(yaml.YAMLError):

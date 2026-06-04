@@ -85,7 +85,9 @@ class YandexGPTClient:
             )
         return self._client
 
-    async def generate(self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs) -> str:
+    async def generate(
+        self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs
+    ) -> str:
         """
         Генерация текста с использованием Yandex GPT.
 

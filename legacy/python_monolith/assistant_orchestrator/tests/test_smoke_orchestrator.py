@@ -40,4 +40,3 @@ def test_orchestrator_smoke(tmp_path: Path):
     assert isinstance(result["microservices"], dict)
     assert isinstance(result["skill_markers"], dict)
     assert "total_count" in result["skill_markers"]
-

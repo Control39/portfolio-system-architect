@@ -41,7 +41,9 @@ class TestCareerTrackerRealLogic:
                                 "validation": "Успешное прохождение тестов",
                                 "priority": "high",
                                 "resources": ["https://docs.python.org/"],
-                                "smart_criteria": {"beginner": "Создать простой скрипт"},
+                                "smart_criteria": {
+                                    "beginner": "Создать простой скрипт"
+                                },
                             }
                         ]
                     },
@@ -63,7 +65,9 @@ class TestCareerTrackerRealLogic:
                                 "validation": "Успешная сборка образа",
                                 "priority": "high",
                                 "resources": ["https://docs.docker.com/"],
-                                "smart_criteria": {"beginner": "Создать Dockerfile для приложения"},
+                                "smart_criteria": {
+                                    "beginner": "Создать Dockerfile для приложения"
+                                },
                             }
                         ]
                     },
@@ -85,7 +89,9 @@ class TestCareerTrackerRealLogic:
                                 "validation": "Развёртывание приложения в кластере",
                                 "priority": "medium",
                                 "resources": ["https://kubernetes.io/docs/"],
-                                "smart_criteria": {"advanced": "Создать deployment и service"},
+                                "smart_criteria": {
+                                    "advanced": "Создать deployment и service"
+                                },
                             }
                         ]
                     },
@@ -96,7 +102,9 @@ class TestCareerTrackerRealLogic:
         )
 
         progress_file = tmp_path / "progress.json"
-        return CareerTracker(markers_dir=str(markers_dir), progress_file=str(progress_file))
+        return CareerTracker(
+            markers_dir=str(markers_dir), progress_file=str(progress_file)
+        )
 
     def test_tracker_initialization_with_valid_markers(self, tracker):
         """Инициализация трекера с валидными маркерами"""
@@ -183,7 +191,10 @@ class TestCareerTrackerRealLogic:
         tracker._save_progress()
 
         # Создаём новый tracker с тем же файлом
-        new_tracker = CareerTracker(markers_dir=str(tracker.markers_dir), progress_file=str(tracker.progress_file))
+        new_tracker = CareerTracker(
+            markers_dir=str(tracker.markers_dir),
+            progress_file=str(tracker.progress_file),
+        )
 
         assert "python_basics" in new_tracker.progress["completed_markers"]
 
@@ -223,7 +234,9 @@ class TestCareerTrackerRealLogic:
             empty_markers_dir.mkdir()
             progress_file = Path(tmp_dir) / "progress.json"
 
-            tracker = CareerTracker(markers_dir=str(empty_markers_dir), progress_file=str(progress_file))
+            tracker = CareerTracker(
+                markers_dir=str(empty_markers_dir), progress_file=str(progress_file)
+            )
 
             assert len(tracker.markers) == 0
 
@@ -236,7 +249,9 @@ class TestCareerTrackerRealLogic:
         (markers_dir / "corrupted.json").write_text("not valid json{")
 
         progress_file = tmp_path / "progress.json"
-        tracker = CareerTracker(markers_dir=str(markers_dir), progress_file=str(progress_file))
+        tracker = CareerTracker(
+            markers_dir=str(markers_dir), progress_file=str(progress_file)
+        )
 
         # Должен обработать ошибку и вернуть пустой словарь
         assert len(tracker.markers) == 0

@@ -3,38 +3,41 @@
 This module provides unified configuration access across the entire system.
 """
 
-from typing import Dict, Any, Optional
-from dataclasses import dataclass
-from functools import lru_cache
 import os
-
+from typing import Any
 
 # ============================================================
 # Molecule-Specific Configuration Classes
 # ============================================================
 
+
 class AuthServiceConfig:
     """Configuration for Auth Service molecule."""
+
     pass
 
 
 class CognitiveAgentConfig:
     """Configuration for Cognitive Agent molecule."""
+
     pass
 
 
 class DecisionEngineConfig:
     """Configuration for Decision Engine molecule."""
+
     pass
 
 
 class MlModelRegistryConfig:
     """Configuration for ML Model Registry molecule."""
+
     pass
 
 
 class SystemProofConfig:
     """Configuration for System Proof molecule."""
+
     pass
 
 
@@ -42,14 +45,14 @@ class SystemProofConfig:
 # Global Configuration State
 # ============================================================
 
-_config: Dict[str, Any] = {
+_config: dict[str, Any] = {
     "initialized": True,
     "version": "1.0.0",
     "environment": os.getenv("ENVIRONMENT", "test"),
 }
 
 
-def get_config() -> Dict[str, Any]:
+def get_config() -> dict[str, Any]:
     """Return global configuration dictionary."""
     return _config.copy()
 
@@ -69,6 +72,6 @@ def is_available() -> bool:
     return True
 
 
-def get_config_singleton() -> Dict[str, Any]:
+def get_config_singleton() -> dict[str, Any]:
     """Alias for backward compatibility with tests."""
     return get_config()

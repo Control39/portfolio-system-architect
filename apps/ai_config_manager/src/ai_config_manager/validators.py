@@ -37,7 +37,9 @@ class AgentConfig(BaseModel):
     model: str = Field(..., description="Модель ИИ (например, gpt-4)")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0, description="Температура генерации")
     max_tokens: int = Field(default=2048, gt=0, description="Максимальное количество токенов")
-    resources: list[str] | None = Field(default=None, description="Список имён используемых ресурсов")
+    resources: list[str] | None = Field(
+        default=None, description="Список имён используемых ресурсов"
+    )
     timeout: int = Field(default=30, gt=0, description="Таймаут запроса в секундах")
     retry_count: int = Field(default=3, ge=0, description="Количество повторных попыток")
 
@@ -86,7 +88,9 @@ class AIConfig(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
-                "agents": {"cognitive-agent": {"model": "gpt-4", "temperature": 0.7, "max_tokens": 2048}},
+                "agents": {
+                    "cognitive-agent": {"model": "gpt-4", "temperature": 0.7, "max_tokens": 2048}
+                },
                 "resources": {
                     "code-analyzer": {
                         "name": "code-analyzer",
@@ -101,7 +105,9 @@ class AIConfig(BaseModel):
     )
 
     agents: dict[str, AgentConfig] = Field(default_factory=dict, description="Конфигурации агентов")
-    resources: dict[str, ResourceConfig] = Field(default_factory=dict, description="Конфигурации ресурсов")
+    resources: dict[str, ResourceConfig] = Field(
+        default_factory=dict, description="Конфигурации ресурсов"
+    )
     secrets: SecretsConfig | None = Field(default=None, description="Конфигурация секретов")
     version: str = Field(default="1.0.0", description="Версия конфигурации")
 

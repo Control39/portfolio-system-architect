@@ -1,7 +1,7 @@
 # Архитектурный анализ проекта portfolio-system-architect
 
-**Дата:** 2026-04-10  
-**Аналитик:** SourceCraft Code Assistant Agent  
+**Дата:** 2026-04-10
+**Аналитик:** SourceCraft Code Assistant Agent
 **Режим:** 🏗️ Architect
 
 ## Обзор

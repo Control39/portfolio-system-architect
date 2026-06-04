@@ -67,7 +67,9 @@ class OpenAIChatClient:
             }
 
         # Extract optional system prompt and build sanitized parameter dict (exclude unsupported keys).
-        self.system_prompt_role, self.system_prompt_content = self._normalize_system_prompt(system_prompt)
+        self.system_prompt_role, self.system_prompt_content = self._normalize_system_prompt(
+            system_prompt
+        )
         # Drop any stray legacy keys to avoid sending unsupported params.
         self.model_parameters.pop("system_prompt", None)
 
@@ -85,7 +87,9 @@ class OpenAIChatClient:
             raw_content = raw_prompt.get("content")
             if isinstance(raw_content, str) and raw_content.strip():
                 raw_role = raw_prompt.get("role")
-                role = raw_role.strip() if isinstance(raw_role, str) and raw_role.strip() else "system"
+                role = (
+                    raw_role.strip() if isinstance(raw_role, str) and raw_role.strip() else "system"
+                )
                 return role, raw_content.strip()
             return "system", None
         if isinstance(raw_prompt, str) and raw_prompt.strip():
@@ -112,7 +116,9 @@ class OpenAIChatClient:
 
         # Prepend system prompt if configured.
         if self.system_prompt_content:
-            messages.insert(0, {"role": self.system_prompt_role, "content": self.system_prompt_content})
+            messages.insert(
+                0, {"role": self.system_prompt_role, "content": self.system_prompt_content}
+            )
 
         messages.append({"role": "user", "content": text_input})
         try:

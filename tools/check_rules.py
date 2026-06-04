@@ -1,9 +1,10 @@
 import hashlib
-from pathlib import Path
+
 
 def get_hash(path):
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         return hashlib.md5(f.read()).hexdigest()
+
 
 file1 = "rules/ignore-patterns.md"
 file2 = ".agents/rules/ignore-patterns.md"

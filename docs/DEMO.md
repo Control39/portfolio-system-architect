@@ -182,7 +182,7 @@ python demo_integration.py
 
 ## 👩‍💻 Автор
 
-**Ekaterina Kudelya** — Architect & Methodologist  
+**Ekaterina Kudelya** — Architect & Methodologist
 **Лицензия:** CC BY-ND 4.0
 
 ---
@@ -196,5 +196,5 @@ python demo_integration.py
 
 ---
 
-**Дата:** 27 мая 2026  
+**Дата:** 27 мая 2026
 **Статус:** ✅ Демо готово

@@ -115,7 +115,9 @@ class BaseCheck(abc.ABC):
             self._add_result("FAIL", f"Directory missing: {relative_path}", relative_path)
         return exists
 
-    def check_file_content(self, relative_path: str, keyword: str, description: str | None = None) -> bool:
+    def check_file_content(
+        self, relative_path: str, keyword: str, description: str | None = None
+    ) -> bool:
         """Check if file contains a keyword."""
         full_path = self.repo_path / relative_path
         if not full_path.exists():
@@ -239,7 +241,9 @@ class RepositoryAuditor:
             "Category breakdown:",
         ]
         for cat, cat_score in score["by_category"].items():
-            lines.append(f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)")
+            lines.append(
+                f"  {cat}: {cat_score['score']:.1f}/{cat_score['total']:.1f} ({cat_score['percentage']:.2f}%)"
+            )
         lines.append("")
         lines.append("Detailed results:")
         for r in self.results:

@@ -1,6 +1,6 @@
 ﻿# Marker Extraction Skill
-**Версия:** 1.0.0  
-**Статус:** 🟢 Production Ready  
+**Версия:** 1.0.0
+**Статус:** 🟢 Production Ready
 **Назначение:** Автоматическое извлечение маркеров компетенций из репозитория
 ---
 ## 📋 Описание
@@ -220,6 +220,6 @@ results["markers_found"].extend(custom_markers)
 - **Documentation:** docs/ARCHITECTURE_DEFENSE.md
 - **Code:** scripts/extract_markers.py
 ---
-**Автор:** CAA (Cognitive Automation Agent)  
-**Дата создания:** 2026-05-24  
+**Автор:** CAA (Cognitive Automation Agent)
+**Дата создания:** 2026-05-24
 **Статус:** 🟢 ACTIVE | Production Ready

@@ -29,7 +29,7 @@
 
 ## 3️⃣ ИТОГИ И СЛЕДУЮЩИЕ ШАГИ (ACTION ITEMS)
 
-**Создан документ кейса:**  
+**Создан документ кейса:**
 📄 [cases/refactoring_experience/01_mcp_server_audit.md](cases/refactoring_experience/01_mcp_server_audit.md)
 
 **План действий:**

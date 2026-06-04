@@ -2,6 +2,7 @@
 """
 Добавляет Bearer токен в settings.json
 """
+
 import sys
 from pathlib import Path
 
@@ -13,6 +14,7 @@ try:
 except ImportError:
     print("Устанавливаю commentjson...")
     import subprocess
+
     subprocess.check_call([sys.executable, "-m", "pip", "install", "commentjson", "-q"])
     import commentjson
 
@@ -24,6 +26,7 @@ if not TOKEN_CACHE.exists():
     sys.exit(1)
 
 import json
+
 token_data = json.loads(TOKEN_CACHE.read_text(encoding="utf-8"))
 access_token = token_data.get("access_token")
 

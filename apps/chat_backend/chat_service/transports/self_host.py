@@ -16,7 +16,13 @@ from websockets import serve as ws_serve
 
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
-from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group, try_room_id_from_group
+from ..base import (
+    SYS_ROOMS_GROUP,
+    ChatServiceBase,
+    ClientConnectionContext,
+    as_room_group,
+    try_room_id_from_group,
+)
 
 
 # Поддерживаемые протоколы — как строки
@@ -44,7 +50,9 @@ class _InMemoryClientManager:
         self._groups: dict[str, set[str]] = {}
         self._logger = logger
 
-    async def add_client(self, connection_id: str, context: ClientConnectionContext, transport: Any) -> None:
+    async def add_client(
+        self, connection_id: str, context: ClientConnectionContext, transport: Any
+    ) -> None:
         self._clients[connection_id] = (context, transport)
 
     async def remove_client(self, connection_id: str) -> None:
@@ -67,7 +75,9 @@ class _InMemoryClientManager:
             if not members:
                 self._groups.pop(group, None)
 
-    async def send_to_group(self, group: str, data: str, exclude_ids: Iterable[str] | None = None) -> list[SendResult]:
+    async def send_to_group(
+        self, group: str, data: str, exclude_ids: Iterable[str] | None = None
+    ) -> list[SendResult]:
         results: list[SendResult] = []
         members = self._groups.get(group, set())
         for cid in list(members):  # iterate over snapshot
@@ -156,16 +166,22 @@ class ChatService(ChatServiceBase):
                         if data.get("type") == "event":
                             message_data = data.get("data", {})
                             user_message = (
-                                message_data.get("message", "") if isinstance(message_data, dict) else str(message_data)
+                                message_data.get("message", "")
+                                if isinstance(message_data, dict)
+                                else str(message_data)
                             )
                             event_name = data.get("event")
                             if not user_message.strip():
                                 continue
-                            await self._emit(self._on_event_message, client, event_name, message_data)
+                            await self._emit(
+                                self._on_event_message, client, event_name, message_data
+                            )
                         elif data.get("type") == "sendToGroup":
                             message_data = data.get("data", {})
                             user_message = (
-                                message_data.get("message", "") if isinstance(message_data, dict) else str(message_data)
+                                message_data.get("message", "")
+                                if isinstance(message_data, dict)
+                                else str(message_data)
                             )
                             user_name = message_data.get("from")
                             group_name = data.get("group")
@@ -212,7 +228,9 @@ class ChatService(ChatServiceBase):
                                     "error": "Group name is required",
                                 }
                             else:
-                                await self.client_manager.add_client_to_group(connection_id, group_name)
+                                await self.client_manager.add_client_to_group(
+                                    connection_id, group_name
+                                )
                                 room_id = try_room_id_from_group(group_name)
                                 if room_id:
                                     with contextlib.suppress(Exception):
@@ -234,7 +252,9 @@ class ChatService(ChatServiceBase):
                                     "error": "Group name is required",
                                 }
                             else:
-                                await self.client_manager.remove_client_from_group(connection_id, group_name)
+                                await self.client_manager.remove_client_from_group(
+                                    connection_id, group_name
+                                )
                                 try:
                                     room_id = try_room_id_from_group(group_name)
                                     if room_id:

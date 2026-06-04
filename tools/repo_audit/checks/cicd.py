@@ -52,10 +52,14 @@ class CICDCheck(BaseCheck):
         if self.check_file_exists("docker-compose.yml"):
             self._add_result("PASS", "Docker Compose file exists", "docker-compose.yml")
         elif self.check_file_exists("config/docker/docker-compose.yml"):
-            self._add_result("PASS", "Docker Compose file exists", "config/docker/docker-compose.yml")
+            self._add_result(
+                "PASS", "Docker Compose file exists", "config/docker/docker-compose.yml"
+            )
         else:
             self._add_result(
-                "WARNING", "Docker Compose file missing", "docker-compose.yml or config/docker/docker-compose.yml"
+                "WARNING",
+                "Docker Compose file missing",
+                "docker-compose.yml or config/docker/docker-compose.yml",
             )
 
         # Kubernetes
@@ -74,7 +78,9 @@ class CICDCheck(BaseCheck):
         if self.check_file_exists(".pre-commit-config.yaml"):
             self._add_result("PASS", "Pre‑commit config exists", ".pre-commit-config.yaml")
         elif self.check_file_exists("config/tools/.pre-commit-config.yaml"):
-            self._add_result("PASS", "Pre‑commit config exists", "config/tools/.pre-commit-config.yaml")
+            self._add_result(
+                "PASS", "Pre‑commit config exists", "config/tools/.pre-commit-config.yaml"
+            )
         else:
             self._add_result(
                 "WARNING",

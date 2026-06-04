@@ -45,10 +45,14 @@ def resolve_runtime_config() -> RuntimeConfig:
     # Validate dependencies strictly
     if transport == TransportMode.WEBPUBSUB:
         if not (_get_env("WEBPUBSUB_ENDPOINT") or _get_env("WEBPUBSUB_CONNECTION_STRING")):
-            raise RuntimeError("TRANSPORT_MODE=webpubsub requires WEBPUBSUB_ENDPOINT or WEBPUBSUB_CONNECTION_STRING")
+            raise RuntimeError(
+                "TRANSPORT_MODE=webpubsub requires WEBPUBSUB_ENDPOINT or WEBPUBSUB_CONNECTION_STRING"
+            )
     if storage == StorageMode.TABLE:
         if not (_get_env("AZURE_STORAGE_CONNECTION_STRING") or _get_env("AZURE_STORAGE_ACCOUNT")):
-            raise RuntimeError("STORAGE_MODE=table requires AZURE_STORAGE_CONNECTION_STRING or AZURE_STORAGE_ACCOUNT")
+            raise RuntimeError(
+                "STORAGE_MODE=table requires AZURE_STORAGE_CONNECTION_STRING or AZURE_STORAGE_ACCOUNT"
+            )
     return RuntimeConfig(transport=transport, storage=storage)
 
 

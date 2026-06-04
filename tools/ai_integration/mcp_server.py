@@ -242,7 +242,9 @@ class PortfolioMCP:
                                     {
                                         "file": str(item.relative_to(project_root)),
                                         "markers_count": (
-                                            len(content.get("markers", [])) if isinstance(content, dict) else "unknown"
+                                            len(content.get("markers", []))
+                                            if isinstance(content, dict)
+                                            else "unknown"
                                         ),
                                     }
                                 )
@@ -288,7 +290,11 @@ class PortfolioMCP:
                 status = {}
                 for path in rag_paths:
                     if path.exists():
-                        files = list(path.rglob("*.py")) + list(path.rglob("*.yaml")) + list(path.rglob("*.yml"))
+                        files = (
+                            list(path.rglob("*.py"))
+                            + list(path.rglob("*.yaml"))
+                            + list(path.rglob("*.yml"))
+                        )
                         status[str(path.relative_to(project_root))] = {
                             "exists": True,
                             "file_count": len(files),
@@ -307,7 +313,9 @@ class PortfolioMCP:
                 return [
                     TextContent(
                         type="text",
-                        text=json.dumps({"rag_system_status": status}, indent=2, ensure_ascii=False),
+                        text=json.dumps(
+                            {"rag_system_status": status}, indent=2, ensure_ascii=False
+                        ),
                     )
                 ]
             except Exception as e:
@@ -399,7 +407,9 @@ class PortfolioMCP:
                             files = [{"name": path.name, "size": path.stat().st_size}]
                         elif path.is_dir():
                             py_files = list(path.rglob("*.py"))
-                            files = [{"name": f.name, "size": f.stat().st_size} for f in py_files[:5]]
+                            files = [
+                                {"name": f.name, "size": f.stat().st_size} for f in py_files[:5]
+                            ]
 
                     status[name] = {
                         "exists": exists,
@@ -496,4 +506,3 @@ if __name__ == "__main__":
     import asyncio
 
     asyncio.run(main())
-

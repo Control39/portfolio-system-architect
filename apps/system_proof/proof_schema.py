@@ -31,7 +31,9 @@ class SystemProof(BaseModel):
     metadata: ProofMetadata
     verification_accuracy: float = Field(default=0.0, ge=0, le=1)  # Target >0.9
 
-    def add_step(self, input_text: str, output_text: str, step_metadata: dict[str, Any] | None = None) -> None:
+    def add_step(
+        self, input_text: str, output_text: str, step_metadata: dict[str, Any] | None = None
+    ) -> None:
         """Add a trace step to the proof."""
         step = TraceStep(
             input=input_text,
@@ -50,7 +52,9 @@ class SystemProof(BaseModel):
         return {
             "id": self.id,
             "chain_id": self.chain_id,
-            "steps": [{"input": s.input, "output": s.output, "metadata": s.metadata} for s in self.steps],
+            "steps": [
+                {"input": s.input, "output": s.output, "metadata": s.metadata} for s in self.steps
+            ],
             "metadata": {
                 "thought_architecture": self.metadata.thought_architecture,
                 "system_thinking_level": self.metadata.system_thinking_level,

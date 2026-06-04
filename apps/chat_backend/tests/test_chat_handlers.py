@@ -59,7 +59,9 @@ def mock_logger():
 class TestChatHandlersRegistration:
     """Test that handlers are registered correctly"""
 
-    def test_register_chat_handlers_attaches_handlers(self, mock_chat, mock_logger, mock_task_manager):
+    def test_register_chat_handlers_attaches_handlers(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
         # Verify handlers were registered
@@ -112,7 +114,9 @@ class TestConnectedHandler:
         mock_logger.info.assert_any_call("Client connected to room: %s", "test-room")
 
     @pytest.mark.asyncio
-    async def test_handle_connected_logs_connection(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_connected_logs_connection(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
         connected_handler = mock_chat._handlers["connected"]
@@ -168,13 +172,17 @@ class TestEventMessageHandler:
         await handler(conn, "sendToAI", event_data, mock_chat)
 
         # Verify broadcast
-        mock_chat.send_to_group.assert_called_once_with("test-room", "Hello AI", ["conn-123"], "You")
+        mock_chat.send_to_group.assert_called_once_with(
+            "test-room", "Hello AI", ["conn-123"], "You"
+        )
 
         # Verify task was scheduled
         mock_task_manager.schedule.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_handle_event_message_ignores_non_send_to_ai(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_event_message_ignores_non_send_to_ai(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         """Test that non-sendToAI events are ignored"""
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
@@ -190,7 +198,9 @@ class TestEventMessageHandler:
         mock_task_manager.schedule.assert_not_called()
 
     @pytest.mark.asyncio
-    async def test_handle_event_message_handles_room_store_error(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_event_message_handles_room_store_error(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         """Test graceful handling of room_store errors"""
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
@@ -213,7 +223,9 @@ class TestEventMessageHandler:
         mock_task_manager.schedule.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_handle_event_message_missing_message(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_event_message_missing_message(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         """Test handling of missing message field"""
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
@@ -231,7 +243,9 @@ class TestEventMessageHandler:
         mock_task_manager.schedule.assert_not_called()
 
     @pytest.mark.asyncio
-    async def test_handle_event_message_missing_room_id(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_event_message_missing_room_id(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         """Test handling of missing roomId"""
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
@@ -252,7 +266,9 @@ class TestDisconnectedHandler:
     """Tests for handle_disconnected"""
 
     @pytest.mark.asyncio
-    async def test_handle_disconnected_cancels_tasks(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_disconnected_cancels_tasks(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
         handler = mock_chat._handlers["disconnected"]
@@ -266,7 +282,9 @@ class TestDisconnectedHandler:
         mock_logger.info.assert_called_once_with("Client disconnected: %s", "conn-123")
 
     @pytest.mark.asyncio
-    async def test_handle_disconnected_no_connection_id(self, mock_chat, mock_logger, mock_task_manager):
+    async def test_handle_disconnected_no_connection_id(
+        self, mock_chat, mock_logger, mock_task_manager
+    ):
         """Test disconnection without connectionId"""
         register_chat_handlers(mock_chat, mock_logger, mock_task_manager)
 
@@ -314,7 +332,9 @@ class TestChatHandlersIntegration:
 
         # Simulate message
         event_handler = mock_chat._handlers["event_message"]
-        await event_handler(conn, "sendToAI", {"message": "New question", "roomId": "integration-room"}, mock_chat)
+        await event_handler(
+            conn, "sendToAI", {"message": "New question", "roomId": "integration-room"}, mock_chat
+        )
 
         # Verify flow
         assert mock_chat.send_to_group.called

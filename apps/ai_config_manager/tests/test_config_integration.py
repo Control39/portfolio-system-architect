@@ -2,9 +2,10 @@
 Тесты интеграции с AI Config Manager для Ai Config Manager
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
@@ -20,6 +21,7 @@ class TestAiConfigManagerConfigIntegration:
         """Проверка доступности AI Config Manager"""
         try:
             from apps.ai_config_manager.src.config_manager import ConfigManager
+
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
@@ -27,9 +29,10 @@ class TestAiConfigManagerConfigIntegration:
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
         import importlib
+
         sys.path.insert(0, str(REPO_ROOT / "apps" / "ai_config_manager" / "src"))
         config_integration = importlib.import_module("config_integration")
-        AiConfigManagerConfig = getattr(config_integration, "AiConfigManagerConfig")
+        AiConfigManagerConfig = config_integration.AiConfigManagerConfig
 
         assert AiConfigManagerConfig is not None
 
@@ -67,7 +70,7 @@ class TestAiConfigManagerConfigIntegration:
         from config_integration import get_config
 
         config = get_config()
-        assert hasattr(config, 'is_available')
+        assert hasattr(config, "is_available")
         assert callable(config.is_available)
 
 

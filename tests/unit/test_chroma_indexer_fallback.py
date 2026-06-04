@@ -7,8 +7,6 @@ when chromadb is not installed (or is mocked away).
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 
 def test_chroma_indexer_add_documents_from_files_fallback(tmp_path: Path):
     """When chromadb is unavailable, add_documents_from_files should still work."""
@@ -55,7 +53,6 @@ def test_chroma_indexer_search_empty_embedding_returns_empty(tmp_path: Path):
         assert results == []
 
 
-
 def test_chroma_indexer_search_filters_empty_ids(monkeypatch, tmp_path: Path):
     """If chroma returns empty ids, search should produce empty formatted results."""
     with patch.dict("sys.modules", {"chromadb": None, "chromadb.config": None}):
@@ -67,9 +64,14 @@ def test_chroma_indexer_search_filters_empty_ids(monkeypatch, tmp_path: Path):
 
         indexer = ChromaDocumentIndexer(persist_directory=str(tmp_path / "db"), embedder=embedder)
         # Replace collection.query to return empty ids
-        indexer.collection.query = MagicMock(return_value={"ids": [[]], "distances": [[0.0]], "metadatas": [[{}]], "documents": [[""]]})
+        indexer.collection.query = MagicMock(
+            return_value={
+                "ids": [[]],
+                "distances": [[0.0]],
+                "metadatas": [[{}]],
+                "documents": [[""]],
+            }
+        )
 
         results = indexer.search("query", top_k=1)
         assert results == []
-
-

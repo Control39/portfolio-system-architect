@@ -25,7 +25,7 @@ if OTEL_ENABLED:
     # Настраиваем экспортёр (в OTLP Collector)
     otlp_exporter = OTLPSpanExporter(
         endpoint="http://otel-collector:4317",  # gRPC endpoint
-        insecure=True  # в dev окружении
+        insecure=True,  # в dev окружении
     )
 
     # Добавляем процессор для отправки трейсов

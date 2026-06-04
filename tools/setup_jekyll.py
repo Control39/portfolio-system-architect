@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 docs_dir = Path(r"C:\repo\docs")
@@ -33,11 +32,11 @@ layout_content = """<!DOCTYPE html>
       </ul>
     </nav>
   </header>
-  
+
   <main>
     {{ content }}
   </main>
-  
+
   <footer>
     <p>&copy; 2026 Portfolio System Architect. Built with Jekyll.</p>
   </footer>

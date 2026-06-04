@@ -23,7 +23,9 @@ def test_assistant_orchestrator_import():
 
 def test_assistant_orchestrator_initialization():
     """Test initialization of AssistantOrchestrator with project root."""
-    with patch("apps.assistant_orchestrator.core.analyzer.EvidenceCollector") as mock_collector_class:
+    with patch(
+        "apps.assistant_orchestrator.core.analyzer.EvidenceCollector"
+    ) as mock_collector_class:
         mock_collector_instance = MagicMock()
         mock_collector_class.return_value = mock_collector_instance
 
@@ -38,7 +40,9 @@ def test_assistant_orchestrator_initialization():
 
 def test_assistant_orchestrator_run_full_analysis():
     """Test that run_full_analysis collects all evidence and returns AnalysisResult."""
-    with patch("apps.assistant_orchestrator.core.analyzer.EvidenceCollector") as mock_collector_class:
+    with patch(
+        "apps.assistant_orchestrator.core.analyzer.EvidenceCollector"
+    ) as mock_collector_class:
         mock_collector_instance = MagicMock()
         mock_collector_class.return_value = mock_collector_instance
 
@@ -70,7 +74,9 @@ def test_assistant_orchestrator_run_full_analysis():
 
 def test_assistant_orchestrator_run_full_analysis_with_errors():
     """Test that run_full_analysis handles errors gracefully and returns partial results."""
-    with patch("apps.assistant_orchestrator.core.analyzer.EvidenceCollector") as mock_collector_class:
+    with patch(
+        "apps.assistant_orchestrator.core.analyzer.EvidenceCollector"
+    ) as mock_collector_class:
         mock_collector_instance = MagicMock()
         mock_collector_class.return_value = mock_collector_instance
 

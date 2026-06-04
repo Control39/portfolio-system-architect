@@ -96,7 +96,9 @@ class LicensingCheck(BaseCheck):
             if "license" in content.lower():
                 self._add_result("PASS", "pyproject.toml contains license field", "pyproject.toml")
             else:
-                self._add_result("WARNING", "pyproject.toml missing license field", "pyproject.toml")
+                self._add_result(
+                    "WARNING", "pyproject.toml missing license field", "pyproject.toml"
+                )
 
         # 7. Open source compliance (presence of .reuse/dep5)
         if (self.repo_path / ".reuse").is_dir():

@@ -205,7 +205,9 @@ def analyze_requirements(job_description: str) -> dict[str, Any]:
 
     # Интеграция с системой отслеживания карьеры
     if INTEGRATION_ENABLED and analysis_result.get("skills"):
-        print(f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}")
+        print(
+            f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}"
+        )
 
         # Поиск маркеров, соответствующих требованиям вакансии
         matching_markers = _find_matching_markers(analysis_result["skills"])

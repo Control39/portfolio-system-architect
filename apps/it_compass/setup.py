@@ -18,7 +18,9 @@ def read_file(filename):
 def read_requirements():
     try:
         with open("requirements.txt", encoding="utf-8") as f:
-            return [line.strip() for line in f if line.strip() and not line.startswith("#")]
+            return [
+                line.strip() for line in f if line.strip() and not line.startswith("#")
+            ]
     except FileNotFoundError:
         return []
 

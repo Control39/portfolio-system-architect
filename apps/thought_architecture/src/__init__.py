@@ -1,4 +1,5 @@
 """Thought Architecture package."""
+
 from pathlib import Path
 import sys
 

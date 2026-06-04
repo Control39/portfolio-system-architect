@@ -6,6 +6,7 @@
 
 import sys
 from pathlib import Path
+
 import pytest
 
 # Определяем пути
@@ -15,6 +16,7 @@ SRC_PATH = REPO_ROOT / "src"
 # Добавляем src в путь, если ещё не добавлен
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
+
 
 # Автоматическая очистка (опционально)
 @pytest.fixture(autouse=True)

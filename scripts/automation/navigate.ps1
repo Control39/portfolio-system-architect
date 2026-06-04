@@ -66,14 +66,14 @@ function Show-Status {
     Show-Header
     Write-Host "📊 PROJECT STATUS:" -ForegroundColor Green
     Write-Host ""
-    
+
     # Count services
     $services = Get-ChildItem -Path $appsDir -Directory -ErrorAction SilentlyContinue
     $serviceCount = $services.Count
-    
+
     Write-Host "  Services:" -ForegroundColor White
     Write-Host "    Total: $serviceCount microservices" -ForegroundColor Cyan
-    
+
     # Check health_check script
     if (Test-Path (Join-Path $projectRoot "health_check.py")) {
         Write-Host ""
@@ -81,7 +81,7 @@ function Show-Status {
         Write-Host "    python health_check.py                  Run health check" -ForegroundColor Cyan
         Write-Host "    ./fix_services.ps1                      Fix missing directories" -ForegroundColor Cyan
     }
-    
+
     Write-Host ""
     Write-Host "  Documentation:" -ForegroundColor White
     Write-Host "    START_HERE.md                           Entry point for new developers" -ForegroundColor Cyan
@@ -94,19 +94,19 @@ function Show-Services {
     Show-Header
     Write-Host "📋 ALL SERVICES:" -ForegroundColor Green
     Write-Host ""
-    
+
     $services = Get-ChildItem -Path $appsDir -Directory -ErrorAction SilentlyContinue | Sort-Object Name
-    
+
     $i = 1
     foreach ($service in $services) {
         $readme = Join-Path $service.FullName "README.md"
         $hasReadme = Test-Path $readme
         $status = if ($hasReadme) { "📄" } else { "❌" }
-        
+
         Write-Host "  $i. $($service.Name) $status" -ForegroundColor Cyan
         $i++
     }
-    
+
     Write-Host ""
     Write-Host "To navigate to a service:" -ForegroundColor Yellow
     Write-Host "  ./navigate.ps1 -Service <service-name>" -ForegroundColor White
@@ -117,7 +117,7 @@ function Show-Map {
     Show-Header
     Write-Host "🗺️  ARCHITECTURE MAP:" -ForegroundColor Green
     Write-Host ""
-    
+
     $mapFile = Join-Path $projectRoot "ARCHITECTURE_MAP.md"
     if (Test-Path $mapFile) {
         Write-Host "Full architecture map available in:" -ForegroundColor Yellow
@@ -151,9 +151,9 @@ function Show-Map {
 
 function Go-ToService {
     param([string]$serviceName)
-    
+
     $servicePath = Join-Path $appsDir $serviceName
-    
+
     if (Test-Path $servicePath) {
         Write-Host ""
         Write-Host "📁 Service: $serviceName" -ForegroundColor Green
@@ -162,7 +162,7 @@ function Go-ToService {
         Write-Host "To open this directory, run:" -ForegroundColor Yellow
         Write-Host "  cd $servicePath" -ForegroundColor White
         Write-Host ""
-        
+
         # List what's in the service
         $items = Get-ChildItem -Path $servicePath -ErrorAction SilentlyContinue
         if ($items) {

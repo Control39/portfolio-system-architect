@@ -8,7 +8,10 @@ from pydantic_settings import BaseSettings
 
 
 # Системное логирование
-logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"), format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
 logger = logging.getLogger("job-automation-agent")
 
 
@@ -64,7 +67,9 @@ async def root():
     return {
         "message": "Job Automation Agent running.",
         "version": "0.1.0",
-        "status": "healthy" if getattr(app.state, "health_check_enabled", False) else "initializing",
+        "status": "healthy"
+        if getattr(app.state, "health_check_enabled", False)
+        else "initializing",
     }
 
 
@@ -72,7 +77,9 @@ async def root():
 async def execute_agent(task: AgentTask):
     logger.info(f"Executing agent task: {task.task[:50]}...")
     try:
-        result = await fetch_with_timeout(run_core_agent(task.task, task.context), timeout=settings.timeout)
+        result = await fetch_with_timeout(
+            run_core_agent(task.task, task.context), timeout=settings.timeout
+        )
         return {"status": "success", "result": result}
     except Exception as e:
         logger.error(f"Agent execution failed: {e}", exc_info=True)

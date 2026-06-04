@@ -163,7 +163,12 @@ class TestSecretMaskingDict:
 
     def test_dict_with_multiple_secrets(self):
         """Проверяем маскирование нескольких секретов"""
-        data = {"api_key": "key123", "secret": "secret456", "token": "token789", "username": "admin"}
+        data = {
+            "api_key": "key123",
+            "secret": "secret456",
+            "token": "token789",
+            "username": "admin",
+        }
         result = mask_secrets_dict(data)
         assert result["api_key"] == "****"
         assert result["secret"] == "****"
@@ -198,7 +203,10 @@ class TestSecretMaskingList:
 
     def test_list_of_dicts_with_secrets(self):
         """Проверяем маскирование списка словарей с секретами"""
-        data = [{"username": "user1", "password": "pass1"}, {"username": "user2", "password": "pass2"}]
+        data = [
+            {"username": "user1", "password": "pass1"},
+            {"username": "user2", "password": "pass2"},
+        ]
         result = mask_secrets_list(data)
         assert result[0]["password"] == "****"
         assert result[1]["password"] == "****"

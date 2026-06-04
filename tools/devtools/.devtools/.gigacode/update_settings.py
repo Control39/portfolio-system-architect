@@ -2,6 +2,7 @@
 """
 Быстрое обновление токена в settings.json
 """
+
 import json
 from pathlib import Path
 

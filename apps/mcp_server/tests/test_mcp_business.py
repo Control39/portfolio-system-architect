@@ -48,14 +48,24 @@ def test_file_structure(temp_dir):
 def git_repo(temp_dir):
     """Create a test Git repository."""
     subprocess.run(["git", "init"], cwd=temp_dir, capture_output=True, check=False)
-    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=temp_dir, capture_output=True, check=False)
-    subprocess.run(["git", "config", "user.name", "Test User"], cwd=temp_dir, capture_output=True, check=False)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=temp_dir,
+        capture_output=True,
+        check=False,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Test User"], cwd=temp_dir, capture_output=True, check=False
+    )
 
     readme = temp_dir / "README.md"
     readme.write_text("# Test Repo")
     subprocess.run(["git", "add", "."], cwd=temp_dir, capture_output=True, check=False)
     subprocess.run(
-        ["git", "commit", "-m", "Initial commit: Added README"], cwd=temp_dir, capture_output=True, check=False
+        ["git", "commit", "-m", "Initial commit: Added README"],
+        cwd=temp_dir,
+        capture_output=True,
+        check=False,
     )
 
     code_file = temp_dir / "code.py"
@@ -200,16 +210,26 @@ class TestGitOperations:
         """Test Git repository initialization."""
         subprocess.run(["git", "init"], cwd=temp_dir, capture_output=True, check=False)
         subprocess.run(
-            ["git", "config", "user.email", "test@example.com"], cwd=temp_dir, capture_output=True, check=False
+            ["git", "config", "user.email", "test@example.com"],
+            cwd=temp_dir,
+            capture_output=True,
+            check=False,
         )
-        subprocess.run(["git", "config", "user.name", "Test User"], cwd=temp_dir, capture_output=True, check=False)
+        subprocess.run(
+            ["git", "config", "user.name", "Test User"],
+            cwd=temp_dir,
+            capture_output=True,
+            check=False,
+        )
 
         result = subprocess.run(["git", "status"], cwd=temp_dir, capture_output=True, text=True)
         assert result.returncode == 0
 
     def test_git_commit(self, git_repo):
         """Test Git commit."""
-        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
+        result = subprocess.run(
+            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
+        )
         assert result.returncode == 0
         lines = result.stdout.strip().split("\n")
         assert len(lines) >= 2
@@ -217,7 +237,10 @@ class TestGitOperations:
     def test_git_branch(self, git_repo):
         """Test Git branch detection."""
         result = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=git_repo, capture_output=True, text=True
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=git_repo,
+            capture_output=True,
+            text=True,
         )
         assert result.returncode == 0
         assert result.stdout.strip() in ["master", "main"]
@@ -348,17 +371,26 @@ class TestIntegration:
     def test_git_workflow(self, git_repo):
         """Test complete Git workflow."""
         # Check initial state
-        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
+        result = subprocess.run(
+            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
+        )
         initial_count = len(result.stdout.strip().split("\n"))
 
         # Add a new file and commit
         new_file = git_repo / "new_feature.py"
         new_file.write_text("def new_feature(): pass")
         subprocess.run(["git", "add", "."], cwd=git_repo, capture_output=True, check=False)
-        subprocess.run(["git", "commit", "-m", "Added new feature"], cwd=git_repo, capture_output=True, check=False)
+        subprocess.run(
+            ["git", "commit", "-m", "Added new feature"],
+            cwd=git_repo,
+            capture_output=True,
+            check=False,
+        )
 
         # Verify new commit
-        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
+        result = subprocess.run(
+            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
+        )
         new_count = len(result.stdout.strip().split("\n"))
         assert new_count == initial_count + 1
 
@@ -396,7 +428,9 @@ def mock_markers_dir_factory(temp_dir):
         marker_data = {
             "skill_name": skill_name,
             "description": f"{skill_name} capability",
-            "levels": {"1": [{"id": f"{skill_name.lower()}_1", "marker": "Test", "validation": "Test"}]},
+            "levels": {
+                "1": [{"id": f"{skill_name.lower()}_1", "marker": "Test", "validation": "Test"}]
+            },
         }
 
         marker_file = markers_dir / f"{skill_name.lower()}.json"

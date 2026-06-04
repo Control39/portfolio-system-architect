@@ -32,7 +32,9 @@ def is_safe_url(url: str, allowed_hosts: set[str] | None = None) -> bool:
 
     # Проверка схемы
     if parsed.scheme not in ("http", "https"):
-        raise ValueError(f"Неподдерживаемая схема URL: {parsed.scheme}. Разрешены только http/https")
+        raise ValueError(
+            f"Неподдерживаемая схема URL: {parsed.scheme}. Разрешены только http/https"
+        )
 
     # Проверка хоста
     if not parsed.hostname:

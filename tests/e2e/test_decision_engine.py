@@ -21,7 +21,10 @@ class TestDecisionEngine:
         response = requests.get(f"{self.BASE_URL}/")
         assert response.status_code == 200
         data = response.json()
-        assert "decision" in data.get("service", "").lower() or "engine" in data.get("service", "").lower()
+        assert (
+            "decision" in data.get("service", "").lower()
+            or "engine" in data.get("service", "").lower()
+        )
 
     def test_health_check(self):
         """Проверяет health check endpoint"""
@@ -36,14 +39,10 @@ class TestDecisionEngine:
             "question": "Какой технолог выбрать для микросервиса?",
             "context": {
                 "requirements": ["масштабируемость", "производительность"],
-                "constraints": ["бюджет", "время"]
-            }
+                "constraints": ["бюджет", "время"],
+            },
         }
-        response = requests.post(
-            f"{self.BASE_URL}/api/v1/reason",
-            json=payload,
-            timeout=30
-        )
+        response = requests.post(f"{self.BASE_URL}/api/v1/reason", json=payload, timeout=30)
         # Может вернуть 200 или 501 (если не реализован)
         assert response.status_code in [200, 501]
         if response.status_code == 200:

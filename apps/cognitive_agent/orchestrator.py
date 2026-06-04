@@ -8,12 +8,10 @@ Cognitive Agent Orchestrator
 - Workflow execution (через YAML)
 """
 
-import asyncio
 import json
 import logging
 import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -111,9 +109,7 @@ class CognitiveOrchestrator:
 
             config_wrapper = get_config()
             config = config_wrapper.get_config()
-            logger.info(
-                f"✅ Конфиг загружен (AI Config Manager: {config_wrapper.is_available()})"
-            )
+            logger.info(f"✅ Конфиг загружен (AI Config Manager: {config_wrapper.is_available()})")
             return config
         except Exception as e:
             logger.warning(f"⚠️  Не удалось загрузить конфиг: {e}, использую дефолт")

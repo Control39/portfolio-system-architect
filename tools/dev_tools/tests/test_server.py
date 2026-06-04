@@ -42,7 +42,9 @@ class TestAIProxyServer:
             mock_auth_response.json.return_value = {"access_token": "test_token"}
 
             mock_chat_response = MagicMock()
-            mock_chat_response.json.return_value = {"choices": [{"message": {"content": "Привет! Я GigaChat."}}]}
+            mock_chat_response.json.return_value = {
+                "choices": [{"message": {"content": "Привет! Я GigaChat."}}]
+            }
 
             # Первый вызов - OAuth, второй - чат
             mock_post.side_effect = [mock_auth_response, mock_chat_response]

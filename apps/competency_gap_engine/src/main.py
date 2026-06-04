@@ -1,8 +1,7 @@
-import os
 import logging
 import yaml
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 from pathlib import Path
@@ -12,9 +11,11 @@ from src.utils.telemetry import setup_logging, setup_tracing
 
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "gap_engine.yaml"
 
+
 def load_config() -> dict:
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,6 +25,7 @@ async def lifespan(app: FastAPI):
     logging.info("✅ Competency Gap Engine started")
     yield
     logging.info("🛑 Competency Gap Engine stopped")
+
 
 app = FastAPI(
     title="Competency Gap Engine",
@@ -48,6 +50,11 @@ Instrumentator(
     should_instrument_requests_inprogress=True,
 ).instrument(app).expose(app, endpoint="/metrics")
 
+
 @app.get("/health")
 async def health():
-    return {"status": "healthy", "service": "competency_gap_engine", "version": app.state.config["service"]["version"]}
+    return {
+        "status": "healthy",
+        "service": "competency_gap_engine",
+        "version": app.state.config["service"]["version"],
+    }

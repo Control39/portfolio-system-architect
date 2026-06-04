@@ -13,7 +13,7 @@
 param(
     [ValidateSet('critical', 'all')]
     [string]$Mode = 'critical',
-    
+
     [switch]$Dry
 )
 
@@ -75,15 +75,15 @@ $skipped = 0
 
 foreach ($service in $servicesToFix) {
     $servicePath = "apps/$service"
-    
+
     if (-not (Test-Path $servicePath)) {
         Write-Warn "Skipping $service - directory not found"
         $skipped++
         continue
     }
-    
+
     Write-Host "`n📦 Processing: $service"
-    
+
     # Check and create src (for critical)
     if ($Mode -eq 'critical' -or $service -in $criticalServices) {
         $srcPath = "$servicePath/src"
@@ -99,7 +99,7 @@ foreach ($service in $servicesToFix) {
             Write-Info "  Already exists: src/"
         }
     }
-    
+
     # Check and create config
     if ($service -in $configMissing) {
         $configPath = "$servicePath/config"
@@ -115,7 +115,7 @@ foreach ($service in $servicesToFix) {
             Write-Info "  Already exists: config/"
         }
     }
-    
+
     # Check and create tests
     if ($service -in $testsMissing) {
         $testsPath = "$servicePath/tests"
@@ -126,7 +126,7 @@ foreach ($service in $servicesToFix) {
                 New-Item -ItemType Directory -Path $testsPath -Force | Out-Null
                 Write-OK "Created: tests/"
                 $created++
-                
+
                 # Create __init__.py
                 "" | Out-File -FilePath "$testsPath/__init__.py" -Encoding UTF8
                 Write-OK "Created: tests/__init__.py"
@@ -135,7 +135,7 @@ foreach ($service in $servicesToFix) {
             Write-Info "  Already exists: tests/"
         }
     }
-    
+
     # Check README.md
     $readmePath = "$servicePath/README.md"
     if (-not (Test-Path $readmePath)) {

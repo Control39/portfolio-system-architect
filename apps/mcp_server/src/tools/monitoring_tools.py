@@ -74,7 +74,9 @@ def init_monitoring_tools(mcp_server: FastMCP, project_root: Path) -> None:
         try:
             import requests
 
-            response = requests.get("http://localhost:9090/api/v1/query", params={"query": query}, timeout=5)
+            response = requests.get(
+                "http://localhost:9090/api/v1/query", params={"query": query}, timeout=5
+            )
 
             if response.status_code == 200:
                 data = response.json()

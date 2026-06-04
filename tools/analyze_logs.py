@@ -3,10 +3,8 @@
 Анализатор логов когнитивного агента
 Цель: Найти все логи, проанализировать маршрут, показать содержимое
 """
-import os
-import json
+
 from pathlib import Path
-from collections import defaultdict
 
 ROOT = Path(r"C:\repo")
 
@@ -46,7 +44,7 @@ for log_dir in log_dirs[:10]:  # Первые 10
         size = item.stat().st_size if item.is_file() else "-"
         item_type = "📄" if item.is_file() else "📁"
         print(f"   {item_type} {item.name:40s} {size:>10} байт")
-    
+
     # Если файлов много, показать только последние
     if len(items) > 15:
         print(f"   ... и ещё {len(items) - 15} файлов")
@@ -61,11 +59,11 @@ for log_file in log_files[:20]:  # Первые 20
     try:
         size = log_file.stat().st_size
         print(f"   Размер: {size:,} байт")
-        
+
         # Попробовать прочитать первые строки
         with open(log_file, "r", encoding="utf-8", errors="ignore") as f:
             lines = f.readlines(2000)  # Первые ~2KB
-            print(f"   Первые 10 строк:")
+            print("   Первые 10 строк:")
             for i, line in enumerate(lines[:10], 1):
                 print(f"     {i:2d}. {line.strip()[:80]}")
             if len(lines) > 10:
@@ -83,15 +81,15 @@ for csv_file in csv_files[:10]:  # Первые 10
     try:
         size = csv_file.stat().st_size
         print(f"   Размер: {size:,} байт")
-        
+
         with open(csv_file, "r", encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
             print(f"   Строк: {len(lines)}")
             if lines:
                 print(f"   Заголовок: {lines[0].strip()}")
                 if len(lines) > 1:
-                    print(f"   Пример данных:")
-                    for line in lines[1:min(4, len(lines))]:
+                    print("   Пример данных:")
+                    for line in lines[1 : min(4, len(lines))]:
                         print(f"     {line.strip()[:100]}")
     except Exception as e:
         print(f"   ❌ Ошибка чтения: {e}")

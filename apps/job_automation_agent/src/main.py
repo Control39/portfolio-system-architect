@@ -11,13 +11,16 @@ if str(REPO_ROOT) not in sys.path:
 # Интеграция с AI Config Manager
 try:
     from apps.job_automation_agent.src.config_integration import get_config
+
     AI_CONFIG_AVAILABLE = True
     config_manager = get_config()
     job_agent_config = config_manager.get_config()
     print("✅ Job Automation Agent: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(f"⚠️  Job Automation Agent: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    print(
+        f"⚠️  Job Automation Agent: AI Config Manager недоступен ({e}), используется локальный конфиг"
+    )
     job_agent_config = {}
 
 from fastapi import FastAPI

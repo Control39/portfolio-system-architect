@@ -1,6 +1,6 @@
 # Аудит скриптов `scripts/`
 
-**Дата:** 2026-06-01  
+**Дата:** 2026-06-01
 **Цель:** Полный аудит Python-скриптов после миграции kebab-case → snake_case
 
 ---
@@ -230,5 +230,5 @@ git mv scripts/migration/collect-readmes.py scripts/migration/collect_readmes.py
 
 ---
 
-**Отчет сгенерирован:** 2026-06-01  
+**Отчет сгенерирован:** 2026-06-01
 **Всего файлов:** 72 Python скрипта в `scripts/`

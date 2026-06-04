@@ -9,7 +9,7 @@ Fixed 7 failing checks by ensuring all critical files remain in root and all wor
 - Verified pyproject.toml has complete project metadata
 - Verified ARCHITECTURE.md exists in docs/
 
-### 2. CI / Test & Coverage  
+### 2. CI / Test & Coverage
 - pytest.ini stays in root (Pytest searches root only)
 - pyproject.toml has [tool.pytest.ini_options] for CI
 - All tests configuration centralized

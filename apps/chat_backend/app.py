@@ -47,7 +47,9 @@ def _start_background_event_loop() -> None:
         _bootstrap_started = True
 
         # Allow an externally reachable websocket base (e.g. reverse proxy, docker mapped port)
-        explicit_public_ws = os.getenv("PUBLIC_WS_ENDPOINT")  # e.g. wss://chat.example.com or ws://localhost:3001
+        explicit_public_ws = os.getenv(
+            "PUBLIC_WS_ENDPOINT"
+        )  # e.g. wss://chat.example.com or ws://localhost:3001
 
         def loop_thread() -> None:
             try:
@@ -149,6 +151,7 @@ app = Flask(__name__)
 if OTEL_ENABLED:
     try:
         from opentelemetry.instrumentation.flask import FlaskInstrumentor
+
         FlaskInstrumentor().instrument_app(app)
         app.logger.info("OpenTelemetry Flask Instrumentation активировано")
     except Exception as e:

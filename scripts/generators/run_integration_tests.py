@@ -35,12 +35,21 @@ class IntegrationTestRunner:
     def run_service_tests(self, service_name: str):
         """Запустить тесты для одного сервиса"""
         test_file = (
-            self.root / "apps" / service_name / "tests" / f"test_integration_{service_name.replace('-', '_')}.py"
+            self.root
+            / "apps"
+            / service_name
+            / "tests"
+            / f"test_integration_{service_name.replace('-', '_')}.py"
         )
 
         if not test_file.exists():
             print(f"\n❌ {service_name}: Test file not found")
-            self.results[service_name] = {"status": "MISSING", "passed": 0, "failed": 0, "error": "File not found"}
+            self.results[service_name] = {
+                "status": "MISSING",
+                "passed": 0,
+                "failed": 0,
+                "error": "File not found",
+            }
             return
 
         print(f"\n🔍 Testing {service_name}...")
@@ -62,15 +71,30 @@ class IntegrationTestRunner:
 
             status = "PASS" if failed == 0 and error == 0 else "FAIL"
 
-            self.results[service_name] = {"status": status, "passed": passed, "failed": failed, "error": error}
+            self.results[service_name] = {
+                "status": status,
+                "passed": passed,
+                "failed": failed,
+                "error": error,
+            }
 
             print(f"   ✅ Passed: {passed}, ❌ Failed: {failed}, ⚠️ Error: {error}")
 
         except subprocess.TimeoutExpired:
-            self.results[service_name] = {"status": "TIMEOUT", "passed": 0, "failed": 0, "error": "Test timeout"}
+            self.results[service_name] = {
+                "status": "TIMEOUT",
+                "passed": 0,
+                "failed": 0,
+                "error": "Test timeout",
+            }
             print("   ⏱️ Test timeout")
         except Exception as e:
-            self.results[service_name] = {"status": "ERROR", "passed": 0, "failed": 0, "error": str(e)}
+            self.results[service_name] = {
+                "status": "ERROR",
+                "passed": 0,
+                "failed": 0,
+                "error": str(e),
+            }
             print(f"   ⚠️ Error: {e!s}")
 
     def print_summary(self):

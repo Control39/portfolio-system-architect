@@ -27,7 +27,12 @@ sys.path.insert(0, str(project_root))
 
 # Импортируем инструменты MCP-сервера
 try:
-    from apps.mcp_server.src.tools.file_tools import list_files_tool, read_file_tool, search_files_tool, write_file_tool
+    from apps.mcp_server.src.tools.file_tools import (
+        list_files_tool,
+        read_file_tool,
+        search_files_tool,
+        write_file_tool,
+    )
     from apps.mcp_server.src.tools.git_tools import (
         get_git_history_tool,
         get_git_status_tool,
@@ -320,7 +325,10 @@ if __name__ == "__main__":
         "failures": len(result.failures),
         "errors": len(result.errors),
         "skipped": len(result.skipped),
-        "successful": result.testsRun - len(result.failures) - len(result.errors) - len(result.skipped),
+        "successful": result.testsRun
+        - len(result.failures)
+        - len(result.errors)
+        - len(result.skipped),
         "timestamp": str(datetime.now()),
     }
 

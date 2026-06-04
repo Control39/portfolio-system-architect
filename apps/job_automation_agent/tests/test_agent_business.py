@@ -13,7 +13,6 @@ import sys
 from pathlib import Path
 
 
-
 # Добавляем корень проекта и apps в путь
 ROOT_DIR = Path(__file__).parent.parent.parent
 SRC_DIR = ROOT_DIR / "apps" / "job-automation-agent"

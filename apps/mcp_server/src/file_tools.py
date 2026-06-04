@@ -140,7 +140,11 @@ def list_files_tool(path: str = ".", recursive: bool = False) -> dict[str, Any]:
             # Рекурсивный обход
             for root, dirs, filenames in os.walk(dir_path):
                 # Пропускаем скрытые директории и виртуальные окружения
-                dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]]
+                dirs[:] = [
+                    d
+                    for d in dirs
+                    if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]
+                ]
 
                 for filename in filenames:
                     # Пропускаем скрытые файлы
@@ -242,7 +246,10 @@ def search_files_tool(query: str, file_pattern: str = "*.py") -> dict[str, Any]:
         for root, dirs, filenames in os.walk(PROJECT_ROOT):
             # Пропускаем скрытые директории и виртуальные окружения
             dirs[:] = [
-                d for d in dirs if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv", "node_modules"]
+                d
+                for d in dirs
+                if not d.startswith(".")
+                and d not in ["__pycache__", ".venv", "venv", "node_modules"]
             ]
 
             for filename in filenames:

@@ -21,7 +21,7 @@ class KnowledgeGraphConfig:
         self._config: Dict[str, Any] = {
             "initialized": True,
             "version": "1.0.0",
-            "environment": "test"
+            "environment": "test",
         }
 
     def get_config(self) -> Dict[str, Any]:
@@ -30,11 +30,7 @@ class KnowledgeGraphConfig:
 
     def reload(self) -> None:
         """Перезагрузить конфигурацию (hot reload)"""
-        self._config = {
-            "initialized": True,
-            "version": "1.0.0",
-            "environment": "test"
-        }
+        self._config = {"initialized": True, "version": "1.0.0", "environment": "test"}
 
     def is_available(self) -> bool:
         """Проверить доступность конфигурации"""
@@ -43,6 +39,7 @@ class KnowledgeGraphConfig:
 
 # Singleton для удобства
 _config_instance: Optional[KnowledgeGraphConfig] = None
+
 
 def get_config() -> KnowledgeGraphConfig:
     """Получить глобальный экземпляр конфигурации (singleton)"""

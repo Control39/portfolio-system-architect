@@ -43,7 +43,9 @@ def get_git_status_tool() -> dict[str, Any]:
             encoding="utf-8",
         )
 
-        current_branch = branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
+        current_branch = (
+            branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
+        )
 
         # Получаем статус
         status_result = subprocess.run(
@@ -115,7 +117,9 @@ def get_git_status_tool() -> dict[str, Any]:
             encoding="utf-8",
         )
 
-        commit_count = int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
+        commit_count = (
+            int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
+        )
 
         return {
             "success": True,
@@ -443,7 +447,12 @@ def _extract_keywords(text: str) -> list[str]:
         # Очищаем слово от знаков препинания
         clean_word = "".join(c for c in word if c.isalnum())
 
-        if clean_word and len(clean_word) > 2 and clean_word not in stop_words and not clean_word.isnumeric():
+        if (
+            clean_word
+            and len(clean_word) > 2
+            and clean_word not in stop_words
+            and not clean_word.isnumeric()
+        ):
             keywords.append(clean_word)
 
     return list(set(keywords))  # Удаляем дубликаты

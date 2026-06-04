@@ -23,7 +23,9 @@ try:
     print("✅ Portfolio Organizer: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(f"⚠️  Portfolio Organizer: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    print(
+        f"⚠️  Portfolio Organizer: AI Config Manager недоступен ({e}), используется локальный конфиг"
+    )
     po_config = {}
 
 from fastapi import FastAPI

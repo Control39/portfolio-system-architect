@@ -97,7 +97,7 @@ from apps.ai_provider_manager.src.ai_provider_manager import get_provider_manage
 class CognitiveAgent:
     def __init__(self):
         self.manager = get_provider_manager()
-    
+
     def process(self, task: str):
         # Автоматически использует GigaChat или Ollama
         response = self.manager.chat([

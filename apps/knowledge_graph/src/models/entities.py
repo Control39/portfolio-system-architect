@@ -57,10 +57,14 @@ class Entity(BaseModel):
     type: EntityType = Field(..., description="Тип сущности")
     description: str | None = Field(None, description="Описание сущности")
     metadata: dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
-    confidence: float = Field(1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности")
+    confidence: float = Field(
+        1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности"
+    )
     source: str | None = Field(None, description="Источник информации о сущности")
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
-    updated_at: datetime = Field(default_factory=datetime.now, description="Время последнего обновления")
+    updated_at: datetime = Field(
+        default_factory=datetime.now, description="Время последнего обновления"
+    )
 
     class Config:
         json_schema_extra: ClassVar[dict] = {

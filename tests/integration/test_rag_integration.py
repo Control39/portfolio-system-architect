@@ -314,9 +314,9 @@ class TestRAGPerformance:
             total_time += query_time
 
             # Проверяем, что поиск работает достаточно быстро
-            assert query_time < max_time_per_query, (
-                f"Поиск по запросу '{query}' занял {query_time:.3f} секунд, максимум {max_time_per_query} секунд"
-            )
+            assert (
+                query_time < max_time_per_query
+            ), f"Поиск по запросу '{query}' занял {query_time:.3f} секунд, максимум {max_time_per_query} секунд"
 
             # Проверяем, что возвращаются результаты
             assert len(results) > 0, f"Не найдено результатов для запроса '{query}'"
@@ -373,7 +373,9 @@ def test_full_rag_pipeline():
         # 5. Проверка качества результатов
         found_monitoring = False
         for result in results:
-            if any(word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]):
+            if any(
+                word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]
+            ):
                 found_monitoring = True
                 break
 

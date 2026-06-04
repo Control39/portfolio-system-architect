@@ -60,13 +60,17 @@ class AzureTableRoomStore(RoomStore):
             raise RuntimeError(
                 "azure-data-tables not installed. Please install azure-data-tables to use AzureTableRoomStore."
             )
-        self._table_name = (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
+        self._table_name = (
+            (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
+        )
         self._conn_str = connection_string or os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         self._account_name = (account_name or os.getenv("AZURE_STORAGE_ACCOUNT") or "").strip()
         self._max_messages = max_messages_per_room
         # Metadata table name
         self._metadata_table_name = (
-            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata").strip().lower()
+            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata")
+            .strip()
+            .lower()
         )
         # Lazy cache for list_rooms
         self._known_rooms: set[str] = {DEFAULT_ROOM_ID}
@@ -186,7 +190,9 @@ class AzureTableRoomStore(RoomStore):
 
         if not room_id:
             room_id = f"room_{uuid.uuid4().hex[:8]}"
-        room = RoomMetadata(room_id=room_id, room_name=room_name, user_id=user_id, description=description)
+        room = RoomMetadata(
+            room_id=room_id, room_name=room_name, user_id=user_id, description=description
+        )
         entity = self._metadata_to_entity(room)
         try:
             await asyncio.to_thread(self._metadata_client.create_entity, entity)
@@ -203,7 +209,9 @@ class AzureTableRoomStore(RoomStore):
                 description="Default public room",
             )
         try:
-            ent = await asyncio.to_thread(self._metadata_client.get_entity, partition_key=user_id, row_key=room_id)
+            ent = await asyncio.to_thread(
+                self._metadata_client.get_entity, partition_key=user_id, row_key=room_id
+            )
             return self._metadata_from_entity(ent)
         except Exception:
             return None
@@ -230,7 +238,9 @@ class AzureTableRoomStore(RoomStore):
             if replace_mode is None:
                 await asyncio.to_thread(self._metadata_client.update_entity, entity)
             else:
-                await asyncio.to_thread(self._metadata_client.update_entity, entity, mode=replace_mode)
+                await asyncio.to_thread(
+                    self._metadata_client.update_entity, entity, mode=replace_mode
+                )
             return room
         except Exception as e:
             raise ValueError(f"Failed to update room metadata: {e}")
@@ -239,7 +249,9 @@ class AzureTableRoomStore(RoomStore):
         if room_id == DEFAULT_ROOM_ID:
             return False
         try:
-            await asyncio.to_thread(self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id)
+            await asyncio.to_thread(
+                self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id
+            )
             return True
         except Exception:
             return False

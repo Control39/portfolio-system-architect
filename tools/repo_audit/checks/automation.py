@@ -83,7 +83,9 @@ class AutomationCheck(BaseCheck):
             self._add_result("INFO", "Terraform files missing", "infrastructure/")
 
         # 9. Scripts with shebang and executable bit (sample check)
-        script_files = list(self.repo_path.rglob("scripts/*.sh")) + list(self.repo_path.rglob("scripts/*.py"))
+        script_files = list(self.repo_path.rglob("scripts/*.sh")) + list(
+            self.repo_path.rglob("scripts/*.py")
+        )
         executable_count = 0
         for script in script_files[:10]:  # limit
             try:

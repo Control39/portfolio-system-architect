@@ -36,7 +36,9 @@ mcp = FastMCP("Career Autopilot MCP Server")
 # Конфигурация (из AI Config Manager или fallback)
 if server_config:
     paths_config = server_config.get("paths", {})
-    IT_COMPASS_MARKERS_PATH = Path(paths_config.get("it_compass_markers", "apps/it_compass/src/data/markers"))
+    IT_COMPASS_MARKERS_PATH = Path(
+        paths_config.get("it_compass_markers", "apps/it_compass/src/data/markers")
+    )
     PROJECT_ROOT = Path(paths_config.get("project_root", "."))
 else:
     # Fallback на дефолтные пути

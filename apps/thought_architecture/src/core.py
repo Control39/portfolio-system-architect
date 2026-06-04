@@ -8,6 +8,7 @@ from typing import Any
 
 class DecisionStatus(str, Enum):
     """Статус архитектурного решения."""
+
     PROPOSED = "proposed"
     ACCEPTED = "accepted"
     REJECTED = "rejected"
@@ -16,6 +17,7 @@ class DecisionStatus(str, Enum):
 
 class DecisionLevel(str, Enum):
     """Уровень важности решения."""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -25,6 +27,7 @@ class DecisionLevel(str, Enum):
 @dataclass
 class Decision:
     """Архитектурное решение."""
+
     id: str
     title: str
     description: str
@@ -59,6 +62,7 @@ class Decision:
 @dataclass
 class ArchitectureRecord:
     """Запись архитектурного решения."""
+
     decision: Decision
     evidence: list[str] = field(default_factory=list)
     reviews: list[dict[str, Any]] = field(default_factory=list)
@@ -69,12 +73,14 @@ class ArchitectureRecord:
 
     def add_review(self, reviewer: str, comments: str, approved: bool) -> None:
         """Добавить отзыв ревьюера."""
-        self.reviews.append({
-            "reviewer": reviewer,
-            "comments": comments,
-            "approved": approved,
-            "timestamp": datetime.now().isoformat(),
-        })
+        self.reviews.append(
+            {
+                "reviewer": reviewer,
+                "comments": comments,
+                "approved": approved,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
 
 class ThoughtArchitect:

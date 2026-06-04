@@ -48,7 +48,9 @@ class RepositoryAudit:
         full_path = self.repo_path / path
         if not full_path.exists():
             self.total += 1
-            self.results.append({"check": description, "status": "FAIL", "path": path, "note": "File missing"})
+            self.results.append(
+                {"check": description, "status": "FAIL", "path": path, "note": "File missing"}
+            )
             return False
         try:
             content = full_path.read_text(encoding="utf-8")
@@ -58,12 +60,19 @@ class RepositoryAudit:
                 self.results.append({"check": description, "status": "PASS", "path": path})
                 return True
             self.results.append(
-                {"check": description, "status": "FAIL", "path": path, "note": f"Keyword '{keyword}' not found"}
+                {
+                    "check": description,
+                    "status": "FAIL",
+                    "path": path,
+                    "note": f"Keyword '{keyword}' not found",
+                }
             )
             return False
         except Exception as e:
             self.total += 1
-            self.results.append({"check": description, "status": "ERROR", "path": path, "note": str(e)})
+            self.results.append(
+                {"check": description, "status": "ERROR", "path": path, "note": str(e)}
+            )
             return False
 
     def run_base_checks(self):
@@ -85,7 +94,9 @@ class RepositoryAudit:
         self.check_file_exists("Makefile", "Makefile exists")
         self.check_directory_exists("tests", "Tests directory exists")
         self.check_file_content(
-            "pyproject.toml", "pyproject.toml contains pytest config", keyword="[tool.pytest.ini_options]"
+            "pyproject.toml",
+            "pyproject.toml contains pytest config",
+            keyword="[tool.pytest.ini_options]",
         )
         self.check_file_exists("docker-compose.monitoring.yml", "Monitoring compose file exists")
         self.check_directory_exists("deployment/k8s", "Kubernetes manifests exist")
@@ -93,12 +104,17 @@ class RepositoryAudit:
     def run_enterprise_checks(self):
         """Enterprise level checks (security, monitoring, advanced)."""
         self.check_file_exists(
-            "deployment/secrets/sealed-secrets/portfolio-secrets.example.yaml", "Sealed secrets example exists"
+            "deployment/secrets/sealed-secrets/portfolio-secrets.example.yaml",
+            "Sealed secrets example exists",
         )
         self.check_file_exists("monitoring/prometheus/prometheus.yml", "Prometheus config exists")
-        self.check_file_exists("monitoring/grafana/provisioning/dashboards/portfolio.yml", "Grafana dashboard exists")
+        self.check_file_exists(
+            "monitoring/grafana/provisioning/dashboards/portfolio.yml", "Grafana dashboard exists"
+        )
         self.check_file_exists(".coveragerc", "Coverage config exists")
-        self.check_file_content("README.md", "README mentions repository audit", keyword="repository audit tool")
+        self.check_file_content(
+            "README.md", "README mentions repository audit", keyword="repository audit tool"
+        )
 
     def run(self):
         """Run checks for the selected level."""
@@ -160,10 +176,19 @@ class RepositoryAudit:
 
 def main():
     parser = argparse.ArgumentParser(description="Repository audit tool")
-    parser.add_argument("--level", choices=["base", "professional", "enterprise"], default="base", help="Audit level")
-    parser.add_argument("--output", choices=["console", "json", "markdown"], default="console", help="Output format")
+    parser.add_argument(
+        "--level",
+        choices=["base", "professional", "enterprise"],
+        default="base",
+        help="Audit level",
+    )
+    parser.add_argument(
+        "--output", choices=["console", "json", "markdown"], default="console", help="Output format"
+    )
     parser.add_argument("--repo-path", default=".", help="Path to repository")
-    parser.add_argument("--auto-fix", action="store_true", help="Auto‑fix missing files (not implemented)")
+    parser.add_argument(
+        "--auto-fix", action="store_true", help="Auto‑fix missing files (not implemented)"
+    )
     args = parser.parse_args()
 
     audit = RepositoryAudit(repo_path=args.repo_path, level=args.level)

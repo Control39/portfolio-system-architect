@@ -208,7 +208,9 @@ class TestRelationshipQueries:
 
     def test_find_relationships_by_type(self, kg_with_relationships):
         """Тест поиска отношений по типу."""
-        relations = kg_with_relationships.find_relationships(relationship_type=RelationshipType.USES)
+        relations = kg_with_relationships.find_relationships(
+            relationship_type=RelationshipType.USES
+        )
         assert len(relations) == 2
 
     def test_find_relationships_combined_filters(self, kg_with_relationships):

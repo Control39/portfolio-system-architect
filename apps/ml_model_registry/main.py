@@ -23,7 +23,9 @@ try:
     print("✅ ML Model Registry: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг")
+    print(
+        f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг"
+    )
     registry_config = {}
 
 from fastapi import FastAPI

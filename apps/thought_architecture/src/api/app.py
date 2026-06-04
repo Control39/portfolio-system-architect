@@ -1,7 +1,8 @@
 """FastAPI app for thought_architecture."""
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, List, Any, Optional
+from typing import Dict, Optional
 from datetime import datetime
 from pydantic import BaseModel
 from uuid import uuid4
@@ -9,6 +10,7 @@ from uuid import uuid4
 # Моки для БД
 decisions_db: Dict[str, Dict] = {}
 records_db: Dict[str, Dict] = {}
+
 
 # Модели
 class Decision(BaseModel):
@@ -20,13 +22,16 @@ class Decision(BaseModel):
     approver: Optional[str] = None
     rejection_reason: Optional[str] = None
 
+
 class DecisionCreate(BaseModel):
     title: str
     description: str
 
+
 class DecisionUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
+
 
 app = FastAPI(title="Thought Architecture API", version="0.1.0")
 
@@ -38,17 +43,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
 
 @app.get("/ready")
 async def ready():
     return {"status": "ready"}
 
+
 @app.get("/live")
 async def live():
     return {"status": "alive"}
+
 
 # Эндпоинты для decisions
 @app.post("/decisions")
@@ -59,20 +68,23 @@ async def create_decision(decision: DecisionCreate):
         "title": decision.title,
         "description": decision.description,
         "status": "pending",
-        "created_at": datetime.now().isoformat()
+        "created_at": datetime.now().isoformat(),
     }
     decisions_db[decision_id] = new_decision
     return new_decision
 
+
 @app.get("/decisions")
 async def list_decisions():
     return list(decisions_db.values())
+
 
 @app.get("/decisions/{decision_id}")
 async def get_decision(decision_id: str):
     if decision_id not in decisions_db:
         raise HTTPException(status_code=404, detail="Decision not found")
     return decisions_db[decision_id]
+
 
 @app.put("/decisions/{decision_id}")
 async def update_decision(decision_id: str, update: DecisionUpdate):
@@ -84,12 +96,14 @@ async def update_decision(decision_id: str, update: DecisionUpdate):
         decisions_db[decision_id]["description"] = update.description
     return decisions_db[decision_id]
 
+
 @app.delete("/decisions/{decision_id}")
 async def delete_decision(decision_id: str):
     if decision_id not in decisions_db:
         raise HTTPException(status_code=404, detail="Decision not found")
     del decisions_db[decision_id]
     return {"status": "deleted"}
+
 
 @app.put("/decisions/{decision_id}/approve")
 async def approve_decision(decision_id: str, approver: str):
@@ -99,6 +113,7 @@ async def approve_decision(decision_id: str, approver: str):
     decisions_db[decision_id]["approver"] = approver
     return decisions_db[decision_id]
 
+
 @app.put("/decisions/{decision_id}/reject")
 async def reject_decision(decision_id: str, reason: str):
     if decision_id not in decisions_db:
@@ -106,5 +121,6 @@ async def reject_decision(decision_id: str, reason: str):
     decisions_db[decision_id]["status"] = "rejected"
     decisions_db[decision_id]["rejection_reason"] = reason
     return decisions_db[decision_id]
+
 
 __all__ = ["app", "decisions_db", "records_db"]

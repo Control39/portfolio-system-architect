@@ -43,7 +43,9 @@ class ResourcePool:
                 "status": "initialized",
                 "connected": False,
             }
-            logger.info(f"Ресурс зарегистрирован: {resource_config.name} (тип: {resource_config.type.value})")
+            logger.info(
+                f"Ресурс зарегистрирован: {resource_config.name} (тип: {resource_config.type.value})"
+            )
 
     def unregister(self, resource_name: str) -> None:
         """
@@ -143,7 +145,9 @@ class ResourcePool:
         with self._lock:
             return self._configs.get(resource_name)
 
-    def list_resources(self, resource_type: ResourceType | None = None, only_enabled: bool = False) -> list[str]:
+    def list_resources(
+        self, resource_type: ResourceType | None = None, only_enabled: bool = False
+    ) -> list[str]:
         """
         Получить список имён ресурсов.
 

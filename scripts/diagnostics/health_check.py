@@ -116,7 +116,9 @@ class ServiceHealthCheck:
         ok = len(found) > 0
         status = "✅" if ok else "⚠️"
 
-        print(f"  {status} Dependencies: {len(found)} file(s) - {', '.join(found) if found else 'none'}")
+        print(
+            f"  {status} Dependencies: {len(found)} file(s) - {', '.join(found) if found else 'none'}"
+        )
 
         return {"ok": ok, "files": dep_files, "found": found}
 

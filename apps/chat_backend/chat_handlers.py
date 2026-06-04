@@ -15,7 +15,9 @@ from .core import chat_stream, get_room_id, to_async_iterator  # room store & ut
 from .task_manager import ConnectionTaskManager
 
 
-def register_chat_handlers(chat: ChatServiceBase, app_logger: Any, task_manager: ConnectionTaskManager) -> None:
+def register_chat_handlers(
+    chat: ChatServiceBase, app_logger: Any, task_manager: ConnectionTaskManager
+) -> None:
     """Attach all chat event handlers to the provided chat service.
 
     Parameters
@@ -72,7 +74,11 @@ def register_chat_handlers(chat: ChatServiceBase, app_logger: Any, task_manager:
                         content = ev.get("message")
                         if not isinstance(content, str) or not content:
                             continue
-                        role = "assistant" if ev.get("from") in (None, "AI", "AI Assistant", "assistant") else "user"
+                        role = (
+                            "assistant"
+                            if ev.get("from") in (None, "AI", "AI Assistant", "assistant")
+                            else "user"
+                        )
                         conversation_history.append({"role": role, "content": content})
                     except Exception:  # pragma: no cover
                         continue
@@ -86,7 +92,9 @@ def register_chat_handlers(chat: ChatServiceBase, app_logger: Any, task_manager:
 
                 # Build generator AFTER successful init
                 chunks = chat_stream(message, conversation_history=conversation_history)
-                app_logger.debug("Starting AI stream task to room %s (scheduled on main loop)", room_id)
+                app_logger.debug(
+                    "Starting AI stream task to room %s (scheduled on main loop)", room_id
+                )
                 coro = _svc.streaming_to_group(room_id, to_async_iterator(chunks))
                 task_manager.schedule(conn.connectionId, coro)
 

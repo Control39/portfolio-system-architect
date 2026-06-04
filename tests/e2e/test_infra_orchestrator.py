@@ -40,14 +40,9 @@ class TestInfraOrchestrator:
 
     def test_deploy_service(self):
         """Проверяет деплой сервиса"""
-        payload = {
-            "service_name": "test-service",
-            "version": "latest",
-            "replicas": 1
-        }
+        payload = {"service_name": "test-service", "version": "latest", "replicas": 1}
         response = requests.post(
-            f"{self.BASE_URL}/api/v1/services/test-service/deploy",
-            json=payload
+            f"{self.BASE_URL}/api/v1/services/test-service/deploy", json=payload
         )
         assert response.status_code == 200
         data = response.json()
@@ -59,8 +54,7 @@ class TestInfraOrchestrator:
         """Проверяет масштабирование сервиса"""
         payload = {"service_name": "test-service", "replicas": 3}
         response = requests.post(
-            f"{self.BASE_URL}/api/v1/services/test-service/scale",
-            json=payload
+            f"{self.BASE_URL}/api/v1/services/test-service/scale", json=payload
         )
         assert response.status_code == 200
         data = response.json()

@@ -86,9 +86,15 @@ class TestModelRegistry(unittest.TestCase):
 
     def test_get_model_versions(self):
         # Регистрация версий модели
-        self.registry.register_model("image_classifier_v1", {"name": "Image Classifier", "version": "1.0"})
-        self.registry.register_model("image_classifier_v2", {"name": "Image Classifier", "version": "2.0"})
-        self.registry.register_model("text_analyzer_v1", {"name": "Text Analyzer", "version": "1.0"})
+        self.registry.register_model(
+            "image_classifier_v1", {"name": "Image Classifier", "version": "1.0"}
+        )
+        self.registry.register_model(
+            "image_classifier_v2", {"name": "Image Classifier", "version": "2.0"}
+        )
+        self.registry.register_model(
+            "text_analyzer_v1", {"name": "Text Analyzer", "version": "1.0"}
+        )
 
         # Получение версий
         versions = self.registry.get_model_versions("Image Classifier")

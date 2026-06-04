@@ -15,35 +15,35 @@ function Get-GigaChatToken {
     """
     try {
         Write-Host "🔄 Получение нового Access Token..." -ForegroundColor Cyan
-        
+
         $headers = @{
             "Authorization" = "Basic $script:AuthHeader"
             "Content-Type" = "application/x-www-form-urlencoded"
             "Client-ID" = $script:ClientId
         }
-        
+
         $body = "scope=GIGACHAT_API_PERS&grant_type=client_credentials"
-        
+
         $response = Invoke-RestMethod -Uri "https://ngw.devices.sberbank.ru:9443/api/v2/oauth" `
             -Method POST `
             -Headers $headers `
             -Body $body `
             -TimeoutSec 30 `
             -ErrorAction Stop
-        
+
         $token = $response.access_token
-        
+
         # Сохраняем в кэш
         $cache = @{
             token = $token
             expires_at = (Get-Date).AddHours(1).ToString("o")
             created_at = (Get-Date).ToString("o")
         }
-        
+
         $cache | ConvertTo-Json | Set-Content -Path $script:TokenCacheFile -NoNewline
-        
+
         Write-Host "✅ Token получен и сохранён (действует 1 час)" -ForegroundColor Green
-        
+
         return $token
     }
     catch {
@@ -60,11 +60,11 @@ function Get-CachedToken {
     if (Test-Path $script:TokenCacheFile) {
         try {
             $cache = Get-Content $script:TokenCacheFile | ConvertFrom-Json
-            
+
             # Проверяем, не истёк ли токен
             $expiresAt = [DateTime]::Parse($cache.expires_at)
             $now = Get-Date
-            
+
             if ($now -lt $expiresAt) {
                 Write-Host "ℹ️  Используется кэшированный токен" -ForegroundColor Yellow
                 return $cache.token
@@ -79,7 +79,7 @@ function Get-CachedToken {
             return Get-GigaChatToken
         }
     }
-    
+
     return Get-GigaChatToken
 }
 
@@ -88,23 +88,23 @@ function Update-GigaCodeToken {
     Обновляет токен в настройках VS Code
     """
     $settingsFile = ".vscode/settings.json"
-    
+
     if (-not (Test-Path $settingsFile)) {
         Write-Host "❌ Файл $settingsFile не найден" -ForegroundColor Red
         return $false
     }
-    
+
     # Получаем или обновляем токен
     $token = Get-CachedToken
-    
+
     if (-not $token) {
         Write-Host "⚠️  Не удалось получить токен, используется запасной" -ForegroundColor Yellow
         $token = $script:FallbackToken
     }
-    
+
     # Читаем текущие настройки
     $settingsContent = Get-Content $settingsFile -Raw
-    
+
     # Обновляем токен
     if ($settingsContent -match '"gigacode\.bearerToken"\s*:\s*"[^"]*"') {
         $newSettings = $settingsContent -replace '"gigacode\.bearerToken"\s*:\s*"[^"]*"', "`"gigacode.bearerToken`": `"$token`""
@@ -113,10 +113,10 @@ function Update-GigaCodeToken {
         # Добавляем токен, если его нет
         $newSettings = $settingsContent.TrimEnd("}") + ",`n  `"gigacode.bearerToken`": `"$token`"`n}"
     }
-    
+
     # Сохраняем
     Set-Content -Path $settingsFile -Value $newSettings -NoNewline
-    
+
     Write-Host "✅ Token обновлён в .vscode/settings.json" -ForegroundColor Green
     return $true
 }

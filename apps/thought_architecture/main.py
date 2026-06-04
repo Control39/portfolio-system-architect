@@ -15,7 +15,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Настройка логирования
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 # Инициализация FastAPI приложения
@@ -66,7 +68,12 @@ class Framework(BaseModel):
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {"service": "Thought Architecture", "status": "running", "version": "1.0.0", "docs": "/docs"}
+    return {
+        "service": "Thought Architecture",
+        "status": "running",
+        "version": "1.0.0",
+        "docs": "/docs",
+    }
 
 
 @app.get("/health")
@@ -186,7 +193,12 @@ async def list_frameworks():
             id="FW-001",
             name="ADR Creation Workflow",
             description="Процесс создания архитектурных решений",
-            steps=["Определить контекст", "Сформулировать решение", "Описать последствия", "Зарегистрировать ADR"],
+            steps=[
+                "Определить контекст",
+                "Сформулировать решение",
+                "Описать последствия",
+                "Зарегистрировать ADR",
+            ],
             templates=["adr-template.md"],
         )
     ]
@@ -201,7 +213,12 @@ async def query_thoughts(query: str, limit: int = 10):
     return {
         "query": query,
         "results": [
-            {"type": "adr", "id": "ADR-001", "title": "Выбор методологии системного мышления", "relevance": 0.95}
+            {
+                "type": "adr",
+                "id": "ADR-001",
+                "title": "Выбор методологии системного мышления",
+                "relevance": 0.95,
+            }
         ],
     }
 

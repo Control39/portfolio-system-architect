@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         working-directory: ./docs  # Jekyll config is in docs/
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5

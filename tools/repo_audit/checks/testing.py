@@ -33,14 +33,18 @@ class TestingCheck(BaseCheck):
         else:
             self._add_result("WARNING", ".coveragerc missing", ".coveragerc")
         # 4. test files pattern
-        test_files = list(self.repo_path.rglob("test_*.py")) + list(self.repo_path.rglob("*_test.py"))
+        test_files = list(self.repo_path.rglob("test_*.py")) + list(
+            self.repo_path.rglob("*_test.py")
+        )
         if test_files:
             self._add_result("PASS", f"Test files found: {len(test_files)}", "tests/")
         else:
             self._add_result("FAIL", "No test files found", "tests/")
         # 5. requirements-dev.txt includes testing packages
         if self.check_file_exists("requirements-dev.txt"):
-            content = (self.repo_path / "requirements-dev.txt").read_text(encoding="utf-8", errors="ignore")
+            content = (self.repo_path / "requirements-dev.txt").read_text(
+                encoding="utf-8", errors="ignore"
+            )
             packages = ["pytest", "coverage", "pytest-cov", "pytest-asyncio"]
             found = []
             for pkg in packages:
@@ -61,7 +65,9 @@ class TestingCheck(BaseCheck):
         # 6. GitHub Actions test workflow
         workflows_dir = self.repo_path / ".github/workflows"
         if workflows_dir.is_dir():
-            test_workflows = list(workflows_dir.glob("*test*.yml")) + list(workflows_dir.glob("*test*.yaml"))
+            test_workflows = list(workflows_dir.glob("*test*.yml")) + list(
+                workflows_dir.glob("*test*.yaml")
+            )
             if test_workflows:
                 self._add_result(
                     "PASS",

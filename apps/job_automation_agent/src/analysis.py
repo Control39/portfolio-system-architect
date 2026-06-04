@@ -78,7 +78,9 @@ class JobAnalyzer:
             return {"average_salary": None, "total_jobs": 0}
 
         salaries = [
-            j.get("salary", {}).get("from", 0) for j in jobs if j.get("salary") and j.get("salary", {}).get("from")
+            j.get("salary", {}).get("from", 0)
+            for j in jobs
+            if j.get("salary") and j.get("salary", {}).get("from")
         ]
 
         avg_salary = sum(salaries) / len(salaries) if salaries else None
