@@ -15,14 +15,14 @@ jobs:
     name: Analyze architecture maturity
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for git stats
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.12'
           cache: 'pip'
 
       - name: Install dependencies
@@ -31,20 +31,24 @@ jobs:
           pip install -e .
 
       - name: Run Assistant Orchestrator (JSON report)
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -m assistant_orchestrator \
+          python -m apps.assistant_orchestrator \
             --output docs/archive/reports \
             --format json \
             --verbose
 
       - name: Run Assistant Orchestrator (HTML dashboard)
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -m assistant_orchestrator \
+          python -m apps.assistant_orchestrator \
             --output docs/archive/reports \
             --format html
 
       - name: Upload reports as artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: architecture-reports
           path: docs/archive/reports/

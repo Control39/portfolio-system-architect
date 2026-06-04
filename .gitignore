@@ -285,3 +285,9 @@ repo-env/
 tools/.vscode/settings.json
 
 tools/devtools/.vscode/settings.json
+
+.vscode/settings.json
+
+apps/*/configs/vscode_settings.json
+
+apps/*/config/settings.json
