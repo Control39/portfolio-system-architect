@@ -22,6 +22,7 @@ rules:
 
 # Исключаем проблемные директории
 ignore: |
+  .github/workflows/
   deployment/k8s/
   .github/workflows/
   .github/actions/
