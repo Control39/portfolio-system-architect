@@ -81,19 +81,35 @@
 
 ## 🗺️ Интеграции
 
-### Схема связей (Mermaid)
+### Архитектурная схема
+
+Подробная архитектура: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ```mermaid
-graph TD
-    A[Cognitive Agent] -->|Scan| B[Project Scanner]
-    A -->|Plan| C[Decision Engine / Ollama]
-    A -->|Context| D[Knowledge Graph - Восстанавливается]
-    A -->|Execute| E[Skills]
-    A -->|Learn| F[Metric Collector]
-    G[Auth Service] -->|JWT| A
-    A -->|Config| H[AI Config Manager]
-    I[User] -->|Goal| A
-    A -->|Result| J[Portfolio Organizer]
+graph TB
+    subgraph "Cognitive Agent"
+        A[Scanner] --> B[Planner]
+        B --> C[Skills]
+        C --> D[Learning System]
+        D --> E[Reports]
+    end
+
+    A -.->|Конфиг| H[AI Config Manager]
+    B -.->|Контекст| F[Knowledge Graph]
+    C -.->|Рекомендации| G[Decision Engine]
+```
+
+### Поток данных
+
+Подробный поток: [docs/FLOW.md](docs/FLOW.md)
+
+```mermaid
+sequenceDiagram
+    User->>Scanner: Цель
+    Scanner->>Planner: Данные
+    Planner->>Skills: План
+    Skills->>Learning: Метрики
+    Learning->>User: Отчёт
 ```
 
 ### Consumes (откуда берет)
@@ -325,7 +341,8 @@ uvicorn>=0.23.0
 - **README:** [../../README.md](../../README.md)
 - **CONTRIBUTING:** [../../CONTRIBUTING.md](../../CONTRIBUTING.md)
 - **AI_INSTRUCTIONS:** [../../AI_INSTRUCTIONS.md](../../AI_INSTRUCTIONS.md) — почему система была сломана
-- **AI_INSTRUCTIONS.md:** Подробное описание проблем с ИИ-агентами
+- **Архитектура:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — схема компонентов
+- **Поток данных:** [docs/FLOW.md](docs/FLOW.md) — поток обработки
 
 ---
 
