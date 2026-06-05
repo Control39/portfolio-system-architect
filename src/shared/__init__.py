@@ -8,7 +8,7 @@ Shared - общие модули и утилиты проекта.
 """
 
 __version__ = "0.1.0"
-__all__ = ["llm", "pydantic", "schemas"]
+__all__ = ["llm", "pydantic", "schemas", "models"]
 
 # Реэкспорт основных компонентов
 try:
@@ -20,3 +20,14 @@ try:
         __all__.append("YandexGPTClient")
 except ImportError:
     pass
+
+# Экспорт моделей
+from .models import (  # noqa: F401
+    DecisionContext,
+    DecisionRequest,
+    DecisionResponse,
+    ScanRequest,
+    ScanResponse,
+    PlanRequest,
+    PlanResponse,
+)

@@ -10,6 +10,10 @@ Test Coverage:
 - Error handling and edge cases
 - Performance and resource management
 - Integration points (via mocks)
+
+**Автор:** GigaCode
+**Дата:** 5 июня 2026
+**Статус:** MVP + Восстановление
 """
 
 import threading
@@ -58,6 +62,22 @@ def service_instance(config, mock_logger):
 @pytest.fixture(autouse=True)
 def cleanup_resources():
     yield
+
+
+# ============================================================================
+# SCOPED FIXTURES
+# ============================================================================
+
+
+@pytest.fixture(scope="class")
+def class_config():
+    """Class-scoped configuration fixture"""
+    return {
+        "service_name": "cognitive_agent",
+        "environment": "test",
+        "debug": False,
+        "timeout": 10.0,
+    }
 
 
 # ============================================================================

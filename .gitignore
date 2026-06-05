@@ -109,7 +109,8 @@ secrets.json
 **/.gigacode/**/*.token_cache.json
 **/.gigacode/__pycache__/
 **/.gigacode/*.pyc
-**/.gigacode/plans/
+# **/.gigacode/plans/  # ОТКЛЮЧЕНО: отчеты полезны для истории
+# .gigacode/plans/  # ОТКЛЮЧЕНО: отчеты полезны для истории
 
 # AI Assistants
 .codeassistant/
@@ -200,7 +201,7 @@ docs-archive/
 
 # Персональные настройки инструментов
 .koda/
-.sourcecraft/
+# .sourcecraft/
 .gigacode/plans/
 .gigacode/*.env
 .gigacode/*.env.*
@@ -216,45 +217,13 @@ apps/cognitive_agent/scans/
 apps/cognitive_agent/data/
 apps/cognitive_agent/cache/
 apps/cognitive_agent/reports/
-# === Личные данные Cognitive Agent (после миграции) ===
-apps/cognitive_agent/logs/
-apps/cognitive_agent/metrics/
-apps/cognitive_agent/scans/
-apps/cognitive_agent/data/
-apps/cognitive_agent/cache/
-apps/cognitive_agent/reports/
 apps/cognitive_agent/status/
-apps/cognitive_agent/backups/
-
-# Промежуточный слой консолидации (устарел после миграции в apps/cognitive_agent/)
-shared-skills/
-
-# Knowledge extractor artifacts (large exports and generated files)
-tools/knowledge-extractor/*.json
-tools/knowledge-extractor/extracted_cases.md
-tools/knowledge-extractor/outputs/
-
-# Устаревшие kebab-case дубликаты сервисов (используйте snake_case)
-apps/cognitive-agent/
-apps/decision-engine/
-apps/infra-orchestrator/
-apps/job-automation-agent/
-apps/mcp-server/
-apps/thought-architecture/
-apps/ai-config-manager/
-
-# Runtime-данные Cognitive Agent (скрыть из Git)
-apps/cognitive_agent/logs/
-apps/cognitive_agent/data/
-apps/cognitive_agent/cache/
-apps/cognitive_agent/scans/
-apps/cognitive_agent/status/
-apps/cognitive_agent/reports/
 apps/cognitive_agent/backups/
 apps/cognitive_agent/models/
 apps/cognitive_agent/recommendations/
 apps/cognitive_agent/knowledge/
 apps/cognitive_agent/__pycache__/
+apps/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md  # Контекст для передачи ИИ
 
 # Virtual environments (НИКОГДА не коммитить)
 .venv/
@@ -293,4 +262,4 @@ tools/devtools/.vscode/settings.json
 
 apps/*/configs/vscode_settings.json
 
-apps/*/config/settings.json
+apps/*/config/settings.json\n\n# =============================================================================\n# EXCLUDE KNOWLEDGE EXTRACTOR DATA (NEVER COMMIT)\n# =============================================================================\ntools/knowledge-extractor/chat-export-*.json\ntools/knowledge-extractor/extracted_cases.md

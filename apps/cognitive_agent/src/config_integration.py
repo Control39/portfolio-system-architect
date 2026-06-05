@@ -34,11 +34,14 @@ class CognitiveAgentConfig:
         self.config_path = config_path or str(REPO_ROOT / "config" / "ai-config.yaml")
         self._config_manager: Optional[ConfigManager] = None
         self._local_config: Optional[Dict[str, Any]] = None
+        self._is_initialized = False
 
         if AI_CONFIG_AVAILABLE:
             self._init_config_manager()
         else:
             self._load_local_config()
+
+        self._is_initialized = True
 
     def _init_config_manager(self) -> None:
         """Инициализация ConfigManager"""

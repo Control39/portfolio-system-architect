@@ -17,10 +17,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+# Добавляем корень проекта в PYTHONPATH
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
 
 logging.basicConfig(
     level=logging.INFO,
@@ -52,7 +51,7 @@ class CognitiveOrchestrator:
             logger.info(f"✅ Конфиг загружен (AI Config Manager: {config_wrapper.is_available()})")
             return config
         except Exception as e:
-            logger.warning(f"⚠️  Не удалось загрузить конфиг: {e}, использую дефолт")
+            logger.warning(f"⚠️ Не удалось загрузить конфиг: {e}, использую дефолт")
             return {}
 
     def load_it_compass_markers(self) -> dict[str, Any]:
@@ -63,7 +62,7 @@ class CognitiveOrchestrator:
         markers_dir = REPO_ROOT / "apps" / "it_compass" / "src" / "data" / "markers"
 
         if not markers_dir.exists():
-            # Попробуем альтернативный путь
+            logger.warning(f"Директория '{markers_dir}' не найдена, пробую альтернативный путь...")
             markers_dir = REPO_ROOT / "apps" / "it_compass"
 
         markers = {}
@@ -132,8 +131,14 @@ class CognitiveOrchestrator:
             logger.info(f"✅ Workflow {workflow_name} проанализирован")
             return True
 
+        except FileNotFoundError:
+            logger.error(f"Файл workflow не найден: {workflow_path}")
+            return False
+        except yaml.YAMLError as exc:
+            logger.error(f"Ошибка синтаксиса YAML в файле {workflow_path}: {exc}")
+            return False
         except Exception as e:
-            logger.error(f"Ошибка обработки workflow: {e}")
+            logger.error(f"Общая ошибка обработки workflow: {e}")
             return False
 
     def check_job_search_adapter(self) -> bool:
@@ -229,7 +234,6 @@ class CognitiveOrchestrator:
                 "workflows": {"status": "ok", "available": ["marker-extraction", "project-setup"]},
                 "job_search_adapter": {"status": "ok"},
                 "fastapi_endpoint": {"status": "ok"},
-                "mcp_server": {"status": "pending", "reason": "requires SDK upgrade"},
             },
         }
 

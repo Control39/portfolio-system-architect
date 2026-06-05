@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 
 # Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
@@ -34,12 +34,14 @@ class TestCognitiveAgentConfigIntegration:
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
         sys.path.insert(0, str(REPO_ROOT / "apps" / "cognitive_agent" / "src"))
-        from config_integration import get_config
+        from config_integration import get_config, CognitiveAgentConfig
 
         config1 = get_config()
         config2 = get_config()
 
-        assert config1 is config2
+        assert isinstance(config1, CognitiveAgentConfig)
+        assert isinstance(config2, CognitiveAgentConfig)
+        assert config1 is config2  # singleton: один и тот же объект
 
     def test_get_config_returns_dict(self):
         """Проверка что get_config возвращает dict"""
@@ -62,9 +64,10 @@ class TestCognitiveAgentConfigIntegration:
     def test_is_available_method(self):
         """Проверка метода is_available"""
         sys.path.insert(0, str(REPO_ROOT / "apps" / "cognitive_agent" / "src"))
-        from config_integration import get_config
+        from config_integration import get_config, CognitiveAgentConfig
 
         config = get_config()
+        assert isinstance(config, CognitiveAgentConfig)
         assert hasattr(config, "is_available")
         assert callable(config.is_available)
 

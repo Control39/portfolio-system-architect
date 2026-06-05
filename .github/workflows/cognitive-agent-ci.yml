@@ -328,6 +328,7 @@ jobs:
           DURATION=$((END_TIME - START_TIME))
           echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
+
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -342,7 +343,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v3
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: 'apps/cognitive_agent/'
