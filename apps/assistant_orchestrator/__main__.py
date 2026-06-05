@@ -1,8 +1,8 @@
 """
-Entry point for python -m assistant_orchestrator
+Entry point for python -m apps.assistant_orchestrator
 """
 
-from assistant_orchestrator.main import main
+from .main import main
 
 
 if __name__ == "__main__":
