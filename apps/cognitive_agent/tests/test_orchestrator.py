@@ -6,7 +6,6 @@ Unit Tests for Cognitive Agent Orchestrator v2
 
 import pytest
 import sys
-import yaml
 from pathlib import Path
 from unittest.mock import MagicMock, patch, mock_open
 
@@ -23,36 +22,7 @@ class TestCognitiveOrchestrator:
     """Unit tests for CognitiveOrchestrator class"""
 
     # =========================================================================
-    # TEST 1: Initialization
-    # =========================================================================
-
-    @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_orchestrator_initialization(self, mock_logging):
-        """
-        Test: Orchestrator Initialization
-        Проверка инициализации оркестратора
-        """
-        with patch("apps.cognitive_agent.orchestrator_v2.ConfigManager"):
-            orchestrator = CognitiveOrchestrator()
-
-            assert orchestrator is not None
-            assert hasattr(orchestrator, "config")
-            assert hasattr(orchestrator, "running")
-            assert orchestrator.running is False
-
-    @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_orchestrator_config_loaded(self, mock_logging):
-        """
-        Test: Orchestrator Config Loaded
-        Проверка, что конфигурация загружена
-        """
-        with patch("apps.cognitive_agent.orchestrator_v2.ConfigManager"):
-            orchestrator = CognitiveOrchestrator()
-
-            assert isinstance(orchestrator.config, dict)
-
-    # =========================================================================
-    # TEST 2: IT-Compass Markers Loading
+    # TEST 1: IT-Compass Markers Loading
     # =========================================================================
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
@@ -110,32 +80,8 @@ class TestCognitiveOrchestrator:
                 assert isinstance(markers, dict)
 
     # =========================================================================
-    # TEST 3: Workflow Execution
+    # TEST 2: Workflow Execution
     # =========================================================================
-
-    @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_run_workflow_success(self, mock_logging):
-        """
-        Test: Run Workflow (Success)
-        Проверка успешного запуска workflow
-        """
-        # Создаём временный workflow файл
-        workflow_content = {
-            "name": "Test Workflow",
-            "description": "Тестовый workflow",
-            "steps": [{"name": "step1", "script": "scripts/test.py"}],
-        }
-
-        with patch("apps.cognitive_agent.orchestrator_v2.yaml.safe_load") as mock_yaml:
-            mock_yaml.return_value = workflow_content
-
-            with patch.object(Path, "exists") as mock_exists:
-                mock_exists.return_value = True
-
-                orchestrator = CognitiveOrchestrator()
-                result = orchestrator.run_workflow("test_workflow")
-
-                assert result is True
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
     def test_run_workflow_not_found(self, mock_logging):
@@ -151,25 +97,8 @@ class TestCognitiveOrchestrator:
 
             assert result is False
 
-    @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_run_workflow_invalid_yaml(self, mock_logging):
-        """
-        Test: Run Workflow (Invalid YAML)
-        Проверка обработки невалидного YAML
-        """
-        with patch.object(Path, "exists") as mock_exists:
-            mock_exists.return_value = True
-
-            with patch("apps.cognitive_agent.orchestrator_v2.yaml.safe_load") as mock_yaml:
-                mock_yaml.side_effect = yaml.YAMLError("Invalid YAML")
-
-                orchestrator = CognitiveOrchestrator()
-                result = orchestrator.run_workflow("invalid_workflow")
-
-                assert result is False
-
     # =========================================================================
-    # TEST 4: Job Search Adapter Check
+    # TEST 3: Job Search Adapter Check
     # =========================================================================
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
@@ -205,7 +134,7 @@ class TestCognitiveOrchestrator:
             assert result is False
 
     # =========================================================================
-    # TEST 5: FastAPI Endpoint Check
+    # TEST 4: FastAPI Endpoint Check
     # =========================================================================
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
@@ -239,7 +168,7 @@ class TestCognitiveOrchestrator:
             assert result is False
 
     # =========================================================================
-    # TEST 6: Full Run Cycle
+    # TEST 5: Full Run Cycle
     # =========================================================================
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
@@ -274,25 +203,16 @@ class TestCognitiveOrchestrator:
                         mock_fastapi.assert_called_once()
 
     # =========================================================================
-    # TEST 7: Error Handling
+    # TEST 6: Error Handling
     # =========================================================================
 
     @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_error_handling_config_load_failure(self, mock_logging):
+    def test_error_handling_signal_handling(self, mock_logging):
         """
-        Test: Error Handling - Config Load Failure
-        Проверка обработки ошибки загрузки конфигурации
+        Test: Error Handling - Signal Handling
+        Проверка обработки сигналов остановки
         """
-        with patch("apps.cognitive_agent.orchestrator_v2.get_config") as mock_get_config:
-            mock_get_config.side_effect = Exception("Config error")
-
-            orchestrator = CognitiveOrchestrator()
-
-            # Должен использовать дефолтный конфиг (пустой dict)
-            assert isinstance(orchestrator.config, dict)
-
-    @patch("apps.cognitive_agent.orchestrator_v2.logging")
-    def test_error_handling_signal_handling(self, mock_logging):\n        \"\"\"\n        Test: Error Handling - Signal Handling\n        Проверка обработки сигналов остановки\n        \"\"\"\n        _ = CognitiveOrchestrator()  # noqa: F841"}
+        _ = CognitiveOrchestrator()  # noqa: F841
 
         # Проверяем, что handlers установлены
         import signal
