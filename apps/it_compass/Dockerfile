@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+﻿FROM python:3.11-slim
 
 LABEL maintainer="Ekaterina Kudelya"
 LABEL description="IT Compass - Objective IT Career Growth Tracker"
@@ -8,6 +8,9 @@ LABEL methodology="© 2025 Ekaterina Kudelya, CC BY-ND 4.0"
 WORKDIR /app
 
 # Копируем requirements из КОРНЯ (общие зависимости)
+# Install git for pip dependencies from git+https://
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt /tmp/requirements-root.txt
 RUN if [ -f /tmp/requirements-root.txt ]; then \
     pip install --no-cache-dir -r /tmp/requirements-root.txt; \

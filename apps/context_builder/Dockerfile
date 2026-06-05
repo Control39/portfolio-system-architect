@@ -1,4 +1,4 @@
-FROM python:3.12-slim AS builder
+﻿FROM python:3.12-slim AS builder
 
 WORKDIR /app
 
@@ -6,6 +6,9 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libmagic1 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install git for pip dependencies from git+https://
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

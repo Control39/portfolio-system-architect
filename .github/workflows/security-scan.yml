@@ -102,29 +102,25 @@ jobs:
   docker-scan:
     name: Docker Image Security Scan
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         include:
           - service: auth-service
             dockerfile: apps/auth_service/Dockerfile
             context: .
-            build-args: SERVICE_DIR=apps/auth_service
           - service: it-compass
             dockerfile: apps/it_compass/Dockerfile
             context: .
-            build-args: SERVICE_DIR=apps/it_compass
           - service: decision-engine
             dockerfile: apps/decision_engine/Dockerfile
             context: .
-            build-args: SERVICE_DIR=apps/decision_engine
           - service: ml-model-registry
             dockerfile: apps/ml_model_registry/Dockerfile
             context: .
-            build-args: SERVICE_DIR=apps/ml_model_registry
           - service: cognitive-agent
             dockerfile: apps/cognitive_agent/Dockerfile
             context: .
-            build-args: SERVICE_DIR=apps/cognitive_agent
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

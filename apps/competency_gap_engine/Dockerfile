@@ -1,7 +1,10 @@
-### 🐳 4. `apps/competency_gap_engine/Dockerfile`
+﻿### 🐳 4. `apps/competency_gap_engine/Dockerfile`
 ```dockerfile
 FROM python:3.12-slim AS builder
 WORKDIR /build
+# Install git for pip dependencies from git+https://
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+
 COPY apps/competency_gap_engine/requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
