@@ -35,27 +35,25 @@
 
 ```mermaid
 graph TB
-    subgraph "🧬 АТОМЫ (src/)"
-        A1[src/security<br/>Маскирование секретов]
-        A2[src/shared/schemas<br/>career.yaml, proof.yaml]
-        A3[src/config<br/>Hot-reload конфигурация]
-        A4[src/core<br/>Базовые интерфейсы]
-    end
-
-    subgraph "🧪 МОЛЕКУЛЫ (apps/)"
-        M1[auth_service]
-        M2[career_development]
-        M3[decision_engine]
-        M4[portfolio_organizer]
-        M5[context_builder]
-        M6[cognitive_agent]
-        M7[it_compass]
-    end
-
-    A1 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
-    A2 --> M2 & M4 & M7
-    A3 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
-    A4 --> M3 & M6
+subgraph "АТОМЫ (src/)"
+A1[src/security - Маскирование секретов]
+A2[src/shared/schemas - career.yaml, proof.yaml]
+A3[src/config - Hot-reload конфигурация]
+A4[src/core - Базовые интерфейсы]
+end
+subgraph "МОЛЕКУЛЫ (apps/)"
+M1[auth_service]
+M2[career_development]
+M3[decision_engine]
+M4[portfolio_organizer]
+M5[context_builder]
+M6[cognitive_agent]
+M7[it_compass]
+end
+A1 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
+A2 --> M2 & M4 & M7
+A3 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
+A4 --> M3 & M6
 ```
 
 ---
