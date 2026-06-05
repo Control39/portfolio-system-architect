@@ -1,1 +1,16 @@
-"""Модуль скриптов Cognitive Automation Agent.Содержит основные компоненты агента: сканер, планировщик, систему обучения и обработчик триггеров."""from .scanner_main import Scannerfrom .planner_main import TaskPlannerfrom .learning_main import LearningSystemfrom .trigger_processor import TriggerProcessor__all__ = ["Scanner", "Planner", "LearningSystem", "TriggerProcessor"]
+"""Модуль скриптов Cognitive Automation Agent.
+
+Содержит основные компоненты агента: сканер, планировщик, систему обучения и обработчик триггеров.
+"""
+
+from .learning_main import LearningSystem
+from .planner_main import TaskPlanner
+from .scanner_main import Scanner
+from .trigger_processor import TriggerProcessor
+
+__all__ = [
+    "Scanner",
+    "TaskPlanner",
+    "LearningSystem",
+    "TriggerProcessor",
+]
