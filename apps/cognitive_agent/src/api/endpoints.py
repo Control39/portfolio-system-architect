@@ -5,51 +5,13 @@ from typing import List, Optional
 import sys
 from pathlib import Path
 
-# Добавляем путь к скриптам
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
+# Добавляем путь к корню проекта для импорта атомов
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+from src.ai import GigaMCPBridge, GigaChainSettings
+from src.shared.models import ScanRequest, ScanResponse, PlanRequest, PlanResponse
 
 app = FastAPI(title="Cognitive Agent API", version="0.1.0")
-
-
-# --- Models ---
-class ScanRequest(BaseModel):
-    project_path: str
-    recursive: bool = True
-
-
-class ScanResponse(BaseModel):
-    status: str
-    files_found: int
-    languages_detected: List[str]
-    message: str
-
-
-class PlanRequest(BaseModel):
-    goals: List[str]
-    priority: str = "medium"
-
-
-class PlanResponse(BaseModel):
-    tasks: List[dict]
-    estimated_duration: int
-    message: str
-
-
-class ExecuteRequest(BaseModel):
-    task_id: str
-    skill_name: str
-
-
-class ExecuteResponse(BaseModel):
-    status: str
-    result: dict
-    message: str
-
-
-class MetricsResponse(BaseModel):
-    total_tasks: int
-    successful_tasks: int
-    efficiency_score: float
 
 
 # --- Endpoints ---
@@ -99,30 +61,31 @@ async def plan_tasks(request: PlanRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/v1/execute", response_model=ExecuteResponse)
-async def execute_task(request: ExecuteRequest):
+@app.post("/api/v1/execute")
+async def execute_task(task_id: str, skill_name: str):
     """Выполнить задачу через skill"""
     try:
         # TODO: Интегрировать выполнение skills
-        return ExecuteResponse(
-            status="pending",
-            result={},
-            message=f"Выполнение задачи: {request.task_id} через {request.skill_name}"
-        )
+        return {
+            "status": "pending",
+            "task_id": task_id,
+            "skill_name": skill_name,
+            "message": f"Выполнение задачи: {task_id} через {skill_name}"
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/v1/metrics", response_model=MetricsResponse)
+@app.get("/api/v1/metrics")
 async def get_metrics():
     """Получить метрики обучения"""
     try:
         # TODO: Интегрировать learning_main.py
-        return MetricsResponse(
-            total_tasks=0,
-            successful_tasks=0,
-            efficiency_score=0.0
-        )
+        return {
+            "total_tasks": 0,
+            "successful_tasks": 0,
+            "efficiency_score": 0.0
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
