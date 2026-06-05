@@ -112,81 +112,65 @@ models.py, schemas.py, main.py, app.py, api.py
 
 ## 🛠️ **СКОПИРОВАТЬ ДЛЯ COGNITIVE AGENT API**
 
-### **1. FastAPI сервер (нужно создать)**
+### **1. Атомы (в корневой src/)**
 
+**GigaChat интеграция (скопировать):**
+- **Откуда:** `C:\Projects\*\gigachat_api.py` или `C:\Projects\*\gigachain_bridge.py`
+- **Куда:** `src/ai/gigachat_bridge.py`
+- **Что скопировать:**
+  - Импорты: `from langchain_gigachat import GigaChat`
+  - Конфигурация API ключа
+  - Обработчик ошибок и fallback на Ollama
+
+**Модели данных (скопировать):**
+- **Откуда:** Любой файл с Pydantic моделями
+- **Куда:** `src/shared/models.py`
+- **Что скопировать:**
+  - ScanRequest, ScanResponse
+  - PlanRequest, PlanResponse
+  - ExecuteRequest, ExecuteResponse
+
+**Ollama Fallback (скопировать):**
+- **Откуда:** `C:\Projects\*\initialization.py`
+- **Куда:** `src/ai/ollama_fallback.py`
+- **Что скопировать:**
+  - Проверка доступности Ollama
+  - Загрузка локальных моделей
+  - Конфигурация fallback
+
+**ChromaDB (скопировать):**
+- **Откуда:** `C:\Projects\*\entities.py`
+- **Куда:** `src/ai/chroma_indexer.py`
+- **Что скопировать:**
+  - Подключение к ChromaDB
+  - Создание collection
+  - Методы для search/index
+
+### **2. Молекулы (в apps/cognitive_agent/)**
+
+**FastAPI сервер (создать/исправить):**
 ```python
 # apps/cognitive_agent/src/main.py
 from fastapi import FastAPI
-from pydantic import BaseModel
+from src.ai import GigaMCPBridge
+from src.shared.models import ScanRequest
 
 app = FastAPI(title="Cognitive Agent API")
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
-
-@app.post("/api/v1/scan")
-def scan_project():
-    # Запускает scanner_main.py
-    pass
-
-@app.post("/api/v1/plan")
-def plan_tasks():
-    # Запускает planner_main.py
-    pass
 ```
 
-### **2. Модели (нужно создать)**
-
+**API эндпоинты (создать/исправить):**
 ```python
-# apps/cognitive_agent/src/models.py
-from pydantic import BaseModel
-from typing import Optional, List
+# apps/cognitive_agent/src/api/endpoints.py
+from fastapi import FastAPI, HTTPException
+from src.shared.models import ScanRequest, ScanResponse
 
-class ScanRequest(BaseModel):
-    project_path: str
-    recursive: bool = True
+app = FastAPI()
 
-class ScanResponse(BaseModel):
-    status: str
-    files_found: int
-    languages_detected: List[str]
-
-class PlanRequest(BaseModel):
-    goals: List[str]
-    priority: str = "medium"
-
-class PlanResponse(BaseModel):
-    tasks: List[dict]
-    estimated_duration: int
+@app.post("/api/v1/scan", response_model=ScanResponse)
+async def scan_project(request: ScanRequest):
+    # Интегрировать scanner_main.py
+    pass
 ```
-
-### **3. Интеграция с GigaChat (скопировать)**
-
-**Откуда:** `C:\Projects\*\gigachat_api.py` или `C:\Projects\*\gigachain_bridge.py`
-
-**Что скопировать:**
-- Импорты: `from langchain_gigachat import GigaChat`
-- Конфигурация API ключа
-- Обработчик ошибок и fallback на Ollama
-
-### **4. Интеграция с ChromaDB (скопировать)**
-
-**Откуда:** `C:\Projects\*\entities.py`
-
-**Что скопировать:**
-- Подключение к ChromaDB
-- Создание collection
-- Методы для search/index
-
-### **5. Ollama Fallback (скопировать)**
-
-**Откуда:** `C:\Projects\*\initialization.py`
-
-**Что скопировать:**
-- Проверка доступности Ollama
-- Загрузка локальных моделей
-- Конфигурация fallback
 
 ---
 
@@ -194,13 +178,13 @@ class PlanResponse(BaseModel):
 
 | День | Задача | Источник кода |
 |------|--------|---------------|
-| **День 1** | FastAPI `main.py` | Создать с нуля |
-| **День 2** | API эндпоинты `/health`, `/api/v1/*` | Создать с нуля |
-| **День 3** | Интеграция GigaChat | `C:\Projects\*\gigachat_api.py` |
-| **День 4** | Интеграция Ollama | `C:\Projects\*\initialization.py` |
-| **День 5** | Интеграция ChromaDB | `C:\Projects\*\entities.py` |
-| **День 6** | Docker Compose | Создать с нуля |
-| **День 7** | E2E тесты | Создать с нуля |
+| **День 1** | Исправить импорты в FastAPI | Обновить на src.ai, src.shared |
+| **День 2** | Интегрировать GigaChat в атом | `C:\Projects\*\gigachat_api.py` → `src/ai/` |
+| **День 3** | Интегрировать Ollama fallback | `C:\Projects\*\initialization.py` → `src/ai/` |
+| **День 4** | Интегрировать ChromaDB | `C:\Projects\*\entities.py` → `src/ai/` |
+| **День 5** | Подключить scanner_main.py | `apps/cognitive_agent/scripts/` |
+| **День 6** | Подключить planner_main.py | `apps/cognitive_agent/scripts/` |
+| **День 7** | Написать тесты | Создать tests/ |
 
 ---
 
