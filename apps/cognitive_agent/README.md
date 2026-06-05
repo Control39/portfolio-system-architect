@@ -11,30 +11,35 @@
 
 ## 💬 Если объяснить за 30 секунд
 
-**Cognitive Agent** — это автономный помощник, который:
-1. **Сканирует** твой проект и понимает его структуру
+**Cognitive Agent** — это "мозг" экосистемы, который:
+1. **Сканирует** проекты и понимает их структуру
 2. **Планирует** задачи через ИИ (LangChain + GigaChat/Ollama)
-3. **Выполняет** их через набор навыков (skills)
+3. **Выполняет** их через навыки (skills)
 4. **Учится** на результатах (собирает метрики)
+5. **Интегрируется** с другими сервисами (IT-Compass, Decision Engine, Job Automation)
 
-**Что работает сейчас:** Сканирование, сбор метрик, базовые навыки.
-**Что в разработке:** ИИ-планирование, интеграция с Knowledge Graph.
+**Что работает сейчас:** Сканирование, сбор метрик, FastAPI сервер, базовые навыки.
+**Что в разработке:** ИИ-планирование, ChromaDB, полная интеграция с экосистемой.
 **Важно:** Это не "волшебная кнопка", а инструмент, который требует настройки и контроля. Агент — помощник, а не создатель кода.
 
 ---
 
 ## 🎯 Назначение
 
-Автономный AI-агент для планирования, обучения и выполнения сложных рабочих процессов. Координирует несколько навыков (skills) для достижения целей без постоянного вмешательства человека.
+Автономный AI-агент для координации всех сервисов экосистемы. Связывает методологию IT-Compass, reasoning Decision Engine и автоматизацию Job Automation в единую систему.
 
 ### Ключевые возможности (MVP)
 - [x] Автономное сканирование проекта
 - [x] Система сбора метрик производительности
+- [x] FastAPI сервер с API endpoints
+- [x] Интеграция с GigaChat (атом в src/ai/)
 - [x] Поддержка multiple skills (скриптов)
 - [x] Health check и базовые метрики
-- [ ] ИИ-планирование (в разработке, Ollama fallback)
-- [ ] Интеграция с Knowledge Graph (восстанавливается)
-- [ ] E2E тесты (в планах)
+- [ ] Интеграция с IT-Compass маркерами
+- [ ] Интеграция с Job Automation Agent
+- [ ] ChromaDB векторный поиск
+- [ ] Ollama fallback
+- [ ] E2E тесты
 
 ---
 
@@ -79,72 +84,94 @@
 
 ---
 
-## 🗺️ Интеграции
+## 🗺️ Интеграции с экосистемой
 
-### Архитектурная схема
+### 🧬 Полная схема связей
 
-Подробная архитектура: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+Cognitive Agent — центральный оркестратор, который связывает ВСЕ сервисы:
 
 ```mermaid
 graph TB
-    subgraph "Cognitive Agent"
-        A[Scanner] --> B[Planner]
-        B --> C[Skills]
-        C --> D[Learning System]
-        D --> E[Reports]
+    subgraph "АТОМЫ (src/)"
+        A1[src/ai - GigaChat, Ollama]
+        A2[src/shared - Общие модели]
+        A3[src/core - Конфигурация]
     end
 
-    A -.->|Конфиг| H[AI Config Manager]
-    B -.->|Контекст| F[Knowledge Graph]
-    C -.->|Рекомендации| G[Decision Engine]
+    subgraph "Cognitive Agent"
+        CA[Agent Orchestrator]
+        Scanner[🔍 Scanner]
+        Planner[📋 Planner]
+        Learning[📚 Learning]
+    end
+    
+    subgraph "Внешние сервисы"
+        IT[IT-Compass<br/>Методология]
+        JA[Job Automation<br/>Поиск работы]
+        DE[Decision Engine<br/>Reasoning]
+        KG[Knowledge Graph<br/>Знания]
+        PO[Portfolio Organizer<br/>Доказательства]
+        CD[Career Development<br/>Карьера]
+    end
+
+    A1 --> CA
+    A2 --> CA
+    A3 --> CA
+    
+    CA --> Scanner
+    CA --> Planner
+    CA --> Learning
+    
+    Scanner -.->|Анализ кода| IT
+    Planner -.->|Задачи| JA
+    Learning -.->|Метрики| CD
+    CA -.->|Контекст| KG
+    CA -.->|Reasoning| DE
+    Scanner -.->|Доказательства| PO
 ```
 
-### Поток данных
+### 🔗 Какие сервисы использует Cognitive Agent
 
-Подробный поток: [docs/FLOW.md](docs/FLOW.md)
+| Сервис | Что использует | Как интегрируется |
+|--------|----------------|-------------------|
+| **IT-Compass** | Маркеры компетенций | Сканирует `apps/it_compass/src/data/markers/` |
+| **Job Automation** | Поиск вакансий | Через адаптер `CognitiveJobSearch` |
+| **Decision Engine** | AI Reasoning | Через `src/ai/gigachat_bridge.py` |
+| **Knowledge Graph** | Контекст | Планируется через ChromaDB |
+| **Career Development** | Прогресс | Отправляет метрики |
+| **Portfolio Organizer** | Доказательства | Экспортирует результаты |
 
-```mermaid
-sequenceDiagram
-    User->>Scanner: Цель
-    Scanner->>Planner: Данные
-    Planner->>Skills: План
-    Skills->>Learning: Метрики
-    Learning->>User: Отчёт
-```
+### 📡 API Endpoints
 
-### Consumes (откуда берет)
-
-| Источник | Тип данных | Частота | Протокол |
-|----------|------------|---------|----------|
-| `Project files` | Исходный код, конфиги | При сканировании | Filesystem |
-| `Knowledge Graph` | Контекст | При планировании | API (восстанавливается) |
-| `Decision Engine` | Рекомендации | При выборе шага | API |
-
-### Produces (кому отдает)
-
-| Потребитель | Тип данных | Частота | Протокол |
-|-------------|------------|---------|----------|
-| `Skills` | Задачи для выполнения | По плану | Internal |
-| `Metric Collector` | Метрики производительности | Каждые 5 мин | CSV |
-| `Portfolio Organizer` | Результат работы | После завершения | API |
+| Метод | Путь | Описание | Интеграция |
+|-------|------|----------|------------|
+| `GET` | `/health` | Health check | ✅ Работает |
+| `POST` | `/api/v1/scan` | Сканировать проект | 🟡 scanner_main.py |
+| `POST` | `/api/v1/plan` | Создать план | 🟡 planner_main.py + AI |
+| `POST` | `/api/v1/execute` | Выполнить задачу | ⚪ Skills |
+| `GET` | `/api/v1/metrics` | Метрики обучения | 🟡 learning_main.py |
+| `GET` | `/api/v1/skills` | Список навыков | ✅ Работает |
 
 ---
 
 ## 🧪 Текущий статус (MVP)
 
 **Что работает:**
-- ✅ Сканирование проекта (находит файлы, зависимости)
-- ✅ Сбор метрик производительности (performance.csv)
-- ✅ Базовые skills (скрипты для автоматизации)
-- ✅ Автономный запуск (каждые 6 часов)
+- ✅ FastAPI сервер с endpoints (`/health`, `/api/v1/*`)
+- ✅ Сканирование проекта (scanner_main.py)
+- ✅ Планирование задач (planner_main.py — без ИИ)
+- ✅ Сбор метрик (learning_main.py)
+- ✅ Интеграция с GigaChat (src/ai/gigachat_bridge.py)
+- ✅ Health check endpoints
 - ✅ Логирование в файлы
 
 **Что в разработке:**
-- 🟡 ИИ-планирование (LangChain + GigaChat) — **включить в конфиге**
-- 🟡 Интеграция с Knowledge Graph (восстановление после поломки)
-- 🟡 Ollama как fallback-модель (планируется)
-- 🟡 Поиск бизнес-ценности в сервисах
-- 🟡 Комбинирование сервисов для архитектурных схем
+- 🟡 Интеграция с IT-Compass маркерами
+- 🟡 Интеграция с Job Automation Agent
+- 🟡 ChromaDB векторный поиск
+- 🟡 Ollama fallback
+- 🟡 E2E тесты
+- 🟡 Docker Compose
 
 **Что не подтверждено (удалены ложные заявления):**
 - ❌ "80% кода сгенерировано агентом" — нет доказательств
@@ -187,73 +214,112 @@ docker-compose up -d my-agent
 
 ## 🏗️ Техническая реализация
 
+### 🧬 Композиционная архитектура
+
+Cognitive Agent следует принципу **«Атомы и Молекулы»**:
+
+**Атомы (в корневой `src/`):**
+- `src/ai/gigachat_bridge.py` — интеграция с GigaChat
+- `src/shared/models.py` — общие Pydantic модели
+- `src/core/config_loader.py` — загрузчик конфигурации
+
+**Молекулы (в `apps/cognitive_agent/`):**
+- `apps/cognitive_agent/src/main.py` — FastAPI сервер
+- `apps/cognitive_agent/src/api/endpoints.py` — API endpoints
+- `apps/cognitive_agent/scripts/` — скрипты агента
+
 ### Стек технологий
-- **Язык:** Python 3.10+
+- **Язык:** Python 3.12
 - **Фреймворк:** FastAPI
-- **AI:** LangChain + GigaChat (основной) + Ollama (fallback, планируется)
-- **Хранение:** In-memory + Knowledge Graph (восстанавливается)
+- **AI:** LangChain + GigaChat (основной) + Ollama (fallback)
+- **Vector DB:** ChromaDB (планируется)
+- **Хранение:** In-memory + файловая система
 - **Контейнеризация:** Docker + Docker Compose
 
 ### Зависимости
-- **LangChain 0.1+** — AI-планирование
-- **FastAPI 0.100+** — веб-фреймворк
-- **Pydantic 2.0+** — валидация
-- **gigachat** — основная LLM
-- **ollama** — резервная LLM (в планах)
+```txt
+fastapi>=0.124.0
+uvicorn>=0.46.0
+pydantic>=2.8.0
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-gigachat>=0.3.0
+gigachat>=0.2.0
+chromadb>=0.5.0  # Планируется
+```
 
 ### Структура проекта
 ```
-cognitive-agent/
-├── src/
-│   ├── __init__.py
-│   ├── main.py          # FastAPI приложение
-│   ├── planner/         # Планировщик задач (ИИ)
-│   ├── learning/        # Система обучения
-│   └── skills/          # Набор навыков
-├── tests/
-│   ├── test_planner.py  # В планах
-│   ├── test_learning.py # В планах
-│   └── test_skills.py
-├── config/
-│   └── agent-config.yaml
-├── Dockerfile
-├── requirements.txt
-└── README.md
+apps/cognitive_agent/
+├── src/                          # FastAPI сервер
+│   ├── main.py                   # Точка входа
+│   └── api/
+│       └── endpoints.py          # API endpoints
+├── scripts/                      # Скрипты агента
+│   ├── scanner_main.py           # Сканирование
+│   ├── planner_main.py           # Планирование
+│   └── learning_main.py          # Обучение
+├── config/                       # Конфигурация
+├── docs/                         # Документация
+│   ├── COGNITIVE_AGENT_ARCHITECTURE.md
+│   ├── IMPLEMENTATION_CONTEXT.md
+│   ├── ARCHITECTURE.md
+│   └── FLOW.md
+└── requirements.txt
 ```
+
+### 🧭 Где что лежит (для ИИ)
+
+| Файл/Папка | Назначение |
+|------------|------------|
+| `apps/cognitive_agent/src/main.py` | FastAPI сервер, точка входа |
+| `apps/cognitive_agent/src/api/endpoints.py` | API endpoints |
+| `apps/cognitive_agent/scripts/scanner_main.py` | Сканирование проекта |
+| `apps/cognitive_agent/scripts/planner_main.py` | Планирование задач |
+| `apps/cognitive_agent/scripts/learning_main.py` | Сбор метрик |
+| `src/ai/gigachat_bridge.py` | Интеграция с GigaChat (атом) |
+| `src/shared/models.py` | Pydantic модели (атом) |
+| `src/core/config_loader.py` | Загрузчик конфигов (атом) |
+| `apps/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md` | Контекст для ИИ |
+| `apps/cognitive_agent/docs/COGNITIVE_AGENT_ARCHITECTURE.md` | Архитектура |
 
 ---
 
 ## 🚀 Быстрый старт
 
-### Запуск через Docker Compose
+### Локальный запуск (разработка)
+
+```bash
+# 1. Активировать виртуальное окружение
+cd apps/cognitive_agent
+pip install -r requirements.txt
+
+# 2. Настроить переменные окружения
+cp .env.example .env
+# Отредактировать .env (добавить GIGACHAT_API_KEY)
+
+# 3. Запустить сервер
+python -m uvicorn src.main:app --reload --port 8008
+```
+
+### Доступ к API
+
+- **Swagger UI:** http://localhost:8008/docs
+- **Health check:** http://localhost:8008/health
+- **Статус:** http://localhost:8008/api/v1/status
+
+### Запуск через Docker
 
 ```bash
 docker-compose up -d cognitive-agent
 ```
 
-### Локальный запуск (разработка)
+### Тестирование
 
 ```bash
-cd apps/cognitive-agent
-pip install -e .
-uvicorn src.main:app --reload --port 8000
+cd apps/cognitive_agent
+pytest tests/ -v
 ```
-
-### Доступ к API
-
-- **Swagger UI:** http://localhost:8000/docs
-- **Health check:** http://localhost:8000/health
-
-### API Endpoints
-
-| Метод | Путь | Описание | Авторизация |
-|-------|------|----------|-------------|
-| `GET` | `/health` | Health check | Нет |
-| `POST` | `/api/v1/goal` | Поставить цель (опционально) | JWT |
-| `GET` | `/api/v1/plans/{goal_id}` | Получить план | JWT |
-| `POST` | `/api/v1/execute` | Выполнить шаг | JWT |
-| `GET` | `/api/v1/metrics` | Метрики обучения | JWT |
-| `GET` | `/api/v1/skills` | Список навыков | Нет |
 
 ---
 

@@ -115,11 +115,22 @@ docker-compose up -d
 | system_proof | ✅ Ready | ~75% | Аудит готовности системы |
 | ai_provider_manager | ✅ Ready | ~75% | Управление провайдерами AI |
 | competency_gap_engine | ✅ Ready | ~70% | Анализ разрывов компетенций |
-| cognitive_agent | 🟡 Beta | 14% (core: 66%) | Автономный ИИ-агент |
+| **cognitive_agent** | **🟡 Beta** | **14% (core: 66%)** | **🧠 Центральный оркестратор** |
 | mcp_server | 🟡 WIP | 47% | MCP-сервер для агентов |
 | template_service | 🚧 WIP | ~60% | Генератор шаблонов |
 
 **Среднее покрытие по экосистеме: ~75%**
+
+### 🔑 Ключевая роль Cognitive Agent
+
+**Cognitive Agent** — центральный оркестратор экосистемы, который:
+- 🔍 **Сканирует** все сервисы и понимает их структуру
+- 📋 **Планирует** задачи через ИИ (GigaChat + LangChain)
+- 🔗 **Интегрирует** IT-Compass, Job Automation, Decision Engine
+- 📚 **Собирает метрики** и учится на результатах
+
+**Статус:** FastAPI сервер работает, ИИ-планирование в разработке.  
+**Документация:** [apps/cognitive_agent/README.md](apps/cognitive_agent/README.md)
 
 ---
 
