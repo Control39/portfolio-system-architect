@@ -16,11 +16,14 @@ import yaml
 
 
 # Настройка логирования
+log_dir = Path("apps/cognitive_agent/logs")
+log_dir.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("apps/cognitive_agent/logs/planner.log"),
+        logging.FileHandler(log_dir / "planner.log"),
         logging.StreamHandler(),
     ],
 )

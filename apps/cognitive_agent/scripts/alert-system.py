@@ -15,10 +15,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import requests
 
+# Настройка логирования
+logs_dir = Path(".agents/logs")
+logs_dir.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(".agents/logs/alerts.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(logs_dir / "alerts.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
