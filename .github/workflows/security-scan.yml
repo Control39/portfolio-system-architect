@@ -107,19 +107,24 @@ jobs:
         include:
           - service: auth-service
             dockerfile: apps/auth_service/Dockerfile
-            context: apps/auth_service
+            context: .
+            build-args: SERVICE_DIR=apps/auth_service
           - service: it-compass
             dockerfile: apps/it_compass/Dockerfile
-            context: apps/it_compass
+            context: .
+            build-args: SERVICE_DIR=apps/it_compass
           - service: decision-engine
             dockerfile: apps/decision_engine/Dockerfile
-            context: apps/decision_engine
+            context: .
+            build-args: SERVICE_DIR=apps/decision_engine
           - service: ml-model-registry
             dockerfile: apps/ml_model_registry/Dockerfile
-            context: apps/ml_model_registry
+            context: .
+            build-args: SERVICE_DIR=apps/ml_model_registry
           - service: cognitive-agent
             dockerfile: apps/cognitive_agent/Dockerfile
-            context: apps/cognitive_agent
+            context: .
+            build-args: SERVICE_DIR=apps/cognitive_agent
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -140,7 +145,10 @@ jobs:
         id: scan
         run: |
           if [ -f "${{ matrix.dockerfile }}" ]; then
-            docker build -t ${{ matrix.service }}:test -f ${{ matrix.dockerfile }} ${{ matrix.context }}
+            docker build \
+              -t ${{ matrix.service }}:test \
+              -f ${{ matrix.dockerfile }} \
+              ${{ matrix.context }}
             trivy image --format sarif --output trivy-${{ matrix.service }}.sarif ${{ matrix.service }}:test
             echo "file-exists=true" >> $GITHUB_OUTPUT
           else
