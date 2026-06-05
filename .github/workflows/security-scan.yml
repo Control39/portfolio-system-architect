@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -34,8 +34,6 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
           skip-dirs: '.venv/,node_modules/,__pycache__/,*.egg-info,tests/,docs/archive/,_archive/,legacy/,experiments/'
-          ignore-policy: '.trivyignorefs'
-          config-path: './trivy-secret.yaml'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
@@ -48,10 +46,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -65,7 +63,7 @@ jobs:
           bandit -r apps/ src/ -f json -o bandit-results.json || true
 
       - name: Upload Bandit results as artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: bandit-results
@@ -77,10 +75,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -94,7 +92,7 @@ jobs:
           pip-audit --desc --format=json -o pip-audit-results.json || true
 
       - name: Upload audit results
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pip-audit-results
@@ -119,15 +117,15 @@ jobs:
           - service: ml-model-registry
             dockerfile: apps/ml_model_registry/Dockerfile
             context: apps/ml_model_registry
-          - service: cognitive_agent
-        dockerfile: apps/cognitive_agent/Dockerfile
-        context: apps/cognitive_agent
+          - service: cognitive-agent
+            dockerfile: apps/cognitive_agent/Dockerfile
+            context: apps/cognitive_agent
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@v3
 
       - name: Install Trivy
         run: |
@@ -139,38 +137,41 @@ jobs:
           sudo apt-get install -y trivy
 
       - name: Build & Scan Docker Image
+        id: scan
         run: |
           if [ -f "${{ matrix.dockerfile }}" ]; then
             docker build -t ${{ matrix.service }}:test -f ${{ matrix.dockerfile }} ${{ matrix.context }}
             trivy image --format sarif --output trivy-${{ matrix.service }}.sarif ${{ matrix.service }}:test
+            echo "file-exists=true" >> $GITHUB_OUTPUT
           else
             echo "::warning::Dockerfile ${{ matrix.dockerfile }} not found, skipping"
-            exit 0
+            echo "file-exists=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Upload SARIF Report
-        if: always() && hashFiles('trivy-${{ matrix.service }}.sarif') != ''
+        if: steps.scan.outputs.file-exists == 'true'
         uses: github/codeql-action/upload-sarif@v4
         with:
-          sarif_file: trivy-${{ matrix.service }}.sarif
+          sarif_file: 'trivy-${{ matrix.service }}.sarif'
 
   gitleaks:
     name: Secret Leak Detection
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Run gitleaks
+        id: gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload gitleaks results
+        if: steps.gitleaks.outputs.exit-code == '0' || steps.gitleaks.outputs.exit-code == '1'
         uses: github/codeql-action/upload-sarif@v4
-        if: always() && hashFiles('./gitleaks-report.sarif') != ''
         with:
           sarif_file: './gitleaks-report.sarif'
 
