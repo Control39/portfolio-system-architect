@@ -31,6 +31,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
+      - name: 📁 Create logs directories
+        run: |
+          mkdir -p apps/cognitive_agent/logs
+          mkdir -p .agents/logs
+
       - name: 🚀 Launch Cognitive Agent (Full Mode)
         run: |
           PYTHONPATH=$PWD/.agents python -m apps.cognitive_agent.scripts.scanner_main --mode=full --stop-after=90s
