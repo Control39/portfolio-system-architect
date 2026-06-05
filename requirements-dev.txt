@@ -55,7 +55,7 @@ babel==2.18.0
     # via
     #   jupyterlab-server
     #   mkdocs-material
-backports-asyncio-runner==1.2.0
+backports-asyncio-runner==1.1.0
     # via pytest-asyncio
 backports-datetime-fromisoformat==2.0.3
     # via marshmallow
