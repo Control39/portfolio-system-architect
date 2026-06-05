@@ -164,17 +164,12 @@ jobs:
           fetch-depth: 0
 
       - name: Run gitleaks
-        id: gitleaks
         continue-on-error: true
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload gitleaks results
-        if: always() && (steps.gitleaks.outcome == 'success' || steps.gitleaks.outcome == 'failure')
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: './gitleaks-report.sarif'
+          GITLEAKS_ENABLE_SUMMARY: "true"
+          GITLEAKS_ENABLE_COMMENTS: "false"
 
   notify-security:
     name: Security Notification
