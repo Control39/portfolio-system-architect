@@ -105,7 +105,7 @@ jobs:
           cd apps/cognitive_agent && python -m pytest tests/ -v --cov=. --cov-report=xml --durations=10
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           file: apps/cognitive_agent/coverage.xml
           flags: cognitive-agent
