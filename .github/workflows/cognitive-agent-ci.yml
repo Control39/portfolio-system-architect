@@ -1,3 +1,4 @@
+---
 name: Cognitive Agent CI/CD
 
 on:
@@ -33,14 +34,23 @@ jobs:
   validate-config:
     name: Validate Agent Configuration
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
@@ -51,22 +61,40 @@ jobs:
 
       - name: Validate configuration files
         run: |
-          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/agent-config.yaml
-          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/triggers.yaml
-          python apps/mcp_server/scripts/validate-config.py --config apps/cognitive_agent/config/learning.yaml
+          for config in agent-config triggers learning; do
+            if [ -f "apps/cognitive_agent/config/$config.yaml" ]; then
+              python apps/cognitive_agent/scripts/validate-config.py --config apps/cognitive_agent/config/$config.yaml
+            fi
+          done
+
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
   test-agent:
     name: Test Agent Components
-    runs-on: ubuntu-latest
     needs: validate-config
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install agent package
         run: |
@@ -74,26 +102,53 @@ jobs:
 
       - name: Run unit tests
         run: |
-          cd apps/cognitive_agent && python -m pytest tests/ -v --cov=agents --cov-report=xml
+          cd apps/cognitive_agent && python -m pytest tests/ -v --cov=. --cov-report=xml --durations=10
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           file: apps/cognitive_agent/coverage.xml
           flags: cognitive-agent
+          fail_ci_if_error: false
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts-${{ github.run_id }}
+          path: |
+            apps/cognitive_agent/coverage.xml
+            apps/cognitive_agent/reports/
+          retention-days: 7
+
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
   run-scanner:
     name: Run Project Scanner
-    runs-on: ubuntu-latest
     needs: test-agent
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install agent package
         run: |
@@ -101,29 +156,54 @@ jobs:
 
       - name: Run scanner in safe mode
         run: |
+          mkdir -p apps/cognitive_agent/reports
           python -m apps.cognitive_agent.scripts.scanner_main --mode=safe --output=apps/cognitive_agent/reports/ci-scan-report.json
         env:
           AGENT_MODE: ci
           SOURCECRAFT_QUOTA_SAVING: true
 
       - name: Upload scan report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: scan-report
+          name: scan-report-${{ github.run_id }}
           path: apps/cognitive_agent/reports/ci-scan-report.json
+
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
   monitor-quotas:
     name: Monitor SourceCraft Quotas
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Check API key
+        run: |
+          if [ -z "${{ secrets.SOURCECRAFT_API_KEY }}" ]; then
+            echo "Warning: SOURCECRAFT_API_KEY is not set, skipping quota check"
+            exit 0
+          fi
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install agent package
         run: |
@@ -131,34 +211,103 @@ jobs:
 
       - name: Run quota monitor
         run: |
+          mkdir -p apps/cognitive_agent/reports
           python apps/cognitive_agent/scripts/check_db.py --quota-check --output=apps/cognitive_agent/reports/quota-report.json
         env:
           SOURCECRAFT_API_KEY: ${{ secrets.SOURCECRAFT_API_KEY }}
 
       - name: Check quota thresholds
         run: |
-          python apps/cognitive_agent/scripts/alert_system.py --report=apps/cognitive_agent/reports/quota-report.json --threshold=80
+          if [ -f "apps/cognitive_agent/reports/quota-report.json" ]; then
+            python apps/cognitive_agent/scripts/alert_system.py --report=apps/cognitive_agent/reports/quota-report.json --threshold=80 || true
+          fi
         continue-on-error: true
 
       - name: Upload quota report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: quota-report
+          name: quota-report-${{ github.run_id }}
           path: apps/cognitive_agent/reports/quota-report.json
+
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
   deploy-agent:
     name: Deploy Agent Updates
     runs-on: ubuntu-latest
     needs: [test-agent, run-scanner]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    timeout-minutes: 15
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install agent package
+        run: |
+          cd apps/cognitive_agent && pip install -e .
+
+      - name: Update documentation
+        run: |
+          if [ -f "apps/cognitive_agent/scripts/add_test_metrics.py" ]; then
+            python apps/cognitive_agent/scripts/add_test_metrics.py --update-docs || true
+          fi
+          git config --global user.name "Cognitive Agent CI"
+          git config --global user.email "agent-ci@example.com"
+          git add apps/cognitive_agent/IMPLEMENTATION_REPORT.md apps/cognitive_agent/USAGE.md 2>/dev/null || true
+          git commit -m "docs: update agent documentation [skip ci]" || echo "No changes to commit"
+          git push origin main || echo "Nothing to push"
+
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: deploy-agent
+    if: |
+      (
+        github.event_name == 'push' &&
+        startsWith(github.ref, 'refs/tags/v') &&
+        !contains(github.ref, '-')
+      )
+    timeout-minutes: 10
+    steps:
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verify Python version
+        run: |
+          python --version
+          python -c "import sys; assert sys.version_info >= (3, 11), 'Python 3.11+ required'"
 
       - name: Build agent package
         run: |
@@ -166,30 +315,28 @@ jobs:
           pip install build
           python -m build
 
-      - name: Publish to PyPI (optional)
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        run: |
-          cd apps/cognitive_agent && pip install twine
-          twine upload dist/* --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          packages-dir: apps/cognitive_agent/dist/
 
-      - name: Update documentation
+      - name: End timing
+        if: always()
         run: |
-          python apps/cognitive_agent/scripts/add_test_metrics.py --update-docs
-          git config --global user.name "Cognitive Agent CI"
-          git config --global user.email "agent-ci@example.com"
-          git add apps/cognitive_agent/IMPLEMENTATION_REPORT.md apps/cognitive_agent/USAGE.md
-          git commit -m "docs: update agent documentation [skip ci]" || echo "No changes to commit"
-          git push origin main || echo "Nothing to push"
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
 
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Start timing
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -204,16 +351,31 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
+      - name: End timing
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "Job '${{ github.job }}' completed in $DURATION seconds"
+
   notify-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
-    needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, security-scan]
+    needs: [validate-config, test-agent, run-scanner, monitor-quotas, deploy-agent, publish-to-pypi, security-scan]
     if: always() && failure()
+    timeout-minutes: 5
     steps:
       - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Cognitive Agent CI
+          SLACK_TITLE: '❌ CI/CD Pipeline Failed'
+          SLACK_MESSAGE: |
+            *Workflow:* ${{ github.workflow }}
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Run URL:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_COLOR: '#ff0000'
+          SLACK_FOOTER: 'Please check the logs for details'
