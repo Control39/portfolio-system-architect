@@ -59,9 +59,9 @@ repos:
             apps/cognitive_agent/tools/python/secrets-scanner\.py
           )$
 
-  # Python linting — исправлен rev
+  # Python linting
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.8 # 🔧 Исправлено: была ошибка v0.15.12 (это версия ruff, а не репозитория)
+    rev: v0.9.9 # Latest stable as of 2025
     hooks:
       - id: ruff
         args: [--fix]
