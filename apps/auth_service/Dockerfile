@@ -1,8 +1,17 @@
 FROM python:3.12-slim
 
+LABEL maintainer="Your Name"
+LABEL description="Auth Service - JWT Authentication & Authorization"
+LABEL version="1.0.0"
+
 WORKDIR /app
 
-# Копируем requirements из КОРНЯ (общие зависимости)
+# Install git for pip dependencies from git repos
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
 COPY requirements.txt /tmp/requirements-root.txt
 RUN if [ -f /tmp/requirements-root.txt ]; then \
     pip install --no-cache-dir -r /tmp/requirements-root.txt; \
