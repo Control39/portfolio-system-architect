@@ -1,5 +1,4 @@
 # Отслеживание конфигурационных файлов с чувствительными данными
-
 # Отслеживание других конфигурационных файлов
 .env filter=lfs diff=lfs merge=lfs -text
 *.env filter=lfs diff=lfs merge=lfs -text
