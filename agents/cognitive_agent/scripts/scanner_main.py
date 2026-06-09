@@ -15,6 +15,16 @@ from typing import Any
 import yaml
 
 
+# Интеграция с AI Config Manager
+try:
+    from apps.cognitive_agent.src.config_integration import get_config
+
+    AI_CONFIG_INTEGRATION = True
+except ImportError:
+    AI_CONFIG_INTEGRATION = False
+    print("⚠️  AI Config Manager интеграция не доступна")
+
+
 # Создание директорий для логов перед инициализацией логирования
 LOG_DIR = Path("apps/cognitive_agent/logs")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -34,18 +44,42 @@ logger = logging.getLogger(__name__)
 class ProjectScanner:
     """Сканер проекта для анализа технологического стека и архитектуры"""
 
-    def __init__(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"):
-        self.config_path = Path(config_path)
-        self.config = self._load_config()
+    def __init__(self, config_path: str | None = None):
+        # Приоритет: AI Config Manager → локальный конфиг → дефолт
+        if AI_CONFIG_INTEGRATION:
+            try:
+                self.config_manager = get_config()
+                self.config = self.config_manager.get_scanning()
+                logger.info("✅ Используется AI Config Manager")
+            except Exception as e:
+                logger.warning(f"⚠️ Ошибка загрузки из AI Config Manager: {e}")
+                self.config = self._load_local_config(config_path)
+        else:
+            self.config = self._load_local_config(config_path)
+
+        self.config_path = Path(config_path) if config_path else None
         self.scan_results = {}
         # Защита от циклических зависимостей
         self.visited_paths = set()
         self.max_files_to_scan = 5000
 
-    def _load_config(self) -> dict[str, Any]:
+    def _load_local_config(
+        self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"
+    ) -> dict[str, Any]:
+        """Загрузка локальной конфигурации"""
+        try:
+            with open(config_path, encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
+        except Exception as e:
+            logger.error(f"Ошибка загрузки конфигурации: {e}")
+            return {}
+
+    def _load_config(
+        self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"
+    ) -> dict[str, Any]:
         """Загрузка конфигурации сканера"""
         try:
-            with open(self.config_path, encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
@@ -138,7 +172,6 @@ class ProjectScanner:
             "git_repository": self._check_git_repository(project_path),
         }
 
-
     def _analyze_tech_stack(self, project_path: Path) -> dict[str, Any]:
         """Анализ технологического стека"""
         logger.info("Анализ технологического стека...")
@@ -150,7 +183,6 @@ class ProjectScanner:
             "tools": self._detect_tools(project_path),
         }
 
-
     def _analyze_dependencies(self, project_path: Path) -> dict[str, Any]:
         """Анализ зависимостей проекта"""
         logger.info("Анализ зависимостей...")
@@ -160,7 +192,6 @@ class ProjectScanner:
             "nodejs": self._get_nodejs_dependencies(project_path),
             "docker": self._get_docker_dependencies(project_path),
         }
-
 
     def _check_git_repository(self, path: Path) -> bool:
         """Проверка, является ли директория Git репозиторием"""
@@ -380,3 +411,6 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+# Алиас для обратной совместимости
+Scanner = ProjectScanner

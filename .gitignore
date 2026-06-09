@@ -1,6 +1,4 @@
-# =============================================================================
-# PYTHON
-# =============================================================================
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -25,21 +23,16 @@ wheels/
 
 # Virtual environments
 .venv/
-.venv_local/   # added
+.venv_local/
 venv/
 env/
 ENV/
 
-# Distribution / packaging
-*.egg-info/
-
-# =============================================================================
-# LOGS & ARTIFACTS
-# =============================================================================
+# Logs & Artifacts
 *.log
 logs/
 .reports/
-reports/       # added (для корневой папки)
+reports/
 .coverage
 htmlcov/
 coverage.xml
@@ -47,28 +40,24 @@ junit.xml
 bandit-report.json
 gitleaks-report.json
 
-# Agent-generated artifacts (auto-generated, do not commit)
+# Agent-generated artifacts
 .agents/reports/
 .agents/logs/performance.csv
-apps/cognitive_agent/reports/
 apps/plans/
 apps/reports/
 agent-logs-*.zip
 
 # Scan caches
-cognitive_agent/scans/
 it_compass/*.json
 .cognitive_agent_scan_cache.json
 
-# Test & Diagnostic reports (added)
+# Test reports
 diagnostic_report.json
 health_check_report.json
 *_test_results.json
 phase2_*_test_results.json
 
-# =============================================================================
-# ENVIRONMENT & SECRETS (NEVER COMMIT)
-# =============================================================================
+# Secrets
 .env
 .env.local
 .env.*
@@ -90,11 +79,8 @@ authorized_keys
 *.pfx
 secrets.json
 
-# =============================================================================
-# IDE & TOOLS (личные настройки)
-# =============================================================================
-# VS Code: игнорируем всю папку целиком, так как общие настройки в settings-default.json
-.vscode/       # changed
+# IDE
+.vscode/
 .idea/
 .kodacli/
 .gigaide/
@@ -103,65 +89,46 @@ secrets.json
 .continue/
 .ruff_cache/
 
-# GigaCode: игнорируем секреты и кэш, но не код (везде в проекте)
+# GigaCode secrets
 **/.gigacode/*.env
 **/.gigacode/*.env.*
 **/.gigacode/**/*.token_cache.json
 **/.gigacode/__pycache__/
 **/.gigacode/*.pyc
-# **/.gigacode/plans/  # ОТКЛЮЧЕНО: отчеты полезны для истории
-# .gigacode/plans/  # ОТКЛЮЧЕНО: отчеты полезны для истории
 
 # AI Assistants
 .codeassistant/
 .chat-cache/
 
-# =============================================================================
-# GENERATED & STATIC FILES
-# =============================================================================
-# MkDocs / static site output
+# Generated & Static
 docs/archive/site-html-build/
 docs/_site/
 site/
 python_server/static/
-
-# Frontend build artifacts
-**/node_modules/ # added (на случай других фронтов)
+**/node_modules/
 client/dist/
-
-# Databases
 test_db/
 *.sqlite3
 
-# =============================================================================
-# OS & TEMP
-# =============================================================================
+# OS
 .DS_Store
 Thumbs.db
 .azure/
-
-# Windows duplicates & temp files (added)
 * (*).*
 *.bak
 *.tmp
 
-# =============================================================================
-# ARCHIVE (для локального хранения, не коммитить)
-# =============================================================================
+# Archive
 .archive/
-legacy/        # added
+legacy/
 
-# =============================================================================
-# STANDALONE REPOS (если клонируешь отдельно)
-# =============================================================================
+# Standalone repos
 cognitive-agent-standalone/
 it_compass-standalone/
 portfolio_organizer-standalone/
 system_proof-standalone/
 
-# =============================================================================
-# TEMPORARY TOOL FILES
-# =============================================================================
+# Temporary tool files
 diagnosis.ps1
 fix-vscode.ps1
 ruff.toml
@@ -169,97 +136,114 @@ fix_*.py
 _debug_*.py
 sitecustomize.py
 commit_msg*.txt
-
-# Local temp scripts (added)
 decode_key.py
 temp_get_token.py
 run-tests-safe.py
 
-# =============================================================================
-# TEMP / WORKING DIRS (локальные черновики)
-# =============================================================================
+# Working dirs
 no_commit/
-
-# =============================================================================
-# Reports archive
-# =============================================================================
-docs/reports/archive/
-docs-archive/
-
-# =============================================================================
-# Личные настройки агентов (логи, кэш, метрики)
-# =============================================================================
-.agents/logs/
-.agents/metrics/
-.agents/scans/
-.agents/data/
-.agents/cache/
-.agents/reports/
-.agents/agent-logs-*.zip
-.agents/changelogs/
-.agents/logs/performance.csv
-
-# Персональные настройки инструментов
-.koda/
-# .sourcecraft/
-.gigacode/plans/
-.gigacode/*.env
-.gigacode/*.env.*
-.gigacode/*.token_cache.json
-.gigacode/__pycache__/
-.gigacode/*.pyc
-
-
-# Личные данные когнитивного агента
-apps/cognitive_agent/logs/
-apps/cognitive_agent/metrics/
-apps/cognitive_agent/scans/
-apps/cognitive_agent/data/
-apps/cognitive_agent/cache/
-apps/cognitive_agent/reports/
-apps/cognitive_agent/status/
-apps/cognitive_agent/backups/
-apps/cognitive_agent/models/
-apps/cognitive_agent/recommendations/
-apps/cognitive_agent/knowledge/
-apps/cognitive_agent/__pycache__/
-apps/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md  # Контекст для передачи ИИ
-
-# Virtual environments (НИКОГДА не коммитить)
-.venv/
-.venv_local/
-venv/
-env/
-*.pyc
-__pycache__/
-
-# Персональные скрипты окружения (не коммитить)
-.scripts/
-
-# Sandbox / экспериментальная зона (не коммитить)
+repo-env/
 sandbox/
 
-# Отчёты планирования (локальные)
+# Reports archive
+docs/reports/archive/
+docs-archive/
 reports/planning/
 
-cognitive-agent/
-.vscode/settings.json
+# Cognitive Agent (agents/)
+agents/cognitive_agent/logs/
+agents/cognitive_agent/metrics/
+agents/cognitive_agent/scans/
+agents/cognitive_agent/data/
+agents/cognitive_agent/cache/
+agents/cognitive_agent/status/
+agents/cognitive_agent/backups/
+agents/cognitive_agent/models/
+agents/cognitive_agent/recommendations/
+agents/cognitive_agent/knowledge/
+agents/cognitive_agent/reports/
+agents/cognitive_agent/temp/
+agents/cognitive_agent/.env.local
+agents/*/local/
+agents/*/temp/
+
+# Personal scripts
+.scripts/
+
+# Planning reports
+tools/knowledge-extractor/chat-export-*.json
+tools/knowledge-extractor/extracted_cases.md
+
+# Misc
 DEPENDBOT_PR_REVIEW.md
-.vscode/settings.json
-DEPENDBOT_PR_REVIEW.md
-
-.vscode/settings.json
-
-DEPENDBOT_PR_REVIEW.md
-
-repo-env/
-
+apps/*/configs/vscode_settings.json
+apps/*/config/settings.json
 tools/.vscode/settings.json
-
 tools/devtools/.vscode/settings.json
 
-.vscode/settings.json
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+*.pid
+debug_*.py
+temp_*.py
+test_*.log
+.ipynb_checkpoints/
+*.ipynb
 
-apps/*/configs/vscode_settings.json
+# Security scans
+*.scan.json
+scan_results/
+security_scan/
 
-apps/*/config/settings.json\n\n# =============================================================================\n# EXCLUDE KNOWLEDGE EXTRACTOR DATA (NEVER COMMIT)\n# =============================================================================\ntools/knowledge-extractor/chat-export-*.json\ntools/knowledge-extractor/extracted_cases.md
+# Database dumps
+*.dump
+*.sql
+backup_*.sql
+
+# Monitoring data
+prometheus/data/
+grafana/data/
+grafana/sessions/
+
+# Docker volumes
+docker/volumes/
+*.volume/
+
+# Documentation builds
+docs/_build/
+docs/.build/
+
+# Test outputs
+test_output/
+test_reports/
+*.test.html
+
+# Terraform
+.terraform/
+terraform.tfstate*
+*.tfstate
+
+# Pip cache
+pip-wheel-metadata/
+pip-log.txt
+
+# Windows recycle
+$RECYCLE.BIN/
+System Volume Information/
+
+# Backups
+*_backup/
+*.backup.*
+backup_*
+
+# Temp directories
+tmp/
+temp/
+cache/
+.cache/
+downloads/
