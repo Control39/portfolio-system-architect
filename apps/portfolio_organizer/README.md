@@ -66,7 +66,7 @@ cd apps/portfolio_organizer
 pip install -r requirements.txt
 
 # 3. Запустить сервер разработки
-uvicorn src.main:app --reload --port 8004
+python run_api.py --mode dev
 
 # 4. Открыть Swagger UI
 # http://localhost:8004/docs

@@ -23,10 +23,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Добавляем путь к проекту для корректного импорта
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-sys.path.insert(0, str(Path(__file__).parent))
+# PYTHONPATH настраивается через docker-compose.yml и .env
+# Для локальной разработки: export PYTHONPATH=/app:/app/src
 
 # Конфигурация по умолчанию (fallback)
 DEFAULT_CONFIG: dict[str, Any] = {
