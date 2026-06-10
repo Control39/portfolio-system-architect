@@ -9,7 +9,6 @@
 import sys
 import logging
 import argparse
-from pathlib import Path
 from typing import Any
 
 import uvicorn

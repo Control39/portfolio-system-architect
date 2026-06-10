@@ -106,7 +106,7 @@ services:
       dockerfile: apps/knowledge_graph/Dockerfile
     container_name: knowledge_graph
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
       - DATABASE_URL=${DATABASE_URL}
       - OTEL_ENABLED=true
@@ -133,7 +133,7 @@ services:
       dockerfile: apps/chat_backend/Dockerfile
     container_name: chat_backend
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
       - OTEL_ENABLED=true
       - SERVICE_NAME=chat_backend
@@ -162,7 +162,7 @@ services:
       dockerfile: apps/it_compass/Dockerfile
     container_name: it-compass
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
     volumes:
       - ./data:/app/data
@@ -190,7 +190,7 @@ services:
       dockerfile: apps/career_development/Dockerfile
     container_name: career-development
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
     volumes:
       - ./data:/app/data
@@ -213,7 +213,7 @@ services:
       dockerfile: apps/portfolio_organizer/Dockerfile
     container_name: portfolio_organizer
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
     volumes:
       - ./data:/app/data
@@ -267,7 +267,7 @@ services:
       dockerfile: apps/infra_orchestrator/Dockerfile
     container_name: infra_orchestrator
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
     networks:
       - portfolio-network
@@ -293,7 +293,7 @@ services:
       dockerfile: apps/ai_config_manager/Dockerfile
     container_name: ai_config_manager
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
     networks:
       - portfolio-network
@@ -345,7 +345,7 @@ services:
       dockerfile: Dockerfile
     container_name: context_builder
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app:/app/src
       - LOG_LEVEL=INFO
       - CONTEXT_BUILDER_PORT=8600
       - PROJECT_ROOT=/app
