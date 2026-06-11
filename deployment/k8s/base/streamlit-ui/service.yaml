@@ -1,0 +1,18 @@
+# Service for Streamlit UI
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamlit-ui
+  namespace: portfolio-system
+  labels:
+    app: streamlit-ui
+    component: ai-architect
+    tier: frontend
+spec:
+  selector:
+    app: streamlit-ui
+  ports:
+  - port: 8503
+    targetPort: 8503
+    name: http
+  type: ClusterIP

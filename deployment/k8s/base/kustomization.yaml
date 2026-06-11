@@ -8,6 +8,8 @@ resources:
   - postgres/
   - services/
   - ingress/
+  - backup/
+  - streamlit-ui/
 
 commonLabels:
   app: cognitive-architecture

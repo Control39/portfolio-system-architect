@@ -213,8 +213,10 @@ services:
       dockerfile: apps/portfolio_organizer/Dockerfile
     container_name: portfolio_organizer
     environment:
-      - PYTHONPATH=/app:/app/src
+      - PYTHONPATH=/app:/app/src   # ✅
       - LOG_LEVEL=INFO
+    ports:
+      - "8004:8004"
     volumes:
       - ./data:/app/data
     networks:

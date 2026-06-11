@@ -1,15 +1,13 @@
-﻿FROM python:3.12-slim
+﻿# syntax=docker/dockerfile:1
+FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install curl
+# Install curl and git
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl && rm -rf /var/lib/apt/lists/*
+    curl git && rm -rf /var/lib/apt/lists/*
 
 # Копируем requirements из КОРНЯ (общие зависимости)
-# Install git for pip dependencies from git+https://
-RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
-
 COPY requirements.txt /tmp/requirements-root.txt
 RUN if [ -f /tmp/requirements-root.txt ]; then \
     pip install --no-cache-dir -r /tmp/requirements-root.txt; \
@@ -24,8 +22,8 @@ RUN if [ -f /tmp/requirements-service.txt ]; then \
 # Копируем src/ (общие компоненты)
 COPY src/ /app/src
 
-# Копируем папку сервиса
-COPY apps/portfolio_organizer/ /app
+# ✅ ИСПРАВЛЕНИЕ: Копируем ВСЁ из apps/ в /app (включая portfolio_organizer, auth_service и т.д.)
+COPY apps/ /app/apps/
 
 # Конфигурация
 ENV PYTHONPATH=/app:/app/src
@@ -43,4 +41,5 @@ EXPOSE 8004
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD curl -f http://localhost:8004/health || exit 1
 
-CMD ["python", "apps/portfolio_organizer/run_api.py", "--mode", "dev"]
+# ✅ Запуск из /app/apps/portfolio_organizer/run_api.py
+CMD ["python", "/app/apps/portfolio_organizer/run_api.py", "--mode", "dev"]

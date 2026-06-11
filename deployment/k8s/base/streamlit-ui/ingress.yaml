@@ -1,0 +1,27 @@
+# Ingress for external access to Streamlit UI
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: streamlit-ui-ingress
+  namespace: portfolio-system
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - architect-assistant.example.com
+    secretName: streamlit-ui-tls  # pragma: allowlist secret
+  rules:
+  - host: architect-assistant.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: streamlit-ui
+            port:
+              number: 8503

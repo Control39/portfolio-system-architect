@@ -1,0 +1,20 @@
+# ConfigMap for Streamlit UI configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: streamlit-ui-config
+  namespace: portfolio-system
+data:
+  config.yaml: |
+    api:
+      url: "http://rag-api.portfolio-system.svc.cluster.local:8000"
+      timeout: 30
+    ui:
+      title: "AI Architect Assistant"
+      theme: "light"
+      default_top_k: 3
+      default_min_confidence: 0.3
+    features:
+      enable_history: true
+      enable_examples: true
+      enable_source_view: true

@@ -1,226 +1,120 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Запуск сервера Portfolio Organizer API.
-Поддерживает режимы разработки (dev) и продакшена (prod),
-автозагрузку конфигурации и безопасную инициализацию приложения.
+Точка входа сервиса.
 """
 
-import sys
-import logging
 import argparse
-from typing import Any
+import logging
+import os
+import signal
+import sys
 
-import uvicorn
-from fastapi import FastAPI
+# 🔴 КРИТИЧНОЕ ИЗМЕНЕНИЕ ДЛЯ ADR-020: Проверка PYTHONPATH
+PYTHONPATH = os.environ.get("PYTHONPATH")  # Исправлено: os.getenv → os.environ.get
 
-# Настройка логирования
+
+# Используем sys.stderr для вывода до инициализации логгера
+def log_error(msg):
+    print(f"ERROR: {msg}", file=sys.stderr)
+
+
+if not PYTHONPATH:
+    log_error("⚠️ PYTHONPATH не установлен. Установите: PYTHONPATH=/app:/app/src (см. ADR-020)")
+    sys.exit(1)  # Добавлен выход при отсутствии PYTHONPATH
+elif "/app" not in PYTHONPATH or "/app/src" not in PYTHONPATH:
+    log_error(f"❌ PYTHONPATH должен содержать '/app' и '/app/src', получено: {PYTHONPATH}")
+    sys.exit(1)
+
+# 1. Настройка логирования (без force=True, чтобы не ломать библиотечный лог)
 logging.basicConfig(
-    level=logging.INFO,
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),  # Исправлено: os.getenv → os.environ.get
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    force=True,  # Гарантирует применение настроек при перезагрузке
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("portfolio_organizer")
 
-# PYTHONPATH настраивается через docker-compose.yml и .env
-# Для локальной разработки: export PYTHONPATH=/app:/app/src
+# 2. Конфигурация сервиса
+SERVICE_NAME = "portfolio_organizer"
+DEFAULT_HOST = os.environ.get("HOST", "0.0.0.0")  # nosec B104 - binding to all interfaces is intentional for container
+DEFAULT_PORT = 8004  # Наш выделенный порт
 
-# Конфигурация по умолчанию (fallback)
-DEFAULT_CONFIG: dict[str, Any] = {
-    "automation": {
-        "scripts": [
-            {
-                "name": "run_api",
-                "command": [
-                    "uvicorn",
-                    "apps.portfolio_organizer.src.endpoints:app",
-                    "--host",
-                    "0.0.0.0",  # nosec B104
-                    "--port",
-                    "8000",
-                    "--reload",
-                ],
-            }
-        ]
-    }
-}
-
-# Безопасная загрузка конфигурации
-COMPONENT_CONFIG = DEFAULT_CONFIG.copy()
-
+# 3. Инициализация приложения
+# ВАЖНО: Импорт указывает на новую структуру endpoints/routes.py
 try:
-    from decision_engine.configs.loader import COMPONENT_CONFIG as LOADED_CONFIG
+    from apps.portfolio_organizer.endpoints.routes import app as imported_app
 
-    if LOADED_CONFIG and isinstance(LOADED_CONFIG, dict):
-        COMPONENT_CONFIG = LOADED_CONFIG
-        logger.info("Конфигурация успешно загружена из decision_engine")
-    else:
-        logger.warning("Загруженная конфигурация пуста или неверного типа, используем fallback")
+    logger.info(f"✅ Приложение {SERVICE_NAME} успешно инициализировано")
+    web_app = imported_app
 except ImportError as e:
-    logger.warning(f"Не удалось загрузить конфигурацию из decision_engine: {e}")
-except Exception as e:
-    logger.error(f"Неожиданная ошибка при загрузке конфигурации: {e}")
+    # Fallback для разработки, если эндпоинты еще не готовы
+    logger.warning(f"⚠️ Не удалось импортировать эндпоинты ({e}). Создаем stub.")
+    from fastapi import FastAPI  # Добавлен импорт FastAPI
 
-
-# --- Инициализация приложения ---
-def create_stub_app() -> FastAPI:
-    """Создает заглушечное FastAPI приложение."""
-    app = FastAPI(
-        title="Portfolio Organizer (Stub)",
-        description="Заглушечное приложение для Portfolio Organizer API",
-        version="1.0.0",
-    )
-
-    @app.get("/")
-    async def root() -> dict[str, str]:
-        return {"message": "Заглушечное приложение", "status": "running", "version": "1.0.0"}
+    app = FastAPI(title=f"{SERVICE_NAME} (Stub)", version="1.0.0")
 
     @app.get("/health")
-    async def health() -> dict[str, str]:
-        return {"status": "healthy", "service": "portfolio-organizer"}
+    async def health():
+        return {"status": "healthy", "service": SERVICE_NAME}
 
-    return app
-
-
-# Глобальные переменные для хранения состояния
-web_app: FastAPI | None = None
-APP_IMPORT_STRING = "apps.portfolio_organizer.src.endpoints:app"
-
-try:
-    # Пытаемся импортировать реальное приложение
-    from apps.portfolio_organizer.src.endpoints import app as imported_app
-
-    if imported_app is None:
-        raise ImportError("App is None после импорта")
-
-    web_app = imported_app
-    logger.info("FastAPI приложение успешно импортировано")
-except ImportError as e:
-    logger.warning(f"Не удалось импортировать приложение ({e}). Используем заглушку.")
-    web_app = create_stub_app()
-    APP_IMPORT_STRING = "__main__:web_app"
-except Exception as e:
-    logger.error(f"Критическая ошибка при инициализации: {e}")
-    web_app = create_stub_app()
-    APP_IMPORT_STRING = "__main__:web_app"
+    web_app = app
 
 
-# --- Вспомогательные функции ---
-def validate_port(port: int) -> bool:
-    """Проверяет, что порт в допустимом диапазоне."""
-    return 1 <= port <= 65535
+# --- Graceful Shutdown ---
+def handle_sigterm(signum, frame):
+    logger.info(f"🛑 Получен сигнал {signal.Signals(signum).name}. Завершение работы...")
+    sys.exit(0)
 
 
-def extract_port_from_config() -> int:
-    """Безопасно извлекает порт из CONFIG или возвращает дефолт."""
-    default_port = 8000
+signal.signal(signal.SIGTERM, handle_sigterm)
+signal.signal(signal.SIGINT, handle_sigterm)
+
+
+# --- Запуск ---
+def run_server(host: str, port: int, mode: str, workers: int) -> None:
+    """Запуск Uvicorn с настройками окружения."""
+
+    # Интеграция с общей телеметрией (если доступна)
     try:
-        scripts = COMPONENT_CONFIG.get("automation", {}).get("scripts", [])
-        for script in scripts:
-            if isinstance(script, dict) and script.get("name") == "run_api":
-                command = script.get("command", [])
-                if isinstance(command, list) and "--port" in command:
-                    idx = command.index("--port")
-                    if idx + 1 < len(command) and command[idx + 1].isdigit():
-                        port = int(command[idx + 1])
-                        if validate_port(port):
-                            return port
-    except Exception as e:
-        logger.warning(f"Ошибка чтения порта из конфига: {e}")
-    return default_port
+        from src.common.telemetry import setup_telemetry
 
+        setup_telemetry(SERVICE_NAME)
+        logger.info("🔭 OpenTelemetry инициализирован")
+    except ImportError:
+        logger.warning("🔭 src.common.telemetry не найден. Трейсинг отключен.")
 
-# --- Запуск сервера ---
-def run_server(host: str, port: int, reload: bool, workers: int | None) -> None:
-    """
-    Универсальная техника запуска.
+    is_dev = mode == "dev"
 
-    Ключевое: для reload передаём строку импорта, для prod — объект приложения.
-    """
-    if not validate_port(port):
-        logger.error(f"Некорректный порт {port}, использую 8000")
-        port = 8000
-
-    # Uvicorn не поддерживает workers + reload
-    if reload and workers and workers > 1:
-        logger.warning("Режим reload несовместим с multiple workers. Устанавливаю workers=1.")
+    # Проверка несовместимости
+    if is_dev and workers > 1:
+        logger.warning("⚠️ Режим reload несовместим с воркерами. Устанавливаем workers=1.")
         workers = 1
 
-    logger.info(f"Запуск сервера: {host}:{port} | Reload: {reload} | Workers: {workers}")
+    import uvicorn  # Добавлен импорт uvicorn
 
-    uvicorn_kwargs: dict[str, Any] = {
-        "host": host,
-        "port": port,
-        "reload": reload,
-        "log_level": "info",
-        "access_log": True,
-        "timeout_keep_alive": 5,
-    }
-
-    if reload:
-        # Для reload передаём СТРОКУ импорта для автоперезагрузки
-        uvicorn_kwargs["app"] = APP_IMPORT_STRING
-        logger.info(f"Dev режим: используем импорт '{APP_IMPORT_STRING}'")
-    else:
-        # Для production передаём объект приложения
-        if web_app is None:
-            raise RuntimeError("FastAPI приложение не инициализировано")
-        uvicorn_kwargs["app"] = web_app
-        if workers:
-            uvicorn_kwargs["workers"] = workers
-            logger.info(f"Production режим: {workers} воркеров")
-
-    try:
-        uvicorn.run(**uvicorn_kwargs)
-    except KeyboardInterrupt:
-        logger.info("Получен сигнал остановки")
-    except Exception as e:
-        logger.error(f"Ошибка запуска сервера: {e}")
-        sys.exit(1)
+    uvicorn.run(
+        app="apps.portfolio_organizer.endpoints.routes:app" if is_dev else web_app,
+        host=host,
+        port=port,
+        reload=is_dev,
+        workers=workers if not is_dev else 1,
+        log_level=os.environ.get("LOG_LEVEL", "info").lower(),  # Исправлено: os.getenv → os.environ.get
+        timeout_keep_alive=5,
+    )
 
 
-# --- Точки входа ---
-def main(host: str, port: int | None, reload: bool, workers: int | None) -> None:
-    """Основная точка входа с объединённой логикой."""
-    final_port = port if port else extract_port_from_config()
-    run_server(host, final_port, reload, workers)
+def main() -> None:
+    parser = argparse.ArgumentParser(description=f"{SERVICE_NAME} API Runner")
+    parser.add_argument("--mode", choices=["dev", "prod"], default="dev")
+    parser.add_argument("--host", default=DEFAULT_HOST)
+    parser.add_argument(
+        "--port", type=int, default=int(os.environ.get("SERVICE_PORT", DEFAULT_PORT))
+    )  # Исправлено: os.getenv → os.environ.get
+    parser.add_argument("--workers", type=int, default=4)
 
-
-def main_dev(host: str, port: int | None) -> None:
-    """Запуск в development-режиме."""
-    logger.info(">>> Запуск в DEVELOPMENT режиме <<<")
-    main(host=host, port=port, reload=True, workers=1)
-
-
-def main_prod(host: str, port: int | None, workers: int) -> None:
-    """Запуск в production-режиме."""
-    logger.info(f">>> Запуск в PRODUCTION режиме ({workers} workers) <<<")
-    main(host=host, port=port, reload=False, workers=workers)
+    args = parser.parse_args()
+    logger.info(f"🚀 Запуск: mode={args.mode}, port={args.port}, workers={args.workers}")
+    run_server(args.host, args.port, args.mode, args.workers)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Portfolio Organizer API Runner",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Примеры:
-    python run_api.py --mode dev
-    python run_api.py --mode prod --port 8080 --workers 8
-        """,
-    )
-    parser.add_argument("--mode", choices=["dev", "prod"], default="dev", help="Режим запуска")
-    parser.add_argument("--host", default="0.0.0.0", help="Хост сервера")  # nosec B104
-    parser.add_argument("--port", type=int, default=None, help="Порт (из конфига, если не указан)")
-    parser.add_argument("--workers", type=int, default=4, help="Воркеры (только prod)")
-
-    args = parser.parse_args()
-
-    logger.info(
-        f"Параметры запуска: режим={args.mode}, host={args.host}, "
-        f"port={args.port or 'auto'}, workers={args.workers}"
-    )
-
-    if args.mode == "dev":
-        main_dev(host=args.host, port=args.port)
-    else:
-        main_prod(host=args.host, port=args.port, workers=args.workers)
+    main()

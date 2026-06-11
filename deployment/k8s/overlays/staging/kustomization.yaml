@@ -7,7 +7,7 @@ kind: Kustomization
 
 namespace: portfolio
 
-bases:
+resources:
   - ../../base
 
 commonLabels:
