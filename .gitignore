@@ -45,7 +45,11 @@ gitleaks-report.json
 .agents/logs/performance.csv
 apps/plans/
 apps/reports/
+apps/logs/
 agent-logs-*.zip
+
+# Logs
+**/*.log
 
 # Scan caches
 it_compass/*.json
@@ -78,6 +82,7 @@ authorized_keys
 *.der
 *.pfx
 secrets.json
+secrets/
 
 # IDE
 .vscode/
