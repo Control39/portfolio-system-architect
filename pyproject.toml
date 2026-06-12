@@ -1,60 +1,199 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "portfolio-system-architect"
 version = "0.1.0"
 description = "Cognitive Agent System for Portfolio Architecture"
-authors = [{name = "Control39", email = "leadarchitect@yandex.ru"}]
+authors = [
+    {name = "Екатерина Куделя", email = "leadarchitect@yandex.ru"}
+]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
+license = {text = "MIT"}
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+# Основные зависимости (используются во всех сервисах)
 dependencies = [
-  "numpy",
-  "pandas",
-  "scikit-learn",
-  "pyyaml",
-  "requests",
-  "python-dotenv",
-  "typer",
-  "rich",
-  "tqdm"
+    "pyyaml>=6.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "tqdm>=4.65.0",
 ]
 
 [project.optional-dependencies]
-ml = [
-  "torch",
-  "transformers"
+# ML/AI зависимости (для decision_engine, cognitive_agent)
+ai = [
+    "langchain>=0.1.0",
+    "langchain-core>=0.1.0",
+    "langchain-openai>=0.0.5",
+    "openai>=1.0.0",
+    "tiktoken>=0.5.0",
 ]
 
+# Web/API зависимости (для FastAPI сервисов)
+web = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "streamlit>=1.30.0",
+]
+
+# Data Science (для анализа, ML)
+ml = [
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "scikit-learn>=1.4.0",
+    "torch>=2.1.0",
+    "transformers>=4.36.0",
+]
+
+# Dev зависимости (тесты, линтеры)
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "black>=24.0.0",
+]
+
+# Все зависимости сразу
+all = [
+    "portfolio-system-architect[ai,web,ml,dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/Control39/portfolio-system-architect"
+Repository = "https://github.com/Control39/portfolio-system-architect"
+Issues = "https://github.com/Control39/portfolio-system-architect/issues"
+
+# Entry points для CLI
 [project.scripts]
-cognitive-agent = "apps.cognitive_agent.scripts.scanner_main:main"
+cognitive-scanner = "agents.cognitive_agent.scripts.scanner_main:main"
+cognitive-planner = "agents.cognitive_agent.scripts.planner_main:main"
+cognitive-learner = "agents.cognitive_agent.scripts.learning_main:main"
+cognitive-trigger = "agents.cognitive_agent.scripts.trigger_processor:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["src*", "apps*", "agents*", "tools*"]
+exclude = ["tests*", "legacy*", "experiments*", ".venv*", "docs*"]
 
 # -----------------------------
 # Ruff: lint & format settings
 # -----------------------------
 [tool.ruff]
-line-length = 100
-target-version = "py312"
+line-length = 120  # Унифицировано с black в VS Code
+target-version = "py312"  # Унифицировано с requires-python
 exclude = [
     ".venv",
+    ".git",
+    "__pycache__",
     "legacy",
     "experiments",
     "site",
+    "docs",
+    ".agents",
+    "node_modules",
+    "htmlcov",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    "build",
+    "dist",
 ]
 
 [tool.ruff.lint]
-extend-ignore = ["E402"]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E402",  # module level import not at top of file (нужно для скриптов)
+    "E501",  # line too long (управляется formatter)
+    "B008",  # do not perform function calls in argument defaults (нужно для FastAPI Depends)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "apps", "agents", "tools"]
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+docstring-code-format = true  # Форматировать примеры кода в докстрингах
+docstring-code-line-length = 100
+
+# -----------------------------
+# Black: форматирование
+# -----------------------------
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+exclude = '''
+/(
+    \.venv
+  | legacy
+  | experiments
+  | site
+  | docs
+  | \.agents
+  | node_modules
+  | htmlcov
+)/
+'''
+
+# -----------------------------
+# MyPy: проверка типов
+# -----------------------------
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Пока false, чтобы не блокировать разработку
+check_untyped_defs = true
+ignore_missing_imports = true  # Игнорировать отсутствующие stubs
+exclude = [
+    "legacy/",
+    "experiments/",
+    "\\.venv/",
+    "\\.agents/",
+]
+
+# -----------------------------
+# Pytest: тестирование
+# -----------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests", "apps", "src"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--cov=apps",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
