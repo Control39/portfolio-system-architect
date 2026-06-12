@@ -15,4 +15,4 @@ commonLabels:
   managed-by: kustomize
 
 # Exclusions для предотвращения дублирования
-# NetworkPolicy уже есть в ingress/network-policy.yaml
+# Общие NetworkPolicies уже есть в ingress/network-policy.yaml

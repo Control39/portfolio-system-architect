@@ -6,7 +6,6 @@ resources:
   - service.yaml
   - configmap.yaml
   - hpa.yaml
-  - network-policy.yaml
 commonLabels:
   app: career-development
   tier: backend

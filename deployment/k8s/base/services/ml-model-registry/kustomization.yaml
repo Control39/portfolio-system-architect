@@ -6,7 +6,6 @@ resources:
   - service.yaml
   - configmap.yaml
   - hpa.yaml
-  - network-policy.yaml
 commonLabels:
   app: ml-model-registry
   tier: backend
