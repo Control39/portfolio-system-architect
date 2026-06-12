@@ -871,7 +871,7 @@ tomlkit==0.15.0
     # via
     #   commitizen
     #   safety
-tornado==6.5.5
+tornado==6.5.6
     # via
     #   ipykernel
     #   jupyter-client
@@ -913,6 +913,7 @@ types-setuptools==82.0.0.20260518
     # via -r requirements-dev.in
 typing-extensions==4.15.0
     # via
+    #   aiohttp
     #   aiosignal
     #   altair
     #   anyio
