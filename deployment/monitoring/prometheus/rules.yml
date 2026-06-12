@@ -1,4 +1,4 @@
-﻿# Prometheus Alert Rules for Portfolio System Architect
+# Prometheus Alert Rules for Portfolio System Architect
 # CPU, Memory, Error Rates, and SLO/SLI metrics
 
 groups:
@@ -268,3 +268,39 @@ groups:
         annotations:
           summary: "RAG Index Size Low"
           description: "RAG index contains only {{ $value }} documents, consider adding more documentation"
+
+      # Database Connection Pool Alerts
+      - alert: DatabaseConnectionsHigh
+        expr: |
+          pg_stat_database_numbackends > 50
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High number of database connections"
+          description: "PostgreSQL has {{ $value }} active connections (threshold: 50)"
+          runbook_url: "https://example.com/runbooks/database-connections-high"
+
+      # Low Request Volume Alerts
+      - alert: LowRequestVolume
+        expr: |
+          rate(http_requests_total[15m]) < 10
+        for: 30m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low request volume in {{ $labels.job }}"
+          description: "Service {{ $labels.job }} is receiving only {{ $value | humanize }} requests/second (threshold: 10)"
+          runbook_url: "https://example.com/runbooks/low-request-volume"
+
+      # SSL Certificate Expiry Alerts
+      - alert: CertificateExpiringSoon
+        expr: |
+          ssl_certificate_expiry_seconds < 86400 * 30
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "SSL certificate expiring soon for {{ $labels.instance }}"
+          description: "Certificate will expire in {{ $value / 86400 | humanize }} days (threshold: 30 days)"
+          runbook_url: "https://example.com/runbooks/certificate-expiring-soon"

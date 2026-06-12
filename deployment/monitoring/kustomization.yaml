@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: portfolio
+resources:
+  - prometheus/prometheus.yml
+  - prometheus/rules.yml
+  - alertmanager/alertmanager.yml
+  - grafana/provisioning/datasources/prometheus.yml
+  - grafana/provisioning/dashboards/portfolio.yml
+  - grafana/dashboards/portfolio.json
+commonLabels:
+  app: monitoring
+  managed-by: kustomize
