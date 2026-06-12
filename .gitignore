@@ -95,6 +95,7 @@ secrets.json
 **/.gigacode/**/*.token_cache.json
 **/.gigacode/__pycache__/
 **/.gigacode/*.pyc
+.gigacode/
 
 # AI Assistants
 .codeassistant/
@@ -240,6 +241,7 @@ System Volume Information/
 *_backup/
 *.backup.*
 backup_*
+.sys_path_backup_*/
 
 # Temp directories
 tmp/
