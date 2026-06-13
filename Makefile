@@ -1,179 +1,231 @@
 # Makefile for Portfolio System Architect
-# Provides common development commands
+# Кроссплатформенный (Windows/Linux/Mac)
+# Все настройки в pyproject.toml — единый источник истины
 
-.PHONY: help install dev test lint format clean docker-up docker-down docker-build docker-logs update-badge giga-token giga-vscode check-ports
+.ONESHELL:
+
+.PHONY: help install dev prod monitoring test lint format clean \
+        docker-up docker-down docker-build docker-logs \
+        update-badge check-ports audit security pre-commit \
+        reinstall status clean-cache
 
 # Default target
 help:
-	@echo "Available commands:"
-	@echo "  make install        Install dependencies (create virtual environment if missing)"
-	@echo "  make dev            Start development environment (Docker Compose)"
-	@echo "  make test           Run unit and integration tests with coverage"
-	@echo "  make lint           Run linters (ruff, black, mypy)"
-	@echo "  make format         Format code with black and isort"
-	@echo "  make clean          Remove temporary files and caches"
-	@echo "  make docker-up      Start all services with Docker Compose"
-	@echo "  make docker-down    Stop all services"
-	@echo "  make docker-build   Build Docker images"
-	@echo "  make docker-logs    Follow logs from all services"
-	@echo "  make pre-commit     Run pre-commit hooks on all files"
-	@echo "  make update-badge   Update coverage badge in README (auto-runs tests)"
-	@echo "  make giga-token     Get new GigaChat Access Token"
-	@echo "  make giga-vscode    Update VS Code settings with new GigaChat token"
-	@echo "  make check-ports    Check for port conflicts and Traefik route collisions"
+	@echo "🏗️  Portfolio System Architect — доступные команды:"
+	@echo ""
+	@echo "📦 Установка:"
+	@echo "  make install        Установить зависимости + pre-commit hooks"
+	@echo ""
+	@echo "🚀 Запуск:"
+	@echo "  make dev            Dev-режим (Docker Compose)"
+	@echo "  make monitoring     Dev + мониторинг (Prometheus/Grafana/Jaeger)"
+	@echo "  make prod           Prod-режим (с secrets)"
+	@echo ""
+	@echo "🧪 Тестирование и качество:"
+	@echo "  make test           Запустить тесты с coverage"
+	@echo "  make lint           Запустить линтеры (ruff, mypy)"
+	@echo "  make format         Отформатировать код (ruff)"
+	@echo "  make audit          Аудит мёртвых атомов"
+	@echo "  make security       Аудит безопасности (pip-audit + bandit)"
+	@echo "  make pre-commit     Запустить все pre-commit хуки"
+	@echo ""
+	@echo "🐳 Docker:"
+	@echo "  make docker-up      Запустить все сервисы"
+	@echo "  make docker-down    Остановить все сервисы"
+	@echo "  make docker-build   Собрать Docker-образы"
+	@echo "  make docker-logs    Смотреть логи"
+	@echo "  make check-ports    Проверить конфликты портов"
+	@echo ""
+	@echo "🧹 Очистка:"
+	@echo "  make clean          Удалить временные файлы и кэши"
+	@echo "  make clean-cache    Удалить только __pycache__ и .pytest_cache"
+	@echo ""
+	@echo "🔄 Полезные команды:"
+	@echo "  make reinstall      Полная переустановка (удалить venv + установить заново)"
+	@echo "  make status         Проверить статус сервисов и портов"
 
-# Detect Python and virtual environment
-PYTHON ?= python3
+# =============================================================================
+# КОНФИГУРАЦИЯ
+# =============================================================================
+
+PYTHON ?= python
 VENV ?= .venv
-VENV_BIN = $(VENV)/bin
-VENV_ACTIVATE = . $(VENV_BIN)/activate
+PYPROJECT := pyproject.toml
 
-# Check if virtual environment exists
-VENV_EXISTS := $(shell test -d $(VENV) && echo yes)
+# Кроссплатформенная проверка существования venv
+ifeq ($(OS),Windows_NT)
+    VENV_PYTHON := $(VENV)/Scripts/python.exe
+    VENV_PIP := $(VENV)/Scripts/pip.exe
+    VENV_RUFF := $(VENV)/Scripts/ruff.exe
+    VENV_MYPY := $(VENV)/Scripts/mypy.exe
+    VENV_PRE_COMMIT := $(VENV)/Scripts/pre-commit.exe
+    RM_RF := powershell -Command "Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+    VENV_EXISTS := $(shell if exist $(VENV)\Scripts\python.exe (echo yes) else (echo no))
+else
+    VENV_PYTHON := $(VENV)/bin/python
+    VENV_PIP := $(VENV)/bin/pip
+    VENV_RUFF := $(VENV)/bin/ruff
+    VENV_MYPY := $(VENV)/bin/mypy
+    VENV_PRE_COMMIT := $(VENV)/bin/pre-commit
+    RM_RF := rm -rf
+    VENV_EXISTS := $(shell test -d $(VENV) && echo yes || echo no)
+endif
+
+# =============================================================================
+# УСТАНОВКА
+# =============================================================================
 
 install:
-ifeq ($(VENV_EXISTS),yes)
-	@echo "Virtual environment already exists."
-else
-	@echo "Creating virtual environment..."
+ifeq ($(VENV_EXISTS),no)
+	@echo "🔧 Создаю виртуальное окружение..."
 	$(PYTHON) -m venv $(VENV)
 endif
-	@echo "Installing dependencies..."
-	$(VENV_ACTIVATE) && pip install --upgrade pip
-	$(VENV_ACTIVATE) && pip install -r requirements-dev.txt
-	$(VENV_ACTIVATE) && pip install -e .
-	@echo "Installing pre-commit hooks..."
-	$(VENV_ACTIVATE) && pre-commit install
+	@echo "📦 Устанавливаю зависимости..."
+	$(VENV_PIP) install --upgrade pip
+	$(VENV_PIP) install -e ".[all]"
+	$(VENV_PRE_COMMIT) install
+	@echo "✅ Установка завершена"
 
-dev: docker-up
-	@echo "Development environment started. Access services:"
-	@echo "  - Traefik Dashboard: http://localhost:8080"
-	@echo "  - Grafana: http://localhost:3000"
-	@echo "  - Prometheus: http://localhost:9090"
+# =============================================================================
+# ЗАПУСК ОКРУЖЕНИЯ
+# =============================================================================
+
+dev:
+	@echo "🚀 Запуск dev-окружения..."
+	docker compose up -d
+	@echo ""
+	@echo "📊 Сервисы доступны:"
+	@echo "  • Traefik Dashboard: http://localhost:8080"
+	@echo "  • Auth Service:      http://localhost/auth"
+	@echo "  • IT-Compass:        http://localhost/it-compass"
+	@echo ""
+	@echo "💡 Для мониторинга: make monitoring"
+
+monitoring:
+	@echo "🚀 Запуск dev + мониторинг..."
+	docker compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up -d
+	@echo ""
+	@echo "📊 Мониторинг:"
+	@echo "  • Grafana:     http://localhost:3000 (admin/admin)"
+	@echo "  • Prometheus:  http://localhost:9090"
+	@echo "  • Jaeger UI:   http://localhost:16686"
+	@echo "  • AlertManager: http://localhost:9093"
+
+prod:
+	@echo "🚀 Запуск prod-окружения..."
+	@if [ ! -d "secrets" ]; then \
+		echo "⚠️  Папка secrets/ не найдена. Создаю..."; \
+		mkdir -p secrets; \
+		echo "⚠️  Добавь секреты в secrets/*.txt"; \
+		exit 1; \
+	fi
+	docker compose -f docker-compose.prod.yml up -d
+	@echo "✅ Prod-окружение запущено"
+
+# =============================================================================
+# ТЕСТИРОВАНИЕ И КАЧЕСТВО
+# =============================================================================
 
 test:
-	$(VENV_ACTIVATE) && python -m pytest --cov=apps --cov=src --cov-report=html --cov-report=term-missing -m "not slow"
+	@echo "🧪 Запуск тестов..."
+	$(VENV_PYTHON) -m pytest
+	@echo "✅ Тесты завершены"
 
 lint:
-	$(VENV_ACTIVATE) && ruff check . --config ruff.toml
-	$(VENV_ACTIVATE) && ruff format --check . --config ruff.toml
-	$(VENV_ACTIVATE) && mypy apps src --config pyproject.toml
+	@echo "🔍 Запуск линтеров..."
+	$(VENV_RUFF) check .
+	$(VENV_RUFF) format --check .
+	$(VENV_MYPY) apps src agents tools
+	@echo "✅ Линтинг завершён"
 
 format:
-	$(VENV_ACTIVATE) && ruff check . --fix --config ruff.toml
-	$(VENV_ACTIVATE) && ruff format . --config ruff.toml
+	@echo "🎨 Форматирование кода..."
+	$(VENV_RUFF) check --fix .
+	$(VENV_RUFF) format .
+	@echo "✅ Форматирование завершено"
 
-# Quick fix: only fix auto-fixable issues
-lint-fix:
-	$(VENV_ACTIVATE) && ruff check . --fix --config ruff.toml
+audit:
+	@echo "🔍 Аудит мёртвых атомов..."
+	$(VENV_PYTHON) scripts/audit_dead_atoms.py
+	@echo ""
+	@echo "🔍 Проверка архитектурных границ..."
+	$(VENV_PYTHON) scripts/check_src_boundary.py
 
-# =============================================================================
-# CLEANUP
-# =============================================================================
-
-.PHONY: clean clean-pyc clean-test clean-build
-
-## Clean all temporary files
-clean: clean-pyc clean-test clean-build
-	@echo "✅ Cleanup complete"
-
-## Remove Python cache files
-clean-pyc:
-	@echo "🧹 Removing Python cache..."
-	find . -type d -name "__pycache__" -exec rm -r {} + 2>/dev/null || true
-	find . -type f -name "*.pyc" -delete 2>/dev/null || true
-	find . -type f -name "*~" -delete 2>/dev/null || true
-
-## Remove test coverage and pytest cache
-clean-test:
-	@echo "🧹 Removing test artifacts..."
-	rm -rf .pytest_cache .coverage coverage.xml htmlcov/ 2>/dev/null || true
-
-## Remove build artifacts
-clean-build:
-	@echo "🧹 Removing build artifacts..."
-	rm -rf build/ dist/ *.egg-info .eggs/ 2>/dev/null || true
-
-docker-up:
-	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up -d
-
-docker-down:
-	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml down
-
-docker-build:
-	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml build
-
-docker-logs:
-	docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml logs -f
+security:
+	@echo "🔒 Аудит безопасности..."
+	$(VENV_PIP) install -q pip-audit bandit
+	$(VENV_PYTHON) -m pip_audit || echo "⚠️  Найдены уязвимости"
+	$(VENV_PYTHON) -m bandit -r apps/ src/ agents/ tools/ -lll -f json -o bandit-report.json || echo "⚠️  Bandit нашёл проблемы"
+	@echo "✅ Аудит безопасности завершён"
 
 pre-commit:
-	$(VENV_ACTIVATE) && pre-commit run --all-files
+	@echo "🪝 Запуск pre-commit хуков..."
+	$(VENV_PRE_COMMIT) run --all-files
 
-# Additional targets for CI/CD
-ci: lint test
-	@echo "CI pipeline passed"
+# =============================================================================
+# DOCKER
+# =============================================================================
 
-# Generate documentation locally
-docs:
-	$(VENV_ACTIVATE) && mkdocs serve
+docker-up:
+	@echo "🚀 Запуск всех сервисов..."
+	docker compose up -d
 
-# Update coverage badge in README
-update-badge:
-	@echo "Updating coverage badge..."
-	@python scripts/update-coverage-badge.py
+docker-down:
+	@echo "🛑 Остановка всех сервисов..."
+	docker compose down
 
-# Port & Route Validation
+docker-build:
+	@echo "🔨 Сборка Docker-образов..."
+	docker compose build
+
+docker-logs:
+	@echo "📋 Логи сервисов..."
+	docker compose logs -f
+
 check-ports:
-	@echo "Checking port conflicts and Traefik routes..."
-	@$(VENV_ACTIVATE) && python scripts/check_ports.py
-
-# GigaChat Token Management
-giga-token:
-	@echo "Getting new GigaChat Access Token..."
-	@cd .devtools/.gigacode && python get_token.py
-
-giga-vscode:
-	@echo "Updating VS Code settings with GigaChat token..."
-	@cd .devtools/.gigacode && python update_vscode_token.py
-	@echo "✅ Done! Restart VS Code: Ctrl+Shift+P → 'Developer: Reload Window'"
+	@echo "🔍 Проверка конфликтов портов..."
+	$(VENV_PYTHON) scripts/check_ports.py
 
 # =============================================================================
-# SECURITY
+# ОЧИСТКА
 # =============================================================================
 
-.PHONY: security security-audit pip-audit bandit
+clean:
+	@echo "🧹 Очистка временных файлов..."
+ifeq ($(OS),Windows_NT)
+	powershell -Command "Get-ChildItem -Path . -Include __pycache__,.pytest_cache,.mypy_cache,.ruff_cache -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+	powershell -Command "Get-ChildItem -Path . -Include *.pyc,*.pyo -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue"
+	powershell -Command "Remove-Item -Path .coverage,coverage.xml,htmlcov,bandit-report.json -Recurse -Force -ErrorAction SilentlyContinue"
+else
+	find . -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".mypy_cache" -o -name ".ruff_cache" \) -exec rm -rf {} + 2>/dev/null || true
+	find . -type f \( -name "*.pyc" -o -name "*.pyo" \) -delete 2>/dev/null || true
+	rm -rf .coverage coverage.xml htmlcov/ bandit-report.json 2>/dev/null || true
+endif
+	@echo "✅ Очистка завершена"
 
-## Run full security audit (pip-audit + bandit)
-security: security-audit
+# =============================================================================
+# ДОПОЛНИТЕЛЬНЫЕ ЦЕЛИ
+# =============================================================================
 
-## Check Python dependencies for vulnerabilities
-pip-audit:
-	@echo "🔍 Scanning dependencies for vulnerabilities..."
-	$(VENV_ACTIVATE) && pip install -q pip-audit
-	$(VENV_ACTIVATE) && pip-audit pyproject.toml || $(VENV_ACTIVATE) && pip-audit requirements.txt || echo "⚠️ Check GitHub Dependabot for transitive vulnerabilities"
+# 🔄 Полная переустановка
+reinstall:
+	@echo "🔄 Полная переустановка..."
+	$(RM_RF) $(VENV)
+	$(MAKE) install
 
-## Static code analysis with bandit
-bandit:
-	@echo "🔍 Running bandit static analysis..."
-	$(VENV_ACTIVATE) && pip install -q bandit
-	$(VENV_ACTIVATE) && bandit -r apps/ src/ -lll
+# 📊 Статус сервисов
+status:
+	@echo "🔍 Статус контейнеров:"
+	-docker compose ps
+	@echo ""
+	@echo "🔍 Статус портов:"
+	-$(VENV_PYTHON) scripts/check_ports.py
 
-## Generate security reports (JSON format)
-security-report:
-	@echo "📊 Generating security reports..."
-	$(VENV_ACTIVATE) && pip install -q pip-audit bandit
-	$(VENV_ACTIVATE) && pip-audit --format json > pip-audit-report.json 2>&1 || true
-	$(VENV_ACTIVATE) && bandit -r apps/ src/ -lll --format json --output bandit-report.json || true
-	@echo "✅ Reports generated: pip-audit-report.json, bandit-report.json"
-
-## Scan Docker images with Trivy (requires Trivy installed locally)
-trivy:
-	@echo "🔍 Scanning Docker images with Trivy..."
-	@which trivy > /dev/null 2>&1 || (echo "⚠️ Trivy not installed. Install from: https://aquasecurity.github.io/trivy/" && exit 1)
-	trivy image --severity CRITICAL,HIGH --ignore-unfixed $(shell docker-compose -f docker-compose.yml config | grep "image:" | awk '{print $2}' | sort -u) || echo "✅ Trivy scan completed"
-
-## Scan filesystem with Trivy
-trivy-fs:
-	@echo "🔍 Scanning filesystem with Trivy..."
-	@which trivy > /dev/null 2>&1 || (echo "⚠️ Trivy not installed. Install from: https://aquasecurity.github.io/trivy/" && exit 1)
-	trivy fs --severity CRITICAL,HIGH . || echo "✅ Trivy FS scan completed"
+# 🧹 Лёгкая очистка (без venv)
+clean-cache:
+ifeq ($(OS),Windows_NT)
+	powershell -Command "Get-ChildItem -Path . -Include __pycache__,.pytest_cache -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+else
+	find . -type d \( -name "__pycache__" -o -name ".pytest_cache" \) -exec rm -rf {} + 2>/dev/null || true
+endif
+	@echo "✅ Кэш очищен"

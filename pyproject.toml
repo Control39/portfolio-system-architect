@@ -12,6 +12,7 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
+keywords = ["portfolio", "cognitive-agent", "architecture", "ai", "career-development"]  # ✅ Добавлено
 classifiers = [
     "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
@@ -69,9 +70,31 @@ dev = [
     "black>=24.0.0",
 ]
 
-# Все зависимости сразу
+# ✅ ИСПРАВЛЕНО: Явное перечисление всех зависимостей
 all = [
-    "portfolio-system-architect[ai,web,ml,dev]",
+    # AI
+    "langchain>=0.1.0",
+    "langchain-core>=0.1.0",
+    "langchain-openai>=0.0.5",
+    "openai>=1.0.0",
+    "tiktoken>=0.5.0",
+    # Web
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "streamlit>=1.30.0",
+    # ML
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "scikit-learn>=1.4.0",
+    "torch>=2.1.0",
+    "transformers>=4.36.0",
+    # Dev
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "black>=24.0.0",
 ]
 
 [project.urls]
@@ -88,44 +111,24 @@ cognitive-trigger = "agents.cognitive_agent.scripts.trigger_processor:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*", "apps*", "agents*", "tools*"]
-exclude = ["tests*", "legacy*", "experiments*", ".venv*", "docs*"]
+# ✅ ИСПРАВЛЕНО: Явное указание пакетов вместо wildcard
+include = ["src", "apps", "agents", "tools", "src.*", "apps.*", "agents.*", "tools.*"]
+exclude = ["tests*", "legacy*", "experiments*", ".venv*", "docs*", ".agents*"]
 
 # -----------------------------
 # Ruff: lint & format settings
 # -----------------------------
 [tool.ruff]
-line-length = 120  # Унифицировано с black в VS Code
-target-version = "py312"  # Унифицировано с requires-python
+line-length = 120
+target-version = "py312"
 exclude = [
-    ".venv",
-    ".git",
-    "__pycache__",
-    "legacy",
-    "experiments",
-    "site",
-    "docs",
-    ".agents",
-    "node_modules",
-    "htmlcov",
-    ".mypy_cache",
-    ".ruff_cache",
-    ".pytest_cache",
-    "build",
-    "dist",
+    ".venv", ".git", "__pycache__", "legacy", "experiments", "site",
+    "docs", ".agents", "node_modules", "htmlcov", ".mypy_cache",
+    ".ruff_cache", ".pytest_cache", "build", "dist",
 ]
 
 [tool.ruff.lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "N",   # pep8-naming
-    "UP",  # pyupgrade
-    "B",   # flake8-bugbear
-    "SIM", # flake8-simplify
-]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM"]
 ignore = [
     "E402",  # module level import not at top of file (нужно для скриптов)
     "E501",  # line too long (управляется formatter)
@@ -138,7 +141,7 @@ known-first-party = ["src", "apps", "agents", "tools"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-docstring-code-format = true  # Форматировать примеры кода в докстрингах
+docstring-code-format = true
 docstring-code-line-length = 100
 
 # -----------------------------
@@ -167,15 +170,11 @@ exclude = '''
 python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
-disallow_untyped_defs = false  # Пока false, чтобы не блокировать разработку
+disallow_untyped_defs = false  # 🔶 Временно: можно включить позже для строгой типизации
 check_untyped_defs = true
-ignore_missing_imports = true  # Игнорировать отсутствующие stubs
-exclude = [
-    "legacy/",
-    "experiments/",
-    "\\.venv/",
-    "\\.agents/",
-]
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]  # ✅ Добавлено: поддержка Pydantic v2
+exclude = ["legacy/", "experiments/", "\\.venv/", "\\.agents/", "agents/cognitive_agent/"]
 
 # -----------------------------
 # Pytest: тестирование
@@ -188,12 +187,17 @@ python_functions = ["test_*"]
 addopts = [
     "-v",
     "--strict-markers",
-    "--cov=apps",
-    "--cov=src",
+    "--cov=.",  # ✅ ИСПРАВЛЕНО: относительный путь от корня
+    "--cov-config=pyproject.toml",
     "--cov-report=term-missing",
     "--cov-report=html",
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
+]
+# ✅ Добавлено: подавление известных варнингов
+filterwarnings = [
+    "ignore::DeprecationWarning:langchain.*",
+    "ignore::UserWarning:pydantic.*",
 ]
