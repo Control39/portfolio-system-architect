@@ -23,6 +23,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parents[3]
 APP_SRC = REPO_ROOT / "apps" / "ai_config_manager" / "src"
 if str(APP_SRC) not in sys.path:
+    sys.path.insert(0, str(APP_SRC))
 
 from ai_config_manager.config_manager import ConfigManager
 

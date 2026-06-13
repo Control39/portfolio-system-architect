@@ -62,8 +62,8 @@ class ResourceConfig(BaseModel):
     name: str = Field(..., description="Уникальное имя ресурса")
     type: ResourceType = Field(..., description="Тип ресурса")
     enabled: bool = Field(default=True, description="Включён ли ресурс")
-    config: dict[str, Any] = Field(default_factory=dict, description="Конфигурация ресурса")
-    metadata: dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
+    config: dict[str, Any] | None = Field(default=None, description="Конфигурация ресурса")
+    metadata: dict[str, Any] | None = Field(default=None, description="Дополнительные метаданные")
 
 
 class SecretsConfig(BaseModel):

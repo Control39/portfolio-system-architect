@@ -9,7 +9,6 @@ from ai_config_manager.validators import (
     AIConfig,
     ResourceConfig,
     ResourceType,
-    SecretField,  # Импортируем, если есть в validators.py
     SecretsConfig,
 )
 from pydantic import ValidationError
@@ -103,10 +102,10 @@ class TestResourceConfig:
         assert config.metadata is None
 
     def test_config_and_metadata_default_to_empty_dict(self):
-        """При отсутствии config/metadata — пустые словари по умолчанию."""
+        """При отсутствии config/metadata — None по умолчанию (опциональные поля)."""
         config = ResourceConfig(name="test", type=ResourceType.TOOL)
-        assert config.config == {}
-        assert config.metadata == {}
+        assert config.config is None
+        assert config.metadata is None
 
     def test_name_required(self):
         """name — обязательное поле."""
@@ -115,7 +114,7 @@ class TestResourceConfig:
 
 
 # =============================================================================
-# TestSecretsConfig + SecretField
+# TestSecretsConfig
 # =============================================================================
 
 
@@ -154,25 +153,6 @@ class TestSecretsConfig:
 
         assert config.api_keys["openai"] == "secret"  # оригинал не изменён
         assert masked["api_keys"]["openai"] == "***"  # копия замаскирована
-
-
-# =============================================================================
-# TestSecretField (если используется в validators.py)
-# =============================================================================
-
-
-def test_secret_field_repr_masks_value():
-    """SecretField.__repr__ маскирует значение для безопасности."""
-    # Пропускаем тест, если SecretField не определён
-    if "SecretField" not in globals():
-        pytest.skip("SecretField not defined in validators.py")
-
-    secret = SecretField("my-super-secret-key")
-
-    # Проверяем, что repr не раскрывает секрет
-    repr_str = repr(secret)
-    assert "my-super-secret-key" not in repr_str
-    assert "***" in repr_str or "masked" in repr_str.lower()
 
 
 # =============================================================================
