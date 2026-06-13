@@ -1,14 +1,10 @@
 """Unit tests for skills plugin."""
 
 import json
-import sys
 import tempfile
 from pathlib import Path
 
-
 # Add src to path to import modules
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
-
 from assistant_orchestrator.plugins.skills import analyze
 
 

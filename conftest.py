@@ -1,8 +1,9 @@
 """Global pytest configuration - loads .env.test for testing."""
 
 import os
-import pytest
 from pathlib import Path
+
+import pytest
 
 
 def pytest_configure(config):

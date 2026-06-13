@@ -21,10 +21,7 @@ class TestDecisionEngine:
         response = requests.get(f"{self.BASE_URL}/")
         assert response.status_code == 200
         data = response.json()
-        assert (
-            "decision" in data.get("service", "").lower()
-            or "engine" in data.get("service", "").lower()
-        )
+        assert "decision" in data.get("service", "").lower() or "engine" in data.get("service", "").lower()
 
     def test_health_check(self):
         """Проверяет health check endpoint"""

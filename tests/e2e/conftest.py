@@ -9,9 +9,7 @@ import pytest
 
 def pytest_configure(config):
     """Регистрация маркеров"""
-    config.addinivalue_line(
-        "markers", "e2e: mark test as end-to-end test requiring running services"
-    )
+    config.addinivalue_line("markers", "e2e: mark test as end-to-end test requiring running services")
 
 
 @pytest.fixture(scope="session")

@@ -12,7 +12,7 @@ import pytest
 def test_assistant_orchestrator_main_import():
     """Проверяем, что main.py импортируется"""
     try:
-import src.assistant_orchestrator.main as main_module
+        import src.assistant_orchestrator.main as main_module
 
         assert main_module is not None
     except ImportError as e:
@@ -45,10 +45,8 @@ def test_main_parser_defaults():
         mock_parser_class.return_value = mock_parser
 
         # Запускаем main для инициализации парсера
-        try:
+        with contextlib.suppress(SystemExit):
             main()
-        except SystemExit:
-            pass  # main вызывает sys.exit(), что нормально для теста
 
         # Проверяем, что ArgumentParser был вызван
         mock_parser_class.assert_called_once()
@@ -102,6 +100,7 @@ def test_main_version_flag():
         import importlib
 
         import apps.assistant_orchestrator.main
+
         importlib.reload(apps.assistant_orchestrator.main)
         from apps.assistant_orchestrator.main import main
 
@@ -161,6 +160,7 @@ def test_main_with_valid_root():
         import importlib
 
         import apps.assistant_orchestrator.main
+
         importlib.reload(apps.assistant_orchestrator.main)
         from apps.assistant_orchestrator.main import main
 

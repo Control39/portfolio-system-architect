@@ -1,7 +1,6 @@
 from typing import Any
 
 import pytest
-
 from python_server.core import chat_model_client
 
 

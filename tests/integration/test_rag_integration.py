@@ -12,10 +12,7 @@ from pathlib import Path
 import pytest
 import requests
 
-
 # Добавляем путь к проекту
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 from apps.embedding_agent.embedder import DocumentEmbedder
 
@@ -143,7 +140,6 @@ class TestRAGIntegration:
             """
 import streamlit as st
 import sys
-sys.path.insert(0, '.')
 
 from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 import tempfile
@@ -373,9 +369,7 @@ def test_full_rag_pipeline():
         # 5. Проверка качества результатов
         found_monitoring = False
         for result in results:
-            if any(
-                word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]
-            ):
+            if any(word in result["text"].lower() for word in ["prometheus", "grafana", "мониторинг"]):
                 found_monitoring = True
                 break
 

@@ -4,14 +4,11 @@ Unit tests for the configuration module.
 Tests the config.loader module and its fallback mechanisms.
 """
 
-import os
 import sys
 import warnings
 from unittest.mock import patch
 
-
 # Добавляем путь к src для импорта модулей
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 def test_component_config_import_from_decision_engine():
@@ -33,9 +30,9 @@ def test_component_config_import_from_decision_engine():
         from src.config.loader import COMPONENT_CONFIG
 
         # Проверяем, что конфиг взят из мока, а не из fallback
-        assert COMPONENT_CONFIG == {"test": "value"}
+        assert {"test": "value"} == COMPONENT_CONFIG
         # Проверяем, что конфиг не является fallback-конфигом
-        assert COMPONENT_CONFIG != {
+        assert {
             "automation": {
                 "scripts": [
                     {
@@ -44,7 +41,7 @@ def test_component_config_import_from_decision_engine():
                     }
                 ]
             }
-        }
+        } != COMPONENT_CONFIG
 
 
 def test_component_config_fallback_when_decision_engine_missing():
@@ -68,7 +65,7 @@ def test_component_config_fallback_when_decision_engine_missing():
         from src.config.loader import COMPONENT_CONFIG
 
         # Проверяем, что используется fallback-конфиг
-        assert COMPONENT_CONFIG == {
+        assert {
             "automation": {
                 "scripts": [
                     {
@@ -77,7 +74,7 @@ def test_component_config_fallback_when_decision_engine_missing():
                     }
                 ]
             }
-        }
+        } == COMPONENT_CONFIG
 
 
 def test_load_component_config_fallback():
