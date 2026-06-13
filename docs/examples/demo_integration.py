@@ -14,7 +14,6 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent
-sys.path.insert(0, str(REPO_ROOT))
 
 from apps.it_compass.src.core.tracker import CareerTracker
 
