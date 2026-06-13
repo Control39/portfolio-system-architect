@@ -19,7 +19,7 @@ class TaskPlanner:
         """Загружает результаты project-scanner"""
         if not os.path.exists(self.context_file):
             return {}
-        with open(self.context_file, "r", encoding="utf-8") as f:
+        with open(self.context_file, encoding="utf-8") as f:
             return json.load(f)
 
     def predict_tasks(self):

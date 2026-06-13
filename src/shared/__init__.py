@@ -26,8 +26,8 @@ from .models import (  # noqa: F401
     DecisionContext,
     DecisionRequest,
     DecisionResponse,
-    ScanRequest,
-    ScanResponse,
     PlanRequest,
     PlanResponse,
+    ScanRequest,
+    ScanResponse,
 )

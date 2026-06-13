@@ -13,15 +13,10 @@ Security Tests: Secret Masking Protection
 
 import io
 import logging
-import os
-import sys
 
 import pytest
 
-
 # Добавляем путь к модулям
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
 from secret_masking import (
     SecretMaskingHandler,
     is_secret_key,

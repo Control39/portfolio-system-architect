@@ -106,9 +106,7 @@ class WorkspaceAnalyzer:
                     categories["backups"].append(file_info)
                 elif "temp" in item.name.lower() or item.name.startswith("~"):
                     categories["temporary"].append(file_info)
-                elif item.is_dir() and any(
-                    x in item.name.lower() for x in ["project", "repo", "app"]
-                ):
+                elif item.is_dir() and any(x in item.name.lower() for x in ["project", "repo", "app"]):
                     categories["projects"].append(file_info)
                 else:
                     categories["unknown"].append(file_info)
@@ -159,9 +157,7 @@ class WorkspaceAnalyzer:
                     {
                         "name": item.name,
                         "path": str(item),
-                        "days_old": int(
-                            (datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)
-                        ),
+                        "days_old": int((datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)),
                         "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
                     }
                 )

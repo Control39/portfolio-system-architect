@@ -124,9 +124,7 @@ def analyze_all(start_path: str = ".") -> dict:
             else:
                 encoding = file_result["analysis"]["encoding"]
                 if encoding:
-                    summary["encoding_distribution"][encoding] = (
-                        summary["encoding_distribution"].get(encoding, 0) + 1
-                    )
+                    summary["encoding_distribution"][encoding] = summary["encoding_distribution"].get(encoding, 0) + 1
 
             results.append(file_result)
             summary["processed_files"] += 1
@@ -160,9 +158,7 @@ def print_summary(results: dict) -> None:
     print(f"Ошибок при анализе: {summary['errors']}")
 
     print("\nРаспределение кодировок:")
-    for encoding, count in sorted(
-        summary["encoding_distribution"].items(), key=lambda x: x[1], reverse=True
-    ):
+    for encoding, count in sorted(summary["encoding_distribution"].items(), key=lambda x: x[1], reverse=True):
         print(f"  {encoding}: {count} файлов")
 
     # Показываем файлы с проблемами

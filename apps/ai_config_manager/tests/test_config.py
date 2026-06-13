@@ -20,11 +20,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 import yaml
-from pydantic import ValidationError
 
 # conftest.py добавляет apps/ai_config_manager/src в sys.path
 from ai_config_manager.config_manager import ConfigManager
 from ai_config_manager.validators import AIConfig, ResourceType
+from pydantic import ValidationError
 
 
 def _write_yaml(tmp_path: Path, data: dict[str, Any]) -> str:

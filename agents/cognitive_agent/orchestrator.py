@@ -105,7 +105,7 @@ class CognitiveOrchestrator:
         """Загрузка конфигурации через существующий config_integration.py"""
         try:
             # Используем УЖЕ СУЩЕСТВУЮЩИЙ модуль интеграции
-            from apps.cognitive_agent.src.config_integration import get_config
+            from agents.cognitive_agent.src.config_integration import get_config
 
             config_wrapper = get_config()
             config = config_wrapper.get_config()
@@ -148,9 +148,7 @@ class CognitiveOrchestrator:
 
     def run_workflow(self, workflow_name: str) -> bool:
         """Запуск существующего YAML workflow"""
-        workflow_path = (
-            REPO_ROOT / "apps" / "cognitive_agent" / "workflows" / f"{workflow_name}.yaml"
-        )
+        workflow_path = REPO_ROOT / "apps" / "cognitive_agent" / "workflows" / f"{workflow_name}.yaml"
 
         if not workflow_path.exists():
             logger.error(f"Workflow не найден: {workflow_path}")

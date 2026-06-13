@@ -4,27 +4,23 @@ Unit Tests for Cognitive Agent FastAPI Endpoints
 Цель: Покрытие 85%+ для endpoints.py
 """
 
-import pytest
 import sys
 from pathlib import Path
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-
 # Добавляем путь к cognitive_agent src
 COGNITIVE_SRC = REPO_ROOT / "apps" / "cognitive_agent" / "src"
 if str(COGNITIVE_SRC) not in sys.path:
     sys.path.insert(0, str(COGNITIVE_SRC))
 
-from fastapi.testclient import TestClient
-
-
 # Import app
-sys.path.insert(0, str(COGNITIVE_SRC / "api"))
 from endpoints import app
-
+from fastapi.testclient import TestClient
 
 # Create test client
 client = TestClient(app)
@@ -173,9 +169,7 @@ class TestEndpoints:
         Test: POST /api/v1/execute (Success)
         Проверка успешного запроса выполнения задачи
         """
-        response = client.post(
-            "/api/v1/execute", params={"task_id": "task_123", "skill_name": "scanner"}
-        )
+        response = client.post("/api/v1/execute", params={"task_id": "task_123", "skill_name": "scanner"})
 
         assert response.status_code == 200
         data = response.json()
@@ -294,9 +288,7 @@ class TestEndpoints:
         Test: 422 Invalid JSON
         Проверка обработки невалидного JSON
         """
-        response = client.post(
-            "/api/v1/scan", content="invalid json", headers={"Content-Type": "application/json"}
-        )
+        response = client.post("/api/v1/scan", content="invalid json", headers={"Content-Type": "application/json"})
 
         assert response.status_code == 422
 

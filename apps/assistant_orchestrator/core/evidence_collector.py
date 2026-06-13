@@ -2,14 +2,13 @@
 Evidence collector for gathering project evidence.
 """
 
-import logging
 import importlib
-from pathlib import Path
-from typing import Any, Dict, Optional
+import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from functools import lru_cache
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
+from pathlib import Path
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +25,10 @@ class CollectionResult:
 
     success: bool
     data: Any = None
-    error: Optional[str] = None
+    error: str | None = None
     duration: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = {"success": self.success}
         if self.data is not None:
@@ -101,7 +100,7 @@ class EvidenceCollector:
         logger.info(f"EvidenceCollector initialized: {self.root}")
         logger.debug(f"Parallel collection: {collect_parallel}, workers: {max_workers}")
 
-    def collect_all(self) -> Dict[str, Any]:
+    def collect_all(self) -> dict[str, Any]:
         """
         Collect all evidence using parallel execution.
 
@@ -113,7 +112,7 @@ class EvidenceCollector:
         else:
             return self._collect_all_sequential()
 
-    def _collect_all_parallel(self) -> Dict[str, Any]:
+    def _collect_all_parallel(self) -> dict[str, Any]:
         """Collect all evidence in parallel."""
         results = {}
 
@@ -141,7 +140,7 @@ class EvidenceCollector:
 
         return results
 
-    def _collect_all_sequential(self) -> Dict[str, Any]:
+    def _collect_all_sequential(self) -> dict[str, Any]:
         """Collect all evidence sequentially."""
         results = {}
 
@@ -164,7 +163,7 @@ class EvidenceCollector:
 
         return results
 
-    def _collect_single(self, method: str) -> Dict[str, Any]:
+    def _collect_single(self, method: str) -> dict[str, Any]:
         """Collect single evidence type."""
         if method == "microservices":
             return self.collect_microservices()
@@ -179,17 +178,17 @@ class EvidenceCollector:
         else:
             return self._create_error_result(f"Unknown method: {method}")
 
-    def _ensure_result_format(self, result: Any) -> Dict[str, Any]:
+    def _ensure_result_format(self, result: Any) -> dict[str, Any]:
         """Ensure result is in proper format."""
         if isinstance(result, dict) and "success" in result:
             return result
         return {"success": True, "data": result}
 
-    def _create_error_result(self, error: str) -> Dict[str, Any]:
+    def _create_error_result(self, error: str) -> dict[str, Any]:
         """Create error result dictionary."""
         return {"success": False, "error": error, "data": None}
 
-    def collect_microservices(self) -> Dict[str, Any]:
+    def collect_microservices(self) -> dict[str, Any]:
         """
         Collect microservices information.
 
@@ -216,7 +215,7 @@ class EvidenceCollector:
             logger.error(f"Unexpected error in microservices collection: {e}")
             return self._create_error_result(f"Unexpected error: {e}")
 
-    def collect_skill_markers(self) -> Dict[str, Any]:
+    def collect_skill_markers(self) -> dict[str, Any]:
         """
         Collect skill markers from IT-Compass.
 
@@ -249,7 +248,7 @@ class EvidenceCollector:
             logger.error(f"Unexpected error in skills collection: {e}")
             return self._create_error_result(f"Unexpected error: {e}")
 
-    def collect_architecture_docs(self) -> Dict[str, Any]:
+    def collect_architecture_docs(self) -> dict[str, Any]:
         """
         Collect architecture documentation files.
 
@@ -277,7 +276,7 @@ class EvidenceCollector:
             logger.error(f"Unexpected error in documentation collection: {e}")
             return self._create_error_result(f"Unexpected error: {e}")
 
-    def collect_git_stats(self) -> Dict[str, Any]:
+    def collect_git_stats(self) -> dict[str, Any]:
         """
         Collect Git repository statistics.
 
@@ -316,7 +315,7 @@ class EvidenceCollector:
             logger.error(f"Unexpected error in git statistics collection: {e}")
             return self._create_error_result(f"Unexpected error: {e}")
 
-    def collect_dependencies(self) -> Dict[str, Any]:
+    def collect_dependencies(self) -> dict[str, Any]:
         """
         Collect dependencies from Docker Compose, requirements, etc.
 
@@ -440,7 +439,7 @@ class EvidenceCollector:
 
         return False
 
-    def get_project_info(self) -> Dict[str, Any]:
+    def get_project_info(self) -> dict[str, Any]:
         """
         Get basic project information.
 
@@ -456,7 +455,7 @@ class EvidenceCollector:
         }
 
     @lru_cache(maxsize=1)
-    def collect_all_cached(self) -> Dict[str, Any]:
+    def collect_all_cached(self) -> dict[str, Any]:
         """
         Collect all evidence with caching.
 
@@ -468,9 +467,7 @@ class EvidenceCollector:
 
 
 # Convenience function
-def collect_evidence(
-    project_root: str, parallel: bool = True, cache: bool = False
-) -> Dict[str, Any]:
+def collect_evidence(project_root: str, parallel: bool = True, cache: bool = False) -> dict[str, Any]:
     """
     Quick evidence collection.
 

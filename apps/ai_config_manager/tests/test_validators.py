@@ -3,23 +3,21 @@
 Покрывает: AgentConfig, ResourceConfig, SecretsConfig, AIConfig
 """
 
-import re
 import pytest
-from pydantic import ValidationError
-
 from ai_config_manager.validators import (
     AgentConfig,
     AIConfig,
     ResourceConfig,
     ResourceType,
-    SecretsConfig,
     SecretField,  # Импортируем, если есть в validators.py
+    SecretsConfig,
 )
-
+from pydantic import ValidationError
 
 # =============================================================================
 # TestAgentConfig
 # =============================================================================
+
 
 class TestAgentConfig:
     """Тесты для AgentConfig."""
@@ -27,10 +25,7 @@ class TestAgentConfig:
     def test_valid_agent_config(self):
         """Валидная конфигурация агента."""
         config = AgentConfig(
-            model="gpt-4",
-            temperature=0.7,
-            max_tokens=2048,
-            resources=["tool1", "tool2"]
+            model="gpt-4", temperature=0.7, max_tokens=2048, resources=["tool1", "tool2"]
         )
 
         assert config.model == "gpt-4"
@@ -75,6 +70,7 @@ class TestAgentConfig:
 # TestResourceConfig
 # =============================================================================
 
+
 class TestResourceConfig:
     """Тесты для ResourceConfig."""
 
@@ -85,7 +81,7 @@ class TestResourceConfig:
             type=ResourceType.TOOL,
             enabled=True,
             config={"key": "value"},
-            metadata={"version": "1.0"}
+            metadata={"version": "1.0"},
         )
 
         assert config.name == "test-resource"
@@ -102,12 +98,7 @@ class TestResourceConfig:
 
     def test_config_and_metadata_can_be_none(self):
         """config и metadata могут быть явно None."""
-        config = ResourceConfig(
-            name="test",
-            type=ResourceType.TOOL,
-            config=None,
-            metadata=None
-        )
+        config = ResourceConfig(name="test", type=ResourceType.TOOL, config=None, metadata=None)
         assert config.config is None
         assert config.metadata is None
 
@@ -127,6 +118,7 @@ class TestResourceConfig:
 # TestSecretsConfig + SecretField
 # =============================================================================
 
+
 class TestSecretsConfig:
     """Тесты для SecretsConfig."""
 
@@ -134,7 +126,7 @@ class TestSecretsConfig:
         """Валидная конфигурация секретов."""
         config = SecretsConfig(
             api_keys={"openai": "key123"},
-            database_urls={"primary": "postgres://user:pass@localhost/db"}
+            database_urls={"primary": "postgres://user:pass@localhost/db"},
         )
 
         assert config.api_keys["openai"] == "key123"
@@ -145,7 +137,7 @@ class TestSecretsConfig:
         config = SecretsConfig(
             api_keys={"openai": "secret123", "azure": "secret456"},
             database_urls={"primary": "postgres://user:pass@localhost/db"},
-            custom={"jwt": "jwt_secret"}
+            custom={"jwt": "jwt_secret"},
         )
 
         masked = config.mask_secrets()
@@ -168,6 +160,7 @@ class TestSecretsConfig:
 # TestSecretField (если используется в validators.py)
 # =============================================================================
 
+
 def test_secret_field_repr_masks_value():
     """SecretField.__repr__ маскирует значение для безопасности."""
     # Пропускаем тест, если SecretField не определён
@@ -186,6 +179,7 @@ def test_secret_field_repr_masks_value():
 # TestAIConfig
 # =============================================================================
 
+
 class TestAIConfig:
     """Тесты для корневой конфигурации AI-системы."""
 
@@ -196,11 +190,9 @@ class TestAIConfig:
                 "agent1": AgentConfig(model="gpt-4", temperature=0.7),
                 "agent2": AgentConfig(model="claude-3", temperature=0.5),
             },
-            resources={
-                "res1": ResourceConfig(name="res1", type=ResourceType.TOOL)
-            },
+            resources={"res1": ResourceConfig(name="res1", type=ResourceType.TOOL)},
             secrets=SecretsConfig(api_keys={"openai": "key"}),
-            version="1.0.0"
+            version="1.0.0",
         )
 
         assert len(config.agents) == 2
@@ -217,9 +209,13 @@ class TestAIConfig:
         assert config.version == "1.0.0"
         assert config.secrets is None
 
-    @pytest.mark.parametrize("names", [
-        ("duplicate", "duplicate"),           # exact match
-    ], ids=["exact-duplicate"])
+    @pytest.mark.parametrize(
+        "names",
+        [
+            ("duplicate", "duplicate"),  # exact match
+        ],
+        ids=["exact-duplicate"],
+    )
     def test_unique_resource_names_parametrized(self, names):
         """Имена ресурсов должны быть уникальны (по значению name)."""
         name1, name2 = names
@@ -258,7 +254,7 @@ class TestAIConfig:
         """Агенты и ресурсы — независимые словари."""
         config = AIConfig(
             agents={"a1": AgentConfig(model="gpt-4")},
-            resources={"r1": ResourceConfig(name="r1", type=ResourceType.TOOL)}
+            resources={"r1": ResourceConfig(name="r1", type=ResourceType.TOOL)},
         )
 
         assert "a1" in config.agents
@@ -271,6 +267,7 @@ class TestAIConfig:
 # Интеграционные тесты (модели вместе)
 # =============================================================================
 
+
 class TestConfigIntegration:
     """Тесты взаимодействия моделей."""
 
@@ -278,12 +275,8 @@ class TestConfigIntegration:
         """Агент может ссылаться на существующий ресурс по имени."""
         # Это логическая связь, не валидация Pydantic — проверяем, что данные сохраняются
         config = AIConfig(
-            agents={
-                "agent1": AgentConfig(model="gpt-4", resources=["tool1"])
-            },
-            resources={
-                "tool1": ResourceConfig(name="tool1", type=ResourceType.TOOL)
-            }
+            agents={"agent1": AgentConfig(model="gpt-4", resources=["tool1"])},
+            resources={"tool1": ResourceConfig(name="tool1", type=ResourceType.TOOL)},
         )
 
         assert config.agents["agent1"].resources == ["tool1"]
@@ -295,9 +288,6 @@ class TestConfigIntegration:
         assert config.secrets is None
 
         config_with_secrets = AIConfig(
-            agents={},
-            resources={},
-            secrets=SecretsConfig(api_keys={"test": "key"})
+            agents={}, resources={}, secrets=SecretsConfig(api_keys={"test": "key"})
         )
         assert config_with_secrets.secrets is not None
-

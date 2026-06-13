@@ -17,9 +17,7 @@ from pydantic import BaseModel
 from src.config_integration import get_config
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Инициализация FastAPI приложения
@@ -76,15 +74,9 @@ async def list_service_proofs():
                 service_name=name,
                 overall_status="ready",
                 validations=[
-                    ValidationResult(
-                        category="testing", status="passed", message="Unit tests coverage >= 80%"
-                    ),
-                    ValidationResult(
-                        category="security", status="passed", message="No critical vulnerabilities"
-                    ),
-                    ValidationResult(
-                        category="documentation", status="passed", message="README.md present"
-                    ),
+                    ValidationResult(category="testing", status="passed", message="Unit tests coverage >= 80%"),
+                    ValidationResult(category="security", status="passed", message="No critical vulnerabilities"),
+                    ValidationResult(category="documentation", status="passed", message="README.md present"),
                 ],
                 score=85.0,
             )
@@ -101,18 +93,10 @@ async def get_service_proof(service_name: str):
         service_name=service_name,
         overall_status="ready",
         validations=[
-            ValidationResult(
-                category="testing", status="passed", message="Unit tests coverage >= 80%"
-            ),
-            ValidationResult(
-                category="security", status="passed", message="No critical vulnerabilities"
-            ),
-            ValidationResult(
-                category="documentation", status="passed", message="README.md present"
-            ),
-            ValidationResult(
-                category="monitoring", status="warning", message="Metrics collection configured"
-            ),
+            ValidationResult(category="testing", status="passed", message="Unit tests coverage >= 80%"),
+            ValidationResult(category="security", status="passed", message="No critical vulnerabilities"),
+            ValidationResult(category="documentation", status="passed", message="README.md present"),
+            ValidationResult(category="monitoring", status="warning", message="Metrics collection configured"),
             ValidationResult(
                 category="deployment",
                 status="passed",

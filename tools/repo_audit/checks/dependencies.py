@@ -73,9 +73,7 @@ class DependenciesCheck(BaseCheck):
 
         # 9. pip-audit in dev requirements (already checked in security, but repeat)
         if self.check_file_exists("requirements-dev.txt"):
-            content = (self.repo_path / "requirements-dev.txt").read_text(
-                encoding="utf-8", errors="ignore"
-            )
+            content = (self.repo_path / "requirements-dev.txt").read_text(encoding="utf-8", errors="ignore")
             if "pip-audit" in content.lower():
                 self._add_result("PASS", "pip-audit in dev requirements", "requirements-dev.txt")
             else:
@@ -86,9 +84,7 @@ class DependenciesCheck(BaseCheck):
                 )
 
         # 10. .gitignore excludes virtual environments
-        if self.check_file_content(".gitignore", ".venv") or self.check_file_content(
-            ".gitignore", "venv"
-        ):
+        if self.check_file_content(".gitignore", ".venv") or self.check_file_content(".gitignore", "venv"):
             self._add_result("PASS", ".gitignore excludes virtual environments", ".gitignore")
         else:
             self._add_result(
@@ -120,9 +116,7 @@ class DependencySecurityCheck(BaseCheck):
         # 1. GitHub Actions dependency review
         workflows_dir = self.repo_path / ".github/workflows"
         if workflows_dir.is_dir():
-            dep_review = list(workflows_dir.glob("*dependency*")) + list(
-                workflows_dir.glob("*dependabot*")
-            )
+            dep_review = list(workflows_dir.glob("*dependency*")) + list(workflows_dir.glob("*dependabot*"))
             if dep_review:
                 self._add_result(
                     "PASS",

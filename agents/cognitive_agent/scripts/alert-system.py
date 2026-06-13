@@ -4,15 +4,16 @@
 Проверяет метрики и отправляет уведомления при обнаружении проблем.
 """
 
-import sqlite3
 import json
-from datetime import datetime, timedelta
-from pathlib import Path
 import logging
-from typing import Dict, List, Any
 import smtplib
-from email.mime.text import MIMEText
+import sqlite3
+from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from pathlib import Path
+from typing import Any
+
 import requests
 
 # Настройка логирования
@@ -38,7 +39,7 @@ class AlertSystem:
         # Конфигурация оповещений
         self.alert_config = self._load_alert_config()
 
-    def _load_alert_config(self) -> Dict[str, Any]:
+    def _load_alert_config(self) -> dict[str, Any]:
         """Загрузка конфигурации оповещений"""
         default_config = {
             "thresholds": {
@@ -70,7 +71,7 @@ class AlertSystem:
             try:
                 import yaml
 
-                with open(config_path, "r", encoding="utf-8") as f:
+                with open(config_path, encoding="utf-8") as f:
                     user_config = yaml.safe_load(f)
                     # Объединяем с конфигурацией по умолчанию
                     return self._merge_configs(default_config, user_config)
@@ -79,7 +80,7 @@ class AlertSystem:
 
         return default_config
 
-    def _merge_configs(self, default: Dict, user: Dict) -> Dict:
+    def _merge_configs(self, default: dict, user: dict) -> dict:
         """Рекурсивное объединение конфигураций"""
         result = default.copy()
         for key, value in user.items():
@@ -89,7 +90,7 @@ class AlertSystem:
                 result[key] = value
         return result
 
-    def check_metrics(self, hours: int = 24) -> List[Dict[str, Any]]:
+    def check_metrics(self, hours: int = 24) -> list[dict[str, Any]]:
         """Проверка метрик и генерация оповещений"""
         alerts = []
 
@@ -161,7 +162,7 @@ class AlertSystem:
 
         return alerts
 
-    def _get_event_stats(self, hours: int) -> Dict[str, Any]:
+    def _get_event_stats(self, hours: int) -> dict[str, Any]:
         """Получение статистики событий за указанный период"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
@@ -233,7 +234,7 @@ class AlertSystem:
                 "error_count": error_count,
             }
 
-    def _get_common_errors(self, hours: int) -> List[tuple]:
+    def _get_common_errors(self, hours: int) -> list[tuple]:
         """Получение самых частых ошибок"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
@@ -254,7 +255,7 @@ class AlertSystem:
 
             return cursor.fetchall()
 
-    def _check_performance_issues(self, hours: int) -> List[Dict[str, Any]]:
+    def _check_performance_issues(self, hours: int) -> list[dict[str, Any]]:
         """Проверка проблем с производительностью"""
         alerts = []
 
@@ -324,7 +325,7 @@ class AlertSystem:
             return True
 
         try:
-            with open(cooldown_file, "r") as f:
+            with open(cooldown_file) as f:
                 cooldown_data = json.load(f)
 
             last_alert_time = cooldown_data.get(alert_type)
@@ -350,7 +351,7 @@ class AlertSystem:
 
         try:
             if cooldown_file.exists():
-                with open(cooldown_file, "r") as f:
+                with open(cooldown_file) as f:
                     cooldown_data = json.load(f)
             else:
                 cooldown_data = {}
@@ -363,7 +364,7 @@ class AlertSystem:
         except Exception as e:
             logger.error(f"Ошибка при обновлении времени охлаждения: {e}")
 
-    def send_notifications(self, alerts: List[Dict[str, Any]]):
+    def send_notifications(self, alerts: list[dict[str, Any]]):
         """Отправка уведомлений"""
         if not alerts:
             logger.info("Нет оповещений для отправки")
@@ -400,7 +401,7 @@ class AlertSystem:
 
         logger.info(f"Отправлено {notifications_sent} уведомлений о {len(alerts)} оповещениях")
 
-    def _format_alert_message(self, high: List, medium: List, low: List) -> str:
+    def _format_alert_message(self, high: list, medium: list, low: list) -> str:
         """Форматирование сообщения об оповещениях"""
         lines = []
 
@@ -503,7 +504,7 @@ class AlertSystem:
             logger.error(f"Ошибка при отправке в Telegram: {e}")
             return False
 
-    def _save_alerts_locally(self, alerts: List[Dict[str, Any]]):
+    def _save_alerts_locally(self, alerts: list[dict[str, Any]]):
         """Сохранение оповещений локально"""
         try:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

@@ -23,7 +23,7 @@ pip install pathspec tqdm
 ### Базовое использование
 
 ```python
-from apps.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
+from agents.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
 
 # Создание сканера
 scanner = ProjectScanner("C:\\my-project")
@@ -127,7 +127,7 @@ python scripts/run_project_scanner.py C:\my-project --verbose
 ### Использование через сервис
 
 ```python
-from apps.cognitive_agent.src.scanner_integration import ProjectScannerService
+from agents.cognitive_agent.src.scanner_integration import ProjectScannerService
 
 # Создание сервиса
 service = ProjectScannerService(
@@ -149,7 +149,7 @@ service.export_last_results("results.json")
 ### Функция `scan_project()`
 
 ```python
-from apps.cognitive_agent.src.scanner_integration import scan_project
+from agents.cognitive_agent.src.scanner_integration import scan_project
 
 results = scan_project(
     "C:\\my-project",
@@ -168,7 +168,7 @@ results = scan_project(
 pytest apps/cognitive_agent/tests/test_project_scanner.py -v
 
 # С покрытием
-pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=apps.cognitive_agent.src.project_scanner --cov-report=term-missing
+pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=agents.cognitive_agent.src.project_scanner --cov-report=term-missing
 ```
 
 ### Структура тестов

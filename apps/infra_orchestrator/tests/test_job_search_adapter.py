@@ -2,11 +2,12 @@
 Тесты для интерфейса IJobSearch и адаптера CognitiveJobSearch
 """
 
-import pytest
 from unittest.mock import AsyncMock, patch
 
-from src.interfaces.job_search import IJobSearch
+import pytest
+
 from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch
+from src.interfaces.job_search import IJobSearch
 
 
 class TestCognitiveJobSearch:
@@ -34,9 +35,7 @@ class TestCognitiveJobSearch:
         mock_response.raise_for_status = lambda: None
 
         # Патчим HTTP-клиент
-        with patch(
-            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
-        ) as MockClient:
+        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance
@@ -67,9 +66,7 @@ class TestCognitiveJobSearch:
         mock_response.json.return_value = {"vacancies": []}
         mock_response.raise_for_status = lambda: None
 
-        with patch(
-            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
-        ) as MockClient:
+        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance
@@ -95,9 +92,7 @@ class TestCognitiveJobSearch:
         }
         mock_response.raise_for_status = lambda: None
 
-        with patch(
-            "apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient"
-        ) as MockClient:
+        with patch("apps.infra_orchestrator.src.adapters.job_search_adapter.httpx.AsyncClient") as MockClient:
             mock_client_instance = AsyncMock()
             mock_client_instance.get.return_value = mock_response
             MockClient.return_value = mock_client_instance

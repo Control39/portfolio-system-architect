@@ -153,9 +153,7 @@ class VSCodeExtensionInstaller:
             return [ext.strip() for ext in result.stdout.splitlines() if ext.strip()]
         except (subprocess.CalledProcessError, FileNotFoundError):
             print("⚠️  VS Code CLI (code) не найден. Убедитесь, что VS Code добавлен в PATH.")
-            print(
-                "   Инструкция: https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line"
-            )
+            print("   Инструкция: https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line")
             return []
 
     def install_extension(self, extension_id: str) -> bool:
@@ -234,9 +232,7 @@ class VSCodeExtensionInstaller:
 
         return success
 
-    def generate_config_file(
-        self, stacks: list[str], output_path: str = "vscode-extensions-config.json"
-    ):
+    def generate_config_file(self, stacks: list[str], output_path: str = "vscode-extensions-config.json"):
         """Сгенерировать файл конфигурации для быстрой установки"""
         all_extensions = set(self.BASE_EXTENSIONS)
 
@@ -254,8 +250,7 @@ class VSCodeExtensionInstaller:
         config = {
             "stacks": stacks,
             "extensions": sorted(all_extensions),
-            "install_command": "code --install-extension "
-            + " --install-extension ".join(sorted(all_extensions)),
+            "install_command": "code --install-extension " + " --install-extension ".join(sorted(all_extensions)),
         }
 
         with open(output_path, "w", encoding="utf-8") as f:
@@ -287,10 +282,7 @@ class VSCodeExtensionInstaller:
             if (path / "requirements.txt").exists():
                 with open(path / "requirements.txt") as f:
                     content = f.read()
-                    if any(
-                        x in content.lower()
-                        for x in ["tensorflow", "pytorch", "scikit-learn", "jupyter"]
-                    ):
+                    if any(x in content.lower() for x in ["tensorflow", "pytorch", "scikit-learn", "jupyter"]):
                         detected_stacks.append("ai-ml")
 
         if (path / "Dockerfile").exists() or (path / "docker-compose.yml").exists():
@@ -364,9 +356,7 @@ def main():
                 installer.install_custom(extensions)
             else:
                 print("Укажите расширения для установки")
-                print(
-                    "Пример: python setup-vscode-extensions.py custom ms-python.python ms-azuretools.vscode-docker"
-                )
+                print("Пример: python setup-vscode-extensions.py custom ms-python.python ms-azuretools.vscode-docker")
 
         else:
             print(f"Неизвестная команда: {command}")
@@ -428,9 +418,7 @@ def main():
             stacks_input = input("\nВведите стеки для конфигурации через пробел: ").strip()
             stacks = stacks_input.split()
 
-            output_file = input(
-                "Имя выходного файла (по умолчанию: vscode-extensions-config.json): "
-            ).strip()
+            output_file = input("Имя выходного файла (по умолчанию: vscode-extensions-config.json): ").strip()
             if not output_file:
                 output_file = "vscode-extensions-config.json"
 

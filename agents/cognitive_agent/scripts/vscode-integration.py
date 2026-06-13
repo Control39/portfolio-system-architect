@@ -5,10 +5,10 @@
 команды для палитры команд и уведомления.
 """
 
-import os
 import json
+import os
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 
 class VSCodeIntegration:
@@ -19,14 +19,14 @@ class VSCodeIntegration:
         self.vscode_dir = Path(".vscode")
         self.config = self._load_config()
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации"""
         config_path = self.agent_root / "config" / "agent-config.yaml"
         if config_path.exists():
             try:
                 import yaml
 
-                with open(config_path, "r", encoding="utf-8") as f:
+                with open(config_path, encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
             except Exception:
                 pass
@@ -141,7 +141,7 @@ class VSCodeIntegration:
         # Если файл уже существует, объединяем настройки
         if settings_file.exists():
             try:
-                with open(settings_file, "r", encoding="utf-8") as f:
+                with open(settings_file, encoding="utf-8") as f:
                     existing_settings = json.load(f)
                 # Объединяем настройки
                 settings = {**existing_settings, **settings}
@@ -321,7 +321,7 @@ if __name__ == "__main__":
         # Если файл уже существует, добавляем конфигурации
         if launch_file.exists():
             try:
-                with open(launch_file, "r", encoding="utf-8") as f:
+                with open(launch_file, encoding="utf-8") as f:
                     existing_config = json.load(f)
 
                 # Добавляем наши конфигурации в начало

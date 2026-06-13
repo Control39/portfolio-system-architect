@@ -5,7 +5,6 @@ Phase 1.3: Add src Directories
 
 from pathlib import Path
 
-
 services = [
     "auth_service",
     "cognitive_agent",

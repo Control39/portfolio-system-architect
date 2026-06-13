@@ -5,7 +5,6 @@
 
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).parent.parent
 
 # Список всех сервисов
@@ -39,7 +38,6 @@ from typing import Any, Dict, Optional
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 try:
     from apps.ai_config_manager.src.config_manager import ConfigManager

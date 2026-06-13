@@ -4,8 +4,8 @@
 """
 
 import json
-import subprocess
 import shlex
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -129,9 +129,7 @@ class GitAutomation:
         recent_commits = self.run_git("log --oneline -10")
 
         # Размер репозитория
-        size_result = subprocess.run(
-            ["du", "-sh", "."], cwd=self.repo_path, capture_output=True, text=True
-        )
+        size_result = subprocess.run(["du", "-sh", "."], cwd=self.repo_path, capture_output=True, text=True)
         repo_size = size_result.stdout.strip() if size_result.stdout else "Unknown"
 
         return {

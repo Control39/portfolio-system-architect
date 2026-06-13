@@ -12,7 +12,6 @@ from typing import Any, TypeVar
 
 from flask import Blueprint, jsonify, request, url_for
 
-
 logger = logging.getLogger(__name__)
 
 # Reasonable defaults for async marshalling and paging
@@ -139,11 +138,7 @@ def create_chat_api_blueprint(
             store = _get_room_store()
             if store is None:
                 return json_error("Store unavailable", 503)
-            room = run_async(
-                store.create_room_metadata(
-                    user_id, room_name, room_id=room_id, description=description
-                )
-            )
+            room = run_async(store.create_room_metadata(user_id, room_name, room_id=room_id, description=description))
             body = room.to_dict()
             try:
                 location = url_for("chat_api.get_room", room_id=room.room_id, _external=False)

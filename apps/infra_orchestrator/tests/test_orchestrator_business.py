@@ -1,20 +1,16 @@
 """Business logic tests for infra_orchestrator."""
 
-import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT))
 
 # Импортируем из локального модуля, а не глобального
-from apps.infra_orchestrator.src.core import ServiceConfig, Orchestrator
+from apps.infra_orchestrator.src.core import Orchestrator, ServiceConfig
 
 
 def test_service_config_creation():
     """Test ServiceConfig model."""
-    config = ServiceConfig(
-        name="test-service", version="1.0.0", enabled=True, settings={"port": 8080}
-    )
+    config = ServiceConfig(name="test-service", version="1.0.0", enabled=True, settings={"port": 8080})
     assert config.name == "test-service"
     assert config.version == "1.0.0"
     assert config.enabled is True

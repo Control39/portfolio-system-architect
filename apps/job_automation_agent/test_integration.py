@@ -1,10 +1,6 @@
-import os
 import sys
 
-
 # Добавляем корневой каталог в PYTHONPATH для импортов
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 # Теперь можно импортировать job_agent после добавления пути
 from job_agent import (
     INTEGRATION_ENABLED,
@@ -104,10 +100,7 @@ def test_integration():
 
         if agent_result["success"]:
             print("✅ Агент успешно обработал запрос")
-            if (
-                isinstance(agent_result["result"], dict)
-                and "career_integration" in agent_result["result"]
-            ):
+            if isinstance(agent_result["result"], dict) and "career_integration" in agent_result["result"]:
                 print("✅ Интеграция доступна через основной интерфейс")
             else:
                 print("⚠️ Интеграция недоступна через основной интерфейс")

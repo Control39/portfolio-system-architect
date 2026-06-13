@@ -37,9 +37,7 @@ class VectorStoreInterface(ABC):
         pass
 
     @abstractmethod
-    def search(
-        self, query: str, top_k: int = 5, where_filter: dict[str, Any] | None = None
-    ) -> list[dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5, where_filter: dict[str, Any] | None = None) -> list[dict[str, Any]]:
         """
         Search for similar documents.
 

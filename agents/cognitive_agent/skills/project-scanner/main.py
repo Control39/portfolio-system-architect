@@ -3,10 +3,10 @@
 Работает в 3 фазы: быстрая, глубокая, контекстная.
 """
 
-import os
 import json
-from pathlib import Path
+import os
 from datetime import datetime
+from pathlib import Path
 
 
 class ProjectScanner:
@@ -32,9 +32,7 @@ class ProjectScanner:
             "languages_found": list(found.keys()),
             "file_counts": found,
             "has_ci": os.path.exists(".github/workflows"),
-            "has_tests": bool(list(Path("tests").rglob("*.py")))
-            if os.path.exists("tests")
-            else False,
+            "has_tests": bool(list(Path("tests").rglob("*.py"))) if os.path.exists("tests") else False,
             "test_coverage": self._mock_coverage(),  # Заглушка — будет реальная в будущем
         }
 

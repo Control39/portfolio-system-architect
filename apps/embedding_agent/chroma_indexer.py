@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ChromaDB-based document indexer for RAG system."""
 
 from __future__ import annotations
@@ -206,9 +205,7 @@ class ChromaDocumentIndexer:
         )
         return doc_id
 
-    def add_documents_from_files(
-        self, file_pattern: str = "**/*.md", root_dir: str = "."
-    ) -> list[str]:
+    def add_documents_from_files(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> list[str]:
         """Add all documents matching pattern from root directory."""
         root = Path(root_dir)
         file_paths = list(root.glob(file_pattern))
@@ -320,9 +317,7 @@ class ChromaDocumentIndexer:
                 metadata = metas0[i] if metas0 else {}
                 text = docs0[i] if docs0 else ""
 
-                similarity = (
-                    1.0 / (1.0 + distance) if distance is not None and distance >= 0 else 0.0
-                )
+                similarity = 1.0 / (1.0 + distance) if distance is not None and distance >= 0 else 0.0
 
                 formatted.append(
                     {

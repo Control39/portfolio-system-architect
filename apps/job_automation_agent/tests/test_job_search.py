@@ -1,15 +1,12 @@
 """Tests for job_search module."""
 
-import sys
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 
-
 # Добавляем корень проекта в путь
 ROOT_DIR = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(ROOT_DIR))
 
 from job_automation_agent.src.job_search import (  # noqa: E402
     search_all_jobs,

@@ -3,9 +3,10 @@ Tests for mcp_server tools business logic
 Tests the actual implementation, not just concepts
 """
 
-import pytest
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
+import pytest
 
 
 class TestFileToolsBusiness:
@@ -124,12 +125,8 @@ class TestGitToolsBusiness:
         import subprocess
 
         subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
-        subprocess.run(
-            ["git", "config", "user.email", "test@test.com"], cwd=tmp_path, capture_output=True
-        )
-        subprocess.run(
-            ["git", "config", "user.name", "Test User"], cwd=tmp_path, capture_output=True
-        )
+        subprocess.run(["git", "config", "user.email", "test@test.com"], cwd=tmp_path, capture_output=True)
+        subprocess.run(["git", "config", "user.name", "Test User"], cwd=tmp_path, capture_output=True)
 
         return tmp_path
 
@@ -147,9 +144,7 @@ class TestGitToolsBusiness:
         test_file.write_text("Content")
 
         subprocess.run(["git", "add", "test.txt"], cwd=git_repo, capture_output=True)
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], cwd=git_repo, capture_output=True, text=True)
 
         assert "test.txt" in result.stdout
 
@@ -161,9 +156,7 @@ class TestGitToolsBusiness:
         test_file.write_text("Content")
         subprocess.run(["git", "add", "test.txt"], cwd=git_repo, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "commit", "-m", "Test"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "commit", "-m", "Test"], cwd=git_repo, capture_output=True, text=True)
 
         assert result.returncode == 0
 
@@ -176,9 +169,7 @@ class TestGitToolsBusiness:
         subprocess.run(["git", "add", "test.txt"], cwd=git_repo, capture_output=True)
         subprocess.run(["git", "commit", "-m", "Test"], cwd=git_repo, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
 
         assert result.returncode == 0
         assert "Test" in result.stdout
@@ -211,9 +202,7 @@ class TestGitToolsBusiness:
         """Test git status on empty repo"""
         import subprocess
 
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], cwd=git_repo, capture_output=True, text=True)
 
         assert result.returncode == 0
         assert result.stdout.strip() == ""

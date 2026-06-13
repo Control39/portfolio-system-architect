@@ -18,8 +18,6 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
-
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 APPS_DIR = REPO_ROOT / "apps"
@@ -39,10 +37,10 @@ class MoleculeResult:
         return self.returncode == 0
 
 
-def _iter_molecules() -> List[Path]:
+def _iter_molecules() -> list[Path]:
     if not APPS_DIR.exists():
         return []
-    molecules: List[Path] = []
+    molecules: list[Path] = []
     for app_dir in sorted(APPS_DIR.iterdir()):
         if not app_dir.is_dir():
             continue
@@ -93,7 +91,7 @@ def _summarize_for_report(out: str, err: str, max_chars: int = 1200) -> str:
     return text
 
 
-def _generate_report(results: List[MoleculeResult], timestamp: str) -> Path:
+def _generate_report(results: list[MoleculeResult], timestamp: str) -> Path:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     report_path = REPORT_DIR / f"services_health_{timestamp}.md"
 
@@ -101,7 +99,7 @@ def _generate_report(results: List[MoleculeResult], timestamp: str) -> Path:
     total = len(results)
     failing = total - passing
 
-    lines: List[str] = []
+    lines: list[str] = []
     lines.append("# Services Health Report (Compositional Architecture)\n")
     lines.append(f"**Generated:** {datetime.now().isoformat()}\n")
     lines.append(f"**Total molecules with tests:** {total}")
@@ -123,7 +121,7 @@ def _generate_report(results: List[MoleculeResult], timestamp: str) -> Path:
     return report_path
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     _ = argv
 
     molecules = _iter_molecules()
@@ -133,7 +131,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     print(f"Found {len(molecules)} molecules with tests")
 
-    results: List[MoleculeResult] = []
+    results: list[MoleculeResult] = []
 
     for mol in molecules:
         print(f"Testing {mol.name}...")

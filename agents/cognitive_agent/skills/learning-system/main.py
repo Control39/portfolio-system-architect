@@ -36,7 +36,7 @@ class LearningSystem:
         """Анализирует прогресс по конкретному скиллу"""
         if not os.path.exists(LOG_FILE):
             return {"count": 0, "success_rate": 0}
-        with open(LOG_FILE, "r") as f:
+        with open(LOG_FILE) as f:
             logs = json.load(f)
         skill_logs = [l for l in logs if l["skill"] == skill]
         successes = [l for l in skill_logs if l["status"] == "success"]
@@ -51,9 +51,7 @@ class LearningSystem:
 if __name__ == "__main__":
     learner = LearningSystem()
     learner.log("marker-extraction", success=True, duration_ms=2150, details={"markers_found": 9})
-    learner.log(
-        "code-quality-auditor", success=False, duration_ms=5400, details={"error": "coverage < 85%"}
-    )
+    learner.log("code-quality-auditor", success=False, duration_ms=5400, details={"error": "coverage < 85%"})
     print("\n📈 Прогресс:")
     for skill in ["marker-extraction", "task-planner", "project-scanner"]:
         trend = learner.get_trend(skill)

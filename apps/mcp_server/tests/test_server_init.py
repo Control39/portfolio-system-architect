@@ -5,15 +5,12 @@
 Проверяют корректность инициализации инструментов без запуска сервера.
 """
 
-import sys
 from pathlib import Path
 
 import pytest
 
-
 # Добавляем путь к проекту
 project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 
 class TestMCPServerInit:
@@ -74,9 +71,7 @@ class TestMCPServerInit:
         tools = getattr(mcp, "_tools", getattr(mcp, "_tool_manager", None))
         if tools is not None:
             tools_list = list(tools.values()) if isinstance(tools, dict) else tools
-            assert (
-                len(tools_list) >= 1
-            ), f"Должен быть зарегистрирован хотя бы 1 инструмент, найдено: {len(tools_list)}"
+            assert len(tools_list) >= 1, f"Должен быть зарегистрирован хотя бы 1 инструмент, найдено: {len(tools_list)}"
 
     def test_navigation_resource_template(self):
         """Проверка шаблона ресурса навигации"""

@@ -11,7 +11,6 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
-
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
@@ -43,9 +42,7 @@ class VSCodeExtensionManager:
             ]
             for cmd in code_paths:
                 try:
-                    result = subprocess.run(
-                        [cmd, "--version"], capture_output=True, check=False, shell=True
-                    )
+                    result = subprocess.run([cmd, "--version"], capture_output=True, check=False, shell=True)
                     if result.returncode == 0:
                         return cmd
                 except (FileNotFoundError, subprocess.CalledProcessError):
@@ -172,9 +169,7 @@ class VSCodeExtensionManager:
             ),
         }
 
-    def _calculate_compliance_score(
-        self, installed: int, required: int, missing_required: int, excluded: int
-    ) -> float:
+    def _calculate_compliance_score(self, installed: int, required: int, missing_required: int, excluded: int) -> float:
         """Рассчитывает оценку соответствия"""
         if required == 0:
             return 100.0
@@ -300,9 +295,7 @@ def main():
             # Рекомендации
             if compliance["compliance_score"] < args.threshold:
                 print(f"\n💡 РЕКОМЕНДАЦИИ (оценка ниже {args.threshold}%%):")
-                print(
-                    "Запустите 'python scripts/vscode-extensions-manager.py --action sync' для синхронизации"
-                )
+                print("Запустите 'python scripts/vscode-extensions-manager.py --action sync' для синхронизации")
 
     elif args.action == "sync":
         # Синхронизация расширений

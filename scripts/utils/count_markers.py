@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-
 # Определяем путь к директории с маркерами
 markers_dir = Path("apps/it_compass/src/data/markers")
 

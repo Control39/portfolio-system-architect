@@ -4,9 +4,7 @@ from pathlib import Path
 
 
 def count_tests():
-    result = subprocess.run(
-        ["pytest", "--collect-only", "-q"], cwd="apps", capture_output=True, text=True
-    )
+    result = subprocess.run(["pytest", "--collect-only", "-q"], cwd="apps", capture_output=True, text=True)
     return result.stdout.count("::")
 
 

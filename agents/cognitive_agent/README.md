@@ -104,7 +104,7 @@ graph TB
         Planner[📋 Planner]
         Learning[📚 Learning]
     end
-    
+
     subgraph "Внешние сервисы"
         IT[IT-Compass<br/>Методология]
         JA[Job Automation<br/>Поиск работы]
@@ -117,11 +117,11 @@ graph TB
     A1 --> CA
     A2 --> CA
     A3 --> CA
-    
+
     CA --> Scanner
     CA --> Planner
     CA --> Learning
-    
+
     Scanner -.->|Анализ кода| IT
     Planner -.->|Задачи| JA
     Learning -.->|Метрики| CD

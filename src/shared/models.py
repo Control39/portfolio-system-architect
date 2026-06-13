@@ -62,9 +62,7 @@ class PlanRequest(BaseModel):
 
     goals: str = Field(..., description="Цели для планирования")
     project_path: str = Field(default=".", description="Путь к проекту")
-    constraints: dict[str, Any] | None = Field(
-        default=None, description="Ограничения для планирования"
-    )
+    constraints: dict[str, Any] | None = Field(default=None, description="Ограничения для планирования")
 
 
 class PlanResponse(BaseModel):

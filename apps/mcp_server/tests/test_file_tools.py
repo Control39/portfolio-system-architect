@@ -2,9 +2,10 @@
 Tests for mcp_server file_tools - Simplified
 """
 
-import pytest
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
+import pytest
 
 
 class TestFileToolsModule:

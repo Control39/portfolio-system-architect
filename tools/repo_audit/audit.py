@@ -48,9 +48,7 @@ class RepositoryAudit:
         full_path = self.repo_path / path
         if not full_path.exists():
             self.total += 1
-            self.results.append(
-                {"check": description, "status": "FAIL", "path": path, "note": "File missing"}
-            )
+            self.results.append({"check": description, "status": "FAIL", "path": path, "note": "File missing"})
             return False
         try:
             content = full_path.read_text(encoding="utf-8")
@@ -70,9 +68,7 @@ class RepositoryAudit:
             return False
         except Exception as e:
             self.total += 1
-            self.results.append(
-                {"check": description, "status": "ERROR", "path": path, "note": str(e)}
-            )
+            self.results.append({"check": description, "status": "ERROR", "path": path, "note": str(e)})
             return False
 
     def run_base_checks(self):
@@ -108,13 +104,9 @@ class RepositoryAudit:
             "Sealed secrets example exists",
         )
         self.check_file_exists("monitoring/prometheus/prometheus.yml", "Prometheus config exists")
-        self.check_file_exists(
-            "monitoring/grafana/provisioning/dashboards/portfolio.yml", "Grafana dashboard exists"
-        )
+        self.check_file_exists("monitoring/grafana/provisioning/dashboards/portfolio.yml", "Grafana dashboard exists")
         self.check_file_exists(".coveragerc", "Coverage config exists")
-        self.check_file_content(
-            "README.md", "README mentions repository audit", keyword="repository audit tool"
-        )
+        self.check_file_content("README.md", "README mentions repository audit", keyword="repository audit tool")
 
     def run(self):
         """Run checks for the selected level."""
@@ -182,13 +174,9 @@ def main():
         default="base",
         help="Audit level",
     )
-    parser.add_argument(
-        "--output", choices=["console", "json", "markdown"], default="console", help="Output format"
-    )
+    parser.add_argument("--output", choices=["console", "json", "markdown"], default="console", help="Output format")
     parser.add_argument("--repo-path", default=".", help="Path to repository")
-    parser.add_argument(
-        "--auto-fix", action="store_true", help="Auto‑fix missing files (not implemented)"
-    )
+    parser.add_argument("--auto-fix", action="store_true", help="Auto‑fix missing files (not implemented)")
     args = parser.parse_args()
 
     audit = RepositoryAudit(repo_path=args.repo_path, level=args.level)

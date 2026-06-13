@@ -6,8 +6,8 @@
 
 import json
 import subprocess
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 ROOT = Path(r"C:\repo")
 OUTPUT_DIR = ROOT / "docs" / "security"

@@ -152,9 +152,7 @@ class WorkspaceAnalyzer:
                     {
                         "name": item.name,
                         "path": str(item),
-                        "days_old": int(
-                            (datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)
-                        ),
+                        "days_old": int((datetime.now().timestamp() - item.stat().st_mtime) / (24 * 3600)),
                         "size_mb": round(item.stat().st_size / (1024 * 1024), 2),
                     }
                 )

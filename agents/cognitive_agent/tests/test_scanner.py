@@ -12,14 +12,11 @@ Test Coverage:
 - Integration with orchestrator
 """
 
-import sys
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
 # Add path to root
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # ============================================================================
@@ -87,9 +84,7 @@ class TestScannerExecution:
 
     def test_scan_execution(self, mock_scanner_instance):
         """Test scan execution"""
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 10, "languages": ["python"]}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 10, "languages": ["python"]})
 
         result = mock_scanner_instance.execute_scan()
 
@@ -99,9 +94,7 @@ class TestScannerExecution:
 
     def test_scan_with_exclusions(self, mock_scanner_instance, scanner_config):
         """Test scan with exclusion patterns"""
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 5, "excluded": 3}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 5, "excluded": 3})
 
         result = mock_scanner_instance.execute_scan()
 
@@ -156,9 +149,7 @@ class TestScannerErrorHandling:
 
     def test_handle_invalid_path(self, mock_scanner_instance):
         """Test handling of invalid project path"""
-        mock_scanner_instance.execute_scan = MagicMock(
-            side_effect=FileNotFoundError("Path not found")
-        )
+        mock_scanner_instance.execute_scan = MagicMock(side_effect=FileNotFoundError("Path not found"))
 
         with pytest.raises(FileNotFoundError):
             mock_scanner_instance.execute_scan()
@@ -199,9 +190,7 @@ class TestScannerIntegration:
     def test_scanner_run_workflow(self, mock_scanner_instance, mock_orchestrator):
         """Test running workflow via orchestrator"""
         mock_scanner_instance.orchestrator = mock_orchestrator
-        mock_orchestrator.run_workflow = MagicMock(
-            return_value={"status": "success", "workflow": "scan"}
-        )
+        mock_orchestrator.run_workflow = MagicMock(return_value={"status": "success", "workflow": "scan"})
 
         result = mock_orchestrator.run_workflow("scan")
 
@@ -221,9 +210,7 @@ class TestScannerFullIntegration:
         """Test full scan workflow"""
         # Arrange
         mock_scanner_instance.orchestrator = mock_orchestrator
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 10, "languages": ["python"]}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 10, "languages": ["python"]})
         mock_scanner_instance.process_results = MagicMock(return_value={"summary": "processed"})
 
         # Act
@@ -281,9 +268,7 @@ class TestScannerEdgeCases:
 
     def test_empty_project(self, mock_scanner_instance):
         """Test scanning empty project"""
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 0, "languages": []}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 0, "languages": []})
 
         result = mock_scanner_instance.execute_scan()
 
@@ -291,9 +276,7 @@ class TestScannerEdgeCases:
 
     def test_large_project(self, mock_scanner_instance):
         """Test scanning large project"""
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 10000, "languages": ["python"]}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 10000, "languages": ["python"]})
 
         result = mock_scanner_instance.execute_scan()
 
@@ -302,9 +285,7 @@ class TestScannerEdgeCases:
     def test_special_characters_in_path(self, mock_scanner_instance):
         """Test scanning project with special characters in path"""
         mock_scanner_instance.config["project_path"] = "C:\\Users\\Test User\\Project"
-        mock_scanner_instance.execute_scan = MagicMock(
-            return_value={"files_found": 5, "languages": ["python"]}
-        )
+        mock_scanner_instance.execute_scan = MagicMock(return_value={"files_found": 5, "languages": ["python"]})
 
         result = mock_scanner_instance.execute_scan()
 

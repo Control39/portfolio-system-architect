@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, Request
-from src.models.responses import AnalysisResponse
-from src.core.gap_calculator import GapCalculator
 from opentelemetry import trace
+
+from src.core.gap_calculator import GapCalculator
+from src.models.responses import AnalysisResponse
 
 router = APIRouter()
 

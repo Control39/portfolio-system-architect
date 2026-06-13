@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import UTC
 from typing import Any
 
 
@@ -16,12 +17,12 @@ class RoomMetadata:
         updated_at: str | None = None,
         description: str | None = None,
     ) -> None:
-        from datetime import datetime, timezone
+        from datetime import datetime
 
         self.room_id = room_id
         self.room_name = room_name
         self.user_id = user_id
-        self.created_at = created_at or datetime.now(timezone.utc).isoformat()
+        self.created_at = created_at or datetime.now(UTC).isoformat()
         self.updated_at = updated_at or self.created_at
         self.description = description or ""
 

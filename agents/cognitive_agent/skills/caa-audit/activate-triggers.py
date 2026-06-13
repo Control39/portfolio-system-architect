@@ -4,13 +4,13 @@
 Интеграция с существующей системой Cognitive Automation Agent
 """
 
-import sys
-import yaml
-import shutil
 import argparse
-from pathlib import Path
+import shutil
+import sys
 from datetime import datetime
-from typing import Dict, Optional
+from pathlib import Path
+
+import yaml
 
 
 class TriggerActivator:
@@ -18,13 +18,11 @@ class TriggerActivator:
 
     def __init__(self, project_root: str = "."):
         self.project_root = Path(project_root)
-        self.pmr_triggers_path = (
-            self.project_root / ".codeassistant/skills/caa-audit/pmr-triggers.yaml"
-        )
+        self.pmr_triggers_path = self.project_root / ".codeassistant/skills/caa-audit/pmr-triggers.yaml"
         self.caa_triggers_path = self.project_root / ".agents/config/triggers.yaml"
         self.caa_git_hooks_path = self.project_root / ".agents/config/git-hooks.yaml"
 
-    def activate_all(self, dry_run: bool = False) -> Dict:
+    def activate_all(self, dry_run: bool = False) -> dict:
         """Активация всех триггеров"""
         print("🚀 Активация проактивных триггеров PMR Agent...")
 
@@ -68,7 +66,7 @@ class TriggerActivator:
 
         return results
 
-    def _check_prerequisites(self, results: Dict):
+    def _check_prerequisites(self, results: dict):
         """Проверка предварительных условий"""
         print("  🔍 Проверка предварительных условий...")
 
@@ -85,26 +83,22 @@ class TriggerActivator:
                     }
                 )
             else:
-                results["errors"].append(
-                    f"Файл не найден: {file_path.relative_to(self.project_root)}"
-                )
+                results["errors"].append(f"Файл не найден: {file_path.relative_to(self.project_root)}")
 
         # Проверка Python и зависимостей
         try:
             import yaml
 
-            results["steps"].append(
-                {"step": "check_dependencies", "status": "success", "message": "PyYAML установлен"}
-            )
+            results["steps"].append({"step": "check_dependencies", "status": "success", "message": "PyYAML установлен"})
         except ImportError:
             results["errors"].append("PyYAML не установлен. Установите: pip install pyyaml")
 
-    def _load_pmr_config(self, results: Dict) -> Optional[Dict]:
+    def _load_pmr_config(self, results: dict) -> dict | None:
         """Загрузка конфигурации PMR триггеров"""
         print("  📂 Загрузка конфигурации PMR триггеров...")
 
         try:
-            with open(self.pmr_triggers_path, "r", encoding="utf-8") as f:
+            with open(self.pmr_triggers_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             results["steps"].append(
@@ -121,13 +115,13 @@ class TriggerActivator:
             results["errors"].append(f"Ошибка загрузки конфигурации PMR: {e}")
             return None
 
-    def _integrate_with_caa_triggers(self, pmr_config: Dict, results: Dict):
+    def _integrate_with_caa_triggers(self, pmr_config: dict, results: dict):
         """Интеграция с существующей системой CAA триггеров"""
         print("  🔗 Интеграция с CAA триггерами...")
 
         try:
             # Загрузка конфигурации CAA
-            with open(self.caa_triggers_path, "r", encoding="utf-8") as f:
+            with open(self.caa_triggers_path, encoding="utf-8") as f:
                 caa_config = yaml.safe_load(f)
 
             # Добавление PMR триггеров в CAA конфигурацию
@@ -167,9 +161,7 @@ class TriggerActivator:
             shutil.copy2(self.caa_triggers_path, backup_path)
 
             with open(self.caa_triggers_path, "w", encoding="utf-8") as f:
-                yaml.dump(
-                    caa_config, f, default_flow_style=False, allow_unicode=True, sort_keys=False
-                )
+                yaml.dump(caa_config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
             results["steps"].append(
                 {
@@ -182,7 +174,7 @@ class TriggerActivator:
         except Exception as e:
             results["errors"].append(f"Ошибка интеграции с CAA: {e}")
 
-    def _setup_git_hooks(self, pmr_config: Dict, results: Dict):
+    def _setup_git_hooks(self, pmr_config: dict, results: dict):
         """Настройка Git хуков"""
         print("  🪝 Настройка Git хуков...")
 
@@ -249,7 +241,7 @@ exit 0
         # Интеграция с существующей конфигурацией Git хуков CAA
         if self.caa_git_hooks_path.exists():
             try:
-                with open(self.caa_git_hooks_path, "r", encoding="utf-8") as f:
+                with open(self.caa_git_hooks_path, encoding="utf-8") as f:
                     git_hooks_config = yaml.safe_load(f) or {}
 
                 if "hooks" not in git_hooks_config:
@@ -286,15 +278,11 @@ exit 0
                 )
 
             except Exception as e:
-                results["warnings"].append(
-                    f"Ошибка интеграции Git хуков: {e}. Хуки созданы, но не интегрированы."
-                )
+                results["warnings"].append(f"Ошибка интеграции Git хуков: {e}. Хуки созданы, но не интегрированы.")
         else:
-            results["warnings"].append(
-                "Файл конфигурации Git хуков CAA не найден. Хуки созданы, но не интегрированы."
-            )
+            results["warnings"].append("Файл конфигурации Git хуков CAA не найден. Хуки созданы, но не интегрированы.")
 
-    def _create_storage_directories(self, pmr_config: Dict, results: Dict):
+    def _create_storage_directories(self, pmr_config: dict, results: dict):
         """Создание директорий для хранения данных"""
         print("  📁 Создание директорий для хранения данных...")
 
@@ -316,9 +304,7 @@ exit 0
         created_dirs.append(str(metrics_dir.relative_to(self.project_root)))
 
         # Директории для логов
-        logs_dir = self.project_root / storage_config.get("logs", {}).get(
-            "directory", ".agents/logs/caa-audit/"
-        )
+        logs_dir = self.project_root / storage_config.get("logs", {}).get("directory", ".agents/logs/caa-audit/")
         logs_dir.mkdir(parents=True, exist_ok=True)
         created_dirs.append(str(logs_dir.relative_to(self.project_root)))
 
@@ -340,7 +326,7 @@ exit 0
             }
         )
 
-    def _generate_launch_scripts(self, pmr_config: Dict, results: Dict):
+    def _generate_launch_scripts(self, pmr_config: dict, results: dict):
         """Генерация скриптов запуска"""
         print("  🚀 Генерация скриптов запуска...")
 

@@ -10,7 +10,6 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 
 from apps.decision_engine.decision_engine.utils.logger import PortfolioLogger
 
-
 # Инициализация логгера
 logger = PortfolioLogger()
 

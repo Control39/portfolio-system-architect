@@ -5,7 +5,6 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -31,15 +30,10 @@ try:
     from src.common.health_check import init_health_checks
 except ImportError:
     # Fallback для Docker-окружения
-    sys.path.insert(0, "/app")
-    sys.path.insert(0, "/app/src")
     from src.common.health_check import init_health_checks
 
 # Добавляем путь к корню проекта (shared_src) и к текущему каталогу
 current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.abspath(os.path.join(current_dir, "..", "shared_src")))
-sys.path.insert(0, current_dir)
-sys.path.insert(0, os.path.abspath(os.path.join(current_dir, "..")))
 
 from .portfolio_integration import router  # noqa: E402
 

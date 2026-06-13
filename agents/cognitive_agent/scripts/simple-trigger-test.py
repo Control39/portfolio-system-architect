@@ -3,12 +3,13 @@
 Упрощенный тест для проверки работы системы триггеров.
 """
 
-import sys
 import json
-import yaml
-from pathlib import Path
+import sys
 from datetime import datetime
 from enum import Enum
+from pathlib import Path
+
+import yaml
 
 
 # Заглушки для тестирования
@@ -40,9 +41,7 @@ class TriggerEvent:
 class CommonTriggers:
     @staticmethod
     def create_project_open_trigger(project_path):
-        return TriggerEvent(
-            "project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH
-        )
+        return TriggerEvent("project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH)
 
     @staticmethod
     def create_file_change_trigger(filename, change_type):
@@ -81,7 +80,7 @@ class MockTriggerProcessor:
     def load_config(self, config_path):
         """Загрузка конфигурации триггеров"""
         try:
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
             if "triggers" in config:

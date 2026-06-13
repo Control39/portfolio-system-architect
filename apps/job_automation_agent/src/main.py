@@ -6,7 +6,6 @@ from typing import Any
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -27,7 +26,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Добавляем путь для импорта общих модулей
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from src.common.async_helpers import fetch_with_timeout
 from src.common.health_check import init_health_checks
 

@@ -1,4 +1,4 @@
-from typing import List, Generator, Tuple
+from collections.abc import Generator
 from dataclasses import dataclass
 
 from .token_counter import TokenCounter
@@ -11,7 +11,7 @@ class Chunk:
     index: int
     total: int
     content: str
-    files: List[str]
+    files: list[str]
     tokens: int
     size_mb: float
 
@@ -23,7 +23,7 @@ class ContextChunker:
         self.max_tokens = max_tokens_per_chunk
         self.token_counter = TokenCounter()
 
-    def split(self, files_with_content: List[Tuple[str, str]]) -> Generator[Chunk, None, None]:
+    def split(self, files_with_content: list[tuple[str, str]]) -> Generator[Chunk, None, None]:
         """
         Разбивает контекст на части по границам файлов.
         """
@@ -33,7 +33,7 @@ class ContextChunker:
         current_tokens = 0
 
         for file_path, content in files_with_content:
-            file_header = f"\n{'='*80}\nФАЙЛ: {file_path}\n{'='*80}\n"
+            file_header = f"\n{'=' * 80}\nФАЙЛ: {file_path}\n{'=' * 80}\n"
             file_full = file_header + content
             file_tokens = self.token_counter.count(file_full)
 
@@ -93,13 +93,13 @@ class ContextChunker:
         """Возвращает заголовок для LLM"""
         files_list = "\n".join(f"  - {f}" for f in chunk.files)
         return f"""
-{'='*80}
+{"=" * 80}
 ⚠️ ЧАСТЬ {chunk.index} ИЗ {chunk.total} ⚠️
-{'='*80}
+{"=" * 80}
 Контекст проекта разбит на {chunk.total} части.
 
 Файлы в этой части ({len(chunk.files)} шт.):
 {files_list}
 
-{'='*80}
+{"=" * 80}
 """

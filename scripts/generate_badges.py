@@ -6,7 +6,6 @@ Generate dynamic badges section for README.md
 import json
 from pathlib import Path
 
-
 REPO_ROOT = Path.cwd()
 METRICS_FILE = REPO_ROOT / "metrics.json"
 
@@ -56,9 +55,7 @@ def generate_badges_section(metrics):
         py_files=metrics["python_files"],
         test_files=metrics["test_files"],
         services=metrics["microservices"],
-        loc=f"{metrics['lines_of_code'] / 1000:.1f}k"
-        if metrics["lines_of_code"] > 1000
-        else metrics["lines_of_code"],
+        loc=f"{metrics['lines_of_code'] / 1000:.1f}k" if metrics["lines_of_code"] > 1000 else metrics["lines_of_code"],
         commits=metrics["git_commits"],
         branches=metrics["git_branches"],
         k8s=metrics["k8s_files"],

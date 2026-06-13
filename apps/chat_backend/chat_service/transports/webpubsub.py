@@ -16,13 +16,12 @@ import contextlib
 import json
 import logging
 from collections.abc import AsyncIterator
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from ...core.room_store import RoomStore
 from ...core.utils import generate_id
 from ..base import SYS_ROOMS_GROUP, ChatServiceBase, ClientConnectionContext, as_room_group
-
 
 DefaultAzureCredential = None  # sentinel if import missing
 WebPubSubServiceClient = None  # sentinel if import missing
@@ -30,7 +29,7 @@ try:
     from azure.identity import DefaultAzureCredential as _DefaultAzureCredential  # pragma: no cover
     from azure.messaging.webpubsubservice import (
         WebPubSubServiceClient as _WebPubSubServiceClient,
-    )  # pragma: no cover
+    )
 
     DefaultAzureCredential = _DefaultAzureCredential
     WebPubSubServiceClient = _WebPubSubServiceClient
@@ -67,9 +66,7 @@ class WebPubSubChatService(ChatServiceBase):
             self._svc = WebPubSubServiceClient(endpoint=endpoint, hub=hub, credential=credential)
         elif connection_string:
             try:
-                self._svc = WebPubSubServiceClient.from_connection_string(
-                    connection_string, hub=hub
-                )  # type: ignore[attr-defined]
+                self._svc = WebPubSubServiceClient.from_connection_string(connection_string, hub=hub)  # type: ignore[attr-defined]
             except AttributeError:
                 self._svc = WebPubSubServiceClient.from_connection_string(connection_string)  # type: ignore[attr-defined]
         else:
@@ -137,9 +134,7 @@ class WebPubSubChatService(ChatServiceBase):
             "roomId": room_id,
         }
         try:
-            self._svc.send_to_group(
-                group_name, payload, content_type="application/json", excluded=exclude_ids
-            )  # type: ignore[arg-type]
+            self._svc.send_to_group(group_name, payload, content_type="application/json", excluded=exclude_ids)  # type: ignore[arg-type]
         except Exception:
             self.log.debug("Failed to send to group (service)")
         try:
@@ -150,7 +145,7 @@ class WebPubSubChatService(ChatServiceBase):
                     "messageId": payload["messageId"],
                     "message": message,
                     "from": from_user_id,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "timestamp": datetime.now(UTC).isoformat(),
                 },
             )
         except Exception:
@@ -178,9 +173,7 @@ class WebPubSubChatService(ChatServiceBase):
                 "roomId": room_id,
             }
             try:
-                self._svc.send_to_group(
-                    group_name, payload, content_type="application/json", excluded=exclude_ids
-                )  # type: ignore[arg-type]
+                self._svc.send_to_group(group_name, payload, content_type="application/json", excluded=exclude_ids)  # type: ignore[arg-type]
             except Exception:
                 self.log.debug("Failed to send streaming chunk (group=%s)", group_name)
             await asyncio.sleep(0.05)
@@ -192,9 +185,7 @@ class WebPubSubChatService(ChatServiceBase):
             "roomId": room_id,
         }
         try:
-            self._svc.send_to_group(
-                group_name, eos, content_type="application/json", excluded=exclude_ids
-            )  # type: ignore[arg-type]
+            self._svc.send_to_group(group_name, eos, content_type="application/json", excluded=exclude_ids)  # type: ignore[arg-type]
         except Exception:
             self.log.debug("Failed to send streaming end (group=%s)", group_name)
         try:
@@ -205,7 +196,7 @@ class WebPubSubChatService(ChatServiceBase):
                     "messageId": message_id,
                     "message": full_response,
                     "from": from_user_id,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "timestamp": datetime.now(UTC).isoformat(),
                 },
             )
         except Exception:

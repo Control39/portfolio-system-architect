@@ -12,15 +12,12 @@ Test Coverage:
 - Real-world scenarios
 """
 
-import sys
 import time
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
 # Add path to root
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # ============================================================================
@@ -102,9 +99,7 @@ class TestFullAgentWorkflow:
                 "tasks": [{"id": 1, "action": "optimize"}],
             }
         )
-        mock_agent.execute = MagicMock(
-            return_value={"status": "success", "task_id": 1, "result": "completed"}
-        )
+        mock_agent.execute = MagicMock(return_value={"status": "success", "task_id": 1, "result": "completed"})
         mock_agent.learn = MagicMock(
             return_value={
                 "status": "success",
@@ -162,9 +157,7 @@ class TestIntegrationWithServices:
         )
 
         # Act
-        decision = mock_agent.decision_engine.reason(
-            action="execute_task", context={"environment": "test"}
-        )
+        decision = mock_agent.decision_engine.reason(action="execute_task", context={"environment": "test"})
 
         # Assert
         assert decision["decision"] == "allow"
@@ -312,9 +305,7 @@ class TestPerformanceUnderLoad:
         # Arrange
         mock_agent.scan = MagicMock(return_value={"status": "success", "files_found": 10})
         mock_agent.plan = MagicMock(return_value={"status": "success", "tasks": [{"id": 1}]})
-        mock_agent.execute = MagicMock(
-            return_value={"status": "success", "task_id": 1, "result": "completed"}
-        )
+        mock_agent.execute = MagicMock(return_value={"status": "success", "task_id": 1, "result": "completed"})
         mock_agent.learn = MagicMock(
             return_value={
                 "status": "success",
@@ -362,9 +353,7 @@ class TestRealWorldScenarios:
                 "estimated_duration": 120,
             }
         )
-        mock_agent.execute = MagicMock(
-            return_value={"status": "success", "task_id": 1, "result": "completed"}
-        )
+        mock_agent.execute = MagicMock(return_value={"status": "success", "task_id": 1, "result": "completed"})
         mock_agent.learn = MagicMock(
             return_value={
                 "status": "success",

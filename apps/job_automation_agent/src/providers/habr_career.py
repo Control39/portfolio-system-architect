@@ -5,7 +5,8 @@
 """
 
 import asyncio
-from typing import List, Dict, Any
+from typing import Any
+
 import requests
 
 ALLOWED_HOSTS = {
@@ -21,7 +22,7 @@ class HabrCareerProvider:
         self.base_url = "https://career.habr.com"
         self.api_url = "https://api.habr.com/v1/jobs"
 
-    async def search(self, query: str, per_page: int = 20, page: int = 0) -> List[Dict[str, Any]]:
+    async def search(self, query: str, per_page: int = 20, page: int = 0) -> list[dict[str, Any]]:
         """
         Поиск вакансий на Habr Career
 
@@ -55,7 +56,7 @@ class HabrCareerProvider:
             print(f"❌ Ошибка парсинга: {e}")
             return []
 
-    def _parse_vacancies(self, vacancies: List[Dict]) -> List[Dict[str, Any]]:
+    def _parse_vacancies(self, vacancies: list[dict]) -> list[dict[str, Any]]:
         """Парсинг вакансий из ответа Habr Career"""
         parsed = []
 
@@ -79,7 +80,7 @@ class HabrCareerProvider:
         return parsed
 
 
-async def search_habr_career(query: str, per_page: int = 20) -> List[Dict[str, Any]]:
+async def search_habr_career(query: str, per_page: int = 20) -> list[dict[str, Any]]:
     """Удобная функция для поиска на Habr Career"""
     provider = HabrCareerProvider()
     return await provider.search(query, per_page)

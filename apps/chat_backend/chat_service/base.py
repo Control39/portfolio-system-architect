@@ -16,7 +16,6 @@ from typing import Any
 
 from ..core import InMemoryRoomStore, RoomStore
 
-
 # Group naming
 ROOM_GROUP_PREFIX = "room_"
 SYS_GROUP_PREFIX = "sys_"
@@ -51,20 +50,14 @@ class ClientConnectionContext:
 OnConnecting = Callable[[ClientConnectionContext, "ChatServiceBase"], Awaitable[None] | None]
 OnConnected = Callable[[ClientConnectionContext, "ChatServiceBase"], Awaitable[None] | None]
 OnDisconnected = Callable[[ClientConnectionContext, "ChatServiceBase"], Awaitable[None] | None]
-OnEventMessage = Callable[
-    [ClientConnectionContext, str, Any, "ChatServiceBase"], Awaitable[None] | None
-]
-OnError = Callable[
-    [ClientConnectionContext, BaseException, "ChatServiceBase"], Awaitable[None] | None
-]
+OnEventMessage = Callable[[ClientConnectionContext, str, Any, "ChatServiceBase"], Awaitable[None] | None]
+OnError = Callable[[ClientConnectionContext, BaseException, "ChatServiceBase"], Awaitable[None] | None]
 
 
 class ChatServiceBase:
     """Manages event handler lists and defines abstract transport contract."""
 
-    def __init__(
-        self, *, room_store: RoomStore | None = None, logger: logging.Logger | None = None
-    ) -> None:
+    def __init__(self, *, room_store: RoomStore | None = None, logger: logging.Logger | None = None) -> None:
         self.log = logger or logging.getLogger("chat_service")
         self.room_store = room_store or InMemoryRoomStore()
         self._on_connecting: list[OnConnecting] = []
@@ -103,9 +96,7 @@ class ChatServiceBase:
     def on_error(self, handler: OnError) -> None:
         self.on("error", handler)
 
-    async def _emit(
-        self, handlers: list[Callable[..., Awaitable[None] | None]], *args: Any
-    ) -> None:
+    async def _emit(self, handlers: list[Callable[..., Awaitable[None] | None]], *args: Any) -> None:
         for h in list(handlers):
             try:
                 res = h(*args, self)

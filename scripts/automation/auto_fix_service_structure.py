@@ -73,9 +73,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
         for section, replacement in required_sections.items():
             if section not in content:
                 # Вставить после заголовка
-                content = content.replace(
-                    "# AI Config Manager", f"# AI Config Manager\n\n{replacement}"
-                )
+                content = content.replace("# AI Config Manager", f"# AI Config Manager\n\n{replacement}")
 
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(
@@ -212,9 +210,7 @@ if __name__ == "__main__":
 
         for section, replacement in required_sections.items():
             if section not in content:
-                content = content.replace(
-                    "# Cognitive Agent", f"# Cognitive Agent\n\n{replacement}"
-                )
+                content = content.replace("# Cognitive Agent", f"# Cognitive Agent\n\n{replacement}")
 
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(
@@ -301,9 +297,7 @@ if __name__ == "__main__":
 
         for section, replacement in required_sections.items():
             if section not in content:
-                content = content.replace(
-                    "# Job Automation Agent", f"# Job Automation Agent\n\n{replacement}"
-                )
+                content = content.replace("# Job Automation Agent", f"# Job Automation Agent\n\n{replacement}")
 
         readme_path.write_text(content, encoding="utf-8")
         fixes.append(

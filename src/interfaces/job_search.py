@@ -58,6 +58,6 @@ class IJobSearch(ABC):
         Пример:
             >>> search_engine = CognitiveJobSearch()
             >>> details = search_engine.get_details("hh-12345")
-            >>> print(details['description'])
+            >>> print(details["description"])
         """
         pass

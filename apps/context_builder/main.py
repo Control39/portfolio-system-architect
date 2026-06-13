@@ -1,41 +1,44 @@
-from fastapi import FastAPI, HTTPException, BackgroundTasks
-from fastapi.responses import PlainTextResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+
+from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, PlainTextResponse
 
 try:
     from prometheus_fastapi_instrumentator import Instrumentator
 except ModuleNotFoundError:  # pragma: no cover
     Instrumentator = None
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
 import logging
 import uuid
 
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
+
 try:
     from .config.settings import settings
+    from .core.builder import ContextBuilder
+    from .core.filters import FileFilter
+    from .core.scanner import ProjectScanner
     from .models.schemas import (
         BuildContextRequest,
         BuildContextResponse,
         FilterConfigRequest,
         FilterConfigResponse,
     )
-    from .core.scanner import ProjectScanner
-    from .core.builder import ContextBuilder
-    from .core.filters import FileFilter
 except ImportError:  # pragma: no cover
     # Fallback for tests that import `main` as a top-level module.
-    from config.settings import settings
+    from core.builder import ContextBuilder
+    from core.filters import FileFilter
+    from core.scanner import ProjectScanner
     from models.schemas import (
         BuildContextRequest,
         BuildContextResponse,
         FilterConfigRequest,
         FilterConfigResponse,
     )
-    from core.scanner import ProjectScanner
-    from core.builder import ContextBuilder
-    from core.filters import FileFilter
+
+    from config.settings import settings
 
 
 # © 2025 Ekaterina Kudelya. Licensed under CC BY‑ND 4.0
@@ -108,7 +111,7 @@ async def health():
     return {
         "status": "healthy",
         "service": "context_builder",  # Исправлено с "auth_service"
-        "version": "2.0.0"
+        "version": "2.0.0",
     }
 
 
@@ -262,9 +265,7 @@ async def get_structure(subpath: str = None) -> JSONResponse:
         scanner = ProjectScanner(project_root, respect_gitignore=settings.respect_gitignore)
         structure = scanner.get_structure_only(subpath)
 
-        return JSONResponse(
-            {"success": True, "structure": structure, "total_files": len(structure)}
-        )
+        return JSONResponse({"success": True, "structure": structure, "total_files": len(structure)})
 
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))

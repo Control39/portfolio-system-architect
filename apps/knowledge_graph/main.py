@@ -20,9 +20,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Инициализация FastAPI приложения
@@ -134,14 +132,10 @@ async def delete_entity(entity_id: str):
 
 
 @app.get("/api/v1/relationships", response_model=list[Relationship])
-async def list_relationships(
-    source: str | None = None, target: str | None = None, relation_type: str | None = None
-):
+async def list_relationships(source: str | None = None, target: str | None = None, relation_type: str | None = None):
     """Список отношений"""
     # TODO: Интеграция с графовой БД
-    relationships = [
-        Relationship(source="1", target="2", type="uses", properties={"confidence": 0.95})
-    ]
+    relationships = [Relationship(source="1", target="2", type="uses", properties={"confidence": 0.95})]
 
     if source:
         relationships = [r for r in relationships if r.source == source]

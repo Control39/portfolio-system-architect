@@ -12,14 +12,12 @@ Cognitive Agent Orchestrator v2
 import json
 import logging
 import signal
-import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 # Добавляем корень проекта в PYTHONPATH
 REPO_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO_ROOT))
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,7 +42,7 @@ class CognitiveOrchestrator:
     def _load_config(self) -> dict[str, Any]:
         """Загрузка конфигурации через существующий config_integration.py"""
         try:
-            from apps.cognitive_agent.src.config_integration import get_config
+            from agents.cognitive_agent.src.config_integration import get_config
 
             config_wrapper = get_config()
             config = config_wrapper.get_config()
@@ -70,16 +68,14 @@ class CognitiveOrchestrator:
         if markers_dir.exists():
             for marker_file in markers_dir.glob("*.json"):
                 try:
-                    with open(marker_file, "r", encoding="utf-8-sig") as f:
+                    with open(marker_file, encoding="utf-8-sig") as f:
                         data = json.load(f)
                         skill_name = data.get("skill_name", marker_file.stem)
                         markers[skill_name] = {
                             "file": str(marker_file.relative_to(REPO_ROOT)),
                             "levels": len(data.get("levels", {})),
                             "markers_count": sum(
-                                len(v)
-                                for v in data.get("levels", {}).values()
-                                if isinstance(v, list)
+                                len(v) for v in data.get("levels", {}).values() if isinstance(v, list)
                             ),
                         }
                 except Exception as e:
@@ -96,9 +92,7 @@ class CognitiveOrchestrator:
         🔗 СВЯЗЬ #2: cognitive_agent → YAML workflows
         Парсит workflow и запускает связанные скрипты.
         """
-        workflow_path = (
-            REPO_ROOT / "apps" / "cognitive_agent" / "workflows" / f"{workflow_name}.yaml"
-        )
+        workflow_path = REPO_ROOT / "apps" / "cognitive_agent" / "workflows" / f"{workflow_name}.yaml"
 
         if not workflow_path.exists():
             logger.error(f"Workflow не найден: {workflow_path}")
@@ -147,14 +141,7 @@ class CognitiveOrchestrator:
         Проверяет доступность адаптера для поиска работы.
         """
         try:
-            adapter_path = (
-                REPO_ROOT
-                / "apps"
-                / "infra_orchestrator"
-                / "src"
-                / "adapters"
-                / "job_search_adapter.py"
-            )
+            adapter_path = REPO_ROOT / "apps" / "infra_orchestrator" / "src" / "adapters" / "job_search_adapter.py"
             if not adapter_path.exists():
                 logger.warning("❌ job_search_adapter.py не найден")
                 return False
@@ -179,7 +166,7 @@ class CognitiveOrchestrator:
             return False
 
         logger.info("✅ FastAPI endpoint доступен: apps/cognitive_agent/main.py")
-        logger.info("   Запуск: uvicorn apps.cognitive_agent.main:app --port 8000")
+        logger.info("   Запуск: uvicorn agents.cognitive_agent.main:app --port 8000")
         return True
 
     def run(self):
@@ -217,9 +204,7 @@ class CognitiveOrchestrator:
         logger.info("=" * 60)
 
         # Сохраняем отчёт
-        report_path = (
-            REPO_ROOT / "apps" / "cognitive_agent" / "reports" / "orchestrator_status.json"
-        )
+        report_path = REPO_ROOT / "apps" / "cognitive_agent" / "reports" / "orchestrator_status.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         report = {

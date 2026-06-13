@@ -10,22 +10,23 @@ Validates Kubernetes YAML manifests for:
 """
 
 import sys
-import yaml
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any
+
+import yaml
 
 
 def validate_yaml_syntax(file_path: Path) -> tuple[bool, str]:
     """Check if YAML file is syntactically valid."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             list(yaml.safe_load_all(f))
         return True, ""
     except yaml.YAMLError as e:
         return False, str(e)
 
 
-def check_deprecated_apis(manifests: List[Dict[str, Any]]) -> List[str]:
+def check_deprecated_apis(manifests: list[dict[str, Any]]) -> list[str]:
     """Check for deprecated Kubernetes API versions."""
     deprecated = [
         "extensions/v1beta1",
@@ -46,7 +47,7 @@ def check_deprecated_apis(manifests: List[Dict[str, Any]]) -> List[str]:
     return issues
 
 
-def check_required_fields(manifests: List[Dict[str, Any]]) -> List[str]:
+def check_required_fields(manifests: list[dict[str, Any]]) -> list[str]:
     """Check for required fields in K8s manifests."""
     issues = []
 
@@ -82,7 +83,7 @@ def check_required_fields(manifests: List[Dict[str, Any]]) -> List[str]:
     return issues
 
 
-def _get_containers(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
+def _get_containers(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     """Extract containers from various K8s resource types."""
     containers = []
     spec = manifest.get("spec", {})
@@ -104,7 +105,7 @@ def _get_containers(manifest: Dict[str, Any]) -> List[Dict[str, Any]]:
     return containers
 
 
-def check_security_issues(manifests: List[Dict[str, Any]]) -> List[str]:
+def check_security_issues(manifests: list[dict[str, Any]]) -> list[str]:
     """Check for common security issues."""
     issues = []
 
@@ -126,9 +127,7 @@ def check_security_issues(manifests: List[Dict[str, Any]]) -> List[str]:
             # Check for missing resource limits
             resources = container.get("resources", {})
             if not resources.get("limits"):
-                issues.append(
-                    f"Container missing resource limits: {container.get('name', 'unknown')}"
-                )
+                issues.append(f"Container missing resource limits: {container.get('name', 'unknown')}")
 
     return issues
 
@@ -158,7 +157,7 @@ def validate_k8s_manifests(directory: Path) -> int:
 
         # Load and validate manifests
         try:
-            with open(yaml_file, "r", encoding="utf-8") as f:
+            with open(yaml_file, encoding="utf-8") as f:
                 manifests = list(yaml.safe_load_all(f))
         except Exception as e:
             errors.append(f"{yaml_file}: Failed to load - {e}")

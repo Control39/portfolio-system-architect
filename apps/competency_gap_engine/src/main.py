@@ -1,10 +1,11 @@
 import logging
-import yaml
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+import yaml
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
-from pathlib import Path
 
 from src.api.routes import router
 from src.utils.telemetry import setup_logging, setup_tracing
@@ -13,7 +14,7 @@ CONFIG_PATH = Path(__file__).parent.parent / "config" / "gap_engine.yaml"
 
 
 def load_config() -> dict:
-    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+    with open(CONFIG_PATH, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 

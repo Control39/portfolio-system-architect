@@ -13,26 +13,24 @@ Autonomous Cognitive Agent - Автономный AI-агент
 - Fallback: Ollama (локально)
 """
 
-import sys
-import time
+import json
 import logging
 import threading
-from pathlib import Path
-from typing import Optional, Dict, Any, List
+import time
 from datetime import datetime
-import json
+from pathlib import Path
+from typing import Any
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT))
 
+from agents.cognitive_agent.src.project_scanner import ProjectScanner
+from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
 from apps.ai_provider_manager.src.ai_provider_manager import (
     chat_with_fallback,
     get_provider_manager,
 )
-from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
 from apps.it_compass.src.it_compass_scanner import get_scanner
-from apps.cognitive_agent.src.project_scanner import ProjectScanner
 
 # Настройка логирования
 logging.basicConfig(
@@ -62,18 +60,16 @@ class AutonomousCognitiveAgent:
         self.agent_id = f"agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
         self.running = False
         self.scan_interval = 1800  # 30 минут (экономия ресурсов)
-        self.last_scan: Optional[datetime] = None
+        self.last_scan: datetime | None = None
 
         # Инициализация
-        config_path = (
-            self.project_path / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
-        )
+        config_path = self.project_path / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
         self.config = ConfigManager(str(config_path)) if config_path.exists() else None
         self.ai_manager = get_provider_manager()
 
         # Результаты сканирования
-        self.scan_results: Dict[str, Any] = {}
-        self.recommendations: List[Dict[str, Any]] = []
+        self.scan_results: dict[str, Any] = {}
+        self.recommendations: list[dict[str, Any]] = []
 
         logger.info(f"🚀 Agent initialized: {self.agent_id}")
         logger.info(f"📁 Project path: {self.project_path}")
@@ -208,7 +204,7 @@ class AutonomousCognitiveAgent:
             logger.error(f"IT Compass scan failed: {e}")
             return None
 
-    def _detect_issues_from_scan(self, scan_data: Dict) -> List[Dict[str, str]]:
+    def _detect_issues_from_scan(self, scan_data: dict) -> list[dict[str, str]]:
         """Обнаружить проблемы на основе данных сканирования"""
         issues = []
 
@@ -247,7 +243,7 @@ class AutonomousCognitiveAgent:
         excluded_dirs = [".git", ".venv", "__pycache__", "node_modules", ".pytest_cache"]
         return any(part in excluded_dirs for part in path.parts)
 
-    def _detect_languages(self) -> Dict[str, int]:
+    def _detect_languages(self) -> dict[str, int]:
         """Определить языки программирования"""
         languages = {}
         extensions = {
@@ -271,7 +267,7 @@ class AutonomousCognitiveAgent:
 
         return languages
 
-    def _detect_frameworks(self) -> List[str]:
+    def _detect_frameworks(self) -> list[str]:
         """Определить используемые фреймворки"""
         frameworks = []
 
@@ -290,7 +286,7 @@ class AutonomousCognitiveAgent:
 
         return frameworks
 
-    def _detect_issues(self) -> List[Dict[str, str]]:
+    def _detect_issues(self) -> list[dict[str, str]]:
         """Обнаружить проблемы"""
         issues = []
 
@@ -329,7 +325,7 @@ class AutonomousCognitiveAgent:
 
         return issues
 
-    def _generate_recommendations(self) -> List[Dict[str, str]]:
+    def _generate_recommendations(self) -> list[dict[str, str]]:
         """Сгенерировать рекомендации через AI"""
         recommendations = []
 
@@ -414,7 +410,7 @@ class AutonomousCognitiveAgent:
 
         logger.info(f"💾 Scan results saved: {scan_file}")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Получить статус агента"""
         return {
             "agent_id": self.agent_id,
@@ -428,7 +424,7 @@ class AutonomousCognitiveAgent:
             "total_recommendations": len(self.recommendations),
         }
 
-    def execute_task(self, task: str, auto_approve: bool = False) -> Dict[str, Any]:
+    def execute_task(self, task: str, auto_approve: bool = False) -> dict[str, Any]:
         """
         Выполнить задачу через AI
 
@@ -483,7 +479,7 @@ class AutonomousCognitiveAgent:
 
 
 # Глобальный экземпляр
-_agent: Optional[AutonomousCognitiveAgent] = None
+_agent: AutonomousCognitiveAgent | None = None
 
 
 def get_agent() -> AutonomousCognitiveAgent:

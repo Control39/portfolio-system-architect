@@ -5,7 +5,6 @@ RESTful endpoints for portfolio management with Pydantic v2 validation.
 """
 
 from datetime import datetime
-from typing import List, Optional
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -18,7 +17,7 @@ class PortfolioCreate(BaseModel):
     """Model for creating a new portfolio."""
 
     name: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class PortfolioResponse(BaseModel):
@@ -26,7 +25,7 @@ class PortfolioResponse(BaseModel):
 
     id: int
     name: str
-    description: Optional[str] = None
+    description: str | None = None
     created_at: datetime
     owner_id: int
 
@@ -84,7 +83,7 @@ async def get_portfolio(portfolio_id: int):
     raise HTTPException(status_code=404, detail="Portfolio not found")
 
 
-@router.get("/", response_model=List[PortfolioResponse])
+@router.get("/", response_model=list[PortfolioResponse])
 async def list_portfolios():
     """
     List all portfolios.

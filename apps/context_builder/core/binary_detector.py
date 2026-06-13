@@ -11,11 +11,11 @@ def is_binary_file(file_path: Path) -> bool:
 
     for encoding in encodings_to_try:
         try:
-            with open(file_path, "r", encoding=encoding) as f:
+            with open(file_path, encoding=encoding) as f:
                 f.read(1024)
             # Если успешно прочитали хоть одну кодировку — вероятно, текст
             return False
-        except (UnicodeDecodeError, IOError):
+        except (OSError, UnicodeDecodeError):
             continue
 
     # Метод 2: проверка на нулевые байты (признак бинарника)

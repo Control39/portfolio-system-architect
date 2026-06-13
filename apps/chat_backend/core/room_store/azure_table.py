@@ -7,13 +7,12 @@ import importlib
 import os
 import random
 import string
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from ...config import DEFAULT_ROOM_ID
 from .base import RoomStore
 from .models import RoomMetadata
-
 
 _tables_client_cls: Any | None = None
 _update_mode_enum: Any | None = None
@@ -60,17 +59,13 @@ class AzureTableRoomStore(RoomStore):
             raise RuntimeError(
                 "azure-data-tables not installed. Please install azure-data-tables to use AzureTableRoomStore."
             )
-        self._table_name = (
-            (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
-        )
+        self._table_name = (table_name or os.getenv("CHAT_TABLE_NAME") or "chatmessages").strip().lower()
         self._conn_str = connection_string or os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         self._account_name = (account_name or os.getenv("AZURE_STORAGE_ACCOUNT") or "").strip()
         self._max_messages = max_messages_per_room
         # Metadata table name
         self._metadata_table_name = (
-            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata")
-            .strip()
-            .lower()
+            (metadata_table_name or os.getenv("ROOM_METADATA_TABLE_NAME") or "roommetadata").strip().lower()
         )
         # Lazy cache for list_rooms
         self._known_rooms: set[str] = {DEFAULT_ROOM_ID}
@@ -90,7 +85,7 @@ class AzureTableRoomStore(RoomStore):
     # --------------- helpers ---------------
     @staticmethod
     def _row_key() -> str:
-        ts = datetime.now(timezone.utc).isoformat()
+        ts = datetime.now(UTC).isoformat()
         rand = "".join(random.choices(string.ascii_lowercase + string.digits, k=6))
         return f"{ts}_{rand}"
 
@@ -190,9 +185,7 @@ class AzureTableRoomStore(RoomStore):
 
         if not room_id:
             room_id = f"room_{uuid.uuid4().hex[:8]}"
-        room = RoomMetadata(
-            room_id=room_id, room_name=room_name, user_id=user_id, description=description
-        )
+        room = RoomMetadata(room_id=room_id, room_name=room_name, user_id=user_id, description=description)
         entity = self._metadata_to_entity(room)
         try:
             await asyncio.to_thread(self._metadata_client.create_entity, entity)
@@ -209,9 +202,7 @@ class AzureTableRoomStore(RoomStore):
                 description="Default public room",
             )
         try:
-            ent = await asyncio.to_thread(
-                self._metadata_client.get_entity, partition_key=user_id, row_key=room_id
-            )
+            ent = await asyncio.to_thread(self._metadata_client.get_entity, partition_key=user_id, row_key=room_id)
             return self._metadata_from_entity(ent)
         except Exception:
             return None
@@ -231,16 +222,14 @@ class AzureTableRoomStore(RoomStore):
             room.room_name = room_name
         if description is not None:
             room.description = description or ""
-        room.updated_at = datetime.now(timezone.utc).isoformat()
+        room.updated_at = datetime.now(UTC).isoformat()
         entity = self._metadata_to_entity(room)
         try:
             replace_mode = getattr(_update_mode_enum, "REPLACE", None)
             if replace_mode is None:
                 await asyncio.to_thread(self._metadata_client.update_entity, entity)
             else:
-                await asyncio.to_thread(
-                    self._metadata_client.update_entity, entity, mode=replace_mode
-                )
+                await asyncio.to_thread(self._metadata_client.update_entity, entity, mode=replace_mode)
             return room
         except Exception as e:
             raise ValueError(f"Failed to update room metadata: {e}")
@@ -249,9 +238,7 @@ class AzureTableRoomStore(RoomStore):
         if room_id == DEFAULT_ROOM_ID:
             return False
         try:
-            await asyncio.to_thread(
-                self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id
-            )
+            await asyncio.to_thread(self._metadata_client.delete_entity, partition_key=user_id, row_key=room_id)
             return True
         except Exception:
             return False

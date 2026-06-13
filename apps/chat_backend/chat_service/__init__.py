@@ -15,7 +15,6 @@ from .base import (
 )
 from .transports.self_host import ChatService
 
-
 try:  # Lazy optional import (will fail if azure webpubsub libs not installed)
     from .transports.webpubsub import WebPubSubChatService
 except Exception:  # pragma: no cover

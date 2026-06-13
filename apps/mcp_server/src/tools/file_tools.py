@@ -9,7 +9,6 @@ from typing import Any
 
 from fastmcp import FastMCP
 
-
 # Глобальная переменная для проекта (будет установлена при инициализации)
 PROJECT_ROOT: Path | None = None
 
@@ -86,9 +85,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return {
                 "success": True,
                 "message": f"Файл успешно записан: {path}",
-                "path": str(file_path.relative_to(PROJECT_ROOT))
-                if PROJECT_ROOT
-                else str(file_path),
+                "path": str(file_path.relative_to(PROJECT_ROOT)) if PROJECT_ROOT else str(file_path),
                 "size_bytes": file_size,
                 "size_human": format_file_size(file_size),
             }
@@ -142,11 +139,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 # Рекурсивный обход
                 for root, dirs, filenames in os.walk(dir_path):
                     # Пропускаем скрытые директории и виртуальные окружения
-                    dirs[:] = [
-                        d
-                        for d in dirs
-                        if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]
-                    ]
+                    dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv"]]
 
                     for filename in filenames:
                         # Пропускаем скрытые файлы
@@ -257,8 +250,7 @@ def init_file_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 dirs[:] = [
                     d
                     for d in dirs
-                    if not d.startswith(".")
-                    and d not in ["__pycache__", ".venv", "venv", "node_modules"]
+                    if not d.startswith(".") and d not in ["__pycache__", ".venv", "venv", "node_modules"]
                 ]
 
                 for filename in filenames:

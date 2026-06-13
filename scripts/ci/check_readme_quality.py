@@ -3,7 +3,6 @@
 
 import re
 from pathlib import Path
-from typing import Dict, List
 
 # Критерии проверки
 CRITERIA = {
@@ -17,7 +16,7 @@ CRITERIA = {
 }
 
 
-def check_readme(service_name: str, readme_path: Path) -> Dict[str, bool]:
+def check_readme(service_name: str, readme_path: Path) -> dict[str, bool]:
     """Проверить README на наличие критериев"""
     if not readme_path.exists():
         return {k: False for k in CRITERIA}
@@ -31,7 +30,7 @@ def check_readme(service_name: str, readme_path: Path) -> Dict[str, bool]:
     return results
 
 
-def analyze_services(apps_dir: Path) -> List[Dict]:
+def analyze_services(apps_dir: Path) -> list[dict]:
     """Проверить все сервисы в apps/"""
     results = []
 
@@ -60,7 +59,7 @@ def analyze_services(apps_dir: Path) -> List[Dict]:
     return results
 
 
-def print_report(results: List[Dict]) -> None:
+def print_report(results: list[dict]) -> None:
     """Вывести отчет в консоль"""
     print("=" * 80)
     print("ПРОВЕРКА КАЧЕСТВА README МИКРОСЕРВИСОВ")
@@ -98,7 +97,7 @@ def print_report(results: List[Dict]) -> None:
 
     print("ИТОГИ:")
     print(f"  Всего сервисов: {total}")
-    print(f"  С README: {with_readme}/{total} ({100*with_readme//total}%)")
+    print(f"  С README: {with_readme}/{total} ({100 * with_readme // total}%)")
     print(f"  Идеальные (6/6): {perfect}")
     print(f"  Требуют улучшения: {needs_work}")
     print()

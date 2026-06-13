@@ -2,9 +2,10 @@
 Тесты интеграции с AI Config Manager для Portfolio Organizer
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -26,14 +27,12 @@ class TestPortfolioOrganizerConfigIntegration:
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "portfolio_organizer" / "src"))
         from config_integration import PortfolioOrganizerConfig
 
         assert PortfolioOrganizerConfig is not None
 
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "portfolio_organizer" / "src"))
         from config_integration import get_config
 
         config1 = get_config()
@@ -43,7 +42,6 @@ class TestPortfolioOrganizerConfigIntegration:
 
     def test_get_config_returns_dict(self):
         """Проверка что get_config возвращает dict"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "portfolio_organizer" / "src"))
         from config_integration import get_config
 
         config = get_config()
@@ -53,7 +51,6 @@ class TestPortfolioOrganizerConfigIntegration:
 
     def test_reload_config(self):
         """Проверка hot reload"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "portfolio_organizer" / "src"))
         from config_integration import reload_config
 
         # Не должно выбрасывать исключений
@@ -61,7 +58,6 @@ class TestPortfolioOrganizerConfigIntegration:
 
     def test_is_available_method(self):
         """Проверка метода is_available"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "portfolio_organizer" / "src"))
         from config_integration import get_config
 
         config = get_config()

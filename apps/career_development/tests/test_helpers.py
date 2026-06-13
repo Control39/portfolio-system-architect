@@ -1,11 +1,8 @@
-import sys
 import unittest
 from pathlib import Path
 
-
 # Добавляем корень проекта в путь
 ROOT_DIR = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(ROOT_DIR))
 
 from apps.career_development.utils.helpers import (  # noqa: E402
     calculate_skill_progress,

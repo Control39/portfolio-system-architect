@@ -10,11 +10,9 @@ DEMO: IT Compass + Job Automation Agent Integration
 Запуск: python demo_integration.py
 """
 
-import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent
-sys.path.insert(0, str(REPO_ROOT))
 
 from apps.it_compass.src.core.tracker import CareerTracker
 
@@ -56,9 +54,7 @@ def demo_job_search(progress, tracker):
             for marker in level_markers:
                 if marker.id in completed_markers:
                     skill_lower = skill_name.lower()
-                    if any(
-                        x in skill_lower for x in ["python", "devops", "system", "docker", "git"]
-                    ):
+                    if any(x in skill_lower for x in ["python", "devops", "system", "docker", "git"]):
                         key_skills.append(skill_name)
 
     key_skills = list(set(key_skills))[:5]
@@ -74,8 +70,9 @@ def demo_job_search(progress, tracker):
 
     # Имитация реального поиска (раскомментируйте для работы)
     try:
-        from apps.job_automation_agent.src.job_search import search_all_jobs
         import asyncio
+
+        from apps.job_automation_agent.src.job_search import search_all_jobs
 
         print("\n   ⏳ Поиск на hh.ru и Habr Career...")
         vacancies = asyncio.run(search_all_jobs(search_query, area="113"))
@@ -141,10 +138,7 @@ def demo_next_steps(progress, vacancies):
     for skill_name, skill_data in tracker.markers.items():
         for level_markers in skill_data.levels.values():
             for marker in level_markers:
-                if (
-                    marker.id not in tracker.progress.get("completed_markers", [])
-                    and marker.priority == "high"
-                ):
+                if marker.id not in tracker.progress.get("completed_markers", []) and marker.priority == "high":
                     high_priority_pending.append((skill_name, marker))
 
     print("\n📚 Что улучшить для повышения match:")

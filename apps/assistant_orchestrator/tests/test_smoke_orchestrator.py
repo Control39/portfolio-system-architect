@@ -1,13 +1,9 @@
 import json
 from pathlib import Path
 
-
-import sys
-
 # Ensure package import works when tests are executed without installing the project
 REPO_ROOT = Path(__file__).resolve().parents[3]
 SRC_ROOT = REPO_ROOT / "src"
-sys.path.insert(0, str(SRC_ROOT))
 
 from assistant_orchestrator.core.analyzer import AssistantOrchestrator
 

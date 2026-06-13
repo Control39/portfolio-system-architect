@@ -1,15 +1,34 @@
 # components/cognitive-agent/api/endpoints.py
+
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional
-import sys
-from pathlib import Path
+
 
 # Добавляем путь к корню проекта для импорта атомов
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+# FIX: Определяем модели локально, так как src.shared.models не существует
+class PlanRequest(BaseModel):
+    goals: list[str]
+    priority: str = "normal"
 
-from src.ai import GigaMCPBridge, GigaChainSettings
-from src.shared.models import ScanRequest, ScanResponse, PlanRequest, PlanResponse
+
+class PlanResponse(BaseModel):
+    tasks: list[dict]
+    estimated_duration: float
+    message: str
+
+
+class ScanRequest(BaseModel):
+    project_path: str
+    include_tests: bool = True
+
+
+class ScanResponse(BaseModel):
+    status: str
+    files_found: int
+    languages_detected: list[str]
+    message: str
+
 
 app = FastAPI(title="Cognitive Agent API", version="0.1.0")
 
@@ -41,7 +60,7 @@ async def scan_project(request: ScanRequest):
             status="pending",
             files_found=0,
             languages_detected=[],
-            message=f"Сканирование начато для: {request.project_path}"
+            message=f"Сканирование начато для: {request.project_path}",
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -52,11 +71,7 @@ async def plan_tasks(request: PlanRequest):
     """Создать план задач"""
     try:
         # TODO: Интегрировать planner_main.py + AI
-        return PlanResponse(
-            tasks=[],
-            estimated_duration=0,
-            message=f"Планирование начато для целей: {request.goals}"
-        )
+        return PlanResponse(tasks=[], estimated_duration=0, message=f"Планирование начато для целей: {request.goals}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -70,7 +85,7 @@ async def execute_task(task_id: str, skill_name: str):
             "status": "pending",
             "task_id": task_id,
             "skill_name": skill_name,
-            "message": f"Выполнение задачи: {task_id} через {skill_name}"
+            "message": f"Выполнение задачи: {task_id} через {skill_name}",
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -81,11 +96,7 @@ async def get_metrics():
     """Получить метрики обучения"""
     try:
         # TODO: Интегрировать learning_main.py
-        return {
-            "total_tasks": 0,
-            "successful_tasks": 0,
-            "efficiency_score": 0.0
-        }
+        return {"total_tasks": 0, "successful_tasks": 0, "efficiency_score": 0.0}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -98,6 +109,6 @@ async def list_skills():
         "skills": [
             {"name": "scanner", "description": "Сканирование проекта"},
             {"name": "planner", "description": "Планирование задач"},
-            {"name": "learning", "description": "Сбор метрик"}
+            {"name": "learning", "description": "Сбор метрик"},
         ]
     }

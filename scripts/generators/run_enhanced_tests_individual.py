@@ -7,7 +7,6 @@ import json
 import subprocess
 from pathlib import Path
 
-
 services = [
     "cognitive_agent",
     "decision_engine",
@@ -96,9 +95,7 @@ print("=" * 80)
 print(f"Total Services: {len(services)}")
 print(f"Total Tests Passed: {total_passed}")
 print(f"Total Tests Failed: {total_failed}")
-print(
-    f"Services with All Tests Passing: {sum(1 for r in results.values() if r['failed'] == 0)}/{len(services)}"
-)
+print(f"Services with All Tests Passing: {sum(1 for r in results.values() if r['failed'] == 0)}/{len(services)}")
 
 print("\n" + "=" * 80)
 print("✅ ENHANCED TESTS COMPLETED")

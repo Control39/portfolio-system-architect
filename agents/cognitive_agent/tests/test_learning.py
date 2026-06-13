@@ -12,15 +12,12 @@ Test Coverage:
 - Integration with learning cycle
 """
 
-import sys
 import time
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
 # Add path to root
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # ============================================================================
@@ -151,9 +148,7 @@ class TestPerformanceTracking:
 
     def test_track_execution_time(self, mock_learning_instance):
         """Test execution time tracking"""
-        mock_learning_instance.track_time = MagicMock(
-            return_value={"start": 0, "end": 1.5, "duration": 1.5}
-        )
+        mock_learning_instance.track_time = MagicMock(return_value={"start": 0, "end": 1.5, "duration": 1.5})
 
         result = mock_learning_instance.track_time()
 
@@ -175,9 +170,7 @@ class TestPerformanceTracking:
 
     def test_track_success_rate(self, mock_learning_instance):
         """Test success rate tracking"""
-        mock_learning_instance.track_success_rate = MagicMock(
-            return_value={"total": 10, "success": 9, "rate": 0.9}
-        )
+        mock_learning_instance.track_success_rate = MagicMock(return_value={"total": 10, "success": 9, "rate": 0.9})
 
         result = mock_learning_instance.track_success_rate()
 
@@ -199,7 +192,7 @@ class TestLearningErrorHandling:
 
     def test_handle_storage_error(self, mock_learning_instance):
         """Test handling of storage error"""
-        mock_learning_instance.store_results = MagicMock(side_effect=IOError("Storage unavailable"))
+        mock_learning_instance.store_results = MagicMock(side_effect=OSError("Storage unavailable"))
 
         with pytest.raises(IOError):
             mock_learning_instance.store_results()
@@ -236,9 +229,7 @@ class TestLearningIntegration:
     def test_learning_run_workflow(self, mock_learning_instance, mock_orchestrator):
         """Test running workflow via orchestrator"""
         mock_learning_instance.orchestrator = mock_orchestrator
-        mock_orchestrator.run_workflow = MagicMock(
-            return_value={"status": "success", "workflow": "learn"}
-        )
+        mock_orchestrator.run_workflow = MagicMock(return_value={"status": "success", "workflow": "learn"})
 
         result = mock_orchestrator.run_workflow("learn")
 
@@ -300,9 +291,7 @@ class TestLearningPerformance:
     def test_metrics_collection_speed(self, mock_learning_instance):
         """Test metrics collection speed"""
         start_time = time.time()
-        mock_learning_instance.metrics_collector.collect_metrics = MagicMock(
-            return_value={"tasks_completed": 0}
-        )
+        mock_learning_instance.metrics_collector.collect_metrics = MagicMock(return_value={"tasks_completed": 0})
         mock_learning_instance.metrics_collector.collect_metrics()
         elapsed = time.time() - start_time
 

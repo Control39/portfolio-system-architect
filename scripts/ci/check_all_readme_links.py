@@ -77,9 +77,7 @@ def check_external_link(url: str) -> tuple[bool, int, str]:
         if "api.github.com" in url:
             response = requests.get(url, headers=headers, timeout=EXTERNAL_TIMEOUT)
         else:
-            response = requests.head(
-                url, headers=headers, timeout=EXTERNAL_TIMEOUT, allow_redirects=True
-            )
+            response = requests.head(url, headers=headers, timeout=EXTERNAL_TIMEOUT, allow_redirects=True)
 
         status = response.status_code
         success = 200 <= status < 400
@@ -205,9 +203,7 @@ def main():
             try:
                 link = future.result()
                 if link["status"] == "ok":
-                    print(
-                        f"✅ {link['file']}:{link['line']} - {link['url']} ({link['http_status']})"
-                    )
+                    print(f"✅ {link['file']}:{link['line']} - {link['url']} ({link['http_status']})")
                 else:
                     external_broken.append(link)
                     print(f"❌ {link['file']}:{link['line']} - {link['url']} - {link['error']}")

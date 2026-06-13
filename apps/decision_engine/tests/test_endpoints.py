@@ -5,7 +5,6 @@ from pathlib import Path
 # Добавляем корень проекта в путь
 ROOT_DIR = Path(__file__).parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
 
 from fastapi.testclient import TestClient  # noqa: E402
 

@@ -4,21 +4,20 @@ Integration Tests for Cognitive Agent
 Цель: Покрытие 80%+ для интеграционных сценариев
 """
 
-import pytest
 import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-
 # Добавляем путь к cognitive_agent
 COGNITIVE_AGENT_PATH = REPO_ROOT / "apps" / "cognitive_agent"
 if str(COGNITIVE_AGENT_PATH) not in sys.path:
     sys.path.insert(0, str(COGNITIVE_AGENT_PATH))
-
 # Добавляем путь к src
 SRC_PATH = REPO_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
@@ -253,7 +252,7 @@ class TestIntegration:
         script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "scanner_main.py"
 
         if script_path.exists():
-            with open(script_path, "r", encoding="utf-8") as f:
+            with open(script_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Проверяем, что скрипт содержит основные элементы
@@ -288,7 +287,7 @@ class TestIntegration:
         script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "planner_main.py"
 
         if script_path.exists():
-            with open(script_path, "r", encoding="utf-8") as f:
+            with open(script_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Проверяем, что скрипт содержит основные элементы
@@ -323,7 +322,7 @@ class TestIntegration:
         script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "learning_main.py"
 
         if script_path.exists():
-            with open(script_path, "r", encoding="utf-8") as f:
+            with open(script_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Проверяем, что скрипт содержит основные элементы

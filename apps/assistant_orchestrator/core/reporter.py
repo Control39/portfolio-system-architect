@@ -6,11 +6,10 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
 from string import Template
+from typing import Any
 
 from .maturity_scoring import MaturityScorer
-
 
 logger = logging.getLogger(__name__)
 
@@ -191,7 +190,7 @@ class Reporter:
             logger.error(f"Failed to initialize MaturityScorer: {e}")
             raise ReporterError(f"Invalid analysis result: {e}")
 
-    def _extract_dict(self, obj: Any) -> Dict[str, Any]:
+    def _extract_dict(self, obj: Any) -> dict[str, Any]:
         """Safely extract dictionary from object."""
         if hasattr(obj, "dict"):
             try:
@@ -334,13 +333,9 @@ class Reporter:
         services = self._safe_get("microservices.services", [])
         total_services = len(services) if isinstance(services, list) else 0
 
-        prod_ready = sum(
-            1 for s in services if isinstance(s, dict) and s.get("is_production_ready")
-        )
+        prod_ready = sum(1 for s in services if isinstance(s, dict) and s.get("is_production_ready"))
         services_with_tests = sum(1 for s in services if isinstance(s, dict) and s.get("has_tests"))
-        services_with_docker = sum(
-            1 for s in services if isinstance(s, dict) and s.get("has_docker")
-        )
+        services_with_docker = sum(1 for s in services if isinstance(s, dict) and s.get("has_docker"))
 
         skill_categories = self._safe_get("skill_markers.categories", [])
         skill_categories_count = len(skill_categories) if isinstance(skill_categories, list) else 0
@@ -357,9 +352,7 @@ class Reporter:
         dependencies = self._safe_get("dependencies", [])
         dependencies_count = len(dependencies) if isinstance(dependencies, list) else 0
 
-        has_docker_compose = (
-            "Да" if self._safe_get("microservices.has_docker_compose", False) else "Нет"
-        )
+        has_docker_compose = "Да" if self._safe_get("microservices.has_docker_compose", False) else "Нет"
         has_kubernetes = "Да" if self._safe_get("microservices.has_kubernetes", False) else "Нет"
 
         timestamp = self._safe_get("timestamp", datetime.now().isoformat())
@@ -422,9 +415,7 @@ class Reporter:
                 if isinstance(rec, dict):
                     lines.append(f"  {i}. {rec.get('title', 'Нет заголовка')}")
                     lines.append(f"     📝 {rec.get('description', 'Нет описания')}")
-                    lines.append(
-                        f"     🎯 Потенциальный рост: +{rec.get('potential_gain', 0)} баллов"
-                    )
+                    lines.append(f"     🎯 Потенциальный рост: +{rec.get('potential_gain', 0)} баллов")
                     lines.append(f"     🛠️  Действие: {rec.get('action', 'Нет действия')}")
                     lines.append("")
 
@@ -459,13 +450,9 @@ class Reporter:
         services = self._safe_get("microservices.services", [])
         total_services = len(services) if isinstance(services, list) else 0
 
-        prod_ready = sum(
-            1 for s in services if isinstance(s, dict) and s.get("is_production_ready")
-        )
+        prod_ready = sum(1 for s in services if isinstance(s, dict) and s.get("is_production_ready"))
         services_with_tests = sum(1 for s in services if isinstance(s, dict) and s.get("has_tests"))
-        services_with_docker = sum(
-            1 for s in services if isinstance(s, dict) and s.get("has_docker")
-        )
+        services_with_docker = sum(1 for s in services if isinstance(s, dict) and s.get("has_docker"))
 
         skill_categories = self._safe_get("skill_markers.categories", [])
         skill_categories_count = len(skill_categories) if isinstance(skill_categories, list) else 0
@@ -482,9 +469,7 @@ class Reporter:
         dependencies = self._safe_get("dependencies", [])
         dependencies_count = len(dependencies) if isinstance(dependencies, list) else 0
 
-        has_docker_compose = (
-            "Да" if self._safe_get("microservices.has_docker_compose", False) else "Нет"
-        )
+        has_docker_compose = "Да" if self._safe_get("microservices.has_docker_compose", False) else "Нет"
         has_kubernetes = "Да" if self._safe_get("microservices.has_kubernetes", False) else "Нет"
 
         timestamp = self._safe_get("timestamp", datetime.now().isoformat())
@@ -496,10 +481,10 @@ class Reporter:
                 if isinstance(rec, dict):
                     recommendations_html += f"""
                 <div class="recommendation">
-                    <h3>{self._escape_html(rec.get('title', 'Нет заголовка'))}</h3>
-                    <p>{self._escape_html(rec.get('description', 'Нет описания'))}</p>
-                    <p><strong>Потенциальный рост:</strong> +{rec.get('potential_gain', 0)} баллов</p>
-                    <p><strong>Действие:</strong> {self._escape_html(rec.get('action', 'Нет действия'))}</p>
+                    <h3>{self._escape_html(rec.get("title", "Нет заголовка"))}</h3>
+                    <p>{self._escape_html(rec.get("description", "Нет описания"))}</p>
+                    <p><strong>Потенциальный рост:</strong> +{rec.get("potential_gain", 0)} баллов</p>
+                    <p><strong>Действие:</strong> {self._escape_html(rec.get("action", "Нет действия"))}</p>
                 </div>
 """
         else:

@@ -57,9 +57,7 @@ def scan_directory(base_path: Path, max_depth: int = 5) -> list[AuditResult]:
         # Skip hidden directories and common exclusions
         if any(part.startswith(".") for part in current_path.parts):
             continue
-        if any(
-            part in ["__pycache__", "node_modules", ".venv", "venv"] for part in current_path.parts
-        ):
+        if any(part in ["__pycache__", "node_modules", ".venv", "venv"] for part in current_path.parts):
             continue
 
         issues = []

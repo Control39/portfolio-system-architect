@@ -14,7 +14,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-
 # Load environment variables from .env file
 load_dotenv()
 
@@ -85,9 +84,7 @@ def start_development() -> None:
 
         # Use the start_server.py script to launch the server
         start_server_script = backend_dir / "start_server.py"
-        server_process = subprocess.Popen(
-            [sys.executable, str(start_server_script)], cwd=root_dir, env=env
-        )
+        server_process = subprocess.Popen([sys.executable, str(start_server_script)], cwd=root_dir, env=env)
         processes.append(("Python Server", server_process))
         time.sleep(2)
 

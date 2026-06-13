@@ -13,7 +13,6 @@ import logging
 import os
 from typing import Any, Protocol, runtime_checkable
 
-
 try:  # Import lazily; treat absence as optional dependency
     from azure.identity import DefaultAzureCredential, ManagedIdentityCredential
 except Exception:
@@ -52,9 +51,7 @@ def get_azure_credential() -> CredentialType:
             _LOG.info("Using ManagedIdentityCredential")
             return cred
         except Exception as e:
-            _LOG.warning(
-                "ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e
-            )
+            _LOG.warning("ManagedIdentityCredential failed (%s); falling back to DefaultAzureCredential", e)
 
     _LOG.info("Using DefaultAzureCredential")
     return DefaultAzureCredential()

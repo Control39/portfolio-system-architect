@@ -90,9 +90,7 @@ class TestChromaToolsBusiness:
 
             # Simulate add logic
             collection = mock_client.get_collection("test_collection")
-            result = collection.add(
-                documents=["test doc"], metadatas=[{"source": "test"}], ids=["doc1"]
-            )
+            result = collection.add(documents=["test doc"], metadatas=[{"source": "test"}], ids=["doc1"])
 
             assert result is None  # add returns None on success
             collection.add.assert_called_once()

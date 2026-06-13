@@ -16,11 +16,9 @@ def _configure_imports() -> None:
     repo_root = molecule_root.parent.parent
 
     if str(repo_root) not in sys.path:
-        sys.path.insert(0, str(repo_root))
 
     molecule_src = molecule_root / "src"
     if molecule_src.exists() and str(molecule_src) not in sys.path:
-        sys.path.insert(0, str(molecule_src))
 
 
 _configure_imports()

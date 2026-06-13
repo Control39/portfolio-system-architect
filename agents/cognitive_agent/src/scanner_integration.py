@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Интеграция Project Scanner с Cognitive Agent.
 
 Этот модуль позволяет вызывать сканер из других компонентов агента.
 
 Использование:
-    from apps.cognitive_agent.src.scanner_integration import scan_project
+    from agents.cognitive_agent.src.scanner_integration import scan_project
 
     # Базовое сканирование
     results = scan_project("C:\\my-project")
@@ -22,9 +21,9 @@
 
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Any
 
-from apps.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
+from agents.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
 
 logger = logging.getLogger(__name__)
 
@@ -32,12 +31,12 @@ logger = logging.getLogger(__name__)
 def scan_project(
     project_path: str,
     mode: str = "full",
-    paths: Optional[List[str]] = None,
-    config_path: Optional[str] = None,
-    export_path: Optional[str] = None,
+    paths: list[str] | None = None,
+    config_path: str | None = None,
+    export_path: str | None = None,
     export_format: str = "json",
     use_cache: bool = True,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Сканировать проект и вернуть результаты.
 
@@ -114,7 +113,7 @@ def scan_project(
     return results
 
 
-def get_scan_summary(results: Dict[str, Any]) -> str:
+def get_scan_summary(results: dict[str, Any]) -> str:
     """
     Создать краткую текстовую сводку результатов сканирования.
 
@@ -168,9 +167,7 @@ class ProjectScannerService:
     Предоставляет высокоуровневый API для интеграции с Cognitive Agent.
     """
 
-    def __init__(
-        self, default_project_path: Optional[str] = None, default_config_path: Optional[str] = None
-    ):
+    def __init__(self, default_project_path: str | None = None, default_config_path: str | None = None):
         """
         Инициализировать сервис.
 
@@ -180,16 +177,16 @@ class ProjectScannerService:
         """
         self.default_project_path = default_project_path
         self.default_config_path = default_config_path
-        self._last_results: Optional[Dict[str, Any]] = None
+        self._last_results: dict[str, Any] | None = None
 
     def scan(
         self,
-        project_path: Optional[str] = None,
+        project_path: str | None = None,
         mode: str = "full",
-        paths: Optional[List[str]] = None,
-        export_path: Optional[str] = None,
+        paths: list[str] | None = None,
+        export_path: str | None = None,
         use_cache: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Выполнить сканирование проекта.
 
@@ -219,7 +216,7 @@ class ProjectScannerService:
         self._last_results = results
         return results
 
-    def get_last_summary(self) -> Optional[str]:
+    def get_last_summary(self) -> str | None:
         """
         Получить сводку последнего сканирования.
 

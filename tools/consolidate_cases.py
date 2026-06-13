@@ -63,7 +63,7 @@ def move_case(src_name, dst_category):
 
 def update_links_in_file(file_path, replacements):
     """Обновить ссылки в файле"""
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, encoding="utf-8") as f:
         content = f.read()
 
     original = content
@@ -96,7 +96,7 @@ def main():
 
     # 2. Создаем новую структуру папок
     print("\n📁 Создание новой структуры...")
-    for category in NEW_STRUCTURE.keys():
+    for category in NEW_STRUCTURE:
         (CASES_SRC / category).mkdir(exist_ok=True)
         print(f"   + {category}/")
 
@@ -311,9 +311,7 @@ def main():
     print("=" * 60)
     print("\n📊 Итоги:")
     print("   - Создан бэкап: docs/cases/archive_original/")
-    print(
-        "   - Созданы категории: integration/, business/, thinking/, evolution/, methodology/, technical/"
-    )
+    print("   - Созданы категории: integration/, business/, thinking/, evolution/, methodology/, technical/")
     print("   - Обновлен главный README: docs/cases/README.md")
     print("   - Обновлены ссылки в документах")
     print("   - Созданы индексные файлы для каждой категории")
@@ -321,12 +319,8 @@ def main():
     print("\n🔜 Следующие шаги:")
     print("   1. Проверить, что все ссылки работают (открыть несколько кейсов)")
     print("   2. Обновить mkdocs.yml (если используется) с новой навигацией")
-    print(
-        "   3. Закоммитить изменения: git add docs/cases/ && git commit -m 'chore: консолидация кейсов'"
-    )
-    print(
-        "   4. Пушнуть и проверить GitHub Pages: https://control39.github.io/portfolio-system-architect/"
-    )
+    print("   3. Закоммитить изменения: git add docs/cases/ && git commit -m 'chore: консолидация кейсов'")
+    print("   4. Пушнуть и проверить GitHub Pages: https://control39.github.io/portfolio-system-architect/")
 
     print("\n⚠️  Важно:")
     print("   - Старая структура сохранена в docs/cases/archive_original/")

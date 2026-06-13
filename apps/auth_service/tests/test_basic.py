@@ -12,11 +12,11 @@ Test Coverage:
 - Integration points (via mocks)
 """
 
-import pytest
-from unittest.mock import MagicMock
-import time
 import threading
+import time
+from unittest.mock import MagicMock
 
+import pytest
 
 # ============================================================================
 # FIXTURES

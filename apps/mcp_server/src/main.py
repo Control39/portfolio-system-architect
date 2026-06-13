@@ -7,15 +7,12 @@ Git, IT-Compass маркерами и мониторингом.
 """
 
 import json
-import sys
 from pathlib import Path
 
 from fastmcp import FastMCP
 
-
 # Добавляем путь к корню проекта для импорта общих модулей
 project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 # Интеграция с AI Config Manager
 try:
@@ -36,9 +33,7 @@ mcp = FastMCP("Career Autopilot MCP Server")
 # Конфигурация (из AI Config Manager или fallback)
 if server_config:
     paths_config = server_config.get("paths", {})
-    IT_COMPASS_MARKERS_PATH = Path(
-        paths_config.get("it_compass_markers", "apps/it_compass/src/data/markers")
-    )
+    IT_COMPASS_MARKERS_PATH = Path(paths_config.get("it_compass_markers", "apps/it_compass/src/data/markers"))
     PROJECT_ROOT = Path(paths_config.get("project_root", "."))
 else:
     # Fallback на дефолтные пути

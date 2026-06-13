@@ -1,8 +1,8 @@
 """Core models for thought_architecture."""
 
-from enum import Enum
-from typing import Optional, List
 from datetime import datetime
+from enum import Enum
+
 from pydantic import BaseModel
 
 
@@ -33,7 +33,7 @@ class Decision(BaseModel):
     description: str
     status: DecisionStatus
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
 
 class ThoughtRecord(BaseModel):
@@ -43,7 +43,7 @@ class ThoughtRecord(BaseModel):
     content: str
     status: ThoughtStatus
     created_at: datetime
-    tags: List[str] = []
+    tags: list[str] = []
 
 
 __all__ = ["DecisionStatus", "ThoughtStatus", "Decision", "ThoughtRecord"]

@@ -1,67 +1,65 @@
 """
-Portfolio Organizer — Entry Point
-
-Автоматический сбор доказательств компетенций и картирование навыков.
-FastAPI приложение для управления портфолио.
+Portfolio Organizer Service - FastAPI application
+Объединённая конфигурация (Clean Architecture)
 """
 
-import sys
-from pathlib import Path
+import logging
 
-# Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).parent.parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+from fastapi import APIRouter, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-# Интеграция с AI Config Manager
-try:
-    from apps.portfolio_organizer.src.config_integration import get_config
+# Endpoints layer
+from apps.portfolio_organizer.endpoints.routes import app as portfolios_app
 
-    AI_CONFIG_AVAILABLE = True
-    config_manager = get_config()
-    po_config = config_manager.get_config()
-    print("✅ Portfolio Organizer: использован AI Config Manager")
-except Exception as e:
-    AI_CONFIG_AVAILABLE = False
-    print(
-        f"⚠️  Portfolio Organizer: AI Config Manager недоступен ({e}), используется локальный конфиг"
-    )
-    po_config = {}
+# Infrastructure layer (бывший src/)
+from apps.portfolio_organizer.infrastructure.api.ml_model_registry_integration import router as ml_model_registry_router
+from apps.portfolio_organizer.infrastructure.api.reasoning_api import router as reasoning_router
 
-from fastapi import FastAPI
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="Portfolio Organizer",
-    description="Автоматический сбор доказательств компетенций",
+    title="Portfolio Organizer API",
+    description="API для управления портфолио проектов и анализа компетенций",
     version="1.0.0",
-    docs_url="/docs",
+)
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # В production заменить на конкретные домены
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
-@app.get("/")
-async def root():
-    return {
-        "service": "Portfolio Organizer",
-        "version": "1.0.0",
-        "endpoints": {
-            "GET /portfolio": "Получить портфолио",
-            "POST /portfolio/evidence": "Добавить доказательство",
-            "GET /portfolio/analysis": "Анализ портфолио",
-            "GET /health": "Health check",
-        },
-    }
-
-
+# Health checks
 @app.get("/health")
 async def health():
     return {"status": "healthy", "service": "portfolio-organizer"}
 
 
+# Root endpoint
+@app.get("/")
+async def root():
+    return {
+        "message": "Portfolio Organizer API",
+        "status": "running",
+        "version": "1.0.0",
+        "documentation": "/docs",
+    }
+
+
+# API v1 router
+api_v1_router = APIRouter(prefix="/api/v1", tags=["v1"])
+api_v1_router.include_router(portfolios_app.router)
+
+# Подключаем все роутеры
+app.include_router(reasoning_router)
+app.include_router(ml_model_registry_router)
+app.include_router(api_v1_router)
+
 if __name__ == "__main__":
     import uvicorn
 
-    port = 8004
-    if po_config:
-        port = po_config.get("portfolio_organizer", {}).get("port", 8004)
-
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=8004)

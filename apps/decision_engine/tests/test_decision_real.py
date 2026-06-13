@@ -8,15 +8,9 @@
 - Обработку ошибок
 """
 
-import sys
-from pathlib import Path
-
 import pytest
 
-
 # Добавляем корень проекта в PYTHONPATH
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 from apps.decision_engine.core.decision_engine import DecisionEngine
 from apps.decision_engine.core.models import DecisionContext, DecisionRequest
 
@@ -34,9 +28,7 @@ class TestDecisionEngineCore:
         request = DecisionRequest(
             user_id="user123",
             action="deploy",
-            context=DecisionContext(
-                environment="staging", user_role="developer", resources_available=True
-            ),
+            context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
         )
 
         # Должен вернуть решение без ошибок
@@ -68,9 +60,7 @@ class TestDecisionEngineCore:
         request = DecisionRequest(
             user_id="user789",
             action="deploy",
-            context=DecisionContext(
-                environment="staging", user_role="developer", resources_available=False
-            ),
+            context=DecisionContext(environment="staging", user_role="developer", resources_available=False),
         )
 
         result = engine.make_decision(request)
@@ -84,9 +74,7 @@ class TestDecisionEngineCore:
         request = DecisionRequest(
             user_id="user111",
             action="complex_operation",
-            context=DecisionContext(
-                environment="staging", user_role="senior_developer", resources_available=True
-            ),
+            context=DecisionContext(environment="staging", user_role="senior_developer", resources_available=True),
         )
 
         # Должен вернуть решение (без мока RAG работает дефолтные правила)
@@ -116,9 +104,7 @@ class TestDecisionEngineCore:
                 DecisionRequest(
                     user_id="",
                     action="test",
-                    context=DecisionContext(
-                        environment="staging", user_role="developer", resources_available=True
-                    ),
+                    context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
                 )
             )
 
@@ -127,9 +113,7 @@ class TestDecisionEngineCore:
         request = DecisionRequest(
             user_id="user222",
             action="read_data",
-            context=DecisionContext(
-                environment="staging", user_role="developer", resources_available=True
-            ),
+            context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
         )
 
         # Первое решение
@@ -167,9 +151,7 @@ class TestDecisionEngineCore:
         request = DecisionRequest(
             user_id="user333",
             action="deploy",
-            context=DecisionContext(
-                environment="production", user_role="devops", resources_available=True
-            ),
+            context=DecisionContext(environment="production", user_role="devops", resources_available=True),
         )
 
         result = engine.make_decision(request, include_explanation=True)
@@ -209,9 +191,7 @@ class TestDecisionEngineEdgeCases:
                 DecisionRequest(
                     user_id="",
                     action="",
-                    context=DecisionContext(
-                        environment="staging", user_role="developer", resources_available=True
-                    ),
+                    context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
                 )
             )
 
@@ -230,9 +210,7 @@ class TestDecisionEngineEdgeCases:
         request = DecisionRequest(
             user_id="пользователь_тест",
             action="test",
-            context=DecisionContext(
-                environment="staging", user_role="developer", resources_available=True
-            ),
+            context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
         )
 
         result = engine.make_decision(request)
@@ -245,9 +223,7 @@ class TestDecisionEngineEdgeCases:
         request = DecisionRequest(
             user_id="user666",
             action="a" * 1000,
-            context=DecisionContext(
-                environment="staging", user_role="developer", resources_available=True
-            ),
+            context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
         )
 
         result = engine.make_decision(request)
@@ -266,9 +242,7 @@ class TestDecisionEngineEdgeCases:
                 request = DecisionRequest(
                     user_id=user_id,
                     action="test",
-                    context=DecisionContext(
-                        environment="staging", user_role="developer", resources_available=True
-                    ),
+                    context=DecisionContext(environment="staging", user_role="developer", resources_available=True),
                 )
                 result = engine.make_decision(request)
                 results.append(result)

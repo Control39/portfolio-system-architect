@@ -1,8 +1,8 @@
 # Простые Python алиасы для когнитивного архитектора
 
 import os
-import subprocess
 import shlex
+import subprocess
 
 
 def run(cmd):

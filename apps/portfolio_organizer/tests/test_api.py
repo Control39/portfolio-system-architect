@@ -1,52 +1,44 @@
 """API tests for portfolio_organizer."""
 
 from fastapi.testclient import TestClient
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from src.main import app
+from apps.portfolio_organizer.endpoints.routes import app
 
 client = TestClient(app)
 
 
 def test_health():
     """Test health endpoint."""
-    response = client.get("/api/health")
+    response = client.get("/health")
     assert response.status_code == 200
     assert response.json().get("status") == "healthy"
 
 
-def test_ready():
-    """Test ready endpoint."""
-    response = client.get("/api/ready")
+def test_portfolio_creation():
+    """Test portfolio creation."""
+    response = client.post(
+        "/portfolio",
+        json={
+            "owner_id": "550e8400-e29b-41d4-a716-446655440000",
+            "name": "Test Portfolio",
+            "compass_markers": ["marker-1", "marker-2"],
+        },
+    )
     assert response.status_code == 200
+    assert "id" in response.json()
 
 
-def test_live():
-    """Test live endpoint."""
-    response = client.get("/api/live")
+def test_project_creation():
+    """Test project creation."""
+    response = client.post(
+        "/project",
+        json={
+            "portfolio_id": "550e8400-e29b-41d4-a716-446655440000",
+            "name": "Test Project",
+            "description": "Test description",
+            "evidence_links": ["https://github.com/test"],
+            "demonstrated_markers": ["marker-1"],
+        },
+    )
     assert response.status_code == 200
-
-
-def test_projects_list():
-    """Test get projects list."""
-    response = client.get("/api/projects")
-    assert response.status_code == 200
-    data = response.json()
-    assert isinstance(data, list)
-
-
-def test_portfolio_analysis():
-    """Test portfolio analysis."""
-    response = client.get("/api/portfolio/analysis")
-    assert response.status_code == 200
-    data = response.json()
-    assert "technologies" in data or "analysis" in data
-
-
-def test_project_detail():
-    """Test get single project."""
-    response = client.get("/api/projects/1")
-    assert response.status_code in [200, 404]
+    assert "id" in response.json()

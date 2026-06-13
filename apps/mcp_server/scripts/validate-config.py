@@ -19,10 +19,8 @@ from typing import Any
 
 import yaml
 
-
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 
 class ConfigValidator:
@@ -208,9 +206,7 @@ class ConfigValidator:
 
         return problems
 
-    def fix_outdated_models(
-        self, file_path: Path, file_type: str, original_content: str
-    ) -> list[str]:
+    def fix_outdated_models(self, file_path: Path, file_type: str, original_content: str) -> list[str]:
         """Исправление устаревших моделей AI"""
         fixes = []
 

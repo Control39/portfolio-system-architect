@@ -3,10 +3,9 @@ Maturity scoring for architecture assessment.
 """
 
 import logging
-from typing import Any, Dict, List, Tuple
 from dataclasses import dataclass
 from enum import Enum
-
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +49,7 @@ class Recommendation:
     action: str
     priority: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "category": self.category,
@@ -81,7 +80,7 @@ class MaturityScorer:
         "production_readiness": 0.5,
     }
 
-    def __init__(self, analysis_result: Dict[str, Any]):
+    def __init__(self, analysis_result: dict[str, Any]):
         """
         Initialize maturity scorer.
 
@@ -95,7 +94,7 @@ class MaturityScorer:
             raise MaturityScorerError(f"Expected dict, got {type(analysis_result)}")
 
         self.analysis = analysis_result
-        self._scores: Dict[str, float] = {}
+        self._scores: dict[str, float] = {}
 
     def calculate_score(self) -> float:
         """Calculate overall maturity score (0-5)."""
@@ -129,7 +128,7 @@ class MaturityScorer:
         score = self.calculate_score()
         return MaturityLevel.from_score(score)
 
-    def get_recommendations(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_recommendations(self, limit: int = 10) -> list[dict[str, Any]]:
         """
         Get recommendations for improving maturity score.
 
@@ -209,9 +208,7 @@ class MaturityScorer:
             score += 0.5
 
         # Production ready services
-        prod_ready = sum(
-            1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False)
-        )
+        prod_ready = sum(1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False))
         if prod_ready > 0:
             score += 0.5 * (prod_ready / total)
 
@@ -385,9 +382,7 @@ class MaturityScorer:
 
         has_docker = any(isinstance(s, dict) and s.get("has_docker", False) for s in services)
         has_tests = any(isinstance(s, dict) and s.get("has_tests", False) for s in services)
-        has_health_checks = any(
-            isinstance(s, dict) and s.get("has_health_check", False) for s in services
-        )
+        has_health_checks = any(isinstance(s, dict) and s.get("has_health_check", False) for s in services)
 
         # Docker + Tests = CI/CD ready
         if has_docker and has_tests:
@@ -398,15 +393,13 @@ class MaturityScorer:
             score += 0.2
 
         # All services production ready
-        prod_ready_count = sum(
-            1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False)
-        )
+        prod_ready_count = sum(1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False))
         if prod_ready_count == len(services) and len(services) > 0:
             score += 0.2
 
         return min(score, self.WEIGHTS["production_readiness"])
 
-    def _get_microservices_recommendations(self) -> List[Recommendation]:
+    def _get_microservices_recommendations(self) -> list[Recommendation]:
         """Get microservices-related recommendations."""
         recommendations = []
         services = self._safe_get("microservices.services", [])
@@ -414,9 +407,7 @@ class MaturityScorer:
         if not services or not isinstance(services, list):
             return recommendations
 
-        prod_ready = sum(
-            1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False)
-        )
+        prod_ready = sum(1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False))
         prod_ready_percent = (prod_ready / len(services)) * 100 if services else 0
 
         if prod_ready_percent < 80:
@@ -447,7 +438,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def _get_deployment_recommendations(self) -> List[Recommendation]:
+    def _get_deployment_recommendations(self) -> list[Recommendation]:
         """Get deployment-related recommendations."""
         recommendations = []
         has_k8s = self._safe_get("microservices.has_kubernetes", False)
@@ -477,7 +468,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def _get_documentation_recommendations(self) -> List[Recommendation]:
+    def _get_documentation_recommendations(self) -> list[Recommendation]:
         """Get documentation-related recommendations."""
         recommendations = []
         docs = self._safe_get("architecture_docs", [])
@@ -521,7 +512,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def _get_testing_recommendations(self) -> List[Recommendation]:
+    def _get_testing_recommendations(self) -> list[Recommendation]:
         """Get testing-related recommendations."""
         recommendations = []
         services = self._safe_get("microservices.services", [])
@@ -554,7 +545,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def _get_activity_recommendations(self) -> List[Recommendation]:
+    def _get_activity_recommendations(self) -> list[Recommendation]:
         """Get activity-related recommendations."""
         recommendations = []
         git_stats = self._safe_get("git_stats", {})
@@ -602,7 +593,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def _get_skill_recommendations(self) -> List[Recommendation]:
+    def _get_skill_recommendations(self) -> list[Recommendation]:
         """Get skill-related recommendations."""
         recommendations = []
         skill_markers = self._safe_get("skill_markers", {})
@@ -638,7 +629,7 @@ class MaturityScorer:
 
         return recommendations
 
-    def get_detailed_breakdown(self) -> Dict[str, Any]:
+    def get_detailed_breakdown(self) -> dict[str, Any]:
         """Get detailed score breakdown."""
         self.calculate_score()  # Ensure scores are calculated
 
@@ -652,7 +643,7 @@ class MaturityScorer:
 
 
 # Convenience function
-def calculate_maturity(analysis_result: Dict[str, Any]) -> Tuple[float, List[Dict[str, Any]]]:
+def calculate_maturity(analysis_result: dict[str, Any]) -> tuple[float, list[dict[str, Any]]]:
     """
     Quick maturity calculation.
 

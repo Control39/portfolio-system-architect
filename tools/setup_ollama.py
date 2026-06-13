@@ -4,8 +4,8 @@
 """
 
 import subprocess
-import time
 import sys
+import time
 
 print("=" * 60)
 print("🤖 Подключение Cognitive Agent к Ollama")
@@ -65,9 +65,7 @@ prompt = "Привет! Ты локальная LLM. Кратко ответь: 
 print(f"   Вопрос: {prompt}")
 
 try:
-    result = subprocess.run(
-        ["ollama", "run", model, prompt], capture_output=True, text=True, timeout=30
-    )
+    result = subprocess.run(["ollama", "run", model, prompt], capture_output=True, text=True, timeout=30)
     print(f"   Ответ:\n{result.stdout[:500]}")
 except Exception as e:
     print(f"   ⚠️  Ошибка теста: {e}")

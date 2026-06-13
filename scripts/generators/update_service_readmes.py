@@ -5,7 +5,6 @@ Update all service READMEs with testing information
 
 from pathlib import Path
 
-
 readme_template = """# {service_name}
 
 {description}

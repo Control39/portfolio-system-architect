@@ -7,7 +7,6 @@ import logging
 import os
 from typing import Any
 
-
 try:
     from langchain.callbacks.base import BaseCallbackHandler
 except ImportError:
@@ -21,7 +20,6 @@ except ImportError:
 from langchain_openai import ChatOpenAI
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
 
 logger = logging.getLogger(__name__)
 
@@ -85,9 +83,7 @@ class YandexGPTClient:
             )
         return self._client
 
-    async def generate(
-        self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs
-    ) -> str:
+    async def generate(self, prompt: str, system_message: str = "Ты полезный AI-ассистент.", **kwargs) -> str:
         """
         Генерация текста с использованием Yandex GPT.
 

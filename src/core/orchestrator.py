@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Orchestrator core module for infra_orchestrator and thought_architecture."""
 
 from enum import Enum

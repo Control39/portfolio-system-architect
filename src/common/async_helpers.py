@@ -15,7 +15,6 @@ from collections.abc import Callable, Coroutine
 from functools import wraps
 from typing import Any, TypeVar
 
-
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
@@ -68,9 +67,7 @@ async def fetch_parallel_safe(*tasks: Coroutine) -> list[Any | None]:
     return processed
 
 
-async def fetch_with_timeout(
-    coro: Coroutine, timeout: int = 30, default_value: Any | None = None
-) -> Any:
+async def fetch_with_timeout(coro: Coroutine, timeout: int = 30, default_value: Any | None = None) -> Any:
     """
     Выполнить async задачу с таймаутом.
 
@@ -84,7 +81,7 @@ async def fetch_with_timeout(
     """
     try:
         return await asyncio.wait_for(coro, timeout=timeout)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         logger.warning(f"Task timed out after {timeout}s")
         return default_value
 
@@ -244,9 +241,7 @@ def async_retry(max_retries: int = 3, delay: float = 1.0):
                     last_exception = e
 
                     if attempt < max_retries - 1:
-                        logger.warning(
-                            f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s..."
-                        )
+                        logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s...")
                         await asyncio.sleep(delay)
 
             raise last_exception

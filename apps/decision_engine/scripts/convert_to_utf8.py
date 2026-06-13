@@ -209,9 +209,7 @@ def convert_all(start_path: str = ".") -> dict:
     logging.info(f"Начало конвертации в UTF-8: {start_path}")
 
     # Создаем директории
-    backup_dir = (
-        Path("backups") / f"pre_utf8_conversion_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    )
+    backup_dir = Path("backups") / f"pre_utf8_conversion_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
     backup_dir.mkdir(parents=True, exist_ok=True)
 
     log_dir = Path("logs")
@@ -234,9 +232,7 @@ def convert_all(start_path: str = ".") -> dict:
                     summary["converted_files"] += 1
                     encoding = file_result["original_encoding"]
                     if encoding:
-                        summary["encoding_changes"][encoding] = (
-                            summary["encoding_changes"].get(encoding, 0) + 1
-                        )
+                        summary["encoding_changes"][encoding] = summary["encoding_changes"].get(encoding, 0) + 1
             else:
                 summary["errors"] += 1
 
@@ -277,9 +273,7 @@ def print_summary(results: dict) -> None:
 
     if summary["converted_files"] > 0:
         print("\nИзменения кодировок:")
-        for encoding, count in sorted(
-            summary["encoding_changes"].items(), key=lambda x: x[1], reverse=True
-        ):
+        for encoding, count in sorted(summary["encoding_changes"].items(), key=lambda x: x[1], reverse=True):
             print(f"  {encoding}: {count} файлов")
 
     if summary["errors"] > 0:

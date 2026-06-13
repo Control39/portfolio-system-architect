@@ -4,15 +4,14 @@ Core analyzer class for Assistant Orchestrator.
 
 import logging
 import time
-from datetime import datetime
-from typing import Any, Dict, Optional, List
-from dataclasses import dataclass, field
-from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any
 
 from ..models.types import AnalysisResult
 from .evidence_collector import EvidenceCollector, EvidenceCollectorError
-
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +28,8 @@ class AnalysisMetrics:
 
     start_time: float = 0.0
     end_time: float = 0.0
-    components: Dict[str, float] = field(default_factory=dict)
-    errors: List[str] = field(default_factory=list)
+    components: dict[str, float] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
 
     @property
     def duration(self) -> float:
@@ -45,7 +44,7 @@ class AnalysisMetrics:
         """Add error message."""
         self.errors.append(error)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "duration": self.duration,
@@ -66,7 +65,7 @@ class AssistantOrchestrator:
         "collect_metrics": True,
     }
 
-    def __init__(self, project_root: str = ".", config: Optional[Dict[str, Any]] = None):
+    def __init__(self, project_root: str = ".", config: dict[str, Any] | None = None):
         """
         Initialize orchestrator.
 
@@ -139,7 +138,7 @@ class AssistantOrchestrator:
             logger.error(f"Failed to build analysis result: {e}")
             raise OrchestratorError(f"Analysis failed: {e}")
 
-    def _collect_parallel(self) -> Dict[str, Any]:
+    def _collect_parallel(self) -> dict[str, Any]:
         """Collect evidence in parallel."""
         results = {}
 
@@ -173,7 +172,7 @@ class AssistantOrchestrator:
 
         return results
 
-    def _collect_sequential(self) -> Dict[str, Any]:
+    def _collect_sequential(self) -> dict[str, Any]:
         """Collect evidence sequentially."""
         results = {}
 
@@ -197,7 +196,7 @@ class AssistantOrchestrator:
 
         return results
 
-    def _collect_with_timing(self, name: str, method) -> Dict[str, Any]:
+    def _collect_with_timing(self, name: str, method) -> dict[str, Any]:
         """Collect evidence with timing measurement."""
         start_time = time.time()
 
@@ -216,11 +215,11 @@ class AssistantOrchestrator:
             logger.error(f"Error collecting {name} after {duration:.2f}s: {e}")
             raise
 
-    def _create_error_result(self, error: str) -> Dict[str, Any]:
+    def _create_error_result(self, error: str) -> dict[str, Any]:
         """Create error result dictionary."""
         return {"success": False, "error": error, "data": None}
 
-    def _extract_data(self, result: Dict[str, Any], default: Any = None) -> Any:
+    def _extract_data(self, result: dict[str, Any], default: Any = None) -> Any:
         """Extract data from collection result."""
         if isinstance(result, dict):
             if result.get("success", False):
@@ -230,7 +229,7 @@ class AssistantOrchestrator:
                 return default
         return result if result is not None else default
 
-    def _build_analysis_result(self, collected: Dict[str, Any]) -> AnalysisResult:
+    def _build_analysis_result(self, collected: dict[str, Any]) -> AnalysisResult:
         """
         Build AnalysisResult from collected evidence.
 
@@ -256,9 +255,7 @@ class AssistantOrchestrator:
             {"total_commits": 0, "recent_activity_days": 0, "contributors": []},
         )
 
-        dependencies = self._extract_data(
-            collected.get("dependencies", {}), {"services": [], "dependencies": {}}
-        )
+        dependencies = self._extract_data(collected.get("dependencies", {}), {"services": [], "dependencies": {}})
 
         # Ensure proper types
         if not isinstance(microservices, dict):
@@ -294,7 +291,7 @@ class AssistantOrchestrator:
         """Get current timestamp in ISO format."""
         return datetime.now().isoformat()
 
-    def get_analysis_metrics(self) -> Optional[Dict[str, Any]]:
+    def get_analysis_metrics(self) -> dict[str, Any] | None:
         """
         Get metrics from the last analysis run.
 
@@ -332,7 +329,7 @@ class AssistantOrchestrator:
         logger.debug("Cleaning up orchestrator resources")
         # Add any cleanup logic here
 
-    def run_quick_analysis(self) -> Dict[str, Any]:
+    def run_quick_analysis(self) -> dict[str, Any]:
         """
         Run a quick analysis with minimal data collection.
 
@@ -354,9 +351,7 @@ class AssistantOrchestrator:
                 "timestamp": self._get_timestamp(),
                 "services_count": len(services),
                 "production_ready_count": sum(
-                    1
-                    for s in services
-                    if isinstance(s, dict) and s.get("is_production_ready", False)
+                    1 for s in services if isinstance(s, dict) and s.get("is_production_ready", False)
                 ),
                 "total_commits": git_stats.get("data", {}).get("total_commits", 0),
                 "recent_activity": git_stats.get("data", {}).get("recent_activity_days", 0),
@@ -365,7 +360,7 @@ class AssistantOrchestrator:
             logger.error(f"Quick analysis failed: {e}")
             return {"error": str(e), "timestamp": self._get_timestamp()}
 
-    def validate_project_structure(self) -> Dict[str, bool]:
+    def validate_project_structure(self) -> dict[str, bool]:
         """
         Validate project structure and required files.
 
@@ -381,18 +376,14 @@ class AssistantOrchestrator:
             "is_directory": root.is_dir(),
             "has_readme": (root / "README.md").exists(),
             "has_git": (root / ".git").exists(),
-            "has_docker_compose": (root / "docker-compose.yml").exists()
-            or (root / "docker-compose.yaml").exists(),
+            "has_docker_compose": (root / "docker-compose.yml").exists() or (root / "docker-compose.yaml").exists(),
             "has_makefile": (root / "Makefile").exists(),
-            "has_requirements": (root / "requirements.txt").exists()
-            or (root / "pyproject.toml").exists(),
+            "has_requirements": (root / "requirements.txt").exists() or (root / "pyproject.toml").exists(),
         }
 
 
 # Convenience function
-def analyze_project(
-    project_root: str = ".", parallel: bool = True, quick: bool = False
-) -> AnalysisResult:
+def analyze_project(project_root: str = ".", parallel: bool = True, quick: bool = False) -> AnalysisResult:
     """
     Quick project analysis function.
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import UTC
 from typing import Any
 
 from ...config import DEFAULT_ROOM_ID
@@ -48,9 +49,7 @@ class InMemoryRoomStore(RoomStore):
         Return list of all rooms with message counts.
         """
         names = list(self._room_messages.keys())
-        return [
-            {"name": name, "messages": len(self._room_messages.get(name, []))} for name in names
-        ]
+        return [{"name": name, "messages": len(self._room_messages.get(name, []))} for name in names]
 
     async def remove_room_if_empty(self, room: str) -> None:
         if room == DEFAULT_ROOM_ID:
@@ -78,9 +77,7 @@ class InMemoryRoomStore(RoomStore):
         existing = self._user_rooms[user_id].get(room_id)
         if existing:
             return existing
-        room = RoomMetadata(
-            room_id=room_id, room_name=room_name, user_id=user_id, description=description
-        )
+        room = RoomMetadata(room_id=room_id, room_name=room_name, user_id=user_id, description=description)
         self._user_rooms[user_id][room_id] = room
         return room
 
@@ -104,9 +101,9 @@ class InMemoryRoomStore(RoomStore):
             room.room_name = room_name
         if description is not None:
             room.description = description or ""
-        from datetime import datetime, timezone
+        from datetime import datetime
 
-        room.updated_at = datetime.now(timezone.utc).isoformat()
+        room.updated_at = datetime.now(UTC).isoformat()
         return room
 
     async def delete_room_metadata(self, user_id: str, room_id: str) -> bool:

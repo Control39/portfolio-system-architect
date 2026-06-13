@@ -17,7 +17,6 @@ from unittest.mock import MagicMock
 
 import pytest
 
-
 # ============================================================================
 # FIXTURES & SETUP
 # ============================================================================
@@ -47,7 +46,7 @@ def mock_dependencies():
 def service_instance(service_config, mock_dependencies):
     """Create service instance with mocks"""
     # Import would happen here in real scenario
-    # from apps.cognitive_agent.src import Service
+    # from agents.cognitive_agent.src import Service
 
     service = MagicMock()
     service.config = service_config

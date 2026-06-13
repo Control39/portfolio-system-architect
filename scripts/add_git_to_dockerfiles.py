@@ -9,7 +9,7 @@ from pathlib import Path
 
 def add_git_to_dockerfile(filepath):
     """Add git installation after WORKDIR /app."""
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, encoding="utf-8") as f:
         content = f.read()
 
     # Check if git is already installed

@@ -5,16 +5,16 @@ Cognitive Agent - интеграция с AI Config Manager
 Цель: Покрытие 90%+ для config_integration.py
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-
 # Добавляем путь к cognitive_agent src
 COGNITIVE_SRC = REPO_ROOT / "apps" / "cognitive_agent" / "src"
 if str(COGNITIVE_SRC) not in sys.path:
@@ -40,7 +40,7 @@ class TestConfigIntegrationAdvanced:
         Test: Singleton Pattern
         Проверка, что get_config() возвращает тот же объект
         """
-        from config_integration import get_config, CognitiveAgentConfig
+        from config_integration import CognitiveAgentConfig, get_config
 
         config1 = get_config()
         config2 = get_config()
@@ -94,10 +94,9 @@ class TestConfigIntegrationAdvanced:
         Test: Local Fallback when AI Config Manager disabled
         Проверка fallback на локальную конфигурацию
         """
-        from config_integration import CognitiveAgentConfig
-
         # Сброс singleton
         import config_integration
+        from config_integration import CognitiveAgentConfig
 
         config_integration._config_instance = None
 
@@ -331,10 +330,9 @@ class TestConfigIntegrationAdvanced:
         """
         Test: is_available returns False when AI Config Manager unavailable
         """
-        from config_integration import get_config
-
         # Сброс singleton
         import config_integration
+        from config_integration import get_config
 
         config_integration._config_instance = None
 

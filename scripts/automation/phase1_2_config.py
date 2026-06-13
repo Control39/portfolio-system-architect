@@ -5,7 +5,6 @@ Phase 1.2: Add Config Directories
 
 from pathlib import Path
 
-
 services = [
     "ai_config_manager",
     "auth_service",

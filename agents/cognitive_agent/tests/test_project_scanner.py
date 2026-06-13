@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Юнит-тесты для Project Scanner.
 
@@ -7,18 +6,18 @@
     pytest apps/cognitive_agent/tests/test_project_scanner.py -v
 
 Запуск с покрытием:
-    pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=apps.cognitive_agent.src.project_scanner --cov-report=term-missing
+    pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=agents.cognitive_agent.src.project_scanner --cov-report=term-missing
 """
 
-import os
 import json
-import tempfile
+import os
 import shutil
+import tempfile
 from pathlib import Path
 
 import pytest
 
-from apps.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
+from agents.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
 
 
 class TestScannerConfig:
@@ -113,9 +112,7 @@ class TestProjectScanner:
 
         # Должны найти только файлы в src/ (используем os.sep для кроссплатформенности)
         for file_info in results["files"]:
-            assert file_info["path"].startswith("src" + os.sep) or file_info["path"].startswith(
-                "src/"
-            )
+            assert file_info["path"].startswith("src" + os.sep) or file_info["path"].startswith("src/")
 
     def test_scan_paths_nonexistent(self, temp_project):
         """Тест сканирования несуществующего пути"""
@@ -135,7 +132,7 @@ class TestProjectScanner:
 
         assert export_path.exists()
 
-        with open(export_path, "r", encoding="utf-8") as f:
+        with open(export_path, encoding="utf-8") as f:
             exported = json.load(f)
 
         assert exported["mode"] == "full"

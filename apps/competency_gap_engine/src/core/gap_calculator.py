@@ -1,18 +1,16 @@
 import logging
+
 from src.models.responses import GapItem
-from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
 
 class GapCalculator:
-    def __init__(self, domain_weights: Dict[str, float]):
+    def __init__(self, domain_weights: dict[str, float]):
         self.domain_weights = domain_weights
         logger.info(f"⚙️ Calculator initialized with weights: {domain_weights}")
 
-    def calculate(
-        self, current_skills: Dict[str, int], target_skills: Dict[str, int]
-    ) -> List[GapItem]:
+    def calculate(self, current_skills: dict[str, int], target_skills: dict[str, int]) -> list[GapItem]:
         """
         Вычисляет разрывы между текущими и целевыми навыками.
         current_skills: {"python": 50, "docker": 30}

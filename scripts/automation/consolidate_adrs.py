@@ -208,9 +208,7 @@ def generate_report(actions, backup_path: Path):
         "|--------|-----------|------|------|",
     ]
     for action in actions:
-        lines.append(
-            f"| {action['new_id']} | {action['former_id']} | `{action['new_file']}` | {action['note']} |"
-        )
+        lines.append(f"| {action['new_id']} | {action['former_id']} | `{action['new_file']}` | {action['note']} |")
 
     lines.extend(
         [

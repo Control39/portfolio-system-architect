@@ -22,7 +22,6 @@ from apps.it_compass.src.core.tracker import CareerTracker
 from apps.it_compass.src.utils.marker_export import MarkerExporter
 from apps.utils.safe_logger import mask_sensitive
 
-
 # Настройка LLM
 api_key = os.getenv("OPENAI_API_KEY")
 if api_key:
@@ -205,9 +204,7 @@ def analyze_requirements(job_description: str) -> dict[str, Any]:
 
     # Интеграция с системой отслеживания карьеры
     if INTEGRATION_ENABLED and analysis_result.get("skills"):
-        print(
-            f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}"
-        )
+        print(f"🔍 Поиск соответствующих маркеров для навыков: {', '.join(analysis_result['skills'])}")
 
         # Поиск маркеров, соответствующих требованиям вакансии
         matching_markers = _find_matching_markers(analysis_result["skills"])

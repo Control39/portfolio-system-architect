@@ -7,7 +7,6 @@ from pathlib import Path
 
 import pytest
 
-
 REPO_ROOT = Path(__file__).parent.parent.parent
 
 SERVICES: list[dict[str, str]] = [
@@ -108,9 +107,7 @@ class TestAIConfigManagerIntegration:
         module = load_config_module(service)
         config_instance = module.get_config()
         result = config_instance.get_config()
-        assert isinstance(
-            result, dict
-        ), f"get_config() должно возвращать dict, получено {type(result)}"
+        assert isinstance(result, dict), f"get_config() должно возвращать dict, получено {type(result)}"
 
     @pytest.mark.parametrize("service", SERVICES)
     def test_config_reload_works(self, service: dict[str, str]):

@@ -85,9 +85,7 @@ class MetricsCollector:
             self.metrics["git_commits"] = commits
 
             # Branches
-            result = subprocess.run(
-                ["git", "branch", "-a"], capture_output=True, text=True, timeout=5, cwd=REPO_ROOT
-            )
+            result = subprocess.run(["git", "branch", "-a"], capture_output=True, text=True, timeout=5, cwd=REPO_ROOT)
             branches = len(result.stdout.strip().split("\n")) if result.returncode == 0 else 0
             self.metrics["git_branches"] = branches
 
@@ -134,9 +132,7 @@ class MetricsCollector:
     def get_k8s_resources(self):
         """Kubernetes ресурсы"""
         k8s_files = list(REPO_ROOT.rglob("*.yaml")) + list(REPO_ROOT.rglob("*.yml"))
-        k8s_files = [
-            f for f in k8s_files if "deployment" in str(f).lower() or "k8s" in str(f).lower()
-        ]
+        k8s_files = [f for f in k8s_files if "deployment" in str(f).lower() or "k8s" in str(f).lower()]
 
         self.metrics["k8s_files"] = len(k8s_files)
 

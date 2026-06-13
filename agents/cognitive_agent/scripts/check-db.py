@@ -50,7 +50,7 @@ def main():
                 rows = cursor.fetchall()
                 print("  Примеры записей:")
                 for i, row in enumerate(rows):
-                    print(f"    Запись {i+1}: {row}")
+                    print(f"    Запись {i + 1}: {row}")
 
         print("\n" + "=" * 60)
 

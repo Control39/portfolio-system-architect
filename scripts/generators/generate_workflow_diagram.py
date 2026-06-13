@@ -17,7 +17,6 @@ from pathlib import Path
 
 import yaml
 
-
 # Настройки
 REPO_ROOT = Path(__file__).parent.parent
 WORKFLOWS_DIR = REPO_ROOT / ".github" / "workflows"
@@ -266,9 +265,7 @@ def generate_category_stats(workflows: list) -> str:
 
     total_total = total_working = total_attention = 0
     for category, data in sorted(stats.items()):
-        lines.append(
-            f"| {category} | {data['total']} | {data['working']} | {data['needs_attention']} |"
-        )
+        lines.append(f"| {category} | {data['total']} | {data['working']} | {data['needs_attention']} |")
         total_total += data["total"]
         total_working += data["working"]
         total_attention += data["needs_attention"]
@@ -284,9 +281,7 @@ def generate_fix_recommendations(workflows: list) -> str:
     for wf in workflows:
         status = get_status(wf["file"])
         if status["status"] == "broken":
-            recommendations.append(
-                {"file": wf["file"], "issue": status["issue"], "fix": status["fix"]}
-            )
+            recommendations.append({"file": wf["file"], "issue": status["issue"], "fix": status["fix"]})
 
     if not recommendations:
         return "✅ Нет критических проблем для исправления."

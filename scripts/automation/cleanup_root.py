@@ -212,9 +212,7 @@ class RootCleaner:
         print("-" * 60)
 
         root_files = [f for f in self.root.iterdir() if f.is_file()]
-        root_count = len(
-            [f for f in root_files if f.name not in self.essential and not f.name.startswith(".")]
-        )
+        root_count = len([f for f in root_files if f.name not in self.essential and not f.name.startswith(".")])
 
         print(f"Files to move: {len(self.moves)}")
         print("Directories to create: 8")

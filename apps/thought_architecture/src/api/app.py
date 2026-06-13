@@ -1,15 +1,15 @@
 """FastAPI app for thought_architecture."""
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Optional
 from datetime import datetime
-from pydantic import BaseModel
 from uuid import uuid4
 
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 # Моки для БД
-decisions_db: Dict[str, Dict] = {}
-records_db: Dict[str, Dict] = {}
+decisions_db: dict[str, dict] = {}
+records_db: dict[str, dict] = {}
 
 
 # Модели
@@ -19,8 +19,8 @@ class Decision(BaseModel):
     description: str
     status: str
     created_at: datetime
-    approver: Optional[str] = None
-    rejection_reason: Optional[str] = None
+    approver: str | None = None
+    rejection_reason: str | None = None
 
 
 class DecisionCreate(BaseModel):
@@ -29,8 +29,8 @@ class DecisionCreate(BaseModel):
 
 
 class DecisionUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
+    title: str | None = None
+    description: str | None = None
 
 
 app = FastAPI(title="Thought Architecture API", version="0.1.0")

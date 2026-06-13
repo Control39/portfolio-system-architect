@@ -3,7 +3,6 @@
 
 import subprocess
 
-
 # Get current root items from git
 files = subprocess.check_output(["git", "ls-files"], encoding="utf-8").splitlines()
 current_roots = sorted(set(f.split("/")[0] for f in files))

@@ -204,9 +204,7 @@ class TestSearch:
         query = "Test Project"
 
         results = []
-        for root, _dirs, files in (
-            list(project_root.walk()) if hasattr(project_root, "walk") else []
-        ):
+        for root, _dirs, files in list(project_root.walk()) if hasattr(project_root, "walk") else []:
             for file in files:
                 if file.endswith(".md"):
                     file_path = Path(root) / file

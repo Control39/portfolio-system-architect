@@ -5,10 +5,9 @@
 автозагрузку конфигурации и безопасную инициализацию приложения.
 """
 
-import os
-import sys
-import logging
 import argparse
+import logging
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -19,14 +18,12 @@ from fastapi import FastAPI
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    force=True,  # Гарантирует применение настроек при перезагрузке
+    force=True,
 )
 logger = logging.getLogger(__name__)
 
 # Добавляем путь к проекту для корректного импорта
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Конфигурация по умолчанию (fallback)
 DEFAULT_CONFIG: dict[str, Any] = {
@@ -36,9 +33,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
                 "name": "run_api",
                 "command": [
                     "uvicorn",
-                    "apps.portfolio_organizer.src.endpoints:app",
+                    "apps.portfolio_organizer.endpoints.routes:app",
                     "--host",
-                    "0.0.0.0",  # nosec B104
+                    "0.0.0.0",
                     "--port",
                     "8000",
                     "--reload",
@@ -50,7 +47,6 @@ DEFAULT_CONFIG: dict[str, Any] = {
 
 COMPONENT_CONFIG = DEFAULT_CONFIG.copy()
 
-# Безопасная загрузка конфигурации
 try:
     from decision_engine.configs.loader import COMPONENT_CONFIG as LOADED_CONFIG
 
@@ -64,11 +60,8 @@ except ImportError as e:
 except Exception as e:
     logger.error(f"Неожиданная ошибка при загрузке конфигурации: {e}")
 
-# --- Инициализация приложения ---
-
 
 def create_stub_app() -> FastAPI:
-    """Создает заглушечное FastAPI приложение."""
     app = FastAPI(
         title="Portfolio Organizer (Stub)",
         description="Заглушечное приложение для Portfolio Organizer API",
@@ -86,13 +79,11 @@ def create_stub_app() -> FastAPI:
     return app
 
 
-# Глобальные переменные для хранения состояния
 web_app: FastAPI | None = None
-APP_IMPORT_STRING = "apps.portfolio_organizer.src.endpoints:app"
+APP_IMPORT_STRING = "apps.portfolio_organizer.endpoints.routes:app"
 
 try:
-    # Пытаемся импортировать реальное приложение
-    from apps.portfolio_organizer.src.endpoints import app as imported_app
+    from apps.portfolio_organizer.endpoints.routes import app as imported_app
 
     if imported_app is None:
         raise ImportError("App is None после импорта")
@@ -107,16 +98,12 @@ except Exception as e:
     web_app = create_stub_app()
     APP_IMPORT_STRING = "__main__:web_app"
 
-# --- Вспомогательные функции ---
-
 
 def validate_port(port: int) -> bool:
-    """Проверяет, что порт в допустимом диапазоне."""
     return 1 <= port <= 65535
 
 
 def extract_port_from_config() -> int:
-    """Безопасно извлекает порт из CONFIG или возвращает дефолт."""
     default_port = 8000
     try:
         scripts = COMPONENT_CONFIG.get("automation", {}).get("scripts", [])
@@ -134,20 +121,11 @@ def extract_port_from_config() -> int:
     return default_port
 
 
-# --- Запуск сервера ---
-
-
 def run_server(host: str, port: int, reload: bool, workers: int | None) -> None:
-    """
-    Универсальная функция запуска.
-
-    Ключевое: для reload передаём строку импорта, для prod — объект приложения.
-    """
     if not validate_port(port):
         logger.error(f"Некорректный порт {port}, использую 8000")
         port = 8000
 
-    # Uvicorn не поддерживает workers + reload
     if reload and workers and workers > 1:
         logger.warning("Режим reload несовместим с multiple workers. Устанавливаю workers=1.")
         workers = 1
@@ -164,11 +142,9 @@ def run_server(host: str, port: int, reload: bool, workers: int | None) -> None:
     }
 
     if reload:
-        # Для reload передаём СТРОКУ импорта для автоперезагрузки
         uvicorn_kwargs["app"] = APP_IMPORT_STRING
         logger.info(f"Dev режим: используем импорт '{APP_IMPORT_STRING}'")
     else:
-        # Для production передаём объект приложения
         if web_app is None:
             raise RuntimeError("FastAPI приложение не инициализировано")
         uvicorn_kwargs["app"] = web_app
@@ -185,23 +161,17 @@ def run_server(host: str, port: int, reload: bool, workers: int | None) -> None:
         sys.exit(1)
 
 
-# --- Точки входа ---
-
-
 def main(host: str, port: int | None, reload: bool, workers: int | None) -> None:
-    """Основная точка входа с объединённой логикой."""
     final_port = port if port else extract_port_from_config()
     run_server(host, final_port, reload, workers)
 
 
 def main_dev(host: str, port: int | None) -> None:
-    """Запуск в development-режиме."""
     logger.info(">>> Запуск в DEVELOPMENT режиме <<<")
     main(host=host, port=port, reload=True, workers=1)
 
 
 def main_prod(host: str, port: int | None, workers: int) -> None:
-    """Запуск в production-режиме."""
     logger.info(f">>> Запуск в PRODUCTION режиме ({workers} workers) <<<")
     main(host=host, port=port, reload=False, workers=workers)
 
@@ -218,7 +188,7 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("--mode", choices=["dev", "prod"], default="dev", help="Режим запуска")
-    parser.add_argument("--host", default="0.0.0.0", help="Хост сервера")  # nosec B104
+    parser.add_argument("--host", default="0.0.0.0", help="Хост сервера")
     parser.add_argument("--port", type=int, default=None, help="Порт (из конфига, если не указан)")
     parser.add_argument("--workers", type=int, default=4, help="Воркеры (только prod)")
 

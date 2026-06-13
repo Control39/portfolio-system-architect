@@ -6,7 +6,6 @@ Automatically generates test files for 7 services that need them
 
 from pathlib import Path
 
-
 TEST_TEMPLATE = '''"""
 Tests for {service_name}
 """

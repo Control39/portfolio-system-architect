@@ -14,7 +14,6 @@ from typing import Any
 
 import yaml
 
-
 # Настройка логирования
 log_dir = Path("apps/cognitive_agent/logs")
 log_dir.mkdir(parents=True, exist_ok=True)
@@ -48,9 +47,7 @@ class TaskPlanner:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def load_tasks(
-        self, tasks_file: str = "apps/cognitive_agent/data/tasks.json"
-    ) -> list[dict[str, Any]]:
+    def load_tasks(self, tasks_file: str = "apps/cognitive_agent/data/tasks.json") -> list[dict[str, Any]]:
         """Загрузка задач из файла"""
         try:
             tasks_path = Path(tasks_file)
@@ -272,9 +269,7 @@ class TaskPlanner:
             schedule["total_duration_minutes"] += duration
 
         self.schedule = schedule
-        logger.info(
-            f"Запланировано {schedule['tasks_scheduled']} задач на {schedule['total_duration_minutes']} минут"
-        )
+        logger.info(f"Запланировано {schedule['tasks_scheduled']} задач на {schedule['total_duration_minutes']} минут")
 
         return schedule
 
@@ -382,15 +377,11 @@ class TaskPlanner:
                 group_data["avg_priority"] = avg_priority
 
         # Сортировка групп по среднему приоритету (по убыванию)
-        sorted_groups = dict(
-            sorted(groups.items(), key=lambda x: x[1]["avg_priority"], reverse=True)
-        )
+        sorted_groups = dict(sorted(groups.items(), key=lambda x: x[1]["avg_priority"], reverse=True))
 
         logger.info(f"Создано {len(sorted_groups)} групп задач")
         for category, data in list(sorted_groups.items())[:3]:
-            logger.info(
-                f"  Группа '{category}': {len(data['tasks'])} задач, приоритет: {data['avg_priority']:.2f}"
-            )
+            logger.info(f"  Группа '{category}': {len(data['tasks'])} задач, приоритет: {data['avg_priority']:.2f}")
 
         return sorted_groups
 
@@ -419,9 +410,7 @@ class TaskPlanner:
             "tasks_prioritized": len([t for t in self.tasks if "final_priority" in t]),
             "schedule_generated": bool(self.schedule),
             "schedule_tasks": self.schedule.get("tasks_scheduled", 0) if self.schedule else 0,
-            "total_duration_hours": (
-                self.schedule.get("total_duration_minutes", 0) / 60 if self.schedule else 0
-            ),
+            "total_duration_hours": (self.schedule.get("total_duration_minutes", 0) / 60 if self.schedule else 0),
             "report_files": {
                 "tasks": str(tasks_file),
                 "schedule": str(schedule_file) if self.schedule else None,

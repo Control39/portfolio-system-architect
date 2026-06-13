@@ -25,9 +25,7 @@ class GigaCodeSetup:
         """Проверяет, установлен ли VS Code"""
         try:
             # Безопасный вызов без shell=True
-            result = subprocess.run(
-                ["code", "--version"], capture_output=True, text=True, shell=False
-            )
+            result = subprocess.run(["code", "--version"], capture_output=True, text=True, shell=False)
             return result.returncode == 0
         except (FileNotFoundError, subprocess.SubprocessError):
             return False

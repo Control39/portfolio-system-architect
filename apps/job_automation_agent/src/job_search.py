@@ -1,12 +1,12 @@
 """Job search с использованием централизованной SSRF-защиты."""
 
 import asyncio
-from typing import List, Dict, Any
+from typing import Any
 
+from .providers.habr_career import search_habr_career
 
 # Импортируем провайдеры
 from .providers.hh_ru import search_hh_ru
-from .providers.habr_career import search_habr_career
 
 ALLOWED_HOSTS = {
     "localhost",
@@ -21,7 +21,7 @@ async def search_all_jobs(
     enable_hh: bool = True,
     enable_habr: bool = True,
     area: str = "113",  # Россия
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Объединённый поиск по всем источникам
 

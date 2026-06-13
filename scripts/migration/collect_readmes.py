@@ -341,9 +341,7 @@ def create_index(themes_data: dict) -> str:
     lines.append("")
     lines.append(f"**Сгенерировано:** {timestamp}")
     lines.append("")
-    lines.append(
-        "Этот каталог содержит все README-файлы проекта, сгруппированные по темам для удобной навигации."
-    )
+    lines.append("Этот каталог содержит все README-файлы проекта, сгруппированные по темам для удобной навигации.")
     lines.append("")
     lines.append("---")
     lines.append("")

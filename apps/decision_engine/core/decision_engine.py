@@ -9,7 +9,6 @@ from typing import Any
 
 from .models import DecisionRequest, DecisionResponse
 
-
 logger = logging.getLogger(__name__)
 
 

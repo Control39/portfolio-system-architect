@@ -3,23 +3,21 @@
 Тестовый скрипт для проверки работы обработчика триггеров Cognitive Automation Agent.
 """
 
-import sys
 import json
-import yaml
-from pathlib import Path
+import sys
 from datetime import datetime
+from pathlib import Path
+
+import yaml
 
 # Добавляем путь к скриптам агента
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Импортируем классы из trigger-processor.py
 try:
     # Создаем временный модуль для импорта
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location(
-        "trigger_processor", Path(__file__).parent / "trigger-processor.py"
-    )
+    spec = importlib.util.spec_from_file_location("trigger_processor", Path(__file__).parent / "trigger-processor.py")
     trigger_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(trigger_module)
 
@@ -60,9 +58,7 @@ except ImportError as e:
     class CommonTriggers:
         @staticmethod
         def create_project_open_trigger(project_path):
-            return TriggerEvent(
-                "project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH
-            )
+            return TriggerEvent("project_open", "system", {"project_path": project_path}, TriggerPriority.HIGH)
 
         @staticmethod
         def create_file_change_trigger(filename, change_type):
@@ -369,15 +365,9 @@ def simulate_real_scenario():
         # Показываем статистику
         print("\nСтатистика событий:")
         print(f"  - Всего событий в очереди: {len(processor.event_queue)}")
-        print(
-            f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}"
-        )
-        print(
-            f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}"
-        )
-        print(
-            f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}"
-        )
+        print(f"  - Приоритет HIGH: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.HIGH)}")
+        print(f"  - Приоритет MEDIUM: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.MEDIUM)}")
+        print(f"  - Приоритет LOW: {sum(1 for e in processor.event_queue if e.priority == TriggerPriority.LOW)}")
 
         # Сохраняем события в лог
         log_dir = Path(".agents/logs/triggers")

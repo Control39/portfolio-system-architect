@@ -35,24 +35,18 @@ def build_chat_service(
     if not isinstance(transport_mode, TransportMode):
         raise RuntimeError("transport_mode must be a TransportMode enum instance")
     if transport_mode is TransportMode.SELF:
-        return ChatService(
-            public_endpoint=public_endpoint, host=host, port=port, room_store=room_store
-        )
+        return ChatService(public_endpoint=public_endpoint, host=host, port=port, room_store=room_store)
 
     # WebPubSub path
     endpoint, conn_str, hub = resolve_webpubsub_config()
     if not (endpoint or conn_str):
-        raise RuntimeError(
-            "WEBPUBSUB_ENDPOINT or WEBPUBSUB_CONNECTION_STRING required for WebPubSub transport"
-        )
+        raise RuntimeError("WEBPUBSUB_ENDPOINT or WEBPUBSUB_CONNECTION_STRING required for WebPubSub transport")
     try:
         from .transports.webpubsub import (
             WebPubSubChatService,
-        )  # local import to avoid hard dependency
+        )
     except Exception as e:
-        raise RuntimeError(
-            "WebPubSub dependencies not available; install azure-messaging-webpubsubservice"
-        ) from e
+        raise RuntimeError("WebPubSub dependencies not available; install azure-messaging-webpubsubservice") from e
     return WebPubSubChatService(
         hub=hub,
         connection_string=conn_str,

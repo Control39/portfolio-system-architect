@@ -5,7 +5,8 @@
 """
 
 import asyncio
-from typing import List, Dict, Any
+from typing import Any
+
 import requests
 
 from ..utils.security import sanitize_error_message
@@ -25,9 +26,7 @@ class HHruProvider:
         self.area_spb = "2"  # Санкт-Петербург
         self.area_russia = "113"  # Россия
 
-    async def search(
-        self, query: str, area: str = "113", per_page: int = 20, pages: int = 1
-    ) -> List[Dict[str, Any]]:
+    async def search(self, query: str, area: str = "113", per_page: int = 20, pages: int = 1) -> list[dict[str, Any]]:
         """
         Поиск вакансий на hh.ru
 
@@ -72,7 +71,7 @@ class HHruProvider:
 
         return all_vacancies
 
-    def _parse_vacancies(self, vacancies: List[Dict]) -> List[Dict[str, Any]]:
+    def _parse_vacancies(self, vacancies: list[dict]) -> list[dict[str, Any]]:
         """Парсинг вакансий из ответа hh.ru"""
         parsed = []
 
@@ -102,19 +101,15 @@ class HHruProvider:
                     "experience": v.get("experience", {}).get("name"),
                     "employment": v.get("employment", {}).get("name"),
                     "schedule": v.get("schedule", {}).get("name"),
-                    "address": v.get("address", {}).get("region", {}).get("name")
-                    if v.get("address")
-                    else None,
-                    "requirements": v.get("snippet", {}).get("requirement", "")[
-                        :200
-                    ],  # Первые 200 символов
+                    "address": v.get("address", {}).get("region", {}).get("name") if v.get("address") else None,
+                    "requirements": v.get("snippet", {}).get("requirement", "")[:200],  # Первые 200 символов
                     "source": "hh.ru",
                 }
             )
 
         return parsed
 
-    def get_areas(self) -> Dict[str, str]:
+    def get_areas(self) -> dict[str, str]:
         """Получить список регионов"""
         return {
             "1": "Москва",
@@ -130,9 +125,7 @@ class HHruProvider:
         }
 
 
-async def search_hh_ru(
-    query: str, area: str = "113", per_page: int = 20, pages: int = 1
-) -> List[Dict[str, Any]]:
+async def search_hh_ru(query: str, area: str = "113", per_page: int = 20, pages: int = 1) -> list[dict[str, Any]]:
     """Удобная функция для поиска на hh.ru"""
     provider = HHruProvider()
     return await provider.search(query, area, per_page, pages)

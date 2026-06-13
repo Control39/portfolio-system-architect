@@ -14,7 +14,6 @@ except ImportError:
 from langchain_core.language_models import FakeListLLM  # Fallback
 from langchain_openai import ChatOpenAI
 
-
 # LLM with env var (fallback mock)
 api_key = os.getenv("OPENAI_API_KEY")
 if api_key:

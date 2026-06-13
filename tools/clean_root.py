@@ -48,7 +48,7 @@ def clean_root():
     if coveragerc_cd.exists():
         print("Объединяем .coveragerc и .coveragerc.cd")
         # Читаем дополнительные настройки
-        with open(coveragerc_cd, "r", encoding="utf-8") as f:
+        with open(coveragerc_cd, encoding="utf-8") as f:
             cd_content = f.read()
 
         # Добавляем исключения из cd в основной конфиг

@@ -12,14 +12,11 @@ Test Coverage:
 - Integration with AI
 """
 
-import sys
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
 # Add path to root
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # ============================================================================
@@ -187,9 +184,7 @@ class TestPlannerGoalProcessing:
 
     def test_conflicting_goals_handling(self, mock_planner_instance):
         """Test handling of conflicting goals"""
-        mock_planner_instance.handle_conflicts = MagicMock(
-            return_value={"resolved": True, "conflicts": 2}
-        )
+        mock_planner_instance.handle_conflicts = MagicMock(return_value={"resolved": True, "conflicts": 2})
 
         result = mock_planner_instance.handle_conflicts()
 
@@ -248,9 +243,7 @@ class TestPlannerIntegration:
     def test_planner_run_workflow(self, mock_planner_instance, mock_orchestrator):
         """Test running workflow via orchestrator"""
         mock_planner_instance.orchestrator = mock_orchestrator
-        mock_orchestrator.run_workflow = MagicMock(
-            return_value={"status": "success", "workflow": "plan"}
-        )
+        mock_orchestrator.run_workflow = MagicMock(return_value={"status": "success", "workflow": "plan"})
 
         result = mock_orchestrator.run_workflow("plan")
 
@@ -311,9 +304,7 @@ class TestPlannerPerformance:
         import time
 
         start_time = time.time()
-        mock_ai_service.generate_plan = MagicMock(
-            return_value={"tasks": [], "estimated_duration": 0}
-        )
+        mock_ai_service.generate_plan = MagicMock(return_value={"tasks": [], "estimated_duration": 0})
         mock_ai_service.generate_plan()
         elapsed = time.time() - start_time
 
@@ -322,9 +313,7 @@ class TestPlannerPerformance:
     def test_memory_efficiency(self, mock_planner_instance):
         """Test memory efficiency during planning"""
         initial_memory = 0  # Mock value
-        mock_planner_instance.generate_rule_based_plan = MagicMock(
-            return_value={"tasks": [], "estimated_duration": 0}
-        )
+        mock_planner_instance.generate_rule_based_plan = MagicMock(return_value={"tasks": [], "estimated_duration": 0})
         mock_planner_instance.generate_rule_based_plan()
         final_memory = 0  # Mock value
 

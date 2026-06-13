@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 
 from apps.portfolio_organizer.domain.entities import Portfolio, Project
 
-# from apps.portfolio_organizer.src.core.ITCompassAPI import ITCompassAPI  # ← пока заглушка
+# from apps.portfolio_organizer.infrastructure.core.ITCompassAPI import ITCompassAPI  # ← пока заглушка
 
 
 class PortfolioService:

@@ -1,13 +1,13 @@
-from pathlib import Path
-from typing import List, Optional
-from datetime import datetime
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 import json
+from datetime import datetime
+from pathlib import Path
 
-from .scanner import ProjectScanner, FileInfo
-from .token_counter import TokenCounter
-from .chunker import ContextChunker
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 from ..config.settings import settings
+from .chunker import ContextChunker
+from .scanner import FileInfo, ProjectScanner
+from .token_counter import TokenCounter
 
 
 class ContextBuilder:
@@ -15,9 +15,7 @@ class ContextBuilder:
 
     def __init__(self, project_root: Path):
         self.project_root = Path(project_root).resolve()
-        self.scanner = ProjectScanner(
-            self.project_root, respect_gitignore=settings.respect_gitignore
-        )
+        self.scanner = ProjectScanner(self.project_root, respect_gitignore=settings.respect_gitignore)
         self.token_counter = TokenCounter(model=settings.tokenizer_model)
 
         # Jinja2 шаблон
@@ -31,7 +29,7 @@ class ContextBuilder:
 
     def build(
         self,
-        subpath: Optional[str] = None,
+        subpath: str | None = None,
         structure_only: bool = False,
         include_stats: bool = True,
         format: str = "markdown",
@@ -54,7 +52,7 @@ class ContextBuilder:
         for file_info in files:
             if not structure_only:
                 try:
-                    with open(file_info.path, "r", encoding="utf-8") as f:
+                    with open(file_info.path, encoding="utf-8") as f:
                         file_info.content = f.read()
                     files_with_content.append((file_info.rel_path, file_info.content))
                 except Exception as e:
@@ -80,7 +78,7 @@ class ContextBuilder:
 
         return template.render(**context)
 
-    def build_chunked(self, subpath: Optional[str] = None) -> List[dict]:
+    def build_chunked(self, subpath: str | None = None) -> list[dict]:
         """Собрать контекст с разбиением на части"""
 
         if not settings.enable_chunking:
@@ -92,7 +90,7 @@ class ContextBuilder:
         files_with_content = []
         for file_info in files:
             try:
-                with open(file_info.path, "r", encoding="utf-8") as f:
+                with open(file_info.path, encoding="utf-8") as f:
                     content = f.read()
                 files_with_content.append((file_info.rel_path, content))
             except Exception as e:
@@ -117,7 +115,7 @@ class ContextBuilder:
 
         return chunks
 
-    def _build_json(self, files: List[FileInfo], structure_only: bool) -> str:
+    def _build_json(self, files: list[FileInfo], structure_only: bool) -> str:
         """JSON формат"""
         result = {
             "generated_at": datetime.now().isoformat(),
@@ -143,7 +141,7 @@ class ContextBuilder:
 
         return json.dumps(result, indent=2, ensure_ascii=False)
 
-    def _count_extensions(self, files: List[FileInfo]) -> dict:
+    def _count_extensions(self, files: list[FileInfo]) -> dict:
         """Подсчёт расширений"""
         counts = {}
         for f in files:

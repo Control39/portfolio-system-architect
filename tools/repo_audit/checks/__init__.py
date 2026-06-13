@@ -26,7 +26,6 @@ from . import (
     testing,
 )
 
-
 __all__ = [
     "automation",
     "cicd",

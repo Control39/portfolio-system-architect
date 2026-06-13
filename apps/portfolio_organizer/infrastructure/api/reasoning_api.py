@@ -2,7 +2,7 @@
 API для анализа и рекомендаций по проектам портфолио (FastAPI)
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, TypedDict
 
 from fastapi import APIRouter, HTTPException
@@ -123,7 +123,7 @@ def analyze_portfolio() -> dict[str, Any]:
 
 def generate_recommendations(project: Project) -> dict[str, Any]:
     """Генерация рекомендаций для проекта"""
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     suggestions: list[dict[str, str]] = []
 
@@ -149,8 +149,8 @@ def generate_recommendations(project: Project) -> dict[str, Any]:
     deadline_str = project.get("deadline")
     if deadline_str:
         try:
-            deadline = datetime.strptime(deadline_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
-            days_until_deadline = (deadline - datetime.now(timezone.utc)).days
+            deadline = datetime.strptime(deadline_str, "%Y-%m-%d").replace(tzinfo=UTC)
+            days_until_deadline = (deadline - datetime.now(UTC)).days
 
             if days_until_deadline < 30 and project.get("status") != "completed":
                 suggestions.append(
@@ -199,7 +199,7 @@ async def health_check() -> dict[str, Any]:
         "service": "Portfolio Organizer Reasoning API",
         "status": "healthy",
         "version": "0.1.0",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "checks": {"api": {"status": "ok"}},
     }
 

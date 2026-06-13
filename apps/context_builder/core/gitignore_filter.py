@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional
+
 import pathspec
 
 
@@ -10,13 +10,13 @@ class GitIgnoreFilter:
         self.project_root = project_root
         self.spec = self._load_gitignore()
 
-    def _load_gitignore(self) -> Optional[pathspec.PathSpec]:
+    def _load_gitignore(self) -> pathspec.PathSpec | None:
         gitignore_path = self.project_root / ".gitignore"
         if not gitignore_path.exists():
             return None
 
         try:
-            with open(gitignore_path, "r", encoding="utf-8") as f:
+            with open(gitignore_path, encoding="utf-8") as f:
                 return pathspec.PathSpec.from_lines(pathspec.patterns.GitWildMatchPattern, f)
         except Exception:
             return None

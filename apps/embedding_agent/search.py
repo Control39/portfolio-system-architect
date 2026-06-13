@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Simple search interface for RAG system.
 """
@@ -189,9 +188,7 @@ class DocumentSearcher:
                     result["metadata"]["file_type"] = "unknown"
 
             # Add snippet (first 100 chars)
-            result["snippet"] = (
-                result["text"][:100] + "..." if len(result["text"]) > 100 else result["text"]
-            )
+            result["snippet"] = result["text"][:100] + "..." if len(result["text"]) > 100 else result["text"]
 
         return results
 

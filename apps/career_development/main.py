@@ -9,7 +9,6 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -27,7 +26,6 @@ except Exception as e:
     career_config = {}
 
 # Добавляем путь к корню проекта (src уже в /app/src благодаря Dockerfile)
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from api.app import app
 

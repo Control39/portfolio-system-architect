@@ -1,7 +1,7 @@
-from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import List
 from pathlib import Path
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     rate_limit_period_seconds: int = Field(default=60, env="RATE_LIMIT_PERIOD_SECONDS")
 
     # Расширения по умолчанию
-    default_extensions: List[str] = Field(
+    default_extensions: list[str] = Field(
         default=[
             ".py",
             ".md",
@@ -55,7 +55,7 @@ class Settings(BaseSettings):
     )
 
     # Исключаемые директории
-    excluded_dirs: List[str] = Field(
+    excluded_dirs: list[str] = Field(
         default=[
             ".git",
             ".venv",
@@ -76,12 +76,10 @@ class Settings(BaseSettings):
     )
 
     # Исключаемые файлы
-    excluded_files: List[str] = Field(
-        default=[".DS_Store", "Thumbs.db", ".env.local", "*.pyc", "*.pyo"]
-    )
+    excluded_files: list[str] = Field(default=[".DS_Store", "Thumbs.db", ".env.local", "*.pyc", "*.pyo"])
 
     class Config:
-        extra = 'ignore'
+        extra = "ignore"
         env_file = ".env"
         env_prefix = "CONTEXT_BUILDER_"
 

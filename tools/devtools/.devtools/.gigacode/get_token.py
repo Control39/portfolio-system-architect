@@ -72,13 +72,9 @@ def load_env_with_fallback() -> dict:
         return env
 
     # Приоритет 3: os.environ (загружено dotenv или задано в системе)
-    gigacode_keys = [
-        k for k in os.environ if k.startswith("GIGACODE_") or k.startswith("GIGACHAT_")
-    ]
+    gigacode_keys = [k for k in os.environ if k.startswith("GIGACODE_") or k.startswith("GIGACHAT_")]
     if gigacode_keys:
-        print(
-            f"⚠️  .env файлы не найдены, используется os.environ ({len(gigacode_keys)} переменных)"
-        )
+        print(f"⚠️  .env файлы не найдены, используется os.environ ({len(gigacode_keys)} переменных)")
         return dict(os.environ)
 
     raise FileNotFoundError(
@@ -120,9 +116,7 @@ def resolve_auth_key(env: dict) -> str:
     )
 
 
-def get_oauth_token(
-    auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl: bool = False
-) -> str:
+def get_oauth_token(auth_key: str, scope: str = "GIGACHAT_API_PERS", verify_ssl: bool = False) -> str:
     """
     Получает Access Token через OAuth endpoint Sber GigaChat
 
@@ -211,9 +205,7 @@ def load_cached_token() -> tuple[str | None, datetime | None]:
 
 def cache_token(access_token: str, expires_in: int = 1800):
     """Кэширует токен с временем истечения"""
-    expires_at = datetime.now() + timedelta(
-        seconds=expires_in - 300
-    )  # Обновляем за 5 минут до истечения
+    expires_at = datetime.now() + timedelta(seconds=expires_in - 300)  # Обновляем за 5 минут до истечения
 
     cache = {
         "access_token": access_token,

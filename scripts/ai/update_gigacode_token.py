@@ -7,17 +7,16 @@
 import base64
 import json
 import os
-from pathlib import Path
-import requests
+import sys
 import uuid
 from datetime import datetime, timedelta
-import sys
+from pathlib import Path
 
+import requests
 from dotenv import load_dotenv
 
 # Определяем пути относительно корня проекта (scripts/ находится в корне)
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
 # Загружаем .env из корня проекта
 load_dotenv(project_root / ".env", override=True)
@@ -67,9 +66,7 @@ elif any(k.startswith(("GIGACODE_", "GIGACHAT_")) for k in os.environ):
     env = dict(os.environ)
     print("⚠️  .env файлы не найдены, используется os.environ")
 else:
-    print(
-        f"❌ Не найден файл с настройками: ни {env_file}, ни {fallback_env_file}, ни переменные окружения"
-    )
+    print(f"❌ Не найден файл с настройками: ни {env_file}, ни {fallback_env_file}, ни переменные окружения")
     sys.exit(1)
 
 # 2. Получение нового токена

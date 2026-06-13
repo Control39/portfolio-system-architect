@@ -1,9 +1,10 @@
 # apps/context_builder/tests/conftest.py
-import pytest
-from pathlib import Path
-import tempfile
-import shutil
 import os
+import shutil
+import tempfile
+from pathlib import Path
+
+import pytest
 
 from apps.context_builder.config.settings import settings
 

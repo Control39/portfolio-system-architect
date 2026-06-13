@@ -2,6 +2,7 @@
 """Сравнение сервисов между docker-compose.yml и README.md"""
 
 import re
+
 import yaml
 
 # Читаем docker-compose

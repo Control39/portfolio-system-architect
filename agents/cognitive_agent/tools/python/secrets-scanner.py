@@ -15,7 +15,6 @@ from typing import Any
 
 from apps.utils.safe_logger import mask_sensitive
 
-
 # Patterns for common secrets
 SECRET_PATTERNS = {
     "aws_access_key": r"AKIA[0-9A-Z]{16}",

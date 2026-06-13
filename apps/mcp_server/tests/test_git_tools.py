@@ -2,9 +2,10 @@
 Tests for mcp_server git_tools - Simplified
 """
 
-import pytest
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
+import pytest
 
 
 class TestGitToolsModule:
@@ -54,9 +55,7 @@ class TestGitOperations:
 
         subprocess.run(["git", "init"], cwd=temp_dir, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "rev-parse", "--git-dir"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "rev-parse", "--git-dir"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
         assert ".git" in result.stdout
@@ -67,9 +66,7 @@ class TestGitOperations:
 
         subprocess.run(["git", "init"], cwd=temp_dir, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
 
@@ -82,9 +79,7 @@ class TestGitOperations:
         test_file = temp_dir / "test.txt"
         test_file.write_text("Content")
 
-        result = subprocess.run(
-            ["git", "add", "test.txt"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "add", "test.txt"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
 
@@ -98,9 +93,7 @@ class TestGitOperations:
         test_file.write_text("Content")
         subprocess.run(["git", "add", "test.txt"], cwd=temp_dir, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "commit", "-m", "Test commit"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "commit", "-m", "Test commit"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
 
@@ -120,9 +113,7 @@ class TestGitOperations:
 
         subprocess.run(["git", "init"], cwd=temp_dir, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "remote", "-v"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "remote", "-v"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
 
@@ -169,9 +160,7 @@ class TestGitOperations:
         subprocess.run(["git", "add", "README.md"], cwd=temp_dir, capture_output=True)
         subprocess.run(["git", "commit", "-m", "Initial"], cwd=temp_dir, capture_output=True)
 
-        result = subprocess.run(
-            ["git", "log", "--oneline"], cwd=temp_dir, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "log", "--oneline"], cwd=temp_dir, capture_output=True, text=True)
 
         assert result.returncode == 0
 

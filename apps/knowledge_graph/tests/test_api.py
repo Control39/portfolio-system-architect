@@ -93,9 +93,7 @@ class TestEntityCRUD:
 
     def test_delete_entity(self):
         # Создаем
-        client.post(
-            "/entities", json={"entity_id": "user-004", "entity_type": "person", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "user-004", "entity_type": "person", "properties": {}})
         # Удаляем
         response = client.delete("/entities/user-004")
         assert response.status_code == 200
@@ -115,9 +113,7 @@ class TestRelationshipCRUD:
 
     def test_create_relationship(self):
         # Создаем сущности
-        client.post(
-            "/entities", json={"entity_id": "user-010", "entity_type": "person", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "user-010", "entity_type": "person", "properties": {}})
         client.post(
             "/entities",
             json={"entity_id": "company-001", "entity_type": "organization", "properties": {}},
@@ -196,15 +192,9 @@ class TestEntityList:
 
     def test_list_with_filter(self):
         # Создаем сущности разных типов
-        client.post(
-            "/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}})
+        client.post("/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}})
 
         # Фильтр по типу
         response = client.get("/entities?entity_type=person")
@@ -219,9 +209,7 @@ class TestRelationshipList:
     def test_list_with_filters(self):
         # Создаем сущности
         for i in range(1, 5):
-            client.post(
-                "/entities", json={"entity_id": f"u{i}", "entity_type": "p", "properties": {}}
-            )
+            client.post("/entities", json={"entity_id": f"u{i}", "entity_type": "p", "properties": {}})
 
         # Создаем отношения
         client.post(
@@ -271,15 +259,9 @@ class TestNeighbors:
 
     def test_get_neighbors(self):
         # Создаем граф: u1 -knows-> u2, u1 -works_at-> c1
-        client.post(
-            "/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}})
 
         client.post(
             "/relationships",
@@ -319,12 +301,8 @@ class TestQuery:
 
     def test_execute_query(self):
         # Создаем данные
-        client.post(
-            "/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}})
         client.post(
             "/relationships",
             json={
@@ -365,15 +343,9 @@ class TestStatistics:
 
     def test_statistics_with_data(self):
         # Создаем данные
-        client.post(
-            "/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}}
-        )
-        client.post(
-            "/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}}
-        )
+        client.post("/entities", json={"entity_id": "u1", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "u2", "entity_type": "person", "properties": {}})
+        client.post("/entities", json={"entity_id": "c1", "entity_type": "company", "properties": {}})
         client.post(
             "/relationships",
             json={

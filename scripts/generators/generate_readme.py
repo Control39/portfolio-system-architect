@@ -155,9 +155,7 @@ class ReadmeGenerator:
     def _get_python_version(self) -> str:
         """Получает версию Python."""
         try:
-            result = subprocess.run(
-                ["python", "--version"], capture_output=True, text=True, check=True
-            )  # nosec B603, B607
+            result = subprocess.run(["python", "--version"], capture_output=True, text=True, check=True)  # nosec B603, B607
             match = re.search(r"Python (\d+\.\d+)", result.stdout)
             if match:
                 return match.group(1)
@@ -259,9 +257,7 @@ class ReadmeGenerator:
             status_icon = "🟢" if svc["has_tests"] else "🟡"
             coverage = svc.get("coverage", "N/A")
 
-            rows.append(
-                f"| {svc['name']} | {status_icon} Active | {svc['test_count']} тестов | [{coverage}](docs/) |"
-            )
+            rows.append(f"| {svc['name']} | {status_icon} Active | {svc['test_count']} тестов | [{coverage}](docs/) |")
 
         return f"""## 📦 Микросервисы
 

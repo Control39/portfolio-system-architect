@@ -35,11 +35,7 @@ class IntegrationTestRunner:
     def run_service_tests(self, service_name: str):
         """Запустить тесты для одного сервиса"""
         test_file = (
-            self.root
-            / "apps"
-            / service_name
-            / "tests"
-            / f"test_integration_{service_name.replace('-', '_')}.py"
+            self.root / "apps" / service_name / "tests" / f"test_integration_{service_name.replace('-', '_')}.py"
         )
 
         if not test_file.exists():

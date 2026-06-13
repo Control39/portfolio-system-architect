@@ -20,7 +20,6 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
 
-
 # Конфигурация
 PROJECT_ROOT = Path(__file__).parent.parent
 README_PATH = PROJECT_ROOT / "README.md"
@@ -90,7 +89,9 @@ def update_readme_badge(coverage: float) -> None:
     ]
 
     # Новый бейдж
-    new_badge = f"[![Coverage](https://img.shields.io/badge/coverage-{coverage}%25-brightgreen)](docs/TEST-COVERAGE-METRICS.md)"
+    new_badge = (
+        f"[![Coverage](https://img.shields.io/badge/coverage-{coverage}%25-brightgreen)](docs/TEST-COVERAGE-METRICS.md)"
+    )
     new_date_line = f"*Обновлено: {date_str}*"
 
     # Ищем и заменяем бейдж
@@ -158,14 +159,10 @@ def git_commit(coverage: float) -> None:
 
     try:
         # Проверка, что мы в git-репозитории
-        subprocess.run(
-            ["git", "rev-parse", "--git-dir"], cwd=PROJECT_ROOT, capture_output=True, check=True
-        )
+        subprocess.run(["git", "rev-parse", "--git-dir"], cwd=PROJECT_ROOT, capture_output=True, check=True)
 
         # Добавляем изменения
-        subprocess.run(
-            ["git", "add", str(README_PATH.relative_to(PROJECT_ROOT))], cwd=PROJECT_ROOT, check=True
-        )
+        subprocess.run(["git", "add", str(README_PATH.relative_to(PROJECT_ROOT))], cwd=PROJECT_ROOT, check=True)
         subprocess.run(
             ["git", "add", str(METRICS_PATH.relative_to(PROJECT_ROOT))],
             cwd=PROJECT_ROOT,
@@ -173,9 +170,7 @@ def git_commit(coverage: float) -> None:
         )
 
         # Делаем коммит
-        message = (
-            f"chore: update coverage badge to {coverage}% ({datetime.now().strftime('%Y-%m-%d')})"
-        )
+        message = f"chore: update coverage badge to {coverage}% ({datetime.now().strftime('%Y-%m-%d')})"
         subprocess.run(["git", "commit", "-m", message], cwd=PROJECT_ROOT, check=True)
 
         print(f"✅ Коммит сделан: {message}")

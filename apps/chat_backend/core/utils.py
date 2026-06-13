@@ -8,7 +8,6 @@ import uuid
 from collections.abc import AsyncIterator, Iterable
 from typing import TypeVar
 
-
 T = TypeVar("T")
 
 

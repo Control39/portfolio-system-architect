@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class EntityType(str, Enum):
@@ -57,14 +57,10 @@ class Entity(BaseModel):
     type: EntityType = Field(..., description="Тип сущности")
     description: str | None = Field(None, description="Описание сущности")
     metadata: dict[str, Any] = Field(default_factory=dict, description="Дополнительные метаданные")
-    confidence: float = Field(
-        1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности"
-    )
+    confidence: float = Field(1.0, ge=0.0, le=1.0, description="Уверенность в существовании сущности")
     source: str | None = Field(None, description="Источник информации о сущности")
     created_at: datetime = Field(default_factory=datetime.now, description="Время создания")
-    updated_at: datetime = Field(
-        default_factory=datetime.now, description="Время последнего обновления"
-    )
+    updated_at: datetime = Field(default_factory=datetime.now, description="Время последнего обновления")
 
     model_config = ConfigDict(
         json_schema_extra={

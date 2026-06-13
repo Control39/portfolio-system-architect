@@ -5,8 +5,6 @@ IT Compass - Streamlit Web Interface for Dashboard Visualization
 """
 
 import logging
-import sys
-from pathlib import Path
 
 import streamlit as st
 
@@ -14,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 # Добавляем src в путь для импорта
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from core.tracker import CareerTracker

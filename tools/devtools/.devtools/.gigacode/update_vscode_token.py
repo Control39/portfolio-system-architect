@@ -10,11 +10,8 @@ import json
 import sys
 from pathlib import Path
 
-
 # Добавляем текущую директорию в путь для импорта get_token
-sys.path.insert(0, str(Path(__file__).parent))
 from get_token import get_valid_token
-
 
 # Путь к .vscode в корне проекта (абсолютный)
 VSCODE_SETTINGS = Path(r"C:\repo\.vscode\settings.json")
@@ -33,9 +30,7 @@ def update_vscode_settings(access_token: str):
             settings = json.load(f)
 
     # Обновляем настройки Gigacode
-    settings["gigacode.apiEndpoint"] = (
-        "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
-    )
+    settings["gigacode.apiEndpoint"] = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
     settings["gigacode.authorizationHeader"] = f"Bearer {access_token}"
     settings["gigacode.accessToken"] = access_token
     settings["gigacode.maxContextTokens"] = 4096

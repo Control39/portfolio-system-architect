@@ -223,8 +223,7 @@ def init_compass_tools(mcp_server: FastMCP, project_root: Path) -> None:
         ):
             return "docker"
         if (
-            file.suffix in [".yml", ".yaml"]
-            and any(x in file.name.lower() for x in ["workflow", "github", "action"])
+            file.suffix in [".yml", ".yaml"] and any(x in file.name.lower() for x in ["workflow", "github", "action"])
         ) or file.suffix == ".tf":
             return "devops"
         return None

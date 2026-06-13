@@ -38,9 +38,7 @@ def setup_mocks():
     # Модуль yandex.cloud.ai.foundation_models.v1.text_common_pb2
     mock_text_common_pb2 = MagicMock()
     mock_text_generation_request = MagicMock()
-    mock_text_common_pb2.TextGenerationRequest = MagicMock(
-        return_value=mock_text_generation_request
-    )
+    mock_text_common_pb2.TextGenerationRequest = MagicMock(return_value=mock_text_generation_request)
 
     # Модуль yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc
     mock_grpc = MagicMock()
@@ -49,21 +47,19 @@ def setup_mocks():
 
     # Патчим все зависимости
     with patch.dict(os.environ, {"API_KEY": "test_key", "FOLDER_ID": "test_folder"}, clear=True):
-        with patch("apps.cognitive_agent.src.api.reasoning_api.logger", mock_logger):
-            with patch("apps.cognitive_agent.src.api.reasoning_api.time", mock_time):
-                with patch(
-                    "apps.cognitive_agent.src.api.reasoning_api.yandexcloud", yandexcloud_mock
-                ):
+        with patch("agents.cognitive_agent.src.api.reasoning_api.logger", mock_logger):
+            with patch("agents.cognitive_agent.src.api.reasoning_api.time", mock_time):
+                with patch("agents.cognitive_agent.src.api.reasoning_api.yandexcloud", yandexcloud_mock):
                     with patch(
-                        "apps.cognitive_agent.src.api.reasoning_api.TextGenerationRequest",
+                        "agents.cognitive_agent.src.api.reasoning_api.TextGenerationRequest",
                         mock_text_common_pb2.TextGenerationRequest,
                     ):
                         with patch(
-                            "apps.cognitive_agent.src.api.reasoning_api.TextGenerationServiceStub",
+                            "agents.cognitive_agent.src.api.reasoning_api.TextGenerationServiceStub",
                             mock_grpc.TextGenerationServiceStub,
                         ):
                             # Импорт после мокирования
-                            from apps.cognitive_agent.src.api import reasoning_api
+                            from agents.cognitive_agent.src.api import reasoning_api
 
                             # Делаем моки доступными для тестов через атрибуты модуля
                             reasoning_api.mock_logger = mock_logger
@@ -71,9 +67,7 @@ def setup_mocks():
                             reasoning_api.mock_sdk = mock_sdk
                             reasoning_api.mock_client = mock_client
                             reasoning_api.mock_service = mock_service
-                            reasoning_api.mock_text_generation_request = (
-                                mock_text_generation_request
-                            )
+                            reasoning_api.mock_text_generation_request = mock_text_generation_request
                             reasoning_api.yandexcloud_mock = yandexcloud_mock
                             yield reasoning_api
 
@@ -96,7 +90,7 @@ class TestHealthCheck:
         setup_mocks.mock_logger.log_error = MagicMock()
 
         with patch(
-            "apps.cognitive_agent.src.api.reasoning_api.time",
+            "agents.cognitive_agent.src.api.reasoning_api.time",
             MagicMock(side_effect=Exception("test error")),
         ):
             result = setup_mocks.health_check()
@@ -120,9 +114,7 @@ class TestCallModelWithRetry:
 
         setup_mocks.mock_logger.log_error = MagicMock()
 
-        result = setup_mocks.call_model_with_retry(
-            mock_service, mock_request, max_retries=3, timeout=300
-        )
+        result = setup_mocks.call_model_with_retry(mock_service, mock_request, max_retries=3, timeout=300)
 
         assert result == mock_response
         assert result.text == "Test response"
@@ -141,9 +133,7 @@ class TestCallModelWithRetry:
 
         setup_mocks.mock_logger.log_error = MagicMock()
 
-        result = setup_mocks.call_model_with_retry(
-            mock_service, mock_request, max_retries=3, timeout=300
-        )
+        result = setup_mocks.call_model_with_retry(mock_service, mock_request, max_retries=3, timeout=300)
 
         assert result == mock_response
         assert result.text == "Test response"
@@ -160,9 +150,7 @@ class TestCallModelWithRetry:
 
         setup_mocks.mock_logger.log_error = MagicMock()
 
-        result = setup_mocks.call_model_with_retry(
-            mock_service, mock_request, max_retries=3, timeout=300
-        )
+        result = setup_mocks.call_model_with_retry(mock_service, mock_request, max_retries=3, timeout=300)
 
         assert result is None
         assert mock_service.TextGeneration.call_count == 3
@@ -179,10 +167,8 @@ class TestCallModelWithRetry:
         mock_time = MagicMock()
         setup_mocks.mock_logger.log_error = MagicMock()
 
-        with patch("apps.cognitive_agent.src.api.reasoning_api.time", mock_time):
-            result = setup_mocks.call_model_with_retry(
-                mock_service, mock_request, max_retries=3, timeout=300
-            )
+        with patch("agents.cognitive_agent.src.api.reasoning_api.time", mock_time):
+            result = setup_mocks.call_model_with_retry(mock_service, mock_request, max_retries=3, timeout=300)
 
         assert result is None
         # Проверяем, что sleep вызывался с правильными интервалами
@@ -285,7 +271,7 @@ class TestChatHandler:
 
         # Исключение при обработке
         with patch(
-            "apps.cognitive_agent.src.api.reasoning_api.json.loads",
+            "agents.cognitive_agent.src.api.reasoning_api.json.loads",
             side_effect=Exception("Test error"),
         ):
             event = {
@@ -346,7 +332,7 @@ class TestHandler:
 
         # Исключение при обработке
         with patch(
-            "apps.cognitive_agent.src.api.reasoning_api.json.loads",
+            "agents.cognitive_agent.src.api.reasoning_api.json.loads",
             side_effect=Exception("Test error"),
         ):
             event = {"path": "/health", "httpMethod": "GET"}

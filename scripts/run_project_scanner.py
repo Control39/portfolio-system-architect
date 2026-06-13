@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 r"""
 Wrapper-скрипт для запуска Project Scanner из корня проекта.
 
@@ -20,20 +19,17 @@ Wrapper-скрипт для запуска Project Scanner из корня пр�
     python scripts/run_project_scanner.py C:\my-project --mode full --export results.json --format json
 """
 
-import sys
 import logging
+import sys
 from pathlib import Path
 
 # Добавляем корень проекта в sys.path
 root_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(root_dir))
 
 from apps.cognitive_agent.src.project_scanner import ProjectScanner, ScannerConfig
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -86,9 +82,7 @@ def main():
         help="Формат экспорта (по умолчанию: json)",
     )
 
-    parser.add_argument(
-        "--verbose", action="store_true", help="Включить подробный вывод отладочной информации"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Включить подробный вывод отладочной информации")
 
     args = parser.parse_args()
 
@@ -145,9 +139,9 @@ def main():
         logger.info(f"✅ Результаты экспортированы: {export_path}")
 
     # Вывод краткой статистики
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("📊 СТАТИСТИКА СКАНИРОВАНИЯ")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"Режим:              {results['mode']}")
     print(f"Длительность:       {results['duration']:.2f} сек")
 
@@ -163,7 +157,7 @@ def main():
         print(f"Всего для проверки: {results['total_files']}")
         print(f"Сканировано:        {results['scanned_files']}")
 
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Вывод первых нескольких файлов (если есть)
     files = results.get("files", [])

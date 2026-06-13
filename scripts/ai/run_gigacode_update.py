@@ -3,14 +3,10 @@ import sys
 from pathlib import Path
 
 # Путь к .gigacode
-gigacode_dir = (
-    Path(__file__).parent.parent.parent / "tools" / "devtools" / ".devtools" / ".gigacode"
-)
+gigacode_dir = Path(__file__).parent.parent.parent / "tools" / "devtools" / ".devtools" / ".gigacode"
 repo_root = Path(__file__).parent.parent
 
 # Добавляем оба пути в sys.path
-sys.path.insert(0, str(repo_root))
-sys.path.insert(0, str(gigacode_dir))
 
 # Меняем директорию работы
 os.chdir(gigacode_dir)

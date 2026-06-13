@@ -2,7 +2,6 @@ from fastapi.testclient import TestClient
 
 from apps.ml_model_registry.src.api.main import app
 
-
 client = TestClient(app)
 
 

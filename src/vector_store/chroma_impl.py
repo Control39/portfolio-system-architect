@@ -21,7 +21,6 @@ except ImportError:
 from .base import VectorStoreInterface
 from .embedder import DocumentEmbedder
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -43,9 +42,7 @@ class ChromaVectorStore(VectorStoreInterface):
             embedder: DocumentEmbedder instance. If None, creates default one.
         """
         if not CHROMA_AVAILABLE:
-            raise ImportError(
-                "ChromaDB is not available. Install with: pip install chromadb>=0.4.22"
-            )
+            raise ImportError("ChromaDB is not available. Install with: pip install chromadb>=0.4.22")
 
         self.embedder = embedder or DocumentEmbedder()
         self.persist_directory = Path(persist_directory)
@@ -149,9 +146,7 @@ class ChromaVectorStore(VectorStoreInterface):
         logger.info(f"Added {len(doc_ids)} documents")
         return doc_ids
 
-    def search(
-        self, query: str, top_k: int = 5, where_filter: dict[str, Any] | None = None
-    ) -> list[dict[str, Any]]:
+    def search(self, query: str, top_k: int = 5, where_filter: dict[str, Any] | None = None) -> list[dict[str, Any]]:
         """
         Search for similar documents.
 

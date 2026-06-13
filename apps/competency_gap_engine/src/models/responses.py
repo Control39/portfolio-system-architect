@@ -1,6 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional
 from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
 class SkillItem(BaseModel):
@@ -22,6 +22,6 @@ class AnalysisResponse(BaseModel):
     status: str = "success"
     user_id: str
     total_gaps: int
-    gaps: List[GapItem]
+    gaps: list[GapItem]
     generated_at: str = Field(default_factory=datetime.now().isoformat)
-    trace_id: Optional[str] = None
+    trace_id: str | None = None

@@ -101,21 +101,13 @@ class DependencySecurityCheck(BaseCheck):
                     "requirements-dev.txt",
                 )
         # 2. bandit configuration (can be in root or config/tools/)
-        if self.check_file_exists(".bandit.yml") or self.check_file_exists(
-            "config/tools/.bandit.yml"
-        ):
-            self._add_result(
-                "PASS", "Bandit config exists", ".bandit.yml or config/tools/.bandit.yml"
-            )
+        if self.check_file_exists(".bandit.yml") or self.check_file_exists("config/tools/.bandit.yml"):
+            self._add_result("PASS", "Bandit config exists", ".bandit.yml or config/tools/.bandit.yml")
         else:
             self._add_result("WARNING", "Bandit config missing", ".bandit.yml")
         # 3. trivy configuration (can be in root or config/tools/)
-        if self.check_file_exists(".trivyignore") or self.check_file_exists(
-            "config/tools/.trivyignore"
-        ):
-            self._add_result(
-                "PASS", "Trivy ignore file exists", ".trivyignore or config/tools/.trivyignore"
-            )
+        if self.check_file_exists(".trivyignore") or self.check_file_exists("config/tools/.trivyignore"):
+            self._add_result("PASS", "Trivy ignore file exists", ".trivyignore or config/tools/.trivyignore")
         else:
             self._add_result("WARNING", "Trivy ignore file missing", ".trivyignore")
         # 4. GitHub Actions security scanning

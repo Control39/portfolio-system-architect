@@ -19,9 +19,8 @@ except ImportError:
         from langchain_gigachat import GigaChat
     except ImportError:
         GigaChat = None  # Fallback для тестирования
-from pydantic_settings import BaseSettings
 from pydantic import ConfigDict
-
+from pydantic_settings import BaseSettings
 
 load_dotenv()
 
@@ -48,9 +47,7 @@ class GigaMCPBridge:
         )
         self.prompt = PromptTemplate(
             input_variables=["context", "query"],
-            template=(
-                "Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:"
-            ),
+            template=("Context from MCP/it-compass: {{context}}\nQuery: {{query}}\nRespond with CoT:"),
         )
         self.chain = self.prompt | self.llm
 

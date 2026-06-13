@@ -124,9 +124,7 @@ def main():
             print("\n💡 СЛЕДУЮЩИЕ ШАГИ:")
             print("1. Проверить изменения: git diff")
             print("2. Запустить линтеры: ruff check .")
-            print(
-                "3. Закоммитить: git add . && git commit -m 'fix: обновить импорты после миграции'"
-            )
+            print("3. Закоммитить: git add . && git commit -m 'fix: обновить импорты после миграции'")
         else:
             print("\n✅ Все импорты актуальны!")
 

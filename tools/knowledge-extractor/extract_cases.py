@@ -1,6 +1,6 @@
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 # === КОНФИГУРАЦИЯ ===
 INPUT_FILE = Path("chat-export-1780232041594.json")
@@ -43,7 +43,7 @@ def is_case_related(text: str) -> bool:
 
 def main():
     print(f"📂 Загружаю {INPUT_FILE}...")
-    with open(INPUT_FILE, "r", encoding="utf-8") as f:
+    with open(INPUT_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
     chats = data.get("data", [])

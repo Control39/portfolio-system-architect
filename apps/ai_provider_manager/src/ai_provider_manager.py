@@ -12,13 +12,14 @@ Fallback: Ollama (локальные модели)
 4. Периодически пробуем восстановить GigaChat
 """
 
-import time
+import json
 import logging
-from typing import Optional, Dict, Any, List
+import time
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
+
 import requests
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -42,9 +43,9 @@ class ProviderConfig:
     max_retries: int = 3
     retry_delay: float = 1.0
     status: ProviderStatus = ProviderStatus.AVAILABLE
-    last_error: Optional[str] = None
+    last_error: str | None = None
     error_count: int = 0
-    last_success: Optional[float] = None
+    last_success: float | None = None
 
 
 class AIProviderManager:
@@ -60,9 +61,9 @@ class AIProviderManager:
 
     def __init__(self, config_path: str = "config/ai-config.yaml"):
         self.config_path = config_path
-        self.providers: Dict[str, ProviderConfig] = {}
-        self.current_provider: Optional[str] = None
-        self.fallback_chain: List[str] = []
+        self.providers: dict[str, ProviderConfig] = {}
+        self.current_provider: str | None = None
+        self.fallback_chain: list[str] = []
 
         # Инициализация провайдеров
         self._init_providers()
@@ -88,7 +89,7 @@ class AIProviderManager:
 
         logger.info(f"AI Providers initialized: {self.fallback_chain}")
 
-    def get_active_provider(self) -> Optional[str]:
+    def get_active_provider(self) -> str | None:
         """Получить активный провайдер"""
         if self.current_provider and self.providers.get(self.current_provider):
             return self.current_provider
@@ -101,9 +102,7 @@ class AIProviderManager:
 
         return None
 
-    def set_provider_status(
-        self, provider: str, status: ProviderStatus, error: Optional[str] = None
-    ):
+    def set_provider_status(self, provider: str, status: ProviderStatus, error: str | None = None):
         """Установить статус провайдера"""
         if provider not in self.providers:
             return
@@ -154,7 +153,7 @@ class AIProviderManager:
             logger.debug(f"Ollama health check failed: {e}")
             return False
 
-    def chat(self, messages: List[Dict[str, str]], temperature: float = 0.7) -> Optional[str]:
+    def chat(self, messages: list[dict[str, str]], temperature: float = 0.7) -> str | None:
         """
         Отправить сообщение в AI с автоматическим переключением провайдеров
 
@@ -200,7 +199,7 @@ class AIProviderManager:
         logger.error("All AI providers unavailable")
         return None
 
-    def _chat_gigachat(self, messages: List[Dict[str, str]], temperature: float) -> Optional[str]:
+    def _chat_gigachat(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в GigaChat"""
         from apps.ai_config_manager.src.config_manager import ConfigManager
 
@@ -233,7 +232,7 @@ class AIProviderManager:
         result = response.json()
         return result["choices"][0]["message"]["content"]
 
-    def _chat_ollama(self, messages: List[Dict[str, str]], temperature: float) -> Optional[str]:
+    def _chat_ollama(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в Ollama"""
         # Получаем список доступных моделей
         try:
@@ -270,7 +269,7 @@ class AIProviderManager:
         result = response.json()
         return result["message"]["content"]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Получить статус всех провайдеров"""
         return {
             provider: {
@@ -287,7 +286,7 @@ class AIProviderManager:
 
 
 # Глобальный экземпляр
-_provider_manager: Optional[AIProviderManager] = None
+_provider_manager: AIProviderManager | None = None
 
 
 def get_provider_manager() -> AIProviderManager:
@@ -298,7 +297,7 @@ def get_provider_manager() -> AIProviderManager:
     return _provider_manager
 
 
-def chat_with_fallback(messages: List[Dict[str, str]], temperature: float = 0.7) -> Optional[str]:
+def chat_with_fallback(messages: list[dict[str, str]], temperature: float = 0.7) -> str | None:
     """Удобная функция для чата с автоматическим fallback"""
     manager = get_provider_manager()
     return manager.chat(messages, temperature)

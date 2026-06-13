@@ -6,14 +6,12 @@
 
 import json
 import os
-import sys
 from pathlib import Path
 
 import requests
 
 # Add the project root to the path to allow imports
 project_root = Path(__file__).parent
-sys.path.insert(0, str(project_root))
 
 from src.core.tracker import CareerTracker  # noqa: E402
 from src.utils.portfolio_gen import PortfolioGenerator  # noqa: E402

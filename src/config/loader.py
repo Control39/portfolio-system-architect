@@ -5,13 +5,9 @@
 `from .config.loader import COMPONENT_CONFIG`.
 """
 
-import os
-import sys
 import warnings
 
-
 # Добавляем путь для импорта decision_engine
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
     from decision_engine.configs.loader import COMPONENT_CONFIG, load_component_config

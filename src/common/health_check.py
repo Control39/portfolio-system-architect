@@ -8,12 +8,11 @@
 import asyncio
 import logging
 from collections.abc import Callable
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, TypedDict
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
 
 logger = logging.getLogger(__name__)
 
@@ -45,9 +44,7 @@ class HealthCheckService:
         self.checks: dict[str, CheckInfo] = {}
         self.required_checks: set[str] = set()  # Checks that must pass for "healthy" status
 
-    def register_check(
-        self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5
-    ):
+    def register_check(self, name: str, check_fn: Callable, required: bool = False, timeout: int = 5):
         """
         Регистрирует функцию проверки.
 
@@ -79,7 +76,7 @@ class HealthCheckService:
                 if is_required and result.get("status") != "ok":
                     failed_required.append(name)
 
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 results[name] = {
                     "status": "timeout",
                     "error": f"Check did not complete within {timeout}s",
@@ -108,7 +105,7 @@ class HealthCheckService:
             status=status,
             version=self.version,
             checks=results,
-            timestamp=datetime.now(timezone.utc).isoformat(),
+            timestamp=datetime.now(UTC).isoformat(),
         )
 
 

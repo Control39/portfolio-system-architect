@@ -6,7 +6,6 @@ Add missing documentation and dependency files
 
 from pathlib import Path
 
-
 print("📋 PHASE 1.4: STANDARDIZE STRUCTURE")
 print("=" * 70)
 

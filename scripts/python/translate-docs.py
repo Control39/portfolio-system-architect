@@ -10,7 +10,6 @@ from pathlib import Path
 
 import requests
 
-
 GIGACHAT_URL = "https://gigachat.api.sber.ru/chat/completions"
 PROMPT = """
 Переведи следующий Markdown документ с русского на английский.

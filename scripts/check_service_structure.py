@@ -146,6 +146,9 @@ def check_all_services(base_path: Path) -> list[ServiceCheck]:
         "monitoring",
         "tools",
         "scripts",
+        # ✅ НОВЫЕ ИСКЛЮЧЕНИЯ: не являются полноценными микросервисами
+        "project_mcp",  # MCP-конфигурация проекта, не отдельный сервис
+        "security",  # Общая библиотека безопасности (используется другими сервисами)
     }
 
     for service_dir in apps_path.iterdir():
@@ -166,7 +169,7 @@ def print_report(results: list[ServiceCheck]) -> None:
     non_compliant = [r for r in results if r["score"] < 100]
 
     print(f"Всего сервисов: {len(results)}")
-    print(f"✅ Соответствуют: {len(compliant)} ({len(compliant)/len(results)*100:.0f}%)")
+    print(f"✅ Соответствуют: {len(compliant)} ({len(compliant) / len(results) * 100:.0f}%)")
     print(f"⚠️ Требуют доработки: {len(non_compliant)}\n")
 
     if compliant:

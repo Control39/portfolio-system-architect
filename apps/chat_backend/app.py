@@ -25,7 +25,6 @@ from .core.chat_api import create_chat_api_blueprint
 from .core.runtime_config import resolve_runtime_config
 from .task_manager import ConnectionTaskManager
 
-
 # -----------------------------------------------------
 # Background event loop + chat service bootstrap
 # -----------------------------------------------------
@@ -47,9 +46,7 @@ def _start_background_event_loop() -> None:
         _bootstrap_started = True
 
         # Allow an externally reachable websocket base (e.g. reverse proxy, docker mapped port)
-        explicit_public_ws = os.getenv(
-            "PUBLIC_WS_ENDPOINT"
-        )  # e.g. wss://chat.example.com or ws://localhost:3001
+        explicit_public_ws = os.getenv("PUBLIC_WS_ENDPOINT")  # e.g. wss://chat.example.com or ws://localhost:3001
 
         def loop_thread() -> None:
             try:

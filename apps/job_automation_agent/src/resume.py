@@ -140,9 +140,7 @@ async def generate_resume(profile: dict, job_description: dict) -> str:
     """Генерирует резюме на основе профиля и описания вакансии."""
     try:
         template = env.get_template("resume.md.j2")
-        return template.render(
-            profile=profile, job=job_description, generated_at=os.path.abspath(__file__)
-        )
+        return template.render(profile=profile, job=job_description, generated_at=os.path.abspath(__file__))
     except Exception as e:
         print(f"Ошибка генерации резюме: {e}")
         # Fallback simple resume

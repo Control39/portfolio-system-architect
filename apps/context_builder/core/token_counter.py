@@ -1,5 +1,4 @@
 import tiktoken
-from typing import Dict
 
 
 class TokenCounter:
@@ -29,7 +28,7 @@ class TokenCounter:
         # Грубая оценка: ~3 символа на токен для русского/английского
         return len(text) // 3
 
-    def estimate_for_text(self, text: str) -> Dict:
+    def estimate_for_text(self, text: str) -> dict:
         """Оценка для разных моделей"""
         exact = self.count(text)
         return {

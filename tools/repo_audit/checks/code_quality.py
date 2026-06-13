@@ -25,9 +25,7 @@ class CodeQualityCheck(BaseCheck):
             if self.check_file_content("pyproject.toml", "ruff"):
                 self._add_result("PASS", "Ruff configured in pyproject.toml", "pyproject.toml")
             else:
-                self._add_result(
-                    "WARNING", "Ruff not configured in pyproject.toml", "pyproject.toml"
-                )
+                self._add_result("WARNING", "Ruff not configured in pyproject.toml", "pyproject.toml")
         else:
             self._add_result("FAIL", "pyproject.toml missing", "pyproject.toml")
 
@@ -44,9 +42,7 @@ class CodeQualityCheck(BaseCheck):
             self._add_result("WARNING", "isort not configured", "pyproject.toml")
 
         # mypy / pyright (can be in root or config/tools/)
-        if self.check_file_exists("pyrightconfig.json") or self.check_file_exists(
-            "config/tools/pyrightconfig.json"
-        ):
+        if self.check_file_exists("pyrightconfig.json") or self.check_file_exists("config/tools/pyrightconfig.json"):
             self._add_result(
                 "PASS",
                 "Pyright config exists",
@@ -79,9 +75,7 @@ class CodeQualityCheck(BaseCheck):
                     ".pre-commit-config.yaml",
                 )
         elif self.check_file_exists("config/tools/.pre-commit-config.yaml"):
-            content = (self.repo_path / "config/tools/.pre-commit-config.yaml").read_text(
-                encoding="utf-8"
-            )
+            content = (self.repo_path / "config/tools/.pre-commit-config.yaml").read_text(encoding="utf-8")
             if "ruff" in content or "black" in content or "isort" in content:
                 self._add_result(
                     "PASS",

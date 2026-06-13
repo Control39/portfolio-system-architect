@@ -20,10 +20,8 @@ from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
-
 # Добавляем путь к корню проекта
 project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 # Импортируем инструменты MCP-сервера
 try:
@@ -325,10 +323,7 @@ if __name__ == "__main__":
         "failures": len(result.failures),
         "errors": len(result.errors),
         "skipped": len(result.skipped),
-        "successful": result.testsRun
-        - len(result.failures)
-        - len(result.errors)
-        - len(result.skipped),
+        "successful": result.testsRun - len(result.failures) - len(result.errors) - len(result.skipped),
         "timestamp": str(datetime.now()),
     }
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Document indexer for building and managing vector search index.
 """
@@ -64,9 +63,7 @@ class DocumentIndexer:
         logger.debug("Added document %d: %s...", doc_id, text[:50])
         return doc_id
 
-    def add_documents_from_files(
-        self, file_pattern: str = "**/*.md", root_dir: str = "."
-    ) -> list[int]:
+    def add_documents_from_files(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> list[int]:
         """
         Add documents from files matching pattern.
 
@@ -251,7 +248,7 @@ class DocumentIndexer:
             loaded_model = index_data.get("model_name")
             if loaded_model and self.embedder.model_name != loaded_model:
                 logger.warning(
-                    "Model mismatch: loaded '%s', current '%s'. " "Embeddings may be incompatible.",
+                    "Model mismatch: loaded '%s', current '%s'. Embeddings may be incompatible.",
                     loaded_model,
                     self.embedder.model_name,
                 )

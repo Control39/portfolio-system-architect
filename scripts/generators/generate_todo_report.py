@@ -7,20 +7,17 @@
     python scripts/generate_todo_report.py --output .reports/todos/todos_2026-05-27.md
 """
 
+import argparse
 import os
 import re
-import argparse
-from pathlib import Path
-from datetime import datetime
 from collections import defaultdict
-from typing import Dict, List
+from datetime import datetime
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 
 
-def find_todos(
-    project_path: Path, extensions: List[str] = [".py", ".ps1", ".js", ".ts"]
-) -> List[Dict]:
+def find_todos(project_path: Path, extensions: list[str] = [".py", ".ps1", ".js", ".ts"]) -> list[dict]:
     """Найти все TODO-комментарии в проекте"""
     todos = []
 
@@ -29,13 +26,11 @@ def find_todos(
     for ext in extensions:
         for file_path in project_path.rglob(f"*{ext}"):
             # Пропускаем игнорируемые директории
-            if any(
-                part in str(file_path) for part in [".venv", "__pycache__", "node_modules", ".git"]
-            ):
+            if any(part in str(file_path) for part in [".venv", "__pycache__", "node_modules", ".git"]):
                 continue
 
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     for line_num, line in enumerate(f, 1):
                         match = pattern.search(line)
                         if match:
@@ -53,12 +48,12 @@ def find_todos(
     return todos
 
 
-def group_todos(todos: List[Dict]) -> Dict[str, List[Dict]]:
+def group_todos(todos: list[dict]) -> dict[str, list[dict]]:
     """Группировать TODO по файлам/сервисам"""
     grouped = defaultdict(list)
 
     for todo in todos:
-        # Извлекаем сервис из пути (например, apps/cognitive_agent/... -> cognitive_agent)
+        # Извлекаем сервис из пути (например, agents/cognitive_agent/... -> cognitive_agent)
         parts = todo["file"].split(os.sep)
         if len(parts) > 1 and parts[0] == "apps":
             service = parts[1]
@@ -70,7 +65,7 @@ def group_todos(todos: List[Dict]) -> Dict[str, List[Dict]]:
     return dict(grouped)
 
 
-def generate_report(todos: List[Dict], output_path: Path = None):
+def generate_report(todos: list[dict], output_path: Path = None):
     """Генерация Markdown-отчёта"""
     grouped = group_todos(todos)
 

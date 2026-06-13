@@ -4,16 +4,16 @@
 Проверка всех компонентов агента на корректность работы.
 """
 
+import json
 import os
 import sys
-import json
-import yaml
-import pytest
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
+
+import pytest
+import yaml
 
 # Добавляем путь к модулям агента
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 class CognitiveAgentValidator:
@@ -28,7 +28,7 @@ class CognitiveAgentValidator:
             "recommendations": [],
         }
 
-    def validate_structure(self) -> Dict[str, Any]:
+    def validate_structure(self) -> dict[str, Any]:
         """Проверка структуры директорий агента"""
         print("🔍 Проверка структуры директорий...")
 
@@ -63,7 +63,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def validate_skills(self) -> Dict[str, Any]:
+    def validate_skills(self) -> dict[str, Any]:
         """Проверка скиллов агента"""
         print("🔍 Проверка скиллов...")
 
@@ -96,7 +96,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def validate_configurations(self) -> Dict[str, Any]:
+    def validate_configurations(self) -> dict[str, Any]:
         """Проверка конфигурационных файлов"""
         print("🔍 Проверка конфигураций...")
 
@@ -118,16 +118,14 @@ class CognitiveAgentValidator:
 
                 # Проверка YAML валидности
                 try:
-                    with open(config_path, "r", encoding="utf-8") as f:
+                    with open(config_path, encoding="utf-8") as f:
                         yaml.safe_load(f)
                     results["valid_yaml"].append(config_file)
                 except yaml.YAMLError as e:
                     results["invalid_yaml"].append(f"{config_file} (error: {str(e)})")
             else:
                 # Проверяем, есть ли альтернативные имена
-                alt_names = [
-                    f.stem + ext for ext in [".yaml", ".yml"] for f in config_dir.glob(f"*{ext}")
-                ]
+                alt_names = [f.stem + ext for ext in [".yaml", ".yml"] for f in config_dir.glob(f"*{ext}")]
                 if config_file.replace(".yaml", "") in [
                     name.replace(".yaml", "").replace(".yml", "") for name in alt_names
                 ]:
@@ -137,7 +135,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def validate_workflows(self) -> Dict[str, Any]:
+    def validate_workflows(self) -> dict[str, Any]:
         """Проверка рабочих процессов"""
         print("🔍 Проверка рабочих процессов...")
 
@@ -153,7 +151,7 @@ class CognitiveAgentValidator:
 
                 # Проверка YAML и структуры
                 try:
-                    with open(workflow_path, "r", encoding="utf-8") as f:
+                    with open(workflow_path, encoding="utf-8") as f:
                         workflow_data = yaml.safe_load(f)
 
                     # Проверка обязательных полей
@@ -162,9 +160,7 @@ class CognitiveAgentValidator:
                         results["valid"].append(workflow_file)
                     else:
                         missing = [f for f in required_fields if f not in workflow_data]
-                        results["invalid"].append(
-                            f"{workflow_file} (missing: {', '.join(missing)})"
-                        )
+                        results["invalid"].append(f"{workflow_file} (missing: {', '.join(missing)})")
                 except (yaml.YAMLError, Exception) as e:
                     results["invalid"].append(f"{workflow_file} (error: {str(e)})")
             else:
@@ -172,7 +168,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def validate_integrations(self) -> Dict[str, Any]:
+    def validate_integrations(self) -> dict[str, Any]:
         """Проверка интеграций"""
         print("🔍 Проверка интеграций...")
 
@@ -214,7 +210,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def validate_dependencies(self) -> Dict[str, Any]:
+    def validate_dependencies(self) -> dict[str, Any]:
         """Проверка зависимостей"""
         print("🔍 Проверка зависимостей...")
 
@@ -240,7 +236,7 @@ class CognitiveAgentValidator:
 
         return results
 
-    def run_full_validation(self) -> Dict[str, Any]:
+    def run_full_validation(self) -> dict[str, Any]:
         """Запуск полной валидации"""
         print("=" * 60)
         print("🚀 Запуск полной валидации Cognitive Automation Agent")
@@ -288,7 +284,7 @@ class CognitiveAgentValidator:
 
         return validation_results
 
-    def _is_test_passed(self, test_name: str, result: Dict[str, Any]) -> bool:
+    def _is_test_passed(self, test_name: str, result: dict[str, Any]) -> bool:
         """Определение, прошла ли проверка"""
         if test_name == "structure":
             # Проверка проходит, если нет обязательных директорий в missing
@@ -336,21 +332,19 @@ class CognitiveAgentValidator:
         config_path = self.agent_root / "config" / "agent-config.yaml"
         if config_path.exists():
             try:
-                with open(config_path, "r", encoding="utf-8") as f:
+                with open(config_path, encoding="utf-8") as f:
                     config = yaml.safe_load(f)
                 return config.get("version", "unknown")
             except:
                 pass
         return "unknown"
 
-    def _generate_report(self, validation_results: Dict[str, Any]):
+    def _generate_report(self, validation_results: dict[str, Any]):
         """Генерация отчета о валидации"""
         report_dir = self.agent_root / "reports"
         report_dir.mkdir(exist_ok=True, parents=True)
 
-        report_file = (
-            report_dir / f"validation_report_{self._get_timestamp().replace(':', '-')}.json"
-        )
+        report_file = report_dir / f"validation_report_{self._get_timestamp().replace(':', '-')}.json"
 
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(validation_results, f, indent=2, ensure_ascii=False)
@@ -360,7 +354,7 @@ class CognitiveAgentValidator:
 
         print(f"\n📊 Отчет сохранен: {report_file}")
 
-    def _generate_human_readable_report(self, validation_results: Dict[str, Any], report_dir: Path):
+    def _generate_human_readable_report(self, validation_results: dict[str, Any], report_dir: Path):
         """Генерация читаемого отчета в markdown"""
         md_file = report_dir / f"validation_summary_{self._get_timestamp().replace(':', '-')}.md"
 
@@ -413,17 +407,13 @@ class CognitiveAgentValidator:
                     f.write(
                         f"- Файл интеграций: {'✅ Существует' if test_result.get('file_exists') else '❌ Отсутствует'}\n"
                     )
-                    f.write(
-                        f"- Контент валиден: {'✅ Да' if test_result.get('content_valid') else '❌ Нет'}\n"
-                    )
+                    f.write(f"- Контент валиден: {'✅ Да' if test_result.get('content_valid') else '❌ Нет'}\n")
                     f.write(f"- Точек интеграции: {test_result.get('integration_points', 0)}\n\n")
 
                 elif test_name == "dependencies":
                     f.write(f"- Python версия: {test_result.get('python_version', 'unknown')}\n")
                     f.write(f"- Найдено модулей: {len(test_result.get('required_modules', []))}\n")
-                    f.write(
-                        f"- Отсутствует модулей: {len(test_result.get('missing_modules', []))}\n"
-                    )
+                    f.write(f"- Отсутствует модулей: {len(test_result.get('missing_modules', []))}\n")
                     if test_result.get("missing_modules"):
                         f.write(f"  - {', '.join(test_result['missing_modules'])}\n")
                     f.write("\n")
@@ -516,9 +506,7 @@ def test_integration_documentation(validator):
 def test_python_dependencies(validator):
     """Тест зависимостей Python"""
     result = validator.validate_dependencies()
-    assert (
-        len(result.get("missing_modules", [])) == 0
-    ), f"Missing modules: {result.get('missing_modules')}"
+    assert len(result.get("missing_modules", [])) == 0, f"Missing modules: {result.get('missing_modules')}"
 
 
 def test_full_validation(validator):

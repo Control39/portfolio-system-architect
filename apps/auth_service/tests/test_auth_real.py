@@ -8,17 +8,12 @@
 - Error handling
 """
 
-import sys
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
+from datetime import UTC, datetime, timedelta
 
 import jwt
 import pytest
 
-
 # Добавляем корень проекта в PYTHONPATH
-sys.path.insert(0, str(Path(__file__).parent / ".." / ".." / ".."))
-
 from apps.auth_service.main import (
     JWT_ALGORITHM,
     JWT_EXPIRATION_HOURS,
@@ -60,8 +55,8 @@ class TestJWTTokenCreation:
         token_data = create_token("testuser", "user")
         decoded = jwt.decode(token_data["access_token"], JWT_SECRET, algorithms=[JWT_ALGORITHM])
 
-        exp_time = datetime.fromtimestamp(decoded["exp"], tz=timezone.utc)
-        iat_time = datetime.fromtimestamp(decoded["iat"], tz=timezone.utc)
+        exp_time = datetime.fromtimestamp(decoded["exp"], tz=UTC)
+        iat_time = datetime.fromtimestamp(decoded["iat"], tz=UTC)
 
         diff = exp_time - iat_time
         assert diff == timedelta(hours=JWT_EXPIRATION_HOURS)
@@ -112,8 +107,8 @@ class TestJWTTokenVerification:
         expired_payload = {
             "username": "testuser",
             "role": "user",
-            "iat": datetime.now(timezone.utc) - timedelta(hours=2),
-            "exp": datetime.now(timezone.utc) - timedelta(hours=1),
+            "iat": datetime.now(UTC) - timedelta(hours=2),
+            "exp": datetime.now(UTC) - timedelta(hours=1),
         }
         expired_token = jwt.encode(expired_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
@@ -144,11 +139,7 @@ class TestJWTTokenVerification:
         # Подделываем payload
         import base64
 
-        tampered_payload = (
-            base64.urlsafe_b64encode(b'{"username": "hacker", "role": "admin"}')
-            .rstrip(b"=")
-            .decode()
-        )
+        tampered_payload = base64.urlsafe_b64encode(b'{"username": "hacker", "role": "admin"}').rstrip(b"=").decode()
 
         tampered_token = f"{parts[0]}.{tampered_payload}.{parts[2]}"
 
@@ -251,9 +242,7 @@ class TestAPIEndpoints:
     def test_verify_endpoint_with_valid_token(self, client):
         """Верификация валидного токена через API"""
         # Сначала получаем токен
-        token_response = client.post(
-            "/auth/token", json={"username": "testuser", "password": "testpass"}
-        )
+        token_response = client.post("/auth/token", json={"username": "testuser", "password": "testpass"})
         token = token_response.json()["access_token"]
 
         # Верифицируем через endpoint

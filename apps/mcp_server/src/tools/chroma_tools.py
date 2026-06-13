@@ -37,9 +37,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
             return [f"error: {e!s}"]
 
     @mcp_server.tool()
-    def chroma_query(
-        collection_name: str, query_text: str, n_results: int = 5
-    ) -> list[dict[str, Any]]:
+    def chroma_query(collection_name: str, query_text: str, n_results: int = 5) -> list[dict[str, Any]]:
         """
         Векторный поиск в коллекции ChromaDB
 
@@ -109,9 +107,7 @@ def init_chroma_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 collection = client.create_collection(collection_name)
 
             # Генерируем ID если не указан
-            doc_id = (
-                document_id or hashlib.md5(document.encode(), usedforsecurity=False).hexdigest()
-            )  # nosec B324
+            doc_id = document_id or hashlib.md5(document.encode(), usedforsecurity=False).hexdigest()  # nosec B324
 
             collection.add(documents=[document], metadatas=[metadata or {}], ids=[doc_id])
 

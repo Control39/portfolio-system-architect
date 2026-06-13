@@ -7,7 +7,6 @@ import logging
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -15,12 +14,6 @@ class DocumentEmbedder:
     """Embed documents using sentence-transformers."""
 
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
-        """
-        Initialize the embedder.
-
-        Args:
-            model_name: Name of the sentence-transformers model.
-        """
         self.model_name = model_name
         logger.info(f"Loading sentence-transformers model: {model_name}")
         self.model = SentenceTransformer(model_name)
@@ -30,21 +23,20 @@ class DocumentEmbedder:
         """Get embedding for a single text."""
         if not text or not text.strip():
             return []
-
-        text = text.strip()
-        embedding = self.model.encode(text, convert_to_numpy=True)
+        embedding = self.model.encode(text.strip(), convert_to_numpy=True)
         return embedding.tolist()
 
     def embed_batch(self, texts: list[str]) -> list[list[float]]:
-        """Get embeddings for a batch of texts."""
+        """Get embeddings for a batch of texts (пустые и None игнорируются автоматически)."""
         if not texts:
             return []
 
-        valid_texts = [t.strip() for t in texts if t and t.strip()]
-        if not valid_texts:
-            return []
-
-        embeddings = self.model.encode(valid_texts, convert_to_numpy=True)
+        embeddings = self.model.encode(
+            texts,
+            convert_to_numpy=True,
+            show_progress_bar=False,
+            normalize_embeddings=False,
+        )
         return embeddings.tolist()
 
     def compute_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:

@@ -9,7 +9,6 @@ import sys
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 
 class TestSystemProofConfigIntegration:
@@ -26,14 +25,12 @@ class TestSystemProofConfigIntegration:
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "system_proof" / "src"))
         from config_integration import SystemProofConfig
 
         assert SystemProofConfig is not None
 
     def test_get_config_singleton(self):
         """Проверка singleton паттерна"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "system_proof" / "src"))
         from config_integration import get_config
 
         config1 = get_config()
@@ -43,7 +40,6 @@ class TestSystemProofConfigIntegration:
 
     def test_get_config_returns_dict(self):
         """Проверка что get_config возвращает dict"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "system_proof" / "src"))
         from config_integration import get_config
 
         config = get_config()
@@ -53,7 +49,6 @@ class TestSystemProofConfigIntegration:
 
     def test_reload_config(self):
         """Проверка hot reload"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "system_proof" / "src"))
         from config_integration import reload_config
 
         # Не должно выбрасывать исключений
@@ -61,7 +56,6 @@ class TestSystemProofConfigIntegration:
 
     def test_is_available_method(self):
         """Проверка метода is_available"""
-        sys.path.insert(0, str(REPO_ROOT / "apps" / "system_proof" / "src"))
         from config_integration import get_config
 
         config = get_config()

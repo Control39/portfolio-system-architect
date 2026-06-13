@@ -61,7 +61,7 @@ for log_file in log_files[:20]:  # Первые 20
         print(f"   Размер: {size:,} байт")
 
         # Попробовать прочитать первые строки
-        with open(log_file, "r", encoding="utf-8", errors="ignore") as f:
+        with open(log_file, encoding="utf-8", errors="ignore") as f:
             lines = f.readlines(2000)  # Первые ~2KB
             print("   Первые 10 строк:")
             for i, line in enumerate(lines[:10], 1):
@@ -82,7 +82,7 @@ for csv_file in csv_files[:10]:  # Первые 10
         size = csv_file.stat().st_size
         print(f"   Размер: {size:,} байт")
 
-        with open(csv_file, "r", encoding="utf-8", errors="ignore") as f:
+        with open(csv_file, encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
             print(f"   Строк: {len(lines)}")
             if lines:
@@ -133,7 +133,7 @@ for pattern in ["**/logging*.yaml", "**/logging*.yml", "**/logging*.json", "**/l
 for config in config_files[:10]:
     print(f"   📄 {config.relative_to(ROOT)}")
     try:
-        with open(config, "r", encoding="utf-8") as f:
+        with open(config, encoding="utf-8") as f:
             content = f.read(500)
             print(f"     {content[:200]}...")
     except Exception as e:

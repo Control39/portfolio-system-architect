@@ -23,17 +23,17 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Set
+from typing import Any
 
 import yaml
 
 
-def find_compose_files() -> List[Path]:
+def find_compose_files() -> list[Path]:
     """Найти все файлы docker-compose*.yml в корне проекта."""
     return sorted(Path(".").glob("docker-compose*.yml"))
 
 
-def find_ingress_files() -> List[Path]:
+def find_ingress_files() -> list[Path]:
     """Найти все ingress-файлы в k8s-директориях."""
     patterns = [
         "deployment/k8s/**/*ingress*.yaml",
@@ -47,7 +47,7 @@ def find_ingress_files() -> List[Path]:
     return sorted(set(files))
 
 
-def load_yaml(path: Path) -> Dict[str, Any]:
+def load_yaml(path: Path) -> dict[str, Any]:
     """Загрузить и распарсить YAML-файл."""
     if not path.exists():
         print(f"❌ Файл не существует: {path}")
@@ -55,14 +55,14 @@ def load_yaml(path: Path) -> Dict[str, Any]:
 
     try:
         with open(path, encoding="utf-8") as f:
-            data: Dict[str, Any] = yaml.safe_load(f) or {}
+            data: dict[str, Any] = yaml.safe_load(f) or {}
             return data
     except yaml.YAMLError as e:
         print(f"❌ Ошибка парсинга YAML в {path}: {e}")
         return {}
 
 
-def parse_port_mapping(port_mapping: str) -> Tuple[str, int]:
+def parse_port_mapping(port_mapping: str) -> tuple[str, int]:
     """
     Парсинг формата порта: "host:container" или "port".
 
@@ -88,13 +88,11 @@ def parse_port_mapping(port_mapping: str) -> Tuple[str, int]:
     raise ValueError(f"Некорректный формат порта: {port_mapping}")
 
 
-def check_port_conflicts(
-    compose_data: Dict[str, Any], file_name: str
-) -> List[Tuple[str, str, str, str]]:
+def check_port_conflicts(compose_data: dict[str, Any], file_name: str) -> list[tuple[str, str, str, str]]:
     """Проверить конфликты host-портов."""
     services = compose_data.get("services", {})
-    conflicts: List[Tuple[str, str, str, str]] = []
-    port_map: Dict[str, Tuple[str, str]] = {}
+    conflicts: list[tuple[str, str, str, str]] = []
+    port_map: dict[str, tuple[str, str]] = {}
 
     for service_name, config in services.items():
         if not config:
@@ -110,18 +108,14 @@ def check_port_conflicts(
                 else:
                     port_map[host_port] = (service_name, file_name)
             except (ValueError, IndexError) as e:
-                print(
-                    f"⚠️  Ошибка парсинга порта для {service_name} в {file_name}: {port_mapping} ({e})"
-                )
+                print(f"⚠️  Ошибка парсинга порта для {service_name} в {file_name}: {port_mapping} ({e})")
     return conflicts
 
 
-def extract_traefik_routes(
-    compose_data: Dict[str, Any], file_name: str
-) -> Dict[str, Dict[str, str]]:
+def extract_traefik_routes(compose_data: dict[str, Any], file_name: str) -> dict[str, dict[str, str]]:
     """Извлечь маршруты Traefik из docker-compose labels."""
     services = compose_data.get("services", {})
-    routes: Dict[str, Dict[str, str]] = {}
+    routes: dict[str, dict[str, str]] = {}
 
     for service_name, config in services.items():
         if not config:
@@ -129,7 +123,7 @@ def extract_traefik_routes(
         labels = config.get("labels", [])
         if isinstance(labels, list):
             label_dict = {}
-            seen_keys: Set[str] = set()
+            seen_keys: set[str] = set()
             for label in labels:
                 if "=" not in label:
                     continue
@@ -159,11 +153,9 @@ def extract_traefik_routes(
     return routes
 
 
-def extract_ingress_routes(
-    ingress_data: Dict[str, Any], file_name: str
-) -> Dict[str, Dict[str, str]]:
+def extract_ingress_routes(ingress_data: dict[str, Any], file_name: str) -> dict[str, dict[str, str]]:
     """Извлечь маршруты из Kubernetes Ingress."""
-    routes: Dict[str, Dict[str, str]] = {}
+    routes: dict[str, dict[str, str]] = {}
     items = ingress_data.get("items", []) if ingress_data.get("kind") == "List" else [ingress_data]
 
     for item in items:
@@ -210,10 +202,10 @@ def extract_ingress_routes(
     return routes
 
 
-def check_route_conflicts(routes: Dict[str, Dict[str, str]]) -> List[Tuple[str, str, str]]:
+def check_route_conflicts(routes: dict[str, dict[str, str]]) -> list[tuple[str, str, str]]:
     """Проверить конфликты маршрутов (независимо от источника)."""
-    route_map: Dict[str, str] = {}
-    conflicts: List[Tuple[str, str, str]] = []
+    route_map: dict[str, str] = {}
+    conflicts: list[tuple[str, str, str]] = []
 
     for service, info in routes.items():
         route = info.get("route", "")
@@ -227,13 +219,11 @@ def check_route_conflicts(routes: Dict[str, Dict[str, str]]) -> List[Tuple[str, 
     return conflicts
 
 
-def check_container_port_conflicts(
-    compose_data: Dict[str, Any], file_name: str
-) -> List[Tuple[int, str, str, str]]:
+def check_container_port_conflicts(compose_data: dict[str, Any], file_name: str) -> list[tuple[int, str, str, str]]:
     """Проверить конфликты container-портов."""
     services = compose_data.get("services", {})
-    conflicts: List[Tuple[int, str, str, str]] = []
-    port_map: Dict[int, Tuple[str, str]] = {}
+    conflicts: list[tuple[int, str, str, str]] = []
+    port_map: dict[int, tuple[str, str]] = {}
 
     for service_name, config in services.items():
         if not config:
@@ -244,9 +234,7 @@ def check_container_port_conflicts(
                 _, container_port = parse_port_mapping(port_mapping)
                 if container_port in port_map:
                     prev_service, prev_file = port_map[container_port]
-                    conflicts.append(
-                        (container_port, prev_service, prev_file, service_name, file_name)
-                    )
+                    conflicts.append((container_port, prev_service, prev_file, service_name, file_name))
                 else:
                     port_map[container_port] = (service_name, file_name)
             except (ValueError, IndexError):
@@ -255,12 +243,12 @@ def check_container_port_conflicts(
 
 
 def print_report(
-    all_port_conflicts: List[Tuple[str, str, str, str, str]],
-    all_route_conflicts: List[Tuple[str, str, str]],
-    all_container_conflicts: List[Tuple[int, str, str, str, str]],
-    all_routes: Dict[str, Dict[str, str]],
-    processed_compose: List[str],
-    processed_ingress: List[str],
+    all_port_conflicts: list[tuple[str, str, str, str, str]],
+    all_route_conflicts: list[tuple[str, str, str]],
+    all_container_conflicts: list[tuple[int, str, str, str, str]],
+    all_routes: dict[str, dict[str, str]],
+    processed_compose: list[str],
+    processed_ingress: list[str],
 ):
     """Вывести сводный отчёт."""
     print("\n" + "=" * 70)
@@ -340,9 +328,9 @@ def main():
         sys.exit(0)
 
     # Сбор данных
-    all_port_conflicts: List[Tuple[str, str, str, str, str]] = []
-    all_container_conflicts: List[Tuple[int, str, str, str, str]] = []
-    all_routes: Dict[str, Dict[str, str]] = {}
+    all_port_conflicts: list[tuple[str, str, str, str, str]] = []
+    all_container_conflicts: list[tuple[int, str, str, str, str]] = []
+    all_routes: dict[str, dict[str, str]] = {}
 
     # Docker Compose
     for file_path in compose_files:

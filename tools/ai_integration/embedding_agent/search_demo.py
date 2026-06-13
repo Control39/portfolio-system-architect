@@ -3,7 +3,6 @@ import json
 import sys
 from pathlib import Path
 
-
 # Добавляем путь к src
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -63,9 +62,7 @@ def main():
 
     indexer = CodeIndexer(embedder)
 
-    print(
-        "🔄 Переиндексация для поиска (в реальном проекте эмбеддинги будут загружаться из базы)..."
-    )
+    print("🔄 Переиндексация для поиска (в реальном проекте эмбеддинги будут загружаться из базы)...")
     indexer.index_repository(repo_path, extensions=[".py", ".md"])
 
     print("\n✅ Готово к поиску!")

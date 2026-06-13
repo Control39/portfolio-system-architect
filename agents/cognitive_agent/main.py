@@ -8,6 +8,7 @@ API:
 """
 
 import logging
+
 from fastapi import FastAPI
 
 # --- OpenTelemetry Tracing ---

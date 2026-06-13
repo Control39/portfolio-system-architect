@@ -1,10 +1,6 @@
 # apps/context_builder/tests/test_api.py
+
 from fastapi.testclient import TestClient
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from main import app
 
 client = TestClient(app)
@@ -28,9 +24,7 @@ def test_get_filter():
 
 
 def test_update_filter():
-    response = client.post(
-        "/filter", json={"add_extensions": ["xyz"], "add_exclude_dirs": ["temp"]}
-    )
+    response = client.post("/filter", json={"add_extensions": ["xyz"], "add_exclude_dirs": ["temp"]})
     assert response.status_code == 200
     data = response.json()
     assert "xyz" in data["extensions"]

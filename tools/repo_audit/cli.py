@@ -5,10 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-
 # Add parent directory to sys.path to allow imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 from tools.repo_audit.checker import RepositoryAuditor
 from tools.repo_audit.checks import (
     cicd,

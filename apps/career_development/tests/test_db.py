@@ -2,9 +2,10 @@
 Tests for career_development db.py (ORM layer) - Fully mocked
 """
 
-import pytest
-from unittest.mock import MagicMock, patch
 import sys
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 
 @pytest.fixture(autouse=True)

@@ -199,9 +199,7 @@ def main():
 
     # Динамические бейджи
     dynamic = report["summary"]["dynamic_badges"]
-    print(
-        f"\nDynamic Badges: {dynamic.get('working_badges', 0)} working, {dynamic.get('broken_badges', 0)} broken"
-    )
+    print(f"\nDynamic Badges: {dynamic.get('working_badges', 0)} working, {dynamic.get('broken_badges', 0)} broken")
     if dynamic.get("issues"):
         for issue in dynamic["issues"][:3]:  # Показываем только первые 3
             print(f"  ⚠️  {issue}")

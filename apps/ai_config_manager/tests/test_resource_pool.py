@@ -3,7 +3,6 @@
 """
 
 import pytest
-
 from ai_config_manager.resource_pool import ResourcePool
 from ai_config_manager.validators import ResourceConfig, ResourceType
 

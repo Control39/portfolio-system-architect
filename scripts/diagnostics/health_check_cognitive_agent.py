@@ -245,9 +245,7 @@ class HealthChecker:
         report_dir = "apps/cognitive_agent/health-reports"
         os.makedirs(report_dir, exist_ok=True)
 
-        report_file = os.path.join(
-            report_dir, f"health-check-{self.start_time.strftime('%Y%m%d-%H%M%S')}.json"
-        )
+        report_file = os.path.join(report_dir, f"health-check-{self.start_time.strftime('%Y%m%d-%H%M%S')}.json")
 
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)

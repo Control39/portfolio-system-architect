@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Основной скрипт сканера проекта для Cognitive Automation Agent.
 Выполняет анализ технологического стека, зависимостей и архитектуры.
@@ -14,10 +14,9 @@ from typing import Any
 
 import yaml
 
-
 # Интеграция с AI Config Manager
 try:
-    from apps.cognitive_agent.src.config_integration import get_config
+    from agents.cognitive_agent.src.config_integration import get_config
 
     AI_CONFIG_INTEGRATION = True
 except ImportError:
@@ -63,9 +62,7 @@ class ProjectScanner:
         self.visited_paths = set()
         self.max_files_to_scan = 5000
 
-    def _load_local_config(
-        self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"
-    ) -> dict[str, Any]:
+    def _load_local_config(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml") -> dict[str, Any]:
         """Загрузка локальной конфигурации"""
         try:
             with open(config_path, encoding="utf-8") as f:
@@ -74,9 +71,7 @@ class ProjectScanner:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def _load_config(
-        self, config_path: str = "apps/cognitive_agent/config/scanner.yaml"
-    ) -> dict[str, Any]:
+    def _load_config(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml") -> dict[str, Any]:
         """Загрузка конфигурации сканера"""
         try:
             with open(config_path, encoding="utf-8") as f:

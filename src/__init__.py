@@ -26,4 +26,3 @@ import sys
 
 
 # Добавляем src в PYTHONPATH для относительных импортов
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

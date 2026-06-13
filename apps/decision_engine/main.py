@@ -1,12 +1,8 @@
-import os
-import sys
 import logging
 
 import uvicorn
 
 # Добавляем путь к корню проекта
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "shared_src")))
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 # --- OpenTelemetry Tracing ---
 try:
@@ -32,11 +28,7 @@ if OTEL_ENABLED:
 
 def run_server():
     # Берём команду запуска из конфигурации
-    api_script = next(
-        script
-        for script in COMPONENT_CONFIG["automation"]["scripts"]
-        if script["name"] == "run_api"
-    )
+    api_script = next(script for script in COMPONENT_CONFIG["automation"]["scripts"] if script["name"] == "run_api")
 
     print(f"Запуск API: {api_script['command']}")
 

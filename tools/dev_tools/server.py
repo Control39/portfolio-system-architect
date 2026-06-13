@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 # Загружаем переменные окружения
 load_dotenv()
 
@@ -26,7 +25,6 @@ with open(CONFIG_PATH, encoding="utf-8") as f:
 
 # Загружаем переменные окружения
 from dotenv import load_dotenv
-
 
 load_dotenv()
 

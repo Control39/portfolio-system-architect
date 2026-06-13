@@ -123,7 +123,7 @@ def print_report(results: list[ServiceCheck]) -> None:
     non_compliant = [r for r in results if r["score"] < 100]
 
     print(f"Всего сервисов: {len(results)}")
-    print(f"✅ Соответствуют: {len(compliant)} ({len(compliant)/len(results)*100:.0f}%)")
+    print(f"✅ Соответствуют: {len(compliant)} ({len(compliant) / len(results) * 100:.0f}%)")
     print(f"⚠️ Требуют доработки: {len(non_compliant)}\n")
 
     if compliant:

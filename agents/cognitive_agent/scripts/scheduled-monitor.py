@@ -4,13 +4,14 @@
 Поддерживает различные интервалы: ежечасно, ежедневно, еженедельно.
 """
 
-import schedule
-import time
+import logging
 import subprocess
 import sys
-from pathlib import Path
-import logging
+import time
 from datetime import datetime
+from pathlib import Path
+
+import schedule
 
 logging.basicConfig(
     level=logging.INFO,
@@ -143,9 +144,7 @@ def main():
     """Основная функция"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Планировщик автоматического мониторинга триггеров"
-    )
+    parser = argparse.ArgumentParser(description="Планировщик автоматического мониторинга триггеров")
     parser.add_argument("--once", action="store_true", help="Однократный запуск")
     parser.add_argument(
         "--type",

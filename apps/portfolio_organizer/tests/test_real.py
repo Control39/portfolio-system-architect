@@ -18,16 +18,13 @@ from datetime import datetime
 import pytest
 from fastapi.testclient import TestClient
 
-
 # Устанавливаем SECRET_KEY ДО импорта приложения
 os.environ["SECRET_KEY"] = "test-secret-key-for-testing-only"
 
 # Импортируем реальное приложение
-import sys
 
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from apps.portfolio_organizer.src.api.reasoning_api import SAMPLE_PROJECTS, router
+from apps.portfolio_organizer.infrastructure.api.reasoning_api import SAMPLE_PROJECTS, router
 
 
 # Создаем тестовый клиент FastAPI
@@ -39,7 +36,7 @@ def client():
     app = FastAPI()
     app.include_router(router)
     # Подключаем также ML Model Registry router
-    from apps.portfolio_organizer.src.api.ml_model_registry_integration import router as ml_router
+    from apps.portfolio_organizer.infrastructure.api.ml_model_registry_integration import router as ml_router
 
     app.include_router(ml_router)
     with TestClient(app) as test_client:
@@ -114,7 +111,7 @@ class TestProjectAPI:
 
     def test_generate_recommendations_logic(self, sample_project):
         """Test: Логика генерации рекомендаций"""
-        from apps.portfolio_organizer.src.api.reasoning_api import generate_recommendations
+        from apps.portfolio_organizer.infrastructure.api.reasoning_api import generate_recommendations
 
         recommendations = generate_recommendations(sample_project)
         assert recommendations["project_id"] == 999
@@ -208,13 +205,13 @@ class TestITCompassAPI:
 
     def test_it_compass_api_imports(self):
         """Test: ITCompassAPI может быть импортирован"""
-        from apps.portfolio_organizer.src.core.ITCompassAPI import ITCompassAPI
+        from apps.portfolio_organizer.infrastructure.core.ITCompassAPI import ITCompassAPI
 
         assert ITCompassAPI is not None
 
     def test_it_compass_get_competency_markers(self):
         """Test: Получение маркеров компетенций"""
-        from apps.portfolio_organizer.src.core.ITCompassAPI import ITCompassAPI
+        from apps.portfolio_organizer.infrastructure.core.ITCompassAPI import ITCompassAPI
 
         api = ITCompassAPI()
         result = api.get_competency_markers(["Python", "Docker"])
@@ -224,7 +221,7 @@ class TestITCompassAPI:
 
     def test_it_compass_with_empty_skills(self):
         """Test: Маркеры с пустым списком навыков"""
-        from apps.portfolio_organizer.src.core.ITCompassAPI import ITCompassAPI
+        from apps.portfolio_organizer.infrastructure.core.ITCompassAPI import ITCompassAPI
 
         api = ITCompassAPI()
         result = api.get_competency_markers([])
@@ -241,7 +238,7 @@ class TestNotificationService:
 
     def test_notification_service_imports(self):
         """Test: NotificationService может быть импортирован"""
-        from apps.portfolio_organizer.src.core.notification_service import (
+        from apps.portfolio_organizer.infrastructure.core.notification_service import (
             NotificationService,
         )
 
@@ -249,7 +246,7 @@ class TestNotificationService:
 
     def test_send_email_prints_message(self, capsys):
         """Test: Отправка email выводит сообщение"""
-        from apps.portfolio_organizer.src.core.notification_service import (
+        from apps.portfolio_organizer.infrastructure.core.notification_service import (
             NotificationService,
         )
 
@@ -269,7 +266,7 @@ class TestMLModelRegistryIntegration:
 
     def test_ml_registry_router_imports(self):
         """Test: Router ML Model Registry импортируется"""
-        from apps.portfolio_organizer.src.api.ml_model_registry_integration import router
+        from apps.portfolio_organizer.infrastructure.api.ml_model_registry_integration import router
 
         assert router is not None
         assert router.prefix == "/api/ml-model-registry"

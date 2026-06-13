@@ -9,7 +9,6 @@ from .yandex_gpt import (
     generate_with_yandex_gpt,
 )
 
-
 __all__ = [
     "YandexGPTClient",
     "YandexGPTConfig",

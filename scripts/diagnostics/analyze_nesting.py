@@ -105,9 +105,7 @@ class ProjectAnalyzer:
             self.stats["avg_depth"] = round(self.stats["max_depth"] / 1.5, 1)
 
         # Фильтруем реальные дублирования (не одиночные)
-        self.stats["duplicate_dirs"] = {
-            k: v for k, v in self.stats["duplicate_dirs"].items() if len(v) > 1
-        }
+        self.stats["duplicate_dirs"] = {k: v for k, v in self.stats["duplicate_dirs"].items() if len(v) > 1}
 
     def print_report(self):
         """Вывод отчета"""
@@ -123,9 +121,7 @@ class ProjectAnalyzer:
 
         if self.stats["deep_paths"]:
             print(f"\n⚠️  ГЛУБОКИЕ ВЛОЖЕННОСТИ (>6 уровней): {len(self.stats['deep_paths'])}")
-            for item in sorted(self.stats["deep_paths"], key=lambda x: x["depth"], reverse=True)[
-                :10
-            ]:
+            for item in sorted(self.stats["deep_paths"], key=lambda x: x["depth"], reverse=True)[:10]:
                 print(f"  • {item['path']} (глубина: {item['depth']})")
 
         if self.stats["duplicate_dirs"]:

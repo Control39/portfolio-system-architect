@@ -161,9 +161,9 @@ def main():
         score -= 0.3
         print(f"⚠️ {skip_count} пропущенных тестов")
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"ИТОГОВАЯ ОЦЕНКА КАЧЕСТВА: {score:.1f}/10")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

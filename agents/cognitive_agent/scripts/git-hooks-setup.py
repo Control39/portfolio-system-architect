@@ -5,11 +5,11 @@
 """
 
 import os
-import sys
-import stat
 import shutil
-from pathlib import Path
+import stat
+import sys
 from datetime import datetime
+from pathlib import Path
 
 
 def check_git_repository():
@@ -82,7 +82,7 @@ done
 echo "🚀 Запуск автоматических проверок..."
 
 # Проверяем Python файлы
-PYTHON_FILES=$(echo "$STAGED_FILES" | grep -E '\.py$' || true)
+PYTHON_FILES=$(echo "$STAGED_FILES" | grep -E '\\.py$' || true)
 if [ -n "$PYTHON_FILES" ]; then
     echo "🐍 Проверка Python файлов..."
     # Здесь можно добавить проверки: flake8, black, mypy и т.д.
@@ -96,7 +96,7 @@ if [ -n "$PYTHON_FILES" ]; then
 fi
 
 # Проверяем YAML файлы
-YAML_FILES=$(echo "$STAGED_FILES" | grep -E '\.(yaml|yml)$' || true)
+YAML_FILES=$(echo "$STAGED_FILES" | grep -E '\\.(yaml|yml)$' || true)
 if [ -n "$YAML_FILES" ]; then
     echo "📄 Проверка YAML файлов..."
     for file in $YAML_FILES; do
@@ -236,7 +236,7 @@ def create_pre_push_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = """#!/bin/bash
+    hook_content = r"""#!/bin/bash
 #
 # Pre-push hook для Cognitive Automation Agent
 # Проверяет код перед отправкой в удаленный репозиторий
@@ -329,7 +329,7 @@ def create_post_merge_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = """#!/bin/bash
+    hook_content = r"""#!/bin/bash
 #
 # Post-merge hook для Cognitive Automation Agent
 # Обрабатывает изменения после слияния веток
@@ -422,7 +422,7 @@ def create_commit_msg_hook(hooks_dir):
     # Создаем резервную копию
     backup_existing_hook(hook_path)
 
-    hook_content = """#!/bin/bash
+    hook_content = r"""#!/bin/bash
 #
 # Commit-msg hook для Cognitive Automation Agent
 # Проверяет формат сообщений коммитов
@@ -530,16 +530,12 @@ def test_hooks():
     test_results = []
 
     for hook_file in hooks_dir.glob("*"):
-        if (
-            hook_file.is_file()
-            and not hook_file.name.endswith(".sample")
-            and not hook_file.name.endswith(".backup")
-        ):
+        if hook_file.is_file() and not hook_file.name.endswith(".sample") and not hook_file.name.endswith(".backup"):
             # Проверяем, является ли файл исполняемым
             is_executable = os.access(hook_file, os.X_OK)
 
             # Проверяем содержимое
-            with open(hook_file, "r", encoding="utf-8") as f:
+            with open(hook_file, encoding="utf-8") as f:
                 content = f.read()
                 has_cognitive_agent = "Cognitive Automation Agent" in content
 

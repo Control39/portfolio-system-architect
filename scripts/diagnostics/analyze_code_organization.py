@@ -7,7 +7,6 @@ Code Organization Analyzer
 from collections import defaultdict
 from pathlib import Path
 
-
 REPO_ROOT = Path.cwd()
 
 
@@ -179,9 +178,7 @@ class CodeOrganizationAnalyzer:
             print(
                 f"   Python: {service['python_files']} files | Tests: {service['test_files']} | Size: {service['size_mb']} MB"
             )
-            print(
-                f"   Docker: {'✅' if service['has_docker'] else '❌'} | K8s: {'✅' if service['has_k8s'] else '❌'}"
-            )
+            print(f"   Docker: {'✅' if service['has_docker'] else '❌'} | K8s: {'✅' if service['has_k8s'] else '❌'}")
             if service["main_file"]:
                 print(f"   Entry: {service['main_file']}")
 

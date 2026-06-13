@@ -1,13 +1,14 @@
-import os
+import concurrent.futures
 import hashlib
 import json
 import logging
+import os
 import subprocess
-import concurrent.futures
-from pathlib import Path
-from typing import Dict, List, Any, Optional
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
 from tqdm import tqdm  # Для прогресс‑бара
 
 try:
@@ -27,8 +28,8 @@ class ScannerConfig:
     timeout: int = 10
     max_workers: int = 4
     max_file_size: int = 100 * 1024 * 1024  # 100 MB
-    include_extensions: List[str] = None
-    extra_ignores: List[str] = None
+    include_extensions: list[str] = None
+    extra_ignores: list[str] = None
     cache_file: str = ".cognitive_agent_scan_cache.json"
 
     def __post_init__(self):
@@ -51,11 +52,11 @@ class ScannerConfig:
 class ProjectScanner:
     """Оптимизированный сканер проекта с улучшенной производительностью и гибкостью"""
 
-    def __init__(self, project_path: str, config: Optional[ScannerConfig] = None):
+    def __init__(self, project_path: str, config: ScannerConfig | None = None):
         self.project_path = Path(project_path)
         self.config = config or ScannerConfig()
         self.gitignore_spec = None
-        self.last_scan_cache: Dict[str, str] = {}
+        self.last_scan_cache: dict[str, str] = {}
         self.cache_file = self.project_path / self.config.cache_file
 
         # Загрузка .gitignore
@@ -67,16 +68,14 @@ class ProjectScanner:
     def _load_gitignore(self):
         """Загрузить правила .gitignore"""
         if not HAS_PATHSPEC:
-            logger.warning(
-                "pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec"
-            )
+            logger.warning("pathspec не установлен. .gitignore игнорируется. Установите: pip install pathspec")
             return
 
         gitignore_path = self.project_path / ".gitignore"
         patterns = []
 
         if gitignore_path.exists():
-            with open(gitignore_path, "r", encoding="utf-8") as f:
+            with open(gitignore_path, encoding="utf-8") as f:
                 patterns = f.read().splitlines()
 
             # Фильтрация пустых строк и комментариев
@@ -95,10 +94,10 @@ class ProjectScanner:
         """Загрузить кэш хэшей файлов"""
         if self.cache_file.exists():
             try:
-                with open(self.cache_file, "r", encoding="utf-8") as f:
+                with open(self.cache_file, encoding="utf-8") as f:
                     self.last_scan_cache = json.load(f)
                 logger.info(f"✅ Кэш загружен: {len(self.last_scan_cache)} файлов")
-            except (json.JSONDecodeError, IOError) as e:
+            except (OSError, json.JSONDecodeError) as e:
                 logger.error(f"Ошибка загрузки кэша: {e}")
                 self.last_scan_cache = {}
 
@@ -107,7 +106,7 @@ class ProjectScanner:
         try:
             with open(self.cache_file, "w", encoding="utf-8") as f:
                 json.dump(self.last_scan_cache, f, indent=2)
-        except IOError as e:
+        except OSError as e:
             logger.error(f"Ошибка сохранения кэша: {e}")
 
     def _cleanup_cache(self):
@@ -143,7 +142,7 @@ class ProjectScanner:
                 for chunk in iter(lambda: f.read(4096), b""):
                     hash_md5.update(chunk)
             return hash_md5.hexdigest()
-        except (OSError, IOError) as e:
+        except OSError as e:
             logger.warning(f"Не удалось вычислить хэш {file_path}: {e}")
             return ""
 
@@ -177,7 +176,7 @@ class ProjectScanner:
         except (FileNotFoundError, OSError):
             return False
 
-    def _get_all_changed_files(self) -> List[Path]:
+    def _get_all_changed_files(self) -> list[Path]:
         """Получить все изменённые файлы (working tree + staged + untracked)"""
         if not self._is_git_repo():
             logger.warning("Проект не является Git-репозиторием")
@@ -208,9 +207,7 @@ class ProjectScanner:
 
             untracked = []
             if result_untracked.returncode == 0:
-                untracked = [
-                    Path(p) for p in result_untracked.stdout.strip().split("\n") if p.strip()
-                ]
+                untracked = [Path(p) for p in result_untracked.stdout.strip().split("\n") if p.strip()]
 
             # Объединить и логировать
             all_files = changed + untracked
@@ -226,11 +223,9 @@ class ProjectScanner:
 
     def _filter_by_extension(self, file_path: Path) -> bool:
         """Проверить, соответствует ли файл разрешённым расширениям"""
-        return (
-            not self.config.include_extensions or file_path.suffix in self.config.include_extensions
-        )
+        return not self.config.include_extensions or file_path.suffix in self.config.include_extensions
 
-    def _process_file(self, file_path: Path, rel_path: Path) -> Optional[Dict[str, Any]]:
+    def _process_file(self, file_path: Path, rel_path: Path) -> dict[str, Any] | None:
         """Обработать один файл — вычислить хэш и собрать информацию"""
         if not file_path.is_file():
             return None
@@ -268,11 +263,11 @@ class ProjectScanner:
                 "mtime": file_stat.st_mtime,
             }
 
-        except (OSError, IOError) as e:
+        except OSError as e:
             logger.warning(f"Ошибка обработки файла {file_path}: {e}")
             return None
 
-    def _parallel_scan_files(self, file_list: List[Path]) -> List[Dict[str, Any]]:
+    def _parallel_scan_files(self, file_list: list[Path]) -> list[dict[str, Any]]:
         """Параллельное сканирование файлов с прогресс-баром"""
         results = []
         total_files = len(file_list)
@@ -301,7 +296,7 @@ class ProjectScanner:
 
         return results
 
-    def scan_git_diff(self) -> Dict[str, Any]:
+    def scan_git_diff(self) -> dict[str, Any]:
         """Сканировать только изменённые файлы (git diff)"""
         logger.info("🔄 Запуск инкрементального сканирования (git diff)...")
         start_time = datetime.now()
@@ -349,7 +344,7 @@ class ProjectScanner:
             "timestamp": start_time.isoformat(),
         }
 
-    def scan_full(self) -> Dict[str, Any]:
+    def scan_full(self) -> dict[str, Any]:
         """Полное сканирование проекта (с уважением .gitignore)"""
         logger.info("🔄 Запуск полного сканирования проекта...")
         start_time = datetime.now()
@@ -396,7 +391,7 @@ class ProjectScanner:
             "timestamp": start_time.isoformat(),
         }
 
-    def scan_paths(self, paths: List[str]) -> Dict[str, Any]:
+    def scan_paths(self, paths: list[str]) -> dict[str, Any]:
         """Сканировать только указанные директории/файлы"""
         logger.info(f"🔄 Запуск выборочного сканирования: {paths}")
         start_time = datetime.now()
@@ -444,9 +439,7 @@ class ProjectScanner:
             "timestamp": start_time.isoformat(),
         }
 
-    def export_results(
-        self, results: Dict[str, Any], output_file: str, format: str = "json"
-    ) -> None:
+    def export_results(self, results: dict[str, Any], output_file: str, format: str = "json") -> None:
         """Экспортировать результаты в указанный формат"""
         try:
             if format == "json":
@@ -463,31 +456,27 @@ class ProjectScanner:
                     for file_info in results.get("files", []):
                         # Конвертируем mtime в читаемый формат, если есть
                         if "mtime" in file_info:
-                            file_info["mtime"] = datetime.fromtimestamp(
-                                file_info["mtime"]
-                            ).isoformat()
+                            file_info["mtime"] = datetime.fromtimestamp(file_info["mtime"]).isoformat()
                         writer.writerow(file_info)
                 logger.info(f"✅ Результаты экспортированы в CSV: {output_file}")
 
             else:
                 logger.error(f"Неподдерживаемый формат экспорта: {format}")
-        except (IOError, csv.Error) as e:
+        except (OSError, csv.Error) as e:
             logger.error(f"Ошибка экспорта в {format}: {e}")
 
     @classmethod
     def load_config(cls, config_file: str) -> ScannerConfig:
         """Загрузить конфигурацию из файла"""
         if not Path(config_file).exists():
-            logger.warning(
-                f"Файл конфигурации не найден: {config_file}. Используются настройки по умолчанию."
-            )
+            logger.warning(f"Файл конфигурации не найден: {config_file}. Используются настройки по умолчанию.")
             return ScannerConfig()
 
         try:
-            with open(config_file, "r", encoding="utf-8") as f:
+            with open(config_file, encoding="utf-8") as f:
                 config_data = json.load(f)
             return ScannerConfig(**config_data)
-        except (json.JSONDecodeError, IOError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return ScannerConfig()
 
@@ -496,13 +485,9 @@ class ProjectScanner:
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Оптимизированный сканер проекта для Cognitive Agent"
-    )
+    parser = argparse.ArgumentParser(description="Оптимизированный сканер проекта для Cognitive Agent")
     parser.add_argument("project_path", help="Путь к проекту")
-    parser.add_argument(
-        "--mode", choices=["full", "git_diff", "paths"], default="full", help="Режим сканирования"
-    )
+    parser.add_argument("--mode", choices=["full", "git_diff", "paths"], default="full", help="Режим сканирования")
     parser.add_argument(
         "--paths",
         nargs="*",

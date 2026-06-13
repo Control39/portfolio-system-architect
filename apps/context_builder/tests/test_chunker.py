@@ -1,5 +1,5 @@
 # apps/context_builder/tests/test_chunker.py
-from apps.context_builder.core.chunker import ContextChunker, Chunk
+from apps.context_builder.core.chunker import Chunk, ContextChunker
 
 
 def test_chunker_splits_large_content():

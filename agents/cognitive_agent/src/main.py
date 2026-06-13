@@ -1,12 +1,8 @@
-import os
-import sys
 import logging
 
 import uvicorn
 
 # Добавляем путь к корню проекта
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 # --- OpenTelemetry Tracing ---
 try:
@@ -14,7 +10,7 @@ try:
 except ImportError:
     OTEL_ENABLED = False
 
-from apps.cognitive_agent.src.api.endpoints import app
+from agents.cognitive_agent.src.api.endpoints import app
 
 logger = logging.getLogger(__name__)
 

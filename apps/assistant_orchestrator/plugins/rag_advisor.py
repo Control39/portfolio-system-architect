@@ -7,7 +7,6 @@ import logging
 from pathlib import Path
 from typing import Any
 
-
 # Try to import embedding_agent, but make it optional
 try:
     from apps.embedding_agent.search import DocumentSearcher
@@ -31,9 +30,7 @@ class RAGAdvisor:
         if RAG_AVAILABLE:
             self._initialize_searcher()
         else:
-            logger.warning(
-                "RAG dependencies not available. Install sentence-transformers and chromadb."
-            )
+            logger.warning("RAG dependencies not available. Install sentence-transformers and chromadb.")
 
     def _initialize_searcher(self):
         """Initialize the document searcher."""
@@ -327,9 +324,7 @@ if __name__ == "__main__":
         print("\nAnalyzing documentation gaps...")
         gaps = advisor.analyze_project_gaps()
         for gap in gaps[:3]:
-            print(
-                f"- {gap['topic']} (confidence: {gap['confidence']:.3f}): {gap['recommendation']}"
-            )
+            print(f"- {gap['topic']} (confidence: {gap['confidence']:.3f}): {gap['recommendation']}")
     else:
         print("\nRAG dependencies not available. Install:")
         print("  pip install sentence-transformers chromadb")

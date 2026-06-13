@@ -37,7 +37,7 @@ with open(conflicts_file, "w", encoding="utf-8") as f:
     for conflict in conflicts:
         f.write(f"- {conflict}\n")
 
-print(f"\n{'='*50}")
+print(f"\n{'=' * 50}")
 print("ИТОГ:")
 print(f"✅ Скопировано: {copied_count} файлов")
 print(f"⏭️  Пропущено (конфликты): {len(conflicts)} файлов")

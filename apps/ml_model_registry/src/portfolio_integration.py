@@ -8,18 +8,14 @@
 import logging
 import os
 import re
-import sys
 from typing import Any
 
 import httpx
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-
 # Импортируем async helpers
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from src.common.async_helpers import fetch_parallel
-
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -30,9 +26,7 @@ router = APIRouter(prefix="/portfolio", tags=["portfolio-integration"])
 # Конфигурация из переменных окружения
 ML_MODEL_REGISTRY_URL = os.environ.get("ML_MODEL_REGISTRY_URL", "http://ml-model-registry:8000")
 
-PORTFOLIO_ORGANIZER_URL = os.environ.get(
-    "PORTFOLIO_ORGANIZER_URL", "http://portfolio-organizer:8001"
-)
+PORTFOLIO_ORGANIZER_URL = os.environ.get("PORTFOLIO_ORGANIZER_URL", "http://portfolio-organizer:8001")
 
 API_TIMEOUT = int(os.environ.get("API_TIMEOUT", "30"))
 ASYNC_TIMEOUT = httpx.Timeout(API_TIMEOUT)
@@ -95,9 +89,7 @@ async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict | N
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к реестру моделей: {e}")
-            raise HTTPException(
-                status_code=503, detail="ML Model Registry is not accessible"
-            ) from e
+            raise HTTPException(status_code=503, detail="ML Model Registry is not accessible") from e
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к реестру моделей: {e}")
             raise HTTPException(
@@ -106,9 +98,7 @@ async def fetch_from_registry(endpoint: str, method: str = "GET", data: dict | N
             ) from e
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP ошибка от реестра моделей: {e}")
-            raise HTTPException(
-                status_code=e.response.status_code, detail=f"Registry error: {e!s}"
-            ) from e
+            raise HTTPException(status_code=e.response.status_code, detail=f"Registry error: {e!s}") from e
 
 
 async def send_to_portfolio(endpoint: str, data: dict):
@@ -123,9 +113,7 @@ async def send_to_portfolio(endpoint: str, data: dict):
 
         except httpx.ConnectError as e:
             logger.error(f"Ошибка подключения к Portfolio Organizer: {e}")
-            raise HTTPException(
-                status_code=503, detail="Portfolio Organizer is not accessible"
-            ) from e
+            raise HTTPException(status_code=503, detail="Portfolio Organizer is not accessible") from e
         except httpx.TimeoutException as e:
             logger.error(f"Таймаут при запросе к Portfolio Organizer: {e}")
             raise HTTPException(
@@ -134,9 +122,7 @@ async def send_to_portfolio(endpoint: str, data: dict):
             ) from e
         except httpx.HTTPStatusError as e:
             logger.error(f"HTTP ошибка от Portfolio Organizer: {e}")
-            raise HTTPException(
-                status_code=e.response.status_code, detail=f"Portfolio error: {e!s}"
-            ) from e
+            raise HTTPException(status_code=e.response.status_code, detail=f"Portfolio error: {e!s}") from e
 
 
 # Мок-данные для разработки (когда реестр недоступен)
@@ -337,9 +323,7 @@ async def health_check():
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{ML_MODEL_REGISTRY_URL}/health")
-            services_status["ml_model_registry"] = (
-                "healthy" if response.status_code == 200 else "unhealthy"
-            )
+            services_status["ml_model_registry"] = "healthy" if response.status_code == 200 else "unhealthy"
     except (httpx.RequestError, httpx.HTTPError, TimeoutError) as e:
         logger.warning(f"ML Model Registry недоступен: {e}")
         services_status["ml_model_registry"] = "unreachable"
@@ -348,9 +332,7 @@ async def health_check():
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             response = await client.get(f"{PORTFOLIO_ORGANIZER_URL}/health")
-            services_status["portfolio_organizer"] = (
-                "healthy" if response.status_code == 200 else "unhealthy"
-            )
+            services_status["portfolio_organizer"] = "healthy" if response.status_code == 200 else "unhealthy"
     except (httpx.RequestError, httpx.HTTPError, TimeoutError) as e:
         logger.warning(f"Portfolio Organizer недоступен: {e}")
         services_status["portfolio_organizer"] = "unreachable"

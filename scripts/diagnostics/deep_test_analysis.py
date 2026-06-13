@@ -90,7 +90,7 @@ def find_assertless():
                     assertless.append(f"{py_file.relative_to(Path('.'))}:{test_name}")
 
     print(f"Всего тестов: {total_tests}")
-    print(f"Тестов без assert: {len(assertless)} ({len(assertless)/max(total_tests,1)*100:.1f}%)")
+    print(f"Тестов без assert: {len(assertless)} ({len(assertless) / max(total_tests, 1) * 100:.1f}%)")
 
     if assertless:
         print("\nСписок тестов без assert:")
@@ -149,9 +149,7 @@ def analyze_root_tests():
 
     # Найти все тестовые файлы в корне
     root_tests = list(tests_root.glob("test_*.py"))
-    unit_tests = (
-        list((tests_root / "unit").glob("test_*.py")) if (tests_root / "unit").exists() else []
-    )
+    unit_tests = list((tests_root / "unit").glob("test_*.py")) if (tests_root / "unit").exists() else []
 
     print(f"Файлов в tests/ (корень): {len(root_tests)}")
     print(f"Файлов в tests/unit/: {len(unit_tests)}")

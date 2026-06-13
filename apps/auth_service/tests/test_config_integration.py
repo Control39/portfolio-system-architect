@@ -9,7 +9,6 @@ import sys
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent  # apps/auth_service/tests -> repo root
 if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 
 class TestAuthServiceConfigIntegration:

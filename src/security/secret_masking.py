@@ -9,7 +9,6 @@ import re
 from functools import wraps
 from typing import Any
 
-
 # Константы для маскирования
 SECRET_PATTERNS = [
     # API Keys
@@ -53,7 +52,9 @@ def mask_secrets(text: str) -> str:
     Примеры:
         >>> mask_secrets("API_KEY=abc123xyz789")
         'API_KEY=****'
-        >>> mask_secrets("postgres://user:pass123@localhost/db")  # pragma: allowlist secret - тестовый пароль в docstring
+        >>> mask_secrets(
+        ...     "postgres://user:pass123@localhost/db"
+        ... )  # pragma: allowlist secret - тестовый пароль в docstring
         'postgres://user:****@localhost/db'
     """
     if not text:
@@ -95,8 +96,7 @@ def mask_secrets_dict(data: dict[str, Any]) -> dict[str, Any]:
             result[key] = mask_secrets_dict(value)  # type: ignore[assignment]
         elif isinstance(value, list):
             result[key] = [  # type: ignore[assignment]
-                mask_secrets_dict(item) if isinstance(item, dict) else mask_secrets(str(item))
-                for item in value
+                mask_secrets_dict(item) if isinstance(item, dict) else mask_secrets(str(item)) for item in value
             ]
         else:
             result[key] = mask_secrets(str(value)) if isinstance(value, str) else value
@@ -161,9 +161,7 @@ class SecretMaskingHandler(logging.Handler):
 
             # Проверяем, есть ли в сообщении ключи, содержащие секреты
             if hasattr(record, "args") and record.args:
-                args = (
-                    mask_secrets_dict(record.args) if isinstance(record.args, dict) else record.args
-                )
+                args = mask_secrets_dict(record.args) if isinstance(record.args, dict) else record.args
                 record.args = args
 
             record.msg = masked_message
@@ -306,9 +304,7 @@ def create_fastapi_secret_middleware():
                     response_body += chunk
                     # Маскируем в чанках для стриминга
                     if b"password" in chunk.lower() or b"secret" in chunk.lower():
-                        masked_chunk = mask_secrets(chunk.decode("utf-8", errors="ignore")).encode(
-                            "utf-8"
-                        )
+                        masked_chunk = mask_secrets(chunk.decode("utf-8", errors="ignore")).encode("utf-8")
                         response_body = response_body.replace(chunk, masked_chunk)
 
                 return Response(

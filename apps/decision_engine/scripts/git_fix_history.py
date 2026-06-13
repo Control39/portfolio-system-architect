@@ -190,9 +190,7 @@ def create_encoding_commit() -> dict:
 
         # Добавляем детали в сообщение, если файлов немного
         if len(files_to_commit) <= 10:
-            commit_message += "\n\nFiles updated:\n" + "\n".join(
-                [f"- {f}" for f in files_to_commit]
-            )
+            commit_message += "\n\nFiles updated:\n" + "\n".join([f"- {f}" for f in files_to_commit])
         else:
             commit_message += f"\n\nUpdated {len(files_to_commit)} files to UTF-8 encoding."
 
@@ -238,11 +236,7 @@ def create_backup_commit() -> dict:
             return result
 
         # Находим последнюю резервную копию
-        backup_dirs = [
-            d
-            for d in backup_dir.iterdir()
-            if d.is_dir() and d.name.startswith("pre_utf8_conversion_")
-        ]
+        backup_dirs = [d for d in backup_dir.iterdir() if d.is_dir() and d.name.startswith("pre_utf8_conversion_")]
         if not backup_dirs:
             result["success"] = True
             result["message"] = "Нет резервных копий для коммита"

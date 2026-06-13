@@ -6,17 +6,14 @@ full MCP server initialization.
 
 import json
 import subprocess
-import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 
-
 # Add project root to path for imports
 project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 
 @pytest.fixture
@@ -54,9 +51,7 @@ def git_repo(temp_dir):
         capture_output=True,
         check=False,
     )
-    subprocess.run(
-        ["git", "config", "user.name", "Test User"], cwd=temp_dir, capture_output=True, check=False
-    )
+    subprocess.run(["git", "config", "user.name", "Test User"], cwd=temp_dir, capture_output=True, check=False)
 
     readme = temp_dir / "README.md"
     readme.write_text("# Test Repo")
@@ -227,9 +222,7 @@ class TestGitOperations:
 
     def test_git_commit(self, git_repo):
         """Test Git commit."""
-        result = subprocess.run(
-            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
         assert result.returncode == 0
         lines = result.stdout.strip().split("\n")
         assert len(lines) >= 2
@@ -371,9 +364,7 @@ class TestIntegration:
     def test_git_workflow(self, git_repo):
         """Test complete Git workflow."""
         # Check initial state
-        result = subprocess.run(
-            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
         initial_count = len(result.stdout.strip().split("\n"))
 
         # Add a new file and commit
@@ -388,9 +379,7 @@ class TestIntegration:
         )
 
         # Verify new commit
-        result = subprocess.run(
-            ["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "log", "--oneline"], cwd=git_repo, capture_output=True, text=True)
         new_count = len(result.stdout.strip().split("\n"))
         assert new_count == initial_count + 1
 
@@ -428,9 +417,7 @@ def mock_markers_dir_factory(temp_dir):
         marker_data = {
             "skill_name": skill_name,
             "description": f"{skill_name} capability",
-            "levels": {
-                "1": [{"id": f"{skill_name.lower()}_1", "marker": "Test", "validation": "Test"}]
-            },
+            "levels": {"1": [{"id": f"{skill_name.lower()}_1", "marker": "Test", "validation": "Test"}]},
         }
 
         marker_file = markers_dir / f"{skill_name.lower()}.json"

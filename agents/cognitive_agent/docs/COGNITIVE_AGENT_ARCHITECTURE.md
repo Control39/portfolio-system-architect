@@ -53,7 +53,7 @@ from src.ai import GigaMCPBridge      # ← Атом из корневого src
 from src.shared.models import ScanRequest  # ← Атом из корневого src/
 
 # Не так:
-# from apps.cognitive_agent.src.ai import ...  # ❌ Неправильно
+# from agents.cognitive_agent.src.ai import ...  # ❌ Неправильно
 ```
 
 ---
@@ -121,6 +121,6 @@ portfolio-system-architect/
 
 ---
 
-**Версия:** 0.1.0  
-**Дата:** 5 июня 2026  
+**Версия:** 0.1.0
+**Дата:** 5 июня 2026
 **Автор:** Екатерина Куделя (@Control39)

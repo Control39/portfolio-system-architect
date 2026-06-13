@@ -1,6 +1,5 @@
-from pathlib import Path
-from typing import Set
 from fnmatch import fnmatch
+from pathlib import Path
 
 from ..config.settings import settings
 
@@ -9,9 +8,9 @@ class FileFilter:
     """Фильтрация файлов при сканировании"""
 
     def __init__(self):
-        self.extensions: Set[str] = set(settings.default_extensions)
-        self.excluded_dirs: Set[str] = set(settings.excluded_dirs)
-        self.excluded_files: Set[str] = set(settings.excluded_files)
+        self.extensions: set[str] = set(settings.default_extensions)
+        self.excluded_dirs: set[str] = set(settings.excluded_dirs)
+        self.excluded_files: set[str] = set(settings.excluded_files)
         self.max_size_bytes: int = settings.max_file_size_mb * 1024 * 1024
 
     def add_extension(self, ext: str):

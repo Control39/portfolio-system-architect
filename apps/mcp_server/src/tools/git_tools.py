@@ -10,7 +10,6 @@ from typing import Any
 
 from fastmcp import FastMCP
 
-
 # Глобальная переменная для проекта (будет установлена при инициализации)
 PROJECT_ROOT: Path | None = None
 
@@ -48,9 +47,7 @@ def init_git_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 encoding="utf-8",
             )
 
-            current_branch = (
-                branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
-            )
+            current_branch = branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
 
             # Получаем статус
             status_result = subprocess.run(  # nosec B603, B607
@@ -121,11 +118,7 @@ def init_git_tools(mcp_server: FastMCP, project_root: Path) -> None:
                 text=True,
             )
 
-            commit_count = (
-                int(commit_count_result.stdout.strip())
-                if commit_count_result.returncode == 0
-                else 0
-            )
+            commit_count = int(commit_count_result.stdout.strip()) if commit_count_result.returncode == 0 else 0
 
             return {
                 "success": True,
@@ -453,12 +446,7 @@ def _extract_keywords(text: str) -> list[str]:
     for word in words:
         clean_word = "".join(c for c in word if c.isalnum())
 
-        if (
-            clean_word
-            and len(clean_word) > 2
-            and clean_word not in stop_words
-            and not clean_word.isnumeric()
-        ):
+        if clean_word and len(clean_word) > 2 and clean_word not in stop_words and not clean_word.isnumeric():
             keywords.append(clean_word)
 
     return list(set(keywords))

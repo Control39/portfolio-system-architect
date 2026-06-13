@@ -1,14 +1,14 @@
 """FastAPI app for infra_orchestrator."""
 
-from fastapi import FastAPI, HTTPException
-from typing import Dict, List
 from datetime import datetime
-from pydantic import BaseModel
 from uuid import uuid4
 
-services_db: Dict[str, Dict] = {}
-instances_db: Dict[str, Dict] = {}
-deployment_history: List[Dict] = []
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+services_db: dict[str, dict] = {}
+instances_db: dict[str, dict] = {}
+deployment_history: list[dict] = []
 
 
 class Service(BaseModel):
