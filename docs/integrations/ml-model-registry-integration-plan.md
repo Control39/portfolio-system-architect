@@ -139,7 +139,7 @@ uvicorn apps.ml-model-registry.src.api.main:app --reload --port 8000
 
 # В другом терминале запустить Portfolio Organizer
 cd apps/portfolio_organizer
-uvicorn apps.portfolio_organizer.src.api.main:app --reload --port 8001
+uvicorn apps.portfolio_organizer.endpoints.routes:app --reload --port 8001
 
 # Проверить эндпоинты
 curl http://localhost:8000/portfolio/models

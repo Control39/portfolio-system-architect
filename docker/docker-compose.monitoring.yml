@@ -1,9 +1,13 @@
-﻿# Docker Compose for Advanced Monitoring Stack
-# Includes Prometheus, AlertManager, Grafana with SLO/SLI dashboards
+﻿# docker/docker-compose.monitoring.yml
+# Оверлей для мониторинга (Prometheus, AlertManager, Grafana, Jaeger, OTEL)
+# Запуск: docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up -d
 
-version: '3.9'
+version: "3.9"
 
 services:
+  # ============================================================
+  # 📊 MONITORING: Prometheus
+  # ============================================================
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus-monitoring
@@ -21,12 +25,22 @@ services:
       - "9090:9090"
     networks:
       - monitoring-network
+      - portfolio-network  # ✅ Подключение к основной сети
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
+  # ============================================================
+  # 📊 MONITORING: AlertManager
+  # ============================================================
   alertmanager:
     image: prom/alertmanager:latest
     container_name: alertmanager
@@ -44,13 +58,23 @@ services:
     networks:
       - monitoring-network
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9093/-/healthy"]
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
 
+  # ============================================================
+  # 📊 MONITORING: Grafana
+  # ============================================================
   grafana:
     image: grafana/grafana:latest
     container_name: grafana-dashboards
@@ -59,26 +83,100 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     ports:
       - "3000:3000"
     networks:
       - monitoring-network
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
+  # ============================================================
+  # 📊 MONITORING: Jaeger (Distributed Tracing)
+  # ============================================================
+  jaeger:
+    image: jaegertracing/all-in-one:1.60
+    container_name: jaeger
+    ports:
+      - "16686:16686"  # UI
+      - "14269:14269"  # Health check
+      - "14250:14250"  # gRPC collector
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - monitoring-network
+      - portfolio-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:14269/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # ============================================================
+  # 📊 MONITORING: OpenTelemetry Collector
+  # ============================================================
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.113.0
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./config/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "8888:8888"   # Metrics
+      - "4318:4318"   # OTLP HTTP
+      - "4317:4317"   # OTLP gRPC
+    networks:
+      - monitoring-network
+      - portfolio-network
+    depends_on:
+      jaeger:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+# ============================================================
+# VOLUMES
+# ============================================================
 volumes:
   prometheus_data:
   alertmanager_data:
   grafana_data:
 
+# ============================================================
+# NETWORKS
+# ============================================================
 networks:
   monitoring-network:
     driver: bridge
+  portfolio-network:
+    external: true  # ✅ Подключение к основной сети

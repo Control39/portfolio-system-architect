@@ -1,19 +1,106 @@
+# config/otel-collector-config.yaml
+# OpenTelemetry Collector: принимает traces/metrics/logs → отправляет в Jaeger/Prometheus
+
 receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
       http:
+        endpoint: 0.0.0.0:4318
+
+  # Сбор метрик с самого collector (self-monitoring)
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: "otel-collector"
+          scrape_interval: 10s
+          static_configs:
+            - targets: ["0.0.0.0:8888"]
+
+processors:
+  # Батчинг: собираем спаны пачками → меньше нагрузка на Jaeger
+  batch:
+    send_batch_size: 1024
+    send_batch_max_size: 2048
+    timeout: 5s
+
+  # Защита от OOM: лимит памяти
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 400 # 80% от 512M лимита в docker-compose
+    spike_limit_mib: 100
+
+  # Добавляем атрибуты ко всем спанам
+  resource:
+    attributes:
+      - key: deployment.environment
+        value: "${env:ENVIRONMENT:-development}"
+        action: upsert
+
+  # Фильтр: удаляем health-check спаны (засоряют трассировку)
+  filter/drop-health:
+    traces:
+      span:
+        - 'attributes["http.route"] == "/health"'
+        - 'attributes["http.route"] == "/_stcore/health"'
 
 exporters:
-  logging:
-    loglevel: debug
-  jaeger:
-    endpoint: jaeger:14250
+  # Jaeger: распределённая трассировка
+  otlp/jaeger:
+    endpoint: jaeger:4317
     tls:
       insecure: true
+    sending_queue:
+      enabled: true
+      num_consumers: 4
+      queue_size: 100
+
+  # Debug (только для dev)
+  debug:
+    verbosity: basic
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # Prometheus exporter (для Grafana)
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: portfolio
+
+  # Локальные логи (для отладки)
+  logging:
+    loglevel: warn # ✅ В prod — warn, не debug!
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+  zpages:
+    endpoint: 0.0.0.0:55679
 
 service:
+  extensions: [health_check, zpages]
+
+  telemetry:
+    logs:
+      level: warn
+    metrics:
+      address: 0.0.0.0:8888
+
   pipelines:
+    # Трассировка
     traces:
       receivers: [otlp]
-      exporters: [jaeger, logging]
+      processors: [memory_limiter, filter/drop-health, batch, resource]
+      exporters: [otlp/jaeger, debug]
+
+    # Метрики (НОВОЕ!)
+    metrics:
+      receivers: [otlp, prometheus]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus, debug]
+
+    # Логи (НОВОЕ!)
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [logging]

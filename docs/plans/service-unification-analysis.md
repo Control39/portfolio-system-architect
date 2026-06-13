@@ -10,13 +10,13 @@
 
 ### 1. Разные фреймворки (нестандартно, но работает)
 
-| Сервис | Фреймворк | Entry point | Особенность |
-|--------|-----------|-------------|-------------|
-| **infra-orchestrator** | FastAPI | `main.py` | ✅ Чистая структура |
-| **auth_service** | FastAPI | `main.py` | ✅ Интеграция AI Config |
-| **decision_engine** | FastAPI | `main.py` | ⚠️ Импортирует из `api.endpoints` |
-| **portfolio_organizer** | **Flask** | `src/app.py` | ⚠️ Другой фреймворк |
-| **cognitive-agent** | кастомный | `scripts/scanner_main.py` | ⚠️ Нестандартный путь |
+| Сервис                  | Фреймворк | Entry point               | Особенность                      |
+| ----------------------- | --------- | ------------------------- | -------------------------------- |
+| **infra-orchestrator**  | FastAPI   | `main.py`                 | ✅ Чистая структура               |
+| **auth_service**        | FastAPI   | `main.py`                 | ✅ Интеграция AI Config           |
+| **decision_engine**     | FastAPI   | `main.py`                 | ⚠️ Импортирует из `api.endpoints` |
+| **portfolio_organizer** | **Flask** | `src/app.py`              | ⚠️ Другой фреймворк               |
+| **cognitive-agent**     | кастомный | `scripts/scanner_main.py` | ⚠️ Нестандартный путь             |
 
 ### 2. Проблемы с путями (системные)
 
@@ -38,18 +38,18 @@ from api.endpoints import app
 ```python
 REPO_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
-from apps.portfolio_organizer.src.config_integration import get_config
+from apps.portfolio_organizer.infrastructure.config_integration import get_config
 ```
 
 **Проблема:** Каждый сервис манипулирует `sys.path` по-своему.
 
 ### 3. AI Config Manager интеграция
 
-| Статус | Сервисы |
-|--------|---------|
+| Статус         | Сервисы                                                         |
+| -------------- | --------------------------------------------------------------- |
 | ✅ Интегрирован | auth_service, portfolio_organizer, infra-orchestrator, 6 других |
-| ❌ Свой loader | decision_engine (использует `configs/loader.py`) |
-| ❌ Нет main.py | it_compass, mcp_server, ml_model_registry, template-service |
+| ❌ Свой loader  | decision_engine (использует `configs/loader.py`)                |
+| ❌ Нет main.py  | it_compass, mcp_server, ml_model_registry, template-service     |
 
 ---
 
@@ -148,13 +148,13 @@ from apps.portfolio_organizer.src.config_integration import get_config
 
 ### Конкретные действия:
 
-| Задача | Приоритет | Время | Риск |
-|--------|-----------|-------|------|
-| 1. Создать main.py для 5 сервисов | 🔴 Высокий | 1.5 часа | Низкий |
-| 2. Добавить Dockerfile для 4 сервисов | 🔴 Высокий | 1 час | Низкий |
-| 3. Заменить decision_engine/loader.py на AI Config | 🟡 Средний | 30 мин | Низкий |
-| 4. Обновить README (шаблон) | 🟡 Средний | 1 час | Низкий |
-| 5. Создать `scripts/create-service.py` | 🟢 Низкий | 1 час | Нет |
+| Задача                                             | Приоритет | Время    | Риск   |
+| -------------------------------------------------- | --------- | -------- | ------ |
+| 1. Создать main.py для 5 сервисов                  | 🔴 Высокий | 1.5 часа | Низкий |
+| 2. Добавить Dockerfile для 4 сервисов              | 🔴 Высокий | 1 час    | Низкий |
+| 3. Заменить decision_engine/loader.py на AI Config | 🟡 Средний | 30 мин   | Низкий |
+| 4. Обновить README (шаблон)                        | 🟡 Средний | 1 час    | Низкий |
+| 5. Создать `scripts/create-service.py`             | 🟢 Низкий  | 1 час    | Нет    |
 
 **Итого:** ~5 часов, минимальный риск
 
@@ -166,24 +166,24 @@ from apps.portfolio_organizer.src.config_integration import get_config
 
 **Сервисы без main.py/app.py:**
 
-| Сервис | Действие | Сложность |
-|--------|----------|-----------|
-| **it_compass/** | Создать `main.py` → запускает Streamlit | Низкая |
-| **mcp_server/** | Создать `main.py` → MCP server | Низкая |
-| **ml_model_registry/** | Создать `main.py` → FastAPI | Средняя |
-| **portfolio_organizer/** | Переместить `src/app.py` → `main.py` | Низкая |
-| **template-service/** | Создать `main.py` + базовый FastAPI | Низкая |
+| Сервис                   | Действие                                | Сложность |
+| ------------------------ | --------------------------------------- | --------- |
+| **it_compass/**          | Создать `main.py` → запускает Streamlit | Низкая    |
+| **mcp_server/**          | Создать `main.py` → MCP server          | Низкая    |
+| **ml_model_registry/**   | Создать `main.py` → FastAPI             | Средняя   |
+| **portfolio_organizer/** | Переместить `src/app.py` → `main.py`    | Низкая    |
+| **template-service/**    | Создать `main.py` + базовый FastAPI     | Низкая    |
 
 ### Этап 2: Dockerfile (1 час)
 
 **Сервисы без Dockerfile:**
 
-| Сервис | Базовый образ | Сложность |
-|--------|---------------|-----------|
-| **cognitive-agent/** | python:3.11-slim | Средняя (сложная структура) |
-| **job-automation-agent/** | python:3.11-slim | Низкая |
-| **thought-architecture/** | python:3.11-slim | Низкая |
-| **template-service/** | python:3.11-slim | Низкая |
+| Сервис                    | Базовый образ    | Сложность                   |
+| ------------------------- | ---------------- | --------------------------- |
+| **cognitive-agent/**      | python:3.11-slim | Средняя (сложная структура) |
+| **job-automation-agent/** | python:3.11-slim | Низкая                      |
+| **thought-architecture/** | python:3.11-slim | Низкая                      |
+| **template-service/**     | python:3.11-slim | Низкая                      |
 
 ### Этап 3: AI Config Manager (30 мин)
 
@@ -217,25 +217,25 @@ python scripts/create-service.py --name new-service --type fastapi
 
 ## 📊 Ожидаемый результат
 
-| Метрика | До | После (Вариант B) |
-|---------|-----|-------------------|
-| Сервисов с main.py | 9/14 | 14/14 ✅ |
-| Сервисов с Dockerfile | 9/14 | 14/14 ✅ |
-| Сервисов с AI Config | 9/14 | 14/14 ✅ |
-| Стандартизированных README | 5/14 | 14/14 ✅ |
-| Production-риск | - | Низкий ✅ |
-| Время выполнения | - | ~5 часов |
+| Метрика                    | До   | После (Вариант B) |
+| -------------------------- | ---- | ----------------- |
+| Сервисов с main.py         | 9/14 | 14/14 ✅           |
+| Сервисов с Dockerfile      | 9/14 | 14/14 ✅           |
+| Сервисов с AI Config       | 9/14 | 14/14 ✅           |
+| Стандартизированных README | 5/14 | 14/14 ✅           |
+| Production-риск            | -    | Низкий ✅          |
+| Время выполнения           | -    | ~5 часов          |
 
 ---
 
 ## ⚠️ Риски и митигация
 
-| Риск | Вероятность | Митигация |
-|------|-------------|-----------|
-| Сломать decision_engine | Низкая | Тесты перед коммитом |
-| Сломать portfolio_organizer | Низкая | Flask оставить, только переместить entry point |
-| Потерять функциональность | Низкая | Фреймворки не менять |
-| Время > 5 часов | Средняя | Приоритезировать: entry point > Dockerfile > README |
+| Риск                        | Вероятность | Митигация                                           |
+| --------------------------- | ----------- | --------------------------------------------------- |
+| Сломать decision_engine     | Низкая      | Тесты перед коммитом                                |
+| Сломать portfolio_organizer | Низкая      | Flask оставить, только переместить entry point      |
+| Потерять функциональность   | Низкая      | Фреймворки не менять                                |
+| Время > 5 часов             | Средняя     | Приоритезировать: entry point > Dockerfile > README |
 
 ---
 

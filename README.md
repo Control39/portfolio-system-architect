@@ -129,7 +129,7 @@ docker-compose up -d
 - 🔗 **Интегрирует** IT-Compass, Job Automation, Decision Engine
 - 📚 **Собирает метрики** и учится на результатах
 
-**Статус:** FastAPI сервер работает, ИИ-планирование в разработке.  
+**Статус:** FastAPI сервер работает, ИИ-планирование в разработке.
 **Документация:** [apps/cognitive_agent/README.md](apps/cognitive_agent/README.md)
 
 ---
