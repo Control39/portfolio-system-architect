@@ -2,48 +2,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Текущий файл",
+            "name": "Python: FastAPI - Portfolio Organizer",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: pytest текущий файл",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
+            "module": "apps.portfolio_organizer.run_api",
             "args": [
-                "${file}",
-                "-v"
+                "--mode",
+                "dev",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8004"
             ],
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: pytest весь проект",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
-            "args": [
-                "apps",
-                "src",
-                "--cov=apps",
-                "--cov=src",
-                "--cov-report=term-missing",
-                "-v"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents",
+                "LOG_LEVEL": "DEBUG"
             }
         },
         {
@@ -62,7 +37,77 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+            }
+        },
+        {
+            "name": "Python: FastAPI - Auth Service",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "apps.auth_service.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8100",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+            }
+        },
+        {
+            "name": "Python: Agents - Cognitive Orchestrator",
+            "type": "python",
+            "request": "launch",
+            "module": "agents.cognitive_agent.orchestrator",
+            "args": [
+                "--workflow",
+                "analyze_gaps"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+            }
+        },
+        {
+            "name": "Python: Streamlit - IT Compass",
+            "type": "python",
+            "request": "launch",
+            "module": "streamlit",
+            "args": [
+                "run",
+                "apps/it_compass/main.py",
+                "--server.port",
+                "8501"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+            }
+        },
+        {
+            "name": "Python: FastAPI - MCP Server",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "apps.mcp_server.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8005",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
             }
         },
         {
@@ -81,189 +126,33 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
+                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
             }
-        },
-        {
-            "name": "Python: Flask - Portfolio Organizer",
-            "type": "python",
-            "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "apps/portfolio_organizer/src/main.py",
-                "FLASK_DEBUG": "1",
-                "SECRET_KEY": "dev-secret-key",
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            },
-            "args": [
-                "run",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8004",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        {
-            "name": "Python: FastAPI - Auth Service",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.auth_service.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8100",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: Streamlit - IT Compass",
-            "type": "python",
-            "request": "launch",
-            "module": "streamlit",
-            "args": [
-                "run",
-                "apps/it_compass/src/main.py",
-                "--server.port",
-                "8501"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: FastAPI - Cognitive Agent (скоро будет в agents/)",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.cognitive_agent.src.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8003",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: MCP Server",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.mcp_server.src.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8005",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: FastAPI - Knowledge Graph",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.knowledge_graph.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8006",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: FastAPI - Context Builder",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.context_builder.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8007",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: FastAPI - AI Config Manager",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "apps.ai_config_manager.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8008",
-                "--reload"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps"
-            }
-        },
-        {
-            "name": "Python: Attach (для отладки уже запущенных)",
-            "type": "python",
-            "request": "attach",
-            "connect": {
-                "host": "localhost",
-                "port": 5678
-            },
-            "justMyCode": false
         }
     ],
     "compounds": [
         {
-            "name": "🚀 Все микросервисы (Decision + ML + Auth + MCP)",
+            "name": "🚀 Core Microservices (Decision + Auth + MCP + ML)",
             "configurations": [
                 "Python: FastAPI - Decision Engine",
-                "Python: FastAPI - ML Model Registry",
                 "Python: FastAPI - Auth Service",
-                "Python: MCP Server"
+                "Python: FastAPI - MCP Server",
+                "Python: FastAPI - ML Model Registry"
             ],
             "stopAll": true
         },
         {
-            "name": "🎨 UI сервисы (IT Compass + Portfolio)",
+            "name": "🧠 Agents & Logic (Portfolio + Cognitive)",
             "configurations": [
-                "Python: Streamlit - IT Compass",
-                "Python: Flask - Portfolio Organizer"
+                "Python: FastAPI - Portfolio Organizer",
+                "Python: Agents - Cognitive Orchestrator"
+            ],
+            "stopAll": true
+        },
+        {
+            "name": "🎨 UI Layer (IT Compass)",
+            "configurations": [
+                "Python: Streamlit - IT Compass"
             ],
             "stopAll": true
         }
