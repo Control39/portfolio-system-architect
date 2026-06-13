@@ -1,36 +1,33 @@
-> **Former ID:** ADR-019-local-vs-cloud-llm
-> **Former path:** `docs\architecture\decisions\ADR-019-local-vs-cloud-llm.md`
-> **Current ID:** ADR-019
+> **Former ID:** ADR-019-local-vs-cloud-llm **Former path:**
+> `docs\architecture\decisions\ADR-019-local-vs-cloud-llm.md` **Current ID:** ADR-019
 > **Consolidated:** 2026-05-30
->
----
 
-> **Former ID:** ADR-019-local-vs-cloud-llm
-> **Former path:** `docs\architecture\decisions\ADR-019-local-vs-cloud-llm.md`
-> **Current ID:** ADR-019
+______________________________________________________________________
+
+> **Former ID:** ADR-019-local-vs-cloud-llm **Former path:**
+> `docs\architecture\decisions\ADR-019-local-vs-cloud-llm.md` **Current ID:** ADR-019
 > **Consolidated:** 2026-05-23
->
----
 
----
-id: ADR-019
-title: Выбор между Local LLM и Cloud Serverless для AI Reasoning
-status: accepted
-date: 2026-05-22
-authors:
-  - Control39
-consulted:
-  - Architecture Team
-deciders:
-  - Lead Architect
-  - CTO
----
+______________________________________________________________________
+
+______________________________________________________________________
+
+id: ADR-019 title: Выбор между Local LLM и Cloud Serverless для AI Reasoning status: accepted date:
+2026-05-22 authors:
+
+- Control39 consulted:
+- Architecture Team deciders:
+- Lead Architect
+- CTO
+
+______________________________________________________________________
 
 # ADR-019: Выбор между Local LLM и Cloud Serverless для AI Reasoning
 
 ## Context (Контекст)
 
 Проект Portfolio System Architect требует AI reasoning engine для:
+
 - Генерации объяснений решений
 - RAG (Retrieval-Augmented Generation) из документации
 - Анализу компетенций (IT-Compass)
@@ -41,18 +38,19 @@ deciders:
 ## Decision Drivers (Драйверы решений)
 
 1. **Приватность данных** — чувствительные данные не должны покидать периметр
-2. **Стоимость** — бюджет гранта 6000₽/месяц на Yandex Cloud
-3. **Производительность** — latency для интерактивных сценариев
-4. **Масштабируемость** — пиковые нагрузки (например, batch обработка)
-5. **Зависимость от инфраструктуры** — оффлайн-режим для разработки
+1. **Стоимость** — бюджет гранта 6000₽/месяц на Yandex Cloud
+1. **Производительность** — latency для интерактивных сценариев
+1. **Масштабируемость** — пиковые нагрузки (например, batch обработка)
+1. **Зависимость от инфраструктуры** — оффлайн-режим для разработки
 
 ## Considered Options (Рассмотренные варианты)
 
-| Вариант | Описание | Плюсы | Минусы |
-|---------|----------|-------|--------|
-| **1. Local LLM (Ollama)** | Модели запускаются локально (Llama 3, Mistral) | Приватность, нет latency сети, оффлайн-режим | Требует GPU/CPU, ограничено масштабом |
-| **2. Cloud Serverless (Yandex Functions)** | Модели в Yandex Cloud Functions | Масштабируемость, pay-per-use, грант 6000₽ | Зависимость от сети, latency, стоимость при нагрузке |
-| **3. Гибридная архитектура** | Local для dev/test, Cloud для production | Оптимально по цене и гибкости | Сложность переключения режимов |
+| Вариант | Описание | Плюсы | Минусы | |---------|----------|-------|--------| | **1. Local LLM
+(Ollama)** | Модели запускаются локально (Llama 3, Mistral) | Приватность, нет latency сети,
+оффлайн-режим | Требует GPU/CPU, ограничено масштабом | | **2. Cloud Serverless (Yandex Functions)**
+| Модели в Yandex Cloud Functions | Масштабируемость, pay-per-use, грант 6000₽ | Зависимость от
+сети, latency, стоимость при нагрузке | | **3. Гибридная архитектура** | Local для dev/test, Cloud
+для production | Оптимально по цене и гибкости | Сложность переключения режимов |
 
 ## Decision (Решение)
 
@@ -60,10 +58,10 @@ deciders:
 
 ### Режимы работы
 
-| Режим | Реализация | Сценарий |
-|-------|------------|----------|
-| **Local (Default)** | `apps/decision_engine/` + Ollama (Llama 3 8B) | Разработка, тестирование, чувствительные данные |
-| **Cloud (Production)** | `experiments/cloud-reason-serverless/` + YandexGPT | Production-нагрузки, пиковые запросы, демо для грантов |
+| Режим | Реализация | Сценарий | |-------|------------|----------| | **Local (Default)** |
+`apps/decision_engine/` + Ollama (Llama 3 8B) | Разработка, тестирование, чувствительные данные | |
+**Cloud (Production)** | `experiments/cloud-reason-serverless/` + YandexGPT | Production-нагрузки,
+пиковые запросы, демо для грантов |
 
 ### Переключение режимов
 
@@ -98,22 +96,22 @@ class ReasoningResponse:
 
 ## Consequences (Последствия)
 
-### Положительные
+### Positive
 
-✅ **Гибкость**: Можно выбирать под задачу (Local для приватности, Cloud для масштаба)
-✅ **Cost Optimization**: Грант 6000₽ покрывает production-нагрузку до 10K запросов/месяц
-✅ **DevEx**: Разработчики работают оффлайн без зависимости от облака
-✅ **Enterprise-ready**: Демонстрация гибридной архитектуры для клиентов
+✅ **Гибкость**: Можно выбирать под задачу (Local для приватности, Cloud для масштаба) ✅ **Cost
+Optimization**: Грант 6000₽ покрывает production-нагрузку до 10K запросов/месяц ✅ **DevEx**:
+Разработчики работают оффлайн без зависимости от облака ✅ **Enterprise-ready**: Демонстрация
+гибридной архитектуры для клиентов
 
 ### Отрицательные
 
-❌ **Сложность**: Нужно поддерживать 2 реализации (Local + Cloud)
-❌ **Тестирование**: E2E тесты требуют настройки обоих режимов
-❌ **Конфигурация**: Переменные окружения для переключения режимов
+❌ **Сложность**: Нужно поддерживать 2 реализации (Local + Cloud) ❌ **Тестирование**: E2E тесты
+требуют настройки обоих режимов ❌ **Конфигурация**: Переменные окружения для переключения режимов
 
 ## Status (Статус)
 
 **Accepted** — решение принято и реализовано:
+
 - `apps/decision_engine/` — Local режим (production)
 - `experiments/cloud-reason-serverless/` — Cloud режим (reference architecture)
 
