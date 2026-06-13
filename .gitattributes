@@ -18,3 +18,5 @@ examples/ export-ignore
 **/obsidian-vault/ export-ignore
 **/obsidian-map/ export-ignore
 examples/legacy/ export-ignore
+#
+* text=auto eol=lf
