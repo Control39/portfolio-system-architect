@@ -1,6 +1,6 @@
 # 🤖 Cognitive Agent: Полный контекст для ИИ
 
-> **Дата создания:** 5 июня 2026
+> **Дата создания:** 13 июня 2026
 > **Для кого:** Любой ИИ-ассистент, который будет работать с проектом
 > **Цель:** Дать полное понимание системы без необходимости объяснять с нуля
 
@@ -32,7 +32,7 @@ portfolio-system-architect/
 │   └── core/
 │       └── config_loader.py      # ← Загрузчик конфигов
 │
-├── apps/                         # 🧪 МОЛЕКУЛЫ (сервисы)
+├── agents/                       # 🧪 МОЛЕКУЛЫ (сервисы)
 │   └── cognitive_agent/
 │       ├── src/
 │       │   ├── main.py           # ← FastAPI сервер
@@ -49,7 +49,7 @@ portfolio-system-architect/
 
 ### **Правило:**
 - **Атомы** в `src/` — переиспользуются всеми сервисами
-- **Молекулы** в `apps/cognitive_agent/` — специфичны для этого сервиса
+- **Молекулы** в `agents/cognitive_agent/` — специфичны для этого сервиса
 
 ---
 
@@ -57,21 +57,21 @@ portfolio-system-architect/
 
 ### **Cognitive Agent СВЯЗАН с:**
 
-| Сервис | Связь | Как используется |
-|--------|-------|------------------|
-| **IT-Compass** | 🔗 Тесная интеграция | Сканирует маркеры компетенций из `apps/it_compass/src/data/markers/` |
-| **Job Automation Agent** | 🔗 Тесная интеграция | Использует адаптер `CognitiveJobSearch` для поиска вакансий |
-| **Decision Engine** | 🔗 Тесная интеграция | Через `src/ai/gigachat_bridge.py` (GigaChat) |
-| **Knowledge Graph** | 🔄 Планируется | ChromaDB для векторного поиска |
-| **Career Development** | 🔄 Планируется | Отправка метрик прогресса |
-| **Portfolio Organizer** | 🔄 Планируется | Экспорт доказательств |
+| Сервис                   | Связь               | Как используется                                                     |
+| ------------------------ | ------------------- | -------------------------------------------------------------------- |
+| **IT-Compass**           | 🔗 Тесная интеграция | Сканирует маркеры компетенций из `apps/it_compass/src/data/markers/` |
+| **Job Automation Agent** | 🔗 Тесная интеграция | Использует адаптер `CognitiveJobSearch` для поиска вакансий          |
+| **Decision Engine**      | 🔗 Тесная интеграция | Через `src/ai/gigachat_bridge.py` (GigaChat)                         |
+| **Knowledge Graph**      | 🔄 Планируется       | ChromaDB для векторного поиска                                       |
+| **Career Development**   | 🔄 Планируется       | Отправка метрик прогресса                                            |
+| **Portfolio Organizer**  | 🔄 Планируется       | Экспорт доказательств                                                |
 
 ### **Два сервиса ВЫБИВАЮТСЯ из общей картины:**
 
-| Сервис | Почему отдельный | Статус |
-|--------|------------------|--------|
-| **context_builder** | Создавался отдельно для сборки контекста LLM | ✅ Работает |
-| **competency_gap_engine** | Создавался отдельно для анализа разрывов | ✅ Работает |
+| Сервис                    | Почему отдельный                             | Статус     |
+| ------------------------- | -------------------------------------------- | ---------- |
+| **context_builder**       | Создавался отдельно для сборки контекста LLM | ✅ Работает |
+| **competency_gap_engine** | Создавался отдельно для анализа разрывов     | ✅ Работает |
 
 **Но они МОГУТ быть интегрированы!**
 
@@ -79,16 +79,16 @@ portfolio-system-architect/
 
 ## ✅ **Что уже реализовано (сделано мной)**
 
-| Компонент | Где | Статус |
-|-----------|-----|--------|
-| **FastAPI сервер** | `apps/cognitive_agent/src/main.py` | ✅ Работает |
-| **API endpoints** | `apps/cognitive_agent/src/api/endpoints.py` | ✅ Работает |
-| **GigaChat интеграция** | `src/ai/gigachat_bridge.py` | ✅ Готова |
-| **Сканирование** | `apps/cognitive_agent/scripts/scanner_main.py` | ✅ Работает |
-| **Планирование** | `apps/cognitive_agent/scripts/planner_main.py` | 🟡 Без ИИ |
-| **Обучение** | `apps/cognitive_agent/scripts/learning_main.py` | ✅ Работает |
-| **Модели данных** | `src/shared/models.py` | ✅ Готова |
-| **Документация** | `apps/cognitive_agent/docs/` | ✅ Полная |
+| Компонент               | Где                                               | Статус     |
+| ----------------------- | ------------------------------------------------- | ---------- |
+| **FastAPI сервер**      | `agents/cognitive_agent/src/main.py`              | ✅ Работает |
+| **API endpoints**       | `agents/cognitive_agent/src/api/endpoints.py`     | ✅ Работает |
+| **GigaChat интеграция** | `src/ai/gigachat_bridge.py`                       | ✅ Готова   |
+| **Сканирование**        | `agents/cognitive_agent/scripts/scanner_main.py`  | ✅ Работает |
+| **Планирование**        | `agents/cognitive_agent/scripts/planner_main.py`  | 🟡 Без ИИ   |
+| **Обучение**            | `agents/cognitive_agent/scripts/learning_main.py` | ✅ Работает |
+| **Модели данных**       | `src/shared/models.py`                            | ✅ Готова   |
+| **Документация**        | `agents/cognitive_agent/docs/`                    | ✅ Полная   |
 
 ### **Что скопировано из других проектов:**
 
@@ -109,11 +109,11 @@ portfolio-system-architect/
 ## 📂 **Где искать код (карта для ИИ)**
 
 ### **Основная логика:**
-- `apps/cognitive_agent/src/main.py` — FastAPI сервер
-- `apps/cognitive_agent/src/api/endpoints.py` — API endpoints
-- `apps/cognitive_agent/scripts/scanner_main.py` — сканирование
-- `apps/cognitive_agent/scripts/planner_main.py` — планирование
-- `apps/cognitive_agent/scripts/learning_main.py` — обучение
+- `agents/cognitive_agent/src/main.py` — FastAPI сервер
+- `agents/cognitive_agent/src/api/endpoints.py` — API endpoints
+- `agents/cognitive_agent/scripts/scanner_main.py` — сканирование
+- `agents/cognitive_agent/scripts/planner_main.py` — планирование
+- `agents/cognitive_agent/scripts/learning_main.py` — обучение
 
 ### **Атомы (общие компоненты):**
 - `src/ai/gigachat_bridge.py` — GigaChat интеграция
@@ -121,13 +121,13 @@ portfolio-system-architect/
 - `src/core/config_loader.py` — загрузчик конфигов
 
 ### **Документация:**
-- `apps/cognitive_agent/docs/COGNITIVE_AGENT_ARCHITECTURE.md` — архитектура
-- `apps/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md` — контекст реализации
-- `apps/cognitive_agent/docs/FLOW.md` — поток данных
-- `apps/cognitive_agent/docs/ARCHITECTURE.md` — схемы
+- `agents/cognitive_agent/docs/COGNITIVE_AGENT_ARCHITECTURE.md` — архитектура
+- `agents/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md` — контекст реализации
+- `agents/cognitive_agent/docs/FLOW.md` — поток данных
+- `agents/cognitive_agent/docs/ARCHITECTURE.md` — схемы
 
 ### **Тесты:**
-- `apps/cognitive_agent/tests/` — тесты сервиса
+- `agents/cognitive_agent/tests/` — тесты сервиса
 
 ---
 
@@ -166,13 +166,13 @@ grep -r "from src.ai|from src.shared|from src.core" --include="*.py" .
 
 ### **Почему это интересно:**
 
-| Аудитория | Почему интересно | Что показать |
-|-----------|------------------|--------------|
+| Аудитория                    | Почему интересно                                        | Что показать                                  |
+| ---------------------------- | ------------------------------------------------------- | --------------------------------------------- |
 | **HR / Нанимающий менеджер** | Демонстрирует системное мышление и архитектурные навыки | [HIRING_BRIEF.md](../../docs/HIRING_BRIEF.md) |
-| **Технический лидер** | Комплексная микросервисная архитектура с AI | ADR, архитектура, CI/CD |
-| **DevOps Engineer** | Production-ready с мониторингом, K8s | `deployment/`, Prometheus/Grafana |
-| **AI Engineer** | Интеграция GigaChat, LangChain, RAG | `src/ai/`, `apps/decision_engine/` |
-| **Начинающие разработчики** | IT-Compass как методология обучения | `apps/it_compass/` |
+| **Технический лидер**        | Комплексная микросервисная архитектура с AI             | ADR, архитектура, CI/CD                       |
+| **DevOps Engineer**          | Production-ready с мониторингом, K8s                    | `deployment/`, Prometheus/Grafana             |
+| **AI Engineer**              | Интеграция GigaChat, LangChain, RAG                     | `src/ai/`, `apps/decision_engine/`            |
+| **Начинающие разработчики**  | IT-Compass как методология обучения                     | `apps/it_compass/`                            |
 
 ### **Бизнес-ценность:**
 
@@ -211,7 +211,7 @@ grep -r "from src.ai|from src.shared|from src.core" --include="*.py" .
 
 > "Этот проект использует **Композиционную Архитектуру** с принципом «Атомы и Молекулы»:
 > - **Атомы** (`src/`) — переиспользуемые компоненты
-> - **Молекулы** (`apps/`) — независимые сервисы
+> - **Молекулы** (`agents/`) — независимые сервисы
 >
 > ❌ **НЕ удаляй файлы из `src/` без проверки** — это атомы, которые могут использоваться другими сервисами."
 
@@ -268,37 +268,37 @@ grep -r "from src.ai|from src.shared|from src.core" --include="*.py" .
 
 ## 📊 **Текущие метрики**
 
-| Показатель | Значение | Цель |
-|------------|----------|------|
-| **Покрытие тестами** | 14% (core: 66%) | ≥80% |
-| **FastAPI сервер** | ✅ Работает | - |
-| **API endpoints** | 6 endpoints | 10+ |
-| **Интеграции** | 3 (GigaChat, IT-Compass, Job Automation) | 6+ |
-| **Документация** | ✅ Полная | - |
+| Показатель           | Значение                                 | Цель |
+| -------------------- | ---------------------------------------- | ---- |
+| **Покрытие тестами** | 14% (core: 66%)                          | ≥80% |
+| **FastAPI сервер**   | ✅ Работает                               | -    |
+| **API endpoints**    | 6 endpoints                              | 10+  |
+| **Интеграции**       | 3 (GigaChat, IT-Compass, Job Automation) | 6+   |
+| **Документация**     | ✅ Полная                                 | -    |
 
 ---
 
 ## 🚀 **Приоритетный план**
 
-| Приоритет | Задача | Сложность |
-|-----------|--------|-----------|
-| 🔥 **Высокий** | Интегрировать с IT-Compass маркерами | Средняя |
-| 🔥 **Высокий** | Интегрировать с Job Automation | Средняя |
-| 🟡 **Средний** | ChromaDB векторный поиск | Средняя |
-| 🟡 **Средний** | Ollama fallback | Низкая |
-| ⚪ **Низкий** | E2E тесты | Высокая |
-| ⚪ **Низкий** | Docker Compose | Низкая |
+| Приоритет     | Задача                               | Сложность |
+| ------------- | ------------------------------------ | --------- |
+| 🔥 **Высокий** | Интегрировать с IT-Compass маркерами | Средняя   |
+| 🔥 **Высокий** | Интегрировать с Job Automation       | Средняя   |
+| 🟡 **Средний** | ChromaDB векторный поиск             | Средняя   |
+| 🟡 **Средний** | Ollama fallback                      | Низкая    |
+| ⚪ **Низкий**  | E2E тесты                            | Высокая   |
+| ⚪ **Низкий**  | Docker Compose                       | Низкая    |
 
 ---
 
 ## 📞 **Контакты**
 
-**Автор:** Екатерина Куделя (@Control39)
+**Автор:** Екатерина Куделя
 **Email:** leadarchitect@yandex.ru
 **Репозиторий:** https://github.com/Control39/portfolio-system-architect
 
 ---
 
 **Версия документа:** 1.0
-**Дата:** 5 июня 2026
+**Дата:** 13 июня 2026
 **Статус:** Актуальный

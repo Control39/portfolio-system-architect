@@ -112,15 +112,15 @@ python scripts/run_project_scanner.py C:\my-project --verbose
 
 ### Параметры CLI
 
-| Параметр | Описание | По умолчанию |
-|----------|----------|--------------|
-| `project_path` | Путь к проекту | **Обязательно** |
-| `--mode` | Режим сканирования | `full` |
-| `--paths` | Пути для выборочного сканирования | - |
-| `--config` | Файл конфигурации (JSON) | - |
-| `--export` | Файл для экспорта | - |
-| `--format` | Формат экспорта (`json`, `csv`) | `json` |
-| `--verbose` | Подробный вывод | False |
+| Параметр       | Описание                          | По умолчанию    |
+| -------------- | --------------------------------- | --------------- |
+| `project_path` | Путь к проекту                    | **Обязательно** |
+| `--mode`       | Режим сканирования                | `full`          |
+| `--paths`      | Пути для выборочного сканирования | -               |
+| `--config`     | Файл конфигурации (JSON)          | -               |
+| `--export`     | Файл для экспорта                 | -               |
+| `--format`     | Формат экспорта (`json`, `csv`)   | `json`          |
+| `--verbose`    | Подробный вывод                   | False           |
 
 ## 🔌 Интеграция с Cognitive Agent
 
@@ -165,10 +165,10 @@ results = scan_project(
 
 ```bash
 # Базовые тесты
-pytest apps/cognitive_agent/tests/test_project_scanner.py -v
+pytest agents/cognitive_agent/tests/test_project_scanner.py -v
 
 # С покрытием
-pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=agents.cognitive_agent.src.project_scanner --cov-report=term-missing
+pytest agents/cognitive_agent/tests/test_project_scanner.py -v --cov=agents.cognitive_agent.src.project_scanner --cov-report=term-missing
 ```
 
 ### Структура тестов
@@ -198,7 +198,7 @@ pytest apps/cognitive_agent/tests/test_project_scanner.py -v --cov=agents.cognit
         },
         # ...
     ],
-    "timestamp": "2026-06-01T12:00:00"
+    "timestamp": "2026-06-13T12:00:00"
 }
 ```
 

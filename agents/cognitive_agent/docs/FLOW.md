@@ -86,7 +86,7 @@ graph LR
 └── config/
     └── agent-config.yaml   # Конфигурация
 
-apps/cognitive_agent/
+agents/cognitive_agent/
 ├── logs/                   # Логи компонентов
 │   ├── scanner.log
 │   ├── planner.log
@@ -141,6 +141,6 @@ sequenceDiagram
 
 ---
 
-**Автор:** Екатерина Куделя (@Control39)
-**Дата:** 5 июня 2026
+**Автор:** Екатерина Куделя
+**Дата:** 13 июня 2026
 **Версия:** 0.1.0 (MVP + Восстановление)
