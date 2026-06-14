@@ -1,5 +1,6 @@
 # Конфигурация мониторинга квот SourceCraft
 # Пороговые значения в процентах использования
+# Пути указаны ОТНОСИТЕЛЬНО корня проекта (C:\repo)
 
 thresholds:
   # Нейрокредиты - основной ресурс для AI-запросов
@@ -20,7 +21,8 @@ alerts:
     - type: log
       level: warning
     - type: file
-      path: apps/cognitive_agent/logs/quota-alerts.log
+      # ✅ Исправлено: путь от корня проекта
+      path: "apps/cognitive_agent/logs/quota-alerts.log"
     - type: email
       enabled: false
       recipients: []
@@ -31,9 +33,9 @@ alerts:
   # Эскалация при критических уровнях
   escalation:
     - threshold: 90
-      channels: [log, file, email]
+      channels: [log, file]
     - threshold: 95
-      channels: [log, file, email, slack]
+      channels: [log, file]  # email пока отключен
       repeat_interval: 15  # минут
 
 # Стратегии оптимизации
@@ -42,12 +44,12 @@ optimization_strategies:
   neurocredits:
     - name: local_processing
       enabled: true
-      description: "Локальная обработка простых задач"
+      description: "Локальная обработка простых задач через Ollama"
       savings_estimate: "15-30%"
 
     - name: caching
       enabled: true
-      description: "Кэширование результатов анализа"
+      description: "Кэширование результатов анализа в ChromaDB"
       savings_estimate: "10-20%"
 
     - name: batch_processing
@@ -64,7 +66,8 @@ optimization_strategies:
 
     - name: parallel_execution
       enabled: true
-      description: "Параллельное выполнение задач"
+      description: "Параллельное выполнение задач (макс. 3)"
+      max_parallel: 3
       savings_estimate: "30-50%"
 
   # Для хранилища
@@ -76,22 +79,19 @@ optimization_strategies:
       savings_estimate: "0.5-1.0 GB"
 
     - name: compression
-      enabled: false
+      enabled: false  # Включить при нехватке места
       description: "Сжатие данных хранилища"
       savings_estimate: "40-60%"
 
 # Настройки мониторинга
 monitoring:
-  # Режим работы
-  mode: continuous  # continuous, scheduled, on_demand
+  # Режим работы: continuous, scheduled, on_demand
+  mode: continuous
 
-  # Расписание для scheduled режима
+  # Расписание для scheduled режима (если mode: scheduled)
   schedule:
-    - interval: 3600  # секунд
-      time: "02:00"   # время UTC
-
-    - interval: 1800  # секунд
-      time: "14:00"   # время UTC
+    # ✅ Упрощено: только интервал, чтобы избежать конфликта с time
+    interval_seconds: 3600  # Проверка каждый час
 
   # Сохранение истории
   history:
@@ -102,8 +102,9 @@ monitoring:
   # Интеграция с системой обучения
   learning_integration:
     enabled: true
-    update_interval: 86400  # секунд (24 часа)
-    model_path: apps/cognitive_agent/models/quota-prediction.pkl
+    update_interval_seconds: 86400  # 24 часа
+    # ✅ Исправлено: путь к модели (создадим директорию)
+    model_path: "apps/cognitive_agent/models/quota-prediction.pkl"
 
 # Интеграции
 integrations:
@@ -111,17 +112,18 @@ integrations:
   sourcecraft:
     enabled: true
     api_version: v1
-    cache_ttl: 300  # секунд
+    cache_ttl_seconds: 300
 
   # Внутренние системы
   internal:
     - name: agent_config
       enabled: true
-      config_path: apps/cognitive_agent/config/agent-config.yaml
+      # ✅ Путь от корня проекта
+      config_path: "apps/cognitive_agent/config/agent-config.yaml"
 
     - name: trigger_system
       enabled: true
-      config_path: apps/cognitive_agent/config/triggers.yaml
+      config_path: "apps/cognitive_agent/config/triggers.yaml"
 
 # Отчетность
 reporting:
@@ -129,21 +131,20 @@ reporting:
   formats:
     - json
     - yaml
-    - html
-    - markdown
+    - markdown  # html пока отключен для простоты
 
-  # Директория для отчетов
-  output_dir: apps/cognitive_agent/reports/quota
+  # ✅ Исправлено: директория для отчетов (создадим, если нет)
+  output_dir: "apps/cognitive_agent/reports/quota"
 
   # Автоматическая генерация
   auto_generate:
     enabled: true
     on_threshold: true
     daily: true
-    weekly: true
+    weekly: false  # Отключено для экономии ресурсов
 
-  # Шаблоны отчетов
+  # ✅ Исправлено: пути к шаблонам (создадим директорию)
   templates:
-    daily: apps/cognitive_agent/templates/quota-daily.md
-    weekly: apps/cognitive_agent/templates/quota-weekly.md
-    alert: apps/cognitive_agent/templates/quota-alert.md
+    daily: "apps/cognitive_agent/templates/quota/daily.md"
+    weekly: "apps/cognitive_agent/templates/quota/weekly.md"
+    alert: "apps/cognitive_agent/templates/quota/alert.md"

@@ -10,14 +10,19 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-# Добавляем корень проекта в PATH
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+# 🛠 ИСПРАВЛЕНО 1: REPO_ROOT теперь устойчивый (работает из любого места)
+REPO_ROOT = Path("C:/repo") if Path("C:/repo").exists() else Path(__file__).resolve().parents[3]
+
+
+# 🛠 ИСПРАВЛЕНО 2: Правильные импорты (agents/, а не apps/)
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
+
 # Добавляем путь к cognitive_agent
-COGNITIVE_AGENT_PATH = REPO_ROOT / "apps" / "cognitive_agent"
+COGNITIVE_AGENT_PATH = REPO_ROOT / "agents" / "cognitive_agent"
 if str(COGNITIVE_AGENT_PATH) not in sys.path:
     sys.path.insert(0, str(COGNITIVE_AGENT_PATH))
+
 # Добавляем путь к src
 SRC_PATH = REPO_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
@@ -150,7 +155,8 @@ class TestIntegration:
 
         orchestrator = CognitiveOrchestrator()
 
-        markers_dir = REPO_ROOT / "apps" / "it_compass" / "src" / "data" / "markers"
+        # 🛠 ИСПРАВЛЕНО 3: Путь к маркерам (apps/ → agents/)
+        markers_dir = REPO_ROOT / "agents" / "it_compass" / "src" / "data" / "markers"
 
         if markers_dir.exists():
             markers = orchestrator.load_it_compass_markers()
@@ -235,7 +241,7 @@ class TestIntegration:
         Test: Scanner Integration with Orchestrator
         Проверка интеграции сканера с оркестратором
         """
-        scanner_main_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "scanner_main.py"
+        scanner_main_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "scanner_main.py"
 
         if scanner_main_path.exists():
             # Проверяем, что файл существует
@@ -249,7 +255,7 @@ class TestIntegration:
         Test: Scanner Script Execution
         Проверка выполнения скрипта сканера
         """
-        script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "scanner_main.py"
+        script_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "scanner_main.py"
 
         if script_path.exists():
             with open(script_path, encoding="utf-8") as f:
@@ -270,7 +276,7 @@ class TestIntegration:
         Test: Planner Integration with Orchestrator
         Проверка интеграции планировщика с оркестратором
         """
-        planner_main_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "planner_main.py"
+        planner_main_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "planner_main.py"
 
         if planner_main_path.exists():
             # Проверяем, что файл существует
@@ -284,7 +290,7 @@ class TestIntegration:
         Test: Planner Script Execution
         Проверка выполнения скрипта планировщика
         """
-        script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "planner_main.py"
+        script_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "planner_main.py"
 
         if script_path.exists():
             with open(script_path, encoding="utf-8") as f:
@@ -305,7 +311,7 @@ class TestIntegration:
         Test: Learning Integration with Orchestrator
         Проверка интеграции сборщика метрик с оркестратором
         """
-        learning_main_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "learning_main.py"
+        learning_main_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "learning_main.py"
 
         if learning_main_path.exists():
             # Проверяем, что файл существует
@@ -319,7 +325,7 @@ class TestIntegration:
         Test: Learning Script Execution
         Проверка выполнения скрипта сбора метрик
         """
-        script_path = REPO_ROOT / "apps" / "cognitive_agent" / "scripts" / "learning_main.py"
+        script_path = REPO_ROOT / "agents" / "cognitive_agent" / "scripts" / "learning_main.py"
 
         if script_path.exists():
             with open(script_path, encoding="utf-8") as f:
@@ -348,8 +354,8 @@ class TestIntegration:
         assert orchestrator is not None
         assert isinstance(orchestrator.config, dict)
 
-        # Проверяем загрузку маркеров
-        markers_dir = REPO_ROOT / "apps" / "it_compass" / "src" / "data" / "markers"
+        # 🛠 ИСПРАВЛЕНО 3: Путь к маркерам (apps/ → agents/)
+        markers_dir = REPO_ROOT / "agents" / "it_compass" / "src" / "data" / "markers"
         if markers_dir.exists():
             markers = orchestrator.load_it_compass_markers()
             assert isinstance(markers, dict)

@@ -1,0 +1,49 @@
+# agents/cognitive_agent/config/guardrails.yaml
+allowed_paths:
+  - "^apps/"
+  - "^agents/"
+  - "^config/"
+  - "^logs/" # ✅ ДОБАВЛЕНО: для логов
+
+blocked_patterns:
+  - "\\.\\./"
+  - "/etc/"
+  - "~/"
+  - "\\.env"
+  - "\\.pem"
+  - "\\.key"
+
+safe_actions:
+  - "read"
+  - "scan"
+  - "analyze"
+  - "list"
+
+rules:
+  # 🛑 БЛОК — даже с одобрением не сработает
+  - pattern: ".*\\.(key|pem|env)$"
+    action_pattern: ".*" # ✅ Исправлено: теперь блокирует ВСЕ действия
+    action: "block"
+    message: "🚫 Критические файлы заблокированы"
+
+  - pattern: "config/sensitive.*"
+    action_pattern: ".*"
+    action: "block"
+    message: "🚫 Конфигурация с секретами — запрещено"
+
+  # ⚠️ ТРЕБУЕТ ОДОБРЕНИЯ — для любых изменений .py
+  - pattern: "^apps/.*\\.py$"
+    action_pattern: "(write|create|edit|modify|update|delete|remove)" # ✅ Исправлено: любые "деструктивные" действия
+    action: "requires-approval"
+    message: "⚠️ Изменение .py файлов требует одобрения"
+
+  - pattern: "^agents/.*\\.py$"
+    action_pattern: "(write|create|edit|modify|update|delete|remove)"
+    action: "requires-approval"
+    message: "⚠️ Изменение агентского кода требует одобрения"
+
+  # ✅ РАЗРЕШЕНО — чтение без одобрения
+  - pattern: ".*"
+    action_pattern: "read|scan|list|analyze"
+    action: "allow"
+    message: "✅ Чтение разрешено без одобрения"

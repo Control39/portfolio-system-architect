@@ -15,3 +15,8 @@ gitpython>=3.1.43
 # --- Тестовые зависимости ---
 pytest>=8.0.0
 pytest-cov>=5.0.0
+
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+httpx>=0.24.0  # ← вот он

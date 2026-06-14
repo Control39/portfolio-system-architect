@@ -15,11 +15,14 @@ Autonomous Cognitive Agent - Автономный AI-агент
 
 import json
 import logging
+import re
 import threading
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -55,6 +58,35 @@ class AutonomousCognitiveAgent:
     4. Выполняет задачи (с подтверждением)
     """
 
+    # ⭐ [БЕЗОПАСНОСТЬ] Лимиты операций для предотвращения DoS
+    OPERATION_LIMITS = {
+        "files_per_scan": 500,  # Максимум файлов за сканирование
+        "max_file_size_mb": 10,  # Максимальный размер файла (MB)
+        "max_ai_calls_per_hour": 50,  # Лимит AI запросов
+        "max_actions_per_task": 10,  # Максимум шагов в задаче
+        "max_task_length": 5000,  # Максимальная длина описания задачи
+    }
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Запрещённые паттерны в командах
+    DANGEROUS_PATTERNS = [
+        r"rm\s+-rf",
+        r"del\s+/f",
+        r"format\s+",
+        r":\(\)\s*\{\s*:\|:&",  # Shell команды
+        r"__import__",
+        r"eval\s*\(",
+        r"exec\s*\(",
+        r"compile\s*\(",  # Опасный Python
+        r"os\.system",
+        r"subprocess\.",
+        r"__getattribute__",  # Системные вызовы
+        r"\.\./",
+        r"~/",
+        r"/etc/",
+        r"/root/",
+        r"C:\\Windows",  # Пути вне проекта
+    ]
+
     def __init__(self, project_path: str = None):
         self.project_path = Path(project_path) if project_path else REPO_ROOT
         self.agent_id = f"agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
@@ -62,17 +94,80 @@ class AutonomousCognitiveAgent:
         self.scan_interval = 1800  # 30 минут (экономия ресурсов)
         self.last_scan: datetime | None = None
 
+        # ⭐ [БЕЗОПАСНОСТЬ] Счётчики для rate limiting
+        self.ai_call_counter = 0
+        self.ai_call_reset_time = datetime.now()
+
         # Инициализация
-        config_path = self.project_path / "apps" / "cognitive_agent" / "config" / "agent-config.yaml"
+        config_path = self.project_path / "agents" / "cognitive_agent" / "config" / "agent-config.yaml"
         self.config = ConfigManager(str(config_path)) if config_path.exists() else None
         self.ai_manager = get_provider_manager()
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Проверка guardrails при старте
+        guardrails_path = self.project_path / "agents" / "cognitive_agent" / "config" / "guardrails.yaml"
+        self.guardrails_loaded = guardrails_path.exists()
+        if not self.guardrails_loaded:
+            logger.warning("⚠️ guardrails.yaml не найден — агент работает в ограниченном режиме (только чтение)")
+        else:
+            logger.info("✅ guardrails.yaml загружен — агент в безопасном режиме")
+            self._load_guardrails(guardrails_path)
 
         # Результаты сканирования
         self.scan_results: dict[str, Any] = {}
         self.recommendations: list[dict[str, Any]] = []
 
+        # ⭐ [ИНТЕЛЛЕКТ] Память решений
+        self.memory = {
+            "decisions": [],  # История принятых решений
+            "patterns": {},  # Выученные паттерны
+            "success_rate": 0.0,  # Процент успешных решений
+        }
+
         logger.info(f"🚀 Agent initialized: {self.agent_id}")
         logger.info(f"📁 Project path: {self.project_path}")
+        logger.info(f"🛡️ Guardrails mode: {'ACTIVE' if self.guardrails_loaded else 'LIMITED'}")
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Загрузка правил guardrails
+    def _load_guardrails(self, guardrails_path: Path):
+        """Загрузить правила безопасности"""
+        try:
+            with open(guardrails_path, encoding="utf-8") as f:
+                self.guardrails = yaml.safe_load(f)
+                self.allowed_paths = self.guardrails.get("allowed_paths", [])
+                self.blocked_patterns = self.guardrails.get("blocked_patterns", [])
+                self.safe_actions = self.guardrails.get("safe_actions", ["read", "scan", "analyze"])
+                logger.info(
+                    f"✅ Loaded {len(self.allowed_paths)} allowed paths, {len(self.blocked_patterns)} blocked patterns"
+                )
+        except Exception as e:
+            logger.error(f"Failed to load guardrails: {e}")
+            self.guardrails_loaded = False
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
+    def _check_rate_limit(self):
+        """Проверить лимиты AI вызовов"""
+        now = datetime.now()
+        if (now - self.ai_call_reset_time).seconds >= 3600:
+            self.ai_call_counter = 0
+            self.ai_call_reset_time = now
+
+        if self.ai_call_counter >= self.OPERATION_LIMITS["max_ai_calls_per_hour"]:
+            raise Exception(f"Rate limit exceeded: {self.ai_call_counter} calls in last hour")
+
+        self.ai_call_counter += 1
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Валидация входных данных
+    def _validate_task(self, task: str) -> tuple[bool, str]:
+        """Проверить задачу на опасное содержимое"""
+        if len(task) > self.OPERATION_LIMITS["max_task_length"]:
+            return False, f"Task too long ({len(task)} > {self.OPERATION_LIMITS['max_task_length']})"
+
+        for pattern in self.DANGEROUS_PATTERNS:
+            if re.search(pattern, task, re.IGNORECASE):
+                logger.warning(f"❌ Dangerous pattern detected: {pattern}")
+                return False, f"Dangerous command detected: {pattern}"
+
+        return True, "OK"
 
     def start(self, background: bool = True):
         """Запустить агента"""
@@ -114,6 +209,21 @@ class AutonomousCognitiveAgent:
             except Exception as e:
                 logger.error(f"Error in background loop: {e}")
 
+    # ⭐ [ИНТЕЛЛЕКТ] Память решений
+    def _remember_decision(self, context: dict, decision: str, outcome: str):
+        """Запомнить решение и его результат для будущего обучения"""
+        self.memory["decisions"].append(
+            {"context": context, "decision": decision, "outcome": outcome, "timestamp": datetime.now().isoformat()}
+        )
+
+        # Ограничиваем историю 100 записями
+        if len(self.memory["decisions"]) > 100:
+            self.memory["decisions"] = self.memory["decisions"][-100:]
+
+        # Обновляем success rate
+        success_count = sum(1 for d in self.memory["decisions"] if d["outcome"] == "success")
+        self.memory["success_rate"] = success_count / len(self.memory["decisions"]) if self.memory["decisions"] else 0.0
+
     def scan_project(self, mode: str = "auto"):
         """
         Сканировать проект
@@ -150,7 +260,6 @@ class AutonomousCognitiveAgent:
                     "status": "no_changes",
                 }
                 return self.scan_results
-            # Если есть изменения — продолжаем с ними
             scan_data = git_results
         elif mode == "git_diff":
             scan_data = project_scanner.scan_git_diff()
@@ -177,7 +286,7 @@ class AutonomousCognitiveAgent:
             "files": scan_data.get("scanned_files", 0),
             "it_compass": compass_results,
             "issues": self._detect_issues_from_scan(scan_data),
-            "recommendations": self._generate_recommendations(),
+            "recommendations": self._generate_recommendations(),  # ⭐ Улучшенная версия
         }
 
         self.last_scan = scan_start
@@ -211,7 +320,7 @@ class AutonomousCognitiveAgent:
         # Анализ изменённых файлов
         for file_info in scan_data.get("files", []):
             # Проверка на большие файлы
-            if file_info.get("size", 0) > 1_000_000:
+            if file_info.get("size", 0) > self.OPERATION_LIMITS["max_file_size_mb"] * 1_000_000:
                 issues.append(
                     {
                         "type": "large_file",
@@ -219,6 +328,15 @@ class AutonomousCognitiveAgent:
                         "message": f"Большой файл: {file_info['size'] / 1_000_000:.1f} MB",
                     }
                 )
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Лимит файлов за сканирование
+        if len(scan_data.get("files", [])) > self.OPERATION_LIMITS["files_per_scan"]:
+            issues.append(
+                {
+                    "type": "too_many_files",
+                    "message": f"Слишком много файлов для сканирования: {len(scan_data.get('files', []))}",
+                }
+            )
 
         return issues
 
@@ -295,7 +413,7 @@ class AutonomousCognitiveAgent:
             if file.is_file() and not self._is_excluded(file):
                 try:
                     size = file.stat().st_size
-                    if size > 1_000_000:  # > 1MB
+                    if size > self.OPERATION_LIMITS["max_file_size_mb"] * 1_000_000:
                         issues.append(
                             {
                                 "type": "large_file",
@@ -325,8 +443,9 @@ class AutonomousCognitiveAgent:
 
         return issues
 
+    # ⭐ [УЛУЧШЕННАЯ ВЕРСИЯ] Генерация рекомендаций с guardrails
     def _generate_recommendations(self) -> list[dict[str, str]]:
-        """Сгенерировать рекомендации через AI"""
+        """Сгенерировать рекомендации через AI — **с проверкой guardrails**"""
         recommendations = []
 
         # Если AI недоступен, используем простые правила
@@ -353,8 +472,11 @@ class AutonomousCognitiveAgent:
 
             return recommendations
 
-        # Используем AI для генерации рекомендаций
+        # Используем AI для генерации рекомендаций — **но с проверкой guardrails**
         try:
+            # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
+            self._check_rate_limit()
+
             languages = ", ".join(self.scan_results.get("languages", {}).keys())
             issues_count = len(self.scan_results.get("issues", []))
 
@@ -365,26 +487,47 @@ class AutonomousCognitiveAgent:
 
 Предложи 3-5 конкретных рекомендаций по улучшению кода и архитектуры.
 Формат: JSON массив с полями: priority (high/medium/low), category, message.
+**ВАЖНО: Никаких действий по изменению кода, только предложения по улучшению.**
 """
 
             response = chat_with_fallback(
                 [
-                    {"role": "system", "content": "Ты — эксперт по анализу кода и архитектуры."},
+                    {
+                        "role": "system",
+                        "content": "Ты — эксперт по анализу кода и архитектуры. Всегда соблюдай безопасность и НИКОГДА не предлагай действия по изменению кода.",
+                    },
                     {"role": "user", "content": prompt},
                 ]
             )
 
             if response:
-                # Пытаемся распарсить JSON
                 try:
-                    import re
-
                     json_match = re.search(r"\[.*\]", response, re.DOTALL)
                     if json_match:
                         ai_recommendations = json.loads(json_match.group())
-                        recommendations.extend(ai_recommendations)
-                except:
-                    logger.warning("Failed to parse AI recommendations")
+                        for rec in ai_recommendations:
+                            # ⭐ [БЕЗОПАСНОСТЬ] Проверка рекомендаций на опасное содержимое
+                            if any(
+                                keyword in rec.get("message", "").lower()
+                                for keyword in ["delete", "remove", "modify", "change", "write", "create"]
+                            ):
+                                logger.warning(f"❌ Guardrail violation in AI recommendation: {rec}")
+                                continue  # Пропускаем опасную рекомендацию
+
+                            # Проверка на длину сообщения
+                            if len(rec.get("message", "")) > 500:
+                                rec["message"] = rec["message"][:500] + "..."
+
+                            recommendations.append(rec)
+
+                            # ⭐ [ИНТЕЛЛЕКТ] Запоминаем успешную рекомендацию
+                            self._remember_decision(
+                                context={"languages": languages, "issues_count": issues_count},
+                                decision=rec.get("message", ""),
+                                outcome="success",
+                            )
+                except Exception as e:
+                    logger.warning(f"Failed to parse AI recommendations: {e}")
 
         except Exception as e:
             logger.error(f"Error generating AI recommendations: {e}")
@@ -422,22 +565,31 @@ class AutonomousCognitiveAgent:
             "ai_providers_status": self.ai_manager.get_status(),
             "total_scans": len(self.scan_results),
             "total_recommendations": len(self.recommendations),
+            # ⭐ [МОНИТОРИНГ] Дополнительные метрики
+            "guardrails_loaded": self.guardrails_loaded,
+            "ai_calls_today": self.ai_call_counter,
+            "memory_success_rate": self.memory["success_rate"],
+            "operation_limits": self.OPERATION_LIMITS,
         }
 
     def execute_task(self, task: str, auto_approve: bool = False) -> dict[str, Any]:
         """
-        Выполнить задачу через AI
-
-        Args:
-            task: Описание задачи
-            auto_approve: Автоматически выполнять без подтверждения
-
-        Returns:
-            Результат выполнения
+        Выполнить задачу через AI — **с проверкой guardrails**
         """
         logger.info(f"📝 Task received: {task}")
 
-        # Генерация плана через AI
+        # ⭐ [БЕЗОПАСНОСТЬ] Валидация задачи
+        is_valid, error_msg = self._validate_task(task)
+        if not is_valid:
+            return {"status": "error", "message": error_msg}
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
+        try:
+            self._check_rate_limit()
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
+        # 1. Генерация плана через AI
         plan_prompt = f"""
 Задача: {task}
 
@@ -448,11 +600,16 @@ class AutonomousCognitiveAgent:
 4. Документация
 
 Формат: JSON с полями steps (массив), estimated_time, risk_level.
+Каждый шаг должен содержать поля: action, target, description.
+Максимум {self.OPERATION_LIMITS["max_actions_per_task"]} шагов.
 """
 
         plan_response = chat_with_fallback(
             [
-                {"role": "system", "content": "Ты — помощник по выполнению задач в коде."},
+                {
+                    "role": "system",
+                    "content": "Ты — помощник по выполнению задач в коде. Всегда соблюдай безопасность.",
+                },
                 {"role": "user", "content": plan_prompt},
             ]
         )
@@ -460,22 +617,120 @@ class AutonomousCognitiveAgent:
         if not plan_response:
             return {"status": "error", "message": "AI не доступен"}
 
-        # Проверка подтверждения
+        # 2. Парсинг и проверка плана на guardrails
+        try:
+            json_match = re.search(r"\{.*\}", plan_response, re.DOTALL)
+            if not json_match:
+                return {"status": "error", "message": "AI не вернул JSON"}
+
+            plan = json.loads(json_match.group())
+            steps = plan.get("steps", [])
+
+            # ⭐ [БЕЗОПАСНОСТЬ] Лимит шагов
+            if len(steps) > self.OPERATION_LIMITS["max_actions_per_task"]:
+                return {"status": "error", "message": f"Too many steps: {len(steps)}"}
+
+        except Exception as e:
+            logger.error(f"Failed to parse plan: {e}")
+            return {"status": "error", "message": f"Ошибка парсинга: {e}"}
+
+        # 3. Проверка guardrails на каждый шаг
+        for i, step in enumerate(steps):
+            action = step.get("action", "")
+            path = step.get("target", "")
+
+            # Если шаг требует модификации файлов — проверяем guardrails
+            if any(keyword in action.lower() for keyword in ["write", "create", "delete", "modify", "update"]):
+                if not self._check_guardrail(action, path):
+                    logger.warning(f"❌ Guardrail violation: {action} → {path}")
+                    return {
+                        "status": "pending_approval",
+                        "reason": "Требуется одобрение для: " + str(step),
+                        "step_index": i,
+                        "step": step,
+                    }
+
+        # 4. Проверка подтверждения
         if not auto_approve:
             print("\n🤖 Предложен план выполнения задачи:")
-            print(plan_response)
+            print(json.dumps(plan, indent=2, ensure_ascii=False))
             print("\nВыполнить? (y/n): ", end="")
             response = input().lower()
             if response != "y":
+                # ⭐ [ИНТЕЛЛЕКТ] Запоминаем отменённую задачу
+                self._remember_decision(context={"task": task[:100]}, decision=plan_prompt[:100], outcome="cancelled")
                 return {"status": "cancelled", "message": "Пользователь отменил"}
 
-        # Выполнение задачи (упрощённая версия)
+        # 5. Выполнение задачи (только если guardrails пройдены)
+        # ⭐ [ИНТЕЛЛЕКТ] Запоминаем выполненную задачу
+        self._remember_decision(context={"task": task[:100]}, decision=plan_prompt[:100], outcome="success")
+
         return {
             "status": "success",
             "task": task,
-            "plan": plan_response,
+            "plan": plan,
             "message": "Задача запланирована (полное выполнение требует дополнительных прав)",
         }
+
+    def _check_guardrail(self, action: str, path: str) -> bool:
+        """
+        ✅ ПРОВЕРКА НА БЕЗОПАСНОСТЬ
+        Сравнивает action/path с guardrails.yaml
+        """
+        guardrails_path = self.project_path / "agents" / "cognitive_agent" / "config" / "guardrails.yaml"
+        if not guardrails_path.exists():
+            logger.warning("⚠️ guardrails.yaml не найден — использую строгие правила по умолчанию")
+            return "read" in action.lower() or "scan" in action.lower()
+
+        try:
+            with open(guardrails_path, encoding="utf-8") as f:
+                rules = yaml.safe_load(f).get("rules", [])
+
+            # ✅ Проверка allowed_paths (если есть)
+            if hasattr(self, "allowed_paths") and self.allowed_paths:
+                allowed = any(re.match(p, path, re.IGNORECASE) if path else False for p in self.allowed_paths)
+                if not allowed:
+                    logger.warning(f"❌ Path '{path}' not in allowed_paths: {self.allowed_paths}")
+                    return False
+
+            for rule in rules:
+                pattern = rule.get("pattern", "")
+                action_pattern = rule.get("action_pattern", "")
+
+                # Проверка по пути
+                if pattern and path and re.match(pattern, path, re.IGNORECASE):
+                    if "block" in rule.get("action", "").lower():
+                        logger.warning(f"❌ Guardrail blocked: {path} → {action}")
+                        return False
+                    if "requires-approval" in rule.get("action", "").lower():
+                        logger.info(f"⚠️ Guardrail requires approval: {path} → {action}")
+                        return False
+
+                # Проверка по действию (только если путь не заблокирован)
+                if action_pattern and re.match(action_pattern, action, re.IGNORECASE):
+                    if "block" in rule.get("action", "").lower():
+                        logger.warning(f"❌ Guardrail blocked: {action} → {path}")
+                        return False
+                    if "requires-approval" in rule.get("action", "").lower():
+                        logger.info(f"⚠️ Guardrail requires approval: {action} → {path}")
+                        return False
+
+            # ✅ Если ни одно правило не сработало — разрешить (но только safe_actions)
+            if (
+                "read" in action.lower()
+                or "scan" in action.lower()
+                or "list" in action.lower()
+                or "analyze" in action.lower()
+            ):
+                return True
+
+            # 🛑 По умолчанию — запрет
+            logger.warning(f"⚠️ Default deny: {action} → {path}")
+            return False
+
+        except Exception as e:
+            logger.error(f"Error checking guardrails: {e}")
+            return False  # В случае ошибки — безопасность превыше всего
 
 
 # Глобальный экземпляр
