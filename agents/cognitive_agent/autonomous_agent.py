@@ -18,11 +18,13 @@ import logging
 import re
 import threading
 import time
+import asyncio
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 import yaml
+import structlog
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 # Добавляем корень проекта в PATH
@@ -46,6 +48,127 @@ logging.basicConfig(
     ],
 )
 logger = logging.getLogger(__name__)
+
+
+# ⭐ [МОНИТОРИНГ] Structured Logger (JSON)
+class StructuredLogger:
+    """Структурированный логгер для JSON-вывода (ELK/Grafana compatible)"""
+
+    def __init__(self, name: str, log_file: str = None):
+        self.logger = structlog.get_logger(name)
+        self.logger.configure(
+            processors=[
+                structlog.contextvars.merge_contextvars,
+                structlog.processors.add_log_level,
+                structlog.processors.StackInfoRenderer(),
+                structlog.dev.set_exc_info,
+                structlog.processors.TimeStamper(fmt="iso"),
+                structlog.dev.ConsoleRenderer(),
+            ],
+            wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
+            context_class=dict,
+            logger_factory=structlog.PrintLoggerFactory(),
+            cache_logger_on_first_use=False,
+        )
+
+        # JSON-логгер для файлов (ELK/Grafana)
+        if log_file:
+            self.json_logger = structlog.get_logger(f"{name}.json")
+            self.json_logger.configure(
+                processors=[
+                    structlog.contextvars.merge_contextvars,
+                    structlog.processors.add_log_level,
+                    structlog.processors.TimeStamper(fmt="iso"),
+                    structlog.processors.JSONRenderer(),
+                ],
+                wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
+                context_class=dict,
+                logger_factory=structlog.FileLoggerFactory(log_file),
+                cache_logger_on_first_use=False,
+            )
+        else:
+            self.json_logger = None
+
+    def info(self, message: str, **kwargs):
+        self.logger.info(message, **kwargs)
+
+    def error(self, message: str, **kwargs):
+        self.logger.error(message, **kwargs)
+
+    def warning(self, message: str, **kwargs):
+        self.logger.warning(message, **kwargs)
+
+    def debug(self, message: str, **kwargs):
+        self.logger.debug(message, **kwargs)
+
+
+# Инициализация структурированного логгера
+structured_logger = StructuredLogger(
+    "cognitive_agent",
+    log_file=str(REPO_ROOT / "logs" / "cognitive_agent.json"),
+)
+
+
+# ⭐ [МОНИТОРИНГ] Audit Logger для трассировки действий
+class AuditLogger:
+    """Логгер аудита для трассировки всех действий агента"""
+
+    def __init__(self, agent_id: str, log_file: str = None):
+        self.agent_id = agent_id
+        self.log_file = log_file or str(REPO_ROOT / "logs" / "agent_audit.jsonl")
+        self._ensure_log_file()
+
+    def _ensure_log_file(self):
+        """Убедиться, что файл аудита существует"""
+        Path(self.log_file).parent.mkdir(parents=True, exist_ok=True)
+        if not Path(self.log_file).exists():
+            Path(self.log_file).touch()
+
+    def log_action(self, action: str, details: dict, status: str = "success"):
+        """
+        Записать действие в аудит-лог.
+
+        Args:
+            action: Название действия (scan, plan, execute, etc.)
+            details: Детали действия
+            status: Статус выполнения (success, failed, blocked)
+        """
+        audit_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "agent_id": self.agent_id,
+            "action": action,
+            "details": details,
+            "status": status,
+        }
+
+        # Запись в JSONL-файл (для ELK/Fluentd)
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(audit_entry, ensure_ascii=False) + "\n")
+
+        # Логирование в структурированный логгер
+        structured_logger.info(
+            "Audit log entry",
+            action=action,
+            agent_id=self.agent_id,
+            status=status,
+        )
+
+    def log_security_event(self, event_type: str, details: dict, severity: str = "warning"):
+        """Записать событие безопасности в аудит"""
+        self.log_action(
+            action=f"security:{event_type}",
+            details=details,
+            status="blocked" if severity == "critical" else "warning",
+        )
+        structured_logger.warning(
+            f"Security event: {event_type}",
+            severity=severity,
+            **details,
+        )
+
+
+# Глобальный аудит-логгер (инициализируется при создании агента)
+_audit_logger: AuditLogger | None = None
 
 
 class AutonomousCognitiveAgent:
@@ -131,6 +254,13 @@ class AutonomousCognitiveAgent:
         self.scan_results: dict[str, Any] = {}
         self.recommendations: list[dict[str, Any]] = []
 
+        # ⭐ [МОНИТОРИНГ] Инициализация аудит-логгера
+        self.audit_logger = AuditLogger(self.agent_id)
+        self.audit_logger.log_action("agent_initialized", {"project_path": str(self.project_path)})
+
+        # ⭐ [МОНИТОРИНГ] Таймаут AI-вызовов (в секундах)
+        self.ai_call_timeout = 60  # 60 секунд по умолчанию
+
         # ⭐ [ИНТЕЛЛЕКТ] Память решений
         self.memory = {
             "decisions": [],  # История принятых решений
@@ -210,11 +340,23 @@ class AutonomousCognitiveAgent:
     def _validate_task(self, task: str) -> tuple[bool, str]:
         """Проверить задачу на опасное содержимое"""
         if len(task) > self.OPERATION_LIMITS["max_task_length"]:
+            # ⭐ [МОНИТОРИНГ] Логирование события безопасности
+            self._log_security_event(
+                "task_too_long",
+                {"task_length": len(task), "max_length": self.OPERATION_LIMITS["max_task_length"]},
+                severity="warning",
+            )
             return False, f"Task too long ({len(task)} > {self.OPERATION_LIMITS['max_task_length']})"
 
         for pattern in self.DANGEROUS_PATTERNS:
             if re.search(pattern, task, re.IGNORECASE):
                 logger.warning(f"❌ Dangerous pattern detected: {pattern}")
+                # ⭐ [МОНИТОРИНГ] Логирование события безопасности
+                self._log_security_event(
+                    "dangerous_pattern_detected",
+                    {"pattern": pattern, "task_preview": task[:100]},
+                    severity="critical",
+                )
                 return False, f"Dangerous command detected: {pattern}"
 
         return True, "OK"
@@ -238,6 +380,12 @@ class AutonomousCognitiveAgent:
             if re.search(pattern, response, re.IGNORECASE):
                 logger.error(f"🚫 Blocked dangerous AI response pattern: {pattern}")
                 logger.error(f"Response preview: {response[:200]}...")
+                # ⭐ [МОНИТОРИНГ] Логирование события безопасности
+                self._log_security_event(
+                    "dangerous_ai_response",
+                    {"pattern": pattern, "response_preview": response[:200]},
+                    severity="critical",
+                )
                 return False, f"Dangerous pattern detected in AI response: {pattern}"
 
         # Проверка на слишком длинные ответы (возможная утечка данных)
@@ -256,6 +404,9 @@ class AutonomousCognitiveAgent:
         self.running = True
         logger.info("🟢 Agent started")
 
+        # ⭐ [МОНИТОРИНГ] Логирование запуска
+        self._log_action("agent_started", {"background": background})
+
         if background:
             # Запуск в фоновом потоке
             thread = threading.Thread(target=self._background_loop, daemon=True)
@@ -268,6 +419,9 @@ class AutonomousCognitiveAgent:
         """Остановить агента"""
         self.running = False
         logger.info("🔴 Agent stopped")
+
+        # ⭐ [МОНИТОРИНГ] Логирование остановки
+        self._log_action("agent_stopped", {"total_scans": len(self.scan_results)})
 
     def _background_loop(self):
         """Фоновый цикл работы"""
@@ -287,8 +441,57 @@ class AutonomousCognitiveAgent:
             except Exception as e:
                 logger.error(f"Error in background loop: {e}")
 
-    # ⭐ [ИНТЕЛЛЕКТ] Память решений
-    def _remember_decision(self, context: dict, decision: str, outcome: str):
+    # ⭐ [МОНИТОРИНГ] Таймаут AI-вызовов (async)
+    async def _call_ai_with_timeout(self, prompt: str, system_message: str, timeout: int = None) -> str | None:
+        """
+        Вызов AI с таймаутом.
+
+        Args:
+            prompt: Запрос для AI
+            system_message: Системное сообщение
+            timeout: Таймаут в секундах (по умолчанию self.ai_call_timeout)
+
+        Returns:
+            str | None: Ответ от AI или None при таймауте
+        """
+        if timeout is None:
+            timeout = self.ai_call_timeout
+
+        try:
+            response = await asyncio.wait_for(
+                self._call_ai_sync(prompt, system_message),
+                timeout=timeout,
+            )
+            return response
+        except asyncio.TimeoutError:
+            self.audit_logger.log_security_event(
+                "ai_timeout",
+                {"prompt_length": len(prompt), "timeout": timeout},
+                severity="warning",
+            )
+            logger.error(f"⏳ AI call timed out after {timeout}s")
+            return None
+        except Exception as e:
+            logger.error(f"❌ AI call failed: {e}")
+            return None
+
+    def _call_ai_sync(self, prompt: str, system_message: str) -> str | None:
+        """Синхронный вызов AI (для использования в asyncio.to_thread)"""
+        return chat_with_fallback(
+            [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt},
+            ]
+        )
+
+    # ⭐ [МОНИТОРИНГ] Логирование действий (audit)
+    def _log_action(self, action: str, details: dict, status: str = "success"):
+        """Логирование действий агента для аудита"""
+        self.audit_logger.log_action(action, details, status)
+
+    def _log_security_event(self, event_type: str, details: dict, severity: str = "warning"):
+        """Логирование событий безопасности"""
+        self.audit_logger.log_security_event(event_type, details, severity)
         """Запомнить решение и его результат для будущего обучения"""
         self.memory["decisions"].append(
             {"context": context, "decision": decision, "outcome": outcome, "timestamp": datetime.now().isoformat()}
@@ -376,6 +579,17 @@ class AutonomousCognitiveAgent:
             logger.info(
                 f"   IT Compass markers: {compass_results.get('markers_detected', 0)}/{compass_results.get('markers_total', 0)}"
             )
+
+        # ⭐ [МОНИТОРИНГ] Логирование сканирования
+        self._log_action(
+            "scan_completed",
+            {
+                "mode": mode,
+                "files_scanned": self.scan_results["files"],
+                "issues_found": len(self.scan_results.get("issues", [])),
+                "duration_seconds": (datetime.now() - scan_start).total_seconds(),
+            },
+        )
 
         # Сохранение результатов
         self._save_scan_results()
@@ -660,6 +874,9 @@ class AutonomousCognitiveAgent:
             "ai_calls_today": self.ai_call_counter,
             "memory_success_rate": self.memory["success_rate"],
             "operation_limits": self.OPERATION_LIMITS,
+            "ai_call_timeout": self.ai_call_timeout,
+            # ⭐ [МОНИТОРИНГ] Audit log path
+            "audit_log_path": self.audit_logger.log_file if self.audit_logger else None,
         }
 
     def execute_task(self, task: str, auto_approve: bool = False) -> dict[str, Any]:
@@ -761,6 +978,17 @@ class AutonomousCognitiveAgent:
         # ⭐ [ИНТЕЛЛЕКТ] Запоминаем выполненную задачу
         self._remember_decision(context={"task": task[:100]}, decision=plan_prompt[:100], outcome="success")
 
+        # ⭐ [МОНИТОРИНГ] Логирование выполнения задачи
+        self._log_action(
+            "task_executed",
+            {
+                "task": task[:100],
+                "plan_steps": len(steps),
+                "auto_approve": auto_approve,
+            },
+            status="success",
+        )
+
         return {
             "status": "success",
             "task": task,
@@ -797,6 +1025,12 @@ class AutonomousCognitiveAgent:
                 if pattern and path and re.match(pattern, path, re.IGNORECASE):
                     if "block" in rule.get("action", "").lower():
                         logger.warning(f"❌ Guardrail blocked: {path} → {action}")
+                        # ⭐ [МОНИТОРИНГ] Логирование события безопасности
+                        self._log_security_event(
+                            "guardrail_blocked",
+                            {"path": path, "action": action, "rule_pattern": pattern},
+                            severity="warning",
+                        )
                         return False
                     if "requires-approval" in rule.get("action", "").lower():
                         logger.info(f"⚠️ Guardrail requires approval: {path} → {action}")
@@ -806,6 +1040,12 @@ class AutonomousCognitiveAgent:
                 if action_pattern and re.match(action_pattern, action, re.IGNORECASE):
                     if "block" in rule.get("action", "").lower():
                         logger.warning(f"❌ Guardrail blocked: {action} → {path}")
+                        # ⭐ [МОНИТОРИНГ] Логирование события безопасности
+                        self._log_security_event(
+                            "guardrail_blocked_action",
+                            {"action": action, "path": path, "rule_pattern": action_pattern},
+                            severity="warning",
+                        )
                         return False
                     if "requires-approval" in rule.get("action", "").lower():
                         logger.info(f"⚠️ Guardrail requires approval: {action} → {path}")
