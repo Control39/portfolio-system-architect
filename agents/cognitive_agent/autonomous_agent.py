@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -381,14 +382,20 @@ class AutonomousCognitiveAgent:
 
         return self.scan_results
 
+    # ⭐ [УСТОЙЧИВОСТЬ] Retry logic для внешних сервисов
+    @retry(
+        stop=stop_after_attempt(3),  # 3 попытки
+        wait=wait_exponential(multiplier=1, min=1, max=10),  # Экспоненциальная задержка
+        reraise=True
+    )
     def _run_compass_scan(self):
-        """Запустить сканирование IT Compass"""
+        """Запустить сканирование IT Compass с retry-логикой"""
         try:
             compass_scanner = get_scanner()
             return compass_scanner.scan_project()
         except Exception as e:
             logger.error(f"IT Compass scan failed: {e}")
-            return None
+            raise  # tenacity поймает и повторит
 
     def _detect_issues_from_scan(self, scan_data: dict) -> list[dict[str, str]]:
         """Обнаружить проблемы на основе данных сканирования"""
