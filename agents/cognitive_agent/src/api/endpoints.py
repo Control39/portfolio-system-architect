@@ -1,8 +1,11 @@
 # components/cognitive-agent/api/endpoints.py
 
-
+from contextvars import ContextVar
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+# ⭐ [БЕЗОПАСНОСТЬ] ContextVar для изоляции агента в многопоточной среде
+_agent_context: ContextVar = ContextVar("agent_context", default=None)
 
 
 # Добавляем путь к корню проекта для импорта атомов
@@ -28,6 +31,25 @@ class ScanResponse(BaseModel):
     files_found: int
     languages_detected: list[str]
     message: str
+
+
+# ⭐ [БЕЗОПАСНОСТЬ] Получение изолированного экземпляра агента
+def get_agent():
+    """
+    Получить или создать экземпляр агента для текущего запроса.
+    Использует ContextVar для предотвращения race condition.
+    """
+    agent = _agent_context.get()
+    if agent is None:
+        # Создаём новый экземпляр для каждого запроса
+        try:
+            from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+
+            agent = AutonomousCognitiveAgent()
+            _agent_context.set(agent)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to initialize agent: {str(e)}")
+    return agent
 
 
 app = FastAPI(title="Cognitive Agent API", version="0.1.0")

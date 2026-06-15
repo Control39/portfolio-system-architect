@@ -87,6 +87,20 @@ class AutonomousCognitiveAgent:
         r"C:\\Windows",  # Пути вне проекта
     ]
 
+    # ⭐ [БЕЗОПАСНОСТЬ] Паттерны для валидации AI-ответов
+    AI_RESPONSE_DANGEROUS_PATTERNS = [
+        r"rm\s+-rf\s+/",
+        r"eval\s*\(",
+        r"os\.system\s*\(",
+        r"subprocess\s*\.",
+        r"\/etc\/",
+        r"\.env",
+        r"chmod\s+777",
+        r"DROP\s+TABLE",
+        r"TRUNCATE\s+TABLE",
+        r"del\s+\/\w+",
+    ]
+
     def __init__(self, project_path: str = None):
         self.project_path = Path(project_path) if project_path else REPO_ROOT
         self.agent_id = f"agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
@@ -129,19 +143,54 @@ class AutonomousCognitiveAgent:
 
     # ⭐ [БЕЗОПАСНОСТЬ] Загрузка правил guardrails
     def _load_guardrails(self, guardrails_path: Path):
-        """Загрузить правила безопасности"""
+        """Загрузить правила безопасности с валидацией схемы"""
         try:
             with open(guardrails_path, encoding="utf-8") as f:
                 self.guardrails = yaml.safe_load(f)
-                self.allowed_paths = self.guardrails.get("allowed_paths", [])
-                self.blocked_patterns = self.guardrails.get("blocked_patterns", [])
-                self.safe_actions = self.guardrails.get("safe_actions", ["read", "scan", "analyze"])
-                logger.info(
-                    f"✅ Loaded {len(self.allowed_paths)} allowed paths, {len(self.blocked_patterns)} blocked patterns"
-                )
+
+            # ⭐ [БЕЗОПАСНОСТЬ] Валидация схемы guardrails
+            required_keys = ["allowed_paths", "blocked_patterns", "safe_actions", "rules"]
+            for key in required_keys:
+                if key not in self.guardrails:
+                    logger.error(f"❌ Missing required key in guardrails: {key}")
+                    raise ValueError(f"Missing required key in guardrails: {key}")
+
+            # Валидация правил
+            for rule in self.guardrails["rules"]:
+                if "pattern" not in rule or "action" not in rule:
+                    logger.error(f"❌ Invalid rule format: {rule}")
+                    raise ValueError(f"Invalid rule format: {rule}")
+
+            self.allowed_paths = self.guardrails.get("allowed_paths", [])
+            self.blocked_patterns = self.guardrails.get("blocked_patterns", [])
+            self.safe_actions = self.guardrails.get("safe_actions", ["read", "scan", "analyze"])
+            logger.info(
+                f"✅ Loaded {len(self.allowed_paths)} allowed paths, {len(self.blocked_patterns)} blocked patterns"
+            )
+        except ValueError:
+            # Повторный ValueError — это ошибка схемы, не просто exception
+            self.guardrails_loaded = False
+            self._load_default_guardrails()
         except Exception as e:
             logger.error(f"Failed to load guardrails: {e}")
             self.guardrails_loaded = False
+            self._load_default_guardrails()
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Безопасные значения по умолчанию
+    def _load_default_guardrails(self):
+        """Загрузить безопасные значения guardrails по умолчанию"""
+        self.guardrails = {
+            "allowed_paths": ["^apps/", "^agents/", "^config/"],
+            "blocked_patterns": [r"\.\./", r"/etc/", r"~/", r"\.env", r"\.pem", r"\.key"],
+            "safe_actions": ["read", "scan", "analyze", "list"],
+            "rules": [
+                {"pattern": ".*\\.(key|pem|env)$", "action_pattern": ".*", "action": "block"}
+            ],
+        }
+        self.allowed_paths = self.guardrails["allowed_paths"]
+        self.blocked_patterns = self.guardrails["blocked_patterns"]
+        self.safe_actions = self.guardrails["safe_actions"]
+        logger.warning("⚠️ Using default guardrails due to load error")
 
     # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
     def _check_rate_limit(self):
@@ -166,6 +215,34 @@ class AutonomousCognitiveAgent:
             if re.search(pattern, task, re.IGNORECASE):
                 logger.warning(f"❌ Dangerous pattern detected: {pattern}")
                 return False, f"Dangerous command detected: {pattern}"
+
+        return True, "OK"
+
+    # ⭐ [БЕЗОПАСНОСТЬ] Валидация AI-ответов (санитайзер)
+    def _validate_ai_response(self, response: str) -> tuple[bool, str]:
+        """
+        Валидация ответа AI перед выполнением.
+        Блокирует потенциально опасные паттерны в AI-ответах.
+
+        Args:
+            response: Ответ от AI-модели
+
+        Returns:
+            tuple[bool, str]: (безопасен_ли, сообщение_о_результате)
+        """
+        if not response or not isinstance(response, str):
+            return False, "Empty or invalid response"
+
+        for pattern in self.AI_RESPONSE_DANGEROUS_PATTERNS:
+            if re.search(pattern, response, re.IGNORECASE):
+                logger.error(f"🚫 Blocked dangerous AI response pattern: {pattern}")
+                logger.error(f"Response preview: {response[:200]}...")
+                return False, f"Dangerous pattern detected in AI response: {pattern}"
+
+        # Проверка на слишком длинные ответы (возможная утечка данных)
+        if len(response) > 10000:
+            logger.warning(f"⚠️ AI response unusually long ({len(response)} chars)")
+            # Не блокируем, но логируем
 
         return True, "OK"
 
@@ -501,6 +578,12 @@ class AutonomousCognitiveAgent:
             )
 
             if response:
+                # ⭐ [БЕЗОПАСНОСТЬ] Валидация AI-ответа
+                is_safe, safety_msg = self._validate_ai_response(response)
+                if not is_safe:
+                    logger.error(f"🚫 AI recommendations blocked: {safety_msg}")
+                    return recommendations
+
                 try:
                     json_match = re.search(r"\[.*\]", response, re.DOTALL)
                     if json_match:
@@ -616,6 +699,12 @@ class AutonomousCognitiveAgent:
 
         if not plan_response:
             return {"status": "error", "message": "AI не доступен"}
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Валидация AI-ответа перед парсингом
+        is_safe, safety_msg = self._validate_ai_response(plan_response)
+        if not is_safe:
+            logger.error(f"🚫 AI response blocked by safety validation: {safety_msg}")
+            return {"status": "error", "message": f"Response blocked by safety: {safety_msg}"}
 
         # 2. Парсинг и проверка плана на guardrails
         try:
