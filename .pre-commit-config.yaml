@@ -3,11 +3,12 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
-# Exclude archive, legacy, and cognitive_agent legacy code from checks
+# Exclude archive, legacy, repo-env, and cognitive_agent legacy code from checks
 exclude: |
   (?x)^(
     docs/archive/|
     docs/examples/legacy/|
+    repo-env/|
     apps/cognitive_agent/scripts/.*|  # Legacy scripts without type hints
     apps/cognitive_agent/tools/.*|    # Legacy tools
     apps/cognitive_agent/__init__\.py
