@@ -30,7 +30,7 @@ jobs:
       # Только для TypeScript
       - name: Setup Node.js
         if: matrix.language == 'typescript'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
 
