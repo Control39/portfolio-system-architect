@@ -299,3 +299,6 @@ agents/cognitive_agent/status/
 agents/cognitive_agent/data/learning/metrics/
 agents/cognitive_agent/data/learning/models/
 agents/cognitive_agent/data/learning/reports/
+
+# Legacy код (не используется в production)
+legacy/
