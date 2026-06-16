@@ -58,10 +58,10 @@
 
 ## Implementation
 
-- [x] Перемещение `run_api.py` → `apps/portfolio_organizer/`
-- [x] Ренейм `core/` → `internal/`
-- [x] Фиксация `PYTHONPATH` в `docker-compose.yml` (через `_defaults`) и `Dockerfile`
-- [ ] Пошаговый перенос остальных сервисов в Q3 2026
+- \[x\] Перемещение `run_api.py` → `apps/portfolio_organizer/`
+- \[x\] Ренейм `core/` → `internal/`
+- \[x\] Фиксация `PYTHONPATH` в `docker-compose.yml` (через `_defaults`) и `Dockerfile`
+- \[ \] Пошаговый перенос остальных сервисов в Q3 2026
 
 ## Related Documents
 

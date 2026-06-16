@@ -1,0 +1,1 @@
+prometheus-fastapi-instrumentator 7.0.0 has requirement starlette<1.0.0,>=0.30.0, but you have starlette 1.0.1.

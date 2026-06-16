@@ -12,12 +12,13 @@
                 "--host",
                 "0.0.0.0",
                 "--port",
-                "8004"
+                "8004",
+                "--reload"
             ],
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents",
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents",
                 "LOG_LEVEL": "DEBUG"
             }
         },
@@ -37,7 +38,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents"
             }
         },
         {
@@ -56,7 +57,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents",
+                "LOG_LEVEL": "DEBUG"
             }
         },
         {
@@ -71,7 +73,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents"
             }
         },
         {
@@ -88,7 +90,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents"
             }
         },
         {
@@ -107,7 +109,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents"
             }
         },
         {
@@ -126,7 +128,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/apps;${workspaceFolder}/agents"
+                "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/apps:${workspaceFolder}/agents"
             }
         }
     ],

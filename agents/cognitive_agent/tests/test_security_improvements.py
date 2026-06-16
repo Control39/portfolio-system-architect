@@ -7,11 +7,9 @@
 3. ContextVar изоляция агента
 """
 
-import json
 import re
 import sys
 from pathlib import Path
-from typing import Any
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -50,7 +48,7 @@ def test_validate_ai_response():
     safe_responses = [
         "Рекомендую добавить unit-тесты для модуля auth",
         "Предлагаю рефакторинг функции calculate_total",
-        "[{\"priority\": \"high\", \"message\": \"Добавить логирование\"}]",
+        '[{"priority": "high", "message": "Добавить логирование"}]',
     ]
 
     for response in safe_responses:
@@ -73,7 +71,6 @@ def test_guardrails_schema_validation():
     print("=" * 50)
 
     import yaml
-    from pathlib import Path
 
     guardrails_path = REPO_ROOT / "agents" / "cognitive_agent" / "config" / "guardrails.yaml"
 
@@ -144,7 +141,7 @@ def test_contextvar_isolation():
         agent2 = _agent_context.get()
 
         if agent1.request_id != agent2.request_id:
-            print(f"  ✅ Agent isolation: request-1 ≠ request-2")
+            print("  ✅ Agent isolation: request-1 ≠ request-2")
         else:
             print(f"  ❌ Agent isolation failed: {agent1.request_id} == {agent2.request_id}")
 
@@ -152,7 +149,7 @@ def test_contextvar_isolation():
         _agent_context.set(None)
         agent_default = _agent_context.get()
         if agent_default is None:
-            print(f"  ✅ Default context: None")
+            print("  ✅ Default context: None")
         else:
             print(f"  ❌ Default context failed: {agent_default}")
 

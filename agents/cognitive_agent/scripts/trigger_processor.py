@@ -24,7 +24,7 @@ import yaml
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(".agents/logs/triggers.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler("logs/triggers.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -300,8 +300,7 @@ class TriggerProcessor:
             "success": success,
         }
 
-        # Сохраняем в файл
-        log_dir = Path(".agents/logs/triggers")
+        # Сохраняем в файл\n        log_dir = Path("logs/triggers")
         log_dir.mkdir(exist_ok=True, parents=True)
 
         log_file = log_dir / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-05-24T00:04:08.352648",
-  "repo_root": "C:\\repo",
+  "timestamp": "2026-06-14T13:08:22.370191",
+  "repo_root": ".",
   "markers_found": [
     {
       "marker_id": "system_architecture_3_2",
@@ -9,7 +9,7 @@
       "confidence": 0.95,
       "evidence": [
         "✅ 11 переиспользуемых компонентов (Atoms) в src/",
-        "✅ 18 микросервисов (Molecules) в apps/",
+        "✅ 28 микросервисов (Molecules) в apps/",
         "✅ Loose coupling через API",
         "✅ Каждый сервис имеет собственный Dockerfile и requirements.txt"
       ]
@@ -20,7 +20,7 @@
       "category": "DevOps",
       "confidence": 0.93,
       "evidence": [
-        "✅ 16 Dockerfile'ов (один для каждого сервиса)",
+        "✅ 17 Dockerfile'ов (один для каждого сервиса)",
         "✅ docker-compose.yml с конфигурацией всех сервисов",
         "✅ Multi-stage builds для оптимизации размера образов"
       ]
@@ -31,7 +31,7 @@
       "category": "Quality Assurance",
       "confidence": 0.88,
       "evidence": [
-        "✅ 332 файлов с тестами найдено",
+        "✅ 7886 файлов с тестами найдено",
         "✅ Тесты есть в каждом микросервисе (apps/*/tests/)",
         "✅ Целевое покрытие: ≥85%"
       ]
@@ -42,7 +42,7 @@
       "category": "System Architecture",
       "confidence": 0.92,
       "evidence": [
-        "✅ 18 ADR документировано",
+        "✅ 23 ADR документировано",
         "✅ Каждое решение обосновано (Problem → Solution → Trade-offs)",
         "✅ История архитектурных эволюций задокументирована"
       ]
@@ -81,17 +81,6 @@
       ]
     },
     {
-      "marker_id": "devops_4_1",
-      "name": "Observability & Monitoring",
-      "category": "DevOps",
-      "confidence": 0.88,
-      "evidence": [
-        "✅ Prometheus для метрик",
-        "✅ Grafana для дашбордов",
-        "✅ AlertManager для алертов"
-      ]
-    },
-    {
       "marker_id": "devops_2_3",
       "name": "CI/CD Pipeline",
       "category": "DevOps",
@@ -105,7 +94,7 @@
   ],
   "evidence": {},
   "coverage": {
-    "total_markers_found": 9,
-    "percentage": "9 / 83 маркеров"
+    "total_markers_found": 8,
+    "percentage": "8 / 83 маркеров"
   }
 }

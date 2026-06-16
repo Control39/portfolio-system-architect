@@ -4,6 +4,13 @@ Integrates GigaChat API with it-compass context and Chroma RAG.
 Self-Improving Loop stub included.
 """
 
+import os
+
+# Отключаем проверку SSL для корпоративной среды (MITM-прокси)
+os.environ["REQUESTS_CA_BUNDLE"] = ""
+os.environ["CURL_CA_BUNDLE"] = ""
+os.environ["PYTHONHTTPSVERIFY"] = "0"
+
 from dotenv import load_dotenv
 
 # Langchain 1.x совместимость
@@ -55,7 +62,7 @@ class GigaMCPBridge:
         """Giga-Request with session context (Step 2). Cross-Check stub."""
         if mcp_history is None:
             mcp_history = []
-        context = "\\n".join([h.get("content", "") for h in mcp_history[-5:]])  # Last 5
+        context = "\n".join([h.get("content", "") for h in mcp_history[-5:]])  # Last 5
         response = self.chain.invoke({"context": context, "query": query}).content
 
         trace = {"input": query, "context": context, "output": response}

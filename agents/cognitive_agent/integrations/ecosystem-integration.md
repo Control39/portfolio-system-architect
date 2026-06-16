@@ -3,7 +3,7 @@
 ## Обзор интеграций
 
 Cognitive Automation Agent (CAA) разработан для максимальной интеграции с существующей экосистемой проекта.
-Ниже представлены детали интеграции с различными компонентами системы.
+Ниже представлены актуальные детали интеграции с различными компонентами системы.
 
 ## Интеграция с архитектурой проекта
 
@@ -11,7 +11,7 @@ Cognitive Automation Agent (CAA) разработан для максималь�
 ```yaml
 integration_points:
   - component: "IT-Compass Framework"
-    location: "apps/arch-compass-framework/"
+    location: "apps/it_compass/"
     integration_type: "bidirectional"
 
     data_flow:
@@ -36,11 +36,11 @@ integration_points:
       - "on_security_alert"
 ```
 
-### 2. Интеграция с Cloud-Reason
+### 2. Интеграция с Decision Engine (бывший Cloud-Reason)
 ```yaml
 integration_points:
-  - component: "Cloud-Reason"
-    location: "src/cloud_reason/"
+  - component: "Decision Engine"
+    location: "apps/decision_engine/"
     integration_type: "event_driven"
 
     events:
@@ -50,7 +50,7 @@ integration_points:
         - "automation_decision_made"
 
       consumed_by_caa:
-        - "cloud_resource_available"
+        - "reasoning_result_available"
         - "cost_optimization_opportunity"
         - "infrastructure_change_detected"
 
@@ -69,7 +69,7 @@ integration_points:
 ```yaml
 integration_points:
   - component: "ML Model Registry"
-    location: "deployment/ml-model-registry-deployment.yaml"
+    location: "apps/ml_model_registry/"
     integration_type: "model_exchange"
 
     model_management:
@@ -143,10 +143,11 @@ monitoring_integrations:
       - "caa_user_satisfaction"
 
     scrape_config: |
-      - job_name: 'cognitive_agent'
-        static_configs:
-          - targets: ['localhost:9095']
-        scrape_interval: 30s
+      # Примечание: Метрики собираются через MCP Server (порт 8008)
+      # - job_name: 'cognitive_agent'
+      #   static_configs:
+      #     - targets: ['localhost:8008']
+      scrape_interval: 30s
 
     alerts:
       - "caa_high_error_rate"
@@ -187,8 +188,9 @@ secrets_integration:
     secret_name: "cognitive-agent-secrets"
 
     data:
-      - "AGENT_CONFIG: .agents/config/agent-config.yaml"
-      - "LEARNING_MODELS: .agents/models/"
+      - "AGENT_CONFIG: agents/cognitive_agent/config/agent-config.yaml"
+      - "LEARNING_MODELS: agents/cognitive_agent/models/"
+      # Примечание: Runtime-данные (кэш, логи) хранятся в .agents/ и не коммитятся в Git
       - "SCAN_CACHE: .agents/cache/"
 
     mount_path: "/etc/cognitive-agent/"
@@ -265,7 +267,7 @@ git_integration:
       location: ".git/hooks/pre-commit"
       content: |
         #!/bin/bash
-        python -m agents.hooks.pre_commit "$@"
+        python agents/cognitive_agent/scripts/scanner_main.py --check "$@"
 
       checks:
         - "code_quality_scan"
@@ -276,7 +278,7 @@ git_integration:
       location: ".git/hooks/post-merge"
       content: |
         #!/bin/bash
-        python -m agents.hooks.post_merge "$@"
+        python agents/cognitive_agent/scripts/learning_main.py --update "$@"
 
       actions:
         - "update_dependencies"
@@ -287,22 +289,12 @@ git_integration:
       location: ".git/hooks/pre-push"
       content: |
         #!/bin/bash
-        python -m agents.hooks.pre_push "$@"
+        python agents/cognitive_agent/scripts/scanner_main.py --validate "$@"
 
       validations:
         - "test_coverage_check"
         - "build_success_verification"
         - "deployment_readiness"
-
-  git_attributes:
-    - "*.py filter=cognitive-agent"
-    - "*.js filter=cognitive-agent"
-    - "*.json filter=cognitive-agent"
-
-    filters:
-      cognitive-agent:
-        clean: "python -m agents.git.filter_clean %f"
-        smudge: "python -m agents.git.filter_smudge %f"
 
   automated_operations:
     - "auto_commit_config_changes"
@@ -336,9 +328,9 @@ dependency_management:
     integration_file: "package.json"
 
     scripts:
-      "ca-scan": "python -m agents.scanner --project=. --output=scan.json",
-      "ca-optimize": "python -m agents.optimizer --plan=optimization_plan.yaml",
-      "ca-learn": "python -m agents.learning --update-models"
+      "ca-scan": "python agents/cognitive_agent/scripts/scanner_main.py --project=. --output=scan.json",
+      "ca-optimize": "python agents/cognitive_agent/scripts/planner_main.py --plan=optimization_plan.yaml",
+      "ca-learn": "python agents/cognitive_agent/scripts/learning_main.py --update-models"
 
     cognitive_agent_config:
       section: "cognitiveAgent"
@@ -368,7 +360,7 @@ dependency_management:
 ```yaml
 project_management:
   jira:
-    enabled: false  # Планируется
+    enabled: false  # ⚪ Планируется
 
     integration_type: "webhook_based"
 
@@ -389,7 +381,7 @@ project_management:
       "caa_estimated_time": "timeestimate"
 
   trello:
-    enabled: false  # Планируется
+    enabled: false  # ⚪ Планируется
 
     board_structure:
       "Cognitive Agent Tasks":
@@ -410,14 +402,14 @@ project_management:
 ```yaml
 communications:
   slack:
-    enabled: false  # Планируется
+    enabled: false  # ⚪ Планируется
 
     channels:
-      - "name": "#cognitive-agent-alerts",
+      - "name": "#cognitive-agent-alerts"
         "purpose": "Critical alerts and notifications"
-      - "name": "#cognitive-agent-insights",
+      - "name": "#cognitive-agent-insights"
         "purpose": "Daily insights and learning updates"
-      - "name": "#cognitive-agent-optimizations",
+      - "name": "#cognitive-agent-optimizations"
         "purpose": "Completed optimizations and improvements"
 
     notifications:
@@ -433,7 +425,7 @@ communications:
       - "/ca-insights": "Show learning insights"
 
   email:
-    enabled: false  # Планируется
+    enabled: false  # ⚪ Планируется
 
     recipients:
       - "developers@example.com"
@@ -453,7 +445,7 @@ communications:
 
 ### Файл конфигурации интеграций
 ```yaml
-# .agents/config/integrations.yaml
+# agents/cognitive_agent/config/integrations.yaml
 integrations:
   enabled: true
 
@@ -547,14 +539,14 @@ integrations:
 
 ### Проверка совместимости
 ```bash
-# Проверка совместимости интеграций
-python -m agents.integrations.validate --config=.agents/config/integrations.yaml
+# Проверка совместимости интеграций (через скрипт агента)
+python agents/cognitive_agent/scripts/scanner_main.py --config agents/cognitive_agent/config/integrations.yaml --validate
 
 # Тестирование конкретной интеграции
-python -m agents.integrations.test --integration=git --verbose
+python agents/cognitive_agent/scripts/scanner_main.py --test-integration git --verbose
 
 # Генерация отчета о совместимости
-python -m agents.integrations.report --format=html --output=compatibility_report.html
+python agents/cognitive_agent/scripts/scanner_main.py --generate-report --format=html --output=compatibility_report.html
 ```
 
 ### Миграция данных
@@ -566,19 +558,19 @@ data_migration:
     - phase: "1"
       description: "Миграция конфигураций"
       source: "legacy_configs/"
-      target: ".agents/config/"
+      target: "agents/cognitive_agent/config/"
       validation: "config_validation"
 
     - phase: "2"
       description: "Миграция исторических данных"
       source: "historical_metrics/"
-      target: ".agents/data/historical/"
+      target: "agents/cognitive_agent/data/historical/"
       validation: "data_integrity_check"
 
     - phase: "3"
       description: "Миграция моделей"
       source: "legacy_models/"
-      target: ".agents/models/"
+      target: "agents/cognitive_agent/models/"
       validation: "model_performance_test"
 
   rollback_plan:
@@ -630,27 +622,27 @@ integration_dashboard:
 ```yaml
 maintenance_procedures:
   regular:
-    - task: "Очистка кэша интеграций"
+    - task: "Очистка runtime-кэша"
       frequency: "daily"
-      command: "python -m agents.integrations.clean_cache"
+      command: "rm -rf .agents/cache/*"
 
     - task: "Проверка обновлений API"
       frequency: "weekly"
-      command: "python -m agents.integrations.check_updates"
+      command: "python agents/cognitive_agent/scripts/scanner_main.py --check-updates"
 
     - task: "Валидация конфигураций"
       frequency: "monthly"
-      command: "python -m agents.integrations.validate_all"
+      command: "python agents/cognitive_agent/scripts/scanner_main.py --validate-all"
 
   on_demand:
     - task: "Перезагрузка интеграции"
-      command: "python -m agents.integrations.restart --name=git"
+      command: "python agents/cognitive_agent/scripts/scanner_main.py --restart-integration git"
 
     - task: "Сброс состояния интеграции"
-      command: "python -m agents.integrations.reset --name=ci_cd"
+      command: "python agents/cognitive_agent/scripts/scanner_main.py --reset-integration ci_cd"
 
     - task: "Диагностика проблем"
-      command: "python -m agents.integrations.diagnose --name=monitoring"
+      command: "python agents/cognitive_agent/scripts/scanner_main.py --diagnose monitoring"
 ```
 
 ## Заключение

@@ -1,4 +1,4 @@
-# tests/test_guardrails.py
+# tests/test_guardrails.py (ИСПРАВЛЕННАЯ ВЕРСИЯ)
 
 from pathlib import Path
 
@@ -44,25 +44,30 @@ class TestGuardrails:
         return agent
 
     def test_allowed_path_read(self, agent: AutonomousCognitiveAgent):
-        assert agent._check_guardrail("read", "apps/main.py") == True
-        assert agent._check_guardrail("scan", "agents/cognitive_agent/autonomous_agent.py") == True
-        assert agent._check_guardrail("list", "config/vscode/vscode-extensions.json") == True
+        # ✅ Исправлено: без == True
+        assert agent._check_guardrail("read", "apps/main.py")
+        assert agent._check_guardrail("scan", "agents/cognitive_agent/autonomous_agent.py")
+        assert agent._check_guardrail("list", "config/vscode/vscode-extensions.json")
 
     def test_disallowed_path(self, agent: AutonomousCognitiveAgent):
-        assert agent._check_guardrail("read", "deployments/deploy.sh") == False
-        assert agent._check_guardrail("read", "/etc/passwd") == False
-        assert agent._check_guardrail("read", "~/backup.sh") == False
+        # ✅ Исправлено: с not
+        assert not agent._check_guardrail("read", "deployments/deploy.sh")
+        assert not agent._check_guardrail("read", "/etc/passwd")
+        assert not agent._check_guardrail("read", "~/backup.sh")
 
     def test_blocked_patterns(self, agent: AutonomousCognitiveAgent):
-        assert agent._check_guardrail("read", "config/.env") == False
-        assert agent._check_guardrail("write", "secrets.pem") == False
-        assert agent._check_guardrail("update", "private.key") == False
+        # ✅ Исправлено: с not
+        assert not agent._check_guardrail("read", "config/.env")
+        assert not agent._check_guardrail("write", "secrets.pem")
+        assert not agent._check_guardrail("update", "private.key")
 
     def test_requires_approval(self, agent: AutonomousCognitiveAgent):
-        assert agent._check_guardrail("write", "apps/auth_service/main.py") == False
-        assert agent._check_guardrail("edit", "agents/cognitive_agent/autonomous_agent.py") == False
-        assert agent._check_guardrail("update", "config/sensitive/secrets.yaml") == False
+        # ✅ Исправлено: с not
+        assert not agent._check_guardrail("write", "apps/auth_service/main.py")
+        assert not agent._check_guardrail("edit", "agents/cognitive_agent/autonomous_agent.py")
+        assert not agent._check_guardrail("update", "config/sensitive/secrets.yaml")
 
     def test_default_deny(self, agent: AutonomousCognitiveAgent):
-        assert agent._check_guardrail("install", "some/package") == False
-        assert agent._check_guardrail("delete", "logs/test.log") == False
+        # ✅ Исправлено: с not
+        assert not agent._check_guardrail("install", "some/package")
+        assert not agent._check_guardrail("delete", "logs/test.log")

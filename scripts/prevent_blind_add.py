@@ -3,26 +3,27 @@
 Pre-commit hook: Защита от слепого git add -A / git add .
 Проверяет staged-файлы на наличие запрещённых паттернов, секретов и больших файлов.
 """
-import subprocess
-import sys
+
 import os
 import re
+import subprocess
+import sys
 
 # ==============================================================================
 # НАСТРОЙКИ ПРАВИЛ
 # ==============================================================================
 # 1. Запрещённые паттерны (регулярные выражения)
 FORBIDDEN_PATTERNS = [
-    r'^\.env(\..*)?$',          # .env, .env.local, .env.example
-    r'__pycache__/',            # Кэш Python
-    r'\.pyc$',                  # Скомпилированные файлы Python
-    r'\.pytest_cache/',         # Кэш pytest
-    r'\.mypy_cache/',           # Кэш mypy
-    r'^repo-env/',              # Песочница (защита от случайного коммита)
-    r'^\.venv/',                # Виртуальное окружение
-    r'\.pem$',                  # Приватные ключи
-    r'\.key$',                  # Ключи шифрования
-    r'\.db$',                   # Локальные базы данных (SQLite)
+    r"^\.env(\..*)?$",  # .env, .env.local, .env.example
+    r"__pycache__/",  # Кэш Python
+    r"\.pyc$",  # Скомпилированные файлы Python
+    r"\.pytest_cache/",  # Кэш pytest
+    r"\.mypy_cache/",  # Кэш mypy
+    r"^repo-env/",  # Песочница (защита от случайного коммита)
+    r"^\.venv/",  # Виртуальное окружение
+    r"\.pem$",  # Приватные ключи
+    r"\.key$",  # Ключи шифрования
+    r"\.db$",  # Локальные базы данных (SQLite)
 ]
 
 # 2. Максимальный размер файла в байтах (по умолчанию 5 МБ)
@@ -33,13 +34,8 @@ MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024
 def get_staged_files():
     """Получает список файлов, добавленных в индекс (staged)"""
     try:
-        result = subprocess.run(
-            ['git', 'diff', '--cached', '--name-only'],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        files = result.stdout.strip().split('\n')
+        result = subprocess.run(["git", "diff", "--cached", "--name-only"], capture_output=True, text=True, check=True)
+        files = result.stdout.strip().split("\n")
         return [f for f in files if f]  # Убираем пустые строки
     except subprocess.CalledProcessError as e:
         print(f"❌ Ошибка Git: не удалось получить список staged-файлов.\n{e.stderr}")
@@ -93,5 +89,5 @@ def main():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -13,18 +13,18 @@ Autonomous Cognitive Agent - Автономный AI-агент
 - Fallback: Ollama (локально)
 """
 
+import asyncio
 import json
 import logging
 import re
 import threading
 import time
-import asyncio
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-import yaml
 import structlog
+import yaml
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 # Добавляем корень проекта в PATH
@@ -50,56 +50,64 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# ⭐ [МОНИТОРИНГ] Глобальная конфигурация structlog (один раз на модуль)
+structlog.configure(
+    processors=[
+        structlog.contextvars.merge_contextvars,
+        structlog.processors.add_log_level,
+        structlog.processors.StackInfoRenderer(),
+        structlog.dev.set_exc_info,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.dev.ConsoleRenderer(),
+    ],
+    wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
+    context_class=dict,
+    logger_factory=structlog.PrintLoggerFactory(),
+    cache_logger_on_first_use=False,
+)
+
+
 # ⭐ [МОНИТОРИНГ] Structured Logger (JSON)
 class StructuredLogger:
     """Структурированный логгер для JSON-вывода (ELK/Grafana compatible)"""
 
     def __init__(self, name: str, log_file: str = None):
         self.logger = structlog.get_logger(name)
-        self.logger.configure(
-            processors=[
-                structlog.contextvars.merge_contextvars,
-                structlog.processors.add_log_level,
-                structlog.processors.StackInfoRenderer(),
-                structlog.dev.set_exc_info,
-                structlog.processors.TimeStamper(fmt="iso"),
-                structlog.dev.ConsoleRenderer(),
-            ],
-            wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
-            context_class=dict,
-            logger_factory=structlog.PrintLoggerFactory(),
-            cache_logger_on_first_use=False,
-        )
 
-        # JSON-логгер для файлов (ELK/Grafana)
+        # JSON-логгер для файлов (ELK/Grafana) — пишем вручную, т.к. structlog.configure() глобален
         if log_file:
-            self.json_logger = structlog.get_logger(f"{name}.json")
-            self.json_logger.configure(
-                processors=[
-                    structlog.contextvars.merge_contextvars,
-                    structlog.processors.add_log_level,
-                    structlog.processors.TimeStamper(fmt="iso"),
-                    structlog.processors.JSONRenderer(),
-                ],
-                wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
-                context_class=dict,
-                logger_factory=structlog.FileLoggerFactory(log_file),
-                cache_logger_on_first_use=False,
-            )
+            self._json_log_file = log_file
+            Path(self._json_log_file).parent.mkdir(parents=True, exist_ok=True)
         else:
-            self.json_logger = None
+            self._json_log_file = None
+
+    def _write_json(self, level: str, message: str, **kwargs):
+        """Записать запись в JSON-файл"""
+        if self._json_log_file:
+            entry = {
+                "timestamp": datetime.now().isoformat(),
+                "level": level,
+                "message": message,
+                **kwargs,
+            }
+            with open(self._json_log_file, "a", encoding="utf-8") as f:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
     def info(self, message: str, **kwargs):
         self.logger.info(message, **kwargs)
+        self._write_json("info", message, **kwargs)
 
     def error(self, message: str, **kwargs):
         self.logger.error(message, **kwargs)
+        self._write_json("error", message, **kwargs)
 
     def warning(self, message: str, **kwargs):
         self.logger.warning(message, **kwargs)
+        self._write_json("warning", message, **kwargs)
 
     def debug(self, message: str, **kwargs):
         self.logger.debug(message, **kwargs)
+        self._write_json("debug", message, **kwargs)
 
 
 # Инициализация структурированного логгера
@@ -314,9 +322,7 @@ class AutonomousCognitiveAgent:
             "allowed_paths": ["^apps/", "^agents/", "^config/"],
             "blocked_patterns": [r"\.\./", r"/etc/", r"~/", r"\.env", r"\.pem", r"\.key"],
             "safe_actions": ["read", "scan", "analyze", "list"],
-            "rules": [
-                {"pattern": ".*\\.(key|pem|env)$", "action_pattern": ".*", "action": "block"}
-            ],
+            "rules": [{"pattern": ".*\\.(key|pem|env)$", "action_pattern": ".*", "action": "block"}],
         }
         self.allowed_paths = self.guardrails["allowed_paths"]
         self.blocked_patterns = self.guardrails["blocked_patterns"]
@@ -463,7 +469,7 @@ class AutonomousCognitiveAgent:
                 timeout=timeout,
             )
             return response
-        except asyncio.TimeoutError:
+        except TimeoutError:
             self.audit_logger.log_security_event(
                 "ai_timeout",
                 {"prompt_length": len(prompt), "timeout": timeout},
@@ -492,6 +498,8 @@ class AutonomousCognitiveAgent:
     def _log_security_event(self, event_type: str, details: dict, severity: str = "warning"):
         """Логирование событий безопасности"""
         self.audit_logger.log_security_event(event_type, details, severity)
+
+    def _remember_decision(self, context: dict, decision: str, outcome: str):
         """Запомнить решение и его результат для будущего обучения"""
         self.memory["decisions"].append(
             {"context": context, "decision": decision, "outcome": outcome, "timestamp": datetime.now().isoformat()}
@@ -600,7 +608,7 @@ class AutonomousCognitiveAgent:
     @retry(
         stop=stop_after_attempt(3),  # 3 попытки
         wait=wait_exponential(multiplier=1, min=1, max=10),  # Экспоненциальная задержка
-        reraise=True
+        reraise=True,
     )
     def _run_compass_scan(self):
         """Запустить сканирование IT Compass с retry-логикой"""

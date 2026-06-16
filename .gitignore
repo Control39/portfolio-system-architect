@@ -257,3 +257,25 @@ temp/
 cache/
 .cache/
 downloads/
+
+# ============================================
+# Логи и артефакты агента (не коммитить в Git)
+# ============================================
+apps/cognitive_agent/logs/
+apps/cognitive_agent/reports/
+apps/cognitive_agent/plans/
+apps/cognitive_agent/scans/
+apps/cognitive_agent/data/learning/models/
+apps/cognitive_agent/data/learning/metrics/
+apps/cognitive_agent/status/
+apps/logs/
+apps/reports/
+# Кэш Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+# Данные обучения
+*.pkl
+*.joblib

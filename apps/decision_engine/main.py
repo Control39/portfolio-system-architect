@@ -6,7 +6,7 @@ import uvicorn
 
 # --- OpenTelemetry Tracing ---
 try:
-    from config.otel import OTEL_ENABLED
+    from src.common.telemetry import OTEL_ENABLED
 except ImportError:
     OTEL_ENABLED = False
 

@@ -97,7 +97,7 @@ def wait_until_ready(timeout: float = 5.0) -> None:
 
 # --- OpenTelemetry Tracing ---
 try:
-    from config.otel import OTEL_ENABLED
+    from src.common.telemetry import OTEL_ENABLED
 except ImportError:
     OTEL_ENABLED = False
 
@@ -120,7 +120,7 @@ STATIC_DIST = _packaged_static if _packaged_static.exists() else _dev_dist
 
 # --- OpenTelemetry Tracing ---
 try:
-    from config.otel import OTEL_ENABLED
+    from src.common.telemetry import OTEL_ENABLED
 except ImportError:
     OTEL_ENABLED = False
 

@@ -13,6 +13,7 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -40,7 +41,7 @@ from src.common.health_check import init_health_checks
 
 # --- OpenTelemetry Tracing ---
 try:
-    from config.otel import OTEL_ENABLED
+    from src.common.telemetry import OTEL_ENABLED
 except ImportError:
     OTEL_ENABLED = False
 

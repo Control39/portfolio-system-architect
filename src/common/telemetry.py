@@ -155,3 +155,7 @@ def get_tracer(name: str | None = None) -> trace.Tracer:
 def get_meter(name: str | None = None) -> metrics.Meter:
     """Получить meter для создания метрик."""
     return metrics.get_meter(name or __name__)
+
+
+# Глобальная переменная для удобства импорта
+OTEL_ENABLED = os.getenv("OTEL_ENABLED", "true").lower() == "true"

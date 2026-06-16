@@ -10,8 +10,8 @@ import os
 import signal
 import sys
 
-# 🔴 КРИТИЧНОЕ ИЗМЕНЕНИЕ ДЛЯ ADR-020: Проверка PYTHONPATH
-PYTHONPATH = os.environ.get("PYTHONPATH")  # Исправлено: os.getenv → os.environ.get
+# 🔴 КРИТИЧНОЕ ИЗМЕНЕНИЕ ДЛЯ ADR-022: Проверка PYTHONPATH
+PYTHONPATH = os.environ.get("PYTHONPATH")
 
 
 # Используем sys.stderr для вывода до инициализации логгера
@@ -20,15 +20,23 @@ def log_error(msg):
 
 
 if not PYTHONPATH:
-    log_error("⚠️ PYTHONPATH не установлен. Установите: PYTHONPATH=/app:/app/src (см. ADR-020)")
-    sys.exit(1)  # Добавлен выход при отсутствии PYTHONPATH
-elif "/app" not in PYTHONPATH or "/app/src" not in PYTHONPATH:
-    log_error(f"❌ PYTHONPATH должен содержать '/app' и '/app/src', получено: {PYTHONPATH}")
+    log_error(
+        "⚠️ PYTHONPATH не установлен. Установите: PYTHONPATH=/app:/app/src (Docker) или PYTHONPATH=.:src:apps:agents (локально)"
+    )
+    sys.exit(1)
+
+# Допускаем Docker-путь (/app) ИЛИ локальный путь (корень проекта + поддиректории)
+_is_docker = "/app" in PYTHONPATH
+_has_src = "/src" in PYTHONPATH or "src" in PYTHONPATH
+_has_apps = "/apps" in PYTHONPATH or "apps" in PYTHONPATH
+
+if not _is_docker and (not _has_src or not _has_apps):
+    log_error(f"❌ PYTHONPATH должен содержать пути к 'src' и 'apps'. Получено: {PYTHONPATH}")
     sys.exit(1)
 
 # 1. Настройка логирования (без force=True, чтобы не ломать библиотечный лог)
 logging.basicConfig(
-    level=os.environ.get("LOG_LEVEL", "INFO").upper(),  # Исправлено: os.getenv → os.environ.get
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger("portfolio_organizer")
@@ -97,7 +105,7 @@ def run_server(host: str, port: int, mode: str, workers: int) -> None:
         port=port,
         reload=is_dev,
         workers=workers if not is_dev else 1,
-        log_level=os.environ.get("LOG_LEVEL", "info").lower(),  # Исправлено: os.getenv → os.environ.get
+        log_level=os.environ.get("LOG_LEVEL", "info").lower(),
         timeout_keep_alive=5,
     )
 

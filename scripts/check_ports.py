@@ -311,8 +311,11 @@ def print_report(
 def main():
     """Основная функция."""
     import argparse
+
     parser = argparse.ArgumentParser(description="Проверка конфигурации портов")
-    parser.add_argument("--skip-pythonpath", action="store_true", help="Пропустить проверку PYTHONPATH (для pre-commit/CI)")
+    parser.add_argument(
+        "--skip-pythonpath", action="store_true", help="Пропустить проверку PYTHONPATH (для pre-commit/CI)"
+    )
     parser.add_argument("--strict", action="store_true", help="Строгий режим (для CI)")
     args = parser.parse_args()
 

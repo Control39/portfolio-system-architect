@@ -94,9 +94,10 @@ apps/template-service/
 
 ### Проверка после рефакторинга
 
-- [x] `src/__init__.py` очищен от `decision_engine` и `repo_audit`
-- [x] `tests/unit/test_decision_engine_init.py` перемещён в `legacy/test_decision_engine_init_v1.py`
-- [x] Нет битых импортов: `grep -r "from src.decision_engine"` и `grep -r "from src.repo_audit"`
+- \[x\] `src/__init__.py` очищен от `decision_engine` и `repo_audit`
+- \[x\] `tests/unit/test_decision_engine_init.py` перемещён в
+  `legacy/test_decision_engine_init_v1.py`
+- \[x\] Нет битых импортов: `grep -r "from src.decision_engine"` и `grep -r "from src.repo_audit"`
   возвращают 0 результатов
 
 ## Связанные решения

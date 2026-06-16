@@ -9,7 +9,6 @@ E2E-тесты для Cognitive Agent
 - Остановка
 """
 
-import json
 import sys
 from pathlib import Path
 
@@ -38,12 +37,12 @@ class TestAgentLifecycle:
         """Тест запуска и остановки агента"""
         agent = AutonomousCognitiveAgent()
         assert agent.status == "initialized"
-        
+
         # Запуск
         agent.start(background=False)
         assert agent.running is True
         print("✅ Agent started")
-        
+
         # Остановка
         agent.stop()
         assert agent.running is False
@@ -53,7 +52,7 @@ class TestAgentLifecycle:
         """Тест сканирования проекта"""
         agent = AutonomousCognitiveAgent()
         result = agent.scan_project("auto")
-        
+
         assert result is not None
         assert "status" in result
         assert "timestamp" in result
@@ -63,7 +62,7 @@ class TestAgentLifecycle:
         """Тест создания плана задачи"""
         agent = AutonomousCognitiveAgent()
         plan = agent.create_plan("Test task")
-        
+
         assert "tasks" in plan
         assert len(plan["tasks"]) > 0
         print(f"✅ Plan created: {len(plan['tasks'])} tasks")
@@ -71,11 +70,11 @@ class TestAgentLifecycle:
     def test_guardrails_block_dangerous_pattern(self):
         """Проверка блокировки опасных паттернов"""
         agent = AutonomousCognitiveAgent()
-        
+
         # Проверка безопасных путей
         assert agent._is_safe_path("./apps/example.py") is True
         assert agent._is_safe_path("./agents/cognitive_agent/test.py") is True
-        
+
         # Проверка опасных путей
         assert agent._is_safe_path("/etc/passwd") is False
         assert agent._is_safe_path("../../../etc/shadow") is False
@@ -86,16 +85,16 @@ class TestAgentLifecycle:
         """Полный цикл: запуск → сканирование → планирование → выполнение"""
         agent = AutonomousCognitiveAgent()
         agent.start()
-        
+
         try:
             # Тест сканирования
             result = agent.scan_project("apps/example")
             assert result["status"] == "success"
-            
+
             # Тест планирования
             plan = agent.create_plan("Fix bug in user auth")
             assert len(plan["tasks"]) > 0
-            
+
         finally:
             agent.stop()
             assert agent.status == "stopped"
@@ -107,14 +106,14 @@ class TestAISafetyValidation:
     def test_dangerous_patterns_blocked(self):
         """Проверка блокировки опасных паттернов в AI-ответах"""
         agent = AutonomousCognitiveAgent()
-        
+
         dangerous_responses = [
             "rm -rf /",
             "eval(user_input)",
             "os.system('rm -rf /')",
             "subprocess.call(['rm', '-rf', '/'])",
         ]
-        
+
         for response in dangerous_responses:
             is_safe, _ = agent._validate_ai_response(response)
             assert is_safe is False, f"Should block: {response}"
@@ -123,13 +122,13 @@ class TestAISafetyValidation:
     def test_safe_responses_allowed(self):
         """Проверка, что безопасные ответы проходят"""
         agent = AutonomousCognitiveAgent()
-        
+
         safe_responses = [
             "Рекомендую добавить unit-тесты для модуля auth",
             "Предлагаю рефакторинг функции calculate_total",
-            "[{\"priority\": \"high\", \"message\": \"Добавить логирование\"}]",
+            '[{"priority": "high", "message": "Добавить логирование"}]',
         ]
-        
+
         for response in safe_responses:
             is_safe, _ = agent._validate_ai_response(response)
             assert is_safe is True, f"Should allow: {response}"
