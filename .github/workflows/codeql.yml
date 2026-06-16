@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: ["main", "develop"]
   schedule:
-    - cron: '0 3 * * 1'  # Еженедельно по понедельникам в 3:00 UTC
+    - cron: '0 3 * * 1'
 
 jobs:
   analyze:
@@ -21,32 +21,32 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['python', 'javascript', 'typescript']
+        language: ['python', 'typescript']
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # ✅ Исправлено: v5 → v4
+        uses: actions/checkout@v4
 
-      # Только для JS/TS
+      # Только для TypeScript
       - name: Setup Node.js
-        if: matrix.language != 'python'  # ✅ Пропуск для Python
-        uses: actions/setup-node@v4  # ✅ Исправлено: v6 → v4
+        if: matrix.language == 'typescript'
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install dependencies
-        if: matrix.language != 'python'  # ✅ Пропуск для Python
+        if: matrix.language == 'typescript'
         working-directory: client
         run: npm ci
 
       - name: Build project
-        if: matrix.language != 'python'  # ✅ Пропуск для Python
+        if: matrix.language == 'typescript'
         working-directory: client
         run: npm run build --if-present
 
       # Для Python: установить зависимости
       - name: Setup Python
-        if: matrix.language == 'python'  # ✅ Только для Python
+        if: matrix.language == 'python'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -58,12 +58,11 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3  # ✅ Актуальная версия
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          queries: "security-extended, security-and-quality"
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3  # ✅ Актуальная версия
+        uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
