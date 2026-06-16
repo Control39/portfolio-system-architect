@@ -287,3 +287,15 @@ pip-conflicts.txt
 requirements.audit.txt
 requirements.clean.txt
 .agents/plans/
+
+# ============================================
+# Артефакты работы агента (runtime data)
+# ============================================
+agents/cognitive_agent/logs/
+agents/cognitive_agent/plans/
+agents/cognitive_agent/reports/
+agents/cognitive_agent/scans/
+agents/cognitive_agent/status/
+agents/cognitive_agent/data/learning/metrics/
+agents/cognitive_agent/data/learning/models/
+agents/cognitive_agent/data/learning/reports/
