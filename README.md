@@ -19,8 +19,9 @@
 
 Это **композиционная архитектура** на принципе «Атомов и Молекул»:
 
-- **Атомы** (`src/`) — переиспользуемые компоненты (security, shared, core)
+- **Атомы** (`src/`) — переиспользуемые компоненты (security, shared, core, telemetry, vector_store)
 - **Молекулы** (`apps/`) — независимые сервисы, собранные из атомов
+- **Агенты** (`agents/`) — автономные AI-агенты, использующие атомы
 
 **Ключевые возможности:**
 - 🔒 0 критических уязвимостей (Trivy + Bandit + CodeQL)
@@ -28,6 +29,7 @@
 - 🔄 Полный CI/CD + pre-commit hooks
 - 📊 Production monitoring (Prometheus + Grafana)
 - 🚀 Kubernetes-ready деплой (52 манифеста, GitOps)
+- 🧠 Cognitive Agent — автономный AI-оркестратор экосистемы
 
 ---
 
@@ -40,6 +42,9 @@ A1[src/security - Маскирование секретов]
 A2[src/shared/schemas - career.yaml, proof.yaml]
 A3[src/config - Hot-reload конфигурация]
 A4[src/core - Базовые интерфейсы]
+A5[src/common - Telemetry, health-check]
+A6[src/ai - GigaChat, Ollama bridge]
+A7[src/vector_store - ChromaDB RAG]
 end
 subgraph "МОЛЕКУЛЫ (apps/)"
 M1[auth_service]
@@ -47,13 +52,33 @@ M2[career_development]
 M3[decision_engine]
 M4[portfolio_organizer]
 M5[context_builder]
-M6[cognitive_agent]
-M7[it_compass]
+M6[it_compass]
+M7[knowledge_graph]
+M8[chat_backend]
+M9[infra_orchestrator]
+M10[ml_model_registry]
+M11[system_proof]
+M12[thought_architecture]
+M13[assistant_orchestrator]
+M14[template_service]
+M15[mcp_server]
+M16[job_automation_agent]
+M17[embedding_agent]
+M18[competency_gap_engine]
+M19[ai_provider_manager]
+M20[ai_config_manager]
 end
-A1 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
-A2 --> M2 & M4 & M7
-A3 --> M1 & M2 & M3 & M4 & M5 & M6 & M7
-A4 --> M3 & M6
+subgraph "АГЕНТЫ (agents/)"
+AG1[cognitive_agent - AI-оркестратор]
+end
+A1 --> M1 & M2 & M3 & M4 & M5 & M6 & M7 & AG1
+A2 --> M2 & M4 & M6
+A3 --> M1 & M2 & M3 & M4 & M5 & M6 & M7 & AG1
+A4 --> M3 & AG1
+A5 --> M1 & M2 & M3 & M4 & M5 & M6 & M7 & AG1
+A6 --> M3 & AG1
+A7 --> M7 & AG1
+M18 & M19 & M20 -.->|зависимости| M1 & M2 & M3 & M4 & M5 & M6 & M7
 ```
 
 ---
@@ -77,7 +102,18 @@ pip install -r requirements-dev.txt
 pytest apps/*/tests/ -v --cov=apps --cov-report=term-missing
 
 # 5. Запустить диагностику
-python apps/cognitive_agent/orchestrator_v2.py
+python agents/cognitive_agent/orchestrator_v2.py
+```
+
+### Запуск Cognitive Agent
+
+```bash
+# Запуск AI-агента
+cd agents/cognitive_agent
+python -m uvicorn src.main:app --reload --port 8008
+
+# Или через Docker
+docker-compose up -d cognitive-agent
 ```
 
 ### Docker (опционально)
@@ -95,42 +131,55 @@ docker-compose up -d
 
 ## 📊 Сервисы
 
-| Сервис | Статус | Coverage | Назначение |
-|--------|--------|----------|------------|
-| auth_service | ✅ Ready | ~95% | JWT-аутентификация |
-| portfolio_organizer | ✅ Ready | 92% | Сбор и валидация доказательств |
-| decision_engine | ✅ Ready | ~85% | AI reasoning с RAG |
-| career_development | ✅ Ready | 80% | Трекинг компетенций |
-| it_compass | ✅ Ready | ~85% | Методология IT-компетенций |
-| context_builder | ✅ Ready | ~85% | Сборка контекста для LLM |
-| ai_config_manager | ✅ Core | ~90% | Централизованная конфигурация |
-| ml_model_registry | ✅ Ready | ~90% | Регистр ML-моделей |
-| chat_backend | ✅ Ready | ~78% | WebSocket-чат |
-| job_automation_agent | ✅ Ready | ~80% | Автоматизация поиска работы |
-| assistant_orchestrator | ✅ Ready | ~80% | Оркестрация ассистентов |
-| knowledge_graph | ✅ Ready | ~75% | Граф знаний |
-| embedding_agent | ✅ Ready | ~75% | Векторные эмбеддинги |
-| infra_orchestrator | ✅ Ready | ~75% | Оркестрация сервисов |
-| thought_architecture | ✅ Ready | ~75% | ADR, архитектура решений |
-| system_proof | ✅ Ready | ~75% | Аудит готовности системы |
-| ai_provider_manager | ✅ Ready | ~75% | Управление провайдерами AI |
-| competency_gap_engine | ✅ Ready | ~70% | Анализ разрывов компетенций |
-| **cognitive_agent** | **🟡 Beta** | **14% (core: 66%)** | **🧠 Центральный оркестратор** |
-| mcp_server | 🟡 WIP | 47% | MCP-сервер для агентов |
-| template_service | 🚧 WIP | ~60% | Генератор шаблонов |
+### 🟢 Production-сервисы (`apps/`)
+
+| Сервис                 | Статус  | Coverage | Назначение                     |
+| ---------------------- | ------- | -------- | ------------------------------ |
+| auth_service           | ✅ Ready | ~95%     | JWT-аутентификация             |
+| portfolio_organizer    | ✅ Ready | 92%      | Сбор и валидация доказательств |
+| decision_engine        | ✅ Ready | ~85%     | AI reasoning с RAG             |
+| career_development     | ✅ Ready | 80%      | Трекинг компетенций            |
+| it_compass             | ✅ Ready | ~85%     | Методология IT-компетенций     |
+| context_builder        | ✅ Ready | ~85%     | Сборка контекста для LLM       |
+| ai_config_manager      | ✅ Ready | ~90%     | Централизованная конфигурация  |
+| ml_model_registry      | ✅ Ready | ~90%     | Регистр ML-моделей             |
+| chat_backend           | ✅ Ready | ~78%     | WebSocket-чат                  |
+| job_automation_agent   | ✅ Ready | ~80%     | Автоматизация поиска работы    |
+| assistant_orchestrator | ✅ Ready | ~80%     | Оркестрация ассистентов        |
+| knowledge_graph        | ✅ Ready | ~75%     | Граф знаний                    |
+| infra_orchestrator     | ✅ Ready | ~75%     | Оркестрация сервисов           |
+| thought_architecture   | ✅ Ready | ~75%     | ADR, архитектура решений       |
+| system_proof           | ✅ Ready | ~75%     | Аудит готовности системы       |
+| template_service       | ✅ Ready | ~60%     | Генератор шаблонов             |
+| mcp_server             | ✅ Ready | 47%      | MCP-сервер для агентов         |
+
+### 🟡 В разработке / без entry point (`apps/`)
+
+| Сервис                | Статус    | Coverage | Назначение                          |
+| --------------------- | --------- | -------- | ----------------------------------- |
+| embedding_agent       | 🟡 Planned | ~75%     | Векторные эмбеддинги (ChromaDB RAG) |
+| ai_provider_manager   | 🟡 Planned | ~75%     | Управление провайдерами AI          |
+| competency_gap_engine | 🟡 Planned | ~70%     | Анализ разрывов компетенций         |
+
+### 🧠 Автономный агент (`agents/`)
+
+| Агент               | Статус    | Coverage       | Назначение                       |
+| ------------------- | --------- | -------------- | -------------------------------- |
+| **cognitive_agent** | **🟡 MVP** | **66% (core)** | **🧠 Центральный AI-оркестратор** |
 
 **Среднее покрытие по экосистеме: ~75%**
 
 ### 🔑 Ключевая роль Cognitive Agent
 
-**Cognitive Agent** — центральный оркестратор экосистемы, который:
+**Cognitive Agent** (`agents/cognitive_agent/`) — центральный оркестратор экосистемы, который:
 - 🔍 **Сканирует** все сервисы и понимает их структуру
 - 📋 **Планирует** задачи через ИИ (GigaChat + LangChain)
 - 🔗 **Интегрирует** IT-Compass, Job Automation, Decision Engine
 - 📚 **Собирает метрики** и учится на результатах
+- 🎯 **Выполняет** навыки (skills) через скрипты
 
 **Статус:** FastAPI сервер работает, ИИ-планирование в разработке.
-**Документация:** [apps/cognitive_agent/README.md](apps/cognitive_agent/README.md)
+**Документация:** [agents/cognitive_agent/README.md](agents/cognitive_agent/README.md)
 
 ---
 
@@ -158,14 +207,20 @@ docker-compose up -d
   - ADR-001: Методология системного мышления
   - ADR-014: Архитектурная граница «Атомы vs Молекулы»
   - ADR-019: Local vs Cloud LLM
+  - ADR-024: Enhanced config manager
+
+### Автономный агент
+- [Cognitive Agent](agents/cognitive_agent/README.md) — AI-оркестратор экосистемы
+- [Автономный агент](agents/cognitive_agent/IMPLEMENTATION_REPORT.md) — отчёт о реализации
 
 ### Для разных аудиторий
-| Аудитория | Документ | Что внутри |
-|-----------|----------|------------|
-| 🎯 HR / Нанимающий менеджер | [HIRING_BRIEF.md](docs/HIRING_BRIEF.md) | Бизнес-ценность, компетенции |
-| 💻 Техлид / Архитектор | [ADR](docs/architecture/decisions/) | Паттерны, стандарты |
-| 🛠️ DevOps / SRE | [deployment/](deployment/) | K8s манифесты, CI/CD |
-| 🌱 Начинающие | [apps/it_compass/](apps/it_compass/) | Методология самооценки |
+| Аудитория                  | Документ                                           | Что внутри                   |
+| -------------------------- | -------------------------------------------------- | ---------------------------- |
+| 🎯 HR / Нанимающий менеджер | [HIRING_BRIEF.md](docs/HIRING_BRIEF.md)            | Бизнес-ценность, компетенции |
+| 💻 Техлид / Архитектор      | [ADR](docs/architecture/decisions/)                | Паттерны, стандарты          |
+| 🛠️ DevOps / SRE             | [deployment/](deployment/)                         | K8s манифесты, CI/CD         |
+| 🌱 Начинающие               | [apps/it_compass/](apps/it_compass/)               | Методология самооценки       |
+| 🧠 AI-разработчик           | [agents/cognitive_agent/](agents/cognitive_agent/) | Автономный AI-агент          |
 
 ### Для ИИ-ассистентов
 Перед работой с проектом изучите:
@@ -185,7 +240,7 @@ pytest apps/*/tests/ -v
 pytest apps/*/tests/ --cov=apps --cov-report=term-missing
 
 # Запустить тесты конкретного сервиса
-pytest apps/cognitive_agent/tests/ -v
+pytest agents/cognitive_agent/tests/ -v
 
 # Запустить только быстрые тесты
 pytest -m "not slow"
