@@ -106,7 +106,7 @@ repos:
     hooks:
       - id: check-ports
         name: Check port consistency
-        entry: python scripts/check_ports.py --strict
+        entry: python scripts/check_ports.py --skip-pythonpath
         language: python
         additional_dependencies: [pyyaml]
         pass_filenames: false

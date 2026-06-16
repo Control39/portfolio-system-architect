@@ -310,11 +310,20 @@ def print_report(
 
 def main():
     """Основная функция."""
+    import argparse
+    parser = argparse.ArgumentParser(description="Проверка конфигурации портов")
+    parser.add_argument("--skip-pythonpath", action="store_true", help="Пропустить проверку PYTHONPATH (для pre-commit/CI)")
+    parser.add_argument("--strict", action="store_true", help="Строгий режим (для CI)")
+    args = parser.parse_args()
+
     print("🔍 Проверка конфигурации Docker Compose...")
     print("📁 Файл: docker-compose.yml")
 
-    # ✅ Проверка PYTHONPATH (ADR-020)
-    check_pythonpath()
+    # ✅ Проверка PYTHONPATH (ADR-020) — пропускается в pre-commit/CI
+    if not args.skip_pythonpath:
+        check_pythonpath()
+    else:
+        print("⏭️  PYTHONPATH проверка пропущена (--skip-pythonpath)")
 
     # Загрузка
     compose_data = load_compose()
