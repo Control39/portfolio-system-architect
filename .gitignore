@@ -302,3 +302,6 @@ agents/cognitive_agent/data/learning/reports/
 
 # Legacy код (не используется в production)
 legacy/
+
+# Архив runtime-артефактов агента
+archive/apps_cognitive_agent_legacy/
