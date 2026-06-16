@@ -279,3 +279,11 @@ __pycache__/
 # Данные обучения
 *.pkl
 *.joblib
+
+# Временные файлы аудита зависимостей (не коммитить)
+audit_report.txt
+current_deps.txt
+pip-conflicts.txt
+requirements.audit.txt
+requirements.clean.txt
+.agents/plans/
