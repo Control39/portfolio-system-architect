@@ -1,0 +1,91 @@
+# Cognitive Agent Memory Specification
+# ====================================
+# This file defines the core memory configuration and behavior rules
+# for the Cognitive Agent. It ensures consistent language usage and
+# proper agent behavior across all operations.
+
+# Language Policy
+# ---------------
+# ALL DOCUMENTATION MUST BE IN ENGLISH
+# This includes:
+# - ADR (Architecture Decision Records)
+# - README files
+# - Technical documentation
+# - Code comments (except user-facing UI)
+# - Configuration file documentation
+# - Commit messages for documentation changes
+#
+# Russian language is ONLY acceptable for:
+# - User-facing UI elements in Russian
+# - Direct user communication in Russian (if user prefers)
+#
+# This policy is NON-NEGOTIABLE and must be enforced in all memory operations.
+
+language_policy:
+  documentation_language: "en"
+  ui_language: "ru"
+  enforcement_level: "strict"
+  fallback_to_english: true
+
+# Agent Behavior Rules
+# --------------------
+# These rules are stored in persistent memory and enforced on every operation.
+
+behavior_rules:
+  # Agent must NOT start automatically without explicit user permission
+  auto_activation: false
+
+  # Agent must NOT interfere with code agent chats
+  chat_interference: blocked
+
+  # Agent must NOT confuse itself with other agents
+  identity_confusion: blocked
+
+  # All significant changes require explicit user approval
+  manual_approval_required: true
+
+  # Memory must be auditable and reviewable
+  memory_auditable: true
+
+# Memory Storage Configuration
+# ----------------------------
+# Where and how memory is stored and retrieved.
+
+memory_storage:
+  type: "yaml"
+  path: "agents/cognitive_agent/memory"
+  encryption: false  # Set to true for production with secrets
+  backup_enabled: true
+  backup_path: "agents/cognitive_agent/memory/backups"
+
+# ADR (Architecture Decision Record) Rules
+# ----------------------------------------
+# Rules for creating and managing ADRs.
+
+adr_rules:
+  language: "en"
+  template: "docs/architecture/adr-template.md"
+  storage_path: "docs/architecture/decisions"
+  prefix: "ADR-"
+  extension: ".md"
+
+# Guardrails Configuration
+# ------------------------
+# Security and validation rules for memory operations.
+
+guardrails:
+  memory_corruption_prevention: true
+  unauthorized_access_prevention: true
+  chat_interference_prevention: true
+  identity_enforcement: true
+
+# Logging and Audit
+# -----------------
+# All memory operations must be logged.
+
+logging:
+  enabled: true
+  level: "INFO"
+  include_context: true
+  include_rationale: true
+  log_path: "agents/cognitive_agent/logs/memory.log"

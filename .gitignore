@@ -18,6 +18,9 @@ var/
 wheels/
 *.egg-info/
 .installed.cfg
+
+# Agent test scripts with secrets
+agents/cognitive_agent/scripts/1.py
 *.egg
 *.tmp
 
