@@ -1,28 +1,84 @@
 version: 2
 
 updates:
+  # Python-зависимости
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Moscow"
+    open-pull-requests-limit: 10
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     labels:
       - "dependencies"
       - "automated"
+      - "python"
       - "cognitive-agent:scan-required"
+    groups:
+      python-production:
+        dependency-type: "production"
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      python-development:
+        dependency-type: "development"
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
+  # Docker
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
     ignore:
       - dependency-name: "python"
         update-types: ["version-update:semver-major"]
+    labels:
+      - "dependencies"
+      - "docker"
 
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      all-actions:
+        patterns:
+          - "*"
+
+  # Frontend (npm/yarn) — ДОБАВЛЕНО
+  - package-ecosystem: "npm"
+    directory: "/client"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "automated"
+    groups:
+      frontend-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
