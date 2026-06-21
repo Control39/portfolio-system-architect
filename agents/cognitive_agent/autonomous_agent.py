@@ -13,16 +13,6 @@ Autonomous Cognitive Agent - Автономный AI-агент
 - Fallback: Ollama (локально)
 """
 
-from apps.it_compass.src.it_compass_scanner import get_scanner
-from apps.ai_provider_manager.src.ai_provider_manager import (
-    chat_with_fallback,
-    get_provider_manager,
-)
-from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
-from agents.cognitive_agent.self_testing_module import SelfTestingModule  # Новый импорт
-from agents.cognitive_agent.src.project_scanner import ProjectScanner
-from agents.cognitive_agent.src.logging_config import logger, structured_logger, AuditLogger
-from agents.cognitive_agent.src.base_agent import BaseCognitiveAgent
 import asyncio
 import json
 import logging
@@ -32,17 +22,26 @@ import statistics
 import threading
 import time
 from collections import deque
-from dataclasses import dataclass, asdict
 from datetime import datetime
-from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import jinja2
-import psutil
 import structlog
 import yaml
 from tenacity import retry, stop_after_attempt, wait_exponential
+
+from agents.cognitive_agent.self_testing_module import SelfTestingModule  # Новый импорт
+from agents.cognitive_agent.src.base_agent import BaseCognitiveAgent
+from agents.cognitive_agent.src.logging_config import AuditLogger, logger, structured_logger
+from agents.cognitive_agent.src.project_scanner import ProjectScanner
+
+# ⭐ [HYBRID] Prompt Engine
+from agents.cognitive_agent.src.prompt_engine import PromptEngine
+from apps.ai_provider_manager.src.ai_provider_manager import (
+    chat_with_fallback,
+)
+from apps.it_compass.src.it_compass_scanner import get_scanner
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -138,8 +137,7 @@ class AuditLogger:
 
     def __init__(self, agent_id: str, log_file: str = None):
         self.agent_id = agent_id
-        self.log_file = log_file or str(
-            REPO_ROOT / ".agent_data" / "logs" / "agent_audit.jsonl")
+        self.log_file = log_file or str(REPO_ROOT / ".agent_data" / "logs" / "agent_audit.jsonl")
         self._ensure_log_file()
 
     def _ensure_log_file(self):
@@ -244,8 +242,7 @@ class MetricsCollector:
         metrics = {}
 
         # Процент успеха задач
-        total_tasks = self.metrics["tasks_completed"] + \
-            self.metrics["tasks_failed"]
+        total_tasks = self.metrics["tasks_completed"] + self.metrics["tasks_failed"]
         if total_tasks > 0:
             metrics["task_success_rate"] = self.metrics["tasks_completed"] / total_tasks
         else:
@@ -261,23 +258,17 @@ class MetricsCollector:
 
         # Среднее время сканирования
         if self.metrics["scan_duration_history"]:
-            metrics["avg_scan_duration"] = statistics.mean(
-                self.metrics["scan_duration_history"])
-            metrics["median_scan_duration"] = statistics.median(
-                self.metrics["scan_duration_history"])
-            metrics["max_scan_duration"] = max(
-                self.metrics["scan_duration_history"])
-            metrics["min_scan_duration"] = min(
-                self.metrics["scan_duration_history"])
+            metrics["avg_scan_duration"] = statistics.mean(self.metrics["scan_duration_history"])
+            metrics["median_scan_duration"] = statistics.median(self.metrics["scan_duration_history"])
+            metrics["max_scan_duration"] = max(self.metrics["scan_duration_history"])
+            metrics["min_scan_duration"] = min(self.metrics["scan_duration_history"])
         else:
             metrics["avg_scan_duration"] = 0.0
 
         # Среднее время ответа
         if self.metrics["response_times"]:
-            metrics["avg_response_time"] = statistics.mean(
-                self.metrics["response_times"])
-            metrics["median_response_time"] = statistics.median(
-                self.metrics["response_times"])
+            metrics["avg_response_time"] = statistics.mean(self.metrics["response_times"])
+            metrics["median_response_time"] = statistics.median(self.metrics["response_times"])
         else:
             metrics["avg_response_time"] = 0.0
 
@@ -287,14 +278,12 @@ class MetricsCollector:
 
         # Среднее использование ресурсов
         if self.metrics["cpu_usage_history"]:
-            metrics["avg_cpu_usage"] = statistics.mean(
-                self.metrics["cpu_usage_history"])
+            metrics["avg_cpu_usage"] = statistics.mean(self.metrics["cpu_usage_history"])
         else:
             metrics["avg_cpu_usage"] = 0.0
 
         if self.metrics["memory_usage_history"]:
-            metrics["avg_memory_usage"] = statistics.mean(
-                self.metrics["memory_usage_history"])
+            metrics["avg_memory_usage"] = statistics.mean(self.metrics["memory_usage_history"])
         else:
             metrics["avg_memory_usage"] = 0.0
 
@@ -314,9 +303,9 @@ class SelfHealingSystem:
         self.agent = agent
         self.anomaly_thresholds = {
             "response_time": 30.0,  # секунды
-            "error_rate": 0.3,      # 30%
-            "cpu_usage": 80.0,      # проценты
-            "memory_usage": 85.0,   # проценты
+            "error_rate": 0.3,  # 30%
+            "cpu_usage": 80.0,  # проценты
+            "memory_usage": 85.0,  # проценты
             "task_failure_rate": 0.5,  # 50%
         }
         self.recovery_strategies = {
@@ -328,7 +317,7 @@ class SelfHealingSystem:
             "clear_memory": self._clear_memory,
         }
 
-    def detect_anomalies(self) -> List[str]:
+    def detect_anomalies(self) -> list[str]:
         """Обнаружение аномалий в работе агента"""
         anomalies = []
 
@@ -343,8 +332,7 @@ class SelfHealingSystem:
         # Проверка ошибок
         task_failure_rate = 1 - perf_metrics.get("task_success_rate", 1.0)
         if task_failure_rate > self.anomaly_thresholds["task_failure_rate"]:
-            anomalies.append(
-                f"High task failure rate: {task_failure_rate:.2%}")
+            anomalies.append(f"High task failure rate: {task_failure_rate:.2%}")
 
         # Проверка использования CPU
         avg_cpu = perf_metrics.get("avg_cpu_usage", 0)
@@ -375,6 +363,7 @@ class SelfHealingSystem:
         """Перезапустить соединение с AI"""
         try:
             from apps.ai_provider_manager.src.ai_provider_manager import get_provider_manager
+
             self.agent.ai_manager = get_provider_manager()
             logger.info("✅ AI connection restarted")
             return True
@@ -389,9 +378,9 @@ class SelfHealingSystem:
 
     def _reset_rate_limits(self) -> bool:
         """Сбросить лимиты запросов"""
-        if hasattr(self.agent, 'ai_call_counter'):
+        if hasattr(self.agent, "ai_call_counter"):
             self.agent.ai_call_counter = 0
-        if hasattr(self.agent, 'ai_call_reset_time'):
+        if hasattr(self.agent, "ai_call_reset_time"):
             self.agent.ai_call_reset_time = datetime.now()
         logger.info("✅ Rate limits reset")
         return True
@@ -399,15 +388,14 @@ class SelfHealingSystem:
     def _switch_ai_provider(self) -> bool:
         """Переключить провайдера AI"""
         try:
-            if hasattr(self.agent, 'ai_manager'):
+            if hasattr(self.agent, "ai_manager"):
                 providers = self.agent.ai_manager.get_status()
                 current = self.agent.ai_manager.get_active_provider()
 
                 # Найти альтернативного провайдера
                 for provider_name, status in providers.items():
                     if provider_name != current and status.get("status") == "healthy":
-                        logger.info(
-                            f"✅ Switched to alternative provider: {provider_name}")
+                        logger.info(f"✅ Switched to alternative provider: {provider_name}")
                         return True
 
                 logger.warning("⚠️ No alternative provider available")
@@ -419,21 +407,20 @@ class SelfHealingSystem:
 
     def _throttle_processing(self) -> bool:
         """Ограничить обработку для снижения нагрузки"""
-        if hasattr(self.agent, 'scan_interval'):
+        if hasattr(self.agent, "scan_interval"):
             old_interval = self.agent.scan_interval
-            self.agent.scan_interval = min(
-                old_interval * 2, 3600)  # Максимум 1 час
+            self.agent.scan_interval = min(old_interval * 2, 3600)  # Максимум 1 час
             logger.info(
-                f"✅ Processing throttled: scan interval increased from {old_interval}s to {self.agent.scan_interval}s")
+                f"✅ Processing throttled: scan interval increased from {old_interval}s to {self.agent.scan_interval}s"
+            )
         return True
 
     def _clear_memory(self) -> bool:
         """Освободить память"""
-        if hasattr(self.agent, 'metrics_collector'):
+        if hasattr(self.agent, "metrics_collector"):
             # Удаляем старые данные из очередей
             self.agent.metrics_collector.metrics["response_times"].clear()
-            self.agent.metrics_collector.metrics["scan_duration_history"].clear(
-            )
+            self.agent.metrics_collector.metrics["scan_duration_history"].clear()
             logger.info("✅ Memory cleared")
         return True
 
@@ -445,16 +432,18 @@ class TaskPlanner:
     def __init__(self):
         self.tasks = []
         self.dependencies = {}  # task_id -> [dependency_ids]
-        self.task_graph = {}    # task_id -> [dependent_ids]
+        self.task_graph = {}  # task_id -> [dependent_ids]
 
-    def add_task(self, task_id: str, task_details: dict, dependencies: List[str] = None):
+    def add_task(self, task_id: str, task_details: dict, dependencies: list[str] = None):
         """Добавить задачу с зависимостями"""
-        self.tasks.append({
-            "id": task_id,
-            "details": task_details,
-            "status": "pending",  # pending, running, completed, failed
-            "created_at": datetime.now().isoformat()
-        })
+        self.tasks.append(
+            {
+                "id": task_id,
+                "details": task_details,
+                "status": "pending",  # pending, running, completed, failed
+                "created_at": datetime.now().isoformat(),
+            }
+        )
 
         if dependencies:
             self.dependencies[task_id] = dependencies
@@ -463,15 +452,13 @@ class TaskPlanner:
                     self.task_graph[dep] = []
                 self.task_graph[dep].append(task_id)
 
-    def get_ready_tasks(self) -> List[dict]:
+    def get_ready_tasks(self) -> list[dict]:
         """Получить задачи, готовые к выполнению (все зависимости выполнены)"""
         ready_tasks = []
         for task in self.tasks:
             if task["status"] == "pending":
                 deps = self.dependencies.get(task["id"], [])
-                all_deps_satisfied = all(
-                    self.get_task_status(dep) == "completed" for dep in deps
-                )
+                all_deps_satisfied = all(self.get_task_status(dep) == "completed" for dep in deps)
                 if all_deps_satisfied:
                     ready_tasks.append(task)
         return ready_tasks
@@ -498,8 +485,7 @@ class StateManager:
 
     def __init__(self, agent_id: str):
         self.agent_id = agent_id
-        self.state_file = REPO_ROOT / ".agent_data" / \
-            "state" / f"{agent_id}_state.pkl"
+        self.state_file = REPO_ROOT / ".agent_data" / "state" / f"{agent_id}_state.pkl"
         self.state_file.parent.mkdir(parents=True, exist_ok=True)
         self.state_version = "1.0"
 
@@ -509,7 +495,7 @@ class StateManager:
             "version": self.state_version,
             "timestamp": datetime.now().isoformat(),
             "agent_id": self.agent_id,
-            "data": state
+            "data": state,
         }
         try:
             with open(self.state_file, "wb") as f:
@@ -518,7 +504,7 @@ class StateManager:
         except Exception as e:
             logger.error(f"❌ Failed to save state: {e}")
 
-    def load_state(self) -> Optional[dict]:
+    def load_state(self) -> dict | None:
         """Загрузить состояние"""
         try:
             if self.state_file.exists():
@@ -578,16 +564,24 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         self.state_manager = StateManager(agent_id=self.agent_id)
         logger.info("✅ State manager initialized")
 
+        # ⭐ [HYBRID] Initialize Prompt Engine (Layer 2: Strategy Manager)
+        prompts_dir = Path(__file__).parent / "prompts"
+        self.prompt_engine = PromptEngine(prompts_dir=prompts_dir, llm_client=None)
+        logger.info(f"✅ Prompt engine initialized: {prompts_dir}")
+
+        # ⭐ [HYBRID] Feature flag for prompt-driven strategies
+        self.use_prompt_strategies = True  # Can be toggled via config
+
         # Инициализация модуля самотестирования
         # Создаем временные экземпляры компонентов для передачи в SelfTestingModule
         # В реальности компоненты создаются динамически, но для самотестирования
         # нам нужен интерфейс, поэтому передаем self как placeholder
         self.self_testing_module = SelfTestingModule(
             project_scanner=self,  # Передаем self, так как project_scanner создается динамически
-            code_analyzer=self,    # Передаем self, так как code_analyzer создается динамически
-            test_analyzer=self,    # Передаем self, так как test_analyzer создается динамически
+            code_analyzer=self,  # Передаем self, так как code_analyzer создается динамически
+            test_analyzer=self,  # Передаем self, так как test_analyzer создается динамически
             task_planner=self.task_planner,  # Теперь используем enterprise task planner
-            logger=logger
+            logger=logger,
         )
 
         # Запуск фоновой задачи для автономного тестирования
@@ -596,7 +590,8 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             # Запускаем задачу в фоне, если агент полностью инициализирован
             self.self_testing_task = asyncio.create_task(
                 # раз в час
-                self.self_testing_module.run_periodically(interval=3600))
+                self.self_testing_module.run_periodically(interval=3600)
+            )
         except RuntimeError:
             # Если event loop не запущен, задачу запустим позже
             self.self_testing_task = None
@@ -609,14 +604,11 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 self.guardrails = yaml.safe_load(f)
 
             # ⭐ [БЕЗОПАСНОСТЬ] Валидация схемы guardrails
-            required_keys = ["allowed_paths",
-                             "blocked_patterns", "safe_actions", "rules"]
+            required_keys = ["allowed_paths", "blocked_patterns", "safe_actions", "rules"]
             for key in required_keys:
                 if key not in self.guardrails:
-                    logger.error(
-                        f"❌ Missing required key in guardrails: {key}")
-                    raise ValueError(
-                        f"Missing required key in guardrails: {key}")
+                    logger.error(f"❌ Missing required key in guardrails: {key}")
+                    raise ValueError(f"Missing required key in guardrails: {key}")
 
             # Валидация правил
             for rule in self.guardrails["rules"]:
@@ -626,8 +618,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
             self.allowed_paths = self.guardrails.get("allowed_paths", [])
             self.blocked_patterns = self.guardrails.get("blocked_patterns", [])
-            self.safe_actions = self.guardrails.get(
-                "safe_actions", ["read", "scan", "analyze"])
+            self.safe_actions = self.guardrails.get("safe_actions", ["read", "scan", "analyze"])
             logger.info(
                 f"✅ Loaded {len(self.allowed_paths)} allowed paths, {len(self.blocked_patterns)} blocked patterns"
             )
@@ -663,8 +654,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             self.ai_call_reset_time = now
 
         if self.ai_call_counter >= self.OPERATION_LIMITS["max_ai_calls_per_hour"]:
-            raise Exception(
-                f"Rate limit exceeded: {self.ai_call_counter} calls in last hour")
+            raise Exception(f"Rate limit exceeded: {self.ai_call_counter} calls in last hour")
 
         self.ai_call_counter += 1
 
@@ -675,8 +665,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             # ⭐ [МОНИТОРИНГ] Логирование события безопасности
             self._log_security_event(
                 "task_too_long",
-                {"task_length": len(
-                    task), "max_length": self.OPERATION_LIMITS["max_task_length"]},
+                {"task_length": len(task), "max_length": self.OPERATION_LIMITS["max_task_length"]},
                 severity="warning",
             )
             return False, f"Task too long ({len(task)} > {self.OPERATION_LIMITS['max_task_length']})"
@@ -711,8 +700,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         for pattern in self.AI_RESPONSE_DANGEROUS_PATTERNS:
             if re.search(pattern, response, re.IGNORECASE):
-                logger.error(
-                    f"🚫 Blocked dangerous AI response pattern: {pattern}")
+                logger.error(f"🚫 Blocked dangerous AI response pattern: {pattern}")
                 logger.error(f"Response preview: {response[:200]}...")
                 # ⭐ [МОНИТОРИНГ] Логирование события безопасности
                 self._log_security_event(
@@ -724,8 +712,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         # Проверка на слишком длинные ответы (возможная утечка данных)
         if len(response) > 10000:
-            logger.warning(
-                f"⚠️ AI response unusually long ({len(response)} chars)")
+            logger.warning(f"⚠️ AI response unusually long ({len(response)} chars)")
             # Не блокируем, но логируем
 
         return True, "OK"
@@ -758,8 +745,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             return False, f"Unknown action: {action}"
 
         # Проверить доступ
-        result = self.enterprise_guardrails.authorize_file_access(
-            self.auth_token, file_path, access_level)
+        result = self.enterprise_guardrails.authorize_file_access(self.auth_token, file_path, access_level)
 
         if result["allowed"]:
             return True, "Access granted"
@@ -780,8 +766,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         if background:
             # Запуск в фоновом потоке
-            thread = threading.Thread(
-                target=self._background_loop, daemon=True)
+            thread = threading.Thread(target=self._background_loop, daemon=True)
             thread.start()
         else:
             # Запуск в главном потоке
@@ -793,8 +778,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         logger.info("🔴 Agent stopped")
 
         # ⭐ [МОНИТОРИНГ] Логирование остановки
-        self._log_action("agent_stopped", {
-                         "total_scans": len(self.scan_results)})
+        self._log_action("agent_stopped", {"total_scans": len(self.scan_results)})
 
     def _background_loop(self):
         """Фоновый цикл работы"""
@@ -808,8 +792,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 time.sleep(self.scan_interval)
 
                 if self.running:
-                    logger.info(
-                        f"📊 Periodic scan #{len(self.scan_results) + 1}")
+                    logger.info(f"📊 Periodic scan #{len(self.scan_results) + 1}")
                     self.scan_project()
 
             except Exception as e:
@@ -870,8 +853,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
     def _remember_decision(self, context: dict, decision: str, outcome: str):
         """Запомнить решение и его результат для будущего обучения"""
         self.memory["decisions"].append(
-            {"context": context, "decision": decision, "outcome": outcome,
-                "timestamp": datetime.now().isoformat()}
+            {"context": context, "decision": decision, "outcome": outcome, "timestamp": datetime.now().isoformat()}
         )
 
         # Ограничиваем историю 100 записями
@@ -879,10 +861,8 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             self.memory["decisions"] = self.memory["decisions"][-100:]
 
         # Обновляем success rate
-        success_count = sum(
-            1 for d in self.memory["decisions"] if d["outcome"] == "success")
-        self.memory["success_rate"] = success_count / \
-            len(self.memory["decisions"]) if self.memory["decisions"] else 0.0
+        success_count = sum(1 for d in self.memory["decisions"] if d["outcome"] == "success")
+        self.memory["success_rate"] = success_count / len(self.memory["decisions"]) if self.memory["decisions"] else 0.0
 
     def scan_project(self, mode: str = "auto"):
         """
@@ -895,8 +875,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 - "full": полное сканирование
                 - "paths": выборочное (конфигурируется в self.scan_paths)
         """
-        logger.info(
-            f"🔍 Сканирование проекта: {self.project_path} (режим: {mode})")
+        logger.info(f"🔍 Сканирование проекта: {self.project_path} (режим: {mode})")
 
         scan_start = datetime.now()
 
@@ -927,8 +906,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         elif mode == "full":
             scan_data = project_scanner.scan_full()
         elif mode == "paths":
-            paths = getattr(self, "scan_paths", [
-                            "apps/", "agents/cognitive_agent/"])
+            paths = getattr(self, "scan_paths", ["apps/", "agents/cognitive_agent/"])
             scan_data = project_scanner.scan_paths(paths)
         else:
             logger.warning(f"Неизвестный режим: {mode}, используем auto")
@@ -953,8 +931,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         self.last_scan = scan_start
 
-        logger.info(
-            f"✅ Scan completed in {(datetime.now() - scan_start).total_seconds():.2f}s")
+        logger.info(f"✅ Scan completed in {(datetime.now() - scan_start).total_seconds():.2f}s")
         logger.info(f"   Mode: {mode}")
         logger.info(f"   Files scanned: {self.scan_results['files']}")
         if compass_results:
@@ -1009,11 +986,9 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             for file_path in self.project_path.rglob("*"):
                 if file_path.is_file() and not self._is_excluded(file_path):
                     # Проверяем доступ к файлу через enterprise guardrails
-                    access_granted, access_msg = self._check_file_access(
-                        str(file_path), "read")
+                    access_granted, access_msg = self._check_file_access(str(file_path), "read")
                     if not access_granted:
-                        logger.debug(
-                            f"⚠️ Access denied to {file_path}: {access_msg}")
+                        logger.debug(f"⚠️ Access denied to {file_path}: {access_msg}")
                         continue
 
                     # Ограничиваем размер файла
@@ -1022,8 +997,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
                     # Читаем текстовые файлы
                     try:
-                        content_text = file_path.read_text(
-                            encoding="utf-8", errors="ignore")
+                        content_text = file_path.read_text(encoding="utf-8", errors="ignore")
                         if len(content_text.strip()) > 50:  # Минимальная длина
                             documents.append(content_text)
                             metadatas.append(
@@ -1043,20 +1017,18 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             if documents:
                 batch_size = 100
                 for i in range(0, len(documents), batch_size):
-                    batch_docs = documents[i: i + batch_size]
-                    batch_metas = metadatas[i: i + batch_size]
-                    batch_ids = ids[i: i + batch_size]
+                    batch_docs = documents[i : i + batch_size]
+                    batch_metas = metadatas[i : i + batch_size]
+                    batch_ids = ids[i : i + batch_size]
 
                     self.chroma_indexer.add_documents(
                         documents=batch_docs,
                         metadatas=batch_metas,
                         ids=batch_ids,
                     )
-                    logger.info(
-                        f"   ✅ Indexed {len(batch_docs)} documents (batch {i // batch_size + 1})")
+                    logger.info(f"   ✅ Indexed {len(batch_docs)} documents (batch {i // batch_size + 1})")
 
-                logger.info(
-                    f"✅ Successfully indexed {len(documents)} documents in ChromaDB")
+                logger.info(f"✅ Successfully indexed {len(documents)} documents in ChromaDB")
 
                 # ⭐ [МОНИТОРИНГ] Логируем успешную индексацию
                 self._log_action(
@@ -1080,8 +1052,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         except Exception as e:
             logger.error(f"❌ ChromaDB indexing failed: {e}")
-            self._log_action("chroma_indexing", {
-                             "error": str(e)}, status="failed")
+            self._log_action("chroma_indexing", {"error": str(e)}, status="failed")
             return {"status": "error", "reason": str(e)}
 
     def search_similar_documents(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
@@ -1258,8 +1229,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
     def _is_excluded(self, path: Path) -> bool:
         """Проверить, исключён ли путь"""
-        excluded_dirs = [".git", ".venv", "__pycache__",
-                         "node_modules", ".pytest_cache"]
+        excluded_dirs = [".git", ".venv", "__pycache__", "node_modules", ".pytest_cache"]
         return any(part in excluded_dirs for part in path.parts)
 
     def _detect_languages(self) -> dict[str, int]:
@@ -1330,8 +1300,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             if file.is_file() and not self._is_excluded(file):
                 try:
                     content = file.read_text(encoding="utf-8")
-                    todos = [line for line in content.split(
-                        "\n") if "TODO" in line]
+                    todos = [line for line in content.split("\n") if "TODO" in line]
                     if todos:
                         issues.append(
                             {
@@ -1379,8 +1348,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
             self._check_rate_limit()
 
-            languages = ", ".join(
-                self.scan_results.get("languages", {}).keys())
+            languages = ", ".join(self.scan_results.get("languages", {}).keys())
             issues_count = len(self.scan_results.get("issues", []))
 
             prompt = f"""
@@ -1420,8 +1388,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                                 keyword in rec.get("message", "").lower()
                                 for keyword in ["delete", "remove", "modify", "change", "write", "create"]
                             ):
-                                logger.warning(
-                                    f"❌ Guardrail violation in AI recommendation: {rec}")
+                                logger.warning(f"❌ Guardrail violation in AI recommendation: {rec}")
                                 continue  # Пропускаем опасную рекомендацию
 
                             # Проверка на длину сообщения
@@ -1432,8 +1399,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
                             # ⭐ [ИНТЕЛЛЕКТ] Запоминаем успешную рекомендацию
                             self._remember_decision(
-                                context={"languages": languages,
-                                         "issues_count": issues_count},
+                                context={"languages": languages, "issues_count": issues_count},
                                 decision=rec.get("message", ""),
                                 outcome="success",
                             )
@@ -1546,8 +1512,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         # ⭐ [БЕЗОПАСНОСТЬ] Валидация AI-ответа перед парсингом
         is_safe, safety_msg = self._validate_ai_response(plan_response)
         if not is_safe:
-            logger.error(
-                f"🚫 AI response blocked by safety validation: {safety_msg}")
+            logger.error(f"🚫 AI response blocked by safety validation: {safety_msg}")
             return {"status": "error", "message": f"Response blocked by safety: {safety_msg}"}
 
         # 2. Парсинг и проверка плана на guardrails
@@ -1574,11 +1539,9 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
             # Если шаг требует модификации файлов — проверяем enterprise guardrails
             if any(keyword in action.lower() for keyword in ["write", "create", "delete", "modify", "update"]):
-                access_granted, access_msg = self._check_file_access(
-                    path, action.split()[0].lower())
+                access_granted, access_msg = self._check_file_access(path, action.split()[0].lower())
                 if not access_granted:
-                    logger.warning(
-                        f"❌ Guardrail violation: {action} → {path}, reason: {access_msg}")
+                    logger.warning(f"❌ Guardrail violation: {action} → {path}, reason: {access_msg}")
                     return {
                         "status": "pending_approval",
                         "reason": f"Требуется одобрение для: {path} ({access_msg})",
@@ -1594,14 +1557,12 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             response = input().lower()
             if response != "y":
                 # ⭐ [ИНТЕЛЛЕКТ] Запоминаем отменённую задачу
-                self._remember_decision(
-                    context={"task": task[:100]}, decision=plan_prompt[:100], outcome="cancelled")
+                self._remember_decision(context={"task": task[:100]}, decision=plan_prompt[:100], outcome="cancelled")
                 return {"status": "cancelled", "message": "Пользователь отменил"}
 
         # 5. Выполнение задачи (только если guardrails пройдены)
         # ⭐ [ИНТЕЛЛЕКТ] Запоминаем выполненную задачу
-        self._remember_decision(
-            context={"task": task[:100]}, decision=plan_prompt[:100], outcome="success")
+        self._remember_decision(context={"task": task[:100]}, decision=plan_prompt[:100], outcome="success")
 
         # ⭐ [МОНИТОРИНГ] Логирование выполнения задачи
         self._log_action(
@@ -1633,16 +1594,13 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         # 2. Проверяем заблокированные паттерны
         for pattern in self.blocked_patterns:
             if re.search(pattern, path, re.IGNORECASE):
-                logger.warning(
-                    f"❌ Guardrail blocked: {path} (pattern: {pattern})")
-                self._log_security_event("guardrail_blocked", {
-                                         "path": path, "action": action}, severity="warning")
+                logger.warning(f"❌ Guardrail blocked: {path} (pattern: {pattern})")
+                self._log_security_event("guardrail_blocked", {"path": path, "action": action}, severity="warning")
                 return False
 
         # 3. Проверяем разрешённые пути
         if hasattr(self, "allowed_paths") and self.allowed_paths:
-            allowed = any(re.match(p, path, re.IGNORECASE)
-                          for p in self.allowed_paths if p)
+            allowed = any(re.match(p, path, re.IGNORECASE) for p in self.allowed_paths if p)
             if not allowed and path:
                 logger.warning(f"❌ Path not in allowed_paths: {path}")
                 return False
@@ -1656,20 +1614,17 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         # Если это рефакторинг — разрешаем (но логируем)
         if context and context.get("type") in ["refactor", "optimize", "cleanup"]:
             logger.info(f"✅ Auto-approve refactor: {action} → {path}")
-            self._log_action("refactor_auto_approved", {
-                             "path": path, "action": action})
+            self._log_action("refactor_auto_approved", {"path": path, "action": action})
             return True
 
         # Если это добавление фичи — разрешаем (но логируем)
         if context and context.get("type") == "feature":
             logger.info(f"✅ Auto-approve feature: {action} → {path}")
-            self._log_action("feature_auto_approved", {
-                             "path": path, "action": action})
+            self._log_action("feature_auto_approved", {"path": path, "action": action})
             return True
 
         # 5. Проверяем важные файлы
-        important_files = ["config.yaml", "settings.py",
-                           "requirements.txt", "Dockerfile", "docker-compose.yml"]
+        important_files = ["config.yaml", "settings.py", "requirements.txt", "Dockerfile", "docker-compose.yml"]
         if any(important in path for important in important_files):
             if action.lower() in ["modify", "write", "delete"]:
                 logger.info(f"⚠️ Important file requires approval: {path}")
@@ -1690,8 +1645,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         # 8. 🎯 Основной код: разрешено с аудитом
         if path.endswith((".py", ".js", ".ts")):
             logger.info(f"✅ Code modification allowed: {action} → {path}")
-            self._log_action("code_modification", {
-                             "path": path, "action": action})
+            self._log_action("code_modification", {"path": path, "action": action})
             return True
 
         # 9. 🛑 По умолчанию — запрет (безопасность)
@@ -1708,8 +1662,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         try:
             analysis_report = self._analyze_service_code(service_profile)
-            context_data = self._prepare_template_context(
-                analysis_report, service_profile.name)
+            context_data = self._prepare_template_context(analysis_report, service_profile.name)
             new_readme_content = self._render_readme_template(context_data)
 
             readme_path = f"{service_profile.path}/README.md"
@@ -1719,12 +1672,11 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             with open(readme_file, "w", encoding="utf-8") as f:
                 f.write(new_readme_content)
 
-            if hasattr(self, 'audit_logger') and self.audit_logger:
+            if hasattr(self, "audit_logger") and self.audit_logger:
                 try:
                     self.audit_logger.log_action(
                         "readme_updated",
-                        {"service": service_profile.name,
-                            "path": str(readme_file)},
+                        {"service": service_profile.name, "path": str(readme_file)},
                         status="success",
                     )
                 except Exception:
@@ -1732,9 +1684,8 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
             return {"status": "success", "message": f"README updated for {service_profile.name}"}
         except Exception as e:
-            logger.error(
-                f"README update failed for {service_profile.name}: {e}")
-            if hasattr(self, 'audit_logger') and self.audit_logger:
+            logger.error(f"README update failed for {service_profile.name}: {e}")
+            if hasattr(self, "audit_logger") and self.audit_logger:
                 try:
                     self.audit_logger.log_action(
                         "readme_update_failed",
@@ -1752,13 +1703,12 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             return {"status": "error", "message": "apps directory not found"}
 
         service_dirs = [
-            d
-            for d in apps_dir.iterdir()
-            if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
+            d for d in apps_dir.iterdir() if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
         ]
 
         results = {"successful": [], "failed": [], "total": len(service_dirs)}
         for service_dir in service_dirs:
+
             class ServiceProfile:
                 def __init__(self, name, path):
                     self.name = name
@@ -1767,11 +1717,9 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             profile = ServiceProfile(service_dir.name, str(service_dir))
             r = self.update_readme_for_service(profile)
             if r["status"] == "success":
-                results["successful"].append(
-                    {"service": profile.name, "message": r["message"]})
+                results["successful"].append({"service": profile.name, "message": r["message"]})
             else:
-                results["failed"].append(
-                    {"service": profile.name, "message": r["message"]})
+                results["failed"].append({"service": profile.name, "message": r["message"]})
 
         results["apps_readme"] = self.update_apps_directory_readme()
         return results
@@ -1784,26 +1732,22 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         services_info: list[dict[str, Any]] = []
         service_dirs = [
-            d
-            for d in apps_dir.iterdir()
-            if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
+            d for d in apps_dir.iterdir() if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
         ]
 
         for service_dir in service_dirs:
             readme_path = service_dir / "README.md"
             if readme_path.exists():
                 try:
-                    content = readme_path.read_text(
-                        encoding="utf-8", errors="ignore")
-                    services_info.append(
-                        self._parse_service_readme(content, service_dir.name))
+                    content = readme_path.read_text(encoding="utf-8", errors="ignore")
+                    services_info.append(self._parse_service_readme(content, service_dir.name))
                     continue
                 except Exception as e:
-                    logger.warning(
-                        f"Failed to parse README for {service_dir.name}: {e}")
+                    logger.warning(f"Failed to parse README for {service_dir.name}: {e}")
 
             # fallback if README missing/unparseable
             try:
+
                 class ServiceProfile:
                     def __init__(self, name, path):
                         self.name = name
@@ -1822,7 +1766,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                         "capabilities": analysis_report.get("capabilities", ["Нет информации"]),
                     }
                 )
-            except Exception as e:
+            except Exception:
                 services_info.append(
                     {
                         "name": service_dir.name,
@@ -1845,12 +1789,11 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         with open(apps_readme_path, "w", encoding="utf-8") as f:
             f.write(content)
 
-        if hasattr(self, 'audit_logger') and self.audit_logger:
+        if hasattr(self, "audit_logger") and self.audit_logger:
             try:
                 self.audit_logger.log_action(
                     "apps_readme_updated",
-                    {"path": str(apps_readme_path),
-                     "services_count": len(services_info)},
+                    {"path": str(apps_readme_path), "services_count": len(services_info)},
                     status="success",
                 )
             except Exception:
@@ -1873,7 +1816,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             "test_coverage": 0.0,
             "has_tests": False,
             "critical_issues": None,
-            "agent_id": getattr(self, 'agent_id', 'autonomous-agent'),
+            "agent_id": getattr(self, "agent_id", "autonomous-agent"),
             "timestamp": datetime.now().isoformat(),
             "language": "Python",
             "framework": "",
@@ -1887,13 +1830,10 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         for candidate in [init_file, main_file]:
             if candidate.exists():
                 try:
-                    content = candidate.read_text(
-                        encoding="utf-8", errors="ignore")
+                    content = candidate.read_text(encoding="utf-8", errors="ignore")
                     for line in content.splitlines():
                         if "service" in line.lower() or "сервис" in line.lower() or "назначение" in line.lower():
-                            report["purpose"] = (
-                                line.strip().lstrip("#").strip().replace('"', "").replace("'", "")
-                            )
+                            report["purpose"] = line.strip().lstrip("#").strip().replace('"', "").replace("'", "")
                             break
                     if report["purpose"]:
                         break
@@ -1978,9 +1918,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
     def _render_readme_template(self, context: dict[str, Any]) -> str:
         """Render README from Jinja2 template."""
         try:
-            template_loader = jinja2.FileSystemLoader(
-                searchpath="agents/cognitive_agent/templates/"
-            )
+            template_loader = jinja2.FileSystemLoader(searchpath="agents/cognitive_agent/templates/")
             template_env = jinja2.Environment(loader=template_loader)
             template = template_env.get_template("README_TEMPLATE.md")
             return template.render(context)
@@ -2034,9 +1972,9 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
     def _parse_service_readme(self, content: str, service_name: str) -> dict[str, Any]:
         """Parse service README for aggregation into apps/README.md."""
+
         def _extract_first(pattern: str, default: str) -> str:
-            m = re.search(pattern, content, flags=re.IGNORECASE |
-                          re.MULTILINE | re.DOTALL)
+            m = re.search(pattern, content, flags=re.IGNORECASE | re.MULTILINE | re.DOTALL)
             return m.group(1).strip() if m else default
 
         purpose = _extract_first(
@@ -2123,3 +2061,114 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
 {% endfor %}
 """
+
+    # ⭐ [HYBRID] Prompt-driven test coverage analysis
+    async def analyze_test_coverage_prompt_driven(
+        self,
+        service_name: str,
+        framework: str = "FastAPI",
+        criticality: str = "medium",
+        current_coverage: float = 0.0,
+        target_coverage: float = 75.0,
+        python_version: str = "3.12",
+    ) -> dict[str, Any]:
+        """
+        Analyze test coverage using prompt-driven strategy (Layer 3)
+
+        This method demonstrates the Hybrid Architecture:
+        - Layer 1: This Python method (infrastructure glue)
+        - Layer 2: PromptEngine (strategy manager)
+        - Layer 3: test_coverage_analysis.md template (business logic)
+
+        Args:
+            service_name: Name of the service to analyze
+            framework: Framework used (FastAPI, Flask, etc.)
+            criticality: Service criticality (high/medium/low)
+            current_coverage: Current test coverage percentage
+            target_coverage: Target coverage goal
+            python_version: Python version
+
+        Returns:
+            Dictionary with analysis results and recommendations
+        """
+        if not self.use_prompt_strategies:
+            logger.warning("Prompt strategies disabled, using code-based approach")
+            return {"success": False, "error": "Prompt strategies disabled"}
+
+        try:
+            # Prepare context for template
+            context = {
+                "service_name": service_name,
+                "framework": framework,
+                "criticality": criticality,
+                "current_coverage": current_coverage,
+                "target_coverage": target_coverage,
+                "python_version": python_version,
+            }
+
+            logger.info("🧠 Executing prompt-driven strategy: test_coverage_analysis")
+            logger.debug(f"   Context: {context}")
+
+            # Execute strategy via Prompt Engine (Layer 2)
+            result = await self.prompt_engine.execute_strategy(
+                strategy="test_coverage_analysis", context=context, timeout=60
+            )
+
+            if result["success"]:
+                logger.info(f"✅ Prompt-driven analysis completed in {result['execution_time']:.2f}s")
+                return result
+            else:
+                logger.error(f"❌ Prompt-driven analysis failed: {result.get('error')}")
+                return result
+
+        except Exception as e:
+            logger.error(f"❌ Prompt-driven analysis exception: {e}")
+            return {"success": False, "error": str(e), "strategy": "test_coverage_analysis"}
+
+    # ⭐ [HYBRID] Duel mode: Compare code vs prompt approaches
+    async def duel_mode_test_coverage(
+        self,
+        service_name: str,
+        code_based_result: Any,
+        framework: str = "FastAPI",
+        criticality: str = "medium",
+        current_coverage: float = 0.0,
+        target_coverage: float = 75.0,
+    ) -> dict[str, Any]:
+        """
+        Execute duel mode: compare traditional code approach vs prompt-driven approach
+
+        Args:
+            service_name: Name of service
+            code_based_result: Result from traditional code-based analysis
+            framework: Service framework
+            criticality: Service criticality
+            current_coverage: Current coverage
+            target_coverage: Target coverage
+
+        Returns:
+            Comparison results with winner determination
+        """
+        if not self.use_prompt_strategies:
+            return {"error": "Duel mode requires prompt strategies enabled"}
+
+        context = {
+            "service_name": service_name,
+            "framework": framework,
+            "criticality": criticality,
+            "current_coverage": current_coverage,
+            "target_coverage": target_coverage,
+            "python_version": "3.12",
+        }
+
+        logger.info(f"⚔️ Starting duel mode for {service_name} test coverage analysis")
+
+        comparison = await self.prompt_engine.execute_duel_mode(
+            task_description=f"Analyze test coverage for {service_name}",
+            code_approach_result=code_based_result,
+            prompt_strategy="test_coverage_analysis",
+            context=context,
+            evaluation_criteria=["performance", "accuracy", "actionability", "maintainability"],
+        )
+
+        return comparison
