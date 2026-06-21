@@ -3,9 +3,10 @@
 Интерактивный чат с Cognitive Enterprise Agent
 """
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent as AutonomousCognitiveAgentEnterprise
 import sys
 from pathlib import Path
+
+from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
 
 # Добавляем корень репозитория в путь
 repo_root = Path(__file__).parent.parent
@@ -23,7 +24,7 @@ def chat_with_agent():
     print("-" * 50)
 
     # Создаем экземпляр enterprise агента
-    agent = AutonomousCognitiveAgentEnterprise()
+    agent = AutonomousCognitiveAgent()
 
     # Запускаем агента (в фоновом режиме)
     agent.start(background=True)
@@ -32,24 +33,21 @@ def chat_with_agent():
         while True:
             user_input = input("\n💬 Вы: ").strip()
 
-            if user_input.lower() in ['quit', 'exit', 'выйти', 'q']:
+            if user_input.lower() in ["quit", "exit", "выйти", "q"]:
                 print("👋 Пока! Завершение работы агента...")
                 break
-            elif user_input.lower() == 'status':
+            elif user_input.lower() == "status":
                 status = agent.get_status()
                 print(f"📊 Статус агента: {status}")
-            elif user_input.lower() == 'scan':
+            elif user_input.lower() == "scan":
                 print("🔍 Запуск сканирования проекта...")
                 scan_result = agent.scan_project()
-                print(f"✅ Сканирование завершено!")
+                print("✅ Сканирование завершено!")
                 print(f"   Режим: {scan_result.get('mode')}")
-                print(
-                    f"   Файлов просканировано: {scan_result.get('files', 0)}")
-                print(
-                    f"   Проблем найдено: {len(scan_result.get('issues', []))}")
-                print(
-                    f"   Рекомендаций: {len(scan_result.get('recommendations', []))}")
-            elif user_input.lower().startswith('task:'):
+                print(f"   Файлов просканировано: {scan_result.get('files', 0)}")
+                print(f"   Проблем найдено: {len(scan_result.get('issues', []))}")
+                print(f"   Рекомендаций: {len(scan_result.get('recommendations', []))}")
+            elif user_input.lower().startswith("task:"):
                 task = user_input[5:].strip()  # Убираем 'task:' из начала
                 print(f"📝 Выполнение задачи: {task}")
                 result = agent.execute_task(task)
@@ -57,8 +55,7 @@ def chat_with_agent():
             else:
                 # Обработка обычного сообщения
                 print(f"🤔 Агент получил сообщение: {user_input}")
-                print(
-                    "💡 Пока что агент не может напрямую отвечать на сообщения в чате, но может выполнять команды.")
+                print("💡 Пока что агент не может напрямую отвечать на сообщения в чате, но может выполнять команды.")
                 print("   Попробуйте команды: status, scan, task:<описание_задачи>")
 
     except KeyboardInterrupt:

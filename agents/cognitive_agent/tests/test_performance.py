@@ -43,7 +43,7 @@ class TestProjectScanningPerformance:
             # Измеряем время сканирования
             start_time = time.time()
             try:
-                result = scanner.scan_full()
+                result = scanner.scan_full()  # noqa: F841
                 end_time = time.time()
             except Exception:
                 # Если сканирование не поддерживается, измеряем время до ошибки
@@ -75,7 +75,7 @@ class TestProjectScanningPerformance:
             # Выполняем сканирование
             try:
                 current, peak = tracemalloc.get_traced_memory()
-                result = scanner.scan_full()
+                result = scanner.scan_full()  # noqa: F841
                 current, peak = tracemalloc.get_traced_memory()
             except Exception:
                 current, peak = tracemalloc.get_traced_memory()
@@ -106,7 +106,7 @@ class TestProjectScanningPerformance:
 
             start_time = time.time()
             try:
-                result = scanner.scan_full()
+                result = scanner.scan_full()  # noqa: F841
                 end_time = time.time()
             except Exception:
                 end_time = time.time()
@@ -138,7 +138,7 @@ class TestTaskProcessingPerformance:
                 mock_ai.return_value = "Test response"
 
                 # Выполняем простую задачу
-                result = agent._call_ai_sync("Test task", "System message")
+                result = agent._call_ai_sync("Test task", "System message")  # noqa: F841
                 end_time = time.time()
         except Exception:
             end_time = time.time()
@@ -170,7 +170,7 @@ class TestTaskProcessingPerformance:
         start_time = time.time()
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(simulate_task, i) for i in range(3)]
-            results = [future.result() for future in futures]
+            results = [future.result() for future in futures]  # noqa: F841
         end_time = time.time()
 
         concurrent_processing_time = end_time - start_time
@@ -189,7 +189,7 @@ class TestSystemResourceUsage:
         import tempfile
 
         # Получаем начальное использование CPU
-        initial_cpu_percent = psutil.cpu_percent(interval=1)
+        initial_cpu_percent = psutil.cpu_percent(interval=1)  # noqa: F841
 
         # Выполняем операцию, которая может использовать CPU
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -204,7 +204,7 @@ class TestSystemResourceUsage:
                 with open(test_file, encoding="utf-8") as f:
                     content = f.read()
                     # Выполняем некоторую обработку
-                    processed = content.replace("\n", "\n").upper()
+                    processed = content.replace("\n", "\n").upper()  # noqa: F841
 
         # Получаем использование CPU после операции
         final_cpu_percent = psutil.cpu_percent(interval=1)
@@ -219,7 +219,7 @@ class TestSystemResourceUsage:
         # Запускаем трассировку памяти
         tracemalloc.start()
 
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:  # noqa: F841
             # Создаем файлы и выполняем операции
             large_data = []
             for i in range(100):
@@ -276,11 +276,11 @@ class TestEnterpriseFeaturesPerformance:
         """Тест производительности менеджера состояния"""
         from agents.cognitive_agent.autonomous_agent_enterprise import StateManager
 
-        state_manager = StateManager(agent_id="performance_test")
+        state_manager = StateManager(agent_id="performance_test")  # noqa: F841
 
         # Измеряем время установки и получения состояния
         start_time = time.time()
-        for i in range(50):
+        for i in range(50):  # noqa: B007
             # В тесте мы не будем вызывать реальные методы сохранения, т.к. они могут использовать файловую систему
             # просто проверим, что объект создан и имеет нужные атрибуты
             pass

@@ -248,3 +248,103 @@ tools/knowledge-extractor/extracted_cases.md
 var/
 venv/
 wheels/
+
+# === Cognitive Agent temporary files ===
+.cognitive_agent_scan_cache.json
+agents/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.agent_data/
+agents/cognitive_agent/plans/
+*.backup_*
+*_backup.py
+
+# === Temporary scripts ===
+agents/cognitive_agent/scripts/1.py
+
+# === Archives ===
+archive/
+
+# === Duplicate directories ===
+apps/cognitive_agent/
+
+# === Python cache ===
+__pycache__/
+*.py[cod]
+
+# === Logs ===
+logs/
+*.log
+
+# === ChromaDB ===
+chroma_db/
+chroma_data/
+
+# === Node modules ===
+node_modules/
+EOFcat >> .gitignore << 'EOF'
+
+# === Cognitive Agent temporary files ===
+.cognitive_agent_scan_cache.json
+agents/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.agent_data/
+agents/cognitive_agent/plans/
+*.backup_*
+*_backup.py
+
+# === Temporary scripts ===
+agents/cognitive_agent/scripts/1.py
+
+# === Archives ===
+archive/
+
+# === Duplicate directories ===
+apps/cognitive_agent/
+
+# === Python cache ===
+__pycache__/
+*.py[cod]
+
+# === Logs ===
+logs/
+*.log
+
+# === ChromaDB ===
+chroma_db/
+chroma_data/
+
+# === Node modules ===
+node_modules/
+
+# === Cognitive Agent temporary files ===
+.cognitive_agent_scan_cache.json
+agents/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.cognitive_agent_scan_cache.json
+agents/cognitive_agent/.agent_data/
+agents/cognitive_agent/plans/
+*.backup_*
+*_backup.py
+
+# === Temporary scripts ===
+agents/cognitive_agent/scripts/1.py
+
+# === Archives ===
+archive/
+
+# === Duplicate directories ===
+apps/cognitive_agent/
+
+# === Python cache ===
+__pycache__/
+*.py[cod]
+
+# === Logs ===
+logs/
+*.log
+
+# === ChromaDB ===
+chroma_db/
+chroma_data/
+
+# === Node modules ===
+node_modules/

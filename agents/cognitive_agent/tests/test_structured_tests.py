@@ -42,7 +42,7 @@ def cognitive_agent():
 
     # Создаем экземпляр через __new__ чтобы обойти абстрактность
     agent = object.__new__(AutonomousCognitiveAgent)
-    try:
+    try:  # noqa: SIM105
         agent.__init__()
     except Exception:
         pass  # Игнорируем ошибки инициализации в тестах
@@ -106,9 +106,9 @@ class TestProjectScanningModule:
 
         finally:
             # Удаляем временный файл и директорию
-            try:
+            try:  # noqa: SIM105
                 shutil.rmtree(temp_dir)
-            except:
+            except:  # noqa: E722
                 # Игнорируем ошибки удаления в Windows
                 pass
 
@@ -173,7 +173,7 @@ class TestEnterpriseFeaturesModule:
     def test_enterprise_agent_has_all_components(self):
         """Тест наличия всех enterprise-компонентов в агенте"""
         # Так как основной класс абстрактный, просто проверим, что классы могут быть импортированы
-        from agents.cognitive_agent.autonomous_agent_enterprise import (
+        from agents.cognitive_agent.autonomous_agent import (
             MetricsCollector,
             SelfHealingSystem,
             StateManager,
@@ -188,7 +188,7 @@ class TestEnterpriseFeaturesModule:
     @pytest.mark.parametrize("feature_class", ["MetricsCollector", "SelfHealingSystem", "TaskPlanner", "StateManager"])
     def test_enterprise_feature_classes_exist(self, feature_class):
         """Параметризованный тест существования enterprise-классов"""
-        module_path = "agents.cognitive_agent.autonomous_agent_enterprise"
+        module_path = "agents.cognitive_agent.autonomous_agent"
         module = __import__(module_path, fromlist=[feature_class])
 
         # Проверяем, что класс существует в модуле
