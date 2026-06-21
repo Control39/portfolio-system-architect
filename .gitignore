@@ -20,13 +20,10 @@ wheels/
 .installed.cfg
 
 # Agent test scripts with secrets
-agents/cognitive_agent/scripts/1.py
 
 # Legacy agent directories (OLD standalone agent)
-cognitive_agent/
 
 # Agent backup files
-agents/cognitive_agent/autonomous_agent_enterprise_backup.py
 *.egg
 *.tmp
 
@@ -57,7 +54,6 @@ gitleaks-report.json
 agents/chroma_db/
 apps/plans/
 apps/reports/
-agents/cognitive_agent/.agent_data/
 apps/logs/
 agent-logs-*.zip
 
@@ -66,7 +62,6 @@ agent-logs-*.zip
 
 # Scan caches
 it_compass/*.json
-.cognitive_agent_scan_cache.json
 
 # Test reports
 diagnostic_report.json
@@ -170,19 +165,6 @@ docs-archive/
 reports/planning/
 
 # Cognitive Agent (agents/)
-agents/cognitive_agent/logs/
-agents/cognitive_agent/metrics/
-agents/cognitive_agent/scans/
-agents/cognitive_agent/data/
-agents/cognitive_agent/cache/
-agents/cognitive_agent/status/
-agents/cognitive_agent/backups/
-agents/cognitive_agent/models/
-agents/cognitive_agent/recommendations/
-agents/cognitive_agent/knowledge/
-agents/cognitive_agent/reports/
-agents/cognitive_agent/temp/
-agents/cognitive_agent/.env.local
 agents/*/local/
 agents/*/temp/
 
@@ -271,13 +253,6 @@ downloads/
 # ============================================
 # Логи и артефакты агента (не коммитить в Git)
 # ============================================
-apps/cognitive_agent/logs/
-apps/cognitive_agent/reports/
-apps/cognitive_agent/plans/
-apps/cognitive_agent/scans/
-apps/cognitive_agent/data/learning/models/
-apps/cognitive_agent/data/learning/metrics/
-apps/cognitive_agent/status/
 apps/logs/
 apps/reports/
 # Кэш Python
@@ -301,20 +276,11 @@ requirements.clean.txt
 # ============================================
 # Артефакты работы агента (runtime data)
 # ============================================
-agents/cognitive_agent/logs/
-agents/cognitive_agent/plans/
-agents/cognitive_agent/reports/
-agents/cognitive_agent/scans/
-agents/cognitive_agent/status/
-agents/cognitive_agent/data/learning/metrics/
-agents/cognitive_agent/data/learning/models/
-agents/cognitive_agent/data/learning/reports/
 
 # Legacy код (не используется в production)
 legacy/
 
 # Архив runtime-артефактов агента
-archive/apps_cognitive_agent_legacy/
 
 # Отчёты анализаторов (генерируются автоматически)
 agent_self_analysis_report.*
@@ -329,5 +295,17 @@ ddd_analysis_report.*
 add_integrations*.py
 check_integrations.py
 smart_agent_patch.py
-apps/cognitive_agent/
-apps/cognitive_agent/
+/cognitive_agent/
+agents/cognitive_agent/logs/
+agents/cognitive_agent/metrics/
+agents/cognitive_agent/scans/
+agents/cognitive_agent/data/
+agents/cognitive_agent/cache/
+agents/cognitive_agent/status/
+agents/cognitive_agent/backups/
+agents/cognitive_agent/models/
+agents/cognitive_agent/recommendations/
+agents/cognitive_agent/knowledge/
+agents/cognitive_agent/reports/
+agents/cognitive_agent/temp/
+agents/cognitive_agent/.env.local

@@ -1131,25 +1131,33 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             logger.error(f"❌ Failed to get ChromaDB stats: {e}")
             return {"available": False, "error": str(e)}
 
-    def clear_chroma_collection(self) -> dict[str, Any]:
-        """
-        Очистить коллекцию ChromaDB (ОПАСНО! Только с подтверждением).
+    def clear_chroma_collection(self, confirm: bool = False) -> dict[str, Any]:
+        """Очистить коллекцию ChromaDB (ОПАСНО).
+
+        Интерактивность (input/print) удалена: безопасность задаётся параметром confirm.
+
+        Args:
+            confirm: если True — операция выполняется, иначе операция блокируется
 
         Returns:
             dict: Результат операции
+                - status: success|pending_approval|blocked|cancelled|error
         """
         if not CHROMA_AVAILABLE or not self.chroma_indexer:
             return {"status": "error", "reason": "ChromaDB not available"}
 
         try:
-            # ⭐ [БЕЗОПАСНОСТЬ] Требуем подтверждение
-            print("⚠️ ВНИМАНИЕ! Это удалит все индексированные документы.")
-            print("Вы уверены? (введите 'yes' для подтверждения): ", end="")
-            confirm = input().strip().lower()
-
-            if confirm != "yes":
-                logger.info("ℹ️ ChromaDB clearing cancelled by user")
-                return {"status": "cancelled", "message": "Operation cancelled by user"}
+            if not confirm:
+                # Безопасный отказ: не трогаем коллекцию
+                self._log_security_event(
+                    "chroma_collection_clear_blocked",
+                    {"agent_id": self.agent_id, "confirm": confirm},
+                    severity="warning",
+                )
+                return {
+                    "status": "pending_approval",
+                    "message": "ChromaDB clearing requires confirm=true",
+                }
 
             # Очищаем коллекцию
             self.chroma_indexer.clear_collection()
@@ -1157,7 +1165,7 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             # ⭐ [МОНИТОРИНГ] Логируем опасное действие
             self._log_security_event(
                 "chroma_collection_cleared",
-                {"agent_id": self.agent_id},
+                {"agent_id": self.agent_id, "confirm": confirm},
                 severity="critical",
             )
 
@@ -1166,6 +1174,11 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
 
         except Exception as e:
             logger.error(f"❌ Failed to clear ChromaDB: {e}")
+            self._log_security_event(
+                "chroma_collection_clear_error",
+                {"agent_id": self.agent_id, "error": str(e)},
+                severity="warning",
+            )
             return {"status": "error", "reason": str(e)}
 
     # ⭐ [УСТОЙЧИВОСТЬ] Retry logic для внешних сервисов

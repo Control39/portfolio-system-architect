@@ -17,6 +17,7 @@ import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
+from threading import Lock
 from typing import Any
 
 import requests
@@ -64,6 +65,13 @@ class AIProviderManager:
         self.providers: dict[str, ProviderConfig] = {}
         self.current_provider: str | None = None
         self.fallback_chain: list[str] = []
+
+        # Глобальный лимитер для защиты внешних провайдеров от штормов.
+        # Делается на уровне сервиса (scope=global), поэтому без user/agent context.
+        # Ограничиваем конкурентность исходящих запросов.
+        self._global_lock = Lock()
+        self._inflight: int = 0
+        self._max_global_inflight: int = int(__import__("os").getenv("AI_PROVIDER_MAX_GLOBAL_INFLIGHT", "10"))
 
         # Инициализация провайдеров
         self._init_providers()
@@ -153,6 +161,26 @@ class AIProviderManager:
             logger.debug(f"Ollama health check failed: {e}")
             return False
 
+    def _acquire_global_slot(self) -> None:
+        """Занять глобальный слот конкурентности.
+
+        Поскольку этот менеджер синхронный (requests), используем Lock/счётчик.
+        """
+        while True:
+            with self._global_lock:
+                if self._inflight < self._max_global_inflight:
+                    self._inflight += 1
+                    return
+
+            # не спамим CPU
+            time.sleep(0.01)
+
+    def _release_global_slot(self) -> None:
+        """Освободить глобальный слот конкурентности."""
+        with self._global_lock:
+            if self._inflight > 0:
+                self._inflight -= 1
+
     def chat(self, messages: list[dict[str, str]], temperature: float = 0.7) -> str | None:
         """
         Отправить сообщение в AI с автоматическим переключением провайдеров
@@ -164,40 +192,46 @@ class AIProviderManager:
         Returns:
             Ответ от AI или None если все провайдеры недоступны
         """
-        # Пробуем провайдеры по очереди
-        for provider_name in self.fallback_chain:
-            provider = self.providers[provider_name]
+        # Глобальная защита от штормов внешних вызовов
+        self._acquire_global_slot()
+        try:
+            # Пробуем провайдеры по очереди
+            for provider_name in self.fallback_chain:
+                provider = self.providers[provider_name]
 
-            # Проверяем статус
-            if provider.status == ProviderStatus.UNAVAILABLE:
-                # Пробуем восстановить
-                if self.try_provider(provider_name):
-                    self.set_provider_status(provider_name, ProviderStatus.AVAILABLE)
-                else:
+                # Проверяем статус
+                if provider.status == ProviderStatus.UNAVAILABLE:
+                    # Пробуем восстановить
+                    if self.try_provider(provider_name):
+                        self.set_provider_status(provider_name, ProviderStatus.AVAILABLE)
+                    else:
+                        continue
+
+                logger.info(f"Trying provider: {provider_name}")
+
+                try:
+                    if provider_name == "gigachat":
+                        response = self._chat_gigachat(messages, temperature)
+                    elif provider_name == "ollama":
+                        response = self._chat_ollama(messages, temperature)
+                    else:
+                        continue
+
+                    if response:
+                        # Успех!
+                        self.set_provider_status(provider_name, ProviderStatus.AVAILABLE)
+                        return response
+
+                except Exception as e:
+                    logger.error(f"Error with {provider_name}: {e}")
+                    self.set_provider_status(provider_name, ProviderStatus.UNAVAILABLE, str(e))
                     continue
 
-            logger.info(f"Trying provider: {provider_name}")
-
-            try:
-                if provider_name == "gigachat":
-                    response = self._chat_gigachat(messages, temperature)
-                elif provider_name == "ollama":
-                    response = self._chat_ollama(messages, temperature)
-                else:
-                    continue
-
-                if response:
-                    # Успех!
-                    self.set_provider_status(provider_name, ProviderStatus.AVAILABLE)
-                    return response
-
-            except Exception as e:
-                logger.error(f"Error with {provider_name}: {e}")
-                self.set_provider_status(provider_name, ProviderStatus.UNAVAILABLE, str(e))
-                continue
-
-        logger.error("All AI providers unavailable")
-        return None
+            logger.error("All AI providers unavailable")
+            return None
+        finally:
+            # Важно: освобождаем слот даже при исключениях/ранних return
+            self._release_global_slot()
 
     def _chat_gigachat(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в GigaChat"""
@@ -224,13 +258,35 @@ class AIProviderManager:
             "max_tokens": 8192,
         }
 
-        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        max_retries = getattr(self.providers.get("gigachat"), "max_retries", 3)
+        retry_delay = getattr(self.providers.get("gigachat"), "retry_delay", 1.0)
 
-        if response.status_code != 200:
-            raise Exception(f"GigaChat API error: {response.status_code} - {response.text}")
+        last_error: Exception | None = None
+        for attempt in range(max_retries + 1):
+            try:
+                response = requests.post(url, json=payload, headers=headers, timeout=30)
 
-        result = response.json()
-        return result["choices"][0]["message"]["content"]
+                if response.status_code != 200:
+                    # Часть ошибок ретраимим (429/5xx/timeout-like)
+                    raise Exception(f"GigaChat API error: {response.status_code} - {response.text}")
+
+                result = response.json()
+                return result["choices"][0]["message"]["content"]
+            except Exception as e:
+                last_error = e
+                # если это последняя попытка — пробрасываем
+                if attempt >= max_retries:
+                    raise
+
+                backoff = retry_delay * (2**attempt)
+                logger.warning(
+                    f"GigaChat call failed (attempt {attempt + 1}/{max_retries + 1}): {e}. Backoff={backoff}s"
+                )
+                time.sleep(backoff)
+
+        if last_error:
+            raise last_error
+        return None
 
     def _chat_ollama(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в Ollama"""
@@ -261,13 +317,32 @@ class AIProviderManager:
             "stream": False,
         }
 
-        response = requests.post(url, json=payload, timeout=60)
+        max_retries = getattr(self.providers.get("ollama"), "max_retries", 3)
 
-        if response.status_code != 200:
-            raise Exception(f"Ollama API error: {response.status_code} - {response.text}")
+        retry_delay = getattr(self.providers.get("ollama"), "retry_delay", 2.0)
 
-        result = response.json()
-        return result["message"]["content"]
+        last_error: Exception | None = None
+        for attempt in range(max_retries + 1):
+            try:
+                response = requests.post(url, json=payload, timeout=60)
+
+                if response.status_code != 200:
+                    raise Exception(f"Ollama API error: {response.status_code} - {response.text}")
+
+                result = response.json()
+                return result["message"]["content"]
+            except Exception as e:
+                last_error = e
+                if attempt >= max_retries:
+                    raise
+
+                backoff = retry_delay * (2**attempt)
+                logger.warning(f"Ollama call failed (attempt {attempt + 1}/{max_retries + 1}): {e}. Backoff={backoff}s")
+                time.sleep(backoff)
+
+        if last_error:
+            raise last_error
+        return None
 
     def get_status(self) -> dict[str, Any]:
         """Получить статус всех провайдеров"""
