@@ -329,3 +329,5 @@ ddd_analysis_report.*
 add_integrations*.py
 check_integrations.py
 smart_agent_patch.py
+apps/cognitive_agent/
+apps/cognitive_agent/
