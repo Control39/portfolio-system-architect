@@ -22,8 +22,10 @@ wheels/
 # Agent test scripts with secrets
 agents/cognitive_agent/scripts/1.py
 
-# Legacy agent directories
+# Legacy agent directories (OLD standalone agent)
 cognitive_agent/
+
+# Agent backup files
 agents/cognitive_agent/autonomous_agent_enterprise_backup.py
 *.egg
 *.tmp
