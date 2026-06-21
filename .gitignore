@@ -52,6 +52,7 @@ gitleaks-report.json
 
 # Agent-generated artifacts
 .agents/
+agents/chroma_db/
 apps/plans/
 apps/reports/
 agents/cognitive_agent/.agent_data/
