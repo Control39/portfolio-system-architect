@@ -309,3 +309,4 @@ agents/cognitive_agent/knowledge/
 agents/cognitive_agent/reports/
 agents/cognitive_agent/temp/
 agents/cognitive_agent/.env.local
+.vscode/
