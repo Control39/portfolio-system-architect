@@ -80,7 +80,7 @@ mcpServers:
   career-autopilot:
     command: "python"
     args:
-      - "apps/mcp-server/src/main.py"
+      - "apps/mcp_server/src/main.py"
     env:
       MCP_ENV: "development"
 ```

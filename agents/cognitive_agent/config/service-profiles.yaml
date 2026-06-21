@@ -1,0 +1,188 @@
+# Конфигурация профилей сервисов для Cognitive Agent
+# Этот файл содержит профили всех микросервисов в репозитории
+# Опционально можно использовать автодетект — просто удалите этот файл
+
+services:
+  # ==================== КРИТИЧНЫЕ СЕРВИСЫ ====================
+  
+  - name: "decision_engine"
+    path: "apps/decision_engine"
+    language: "python"
+    framework: "fastapi"
+    criticality: "critical"
+    test_frameworks: ["pytest"]
+    coverage_target: 95.0
+  
+  - name: "auth_service"
+    path: "apps/auth_service"
+    language: "python"
+    framework: "fastapi"
+    criticality: "critical"
+    test_frameworks: ["pytest"]
+    coverage_target: 95.0
+  
+  - name: "it_compass"
+    path: "apps/it_compass"
+    language: "python"
+    framework: "flask"
+    criticality: "high"
+    test_frameworks: ["pytest"]
+    coverage_target: 90.0
+  
+  # ==================== ВЫСОКОПРИОРИТЕТНЫЕ СЕРВИСЫ ====================
+  
+  - name: "cognitive_agent"
+    path: "agents/cognitive_agent"
+    language: "python"
+    framework: "fastapi"
+    criticality: "high"
+    test_frameworks: ["pytest"]
+    coverage_target: 90.0
+  
+  - name: "ai_provider_manager"
+    path: "apps/ai_provider_manager"
+    language: "python"
+    framework: "base"
+    criticality: "high"
+    test_frameworks: ["pytest"]
+    coverage_target: 85.0
+  
+  - name: "ai_config_manager"
+    path: "apps/ai_config_manager"
+    language: "python"
+    framework: "base"
+    criticality: "high"
+    test_frameworks: ["pytest"]
+    coverage_target: 85.0
+  
+  - name: "job_automation_agent"
+    path: "apps/job_automation_agent"
+    language: "python"
+    framework: "fastapi"
+    criticality: "high"
+    test_frameworks: ["pytest"]
+    coverage_target: 85.0
+  
+  # ==================== СРЕДНЕПРИОРИТЕТНЫЕ СЕРВИСЫ ====================
+  
+  - name: "agent_orchestrator"
+    path: "apps/assistant_orchestrator"
+    language: "python"
+    framework: "base"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "chat_backend"
+    path: "apps/chat_backend"
+    language: "python"
+    framework: "flask"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "competency_gap_engine"
+    path: "apps/competency_gap_engine"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "context_builder"
+    path: "apps/context_builder"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "embedding_agent"
+    path: "apps/embedding_agent"
+    language: "python"
+    framework: "base"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "infra_orchestrator"
+    path: "apps/infra_orchestrator"
+    language: "python"
+    framework: "flask"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "knowledge_graph"
+    path: "apps/knowledge_graph"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "mcp_server"
+    path: "apps/mcp_server"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "ml_model_registry"
+    path: "apps/ml_model_registry"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "career_development"
+    path: "apps/career_development"
+    language: "python"
+    framework: "base"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "portfolio_organizer"
+    path: "apps/portfolio_organizer"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "system_proof"
+    path: "apps/system_proof"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "template_service"
+    path: "apps/template_service"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  - name: "thought_architecture"
+    path: "apps/thought_architecture"
+    language: "python"
+    framework: "fastapi"
+    criticality: "medium"
+    test_frameworks: ["pytest"]
+    coverage_target: 80.0
+  
+  # ==================== НИЗКОПРИОРИТЕТНЫЕ СЕРВИСЫ ====================
+  
+  - name: "cognitive_agent"  # Вложенный в agents/
+    path: "agents/cognitive_agent"
+    language: "python"
+    framework: "base"
+    criticality: "low"
+    test_frameworks: ["pytest"]
+    coverage_target: 75.0

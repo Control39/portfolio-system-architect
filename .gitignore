@@ -48,6 +48,7 @@ gitleaks-report.json
 .agents/logs/performance.csv
 apps/plans/
 apps/reports/
+agents/cognitive_agent/.agent_data/
 apps/logs/
 agent-logs-*.zip
 
@@ -305,3 +306,17 @@ legacy/
 
 # Архив runtime-артефактов агента
 archive/apps_cognitive_agent_legacy/
+
+# Отчёты анализаторов (генерируются автоматически)
+agent_self_analysis_report.*
+complete_strategic_report.*
+ddd_analysis_report.*
+
+# Бэкапы агента
+.agent_backups/
+*.backup
+
+# Временные скрипты
+add_integrations*.py
+check_integrations.py
+smart_agent_patch.py

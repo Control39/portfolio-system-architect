@@ -1,7 +1,7 @@
 # src/vector_store/__init__.py
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Union
 
 try:
     from src.vector_store.chroma_impl import ChromaVectorStore
@@ -34,7 +34,7 @@ class VectorStoreInterface(ABC):
     pass
 
 
-def get_vector_store(store_type: "chroma" | str = "chroma", config=None):
+def get_vector_store(store_type: str = "chroma", config=None):
     if config is None:
         from src.vector_store.config import VectorStoreConfig
 

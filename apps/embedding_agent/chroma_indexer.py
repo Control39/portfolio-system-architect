@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import uuid
+from abc import ABC, abstractmethod
+from contextlib import AbstractContextManager
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -23,7 +25,41 @@ from .embedder import DocumentEmbedder
 logger = logging.getLogger(__name__)
 
 
-class _InMemoryCollection:
+# ============== Базовый интерфейс для vector store ==============
+
+
+class VectorStore(ABC):
+    """Абстрактный протокол для vector storage."""
+
+    @abstractmethod
+    def add(
+        self,
+        ids: list[str],
+        embeddings: list[list[float]],
+        metadatas: list[dict[str, Any]],
+        documents: list[str],
+    ) -> None:
+        """Добавить документы в хранилище."""
+        pass
+
+    @abstractmethod
+    def query(
+        self,
+        query_embeddings: list[list[float]],
+        n_results: int,
+        where: dict[str, Any] | None = None,
+        include: list[str] | None = None,
+    ) -> dict[str, Any]:
+        """Выполнить поиск по хранилищу."""
+        pass
+
+    @abstractmethod
+    def count(self) -> int:
+        """Вернуть количество документов в хранилище."""
+        pass
+
+
+class _InMemoryCollection(VectorStore):
     """Минимальная заглушка Chroma collection для unit-тестов без chromadb."""
 
     def __init__(self) -> None:
@@ -68,29 +104,29 @@ class _InMemoryCollection:
         where: dict[str, Any] | None = None,
         include: list[str] | None = None,
     ) -> dict[str, Any]:
+        """Выполняет векторный поиск по хранилищу с поддержкой фильтрации."""
         q = query_embeddings[0] if query_embeddings else []
 
-        q_str = "".join(str(x) for x in q) if q else ""
-
+        # Вычисляем косинусное сходство для всех документов
         scored: list[tuple[int, float]] = []
         for idx, emb in enumerate(self._embeddings):
-            doc_text = self._docs[idx] or ""
-            doc_l = doc_text.lower()
-
-            overlap = 0.0
-            if q_str:
-                if doc_l.find(q_str[:12].lower()) != -1:
-                    overlap = 1.0
-
             sim = self._cosine_similarity(q, emb)
-            scored.append((idx, float(sim) + overlap))
+            # Применяем фильтрацию, если передана
+            if where:
+                metadata = self._metadatas[idx]
+                # Простая проверка: все условия из where должны быть выполнены
+                if not all(metadata.get(k) == v for k, v in where.items()):
+                    sim = -1.0  # Уменьшаем релевантность для невыполненных условий
+            scored.append((idx, sim))
 
+        # Сортируем по убыванию релевантности
         scored.sort(key=lambda x: x[1], reverse=True)
         n = min(n_results, len(scored))
 
         top = scored[:n]
         ids = [str(i) for i, _ in top]
-        distances = [[0.0 for _ in range(n)]]
+        # Преобразуем косинусное сходство в дистанцию (1 - сходство)
+        distances = [[max(0.0, 1.0 - score) for _, score in top]]
         metadatas = [[self._metadatas[i] for i, _ in top]]
         documents = [[self._docs[i] for i, _ in top]]
 
@@ -105,8 +141,8 @@ class _InMemoryCollection:
         return len(self._docs)
 
 
-class ChromaDocumentIndexer:
-    """Persistent vector index stored in ChromaDB."""
+class ChromaDocumentIndexer(AbstractContextManager):
+    """Persistent vector index stored in ChromaDB with unified interface."""
 
     def __init__(
         self,
@@ -114,40 +150,57 @@ class ChromaDocumentIndexer:
         collection_name: str = "project_docs",
         embedder: DocumentEmbedder | None = None,
     ) -> None:
-        # Fallback storage (used when Chroma is present but not working)
-        self._fallback_docs: list[tuple[str, dict[str, Any], list[float]]] = []
-
         self.embedder = embedder or DocumentEmbedder()
         self.persist_directory = Path(persist_directory)
         self.collection_name = collection_name
 
+        # Инициализируем основное хранилище или заглушку
         if not CHROMA_AVAILABLE:
-            self.client = None
-            self.collection = None
+            logger.warning("ChromaDB not found. Using in-memory storage.")
+            self.store: VectorStore = _InMemoryCollection()
+            # Для backward compatibility: self.collection будет возвращать self.store через property
             return
-
+        
         self.client: Any | None = None
-        self.collection: Any | None = None
+        self.store: VectorStore | None = None
         self._initialize_chroma()
+
+    @property
+    def collection(self) -> Any | None:
+        """Для backward compatibility: возвращает текущее хранилище."""
+        return self.store
+
+    @collection.setter
+    def collection(self, value: Any | None) -> None:
+        """Для backward compatibility: устанавливает хранилище."""
+        self.store = value
 
     def _initialize_chroma(self) -> None:
         """Initialize ChromaDB client and collection."""
         self.persist_directory.mkdir(parents=True, exist_ok=True)
 
-        self.client = chromadb.PersistentClient(
-            path=str(self.persist_directory),
-            settings=Settings(anonymized_telemetry=False),
-        )
-
         try:
-            self.collection = self.client.get_collection(name=self.collection_name)
-            logger.info("Loaded existing collection: %s", self.collection_name)
-        except Exception:
-            self.collection = self.client.create_collection(
-                name=self.collection_name,
-                metadata={"description": "Project documentation for RAG system"},
-            )
-            logger.info("Created new collection: %s", self.collection_name)
+            if CHROMA_AVAILABLE and Settings is not None:
+                self.client = chromadb.PersistentClient(
+                    path=str(self.persist_directory),
+                    settings=Settings(anonymized_telemetry=False),
+                )
+                try:
+                    collection = self.client.get_collection(name=self.collection_name)
+                    logger.info("Loaded existing collection: %s", self.collection_name)
+                except Exception:
+                    collection = self.client.create_collection(
+                        name=self.collection_name,
+                        metadata={"description": "Project documentation for RAG system"},
+                    )
+                    logger.info("Created new collection: %s", self.collection_name)
+                self.store = collection
+            else:
+                logger.warning("ChromaDB not available. Using in-memory storage.")
+                self.store = _InMemoryCollection()
+        except Exception as e:
+            logger.error("Failed to connect to ChromaDB: %s. Falling back to in-memory mode.", e)
+            self.store = _InMemoryCollection()
 
     def add_document(self, text: str, metadata: dict[str, Any] | None = None) -> str:
         """Add a single document to the index."""
@@ -160,49 +213,15 @@ class ChromaDocumentIndexer:
 
         doc_id = str(uuid.uuid4())
 
-        doc_metadata = dict(metadata or {})
-        doc_metadata.update(
-            {
-                "timestamp": datetime.now().isoformat(),
-                "embedding_model": self.embedder.model_name,
-                "text_length": len(text),
-            }
-        )
+        doc_metadata = {
+            "timestamp": datetime.now().isoformat(),
+            "embedding_model": self.embedder.model_name,
+            "text_length": len(text),
+            **(metadata or {}),
+        }
 
-        # Always add to fallback storage for consistency
-        self._fallback_docs.append((text.strip(), doc_metadata, embedding))
-
-        # Try to add to Chroma if available
-        if self.collection is not None and CHROMA_AVAILABLE:
-            try:
-                self.collection.add(
-                    ids=[doc_id],
-                    embeddings=[embedding],
-                    metadatas=[doc_metadata],
-                    documents=[text.strip()],
-                )
-                return doc_id
-            except Exception:
-                # If Chroma fails, fall back to in-memory collection
-                if not isinstance(self.collection, _InMemoryCollection):
-                    self.collection = _InMemoryCollection()
-                self.collection.add(
-                    ids=[doc_id],
-                    embeddings=[embedding],
-                    metadatas=[doc_metadata],
-                    documents=[text.strip()],
-                )
-            return doc_id
-
-        # If no Chroma collection, use in-memory
-        if self.collection is None:
-            self.collection = _InMemoryCollection()
-        self.collection.add(
-            ids=[doc_id],
-            embeddings=[embedding],
-            metadatas=[doc_metadata],
-            documents=[text.strip()],
-        )
+        # Единый вызов добавления, независимый от реализации store
+        self.store.add(ids=[doc_id], embeddings=[embedding], metadatas=[doc_metadata], documents=[text.strip()])
         return doc_id
 
     def add_documents_from_files(self, file_pattern: str = "**/*.md", root_dir: str = ".") -> list[str]:
@@ -269,78 +288,40 @@ class ChromaDocumentIndexer:
         where_filter: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
         """Search for similar documents."""
-        # Use fallback keyword search if no real embeddings available
-        if self._fallback_docs and not CHROMA_AVAILABLE:
-            q = query.lower().strip()
-            scored: list[tuple[float, str, dict[str, Any]]] = []
-            for text, meta, _emb in self._fallback_docs:
-                t = text.lower()
-                score = 1.0 if q and q in t else 0.0
-                scored.append((score, text, meta))
-            scored.sort(key=lambda x: x[0], reverse=True)
-            top = scored[:top_k]
-            return [
-                {
-                    "id": str(idx),
-                    "text": text,
-                    "metadata": meta or {},
-                    "score": float(s),
-                    "distance": 0.0,
-                    "rank": idx + 1,
-                }
-                for idx, (s, text, meta) in enumerate(top)
-            ]
-
         query_embedding = self.embedder.embed(query)
         if not query_embedding:
             return []
 
-        if self.collection is None:
-            return []
-
-        results = self.collection.query(
+        results = self.store.query(
             query_embeddings=[query_embedding],
             n_results=top_k,
             where=where_filter,
             include=["metadatas", "documents", "distances"],
         )
 
-        formatted: list[dict[str, Any]] = []
-        if results.get("ids") and results["ids"] and results["ids"][0]:
-            ids0 = results["ids"][0]
-            d0 = results.get("distances", [[None]])[0]
-            metas0 = results.get("metadatas", [[None]])[0]
-            docs0 = results.get("documents", [[None]])[0]
-
-            for i, doc_id in enumerate(ids0):
-                distance = d0[i] if i < len(d0) else 0.0
-                metadata = metas0[i] if metas0 else {}
-                text = docs0[i] if docs0 else ""
-
-                similarity = 1.0 / (1.0 + distance) if distance is not None and distance >= 0 else 0.0
-
-                formatted.append(
-                    {
-                        "id": doc_id,
-                        "text": text,
-                        "metadata": metadata or {},
-                        "score": float(similarity),
-                        "distance": float(distance) if distance is not None else 0.0,
-                        "rank": i + 1,
-                    }
-                )
-
+        # Унифицированная обработка результата
+        formatted = []
+        for i, doc_id in enumerate(results.get("ids", [])):
+            distance = results.get("distances", [[0]])[0][i]
+            similarity = 1.0 - float(distance)
+            formatted.append(
+                {
+                    "id": doc_id,
+                    "score": max(0.0, min(1.0, similarity)),
+                    "distance": float(distance),
+                    "rank": i + 1,
+                    "metadata": results.get("metadatas", [[]])[0][i] or {},
+                    "text": results.get("documents", [[]])[0][i] or "",
+                }
+            )
         return formatted
 
     def get_stats(self) -> dict[str, Any]:
         """Get index statistics."""
         try:
-            if self.collection is not None and CHROMA_AVAILABLE:
-                count = int(self.collection.count())
-            else:
-                count = len(self._fallback_docs)
+            count = int(self.store.count())
         except Exception:
-            count = len(self._fallback_docs)
+            count = 0
 
         return {
             "total_documents": count,
@@ -351,6 +332,13 @@ class ChromaDocumentIndexer:
         }
 
     def close(self) -> None:
-        """Close ChromaDB connection."""
-        self.collection = None
-        self.client = None
+        """Корректное закрытие клиента ChromaDB."""
+        if hasattr(self, "client") and self.client is not None:
+            # У PersistentClient нет метода .close(), он работает с файлами напрямую.
+            # Но можно вызвать сборку мусора или просто обнулить ссылку.
+            del self.client
+            self.client = None
+            logger.info("Closed connection to ChromaDB")
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()

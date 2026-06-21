@@ -34,3 +34,6 @@ structlog>=23.0.0
 # --- Тестовые зависимости ---
 pytest>=8.0.0
 pytest-cov>=5.0.0
+
+# --- Service Registry & Test Generation ---
+dataclasses>=0.6  # Для Python < 3.7 (ServiceProfile dataclass)

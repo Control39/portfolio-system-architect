@@ -1,4 +1,4 @@
-﻿# docker-compose.yml
+# docker-compose.yml
 # Базовый файл для локальной разработки (dev)
 # Для production используйте docker-compose.prod.yml
 # Для мониторинга: docker-compose -f docker-compose.yml -f docker/docker-compose.monitoring.yml up
@@ -241,6 +241,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - LOG_LEVEL=INFO
+      - PYTHONPATH=/app:/app/src
     volumes:
       - ./data:/app/data
       - ./data/proofs:/app/proofs

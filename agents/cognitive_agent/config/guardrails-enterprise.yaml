@@ -1,0 +1,261 @@
+# 🏢 ENTERPRISE-LEVEL GUARDRAILS
+# Zero-trust security model for Cognitive Agent
+
+version: "2.0"
+schema_version: "enterprise-security-v2"
+
+# 1. IDENTITY & AUTHENTICATION
+authentication:
+  enabled: true
+  providers: ["jwt", "oauth2", "basic_auth"]
+  session_timeout: 3600  # 1 hour
+  max_concurrent_sessions: 5
+
+# 2. AUTHORIZATION & ROLES
+roles:
+  admin:
+    permissions:
+      - "execute_any_code"
+      - "modify_system_files"
+      - "access_secrets"
+      - "bypass_guardrails"
+    restrictions: []
+
+  developer:
+    permissions:
+      - "read_code"
+      - "write_application_code"
+      - "run_tests"
+      - "modify_docs"
+    restrictions:
+      - "no_access_to_secrets"
+      - "no_system_file_modification"
+      - "no_external_network_access"
+
+  auditor:
+    permissions:
+      - "read_logs"
+      - "view_audit_trail"
+      - "generate_reports"
+    restrictions:
+      - "no_code_execution"
+      - "no_file_modification"
+
+# 3. MULTI-LAYER VALIDATION
+validation_layers:
+  # Layer 1: Input Sanitization
+  input_sanitization:
+    enabled: true
+    patterns:
+      - pattern: "rm\\s+-rf"
+        severity: "critical"
+        action: "block"
+        reason: "Potential destructive command"
+
+      - pattern: "(eval|exec|compile)\\s*\\("
+        severity: "high"
+        action: "block"
+        reason: "Code execution function"
+
+      - pattern: "(os\\.system|subprocess\\.)"
+        severity: "high"
+        action: "block"
+        reason: "System command execution"
+
+      - pattern: "(__import__|getattr)"
+        severity: "medium"
+        action: "warn"
+        reason: "Dynamic import attempt"
+
+  # Layer 2: Context Validation
+  context_validation:
+    enabled: true
+    rules:
+      - name: "no_outside_project_access"
+        condition: "file_path not in project_boundary"
+        action: "block"
+        severity: "high"
+
+      - name: "no_sensitive_file_access"
+        condition: "file_path matches sensitive_patterns"
+        action: "block"
+        severity: "critical"
+
+      - name: "no_network_access_outside_scope"
+        condition: "network_request outside allowed_domains"
+        action: "block"
+        severity: "high"
+
+  # Layer 3: Semantic Analysis
+  semantic_analysis:
+    enabled: true
+    ai_validation: true
+    patterns:
+      - pattern: "delete.*database"
+        severity: "critical"
+        action: "block"
+      - pattern: "drop.*table"
+        severity: "critical"
+        action: "block"
+      - pattern: "truncate.*"
+        severity: "high"
+        action: "block"
+
+# 4. RATE LIMITING
+rate_limiting:
+  global:
+    max_requests_per_minute: 100
+    max_ai_calls_per_hour: 50
+    max_file_operations_per_minute: 20
+
+  per_user:
+    max_requests_per_minute: 20
+    max_ai_calls_per_hour: 10
+    max_file_operations_per_minute: 5
+
+  burst:
+    window_seconds: 60
+    allowed_burst: 5
+
+# 5. AUDIT TRAIL
+audit_trail:
+  enabled: true
+  log_level: "debug"
+  retention_days: 90
+  encryption: true
+  fields_to_log:
+    - "timestamp"
+    - "user_id"
+    - "action_type"
+    - "target_resource"
+    - "request_details"
+    - "validation_result"
+    - "decision_reason"
+
+  sensitive_fields_masking:
+    enabled: true
+    fields_to_mask:
+      - "api_keys"
+      - "secrets"
+      - "passwords"
+
+# 6. ALLOWED PATHS & PATTERNS
+allowed_paths:
+  - "apps/[^/]+/.*"              # apps/service_name/*
+  - "agents/[^/]+/.*"            # agents/agent_name/*
+  - "config/[^/]+/.*"            # config/service_name/*
+  - "tests/[^/]+/.*"             # tests/service_name/*
+  - "docs/[^/]+/.*"              # docs/service_name/*
+  - "scripts/[^/]+/.*"           # scripts/script_name/*
+  - "src/[^/]+/.*"               # src/service_name/*
+
+# 7. BLOCKED PATTERNS
+blocked_patterns:
+  # System files
+  - "/etc/.*"
+  - "/root/.*"
+  - "/var/run/.*"
+  - "/proc/.*"
+  - "/sys/.*"
+
+  # Secret files
+  - ".*\\.(env|key|pem|crt|cert|secret)$"
+  - "secrets/.*"
+  - "credentials/.*"
+  - ".*/secret/.*"
+  - ".*/credentials/.*"
+
+  # Dangerous operations
+  - ".*\\.(so|dll|exe|bat|sh|cmd|ps1)$"
+  - ".*\\.(sql|db|sqlite)$"      # Database files (require special approval)
+
+  # Outside project boundary
+  - "\\.{2}/.*"                  # ../ access
+  - "~/.+"                       # Home directory access
+
+# 8. SAFE ACTIONS (whitelist approach)
+safe_actions:
+  - "read_file"
+  - "write_file"                 # Only to allowed paths
+  - "create_file"                # Only to allowed paths
+  - "modify_file"                # Only to allowed paths
+  - "delete_file"                # Only temporary/allowed files
+  - "scan_code"
+  - "analyze_code"
+  - "run_tests"
+  - "generate_docs"
+  - "refactor_code"              # Safe refactoring only
+  - "optimize_code"              # Safe optimization only
+  - "fix_syntax_errors"
+  - "add_logging"
+  - "update_comments"
+
+# 9. DANGEROUS ACTIONS (blacklist approach)
+dangerous_actions:
+  - "execute_shell_command"
+  - "access_system_files"
+  - "modify_system_configs"
+  - "install_packages"
+  - "modify_os_settings"
+  - "access_network_outside_scope"
+  - "delete_database"
+  - "truncate_table"
+  - "modify_permissions"
+
+# 10. CONTEXT-AWARE RULES
+context_aware_rules:
+  # Rule 1: No destructive operations in production
+  - name: "no_destructive_in_prod"
+    condition: "environment == 'production'"
+    forbidden_actions:
+      - "delete_file"
+      - "modify_system_files"
+      - "execute_shell_command"
+    severity: "critical"
+
+  # Rule 2: Approval required for sensitive operations
+  - name: "approval_required_for_sensitive"
+    condition: "action in ['modify_config', 'access_secrets', 'install_packages']"
+    required_approval: true
+    approvers: ["admin"]
+    severity: "high"
+
+  # Rule 3: Time-based restrictions
+  - name: "time_based_restrictions"
+    condition: "hour not in business_hours"
+    restricted_actions:
+      - "modify_production"
+      - "deploy_code"
+    severity: "medium"
+
+# 11. INCIDENT RESPONSE
+incident_response:
+  enabled: true
+  auto_block_threshold: 3
+  notification_targets:
+    - "security_team@company.com"
+    - "admin@company.com"
+  escalation_levels:
+    - level: 1
+      threshold: 1
+      action: "log_warning"
+    - level: 2
+      threshold: 3
+      action: "temporary_block"
+    - level: 3
+      threshold: 5
+      action: "permanent_block"
+
+# 12. COMPLIANCE
+compliance:
+  gdpr_compliant: true
+  hipaa_compliant: false
+  sox_compliant: false
+  data_retention_policy:
+    logs: 90 days
+    audit_trail: 180 days
+    temporary_files: 7 days
+  privacy_controls:
+    data_encryption: true
+    field_masking: true
+    access_logging: true

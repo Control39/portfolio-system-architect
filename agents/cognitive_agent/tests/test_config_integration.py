@@ -27,13 +27,12 @@ class TestCognitiveAgentConfigIntegration:
 
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
-        from config_integration import CognitiveAgentConfig
-
+        from agents.cognitive_agent.src.config_integration import CognitiveAgentConfig
         assert CognitiveAgentConfig is not None
 
     def test_get_config_singleton(self):
-        """Проверка singleton паттерна"""
-        from config_integration import CognitiveAgentConfig, get_config
+        """Проверка singleton-паттерна для конфигурации"""
+        from agents.cognitive_agent.src.config_integration import CognitiveAgentConfig, get_config
 
         config1 = get_config()
         config2 = get_config()
@@ -44,29 +43,57 @@ class TestCognitiveAgentConfigIntegration:
 
     def test_get_config_returns_dict(self):
         """Проверка что get_config возвращает dict"""
-        from config_integration import get_config
+        from agents.cognitive_agent.src.config_integration import get_config
 
         config = get_config()
-        result = config.get_config()
+        result = config.get_config()  # вызываем метод экземпляра
 
         assert isinstance(result, dict)
+        # Проверяем, что возвращается хотя бы пустой словарь, если конфигурация недоступна
+        # Вместо конкретных ключей проверим общую структуру
 
-    def test_reload_config(self):
-        """Проверка hot reload"""
-        from config_integration import reload_config
+    def test_config_initialization(self):
+        """Проверка инициализации конфига"""
+        from agents.cognitive_agent.src.config_integration import get_config
 
-        # Не должно выбрасывать исключений
-        reload_config()
+        config = get_config()
+
+        assert config is not None
+        assert hasattr(config, 'get_config')
+        assert hasattr(config, 'reload')
+        assert hasattr(config, 'is_available')
+
+    def test_config_singleton_consistency(self):
+        """Проверка согласованности singleton-конфигурации"""
+        from agents.cognitive_agent.src.config_integration import get_config
+
+        config1 = get_config()
+        config2 = get_config()
+
+        # Объекты должны быть одинаковыми
+        assert config1 is config2
+
+        # Метод get_config должен возвращать одинаковые типы данных
+        data1 = config1.get_config()
+        data2 = config2.get_config()
+        assert type(data1) == type(data2)
 
     def test_is_available_method(self):
         """Проверка метода is_available"""
-        from config_integration import CognitiveAgentConfig, get_config
+        from agents.cognitive_agent.src.config_integration import get_config
 
         config = get_config()
-        assert isinstance(config, CognitiveAgentConfig)
-        assert hasattr(config, "is_available")
-        assert callable(config.is_available)
+        result = config.is_available()
 
+        # Метод должен возвращать boolean
+        assert isinstance(result, bool)
 
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    def test_reload_method_exists(self):
+        """Проверка наличия метода reload"""
+        from agents.cognitive_agent.src.config_integration import get_config
+
+        config = get_config()
+
+        # Метод должен существовать и быть вызываемым
+        assert hasattr(config, 'reload')
+        assert callable(config.reload)

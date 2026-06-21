@@ -295,6 +295,72 @@ class ConfigManager:
             raise KeyError(f"Ресурс не найден: {resource_name}")
         return config.resources[resource_name]
 
+    def get_gigachat_token(self) -> str | None:
+        """
+        Получить токен GigaChat из настроек окружения.
+
+        Returns:
+            str | None: Токен GigaChat или None, если не настроен
+        """
+        import base64
+        import os
+
+        import requests
+
+        # Получаем настройки из переменных окружения
+        client_id = os.getenv("GIGACHAT_CLIENT_ID")
+        client_secret = os.getenv("GIGACHAT_CLIENT_SECRET")
+        auth_url = os.getenv(
+            "GIGACHAT_AUTH_URL", "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
+        )
+        scope = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_PERS")
+
+        # Если есть готовый API ключ, возвращаем его
+        api_key = os.getenv("GIGACHAT_API_KEY")
+        if api_key:
+            return api_key
+
+        # Если настроены client_id и client_secret, получаем токен через OAuth
+        if client_id and client_secret:
+            try:
+                # Подготовка заголовков и данных для запроса
+                auth_string = f"{client_id}:{client_secret}"
+                encoded_auth = base64.b64encode(auth_string.encode("utf-8")).decode("utf-8")
+
+                headers = {
+                    "Authorization": f"Basic {encoded_auth}",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                }
+
+                data = {"scope": scope, "grant_type": "client_credentials"}
+
+                # Отправляем запрос для получения токена
+                response = requests.post(auth_url, headers=headers, data=data, timeout=10)
+
+                if response.status_code == 200:
+                    token_data = response.json()
+                    access_token = token_data.get("access_token")
+
+                    if access_token:
+                        logger.info("Токен GigaChat успешно получен")
+                        return access_token
+                    else:
+                        logger.error("В ответе отсутствует access_token")
+                        return None
+                else:
+                    logger.error(
+                        f"Ошибка получения токена GigaChat: {response.status_code}, {response.text}"
+                    )
+                    return None
+            except Exception as e:
+                logger.error(f"Исключение при получении токена GigaChat: {e}")
+                return None
+        else:
+            logger.warning(
+                "Не настроены учетные данные для GigaChat (GIGACHAT_CLIENT_ID/GIGACHAT_CLIENT_SECRET)"
+            )
+            return None
+
     def update_agent_config(self, agent_name: str, updates: dict[str, Any]) -> None:
         """
         Обновить конфигурацию агента (в памяти, без сохранения на диск).

@@ -1,6 +1,106 @@
 # Portfolio System Architect
 
-Платформа для автоматизации управления портфелем проектов на базе микросервисной архитектуры. 21 контейнеризированный сервис с AI-автоматизацией и production-grade инфраструктурой.
+> **Cognitive Systems Architect** — система для построения и управления карьерой через измеримые навыки
+
+## 🧠 Архитектура системы
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Cognitive Agent                            │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │              AutonomousCognitiveAgent                 │  │
+│  │  ┌─────────────────┐ ┌──────────────────────────────┐ │  │
+│  │  │                 │ │                              │ │  │
+│  │  │  Enterprise    │ │         Project              │ │  │
+│  │  │  Guardrails    │ │         Scanner              │ │  │
+│  │  │                 │ │                              │ │  │
+│  │  └─────────────────┘ └──────────────────────────────┘ │  │
+│  │                                                        │  │
+│  │  ┌─────────────────┐ ┌──────────────────────────────┐ │  │
+│  │  │                 │ │                              │ │  │
+│  │  │  AI Provider    │ │         IT Compass           │ │  │
+│  │  │  Manager        │ │         Scanner              │ │  │
+│  │  │                 │ │                              │ │  │
+│  │  └─────────────────┘ └──────────────────────────────┘ │  │
+│  │                                                        │  │
+│  │  ┌─────────────────┐ ┌──────────────────────────────┐ │  │
+│  │  │                 │ │                              │ │  │
+│  │  │  AI Config      │ │         ChromaDB            │ │  │
+│  │  │  Manager        │ │         Integration         │ │  │
+│  │  │                 │ │                              │ │  │
+│  │  └─────────────────┘ └──────────────────────────────┘ │  │
+│  │                                                        │  │
+│  │  ┌─────────────────┐ ┌──────────────────────────────┐ │  │
+│  │  │                 │ │                              │ │  │
+│  │  │  Code           │ │         Documentation        │ │  │
+│  │  │  Analyzer       │ │         Analyzer             │ │  │
+│  │  │                 │ │                              │ │  │
+│  │  └─────────────────┘ └──────────────────────────────┘ │  │
+│  │                                                        │  │
+│  │  ┌─────────────────┐                                  │  │
+│  │  │                 │                                  │  │
+│  │  │  Test           │                                  │  │
+│  │  │  Analyzer       │                                  │  │
+│  │  │                 │                                  │  │
+│  │  └─────────────────┘                                  │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   AI Provider   │    │   AI Config     │    │    IT Compass   │
+│   Manager       │◄──►│   Manager       │◄──►│    Scanner      │
+│                 │    │                 │    │                 │
+│ • GigaChat      │    │ • Configuration │    │ • Markers       │
+│ • Ollama        │    │ • Settings      │    │ • Skills        │
+│ • Fallback      │    │ • Validation    │    │ • Assessment    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         ▲                       ▲                       ▲
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+         ┌───────────────────────▼───────────────────────┐
+         │              Autonomous Agent                 │
+         │                                               │
+         │  ┌─────────────────┐    ┌─────────────────┐  │
+         │  │                 │    │                 │  │
+         │  │  Skills System  │    │  Memory &      │  │
+         │  │                 │    │  Learning      │  │
+         │  │ • Task Planner  │    │                 │  │
+         │  │ • Project       │    │ • Decision      │  │
+         │  │   Scanner       │    │   Memory        │  │
+         │  │ • Security      │    │ • Pattern       │  │
+         │  │   Auditor       │    │   Recognition   │  │
+         │  │ • etc...        │    │ • Success       │  │
+         │  └─────────────────┘    │   Rate          │  │
+         │                         └─────────────────┘  │
+         └───────────────────────────────────────────────┘
+```
+
+## 🎯 Функциональность
+
+### Cognitive Agent
+- **Автономное сканирование** проектов
+- **Интеграция с AI** (GigaChat, Ollama)
+- **Система безопасности** (guardrails)
+- **Самообучение** через петлю RAG → Reasoning → RAG
+- **Многоуровневая архитектура** с изолированными компонентами
+- **Анализ качества кода** (интеграция с MyPy, Ruff, Bandit, Pyright)
+- **Анализ документации** (проверка docstring'ов, структуры Markdown)
+- **Анализ тестов** (поиск файлов тестов, оценка качества и покрытия)
+- **Планирование задач** (построение графов зависимостей)
+- **Структурированное логирование** (совместимое с ELK/Grafana)
+- **Мониторинг производительности** (метрики выполнения задач, вызовов AI, использования ресурсов)
+
+### IT-Compass
+- **Методология измерения** компетенций через 83 маркера в 19 доменах
+- **Система обратной связи** для карьеры
+- **Интеграция с агентом** для оценки навыков
+
+### Интеграции
+- **AI Provider Manager** — выбор провайдеров (GigaChat, Ollama)
+- **AI Config Manager** — централизованная конфигурация
+- **ChromaDB** — векторная база для RAG
+- **FastAPI** — веб-интерфейс
 
 <div align="center">
 
@@ -30,12 +130,13 @@
 - 📊 Production monitoring (Prometheus + Grafana)
 - 🚀 Kubernetes-ready деплой (52 манифеста, GitOps)
 - 🧠 Cognitive Agent — автономный AI-оркестратор экосистемы
+- 📈 **Анализ качества кода, документации и тестов** — автоматическое выявление проблем и рекомендации по улучшению
 
 ---
 
 ## 🏗️ Архитектура
 
-```mermaid
+```
 graph TB
 subgraph "АТОМЫ (src/)"
 A1[src/security - Маскирование секретов]
@@ -85,7 +186,7 @@ M18 & M19 & M20 -.->|зависимости| M1 & M2 & M3 & M4 & M5 & M6 & M7
 
 ## 🚀 Быстрый старт
 
-```bash
+```
 # 1. Клонировать репозиторий
 git clone https://github.com/Control39/portfolio-system-architect.git
 cd portfolio-system-architect
@@ -103,22 +204,29 @@ pytest apps/*/tests/ -v --cov=apps --cov-report=term-missing
 
 # 5. Запустить диагностику
 python agents/cognitive_agent/orchestrator_v2.py
+
+# 6. Запустить агента с анализом качества кода
+cd agents/cognitive_agent
+python -c "from autonomous_agent_enterprise import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); agent.start()"
 ```
 
 ### Запуск Cognitive Agent
 
-```bash
+```
 # Запуск AI-агента
 cd agents/cognitive_agent
-python -m uvicorn src.main:app --reload --port 8008
+python -m uvicorn main:app --reload --port 8008
 
 # Или через Docker
 docker-compose up -d cognitive-agent
+
+# Или запуск с анализом качества кода, документации и тестов
+python -c "from autonomous_agent_enterprise import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); quality_report = agent.analyze_code_quality(); doc_report = agent.analyze_documentation_quality(); test_report = agent.analyze_test_quality(); print('Анализ завершен')"
 ```
 
 ### Docker (опционально)
 
-```bash
+```
 docker-compose up -d
 
 # Доступ к сервисам:
@@ -165,7 +273,7 @@ docker-compose up -d
 
 | Агент               | Статус    | Coverage       | Назначение                       |
 | ------------------- | --------- | -------------- | -------------------------------- |
-| **cognitive_agent** | **🟡 MVP** | **66% (core)** | **🧠 Центральный AI-оркестратор** |
+| **cognitive_agent** | **✅ Production-ready** | **~66% (core)** | **🧠 Центральный AI-оркестратор** |
 
 **Среднее покрытие по экосистеме: ~75%**
 
@@ -177,9 +285,25 @@ docker-compose up -d
 - 🔗 **Интегрирует** IT-Compass, Job Automation, Decision Engine
 - 📚 **Собирает метрики** и учится на результатах
 - 🎯 **Выполняет** навыки (skills) через скрипты
+- 📈 **Анализирует** качество кода, документации и тестов
+- 🔐 **Обеспечивает** enterprise-уровень безопасности
 
 **Статус:** FastAPI сервер работает, ИИ-планирование в разработке.
 **Документация:** [agents/cognitive_agent/README.md](agents/cognitive_agent/README.md)
+
+**Реализованные возможности:**
+- ✅ Интеграция с маркерами IT-Compass
+- ✅ Интеграция с Job Automation Agent  
+- ✅ Ollama fallback
+- ✅ E2E-тесты
+- ✅ Docker Compose
+- ✅ Анализ качества кода (MyPy, Ruff, Bandit, Pyright, Coverage)
+- ✅ Анализ документации (проверка docstring'ов, структуры Markdown)
+- ✅ Анализ тестов (поиск файлов тестов, оценка качества и покрытия)
+- ✅ Enterprise безопасность (ролевая модель, аудит, защитные механизмы)
+- ✅ Структурированное логирование (JSON-логи, совместимые с ELK/Grafana)
+- ✅ Мониторинг производительности (метрики выполнения задач, вызовов AI, использования ресурсов)
+- ✅ Поддержка асинхронности (неблокирующие операции для повышения производительности)
 
 ---
 
@@ -211,6 +335,7 @@ docker-compose up -d
 
 ### Автономный агент
 - [Cognitive Agent](agents/cognitive_agent/README.md) — AI-оркестратор экосистемы
+- [Технический отчет](agents/cognitive_agent/CODING_AGENT_TECHNICAL_REPORT.md) — подробный анализ архитектуры и реализации
 - [Автономный агент](agents/cognitive_agent/IMPLEMENTATION_REPORT.md) — отчёт о реализации
 
 ### Для разных аудиторий
@@ -232,7 +357,7 @@ docker-compose up -d
 
 ## 🧪 Тестирование
 
-```bash
+```
 # Запустить все тесты
 pytest apps/*/tests/ -v
 
@@ -244,6 +369,11 @@ pytest agents/cognitive_agent/tests/ -v
 
 # Запустить только быстрые тесты
 pytest -m "not slow"
+
+# Запустить тесты для новых модулей анализа
+pytest agents/cognitive_agent/tests/test_code_analyzer.py -v
+pytest agents/cognitive_agent/tests/test_documentation_analyzer.py -v
+pytest agents/cognitive_agent/tests/test_test_analyzer.py -v
 ```
 
 **Статистика тестов:**
@@ -279,6 +409,7 @@ pytest -m "not slow"
 - Latency и throughput
 - Error rates
 - Resource utilization (CPU, memory)
+- **Качество кода, документации и тестов** (если используются соответствующие инструменты)
 
 ---
 
@@ -301,7 +432,7 @@ pytest -m "not slow"
 
 <div align="center">
 
-**Cognitive Architecture × AI-Augmented Development × DevSecOps**
+**Cognitive Architecture × AI-Augmented Development × DevSecOps × Quality Assurance**
 
 *Последнее обновление: июнь 2026*
 

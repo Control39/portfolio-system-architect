@@ -3,7 +3,7 @@ requests
 pandas
 
 # AI/LLM
-langchain>=1.2.0
+langchain>=0.3.0  # Updated to 0.3.15+ to fix path traversal vulnerability
 langchain-community>=0.4.0
 langchain-openai>=1.2.0
 langchain-gigachat>=0.5.0

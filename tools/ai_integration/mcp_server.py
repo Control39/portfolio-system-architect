@@ -70,9 +70,7 @@ class FileReadRequest(BaseModel):
 class PortfolioMCP:
     """MCP сервер для портфолио"""
 
-    def __init__(self):
-        self.server = Server("portfolio-mcp-server", "0.1.0")
-        self.setup_tools()
+{"text": "    def __init__(self):\n        self.server = Server(\"portfolio-mcp-server\", \"0.1.0\")\n        self.giga_bridge = None\n        self.setup_tools()\n        self._initialize_giga_bridge()\n\n    def _initialize_giga_bridge(self) -> None:\n        \"\"\"Initialize GigaChat bridge if available.\"\"\"\n        try:\n            # Пытаемся импортировать GigaMCPBridge\n            sys.path.insert(0, str(project_root))\n            from src.ai.gigachat_bridge import GigaMCPBridge\n            self.giga_bridge = GigaMCPBridge()\n            logger.info(\"GigaChat bridge initialized successfully\")\n        except Exception as e:\n            logger.warning(f\"GigaChat bridge not available: {e}\")\n            self.giga_bridge = None"}
 
     def setup_tools(self):
         """Настройка инструментов MCP"""

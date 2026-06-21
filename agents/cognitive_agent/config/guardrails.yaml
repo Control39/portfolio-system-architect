@@ -1,49 +1,101 @@
-# agents/cognitive_agent/config/guardrails.yaml
+# 🧠 УМНЫЕ GUARDRAILS (Безопасность + Полезность)
+# Агент снова может исправлять код, но не может удалять или трогать секреты
+
+# 1. РАЗРЕШЁННЫЕ ПУТИ (где можно менять код)
 allowed_paths:
-  - "^apps/"
-  - "^agents/"
-  - "^config/"
-  - "^logs/" # ✅ ДОБАВЛЕНО: для логов
+  - "^apps/.*"              # Вся папка apps
+  - "^agents/.*"            # Вся папка agents
+  - "^config/.*"            # Вся папка config
+  - "^tests/.*"             # Тесты
+  - "^docs/.*"              # Документация
+  - "^scripts/.*"           # Скрипты
+  - ".*\\.py$"             # Все Python файлы
+  - ".*\\.js$"             # Все JS файлы
+  - ".*\\.ts$"             # Все TS файлы
+  - ".*\\.md$"             # Markdown файлы
+  - ".*\\.txt$"            # Текстовые файлы
 
+# 2. ЗАБЛОКИРОВАННЫЕ ПУТИ (НЕЛЬЗЯ ТРОГАТЬ)
 blocked_patterns:
-  - "\\.\\./"
-  - "/etc/"
-  - "~/"
-  - "\\.env"
-  - "\\.pem"
-  - "\\.key"
+  - "\\.env$"              # Файлы с секретами
+  - "\\.pem$"              # Приватные ключи
+  - "\\.key$"              # Ключи шифрования
+  - "/etc/"                 # Системные папки
+  - "/root/"                # Системные папки
+  - "secrets/"              # Папки с секретами
+  - "credentials/"          # Папки с кредами
 
+# 3. РАЗРЕШЁННЫЕ ДЕЙСТВИЯ (то, что агент может делать)
 safe_actions:
-  - "read"
-  - "scan"
-  - "analyze"
-  - "list"
+  - read                    # Читать файлы
+  - write                   # ✅ Писать файлы
+  - modify                  # ✅ Изменять файлы
+  - create                  # ✅ Создавать файлы
+  - refactor                # ✅ Рефакторить
+  - optimize                # ✅ Оптимизировать
+  - fix                     # ✅ Исправлять баги
+  - scan                    # Сканировать
+  - analyze                 # Анализировать
+  - test                    # Запускать тесты
+  - debug                   # Дебажить
+  - document                # Документировать
 
+# 4. ПРАВИЛА ПРОВЕРКИ (гибкие и умные)
 rules:
-  # 🛑 БЛОК — даже с одобрением не сработает
-  - pattern: ".*\\.(key|pem|env)$"
-    action_pattern: ".*" # ✅ Исправлено: теперь блокирует ВСЕ действия
-    action: "block"
-    message: "🚫 Критические файлы заблокированы"
-
-  - pattern: "config/sensitive.*"
+  # 🔴 БЛОК: Никогда не трогаем секреты
+  - pattern: ".*\\.(key|pem|crt|env)$"
     action_pattern: ".*"
     action: "block"
-    message: "🚫 Конфигурация с секретами — запрещено"
+    description: "Блокируем файлы с секретами"
 
-  # ⚠️ ТРЕБУЕТ ОДОБРЕНИЯ — для любых изменений .py
-  - pattern: "^apps/.*\\.py$"
-    action_pattern: "(write|create|edit|modify|update|delete|remove)" # ✅ Исправлено: любые "деструктивные" действия
+  # 🟡 ТРЕБУЕТ ПОДТВЕРЖДЕНИЯ: Конфиги и важные файлы
+  - pattern: ".*\\.(yaml|yml|json)$"
+    action_pattern: "modify|write|delete"
     action: "requires-approval"
-    message: "⚠️ Изменение .py файлов требует одобрения"
+    description: "Конфигурационные файлы требуют подтверждения"
 
-  - pattern: "^agents/.*\\.py$"
-    action_pattern: "(write|create|edit|modify|update|delete|remove)"
+  - pattern: "requirements\\.txt|Dockerfile|docker-compose\\.yml|Makefile"
+    action_pattern: "modify|write"
     action: "requires-approval"
-    message: "⚠️ Изменение агентского кода требует одобрения"
+    description: "Важные системные файлы требуют подтверждения"
 
-  # ✅ РАЗРЕШЕНО — чтение без одобрения
-  - pattern: ".*"
-    action_pattern: "read|scan|list|analyze"
+  # 🟢 РАЗРЕШЕНО: Тесты можно менять свободно
+  - pattern: "tests/.*"
+    action_pattern: ".*"
     action: "allow"
-    message: "✅ Чтение разрешено без одобрения"
+    description: "Тесты можно менять без ограничений"
+
+  # 🟢 РАЗРЕШЕНО: Документация
+  - pattern: ".*\\.(md|rst|txt)$"
+    action_pattern: ".*"
+    action: "allow"
+    description: "Документацию можно менять свободно"
+
+  # 🟢 ОСОБЫЙ СЛУЧАЙ: корневой README директории apps
+  - pattern: "^apps/README\\.md$"
+    action_pattern: "write|modify|create"
+    action: "allow"
+    description: "README в корне apps можно обновлять"
+
+  # 🟢 РАЗРЕШЕНО: Основной код (с аудитом)
+  - pattern: "apps/.*\\.py$"
+    action_pattern: "write|modify|refactor|fix"
+    action: "allow"
+    description: "Основной код можно менять (с аудитом)"
+
+  - pattern: "agents/.*\\.py$"
+    action_pattern: "write|modify|refactor|fix"
+    action: "allow"
+    description: "Код агентов можно менять (с аудитом)"
+
+  # ⚠️ ОСОБЫЕ ПРАВИЛА: Папка config требует подтверждения
+  - pattern: "config/.*"
+    action_pattern: "write|modify"
+    action: "requires-approval"
+    description: "Изменения в config требуют подтверждения"
+
+  # 🚫 ДЕФОЛТ: Всё остальное запрещено
+  - pattern: ".*"
+    action_pattern: "delete|remove"
+    action: "block"
+    description: "Удаление файлов запрещено!"

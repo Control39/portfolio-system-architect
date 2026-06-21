@@ -29,7 +29,7 @@ MCP (Model Context Protocol) сервер предоставляет AI-асси
 
 ```powershell
 # Переход в директорию MCP сервера
-cd apps/mcp-server
+cd apps/mcp_server
 
 # Установка зависимостей
 pip install -r requirements.txt
@@ -84,9 +84,9 @@ docker run -it --rm `
     "career-autopilot": {
       "command": "python",
       "args": [
-        "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server/src/main.py"
+        "C:/repo/portfolio-system-architect/apps/mcp-server/src/main.py"
       ],
-      "cwd": "C:/Users/Z/DeveloperEnvironment/projects/portfolio-system-architect/apps/mcp-server"
+      "cwd": "C:/repo/portfolio-system-architect/apps/mcp_server"
     }
   }
 }

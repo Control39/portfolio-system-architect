@@ -1,0 +1,103 @@
+# Архитектурная информация Cognitive Agent
+
+[system]
+name = "Cognitive Agent System"
+version = "2.0"
+description = "Автономный ИИ-агент для управления проектами и архитектурой"
+
+[cognitive_agent]
+name = "Autonomous Cognitive Agent"
+main_module = "agents/cognitive_agent/autonomous_agent.py"
+version = "2.0"
+features = [
+    "Project scanning",
+    "Task planning",
+    "Skill execution",
+    "Learning system",
+    "Security guardrails",
+    "Enterprise authorization"
+]
+
+[cognitive_agent.components]
+main = "autonomous_agent.py"
+enhanced_version = "autonomous_agent_v.2.py"
+orchestrator = "orchestrator_v2.py"
+
+[cognitive_agent.folders]
+config = "agents/cognitive_agent/config/"
+skills = "agents/cognitive_agent/skills/"
+src = "agents/cognitive_agent/src/"
+tests = "agents/cognitive_agent/tests/"
+docs = "agents/cognitive_agent/docs/"
+
+[[cognitive_agent.skills]]
+name = "Task Planner"
+path = "agents/cognitive_agent/skills/task-planner/"
+
+[[cognitive_agent.skills]]
+name = "Project Scanner"
+path = "agents/cognitive_agent/skills/project-scanner/"
+
+[[cognitive_agent.skills]]
+name = "Code Security Auditor"
+path = "agents/cognitive_agent/skills/code-security-auditor/"
+
+# Продолжение списка навыков...
+
+[external_services]
+ai_provider_manager = "apps/ai_provider_manager/"
+ai_config_manager = "apps/ai_config_manager/"
+it_compass = "apps/it_compass/"
+auth_service = "apps/auth_service/"
+decision_engine = "apps/decision_engine/"
+knowledge_graph = "apps/knowledge_graph/"
+embedding_agent = "apps/embedding_agent/"
+
+[integration_points]
+gigachat = "AI Provider Manager - GigaChat integration"
+ollama = "AI Provider Manager - Ollama fallback"
+it_compass_markers = "IT Compass - skill marker detection"
+chromadb_rag = "ChromaDB - RAG capabilities"
+auth_integration = "Auth Service - security integration"
+decision_engine_recs = "Decision Engine - recommendation system"
+
+[security_features]
+enterprise_guardrails = true
+role_based_authorization = true
+fine_grained_access_control = true
+audit_trail = true
+rate_limiting = true
+input_sanitization = true
+
+[folder_structure]
+agents = "agents/ - autonomous agents"
+apps = "apps/ - microservices"
+src = "src/ - shared components"
+config = "config/ - centralized configuration"
+docs = "docs/ - documentation"
+scripts = "scripts/ - automation scripts"
+tests = "tests/ - test suites"
+
+[folder_structure.agents.cognitive_agent]
+main = "autonomous_agent.py"
+version2 = "autonomous_agent_v.2.py"
+orchestrator = "orchestrator_v2.py"
+config = "config/ - guardrails and settings"
+skills = "skills/ - 25+ specialized skills"
+src = "src/ - core modules"
+tests = "tests/ - comprehensive tests"
+docs = "docs/ - architecture documentation"
+
+[folder_structure.apps]
+ai_config_manager = "apps/ai_config_manager/ - centralized AI config"
+ai_provider_manager = "apps/ai_provider_manager/ - AI provider routing"
+it_compass = "apps/it_compass/ - skill markers"
+auth_service = "apps/auth_service/ - authentication"
+decision_engine = "apps/decision_engine/ - recommendations"
+knowledge_graph = "apps/knowledge_graph/ - knowledge storage"
+embedding_agent = "apps/embedding_agent/ - RAG system"
+
+[[folder_structure.src]]
+common = "src/common/ - shared utilities"
+telemetry = "src/telemetry/ - monitoring"
+utils = "src/utils/ - helpers"

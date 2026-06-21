@@ -109,7 +109,7 @@ jobs:
 
       - name: Create coverage badge
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-        uses: emibcn/badge-action@v2.0.3
+        uses: emibcn/badge-action@v2.0.4
         with:
           label: coverage
           status: ${{ steps.coverage.outputs.coverage_percent }}%

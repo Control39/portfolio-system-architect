@@ -1,10 +1,69 @@
-# GigaCode Token Cache
-.gigacode_token_cache.json
+# Gigacode ignore patterns for Portfolio System Architect
+
+# Python virtual environment
+.venv/
+venv/
+env/
+__pycache__/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+.htmlcov/
 
 # Logs
-*.log
 logs/
+*.log
 
-# Temp files
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test coverage
+htmlcov/
+.coverage
+.coveragerc
+
+# Cache
+.cache/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Legacy code
+legacy/
+experiments/
+
+# Agents
+.agents/
+
+# Documentation archives
+docs-archive/
+
+# Temporary files
 *.tmp
 *.temp
+*.bak
+
+# Docker
+.docker/
+
+# Git
+.git/
+.gitignore
+
+# Reports
+reports/
+
+# Archive
+archive/
+
+# Docker Compose
+docker-compose*.yml

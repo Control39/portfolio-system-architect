@@ -17,15 +17,27 @@ import yaml
 # Интеграция с AI Config Manager
 try:
     from agents.cognitive_agent.src.config_integration import get_config
+    from agents.cognitive_agent.src.base_agent import (
+        AGENT_LOGS_DIR,
+        AGENT_REPORTS_DIR,
+        AGENT_SCANS_DIR,
+        AGENT_STATUS_DIR,
+    )
 
     AI_CONFIG_INTEGRATION = True
 except ImportError:
     AI_CONFIG_INTEGRATION = False
     print("⚠️  AI Config Manager интеграция не доступна")
+    # Fallback paths
+    from pathlib import Path
+    AGENT_LOGS_DIR = Path(".agent_data/logs")
+    AGENT_REPORTS_DIR = Path(".agent_data/reports")
+    AGENT_SCANS_DIR = Path(".agent_data/scans")
+    AGENT_STATUS_DIR = Path(".agent_data/status")
 
 
 # Создание директорий для логов перед инициализацией логирования
-LOG_DIR = Path("apps/cognitive_agent/logs")
+LOG_DIR = AGENT_LOGS_DIR
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Настройка логирования
@@ -62,8 +74,10 @@ class ProjectScanner:
         self.visited_paths = set()
         self.max_files_to_scan = 5000
 
-    def _load_local_config(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml") -> dict[str, Any]:
+    def _load_local_config(self, config_path: str | None = None) -> dict[str, Any]:
         """Загрузка локальной конфигурации"""
+        if config_path is None:
+            config_path = str(AGENT_SCANS_DIR / "scanner.yaml")
         try:
             with open(config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
@@ -71,7 +85,7 @@ class ProjectScanner:
             logger.error(f"Ошибка загрузки конфигурации: {e}")
             return {}
 
-    def _load_config(self, config_path: str = "apps/cognitive_agent/config/scanner.yaml") -> dict[str, Any]:
+    def _load_config(self, config_path: str | None = None) -> dict[str, Any]:
         """Загрузка конфигурации сканера"""
         try:
             with open(config_path, encoding="utf-8") as f:
@@ -154,7 +168,8 @@ class ProjectScanner:
         # Сохранение результатов
         self._save_results()
 
-        logger.info(f"Сканирование завершено за {time.time() - start_time:.2f} секунд")
+        logger.info(
+            f"Сканирование завершено за {time.time() - start_time:.2f} секунд")
         return self.scan_results
 
     def _get_project_info(self, project_path: Path) -> dict[str, Any]:
@@ -291,7 +306,8 @@ class ProjectScanner:
     def _get_python_dependencies(self, path: Path) -> list[str]:
         """Получение Python зависимостей"""
         deps = []
-        req_files = ["requirements.txt", "pyproject.toml", "setup.py", "requirements-dev.txt"]
+        req_files = ["requirements.txt", "pyproject.toml",
+                     "setup.py", "requirements-dev.txt"]
 
         for req_file in req_files:
             try:
@@ -331,7 +347,7 @@ class ProjectScanner:
 
     def _save_results(self):
         """Сохранение результатов сканирования"""
-        reports_dir = Path("apps/cognitive_agent/reports/scans")
+        reports_dir = AGENT_REPORTS_DIR / "scans"
         reports_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -359,11 +375,14 @@ def main():
 
         project_info = results.get("project_info", {})
         print(f"Проект: {project_info.get('name', 'N/A')}")
-        print(f"Git репозиторий: {'Да' if project_info.get('git_repository') else 'Нет'}")
+        print(
+            f"Git репозиторий: {'Да' if project_info.get('git_repository') else 'Нет'}")
 
         tech_stack = results.get("tech_stack", {})
-        print(f"Языки: {', '.join(tech_stack.get('languages', [])) or 'Не обнаружены'}")
-        print(f"Фреймворки: {', '.join(tech_stack.get('frameworks', [])) or 'Не обнаружены'}")
+        print(
+            f"Языки: {', '.join(tech_stack.get('languages', [])) or 'Не обнаружены'}")
+        print(
+            f"Фреймворки: {', '.join(tech_stack.get('frameworks', [])) or 'Не обнаружены'}")
 
         scan_meta = results.get("scan_metadata", {})
         print(f"Время сканирования: {scan_meta.get('scan_time', 0):.2f} сек")
@@ -371,7 +390,7 @@ def main():
         print("=" * 60)
 
         # Сохранение статуса для мониторинга
-        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
+        status_file = AGENT_SCANS_DIR / "last_scan_status.json"
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:
@@ -391,7 +410,7 @@ def main():
         logger.error(f"Ошибка при сканировании: {e}")
 
         # Сохранение статуса ошибки
-        status_file = Path("apps/cognitive_agent/scans/last_scan_status.json")
+        status_file = AGENT_SCANS_DIR / "last_scan_status.json"
         status_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(status_file, "w", encoding="utf-8") as f:

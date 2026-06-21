@@ -8,8 +8,14 @@ API:
 """
 
 import logging
+import sys
+from pathlib import Path
 
 from fastapi import FastAPI
+
+# Добавляем корень проекта в путь для импорта
+repo_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(repo_root))
 
 # --- OpenTelemetry Tracing ---
 try:
@@ -32,6 +38,10 @@ if OTEL_ENABLED:
 
         FastAPIInstrumentor.instrument_app(app)
         logger.info("✅ OpenTelemetry FastAPI Instrumentation активировано")
+    except ImportError:
+        logger.warning(
+            "⚠️ OpenTelemetry не установлен: pip install opentelemetry-api opentelemetry-sdk opentelemetry-instrumentation-fastapi"
+        )
     except Exception as e:
         logger.warning(f"⚠️ OpenTelemetry не настроен: {e}")
 

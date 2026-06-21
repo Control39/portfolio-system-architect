@@ -18,7 +18,7 @@ except ImportError:  # pragma: no cover
     chromadb = None  # type: ignore
     Settings = None  # type: ignore
 
-from .embedder import DocumentEmbedder
+from src.vector_store.embedder import DocumentEmbedder
 
 logger = logging.getLogger(__name__)
 

@@ -30,10 +30,10 @@
     "extraPaths": [
         "./src",
         "./apps",
-        "./apps/cloud-reason",
-        "./apps/it-compass/src",
+        "./apps/decision_reason",
+        "./apps/it_compass/src",
         "./apps/career-development/career-development-system/src",
-        "./apps/ml-model-registry/src"
+        "./apps/ml_model_registry/src"
     ],
     "reportMissingImports": true,
     "reportMissingTypeStubs": "warning",
@@ -97,8 +97,8 @@
         "extraPaths": [
             "./src",
             "./apps",
-            "./apps/cloud-reason",
-            "./apps/it-compass/src"
+            "./apps/decision_reason",
+            "./apps/it_compass/src"
         ],
         "diagnosticSeverityOverrides": {
             "reportMissingImports": "warning",
