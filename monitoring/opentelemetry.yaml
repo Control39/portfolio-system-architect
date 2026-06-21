@@ -1,0 +1,60 @@
+# OpenTelemetry Configuration
+# For distributed tracing and metrics collection
+
+service:
+  name: portfolio-system-architect
+  namespace: production
+  version: 0.1.0
+
+metrics:
+  enabled: true
+  endpoint: http://localhost:9090
+  interval: 15s
+  export_interval: 10s
+  export_timeout: 5s
+
+tracing:
+  enabled: true
+  exporter: jaeger
+  sampling:
+    type: probabilistic
+    parameter: 0.1
+  processor:
+    type: batch
+    max_export_batch_size: 512
+    export_timeout: 30s
+    schedule_delay: 5s
+
+logs:
+  enabled: true
+  exporter: console
+  level: INFO
+  format: json
+
+exporters:
+  jaeger:
+    endpoint: localhost:14250
+    insecure: true
+
+  prometheus:
+    endpoint: 0.0.0.0:9090
+    namespace: portfolio_system_architect
+
+  console:
+    output: stdout
+
+processors:
+  batch:
+    timeout: 30s
+    send_batch_size: 512
+    send_batch_max_size: 1024
+
+connectors:
+  # No connectors needed for basic setup
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  zpages:
+    endpoint: 0.0.0.0:55679

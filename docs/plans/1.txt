@@ -1,0 +1,118 @@
+# Plans
+
+
+файлов, могу дать рекомендации по выделению компонентов в отдельные библиотеки. Ниже представлены основные выводы об архитектуре и предложения по рефакторингу:
+
+🏗️ Архитектурный анализ и рекомендации по выделению библиотек
+1. GigaChat Bridge (gigachat_bridge.py)
+Текущее состояние: Модуль, интегрирующий GigaChat API с системой MCP и RAG (Chroma)
+
+Потенциал для выделения: ✅ Высокий
+
+Самостоятельный компонент с четким API
+Может использоваться в других проектах
+Имеет собственные зависимости (langchain, gigachat)
+Предлагаемая структура:
+
+gigachat_bridge/
+├── __init__.py
+├── bridge.py          # Основной класс GigaMCPBridge
+├── settings.py        # Класс настроек
+├── verification.py    # Логика проверки
+├── metrics.py         # Метрики производительности
+└── pyproject.toml
+2. Project Scanner (scanner_main.py)
+Текущее состояние: Модуль анализа технологического стека проекта
+
+Потенциал для выделения: ✅ Высокий
+
+Полностью автономный функционал
+Может использоваться как standalone инструмент
+Имеет собственную логику сканирования и анализа
+Предлагаемая структура:
+
+project_scanner/
+├── __init__.py
+├── scanner.py         # Основной класс ProjectScanner
+├── detectors/         # Модули обнаружения
+│   ├── languages.py
+│   ├── frameworks.py
+│   ├── databases.py
+│   └── tools.py
+├── config.py          # Конфигурация сканера
+├── output.py          # Сохранение результатов
+└── pyproject.toml
+3. Дополнительные компоненты для выделения
+A. AI Config Manager
+Уже есть в apps/ai_config_manager/ - потенциально можно выделить как отдельную библиотеку для управления конфигурациями AI-компонентов
+
+B. AI Provider Manager
+Уже есть в apps/ai_provider_manager/ - универсальный менеджер для разных AI-провайдеров
+
+C. Embedding Agent
+Уже есть в apps/embedding_agent/ - компонент для работы с эмбеддингами и ChromaDB
+
+D. IT Compass
+Уже есть в apps/it_compass/ - система анализа компетенций и навыков
+
+📦 Рекомендации по архитектуре библиотек
+Для gigachat_bridge:
+python
+# gigachat_bridge/pyproject.toml
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gigachat-bridge"
+version = "0.1.0"
+description = "Bridge for integrating GigaChat API with MCP and RAG systems"
+dependencies = [
+    "langchain>=0.0.300",
+    "langchain-gigachat>=0.0.1",
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "python-dotenv>=1.0.0"
+]
+Для project_scanner:
+python
+# project_scanner/pyproject.toml
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-scanner"
+version = "0.1.0"
+description = "Tool for analyzing project technology stack and architecture"
+dependencies = [
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0"
+]
+🔄 Потенциальные зависимости между компонентами
+Согласно архитектуре проекта, компоненты связаны следующим образом:
+
+AI Provider Manager ← AI Config Manager (настройки провайдеров)
+Cognitive Agent ← AI Provider Manager, IT Compass, Embedding Agent
+GigaChat Bridge ← AI Provider Manager (потенциально)
+Project Scanner ← AI Config Manager (для получения конфигурации сканирования)
+📋 Рекомендации по реализации
+Создать отдельные репозитории или пакеты для каждой библиотеки
+Определить четкие интерфейсы для взаимодействия между компонентами
+Использовать семантическое версионирование для управления зависимостями
+Добавить полноценные unit-тесты для каждой библиотеки
+Создать документацию для каждого пакета
+Настроить CI/CD для каждой библиотеки
+🚀 План рефакторинга
+Создать папки libraries/ или packages/ в корне проекта
+Перенести код из текущих мест в новые структуры
+Обновить зависимости в основном проекте
+Создать конфигурационные файлы для каждой библиотеки
+Обновить документацию и примеры использования
+Такая архитектура позволит:
+
+Повысить переиспользуемость кода
+Упростить тестирование и обслуживание
+Ускорить разработку новых компонентов
+Облегчить интеграцию с другими системами
+Эти библиотеки будут соответствовать принципам MPL-2.0 лицензии, позволяя использовать их в других проектах при соблюдении условий лицензии.

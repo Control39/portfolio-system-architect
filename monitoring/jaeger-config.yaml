@@ -1,0 +1,59 @@
+# Jaeger Agent Configuration
+# For distributed tracing in Portfolio System Architect
+
+reporter:
+  # Log spans to stdout (development)
+  logSpans: true
+  localAgentHostPort: localhost:6831
+
+  # OR: Send to Jaeger collector (production)
+  # type: remote
+  # endpoint: localhost:14250
+  # tls:
+  #   enabled: false
+
+sampling:
+  # Sampling strategies
+  strategies:
+    default:
+      type: probabilistic
+      param: 0.1  # Sample 10% of traces
+
+  # OR: Remote sampling (production)
+  # remote:
+  #   samplingServerURL: http://localhost:5778/sampling
+  #   refreshInterval: 60s
+
+collector:
+  # Collector endpoint (if direct collection)
+  # endpoint: localhost:14250
+  # tls:
+  #   enabled: false
+
+processors:
+  # Batch processor
+  batch:
+    maxBatchSize: 1000
+    timeout: 1s
+    numWorkers: 1
+
+exporters:
+  # Console exporter (development)
+  console:
+    enable: false
+
+  # Jaeger exporter
+  jaeger:
+    endpoint: localhost:14250
+    insecure: true
+
+services:
+  # Agent service
+  agent:
+    config:
+      sampler:
+        type: probabilistic
+        param: 0.1
+      reporter:
+        logSpans: true
+        localAgentHostPort: localhost:6831
