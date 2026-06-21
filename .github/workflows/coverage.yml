@@ -28,18 +28,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('apps/context_builder/requirements.txt') }}
@@ -139,7 +139,7 @@ jobs:
 
       - name: Upload test artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-reports-${{ github.run_id }}
           path: apps/context_builder/reports/

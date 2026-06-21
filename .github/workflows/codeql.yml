@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Только для TypeScript
       - name: Setup Node.js
         if: matrix.language == 'typescript'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
 
@@ -47,7 +47,7 @@ jobs:
       # Для Python: установить зависимости
       - name: Setup Python
         if: matrix.language == 'python'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
