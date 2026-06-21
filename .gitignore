@@ -1,312 +1,250 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
 
-# Agent test scripts with secrets
-
-# Legacy agent directories (OLD standalone agent)
-
+# ============================================
 # Agent backup files
-*.egg
-*.tmp
-
-# Hypothesis testing
-.hypothesis/
-
-# Virtual environments
-.venv/
-.venv_local/
-venv/
-env/
-ENV/
-
-# Logs & Artifacts
-*.log
-logs/
-.reports/
-reports/
-.coverage
-htmlcov/
-coverage.xml
-junit.xml
-bandit-report.json
-gitleaks-report.json
-
+# Agent test scripts with secrets
 # Agent-generated artifacts
-.agents/
-agents/chroma_db/
-apps/plans/
-apps/reports/
-apps/logs/
-agent-logs-*.zip
-
-# Logs
-**/*.log
-
-# Scan caches
-it_compass/*.json
-
-# Test reports
-diagnostic_report.json
-health_check_report.json
-*_test_results.json
-phase2_*_test_results.json
-
-# Secrets
-.env
-.env.local
-.env.*
-*.pem
-*.key
-*.p12
-*.ppk
-*.pub
-id_rsa
-id_rsa.*
-id_ed25519
-id_ed25519.*
-ssh_host_*
-known_hosts
-authorized_keys
-*.crt
-*.cer
-*.der
-*.pfx
-secrets.json
-secrets/
-
-# IDE
-.vscode/
-.idea/
-.kodacli/
-.gigaide/
-.koda/
-.obsidian/
-.continue/
-.ruff_cache/
-
+# AI Assistants
+# Archive
+# Backups
+# Cognitive Agent (agents/)
+# Database dumps
+# Docker volumes
+# Documentation builds
+# Generated & Static
 # GigaCode secrets
+# Hypothesis testing
+# IDE
+# Legacy agent directories (OLD standalone agent)
+# Legacy код (не используется в production)
+# Logs
+# Logs & Artifacts
+# Misc
+# Monitoring data
+# OS
+# Personal scripts
+# Pip cache
+# Planning reports
+# Python
+# Reports archive
+# Scan caches
+# Secrets
+# Security scans
+# Standalone repos
+# Temp directories
+# Temp files
+# Temporary tool files
+# Terraform
+# Test outputs
+# Test reports
+# Virtual environments
+# Windows recycle
+# Working dirs
+# Артефакты работы агента (runtime data)
+# Архив runtime-артефактов агента
+# Бэкапы агента
+# Временные скрипты
+# Временные файлы аудита зависимостей (не коммитить)
+# Данные обучения
+# Кэш Python
+# Логи и артефакты агента (не коммитить в Git)
+# Отчёты анализаторов (генерируются автоматически)
+$RECYCLE.BIN/
+* (*).*
+*$py.class
+**/*.log
+**/.gigacode/**/*.token_cache.json
 **/.gigacode/*.env
 **/.gigacode/*.env.*
-**/.gigacode/**/*.token_cache.json
-**/.gigacode/__pycache__/
 **/.gigacode/*.pyc
-.gigacode/
-
-# AI Assistants
-.codeassistant/
-.chat-cache/
-
-# Generated & Static
-docs/archive/site-html-build/
-docs/_site/
-site/
-python_server/static/
+**/.gigacode/__pycache__/
 **/node_modules/
-client/dist/
-test_db/
-*.sqlite3
-
-# OS
-.DS_Store
-Thumbs.db
-.azure/
-* (*).*
+*.backup
+*.backup.*
 *.bak
+*.cer
+*.crt
+*.der
+*.dump
+*.egg
+*.egg-info/
+*.ipynb
+*.joblib
+*.key
+*.log
+*.p12
+*.pem
+*.pfx
+*.pid
+*.pkl
+*.ppk
+*.pub
+*.py[cod]
+*.scan.json
+*.so
+*.sql
+*.sqlite3
+*.swo
+*.swp
+*.temp
+*.test.html
+*.tfstate
 *.tmp
-
-# Archive
+*.volume/
+*_backup/
+*_test_results.json
+*~
+.agent_backups/
+.agents/
+.agents/plans/
 .archive/
-legacy/
-
-# Standalone repos
-cognitive-agent-standalone/
-it_compass-standalone/
-portfolio_organizer-standalone/
-system_proof-standalone/
-
-# Temporary tool files
-diagnosis.ps1
-fix-vscode.ps1
-ruff.toml
-fix_*.py
+.azure/
+.cache/
+.chat-cache/
+.codeassistant/
+.continue/
+.coverage
+.DS_Store
+.eggs/
+.env
+.env.*
+.env.local
+.gigacode/
+.gigaide/
+.hypothesis/
+.idea/
+.installed.cfg
+.ipynb_checkpoints/
+.koda/
+.kodacli/
+.obsidian/
+.pytest_cache/
+.Python
+.reports/
+.ruff_cache/
+.scripts/
+.sys_path_backup_*/
+.terraform/
+.venv/
+.venv_local/
+.vscode/
+/cognitive_agent/
+__pycache__/
 _debug_*.py
-sitecustomize.py
-commit_msg*.txt
-decode_key.py
-temp_get_token.py
-run-tests-safe.py
-
-# Working dirs
-no_commit/
-repo-env/
-sandbox/
-
-# Reports archive
-docs/reports/archive/
-docs-archive/
-reports/planning/
-
-# Cognitive Agent (agents/)
+add_integrations*.py
+agent_self_analysis_report.*
+agent-logs-*.zip
 agents/*/local/
 agents/*/temp/
-
-# Personal scripts
-.scripts/
-
-# Planning reports
-tools/knowledge-extractor/chat-export-*.json
-tools/knowledge-extractor/extracted_cases.md
-
-# Misc
-DEPENDBOT_PR_REVIEW.md
-apps/*/configs/vscode_settings.json
-apps/*/config/settings.json
-tools/.vscode/settings.json
-tools/devtools/.vscode/settings.json
-
-# Temp files
-*.tmp
-*.temp
-*.bak
-*.swp
-*.swo
-*~
-*.pid
-debug_*.py
-temp_*.py
-test_*.log
-.ipynb_checkpoints/
-*.ipynb
-
-# Security scans
-*.scan.json
-scan_results/
-security_scan/
-
-# Database dumps
-*.dump
-*.sql
-backup_*.sql
-
-# Monitoring data
-prometheus/data/
-grafana/data/
-grafana/sessions/
-
-# Docker volumes
-docker/volumes/
-*.volume/
-
-# Documentation builds
-docs/_build/
-docs/.build/
-
-# Test outputs
-test_output/
-test_reports/
-*.test.html
-
-# Terraform
-.terraform/
-terraform.tfstate*
-*.tfstate
-
-# Pip cache
-pip-wheel-metadata/
-pip-log.txt
-
-# Windows recycle
-$RECYCLE.BIN/
-System Volume Information/
-
-# Backups
-*_backup/
-*.backup.*
-backup_*
-.sys_path_backup_*/
-
-# Temp directories
-tmp/
-temp/
-cache/
-.cache/
-downloads/
-
-# ============================================
-# Логи и артефакты агента (не коммитить в Git)
-# ============================================
-apps/logs/
-apps/reports/
-# Кэш Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.ruff_cache/
-.pytest_cache/
-# Данные обучения
-*.pkl
-*.joblib
-
-# Временные файлы аудита зависимостей (не коммитить)
-audit_report.txt
-current_deps.txt
-pip-conflicts.txt
-requirements.audit.txt
-requirements.clean.txt
-.agents/plans/
-
-# ============================================
-# Артефакты работы агента (runtime data)
-# ============================================
-
-# Legacy код (не используется в production)
-legacy/
-
-# Архив runtime-артефактов агента
-
-# Отчёты анализаторов (генерируются автоматически)
-agent_self_analysis_report.*
-complete_strategic_report.*
-ddd_analysis_report.*
-
-# Бэкапы агента
-.agent_backups/
-*.backup
-
-# Временные скрипты
-add_integrations*.py
-check_integrations.py
-smart_agent_patch.py
-/cognitive_agent/
+agents/chroma_db/
+agents/cognitive_agent/.env.local
+agents/cognitive_agent/backups/
+agents/cognitive_agent/cache/
+agents/cognitive_agent/data/
+agents/cognitive_agent/knowledge/
 agents/cognitive_agent/logs/
 agents/cognitive_agent/metrics/
-agents/cognitive_agent/scans/
-agents/cognitive_agent/data/
-agents/cognitive_agent/cache/
-agents/cognitive_agent/status/
-agents/cognitive_agent/backups/
 agents/cognitive_agent/models/
 agents/cognitive_agent/recommendations/
-agents/cognitive_agent/knowledge/
 agents/cognitive_agent/reports/
+agents/cognitive_agent/scans/
+agents/cognitive_agent/status/
 agents/cognitive_agent/temp/
-agents/cognitive_agent/.env.local
-.vscode/
+apps/*/config/settings.json
+apps/*/configs/vscode_settings.json
+apps/logs/
+apps/plans/
+apps/reports/
+audit_report.txt
+authorized_keys
+backup_*
+backup_*.sql
+bandit-report.json
+build/
+cache/
+check_integrations.py
+client/dist/
+cognitive-agent-standalone/
+commit_msg*.txt
+complete_strategic_report.*
+coverage.xml
+current_deps.txt
+ddd_analysis_report.*
+debug_*.py
+decode_key.py
+DEPENDBOT_PR_REVIEW.md
+develop-eggs/
+diagnosis.ps1
+diagnostic_report.json
+dist/
+docker/volumes/
+docs/.build/
+docs/_build/
+docs/_site/
+docs/archive/site-html-build/
+docs/reports/archive/
+docs-archive/
+downloads/
+eggs/
+env/
+ENV/
+fix_*.py
+gitleaks-report.json
+grafana/data/
+grafana/sessions/
+health_check_report.json
+htmlcov/
+id_ed25519
+id_ed25519.*
+id_rsa
+id_rsa.*
+it_compass/*.json
+it_compass-standalone/
+junit.xml
+known_hosts
+legacy/
+lib/
+lib64/
+logs/
+no_commit/
+parts/
+phase2_*_test_results.json
+pip-conflicts.txt
+pip-log.txt
+pip-wheel-metadata/
+portfolio_organizer-standalone/
+prometheus/data/
+python_server/static/
+repo-env/
+reports/
+reports/planning/
+requirements.audit.txt
+requirements.clean.txt
+ruff.toml
+run-tests-safe.py
+sandbox/
+scan_results/
+sdist/
+secrets.json
+secrets/
+security_scan/
+site/
+sitecustomize.py
+smart_agent_patch.py
+ssh_host_*
+System Volume Information/
+system_proof-standalone/
+temp/
+temp_*.py
+temp_get_token.py
+terraform.tfstate*
+test_*.log
+test_db/
+test_output/
+test_reports/
+Thumbs.db
+tmp/
+tools/knowledge-extractor/chat-export-*.json
+tools/knowledge-extractor/extracted_cases.md
+var/
+venv/
+wheels/
