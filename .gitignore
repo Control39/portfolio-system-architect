@@ -21,6 +21,10 @@ wheels/
 
 # Agent test scripts with secrets
 agents/cognitive_agent/scripts/1.py
+
+# Legacy agent directories
+cognitive_agent/
+agents/cognitive_agent/autonomous_agent_enterprise_backup.py
 *.egg
 *.tmp
 
@@ -47,8 +51,7 @@ bandit-report.json
 gitleaks-report.json
 
 # Agent-generated artifacts
-.agents/reports/
-.agents/logs/performance.csv
+.agents/
 apps/plans/
 apps/reports/
 agents/cognitive_agent/.agent_data/
