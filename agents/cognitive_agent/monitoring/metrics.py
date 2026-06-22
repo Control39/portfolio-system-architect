@@ -2,8 +2,6 @@
 
 import statistics
 from collections import deque
-from datetime import datetime
-from typing import Any
 
 
 class MetricsCollector:
@@ -74,12 +72,8 @@ class MetricsCollector:
 
         # Среднее время сканирования
         if self.metrics["scan_duration_history"]:
-            metrics["avg_scan_duration"] = statistics.mean(
-                self.metrics["scan_duration_history"]
-            )
-            metrics["median_scan_duration"] = statistics.median(
-                self.metrics["scan_duration_history"]
-            )
+            metrics["avg_scan_duration"] = statistics.mean(self.metrics["scan_duration_history"])
+            metrics["median_scan_duration"] = statistics.median(self.metrics["scan_duration_history"])
             metrics["max_scan_duration"] = max(self.metrics["scan_duration_history"])
             metrics["min_scan_duration"] = min(self.metrics["scan_duration_history"])
         else:
@@ -87,12 +81,8 @@ class MetricsCollector:
 
         # Среднее время ответа
         if self.metrics["response_times"]:
-            metrics["avg_response_time"] = statistics.mean(
-                self.metrics["response_times"]
-            )
-            metrics["median_response_time"] = statistics.median(
-                self.metrics["response_times"]
-            )
+            metrics["avg_response_time"] = statistics.mean(self.metrics["response_times"])
+            metrics["median_response_time"] = statistics.median(self.metrics["response_times"])
         else:
             metrics["avg_response_time"] = 0.0
 
@@ -102,16 +92,12 @@ class MetricsCollector:
 
         # Среднее использование ресурсов
         if self.metrics["cpu_usage_history"]:
-            metrics["avg_cpu_usage"] = statistics.mean(
-                self.metrics["cpu_usage_history"]
-            )
+            metrics["avg_cpu_usage"] = statistics.mean(self.metrics["cpu_usage_history"])
         else:
             metrics["avg_cpu_usage"] = 0.0
 
         if self.metrics["memory_usage_history"]:
-            metrics["avg_memory_usage"] = statistics.mean(
-                self.metrics["memory_usage_history"]
-            )
+            metrics["avg_memory_usage"] = statistics.mean(self.metrics["memory_usage_history"])
         else:
             metrics["avg_memory_usage"] = 0.0
 

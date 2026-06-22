@@ -1,7 +1,6 @@
 """Security module for cognitive agent."""
 
 from pathlib import Path
-from typing import Any
 
 
 class SecurityManager:
@@ -38,7 +37,7 @@ class SecurityManager:
             self.blocked_patterns = self.guardrails.get("blocked_patterns", [])
             self.safe_actions = self.guardrails.get("safe_actions", ["read", "scan", "analyze"])
 
-        except Exception as e:
+        except Exception:
             self.guardrails_loaded = False
             self._load_default_guardrails()
 
@@ -48,9 +47,7 @@ class SecurityManager:
             "allowed_paths": ["^apps/", "^agents/", "^config/"],
             "blocked_patterns": [r"../", r"/etc/", r"~/", r"\.env", r"\.pem", r"\.key"],
             "safe_actions": ["read", "scan", "analyze", "list"],
-            "rules": [
-                {"pattern": ".*\\.(key|pem|env)$", "action_pattern": ".*", "action": "block"}
-            ],
+            "rules": [{"pattern": ".*\\.(key|pem|env)$", "action_pattern": ".*", "action": "block"}],
         }
         self.allowed_paths = self.guardrails["allowed_paths"]
         self.blocked_patterns = self.guardrails["blocked_patterns"]

@@ -5,12 +5,8 @@ Service Tier: CORE
 Purpose: Unit and integration testing for base cognitive agent functionality
 """
 
-import asyncio
-import builtins
-import datetime
 import tempfile
 from pathlib import Path
-from unittest.mock import AsyncMock, patch
 
 import pytest
 

@@ -11,7 +11,7 @@ print(f"Agent created: {agent.agent_id}")
 agent.start(background=False)
 print("Agent started")
 
-# Test stop method  
+# Test stop method
 agent.stop()
 print("Agent stopped")
 

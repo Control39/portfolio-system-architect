@@ -3,9 +3,6 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
-
-import structlog
 
 
 class AuditLogger:
@@ -13,9 +10,7 @@ class AuditLogger:
 
     def __init__(self, agent_id: str, log_file: str = None, structured_logger=None):
         self.agent_id = agent_id
-        self.log_file = log_file or str(
-            Path.home() / ".agent_data" / "logs" / "agent_audit.jsonl"
-        )
+        self.log_file = log_file or str(Path.home() / ".agent_data" / "logs" / "agent_audit.jsonl")
         self.structured_logger = structured_logger
         self._ensure_log_file()
 

@@ -21,7 +21,6 @@ Autonomous Cognitive Agent - Автономный AI-агент
 
 import asyncio
 import datetime
-import logging
 import re
 from pathlib import Path
 from typing import Any
@@ -30,7 +29,6 @@ from typing import Any
 from agents.cognitive_agent.core.base_agent import get_agent_data_dir, get_repo_root
 from agents.cognitive_agent.integrations import AIProviderIntegration, JobAgentIntegration
 from agents.cognitive_agent.monitoring.audit_logger import AuditLogger
-from agents.cognitive_agent.monitoring.logging import StructuredLogger
 from agents.cognitive_agent.monitoring.metrics import MetricsCollector
 from agents.cognitive_agent.self_testing_module import SelfTestingModule
 from agents.cognitive_agent.src.base_agent import BaseCognitiveAgent
@@ -39,10 +37,6 @@ from agents.cognitive_agent.src.project_scanner import ProjectScanner
 
 # ⭐ [HYBRID] Prompt Engine
 from agents.cognitive_agent.src.prompt_engine import PromptEngine
-from apps.ai_provider_manager.src.ai_provider_manager import (
-    chat_with_fallback,
-)
-from apps.it_compass.src.it_compass_scanner import get_scanner
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = get_repo_root()
@@ -179,11 +173,14 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 self._save_scan_results()
 
                 logger.info(f"✅ Project scan complete: {len(self.scan_results.get('files', []))} files analyzed")
-                self.audit_logger.log_action("scan_completed", {
-                    "mode": mode,
-                    "files_scanned": len(self.scan_results.get("files", [])),
-                    "issues_found": len(self.recommendations)
-                })
+                self.audit_logger.log_action(
+                    "scan_completed",
+                    {
+                        "mode": mode,
+                        "files_scanned": len(self.scan_results.get("files", [])),
+                        "issues_found": len(self.recommendations),
+                    },
+                )
         except Exception as e:
             logger.error(f"❌ Scan failed: {e}")
             self.audit_logger.log_action("scan_failed", {"mode": mode, "error": str(e)}, "failed")
@@ -204,10 +201,9 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         is_valid, validation_msg = self._validate_task(task)
         if not is_valid:
             logger.error(f"❌ Task validation failed: {validation_msg}")
-            self.audit_logger.log_action("task_rejected", {
-                "task_preview": task[:100],
-                "reason": validation_msg
-            }, "blocked")
+            self.audit_logger.log_action(
+                "task_rejected", {"task_preview": task[:100], "reason": validation_msg}, "blocked"
+            )
             return {"success": False, "error": validation_msg}
 
         # Проверка guardrails
@@ -216,36 +212,28 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             self._check_rate_limit()
 
             logger.info(f"⚡ Executing task: {task[:100]}...")
-            self.audit_logger.log_action("task_execution_started", {
-                "task_preview": task[:100],
-                "auto_approve": auto_approve
-            })
+            self.audit_logger.log_action(
+                "task_execution_started", {"task_preview": task[:100], "auto_approve": auto_approve}
+            )
 
             # Генерация решения через AI
             response = self._call_ai_with_timeout(
                 prompt=task,
-                system_message="Ты — автономный когнитивный агент. Предложи конкретное решение задачи. Формат: JSON с полями: action, description, files_to_modify."
+                system_message="Ты — автономный когнитивный агент. Предложи конкретное решение задачи. Формат: JSON с полями: action, description, files_to_modify.",
             )
 
             if response is None:
-                return {
-                    "success": False,
-                    "error": "AI timeout or error",
-                    "task": task
-                }
+                return {"success": False, "error": "AI timeout or error", "task": task}
 
             # Валидация AI-ответа
             is_safe, safety_msg = self._validate_ai_response(response)
             if not is_safe:
                 logger.error(f"🚫 AI response blocked: {safety_msg}")
-                return {
-                    "success": False,
-                    "error": safety_msg,
-                    "task": task
-                }
+                return {"success": False, "error": safety_msg, "task": task}
 
             # Парсинг ответа
             import json
+
             try:
                 json_match = re.search(r"\{.*\}", response, re.DOTALL)
                 if json_match:
@@ -258,28 +246,16 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 solution = {"action": "text_response", "description": response}
 
             # Сохранение результата
-            self.audit_logger.log_action("task_completed", {
-                "task_preview": task[:100],
-                "action": solution.get("action", "unknown")
-            }, "success")
+            self.audit_logger.log_action(
+                "task_completed", {"task_preview": task[:100], "action": solution.get("action", "unknown")}, "success"
+            )
 
-            return {
-                "success": True,
-                "solution": solution,
-                "task": task
-            }
+            return {"success": True, "solution": solution, "task": task}
 
         except Exception as e:
             logger.error(f"❌ Task execution failed: {e}")
-            self.audit_logger.log_action("task_failed", {
-                "task_preview": task[:100],
-                "error": str(e)
-            }, "failed")
-            return {
-                "success": False,
-                "error": str(e),
-                "task": task
-            }
+            self.audit_logger.log_action("task_failed", {"task_preview": task[:100], "error": str(e)}, "failed")
+            return {"success": False, "error": str(e), "task": task}
 
     async def _run_periodic_scan(self):
         """Периодическое сканирование в фоновом режиме"""
