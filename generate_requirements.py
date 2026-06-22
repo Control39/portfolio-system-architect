@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Generate requirements.txt from Pipfile.lock with exact versions"""
+
 import json
 from pathlib import Path
 
 # Read Pipfile.lock
 pipfile_lock_path = Path("C:/repo/Pipfile.lock")
-with open(pipfile_lock_path, "r", encoding="utf-8") as f:
+with open(pipfile_lock_path, encoding="utf-8") as f:
     pipfile_lock = json.load(f)
 
 # Extract packages with exact versions

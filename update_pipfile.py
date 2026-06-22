@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Update Pipfile to include all packages from current requirements.txt"""
+
 import re
 from pathlib import Path
 
 # Read requirements.txt
 requirements_path = Path("C:/repo/requirements.txt")
-with open(requirements_path, "r", encoding="utf-8") as f:
+with open(requirements_path, encoding="utf-8") as f:
     requirements_content = f.read()
 
 # Parse requirements.txt - extract package names and versions
@@ -27,7 +28,7 @@ for line in requirements_content.strip().split("\n"):
         version = match.group(2)
 
         # Check if this is a dev package
-        dev_keywords = ['pytest', 'black', 'ruff', 'mypy', 'bandit', 'coverage', 'detect-secrets']
+        dev_keywords = ["pytest", "black", "ruff", "mypy", "bandit", "coverage", "detect-secrets"]
         if any(kw in package_name.lower() for kw in dev_keywords):
             dev_packages.append((package_name, version))
         else:
@@ -37,7 +38,7 @@ print(f"Parsed {len(packages)} regular packages and {len(dev_packages)} dev pack
 
 # Read current Pipfile
 pipfile_path = Path("C:/repo/Pipfile")
-with open(pipfile_path, "r", encoding="utf-8") as f:
+with open(pipfile_path, encoding="utf-8") as f:
     pipfile_content = f.read()
 
 # Find section positions
@@ -61,12 +62,12 @@ for package_name, version in dev_packages:
 
 # Reconstruct Pipfile
 new_pipfile_content = (
-    pipfile_content[:packages_section_start] +
-    new_packages_section +
-    "\n" +
-    new_dev_section +
-    "\n" +
-    pipfile_content[requires_start:]
+    pipfile_content[:packages_section_start]
+    + new_packages_section
+    + "\n"
+    + new_dev_section
+    + "\n"
+    + pipfile_content[requires_start:]
 )
 
 # Write updated Pipfile
