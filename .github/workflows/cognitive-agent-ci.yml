@@ -45,7 +45,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
@@ -89,7 +89,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
@@ -143,7 +143,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
@@ -198,7 +198,7 @@ jobs:
           fi
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
@@ -255,7 +255,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache pip dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ github.job }}-${{ hashFiles('apps/cognitive_agent/requirements.txt') }}
