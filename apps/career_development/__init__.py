@@ -1,3 +1,0 @@
-"""
-Career Development src package.
-"""
