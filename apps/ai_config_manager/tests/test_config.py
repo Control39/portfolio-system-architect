@@ -21,7 +21,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import yaml
 
-# conftest.py добавляет apps/ai_config_manager/src в sys.path
+# conftest.py добавляет корневой src/ и репозиторий в sys.path
 from ai_config_manager.config_manager import ConfigManager
 from ai_config_manager.validators import AIConfig, ResourceType
 from pydantic import ValidationError
