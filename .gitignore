@@ -1,4 +1,3 @@
-
 # ============================================
 # Agent backup files
 # Agent test scripts with secrets
@@ -281,71 +280,25 @@ chroma_data/
 
 # === Node modules ===
 node_modules/
-EOFcat >> .gitignore << 'EOF'
 
-# === Cognitive Agent temporary files ===
-.cognitive_agent_scan_cache.json
-agents/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.agent_data/
-agents/cognitive_agent/plans/
-*.backup_*
-*_backup.py
+# === Scripts directories (generated during refactoring) ===
+# scripts/build/automation/cache/
+# scripts/build/ci/cache/
+# scripts/build/deployment/cache/
+# scripts/build/diagnostics/cache/
+# scripts/build/generators/cache/
+# scripts/build/management/cache/
+# scripts/build/security/cache/
+# scripts/deploy/cache/
+# scripts/runtime/cache/
+# scripts/dev/cache/
 
-# === Temporary scripts ===
-agents/cognitive_agent/scripts/1.py
+# === Temp files in scripts ===
+# scripts/**/temp_*.py
+# scripts/**/*_test.py
+# scripts/**/test_*.py
+# scripts/**/*_check.py
+# scripts/**/check_*.py
 
-# === Archives ===
-archive/
-
-# === Duplicate directories ===
-apps/cognitive_agent/
-
-# === Python cache ===
-__pycache__/
-*.py[cod]
-
-# === Logs ===
-logs/
-*.log
-
-# === ChromaDB ===
-chroma_db/
-chroma_data/
-
-# === Node modules ===
-node_modules/
-
-# === Cognitive Agent temporary files ===
-.cognitive_agent_scan_cache.json
-agents/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.agent_data/
-agents/cognitive_agent/plans/
-*.backup_*
-*_backup.py
-
-# === Temporary scripts ===
-agents/cognitive_agent/scripts/1.py
-
-# === Archives ===
-archive/
-
-# === Duplicate directories ===
-apps/cognitive_agent/
-
-# === Python cache ===
-__pycache__/
-*.py[cod]
-
-# === Logs ===
-logs/
-*.log
-
-# === ChromaDB ===
-chroma_db/
-chroma_data/
-
-# === Node modules ===
-node_modules/
-TODO.md
+# === Personal scripts (local user scripts) ===
+.scripts/

@@ -48,7 +48,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
 COMPONENT_CONFIG = DEFAULT_CONFIG.copy()
 
 try:
-    from decision_engine.configs.loader import COMPONENT_CONFIG as LOADED_CONFIG
+    from apps.decision_engine.configs.loader import COMPONENT_CONFIG as LOADED_CONFIG
 
     if LOADED_CONFIG and isinstance(LOADED_CONFIG, dict):
         COMPONENT_CONFIG = LOADED_CONFIG
