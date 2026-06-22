@@ -439,6 +439,38 @@ class ProjectScanner:
             "timestamp": start_time.isoformat(),
         }
 
+    def scan_project(self, mode: str = "auto") -> dict[str, Any]:
+        """
+        Сканировать проект (унифицированный метод)
+
+        Args:
+            mode: Режим сканирования
+                - "auto": автоматический (git diff если есть изменения, иначе skip)
+                - "git_diff": только изменённые файлы
+                - "full": полное сканирование
+                - "paths": выборочное
+
+        Returns:
+            dict[str, Any]: Результаты сканирования
+        """
+        if mode == "auto":
+            # Автоматический режим: используем git diff если это git репозиторий
+            if self._is_git_repo():
+                return self.scan_git_diff()
+            else:
+                # Если не git репозиторий, делаем полное сканирование
+                return self.scan_full()
+        elif mode == "git_diff":
+            return self.scan_git_diff()
+        elif mode == "full":
+            return self.scan_full()
+        elif mode == "paths":
+            # Для paths режима нужно указать конкретные пути
+            return self.scan_paths([])
+        else:
+            logger.warning(f"Неизвестный режим сканирования: {mode}, используем full")
+            return self.scan_full()
+
     def export_results(self, results: dict[str, Any], output_file: str, format: str = "json") -> None:
         """Экспортировать результаты в указанный формат"""
         try:
