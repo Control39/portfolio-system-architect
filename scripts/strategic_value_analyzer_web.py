@@ -24,11 +24,9 @@ sys.path.insert(0, str(repo_root))
 from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 # Типы проектов
 class ProjectType(Enum):
@@ -120,8 +118,7 @@ class StrategicValueAnalyzer:
             "ml",
             "blockchain",
         ]
-        modern_score = sum(1 for tech in metrics.tech_stack if any(
-            mod in tech.lower() for mod in modern_tech))
+        modern_score = sum(1 for tech in metrics.tech_stack if any(mod in tech.lower() for mod in modern_tech))
         score += min(modern_score * 3, 20)
 
         # Зависимости
@@ -260,36 +257,29 @@ class StrategicValueAnalyzer:
 
         # Рекомендации по технологиям
         if scores["technology"] < 60:
-            recommendations.append(
-                "Рассмотрите обновление технологического стека для повышения конкурентоспособности")
+            recommendations.append("Рассмотрите обновление технологического стека для повышения конкурентоспособности")
 
         # Рекомендации по рынку
         if scores["market"] < 70:
             if metrics.competition_level > 0.7:
-                recommendations.append(
-                    "Высокий уровень конкуренции - рассмотрите дифференциацию продукта")
+                recommendations.append("Высокий уровень конкуренции - рассмотрите дифференциацию продукта")
             if metrics.market_demand < 0.5:
-                recommendations.append(
-                    "Низкий спрос на рынке - пересмотрите ценность предложения")
+                recommendations.append("Низкий спрос на рынке - пересмотрите ценность предложения")
 
         # Рекомендации по команде
         if scores["team"] < 65:
             if metrics.team_size < 3:
-                recommendations.append(
-                    "Увеличьте размер команды для повышения эффективности")
+                recommendations.append("Увеличьте размер команды для повышения эффективности")
             if metrics.team_expertise < 0.6:
-                recommendations.append(
-                    "Инвестируйте в развитие экспертизы команды")
+                recommendations.append("Инвестируйте в развитие экспертизы команды")
 
         # Рекомендации по инновациям
         if scores["innovation"] < 70:
-            recommendations.append(
-                "Повысьте уровень инноваций через исследования и внедрение новых технологий")
+            recommendations.append("Повысьте уровень инноваций через исследования и внедрение новых технологий")
 
         # Рекомендации по масштабируемости
         if scores["scalability"] < 65:
-            recommendations.append(
-                "Оптимизируйте архитектуру для лучшей масштабируемости")
+            recommendations.append("Оптимизируйте архитектуру для лучшей масштабируемости")
 
         # Рекомендации по рискам
         if scores["risk"] < 75:
@@ -297,12 +287,10 @@ class StrategicValueAnalyzer:
 
         # Общие рекомендации
         if metrics.budget < 50000:
-            recommendations.append(
-                "Рассмотрите привлечение дополнительного финансирования")
+            recommendations.append("Рассмотрите привлечение дополнительного финансирования")
 
         if metrics.timeline_months > 12:
-            recommendations.append(
-                "Оптимизируйте план реализации для сокращения сроков")
+            recommendations.append("Оптимизируйте план реализации для сокращения сроков")
 
         return recommendations
 
@@ -321,8 +309,7 @@ class StrategicValueAnalyzer:
         }
 
         # Расчет общей оценки
-        weighted_sum = sum(
-            scores[key] * self.weights[key.replace("_", "")] for key in scores)
+        weighted_sum = sum(scores[key] * self.weights[key.replace("_", "")] for key in scores)
         overall_score = weighted_sum
 
         # Генерация рекомендаций
@@ -345,8 +332,7 @@ class StrategicValueAnalyzer:
         if scores["team"] >= 80:
             strengths.append("Сильная и компетентная команда")
         elif scores["team"] < 60:
-            weaknesses.append(
-                "Необходимо усилить команду или повысить квалификацию")
+            weaknesses.append("Необходимо усилить команду или повысить квалификацию")
 
         if scores["innovation"] >= 80:
             strengths.append("Высокий уровень инноваций")
@@ -387,8 +373,7 @@ class StrategicValueAnalyzer:
             detailed_breakdown=scores,
         )
 
-        logger.info(
-            f"Analysis completed for {metrics.name}. Overall score: {result.overall_score}")
+        logger.info(f"Analysis completed for {metrics.name}. Overall score: {result.overall_score}")
         return result
 
 
@@ -675,12 +660,14 @@ async def shutdown_event():
 
 class TaskRequest(BaseModel):
     """Модель запроса задачи"""
+
     task: str
     auto_approve: bool = False
 
 
 class ScanRequest(BaseModel):
     """Модель запроса сканирования"""
+
     mode: str = "auto"
 
 
@@ -718,10 +705,7 @@ async def analyze(request: Request):
 
         for field in required_fields:
             if field not in data:
-                return JSONResponse(
-                    status_code=400,
-                    content={"error": f"Поле {field} обязательно"}
-                )
+                return JSONResponse(status_code=400, content={"error": f"Поле {field} обязательно"})
 
         # Создание объекта метрик
         metrics = ProjectMetrics(
@@ -751,10 +735,7 @@ async def analyze(request: Request):
 
     except Exception as e:
         logger.error(f"Error in analysis: {e}")
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e)}
-        )
+        return JSONResponse(status_code=500, content={"error": "Внутренняя ошибка сервера"})
 
 
 def run_server(host: str = "0.0.0.0", port: int = 8000):
