@@ -2,12 +2,12 @@ name: Service Structure Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, '**' ]
     paths:
       - 'apps/**'
       - '.github/workflows/service-structure.yml'
   pull_request:
-    branches: [main]
+    branches: [ main ]
     paths:
       - 'apps/**'
       - '.github/workflows/service-structure.yml'
