@@ -302,3 +302,4 @@ node_modules/
 
 # === Personal scripts (local user scripts) ===
 .scripts/
+.scripts/

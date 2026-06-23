@@ -9,9 +9,9 @@ exclude: |
     docs/archive/|
     docs/examples/legacy/|
     repo-env/|
-    apps/cognitive_agent/scripts/.*|  # Legacy scripts without type hints
-    apps/cognitive_agent/tools/.*|    # Legacy tools
-    apps/cognitive_agent/__init__\.py
+    agents/cognitive_agent/scripts/.*|  # Legacy scripts without type hints
+    agents/cognitive_agent/tools/.*|    # Legacy tools
+    agents/cognitive_agent/__init__\.py
   )$
 
 repos:
@@ -24,8 +24,8 @@ repos:
         # Исключаем сканер секретов (он содержит regex паттерны) и legacy конфиги
         exclude: |
           (?x)^(
-            apps/cognitive_agent/tools/python/secrets-scanner\.py|
-            apps/cognitive_agent/config/.*\.yaml|
+            agents/cognitive_agent/tools/python/secrets-scanner\.py|
+            agents/cognitive_agent/config/.*\.yaml|
             src/security/tests/test_secret_masking\.py|
             apps/decision_engine/tests/conftest\.py
           )$
@@ -57,7 +57,7 @@ repos:
         exclude: |
           (?x)^(
             tests/|
-            apps/cognitive_agent/tools/python/secrets-scanner\.py
+            agents/cognitive_agent/tools/python/secrets-scanner\.py
           )$
 
   # Python linting
@@ -83,7 +83,7 @@ repos:
         exclude: |
           (?x)^(
             .*test.*\.py|
-            apps/cognitive_agent/.*|
+            agents/cognitive_agent/.*|
             scripts/.*|
             tools/.*
           )$
@@ -107,7 +107,7 @@ repos:
     hooks:
       - id: check-ports
         name: Check port consistency
-        entry: python scripts/check_ports.py --skip-pythonpath
+        entry: python scripts/ci/check_ports.py --skip-pythonpath
         language: python
         additional_dependencies: [pyyaml]
         pass_filenames: false
