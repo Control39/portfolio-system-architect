@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 """Test enterprise classes integration"""
 
-from agents.cognitive_agent.autonomous_agent import (
-    AutonomousCognitiveAgent,
-    MetricsCollector,
-    AuditLogger,
-    SelfHealingSystem,
-    TaskPlanner,
-    StateManager
-)
+from agents.cognitive_agent.autonomous_agent import AuditLogger, MetricsCollector, StateManager, TaskPlanner
 
 print("✅ All enterprise classes imported successfully\n")
 
@@ -36,7 +29,7 @@ print("Test 3: Testing TaskPlanner...")
 planner.add_task("task1", {"action": "scan"})
 planner.add_task("task2", {"action": "analyze"}, dependencies=["task1"])
 ready = planner.get_ready_tasks()
-print(f"   Tasks added: 2")
+print("   Tasks added: 2")
 print(f"   Ready tasks: {len(ready)} (should be 1 - task1)")
 print(f"   Task1 status: {planner.get_task_status('task1')}")
 print("✅ TaskPlanner works\n")

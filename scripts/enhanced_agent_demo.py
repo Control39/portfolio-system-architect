@@ -1,10 +1,10 @@
 """
 Демонстрационный скрипт для улучшенного агента с анализом качества кода
 """
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
-import asyncio
 import sys
 from pathlib import Path
+
+from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
 
 # Добавляем корень проекта в путь для импорта
 repo_root = Path(__file__).parent.parent
@@ -81,7 +81,7 @@ def demo_project_scan_with_quality():
     # Запускаем сканирование проекта
     scan_results = agent.scan_project(mode="full")
 
-    print(f"\n📋 Результаты сканирования:")
+    print("\n📋 Результаты сканирования:")
     print(f"  - Режим: {scan_results['mode']}")
     print(f"  - Файлов просканировано: {scan_results['files']}")
     print(f"  - Проблем найдено: {len(scan_results['issues'])}")
@@ -90,7 +90,7 @@ def demo_project_scan_with_quality():
     # Показываем результаты анализа качества кода
     quality_results = scan_results.get('code_quality', {})
     if quality_results:
-        print(f"\n🔬 Результаты анализа качества кода:")
+        print("\n🔬 Результаты анализа качества кода:")
         summary = quality_results.get("summary", {})
         print(f"  - Ошибок типизации: {summary.get('total_errors', 0)}")
         print(f"  - Предупреждений: {summary.get('total_warnings', 0)}")

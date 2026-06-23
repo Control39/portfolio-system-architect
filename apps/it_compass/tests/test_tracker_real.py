@@ -14,7 +14,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from apps.it_compass.src.core.tracker import CareerTracker
 
 

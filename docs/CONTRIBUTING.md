@@ -87,7 +87,7 @@ git push origin feature/название-функции
 - [ ] Ветка обновлена до последней версии `main` (`git pull origin main`)
 - [ ] Все тесты проходят (`pytest tests/`)
 - [ ] Код соответствует стилю проекта (`ruff check .`, `black .`, `mypy .`)
-- [ ] **Порты сервисов согласованы** (`make check-ports` или `python scripts/check_ports.py --strict`)
+- [ ] **Порты сервисов согласованы** (`make check-ports` или `python scripts/ci/check_ports.py --strict`)
 - [ ] Дубликаты проверены (`python scripts/duplicate_finder.py`)
 - [ ] Документация обновлена при необходимости
 

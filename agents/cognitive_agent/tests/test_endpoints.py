@@ -15,8 +15,9 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # Import app
-from agents.cognitive_agent.src.api.endpoints import app
 from fastapi.testclient import TestClient
+
+from agents.cognitive_agent.src.api.endpoints import app
 
 # Create test client
 client = TestClient(app)

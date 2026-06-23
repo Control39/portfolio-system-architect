@@ -146,9 +146,8 @@ class BaseSecurityChecker:
         Returns:
             Кортеж (разрешено ли, сообщение)
         """
-        if self.is_critical_file(file_path):
-            if modification_type in ["write", "delete"]:
-                return False, f"Изменение критического файла {file_path} требует подтверждения"
+        if self.is_critical_file(file_path) and modification_type in ["write", "delete"]:
+            return False, f"Изменение критического файла {file_path} требует подтверждения"
 
         # Проверить путь на безопасность
         is_safe, message = self.validate_path(file_path)

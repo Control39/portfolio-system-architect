@@ -138,7 +138,7 @@ class TestEnhancedTaskPlanner:
             time.sleep(2)  # Задача занимает больше времени, чем таймаут
             return "slow_result"
 
-        task_id = planner.add_task("slow_task", slow_function, timeout=1)  # Таймаут 1 секунда
+        planner.add_task("slow_task", slow_function, timeout=1)  # Таймаут 1 секунда
 
         result = planner.execute_plan(max_iterations=1)
 
@@ -158,7 +158,7 @@ class TestEnhancedTaskPlanner:
                 raise Exception("Simulated failure")
             return "success_after_retry"
 
-        task_id = planner.add_task("flaky_task", flaky_function, max_retries=5)
+        planner.add_task("flaky_task", flaky_function, max_retries=5)
 
         result = planner.execute_plan(max_iterations=10)
 
@@ -201,7 +201,7 @@ class TestEnhancedTaskPlanner:
             nonlocal rollback_executed
             rollback_executed = True
 
-        task_id = planner.add_task(
+        planner.add_task(
             "failing_task",
             failing_function,
             max_retries=0,  # Без повторных попыток
@@ -231,7 +231,7 @@ class TestEnhancedTaskPlanner:
         assert status == TaskStatus.PENDING
 
         # Выполнить план
-        result = planner.execute_plan(max_iterations=1)
+        planner.execute_plan(max_iterations=1)
 
         # После выполнения задача должна быть в состоянии SUCCESS
         status = planner.get_task_status(task_id)

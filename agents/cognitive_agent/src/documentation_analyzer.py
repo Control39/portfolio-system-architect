@@ -64,7 +64,7 @@ class DocumentationAnalyzer:
         """Найти все файлы документации в проекте"""
         doc_files = []
 
-        for extension, format_type in self.supported_extensions.items():
+        for extension, _format_type in self.supported_extensions.items():
             for file_path in self.project_path.rglob(f"*{extension}"):
                 if not self._is_excluded(file_path):
                     doc_files.append(file_path)

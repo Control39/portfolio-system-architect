@@ -187,10 +187,7 @@ class HistoryKeeper:
             return True
 
         # Проверяем решение
-        if query_lower in decision.get("solution", "").lower():
-            return True
-
-        return False
+        return query_lower in decision.get("solution", "").lower()
 
     def _find_key_decisions(self, query: str) -> list[dict[str, Any]]:
         """Поиск ключевых решений"""

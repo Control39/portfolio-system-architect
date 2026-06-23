@@ -7,6 +7,7 @@
 - Интеграцию с ChromaDB
 """
 
+import contextlib
 import sys
 from pathlib import Path
 from unittest.mock import patch
@@ -42,10 +43,8 @@ class TestRAGIndexing:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         assert hasattr(agent, "search_similar_documents")
         assert callable(getattr(agent, "search_similar_documents", lambda: None))
@@ -56,10 +55,8 @@ class TestRAGIndexing:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         # Проверяем, что метод существует и может быть вызван
         try:
@@ -81,10 +78,8 @@ class TestRAGIndexing:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         # Проверяем, что метод может быть вызван
         try:
@@ -109,10 +104,8 @@ class TestChromaDBIntegration:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         assert hasattr(agent, "get_chroma_stats")
         assert callable(getattr(agent, "get_chroma_stats", lambda: None))
@@ -123,10 +116,8 @@ class TestChromaDBIntegration:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         assert hasattr(agent, "clear_chroma_collection")
         assert callable(getattr(agent, "clear_chroma_collection", lambda: None))
@@ -137,10 +128,8 @@ class TestChromaDBIntegration:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         try:
             # Мокаем реальные вызовы ChromaDB
@@ -161,10 +150,8 @@ class TestChromaDBIntegration:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         try:
             # Мокаем реальные вызовы ChromaDB
@@ -189,10 +176,8 @@ class TestRAGWithMockedChroma:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         # Мокаем методы для избежания реальных вызовов
         with patch.object(agent, "index_project_documents") as mock_index:
@@ -211,10 +196,8 @@ class TestRAGWithMockedChroma:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         # Мокаем методы для избежания реальных вызовов
         with patch.object(agent, "search_similar_documents") as mock_search:
@@ -237,10 +220,8 @@ class TestRAGFallbackMechanism:
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
-        try:
+        with contextlib.suppress(Exception):
             agent.__init__()
-        except Exception:
-            pass
 
         # Проверяем, что все основные RAG-методы существуют
         rag_methods = [

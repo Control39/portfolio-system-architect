@@ -95,10 +95,7 @@ class GitAutomation:
         self.run_git("pull origin main")
 
         # Мержим feature ветку
-        if squash:
-            merge_result = self.run_git(f"merge --squash {branch_name}")
-        else:
-            merge_result = self.run_git(f"merge {branch_name}")
+        merge_result = self.run_git(f"merge --squash {branch_name}") if squash else self.run_git(f"merge {branch_name}")
 
         # Коммитим
         commit_message = f"Merge feature: {feature_name}"

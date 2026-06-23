@@ -2,12 +2,14 @@ name: Security Audit
 
 on:
   push:
+    branches: [ main, '**' ]
     paths:
       - 'requirements*.txt'
       - 'pyproject.toml'
       - 'apps/**/*.py'
       - 'src/**/*.py'
   pull_request:
+    branches: [ main ]
     paths:
       - 'requirements*.txt'
       - 'pyproject.toml'

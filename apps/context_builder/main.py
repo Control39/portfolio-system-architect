@@ -28,6 +28,7 @@ try:
     )
 except ImportError:  # pragma: no cover
     # Fallback for tests that import `main` as a top-level module.
+    from config.settings import settings
     from core.builder import ContextBuilder
     from core.filters import FileFilter
     from core.scanner import ProjectScanner
@@ -37,8 +38,6 @@ except ImportError:  # pragma: no cover
         FilterConfigRequest,
         FilterConfigResponse,
     )
-
-    from config.settings import settings
 
 
 # © 2025 Ekaterina Kudelya. Licensed under CC BY‑ND 4.0
@@ -52,10 +51,7 @@ logging.basicConfig(
 logger = logging.getLogger(settings.service_name)
 
 # Rate limiting
-if settings.rate_limit_enabled:
-    limiter = Limiter(key_func=get_remote_address)
-else:
-    limiter = None
+limiter = Limiter(key_func=get_remote_address) if settings.rate_limit_enabled else None
 
 
 @asynccontextmanager

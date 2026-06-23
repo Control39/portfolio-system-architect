@@ -8,8 +8,8 @@ import logging
 import sys
 from pathlib import Path
 
-from assistant_orchestrator.core.analyzer import AssistantOrchestrator
-from assistant_orchestrator.core.reporter import Reporter
+from .core.analyzer import AssistantOrchestrator
+from .core.reporter import Reporter
 
 
 def setup_logging(verbose: bool = False):
@@ -71,7 +71,7 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        from assistant_orchestrator import __version__
+        from . import __version__
 
         print(f"Assistant Orchestrator v{__version__}")
         sys.exit(0)

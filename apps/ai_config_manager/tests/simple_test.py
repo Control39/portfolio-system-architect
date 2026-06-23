@@ -1,4 +1,5 @@
 import sys
+
 print("sys.path[0:5]:")
 for i, p in enumerate(sys.path[:5]):
     print(f"  [{i}]: {p}")

@@ -79,10 +79,7 @@ class ProjectScanner:
                     return True
 
         # Проверяем стандартные исключения
-        if any(part in settings.exclude_dirs for part in path.parts):
-            return True
-
-        return False
+        return bool(any(part in settings.exclude_dirs for part in path.parts))
 
     def _is_binary_file(self, file_path: Path) -> bool:
         """Определяет, является ли файл бинарным"""

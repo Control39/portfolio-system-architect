@@ -7,6 +7,7 @@ from pathlib import Path
 # Добавляем корень репозитория в путь
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Импортируем через полный путь от корня
 from apps.thought_architecture.src.api.app import app

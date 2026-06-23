@@ -74,9 +74,9 @@ def check_python_module() -> bool:
                 generate_with_yandex_gpt,
             )
 
-            YandexGPTConfig_used = True
+            yandex_gpt_config_used = True
         else:
-            YandexGPTConfig_used = False
+            yandex_gpt_config_used = False
 
         print("  ✅ Модуль yandex_gpt.py успешно импортирован")
         classes = "YandexGPTConfig, YandexGPTClient, create_yandex_gpt_client"
@@ -84,7 +84,7 @@ def check_python_module() -> bool:
         print(f"  📦 Доступные классы: {classes}")
 
         # Проверка создания конфигурации
-        if YandexGPTConfig_used:
+        if yandex_gpt_config_used:
             from src.shared.llm.yandex_gpt import YandexGPTConfig
 
             config = YandexGPTConfig()

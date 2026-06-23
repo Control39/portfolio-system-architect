@@ -209,7 +209,7 @@ class ErrorHandler:
         Returns:
             Действие восстановления
         """
-        error_type = type(error).__name__
+        type(error).__name__
 
         if isinstance(error, (ConfigurationError, ValidationError)):
             return "configuration_fix"  # Требуется исправление конфигурации

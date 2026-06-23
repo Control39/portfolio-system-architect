@@ -264,7 +264,7 @@ def test_service_initialization(service_instance, mock_dependencies):
 
 def test_dependency_injection(service_instance, mock_dependencies):
     """Test all dependencies are properly injected"""
-    for dep_name, dep_mock in mock_dependencies.items():
+    for _dep_name, dep_mock in mock_dependencies.items():
         assert dep_mock is not None
 
 

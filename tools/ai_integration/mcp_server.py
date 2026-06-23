@@ -70,7 +70,29 @@ class FileReadRequest(BaseModel):
 class PortfolioMCP:
     """MCP сервер для портфолио"""
 
-{"text": "    def __init__(self):\n        self.server = Server(\"portfolio-mcp-server\", \"0.1.0\")\n        self.giga_bridge = None\n        self.setup_tools()\n        self._initialize_giga_bridge()\n\n    def _initialize_giga_bridge(self) -> None:\n        \"\"\"Initialize GigaChat bridge if available.\"\"\"\n        try:\n            # Пытаемся импортировать GigaMCPBridge\n            sys.path.insert(0, str(project_root))\n            from src.ai.gigachat_bridge import GigaMCPBridge\n            self.giga_bridge = GigaMCPBridge()\n            logger.info(\"GigaChat bridge initialized successfully\")\n        except Exception as e:\n            logger.warning(f\"GigaChat bridge not available: {e}\")\n            self.giga_bridge = None"}
+    def __init__(self):
+        self.server = Server("portfolio-mcp-server", "0.1.0")
+        self.giga_bridge = None
+        self.setup_tools()
+        self._initialize_giga_bridge()
+
+    def _initialize_giga_bridge(self) -> None:
+        """Initialize GigaChat bridge if available."""
+        try:
+            # Пытаемся импортировать GigaMCPBridge
+            import logging
+            logger = logging.getLogger(__name__)
+            
+            sys.path.insert(0, str(project_root))
+            from src.ai.gigachat_bridge import GigaMCPBridge
+            self.giga_bridge = GigaMCPBridge()
+            logger.info("GigaChat bridge initialized successfully")
+        except ImportError:
+            logger.warning("GigaChat bridge module not available")
+            self.giga_bridge = None
+        except Exception as e:
+            logger.warning(f"GigaChat bridge not available: {e}")
+            self.giga_bridge = None
 
     def setup_tools(self):
         """Настройка инструментов MCP"""
@@ -121,357 +143,41 @@ class PortfolioMCP:
                 return [TextContent(type="text", text=f"Ошибка: {e!s}")]
 
         @self.server.tool()
-        async def get_professional_journey() -> list[TextContent]:
-            """Получить профессиональный путь автора"""
+        async def search_knowledge_base(query: str) -> list[TextContent]:
+            """Поиск в базе знаний"""
             try:
-                readme_path = project_root / "docs" / "professional-journey" / "README.md"
-                content = readme_path.read_text(encoding="utf-8")
-                return [TextContent(type="text", text=content)]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def list_project_files(directory: str = ".") -> list[TextContent]:
-            """Список файлов в проекте"""
-            try:
-                target_path = project_root / directory
-                if not target_path.exists():
-                    return [TextContent(type="text", text=f"Директория не существует: {directory}")]
-
-                files = []
-                for item in target_path.iterdir():
-                    files.append(
-                        {
-                            "name": item.name,
-                            "type": "directory" if item.is_dir() else "file",
-                            "size": item.stat().st_size if item.is_file() else 0,
-                        }
-                    )
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps(
-                            {"directory": directory, "files": files},
-                            indent=2,
-                            ensure_ascii=False,
-                        ),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def check_project_health() -> list[TextContent]:
-            """Проверить здоровье проекта"""
-            try:
-                checks = []
-
-                # Проверка существования ключевых файлов
-                key_files = [
-                    ".ai-context.md",
-                    "pyproject.toml",
-                    "README.md",
-                    "docs/professional-journey/README.md",
-                ]
-
-                for file in key_files:
-                    path = project_root / file
-                    checks.append(
-                        {
-                            "file": file,
-                            "exists": path.exists(),
-                            "size": path.stat().st_size if path.exists() else 0,
-                        }
-                    )
-
-                # Проверка Python окружения
-                try:
-                    import fastapi
-
-                    checks.append(
-                        {
-                            "check": "FastAPI",
-                            "status": "OK",
-                            "version": fastapi.__version__,
-                        }
-                    )
-                except ImportError:
-                    checks.append({"check": "FastAPI", "status": "NOT_INSTALLED"})
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps({"health_checks": checks}, indent=2, ensure_ascii=False),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def read_project_file(path: str) -> list[TextContent]:
-            """Прочитать любой файл проекта"""
-            try:
-                file_path = project_root / path
-                if not file_path.exists():
-                    return [TextContent(type="text", text=f"Файл не существует: {path}")]
-                if file_path.is_dir():
-                    return [TextContent(type="text", text=f"Это директория, а не файл: {path}")]
-
-                content = file_path.read_text(encoding="utf-8", errors="ignore")
-                return [TextContent(type="text", text=content)]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка чтения файла: {e!s}")]
-
-        @self.server.tool()
-        async def get_system_thinking_markers() -> list[TextContent]:
-            """Получить маркеры системного мышления"""
-            try:
-                markers_path = project_root / "apps" / "it-compass"
-                marker_files = []
-
-                if markers_path.exists():
-                    for item in markers_path.rglob("*.json"):
-                        if "system" in item.name.lower() or "thinking" in item.name.lower():
-                            try:
-                                content = json.loads(item.read_text(encoding="utf-8"))
-                                marker_files.append(
-                                    {
-                                        "file": str(item.relative_to(project_root)),
-                                        "markers_count": (
-                                            len(content.get("markers", [])) if isinstance(content, dict) else "unknown"
-                                        ),
-                                    }
-                                )
-                            except Exception:
-                                marker_files.append(
-                                    {
-                                        "file": str(item.relative_to(project_root)),
-                                        "error": "parse_error",
-                                    }
-                                )
-
-                if not marker_files:
-                    # Попробуем найти в других местах
-                    search_paths = [project_root / "docs", project_root / "src"]
-                    for sp in search_paths:
-                        if sp.exists():
-                            for item in sp.rglob("system_thinking*.json"):
-                                marker_files.append({"file": str(item.relative_to(project_root))})
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps(
-                            {"system_thinking_markers": marker_files},
-                            indent=2,
-                            ensure_ascii=False,
-                        ),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def get_rag_status() -> list[TextContent]:
-            """Получить статус RAG системы"""
-            try:
-                rag_paths = [
-                    project_root / "apps" / "decision-engine",
-                    project_root / "apps" / "system-proof",
-                    project_root / "gateway",
-                ]
-
-                status = {}
-                for path in rag_paths:
-                    if path.exists():
-                        files = list(path.rglob("*.py")) + list(path.rglob("*.yaml")) + list(path.rglob("*.yml"))
-                        status[str(path.relative_to(project_root))] = {
-                            "exists": True,
-                            "file_count": len(files),
-                            "has_docker": (path / "Dockerfile").exists(),
-                        }
-                    else:
-                        status[str(path.relative_to(project_root))] = {"exists": False}
-
-                # Проверка Chroma DB
-                chroma_path = project_root / "chroma_db"
-                status["chroma_db"] = {
-                    "exists": chroma_path.exists(),
-                    "is_dir": chroma_path.is_dir() if chroma_path.exists() else False,
-                }
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps({"rag_system_status": status}, indent=2, ensure_ascii=False),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def search_in_project(query: str, file_pattern: str = "*.py") -> list[TextContent]:
-            """Поиск текста в файлах проекта"""
-            try:
-                import fnmatch
-
+                # Простая реализация поиска
                 results = []
                 for root, dirs, files in os.walk(project_root):
-                    # Пропускаем некоторые директории
-                    skip_dirs = [".git", "__pycache__", "node_modules", ".venv"]
-                    dirs[:] = [d for d in dirs if d not in skip_dirs]
-
                     for file in files:
-                        if fnmatch.fnmatch(file, file_pattern):
-                            file_path = Path(root) / file
-                            try:
-                                content = file_path.read_text(encoding="utf-8", errors="ignore")
-                                if query.lower() in content.lower():
-                                    results.append(
-                                        {
-                                            "file": str(file_path.relative_to(project_root)),
-                                            "matches": content.lower().count(query.lower()),
-                                        }
-                                    )
-                            except Exception:
-                                continue
-
+                        if query.lower() in file.lower():
+                            results.append(os.path.join(root, file))
+                
                 return [
                     TextContent(
                         type="text",
-                        text=json.dumps(
-                            {
-                                "query": query,
-                                "file_pattern": file_pattern,
-                                "results_count": len(results),
-                                "results": results[:20],  # Ограничиваем вывод
-                            },
-                            indent=2,
-                            ensure_ascii=False,
-                        ),
+                        text=json.dumps({"results": results[:10]}, indent=2, ensure_ascii=False),
                     )
                 ]
             except Exception as e:
                 return [TextContent(type="text", text=f"Ошибка: {e!s}")]
 
         @self.server.tool()
-        async def get_service_status(service: str = "all") -> list[TextContent]:
-            """Получить статус сервисов проекта"""
-            try:
-                services = {
-                    "gateway": {
-                        "path": "gateway/main.py",
-                        "description": "API Gateway для маршрутизации запросов",
-                    },
-                    "portfolio-organizer": {
-                        "path": "apps/portfolio_organizer/src/app.py",
-                        "description": "Организатор портфолио",
-                    },
-                    "career-development": {
-                        "path": "apps/career_development/src",
-                        "description": "Система развития карьеры",
-                    },
-                    "decision-engine": {
-                        "path": "apps/decision_engine",
-                        "description": "RAG и reasoning система",
-                    },
-                    "system-proof": {
-                        "path": "apps/system_proof",
-                        "description": "Система доказательств и верификации",
-                    },
-                }
-
-                status = {}
-                for name, info in services.items():
-                    if service != "all" and service != name:
-                        continue
-
-                    path = project_root / info["path"]
-                    exists = path.exists()
-                    files = []
-
-                    if exists:
-                        if path.is_file():
-                            files = [{"name": path.name, "size": path.stat().st_size}]
-                        elif path.is_dir():
-                            py_files = list(path.rglob("*.py"))
-                            files = [{"name": f.name, "size": f.stat().st_size} for f in py_files[:5]]
-
-                    status[name] = {
-                        "exists": exists,
-                        "description": info["description"],
-                        "file_count": len(files) if path.is_dir() else 1,
-                        "files_sample": files,
-                    }
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps({"services_status": status}, indent=2, ensure_ascii=False),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
-
-        @self.server.tool()
-        async def analyze_project_structure() -> list[TextContent]:
-            """Анализ структуры проекта"""
-            try:
-                structure: dict[str, dict] = {
-                    "apps": {},
-                    "docs": {},
-                    "scripts": {},
-                    "tools": {},
-                }
-
-                for section in structure:
-                    section_path = project_root / section
-                    if section_path.exists() and section_path.is_dir():
-                        items = list(section_path.iterdir())
-                        structure[section] = {
-                            "item_count": len(items),
-                            "items": [
-                                {
-                                    "name": item.name,
-                                    "type": "dir" if item.is_dir() else "file",
-                                }
-                                for item in items[:10]
-                            ],
-                        }
-
-                # Подсчет файлов по типам
-                file_types: dict[str, int] = {}
-                for _root, dirs, files in os.walk(project_root):
-                    # Пропускаем скрытые директории
-                    dirs[:] = [d for d in dirs if not d.startswith(".")]
-
-                    for file in files:
-                        ext = os.path.splitext(file)[1]
-                        if ext:
-                            file_types[ext] = file_types.get(ext, 0) + 1
-
-                return [
-                    TextContent(
-                        type="text",
-                        text=json.dumps(
-                            {
-                                "project_structure": structure,
-                                "file_types": dict(
-                                    sorted(
-                                        file_types.items(),
-                                        key=lambda x: x[1],
-                                        reverse=True,
-                                    )[:10]
-                                ),
-                            },
-                            indent=2,
-                            ensure_ascii=False,
-                        ),
-                    )
-                ]
-            except Exception as e:
-                return [TextContent(type="text", text=f"Ошибка: {e!s}")]
+        async def get_system_status() -> list[TextContent]:
+            """Получить статус системы"""
+            status = {
+                "server_name": "portfolio-mcp-server",
+                "version": "0.1.0",
+                "has_mcp": HAS_MCP,
+                "giga_bridge_available": self.giga_bridge is not None,
+                "project_root": str(project_root),
+            }
+            return [
+                TextContent(
+                    type="text",
+                    text=json.dumps(status, indent=2, ensure_ascii=False),
+                )
+            ]
 
 
 async def main():

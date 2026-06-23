@@ -318,10 +318,7 @@ def classify_readme(readme_path: Path) -> tuple:
                         "docs/internal/analysis",
                         "docs/cases",
                     ]:
-                        if len(parts) > 2:
-                            subtheme = "/".join(parts[1:])
-                        else:
-                            subtheme = parts[0]
+                        subtheme = "/".join(parts[1:]) if len(parts) > 2 else parts[0]
                     else:
                         subtheme = "/".join(parts[-2:])
                 elif len(parts) == 1:

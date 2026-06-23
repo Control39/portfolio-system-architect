@@ -38,7 +38,7 @@ def get_room_id(path: str, default_room_id: str) -> str:
     return get_query_value(path, "roomId") or default_room_id
 
 
-async def to_async_iterator(sync_iterable: Iterable[T]) -> AsyncIterator[T]:
+async def to_async_iterator[T](sync_iterable: Iterable[T]) -> AsyncIterator[T]:
     """
     Converts a synchronous iterable into a cancellable, non-blocking
     asynchronous iterator.

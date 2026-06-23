@@ -199,7 +199,7 @@ class CodeQualityGuard:
         medium_issues = 0
         low_issues = 0
 
-        for service_name, service_results in results.items():
+        for _service_name, service_results in results.items():
             issues = service_results.get("issues", [])
             total_issues += len(issues)
 
@@ -229,7 +229,6 @@ class CodeQualityGuard:
         # Веса для разных уровней
         weight_critical = 10
         weight_high = 5
-        weight_medium = 2
         weight_low = 1
 
         penalty = critical * weight_critical + high * weight_high + total * weight_low  # Упрощенная формула

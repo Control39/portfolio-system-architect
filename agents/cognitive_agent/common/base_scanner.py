@@ -411,9 +411,12 @@ class BaseProjectScanner:
             for file_path in changed_files:
                 abs_path = self.project_path / file_path
                 if not self.is_excluded_by_gitignore(abs_path):
-                    is_safe, _ = self.security_checker.validate_path(str(abs_path))
-                    if is_safe:
-                        filtered_files.append(file_path)
+                    try:
+                        is_safe, _ = self.security_checker.validate_path(str(abs_path))
+                        if is_safe:
+                            filtered_files.append(file_path)
+                    except Exception as e:
+                        continue
 
             return filtered_files
         except subprocess.CalledProcessError as e:
@@ -454,8 +457,11 @@ class BaseProjectScanner:
                     try:
                         file_hash = calculate_file_hash(file_path)
                         hashes.append(file_hash)
-                    except:
-                        continue
+                    except (FileNotFoundError, PermissionError) as e:
+                        raise FileOperationError(
+                            f"Ошибка чтения файла при вычислении хэша: {str(e)}",
+                            details={"file_path": str(file_path)}
+                        ) from e
 
             # Сортируем хэши для детерминированности
             hashes.sort()
@@ -505,5 +511,7 @@ class BaseProjectScanner:
                             "extension": file_path.suffix.lower(),
                             "modified": stat.st_mtime,
                         }
-                except OSError:
+                except OSError as e:
+                    continue
+                except Exception as e:
                     continue

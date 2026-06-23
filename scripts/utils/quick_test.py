@@ -56,11 +56,11 @@ def main() -> int:
         else:
             print("❌ FAILED")
             # show a few failure lines
-            lines = [l for l in (proc.stdout + "\n" + proc.stderr).splitlines() if l.strip()]
+            lines = [line for line in (proc.stdout + "\n" + proc.stderr).splitlines() if line.strip()]
             # prefer 'FAIL' lines
-            fail_lines = [l for l in lines if "FAIL" in l or "ERROR" in l]
-            for l in fail_lines[:3] or lines[:3]:
-                print("     └─ " + l[:200])
+            fail_lines = [line for line in lines if "FAIL" in line or "ERROR" in line]
+            for line in fail_lines[:3] or lines[:3]:
+                print("     └─ " + line[:200])
 
     failing = [n for (n, rc) in results if rc != 0]
     if failing:

@@ -7,8 +7,7 @@ sys.path1 = ["C:/repo/src", "C:/repo/apps/ai_config_manager/src", "C:/repo", "C:
 try:
     import ai_config_manager
     print(f"  ai_config_manager.__file__: {ai_config_manager.__file__}")
-    from ai_config_manager.config_manager import ConfigManager
-    print(f"  config_manager import: OK")
+    print("  config_manager import: OK")
 except Exception as e:
     print(f"  Failed: {e}")
 
@@ -18,8 +17,7 @@ sys.path2 = ["C:/repo/apps", "C:/repo", "C:/repo/src", "C:/repo/apps/ai_config_m
 try:
     import ai_config_manager
     print(f"  ai_config_manager.__file__: {ai_config_manager.__file__}")
-    from ai_config_manager.config_manager import ConfigManager
-    print(f"  config_manager import: OK")
+    print("  config_manager import: OK")
 except Exception as e:
     print(f"  Failed: {e}")
 
@@ -29,7 +27,6 @@ sys.path3 = ["C:/repo/apps/ai_config_manager/src", "C:/repo/src", "C:/repo/apps"
 try:
     import ai_config_manager
     print(f"  ai_config_manager.__file__: {ai_config_manager.__file__}")
-    from ai_config_manager.config_manager import ConfigManager
-    print(f"  config_manager import: OK")
+    print("  config_manager import: OK")
 except Exception as e:
     print(f"  Failed: {e}")

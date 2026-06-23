@@ -3,13 +3,13 @@ Pydantic модели для сущностей и связей в графе з
 """
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field
 
 
-class EntityType(str, Enum):
+class EntityType(StrEnum):
     """Типы сущностей в графе знаний."""
 
     TECHNOLOGY = "technology"
@@ -29,7 +29,7 @@ class EntityType(str, Enum):
     OTHER = "other"
 
 
-class RelationshipType(str, Enum):
+class RelationshipType(StrEnum):
     """Типы связей между сущностями."""
 
     USES = "uses"

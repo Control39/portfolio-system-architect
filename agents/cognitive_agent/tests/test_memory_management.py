@@ -142,7 +142,7 @@ class TestMemoryManagement:
         memory_manager.cleanup_memory()
 
         # Проверить проверку использования памяти
-        result = memory_manager.check_memory_usage()
+        memory_manager.check_memory_usage()
         # Может вернуть True или False в зависимости от текущего состояния
 
     def test_lazy_loader_functionality(self):

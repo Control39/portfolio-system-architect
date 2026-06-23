@@ -64,7 +64,7 @@ def main():
                     content = f.read()
                     if "class" in content:
                         entities.append(py_file.name)
-            except:
+            except OSError:
                 pass
 
         print(f"📦 Найдено файлов с классами: {len(entities)}")
@@ -87,7 +87,7 @@ def main():
                     content = f.read()
                     if "router" in content or "app." in content or "@app" in content:
                         api_files.append(py_file.name)
-            except:
+            except OSError:
                 pass
 
         if api_files:

@@ -185,13 +185,13 @@ class SelfTestingModule:
             if hasattr(self.project_scanner, "project_path"):
                 full_file_path = Path(self.project_scanner.project_path) / file_path
             with open(full_file_path, encoding="utf-8") as f:
-                file_content = f.read()
+                f.read()
         except Exception as e:
             self.logger.error(f"Не удалось прочитать файл {file_path}: {e}")
             return
 
         # Формируем prompt по шаблону стратегии тестирования
-        test_types_str = ", ".join(decision.get("test_types") or [])
+        ", ".join(decision.get("test_types") or [])
 
         prompt_template_path = Path(__file__).parent / "test_prompts" / "test_strategy_prompt_ru.md"
         try:
@@ -279,7 +279,7 @@ import sys
 import os
 
 # Добавляем путь к исходному файлу для импорта
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "{os.path.dirname(file_path)}"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", os.path.dirname(file_path)))
 
 # Пример автосгенерированного теста для {file_path}
 class Test{class_name}:

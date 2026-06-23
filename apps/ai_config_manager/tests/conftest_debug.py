@@ -17,20 +17,20 @@ REPO_ROOT = CONFTEST_FILE.parents[3]
 SRC_PATH = REPO_ROOT / "src"
 MOLECULE_SRC = CONFTEST_FILE.parents[1] / "src"
 
-print(f"\nPaths to add:")
+print("\nPaths to add:")
 print(f"  SRC_PATH: {SRC_PATH}")
 print(f"  MOLECULE_SRC: {MOLECULE_SRC}")
 
 # Current logic from conftest.py
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
-    print(f"Added SRC_PATH to sys.path[0]")
+    print("Added SRC_PATH to sys.path[0]")
 
 if str(MOLECULE_SRC) not in sys.path:
     sys.path.insert(0, str(MOLECULE_SRC))
-    print(f"Added MOLECULE_SRC to sys.path[0]")
+    print("Added MOLECULE_SRC to sys.path[0]")
 
-print(f"\n=== sys.path[0:5] ===")
+print("\n=== sys.path[0:5] ===")
 for i, p in enumerate(sys.path[:5]):
     print(f"  [{i}]: {p}")
 

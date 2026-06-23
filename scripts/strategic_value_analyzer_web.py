@@ -3,33 +3,29 @@
 Strategic Value Analyzer Web Interface - Enterprise Version
 """
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
-import asyncio
-import json
 import logging
-import os
 import sys
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 
-# Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
-
-# Добавляем корень репозитория в путь
+# Добавляем корень репозитория в путь для правильного импорта
 repo_root = Path(__file__).parent.parent
 sys.path.insert(0, str(repo_root))
 
-# Импортируем enterprise версию агента
+# Импортируем enterprise версию агента из правильного места
+from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 
 # Типы проектов
@@ -122,8 +118,7 @@ class StrategicValueAnalyzer:
             "ml",
             "blockchain",
         ]
-        modern_score = sum(1 for tech in metrics.tech_stack if any(
-            mod in tech.lower() for mod in modern_tech))
+        modern_score = sum(1 for tech in metrics.tech_stack if any(mod in tech.lower() for mod in modern_tech))
         score += min(modern_score * 3, 20)
 
         # Зависимости
@@ -262,36 +257,29 @@ class StrategicValueAnalyzer:
 
         # Рекомендации по технологиям
         if scores["technology"] < 60:
-            recommendations.append(
-                "Рассмотрите обновление технологического стека для повышения конкурентоспособности")
+            recommendations.append("Рассмотрите обновление технологического стека для повышения конкурентоспособности")
 
         # Рекомендации по рынку
         if scores["market"] < 70:
             if metrics.competition_level > 0.7:
-                recommendations.append(
-                    "Высокий уровень конкуренции - рассмотрите дифференциацию продукта")
+                recommendations.append("Высокий уровень конкуренции - рассмотрите дифференциацию продукта")
             if metrics.market_demand < 0.5:
-                recommendations.append(
-                    "Низкий спрос на рынке - пересмотрите ценность предложения")
+                recommendations.append("Низкий спрос на рынке - пересмотрите ценность предложения")
 
         # Рекомендации по команде
         if scores["team"] < 65:
             if metrics.team_size < 3:
-                recommendations.append(
-                    "Увеличьте размер команды для повышения эффективности")
+                recommendations.append("Увеличьте размер команды для повышения эффективности")
             if metrics.team_expertise < 0.6:
-                recommendations.append(
-                    "Инвестируйте в развитие экспертизы команды")
+                recommendations.append("Инвестируйте в развитие экспертизы команды")
 
         # Рекомендации по инновациям
         if scores["innovation"] < 70:
-            recommendations.append(
-                "Повысьте уровень инноваций через исследования и внедрение новых технологий")
+            recommendations.append("Повысьте уровень инноваций через исследования и внедрение новых технологий")
 
         # Рекомендации по масштабируемости
         if scores["scalability"] < 65:
-            recommendations.append(
-                "Оптимизируйте архитектуру для лучшей масштабируемости")
+            recommendations.append("Оптимизируйте архитектуру для лучшей масштабируемости")
 
         # Рекомендации по рискам
         if scores["risk"] < 75:
@@ -299,12 +287,10 @@ class StrategicValueAnalyzer:
 
         # Общие рекомендации
         if metrics.budget < 50000:
-            recommendations.append(
-                "Рассмотрите привлечение дополнительного финансирования")
+            recommendations.append("Рассмотрите привлечение дополнительного финансирования")
 
         if metrics.timeline_months > 12:
-            recommendations.append(
-                "Оптимизируйте план реализации для сокращения сроков")
+            recommendations.append("Оптимизируйте план реализации для сокращения сроков")
 
         return recommendations
 
@@ -323,8 +309,7 @@ class StrategicValueAnalyzer:
         }
 
         # Расчет общей оценки
-        weighted_sum = sum(
-            scores[key] * self.weights[key.replace("_", "")] for key in scores)
+        weighted_sum = sum(scores[key] * self.weights[key.replace("_", "")] for key in scores)
         overall_score = weighted_sum
 
         # Генерация рекомендаций
@@ -347,8 +332,7 @@ class StrategicValueAnalyzer:
         if scores["team"] >= 80:
             strengths.append("Сильная и компетентная команда")
         elif scores["team"] < 60:
-            weaknesses.append(
-                "Необходимо усилить команду или повысить квалификацию")
+            weaknesses.append("Необходимо усилить команду или повысить квалификацию")
 
         if scores["innovation"] >= 80:
             strengths.append("Высокий уровень инноваций")
@@ -389,9 +373,249 @@ class StrategicValueAnalyzer:
             detailed_breakdown=scores,
         )
 
-        logger.info(
-            f"Analysis completed for {metrics.name}. Overall score: {result.overall_score}")
+        logger.info(f"Analysis completed for {metrics.name}. Overall score: {result.overall_score}")
         return result
+
+
+# HTML шаблон для главной страницы
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Value Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Strategic Value Analyzer</h1>
+        <form id="analysisForm">
+            <div class="form-group">
+                <label for="name">Название проекта:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание проекта:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="team_size">Размер команды:</label>
+                <input type="number" id="team_size" name="team_size" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Бюджет ($):</label>
+                <input type="number" id="budget" name="budget" min="0" step="1000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="timeline_months">Срок реализации (месяцы):</label>
+                <input type="number" id="timeline_months" name="timeline_months" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tech_stack">Технологический стек (через запятую):</label>
+                <input type="text" id="tech_stack" name="tech_stack">
+            </div>
+
+            <div class="form-group">
+                <label for="market_demand">Рыночный спрос (0-1):</label>
+                <input type="number" id="market_demand" name="market_demand" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="innovation_level">Уровень инноваций (0-1):</label>
+                <input type="number" id="innovation_level" name="innovation_level" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="scalability">Масштабируемость (0-1):</label>
+                <input type="number" id="scalability" name="scalability" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="competition_level">Уровень конкуренции (0-1):</label>
+                <input type="number" id="competition_level" name="competition_level" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="risk_factor">Фактор риска (0-1):</label>
+                <input type="number" id="risk_factor" name="risk_factor" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="team_expertise">Экспертиза команды (0-1):</label>
+                <input type="number" id="team_expertise" name="team_expertise" min="0" max="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project_type">Тип проекта:</label>
+                <select id="project_type" name="project_type" required>
+                    <option value="startup">Стартап</option>
+                    <option value="enterprise">Корпоративный</option>
+                    <option value="open_source">Open Source</option>
+                    <option value="research">Исследовательский</option>
+                    <option value="commercial">Коммерческий</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dependencies">Зависимости (через запятую):</label>
+                <input type="text" id="dependencies" name="dependencies">
+            </div>
+
+            <div class="form-group">
+                <label for="target_users">Целевая аудитория (кол-во пользователей):</label>
+                <input type="number" id="target_users" name="target_users" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="revenue_potential">Потенциал выручки ($):</label>
+                <input type="number" id="revenue_potential" name="revenue_potential" min="0" step="1000" required>
+            </div>
+
+            <button type="submit">Анализировать проект</button>
+        </form>
+
+        <div id="results" class="results" style="display:none;"></div>
+    </div>
+
+    <script>
+        document.getElementById('analysisForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            // Преобразование числовых значений
+            data.team_size = parseInt(data.team_size);
+            data.budget = parseFloat(data.budget);
+            data.timeline_months = parseInt(data.timeline_months);
+            data.market_demand = parseFloat(data.market_demand);
+            data.innovation_level = parseFloat(data.innovation_level);
+            data.scalability = parseFloat(data.scalability);
+            data.competition_level = parseFloat(data.competition_level);
+            data.risk_factor = parseFloat(data.risk_factor);
+            data.team_expertise = parseFloat(data.team_expertise);
+            data.target_users = parseInt(data.target_users);
+            data.revenue_potential = parseFloat(data.revenue_potential);
+
+            // Преобразование массивов
+            if(data.tech_stack) data.tech_stack = data.tech_stack.split(',').map(s => s.trim());
+            if(data.dependencies) data.dependencies = data.dependencies.split(',').map(s => s.trim());
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if(response.ok) {
+                    displayResults(result);
+                } else {
+                    alert('Ошибка: ' + result.error);
+                }
+            } catch (error) {
+                alert('Произошла ошибка: ' + error.message);
+            }
+        });
+
+        function displayResults(result) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h2>Результаты анализа: ${result.project_name}</h2>
+                <p><strong>Общий балл:</strong> ${result.overall_score}/100</p>
+                <p><strong>Уверенность:</strong> ${(result.confidence_level * 100).toFixed(1)}%</p>
+
+                <h3>Детализация:</h3>
+                <ul>
+                    <li>Технологии: ${result.technology_score}/100</li>
+                    <li>Рынок: ${result.market_score}/100</li>
+                    <li>Команда: ${result.team_score}/100</li>
+                    <li>Инновации: ${result.innovation_score}/100</li>
+                    <li>Масштабируемость: ${result.scalability_score}/100</li>
+                    <li>Риски: ${result.risk_assessment}/100</li>
+                </ul>
+
+                <h3>Сильные стороны:</h3>
+                <ul>
+                    ${result.strengths.map(s => '<li>' + s + '</li>').join('')}
+                </ul>
+
+                <h3>Слабые стороны:</h3>
+                <ul>
+                    ${result.weaknesses.map(w => '<li>' + w + '</li>').join('')}
+                </ul>
+
+                <h3>Рекомендации:</h3>
+                <ul>
+                    ${result.recommendations.map(r => '<li>' + r + '</li>').join('')}
+                </ul>
+            `;
+            resultsDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+"""
 
 
 # FastAPI приложение
@@ -407,7 +631,7 @@ app.add_middleware(
 )
 
 # Глобальная переменная для агента
-agent: Optional[AutonomousCognitiveAgent] = None
+agent: AutonomousCognitiveAgent | None = None
 
 
 @app.on_event("startup")
@@ -436,284 +660,31 @@ async def shutdown_event():
 
 class TaskRequest(BaseModel):
     """Модель запроса задачи"""
+
     task: str
     auto_approve: bool = False
 
 
 class ScanRequest(BaseModel):
     """Модель запроса сканирования"""
+
     mode: str = "auto"
-    <meta charset = "UTF-8" >
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" >
-    <title > Strategic Value Analyzer < /title >
-    <style >
-        body {font-family: Arial, sans-serif; margin: 20px; background-color:  # f5f5f5; }
-        .container {max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);}
-        h1 {color:  # 2c3e50; text-align: center; }
-        .form-group {margin-bottom: 15px; }
-        label {display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea {width: 100 %; padding: 8px; border: 1px solid  # ddd; border-radius: 4px; }
-        button {background-color:  # 3498db; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-        button: hover {background-color:  # 2980b9; }
-        .result {margin-top: 20px; padding: 15px; background-color:  # e8f4fd; border-radius: 4px; }
-        .score-card {display: inline-block; width: 120px; height: 120px; margin: 10px; text-align: center; padding: 10px; border-radius: 50 %; background: linear-gradient(135deg,  # 667eea 0%, #764ba2 100%); color: white; font-size: 12px; }
-        .score-value {font-size: 24px; font-weight: bold; margin-top: 15px; }
-        .recommendations {background-color:  # d4edda; padding: 10px; border-radius: 4px; margin: 10px 0; }
-        .strengths {background-color:  # d1ecf1; padding: 10px; border-radius: 4px; margin: 10px 0; }
-        .weaknesses {background-color:  # f8d7da; padding: 10px; border-radius: 4px; margin: 10px 0; }
-        table {width: 100%; border-collapse: collapse; margin: 10px 0; }
-        th, td {border: 1px solid  # ddd; padding: 8px; text-align: left; }
-        th {background-color:  # f2f2f2; }
-    < /style >
-< / head >
-< body >
-    < div class= "container" >
-        < h1 > Strategic Value Analyzer < /h1 >
-        < p > Инструмент анализа стратегической ценности проектов < /p >
-
-        < form id= "analysisForm" >
-            < div class= "form-group" >
-                < label for= "name" > Название проекта: < /label >
-                < input type= "text" id = "name" name = "name" required >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "description" > Описание проекта: < /label >
-                < textarea id= "description" name = "description" rows = "3" > </textarea >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "teamSize" > Размер команды: < /label >
-                < input type= "number" id = "teamSize" name = "teamSize" min = "1" max = "100" value = "5" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "budget" > Бюджет ($): < /label >
-                < input type= "number" id = "budget" name = "budget" min = "0" value = "100000" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "timeline" > Срок реализации (месяцы): < /label >
-                < input type= "number" id = "timeline" name = "timeline" min = "1" max = "60" value = "12" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "techStack" > Технологический стек (через запятую): < /label >
-                < input type= "text" id = "techStack" name = "techStack" placeholder = "python,react,docker,kubernetes" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "marketDemand" > Рыночный спрос (0-1): < /label >
-                < input type= "number" id = "marketDemand" name = "marketDemand" min = "0" max = "1" step = "0.1" value = "0.7" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "innovationLevel" > Уровень инноваций (0-1): < /label >
-                < input type= "number" id = "innovationLevel" name = "innovationLevel" min = "0" max = "1" step = "0.1" value = "0.6" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "scalability" > Масштабируемость (0-1): < /label >
-                < input type= "number" id = "scalability" name = "scalability" min = "0" max = "1" step = "0.1" value = "0.7" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "competitionLevel" > Уровень конкуренции (0-1): < /label >
-                < input type= "number" id = "competitionLevel" name = "competitionLevel" min = "0" max = "1" step = "0.1" value = "0.5" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "riskFactor" > Фактор риска (0-1): < /label >
-                < input type= "number" id = "riskFactor" name = "riskFactor" min = "0" max = "1" step = "0.1" value = "0.3" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "teamExpertise" > Экспертиза команды (0-1): < /label >
-                < input type= "number" id = "teamExpertise" name = "teamExpertise" min = "0" max = "1" step = "0.1" value = "0.7" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "projectType" > Тип проекта: < /label >
-                < select id= "projectType" name = "projectType" >
-                    < option value= "startup" > Стартап < /option >
-                    < option value= "enterprise" > Корпоративный < /option >
-                    < option value= "open_source" > Open Source < /option >
-                    < option value= "research" > Исследовательский < /option >
-                    < option value= "commercial" > Коммерческий < /option >
-                < / select >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "dependencies" > Зависимости (через запятую): < /label >
-                < input type= "text" id = "dependencies" name = "dependencies" placeholder = "django,requests,numpy" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "targetUsers" > Целевая аудитория (кол-во): < /label >
-                < input type= "number" id = "targetUsers" name = "targetUsers" min = "0" value = "10000" >
-            < / div >
-
-            < div class= "form-group" >
-                < label for= "revenuePotential" > Потенциал выручки ($): < /label >
-                < input type= "number" id = "revenuePotential" name = "revenuePotential" min = "0" value = "500000" >
-            < / div >
-
-            < button type= "submit" > Анализировать стратегическую ценность < /button >
-        < / form >
-
-        < div id= "result" class = "result" style = "display:none;" >
-            < h2 > Результаты анализа < /h2 >
-            < div id= "scoresContainer" > </div >
-            < div id= "detailedBreakdown" > </div >
-            < div id= "recommendationsSection" > </div >
-            < div id= "strengthsSection" > </div >
-            < div id= "weaknessesSection" > </div >
-        < / div >
-    < / div >
-
-    < script >
-        document.getElementById('analysisForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const formData= new FormData(this);
-            const data= {
-                name: formData.get('name'),
-                description: formData.get('description'),
-                team_size: parseInt(formData.get('teamSize')),
-                budget: parseFloat(formData.get('budget')),
-                timeline_months: parseInt(formData.get('timeline')),
-                tech_stack: formData.get('techStack').split(',').map(item= > item.trim()).filter(item = > item),
-                market_demand: parseFloat(formData.get('marketDemand')),
-                innovation_level: parseFloat(formData.get('innovationLevel')),
-                scalability: parseFloat(formData.get('scalability')),
-                competition_level: parseFloat(formData.get('competitionLevel')),
-                risk_factor: parseFloat(formData.get('riskFactor')),
-                team_expertise: parseFloat(formData.get('teamExpertise')),
-                project_type: formData.get('projectType'),
-                dependencies: formData.get('dependencies').split(',').map(item= > item.trim()).filter(item = > item),
-                target_users: parseInt(formData.get('targetUsers')),
-                revenue_potential: parseFloat(formData.get('revenuePotential'))
-            };
-
-            try {
-                const response= await fetch('/analyze', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result= await response.json();
-
-                displayResults(result);
-            } catch(error) {
-                console.error('Error:', error);
-                alert('Произошла ошибка при анализе');
-            }
-        });
-
-        function displayResults(result) {
-            const resultDiv= document.getElementById('result');
-            resultDiv.style.display= 'block';
-
-            // Display scores
-            const scoresContainer= document.getElementById('scoresContainer');
-            scoresContainer.innerHTML= `
-                < h3 > Оценки по категориям: < /h3 >
-                < div style= "text-align: center;" >
-                    < div class= "score-card" >
-                        < div > Общая < /div >
-                        < div class= "score-value" > ${result.overall_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Технологии < /div >
-                        < div class= "score-value" > ${result.technology_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Рынок < /div >
-                        < div class= "score-value" > ${result.market_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Команда < /div >
-                        < div class= "score-value" > ${result.team_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Инновации < /div >
-                        < div class= "score-value" > ${result.innovation_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Масштаб < /div >
-                        < div class= "score-value" > ${result.scalability_score} < /div >
-                    < / div >
-                    < div class= "score-card" >
-                        < div > Риски < /div >
-                        < div class= "score-value" > ${result.risk_assessment} < /div >
-                    < / div >
-                < / div >
-                < p > <strong > Уровень уверенности: < /strong > ${(result.confidence_level * 100).toFixed(1)} % </p >
-                < p > <strong > Дата анализа: < /strong > ${new Date(result.analysis_timestamp).toLocaleString()} < /p >
-            `;
-
-            // Detailed breakdown
-            const breakdownDiv= document.getElementById('detailedBreakdown');
-            breakdownDiv.innerHTML= `
-                < h3 > Детализация оценок: < /h3 >
-                < table >
-                    < tr > <th > Категория < /th > <th > Оценка < /th > </tr >
-                    < tr > <td > Технологии < /td > <td > ${result.detailed_breakdown.technology.toFixed(2)} < /td > </tr >
-                    < tr > <td > Рынок < /td > <td > ${result.detailed_breakdown.market.toFixed(2)} < /td > </tr >
-                    < tr > <td > Команда < /td > <td > ${result.detailed_breakdown.team.toFixed(2)} < /td > </tr >
-                    < tr > <td > Инновации < /td > <td > ${result.detailed_breakdown.innovation.toFixed(2)} < /td > </tr >
-                    < tr > <td > Масштабируемость < /td > <td > ${result.detailed_breakdown.scalability.toFixed(2)} < /td > </tr >
-                    < tr > <td > Риски < /td > <td > ${result.detailed_breakdown.risk.toFixed(2)} < /td > </tr >
-                < / table >
-            `;
-
-            // Recommendations
-            const recSection= document.getElementById('recommendationsSection');
-            recSection.innerHTML= `
-                < div class= "recommendations" >
-                    < h3 > Рекомендации: < /h3 >
-                    < ul > ${result.recommendations.map(rec=> ` < li > ${rec} < /li > `).join('')} < /ul >
-                < / div >
-            `;
-
-            // Strengths
-            const strengthsSection= document.getElementById('strengthsSection');
-            strengthsSection.innerHTML= `
-                < div class= "strengths" >
-                    < h3 > Сильные стороны: < /h3 >
-                    < ul > ${result.strengths.map(st=> ` < li > ${st} < /li > `).join('')} < /ul >
-                < / div >
-            `;
-
-            // Weaknesses
-            const weaknessesSection= document.getElementById('weaknessesSection');
-            weaknessesSection.innerHTML= `
-                < div class= "weaknesses" >
-                    < h3 > Слабые стороны: < /h3 >
-                    < ul > ${result.weaknesses.map(wk=> ` < li > ${wk} < /li > `).join('')} < /ul >
-                < / div >
-            `;
-        }
-    < /script >
-< / body >
-< / html >
-"""
 
 
-@app.route("/")
-def index():
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
     """Главная страница"""
-    return render_template_string(HTML_TEMPLATE)
+    from fastapi.responses import HTMLResponse
+
+    # Since we're using a string template, we'll return the HTML directly
+    return HTMLResponse(content=HTML_TEMPLATE)
 
 
-@app.route("/analyze", methods=["POST"])
-def analyze():
+@app.post("/analyze")
+async def analyze(request: Request):
     """Анализ проекта"""
     try:
-        data = request.json
+        data = await request.json()
 
         # Валидация данных
         required_fields = [
@@ -734,7 +705,7 @@ def analyze():
 
         for field in required_fields:
             if field not in data:
-                return jsonify({"error": f"Поле {field} обязательно"}), 400
+                return JSONResponse(status_code=400, content={"error": f"Поле {field} обязательно"})
 
         # Создание объекта метрик
         metrics = ProjectMetrics(
@@ -760,11 +731,11 @@ def analyze():
         analyzer = StrategicValueAnalyzer()
         result = analyzer.analyze_project(metrics)
 
-        return jsonify(asdict(result))
+        return JSONResponse(content=asdict(result))
 
     except Exception as e:
         logger.error(f"Error in analysis: {e}")
-        return jsonify({"error": str(e)}), 500
+        return JSONResponse(status_code=500, content={"error": "Внутренняя ошибка сервера"})
 
 
 def run_server(host: str = "0.0.0.0", port: int = 8000):
@@ -778,5 +749,5 @@ if __name__ == "__main__":
     print("🌐 Сервер будет доступен по адресу: http://localhost:8000")
     print("📊 API документация: http://localhost:8000/docs")
     print("-" * 50)
-    
+
     run_server()

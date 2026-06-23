@@ -101,10 +101,7 @@ def check_internal_link(url: str, base_dir: Path) -> tuple[bool, str]:
         return False, "Empty URL"
 
     # Если ссылка начинается с /, относим к корню проекта
-    if clean_url.startswith("/"):
-        target_path = base_dir / clean_url[1:]
-    else:
-        target_path = base_dir / clean_url
+    target_path = base_dir / clean_url[1:] if clean_url.startswith("/") else base_dir / clean_url
 
     # Проверяем существование
     if target_path.exists():

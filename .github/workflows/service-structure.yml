@@ -2,12 +2,12 @@ name: Service Structure Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, '**' ]
     paths:
       - 'apps/**'
       - '.github/workflows/service-structure.yml'
   pull_request:
-    branches: [main]
+    branches: [ main ]
     paths:
       - 'apps/**'
       - '.github/workflows/service-structure.yml'
@@ -33,7 +33,7 @@ jobs:
 
       - name: Run service structure check
         run: |
-          python scripts/check_service_structure.py
+          python scripts/ci/check_service_structure.py
 
       - name: Upload report (if failed)
         if: failure()

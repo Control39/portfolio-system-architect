@@ -40,7 +40,7 @@ jobs:
       - name: Validate port configuration
         run: |
           # Check for port conflicts and documentation consistency
-          python scripts/check_ports.py --strict
+          python scripts/ci/check_ports.py --strict
 
       - name: Run app tests with coverage
         run: |

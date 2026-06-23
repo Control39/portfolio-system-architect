@@ -4,6 +4,8 @@
 """
 
 import pytest
+from pydantic import ValidationError
+
 from ai_config_manager.validators import (
     AgentConfig,
     AIConfig,
@@ -11,7 +13,6 @@ from ai_config_manager.validators import (
     ResourceType,
     SecretsConfig,
 )
-from pydantic import ValidationError
 
 # =============================================================================
 # TestAgentConfig

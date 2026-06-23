@@ -18,6 +18,7 @@ import pytest
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from apps.knowledge_graph.src.core.knowledge_graph import KnowledgeGraph  # noqa: E402
 from apps.knowledge_graph.src.entities import (  # noqa: E402

@@ -6,6 +6,7 @@
 """
 
 import asyncio
+import contextlib
 import json
 import logging
 import re
@@ -1043,10 +1044,8 @@ class BaseCognitiveAgent(ABC):
 
         # Добавляем статистику ChromaDB если доступна
         if self._is_chroma_available() and self.chroma_indexer:
-            try:
+            with contextlib.suppress(BaseException):
                 status["chroma_stats"] = self.chroma_indexer.get_stats()
-            except:
-                pass
 
         return status
 
@@ -1131,10 +1130,9 @@ class BaseCognitiveAgent(ABC):
                 return False  # Требует подтверждения
 
         # 6. Проверяем конфигурационные файлы
-        if path.endswith((".yaml", ".yml", ".json")):
-            if action.lower() in ["modify", "write", "delete"]:
-                logger.info(f"⚠️ Config file requires approval: {path}")
-                return False  # Требует подтверждения
+        if path.endswith((".yaml", ".yml", ".json")) and action.lower() in ["modify", "write", "delete"]:
+            logger.info(f"⚠️ Config file requires approval: {path}")
+            return False  # Требует подтверждения
 
         # 7. Если это тесты или документация — всегда разрешено
         if "tests" in path or "test" in path:
