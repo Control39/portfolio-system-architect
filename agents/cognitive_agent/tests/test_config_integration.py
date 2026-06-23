@@ -28,6 +28,7 @@ class TestCognitiveAgentConfigIntegration:
     def test_config_integration_module(self):
         """Проверка импорта модуля интеграции"""
         from agents.cognitive_agent.src.config_integration import CognitiveAgentConfig
+
         assert CognitiveAgentConfig is not None
 
     def test_get_config_singleton(self):
@@ -59,9 +60,9 @@ class TestCognitiveAgentConfigIntegration:
         config = get_config()
 
         assert config is not None
-        assert hasattr(config, 'get_config')
-        assert hasattr(config, 'reload')
-        assert hasattr(config, 'is_available')
+        assert hasattr(config, "get_config")
+        assert hasattr(config, "reload")
+        assert hasattr(config, "is_available")
 
     def test_config_singleton_consistency(self):
         """Проверка согласованности singleton-конфигурации"""
@@ -95,5 +96,5 @@ class TestCognitiveAgentConfigIntegration:
         config = get_config()
 
         # Метод должен существовать и быть вызываемым
-        assert hasattr(config, 'reload')
+        assert hasattr(config, "reload")
         assert callable(config.reload)

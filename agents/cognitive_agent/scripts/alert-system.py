@@ -470,7 +470,7 @@ class AlertSystem:
                 "icon_emoji": ":warning:",
             }
 
-            response = requests.post(config["webhook_url"], json=payload)
+            response = requests.post(config["webhook_url"], json=payload, timeout=10)
 
             if response.status_code == 200:
                 logger.info("Slack оповещение отправлено")
@@ -491,7 +491,7 @@ class AlertSystem:
             url = f"https://api.telegram.org/bot{config['bot_token']}/sendMessage"
             payload = {"chat_id": config["chat_id"], "text": message, "parse_mode": "HTML"}
 
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, timeout=10)
 
             if response.status_code == 200:
                 logger.info("Telegram оповещение отправлено")

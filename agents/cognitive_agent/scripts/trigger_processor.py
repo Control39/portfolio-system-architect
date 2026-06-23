@@ -7,6 +7,8 @@
 import json
 import logging
 import os
+import platform
+import shutil  # Для поиска исполняемых файлов в PATH
 import signal
 import subprocess
 import sys
@@ -88,6 +90,19 @@ class TriggerAction:
             # Разделяем команду на части
             cmd_parts = self.command.split()
 
+            # Валидация команды для предотвращения B603 и B607
+            if not self._validate_command(cmd_parts):
+                return {
+                    "success": False,
+                    "returncode": -1,
+                    "stdout": "",
+                    "stderr": "Command validation failed",
+                    "execution_time": 0,
+                }
+
+            # Преобразование частичного пути к исполняемому файлу в абсолютный
+            cmd_parts = self._resolve_executable_path(cmd_parts)
+
             # Если команда начинается с python, добавляем путь к скриптам
             if cmd_parts[0] == "python" and len(cmd_parts) > 1:
                 script_name = cmd_parts[1]
@@ -97,9 +112,16 @@ class TriggerAction:
                     if script_path:
                         cmd_parts[1] = str(script_path)
 
-            # Выполняем команду
+            # Выполняем команду с shell=False для безопасности
             start_time = time.time()
-            result = subprocess.run(cmd_parts, capture_output=True, text=True, timeout=self.timeout, cwd=Path.cwd())
+            result = subprocess.run(
+                cmd_parts,
+                capture_output=True,
+                text=True,
+                timeout=self.timeout,
+                cwd=Path.cwd(),
+                shell=False  # Явно указываем shell=False для предотвращения B602
+            )
             execution_time = time.time() - start_time
 
             return {
@@ -129,21 +151,42 @@ class TriggerAction:
                 "execution_time": 0,
             }
 
-    def _find_script(self, script_name: str) -> Path | None:
-        """Поиск скрипта в директориях агента"""
-        search_paths = [
-            Path(".agents") / "scripts",
-            Path(".agents") / "tests",
-            Path(".agents"),
-            Path("."),
-        ]
+    def _validate_command(self, cmd_parts: list[str]) -> bool:
+        """Валидация команды для предотвращения внедрения команд"""
+        # Проверяем, что команда не содержит потенциально опасных символов
+        dangerous_patterns = [";", "&", "|", "$", "`", ">", "<", "(", ")", "[", "]"]
 
-        for path in search_paths:
-            script_path = path / script_name
-            if script_path.exists():
-                return script_path
+        for part in cmd_parts:
+            for pattern in dangerous_patterns:
+                if pattern in part:
+                    logger.warning(f"Найден потенциально опасный символ в команде: {pattern} в {part}")
+                    return False
 
-        return None
+        return True
+
+    def _resolve_executable_path(self, cmd_parts: list[str]) -> list[str]:
+        """Преобразование частичного пути к исполняемому файлу в абсолютный"""
+        if not cmd_parts:
+            return cmd_parts
+
+        executable = cmd_parts[0]
+
+        # Для Windows и Unix систем используем shutil.which для поиска исполняемых файлов
+        if platform.system() == "Windows":
+            # Для Windows добавляем .exe, если не указано
+            if not executable.endswith(('.exe', '.bat', '.cmd', '.ps1')):
+                executable += '.exe'
+
+        # Используем shutil.which для поиска исполняемого файла в PATH
+        resolved_path = shutil.which(executable)
+        if resolved_path:
+            cmd_parts[0] = resolved_path
+        else:
+            logger.warning(f"Исполняемый файл не найден в PATH: {executable}")
+            # Если не найден, возвращаем исходную команду (для случаев, когда это локальный скрипт)
+            pass
+
+        return cmd_parts
 
 
 class TriggerProcessor:

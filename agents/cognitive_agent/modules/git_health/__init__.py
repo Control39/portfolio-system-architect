@@ -39,10 +39,11 @@ class GitHealthAnalyzer:
                 capture_output=True,
                 text=True,
                 timeout=30,
+                shell=False,  # Добавляем shell=False для безопасности
             )
 
             if result.returncode == 0:
-                local_commits = len(result.stdout.strip().split("\n"))
+                local_ahead = len(result.stdout.strip().split("\n")) if result.stdout.strip() else 0
 
                 result = subprocess.run(
                     ["git", "log", "--remotes", "--not", "--branches", "--oneline"],
@@ -50,10 +51,11 @@ class GitHealthAnalyzer:
                     capture_output=True,
                     text=True,
                     timeout=30,
+                    shell=False,  # Добавляем shell=False для безопасности
                 )
 
                 if result.returncode == 0:
-                    remote_commits = len(result.stdout.strip().split("\n"))
+                    remote_commits = len(result.stdout.strip().split("\n")) if result.stdout.strip() else 0
                     return remote_commits
 
             return 0
@@ -72,6 +74,7 @@ class GitHealthAnalyzer:
                 capture_output=True,
                 text=True,
                 timeout=30,
+                shell=False,  # Добавляем shell=False для безопасности
             )
 
             if result.returncode == 0:

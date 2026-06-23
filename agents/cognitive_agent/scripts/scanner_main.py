@@ -30,6 +30,7 @@ except ImportError:
     print("⚠️  AI Config Manager интеграция не доступна")
     # Fallback paths
     from pathlib import Path
+
     AGENT_LOGS_DIR = Path(".agent_data/logs")
     AGENT_REPORTS_DIR = Path(".agent_data/reports")
     AGENT_SCANS_DIR = Path(".agent_data/scans")
@@ -168,8 +169,7 @@ class ProjectScanner:
         # Сохранение результатов
         self._save_results()
 
-        logger.info(
-            f"Сканирование завершено за {time.time() - start_time:.2f} секунд")
+        logger.info(f"Сканирование завершено за {time.time() - start_time:.2f} секунд")
         return self.scan_results
 
     def _get_project_info(self, project_path: Path) -> dict[str, Any]:
@@ -306,8 +306,7 @@ class ProjectScanner:
     def _get_python_dependencies(self, path: Path) -> list[str]:
         """Получение Python зависимостей"""
         deps = []
-        req_files = ["requirements.txt", "pyproject.toml",
-                     "setup.py", "requirements-dev.txt"]
+        req_files = ["requirements.txt", "pyproject.toml", "setup.py", "requirements-dev.txt"]
 
         for req_file in req_files:
             try:
@@ -375,14 +374,11 @@ def main():
 
         project_info = results.get("project_info", {})
         print(f"Проект: {project_info.get('name', 'N/A')}")
-        print(
-            f"Git репозиторий: {'Да' if project_info.get('git_repository') else 'Нет'}")
+        print(f"Git репозиторий: {'Да' if project_info.get('git_repository') else 'Нет'}")
 
         tech_stack = results.get("tech_stack", {})
-        print(
-            f"Языки: {', '.join(tech_stack.get('languages', [])) or 'Не обнаружены'}")
-        print(
-            f"Фреймворки: {', '.join(tech_stack.get('frameworks', [])) or 'Не обнаружены'}")
+        print(f"Языки: {', '.join(tech_stack.get('languages', [])) or 'Не обнаружены'}")
+        print(f"Фреймворки: {', '.join(tech_stack.get('frameworks', [])) or 'Не обнаружены'}")
 
         scan_meta = results.get("scan_metadata", {})
         print(f"Время сканирования: {scan_meta.get('scan_time', 0):.2f} сек")

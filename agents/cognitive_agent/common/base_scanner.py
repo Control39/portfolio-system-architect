@@ -397,12 +397,13 @@ class BaseProjectScanner:
         try:
             import subprocess
 
+            cmd = ["git", "diff", "--name-only", since_commit]
             result = subprocess.run(
-                ["git", "diff", "--name-only", since_commit],
-                cwd=self.project_path,
+                cmd,
                 capture_output=True,
                 text=True,
-                check=True,
+                timeout=self.timeout,
+                shell=False,  # Добавляем shell=False для безопасности
             )
             changed_files = [line.strip() for line in result.stdout.split("\n") if line.strip()]
 
@@ -411,9 +412,12 @@ class BaseProjectScanner:
             for file_path in changed_files:
                 abs_path = self.project_path / file_path
                 if not self.is_excluded_by_gitignore(abs_path):
-                    is_safe, _ = self.security_checker.validate_path(str(abs_path))
-                    if is_safe:
-                        filtered_files.append(file_path)
+                    try:
+                        is_safe, _ = self.security_checker.validate_path(str(abs_path))
+                        if is_safe:
+                            filtered_files.append(file_path)
+                    except Exception:
+                        continue
 
             return filtered_files
         except subprocess.CalledProcessError as e:
@@ -454,8 +458,10 @@ class BaseProjectScanner:
                     try:
                         file_hash = calculate_file_hash(file_path)
                         hashes.append(file_hash)
-                    except:
-                        continue
+                    except (FileNotFoundError, PermissionError) as e:
+                        raise FileOperationError(
+                            f"Ошибка чтения файла при вычислении хэша: {str(e)}", details={"file_path": str(file_path)}
+                        ) from e
 
             # Сортируем хэши для детерминированности
             hashes.sort()
@@ -506,4 +512,6 @@ class BaseProjectScanner:
                             "modified": stat.st_mtime,
                         }
                 except OSError:
+                    continue
+                except Exception:
                     continue

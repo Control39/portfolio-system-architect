@@ -134,8 +134,7 @@ class TestAuthenticationManager:
         manager = AuthenticationManager()
         test_ip = "192.168.1.100"
 
-        token = manager.create_session(
-            "test_user", UserRole.ADMIN, ip_address=test_ip)
+        token = manager.create_session("test_user", UserRole.ADMIN, ip_address=test_ip)
 
         assert token in manager.sessions
         assert manager.sessions[token].ip_address == test_ip
@@ -224,12 +223,10 @@ class TestEnterpriseGuardrails:
         guardrails.add_file_access_rule(rule)
 
         # Создаем сессию пользователя с правами DEVELOPER
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Валидируем доступ к Python файлу
-        is_allowed = guardrails.validate_file_access(
-            token=token, file_path="test.py", access_level=AccessLevel.READ)
+        is_allowed = guardrails.validate_file_access(token=token, file_path="test.py", access_level=AccessLevel.READ)
 
         assert is_allowed is True
 
@@ -238,17 +235,14 @@ class TestEnterpriseGuardrails:
         guardrails = EnterpriseGuardrails()
 
         # Создаем правило, разрешающее доступ только админам
-        rule = FileAccessRule(
-            pattern=r".*\.py$", allowed_roles={UserRole.ADMIN}, allowed_actions={AccessLevel.READ})
+        rule = FileAccessRule(pattern=r".*\.py$", allowed_roles={UserRole.ADMIN}, allowed_actions={AccessLevel.READ})
         guardrails.add_file_access_rule(rule)
 
         # Создаем сессию пользователя с правами DEVELOPER
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Валидируем доступ к Python файлу
-        is_allowed = guardrails.validate_file_access(
-            token=token, file_path="test.py", access_level=AccessLevel.READ)
+        is_allowed = guardrails.validate_file_access(token=token, file_path="test.py", access_level=AccessLevel.READ)
 
         assert is_allowed is False
 
@@ -263,12 +257,10 @@ class TestEnterpriseGuardrails:
         guardrails.add_file_access_rule(rule)
 
         # Создаем сессию пользователя с правами DEVELOPER
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Валидируем доступ к файлу с другим расширением
-        is_allowed = guardrails.validate_file_access(
-            token=token, file_path="test.txt", access_level=AccessLevel.READ)
+        is_allowed = guardrails.validate_file_access(token=token, file_path="test.txt", access_level=AccessLevel.READ)
 
         assert is_allowed is False
 
@@ -283,12 +275,10 @@ class TestEnterpriseGuardrails:
         guardrails.add_file_access_rule(rule)
 
         # Создаем сессию пользователя с правами DEVELOPER
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Валидируем доступ к Python файлу с правами на запись
-        is_allowed = guardrails.validate_file_access(
-            token=token, file_path="test.py", access_level=AccessLevel.WRITE)
+        is_allowed = guardrails.validate_file_access(token=token, file_path="test.py", access_level=AccessLevel.WRITE)
 
         assert is_allowed is False
 
@@ -296,8 +286,7 @@ class TestEnterpriseGuardrails:
         """Тест добавления правила доступа к файлу"""
         guardrails = EnterpriseGuardrails()
 
-        rule = FileAccessRule(
-            pattern=r".*\.txt$", allowed_roles={UserRole.AUDITOR}, allowed_actions={AccessLevel.READ})
+        rule = FileAccessRule(pattern=r".*\.txt$", allowed_roles={UserRole.AUDITOR}, allowed_actions={AccessLevel.READ})
 
         guardrails.add_file_access_rule(rule)
 
@@ -310,8 +299,7 @@ class TestEnterpriseGuardrails:
         guardrails = EnterpriseGuardrails()
 
         # Создаем сессию администратора
-        token = guardrails.auth_manager.create_session(
-            "admin_user", UserRole.ADMIN)
+        token = guardrails.auth_manager.create_session("admin_user", UserRole.ADMIN)
 
         # Валидируем безопасную команду
         is_safe, reason = guardrails.validate_command_execution(
@@ -326,8 +314,7 @@ class TestEnterpriseGuardrails:
         guardrails = EnterpriseGuardrails()
 
         # Создаем сессию разработчика
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Валидируем потенциально опасную команду
         is_safe, reason = guardrails.validate_command_execution(
@@ -342,12 +329,10 @@ class TestEnterpriseGuardrails:
         guardrails = EnterpriseGuardrails()
 
         # Создаем сессию разработчика
-        token = guardrails.auth_manager.create_session(
-            "dev_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("dev_user", UserRole.DEVELOPER)
 
         # Проверяем, пытается ли пользователь получить права администратора
-        has_admin_access = guardrails.check_privilege_escalation(
-            token=token, requested_role=UserRole.ADMIN)
+        has_admin_access = guardrails.check_privilege_escalation(token=token, requested_role=UserRole.ADMIN)
 
         assert has_admin_access is False
 
@@ -374,8 +359,7 @@ class TestEnterpriseGuardrails:
         assert hasattr(guardrails, "enforce_ethical_constraints")
 
         # Тестируем с разными типами контента
-        test_contents = ["Normal code content",
-                         "Harmful content that violates ethical norms", ""]
+        test_contents = ["Normal code content", "Harmful content that violates ethical norms", ""]
 
         for content in test_contents:
             try:
@@ -395,8 +379,7 @@ class TestEnterpriseGuardrailsIntegration:
         guardrails = EnterpriseGuardrails()
 
         # 1. Создаем сессию
-        token = guardrails.auth_manager.create_session(
-            "test_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("test_user", UserRole.DEVELOPER)
 
         # 2. Проверяем токен
         session = guardrails.auth_manager.verify_token(token)
@@ -410,8 +393,7 @@ class TestEnterpriseGuardrailsIntegration:
         guardrails.add_file_access_rule(rule)
 
         # 4. Проверяем доступ к файлу
-        is_allowed = guardrails.validate_file_access(
-            token=token, file_path="test.py", access_level=AccessLevel.READ)
+        is_allowed = guardrails.validate_file_access(token=token, file_path="test.py", access_level=AccessLevel.READ)
 
         # Результат зависит от реализации, но не должен вызывать исключений
         assert isinstance(is_allowed, bool)
@@ -421,12 +403,9 @@ class TestEnterpriseGuardrailsIntegration:
         guardrails = EnterpriseGuardrails()
 
         # Создаем несколько пользователей с разными ролями
-        admin_token = guardrails.auth_manager.create_session(
-            "admin", UserRole.ADMIN)
-        dev_token = guardrails.auth_manager.create_session(
-            "dev", UserRole.DEVELOPER)
-        auditor_token = guardrails.auth_manager.create_session(
-            "auditor", UserRole.AUDITOR)
+        admin_token = guardrails.auth_manager.create_session("admin", UserRole.ADMIN)
+        dev_token = guardrails.auth_manager.create_session("dev", UserRole.DEVELOPER)
+        auditor_token = guardrails.auth_manager.create_session("auditor", UserRole.AUDITOR)
 
         # Проверяем, что все токены валидны
         admin_session = guardrails.auth_manager.verify_token(admin_token)
@@ -458,8 +437,7 @@ class TestEnterpriseGuardrailsEdgeCases:
         manager = AuthenticationManager()
 
         # Создаем пользователя с русским именем
-        token = manager.create_session(
-            "пользователь_с_русским_именем", UserRole.DEVELOPER)
+        token = manager.create_session("пользователь_с_русским_именем", UserRole.DEVELOPER)
 
         session = manager.verify_token(token)
         assert session is not None
@@ -470,8 +448,7 @@ class TestEnterpriseGuardrailsEdgeCases:
         guardrails = EnterpriseGuardrails()
 
         # Создаем сессию
-        token = guardrails.auth_manager.create_session(
-            "test_user", UserRole.DEVELOPER)
+        token = guardrails.auth_manager.create_session("test_user", UserRole.DEVELOPER)
 
         # Проверяем доступ к файлу с unicode именем
         is_allowed = guardrails.validate_file_access(
@@ -505,8 +482,7 @@ class TestEnterpriseGuardrailsSecurity:
         # Пытаемся проверить много невалидных токенов
         invalid_attempts = 0
         for i in range(100):
-            session = guardrails.auth_manager.verify_token(
-                f"invalid_token_{i}")
+            session = guardrails.auth_manager.verify_token(f"invalid_token_{i}")
             if session is None:
                 invalid_attempts += 1
 
@@ -518,16 +494,14 @@ class TestEnterpriseGuardrailsSecurity:
         guardrails = EnterpriseGuardrails()
 
         # Создаем сессию
-        original_token = guardrails.auth_manager.create_session(
-            "test_user", UserRole.DEVELOPER)
+        original_token = guardrails.auth_manager.create_session("test_user", UserRole.DEVELOPER)
 
         # Проверяем оригинальный токен
         original_session = guardrails.auth_manager.verify_token(original_token)
         assert original_session is not None
 
         # Создаем новую сессию для того же пользователя
-        new_token = guardrails.auth_manager.create_session(
-            "test_user", UserRole.DEVELOPER)
+        new_token = guardrails.auth_manager.create_session("test_user", UserRole.DEVELOPER)
 
         # Оригинальная сессия может быть всё ещё активна в зависимости от реализации
         # Но новая сессия точно должна быть создана

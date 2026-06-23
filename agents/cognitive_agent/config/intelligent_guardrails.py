@@ -4,6 +4,7 @@
 
 import re
 from pathlib import Path
+
 import yaml  # 移至模块顶层
 
 
@@ -24,7 +25,7 @@ class IntelligentGuardrails:
         # 编译配置中的阻塞模式
         blocked_patterns = self.config.get("blocked_patterns", [])
         self._compiled_patterns["blocked"] = [re.compile(pattern, re.IGNORECASE) for pattern in blocked_patterns]
-        
+
         # 编译允许的路径模式
         allowed_paths = self.config.get("allowed_paths", [])
         self._compiled_patterns["allowed"] = [re.compile(p, re.IGNORECASE) for p in allowed_paths]
@@ -85,7 +86,7 @@ class IntelligentGuardrails:
         # Валидация входных параметров
         if not isinstance(action, str) or not isinstance(path, str):
             return False, "Неверный тип параметров: action и path должны быть строками"
-        
+
         action_lower = action.lower()
         path_lower = path.lower()
 
@@ -139,7 +140,7 @@ class IntelligentGuardrails:
         """Загрузить конфигурацию"""
         try:
             if config_path.exists():
-                with open(config_path, 'r', encoding='utf-8') as f:
+                with open(config_path, encoding="utf-8") as f:
                     return yaml.safe_load(f) or {}
         except FileNotFoundError:
             return {}
@@ -183,14 +184,20 @@ class IntelligentGuardrails:
         # Проверяем, нужно ли подтверждение - исправленная логика
         path_lower = path.lower()
         action_lower = action.lower()
-        
-        if ("config" in path_lower and 
-            action_lower in ["write", "modify"] and 
-            (path_lower.endswith(('.yaml', '.yml')) or 'config/' in path_lower)):
+
+        if (
+            "config" in path_lower
+            and action_lower in ["write", "modify"]
+            and (path_lower.endswith((".yaml", ".yml")) or "config/" in path_lower)
+        ):
             result["requires_approval"] = True
             result["priority"] = "high"
 
-        if ("requirements" in path_lower and path_lower.endswith('.txt')) or "dockerfile" in path_lower or "docker-compose.yml" in path_lower:
+        if (
+            ("requirements" in path_lower and path_lower.endswith(".txt"))
+            or "dockerfile" in path_lower
+            or "docker-compose.yml" in path_lower
+        ):
             result["requires_approval"] = True
             result["priority"] = "high"
 
