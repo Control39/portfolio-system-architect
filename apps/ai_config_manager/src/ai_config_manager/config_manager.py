@@ -2,6 +2,7 @@
 Менеджер конфигураций AI-агентов с поддержкой hot reload.
 """
 
+import asyncio
 import json
 import logging
 import threading

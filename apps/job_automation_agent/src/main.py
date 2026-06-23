@@ -6,6 +6,7 @@ from typing import Any
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -22,8 +23,13 @@ except Exception as e:
     )
     job_agent_config = {}
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import Dict, List, Optional
+from datetime import datetime
+import asyncio
+from apps.job_automation_agent.src.utils.timeout import fetch_with_timeout
+from apps.job_automation_agent.core.orchestrator import run_core_agent  # Добавляем недостающий импорт
 
 # Добавляем путь для импорта общих модулей
 from src.common.async_helpers import fetch_with_timeout

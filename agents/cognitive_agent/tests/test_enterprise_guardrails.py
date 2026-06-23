@@ -184,8 +184,8 @@ class TestAuthenticationManager:
         manager.max_concurrent_sessions = 2  # Устанавливаем маленькое ограничение
 
         # Создаем 2 сессии для одного пользователя
-        token1 = manager.create_session("test_user", UserRole.DEVELOPER)
-        token2 = manager.create_session("test_user", UserRole.DEVELOPER)
+        manager.create_session("test_user", UserRole.DEVELOPER)
+        manager.create_session("test_user", UserRole.DEVELOPER)
 
         # Третья сессия должна вызвать исключение
         with pytest.raises(Exception):

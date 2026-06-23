@@ -115,7 +115,7 @@ class MetricsCollector:
             try:
                 with open(py_file, encoding="utf-8", errors="ignore") as f:
                     total_lines += len(f.readlines())
-            except:
+            except OSError:
                 pass
 
         self.metrics["lines_of_code"] = total_lines

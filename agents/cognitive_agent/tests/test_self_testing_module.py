@@ -351,7 +351,6 @@ class TestSelfTestingModuleAsyncOperations:
         )
 
         # Мокаем run_self_test_cycle, чтобы выбрасывать исключение
-        original_method = module.run_self_test_cycle
 
         async def mock_run_self_test_cycle():
             raise Exception("Test exception")

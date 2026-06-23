@@ -1,9 +1,9 @@
 """Core module for thought_architecture."""
 
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class DecisionStatus(str, Enum):
+class DecisionStatus(StrEnum):
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"

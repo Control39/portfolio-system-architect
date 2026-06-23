@@ -25,7 +25,7 @@ print(f"Исходная папка: {source_dir}")
 print(f"Целевая папка: {target_dir}")
 
 # Рекурсивный обход исходной папки
-for root, dirs, files in os.walk(source_dir):
+for root, _dirs, files in os.walk(source_dir):
     for file in files:
         # Проверяем, заканчивается ли файл на .md (регистронезависимо)
         if file.lower().endswith(".md"):

@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from agents.cognitive_agent.enterprise_guardrails import AccessLevel, EnterpriseGuardrails
 
 
-class PolicyDecisionType(str, Enum):
+class PolicyDecisionType(StrEnum):
     ALLOW = "allow"
     DENY = "deny"
     PENDING_APPROVAL = "pending_approval"

@@ -1,9 +1,10 @@
-import sys
 import pytest
+
 print('pytest version:', pytest.__version__)
 
 # Check what paths pytest adds
 from pathlib import Path
+
 rootdir = Path('C:/repo/apps/ai_config_manager')
 print('rootdir:', rootdir)
 

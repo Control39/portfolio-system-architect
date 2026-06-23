@@ -421,7 +421,7 @@ class TriggerDashboard:
         """Генерация HTML дашборда"""
         # Получаем статистику
         stats = self.collector.get_event_stats(24)
-        metrics = self.collector.get_metrics_summary(24)
+        self.collector.get_metrics_summary(24)
 
         # Генерируем HTML
         html = f"""

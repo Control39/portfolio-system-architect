@@ -446,7 +446,7 @@ class KnowledgeGraphManager:
                     }
                 )
 
-            for source_id, target_id, key, edge_data in self.graph.edges(data=True, keys=True):
+            for source_id, target_id, _key, edge_data in self.graph.edges(data=True, keys=True):
                 result["edges"].append(
                     {
                         "source": source_id,

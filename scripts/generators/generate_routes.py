@@ -66,32 +66,32 @@ def save_route(route: dict, output_dir: str, task_id: str):
 
 def main():
     # Пути к файлам
-    TASKS_CSV = "tasks.csv"
-    SCHEMA_JSON = "diagrams/reasoning/graph-schema.json"
-    OUTPUT_DIR = "generated_routes"
+    tasks_csv = "tasks.csv"
+    schema_json = "diagrams/reasoning/graph-schema.json"
+    output_dir = "generated_routes"
 
     # Проверка существования файлов
-    if not os.path.exists(TASKS_CSV):
-        print(f"Ошибка: Файл {TASKS_CSV} не найден.")
+    if not os.path.exists(tasks_csv):
+        print(f"Ошибка: Файл {tasks_csv} не найден.")
         return
-    if not os.path.exists(SCHEMA_JSON):
-        print(f"Ошибка: Файл схемы {SCHEMA_JSON} не найден.")
+    if not os.path.exists(schema_json):
+        print(f"Ошибка: Файл схемы {schema_json} не найден.")
         return
 
     # Загрузка схемы
     try:
-        schema = load_graph_schema(SCHEMA_JSON)
+        schema = load_graph_schema(schema_json)
     except Exception as e:
         print(f"Ошибка при загрузке схемы: {e}")
         return
 
     # Чтение задач и генерация маршрутов
     try:
-        with open(TASKS_CSV, encoding="utf-8") as csvfile:
+        with open(tasks_csv, encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 route = create_route_from_task(row, schema)
-                save_route(route, OUTPUT_DIR, row["id"])
+                save_route(route, output_dir, row["id"])
         print("Генерация маршрутов завершена.")
     except Exception as e:
         print(f"Ошибка при обработке CSV: {e}")

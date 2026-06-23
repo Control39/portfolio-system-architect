@@ -11,7 +11,7 @@ import sys
 # conftest.py should:
 # 1. Remove MOLECULE_SRC from wherever it is
 # 2. Insert MOLECULE_SRC at [0]
-# 3. Remove SRC_PATH from wherever it is  
+# 3. Remove SRC_PATH from wherever it is
 # 4. Insert SRC_PATH at [0]
 
 # Let's simulate this

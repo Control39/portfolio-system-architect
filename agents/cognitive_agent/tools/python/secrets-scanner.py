@@ -207,10 +207,7 @@ def scan_file(file_path: Path, base_path: Path) -> list[SecretFinding]:
                         severity = "low"
 
                     # Create preview (mask most of the secret)
-                    if len(secret) > 8:
-                        preview = secret[:4] + "..." + secret[-4:]
-                    else:
-                        preview = secret[:4] + "..."
+                    preview = secret[:4] + "..." + secret[-4:] if len(secret) > 8 else secret[:4] + "..."
 
                     findings.append(
                         SecretFinding(

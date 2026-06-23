@@ -230,7 +230,7 @@ class TestErrorHandling:
 
     def test_components_use_new_exceptions(self):
         """Тест того, что компоненты используют новую систему исключений"""
-        with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory():
             # Тест BaseLogger с ошибкой аудита
             try:
                 BaseLogger.setup_logging(log_file="/invalid/path/log.txt")
@@ -268,7 +268,7 @@ class TestErrorHandling:
     def test_base_project_scanner_error_handling(self):
         """Тест обработки ошибок в BaseProjectScanner"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path = Path(temp_dir)
+            Path(temp_dir)
 
             # Создать scanner
             scanner = BaseProjectScanner(temp_dir)

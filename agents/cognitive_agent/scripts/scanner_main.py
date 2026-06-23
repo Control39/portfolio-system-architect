@@ -16,13 +16,13 @@ import yaml
 
 # Интеграция с AI Config Manager
 try:
-    from agents.cognitive_agent.src.config_integration import get_config
     from agents.cognitive_agent.src.base_agent import (
         AGENT_LOGS_DIR,
         AGENT_REPORTS_DIR,
         AGENT_SCANS_DIR,
         AGENT_STATUS_DIR,
     )
+    from agents.cognitive_agent.src.config_integration import get_config
 
     AI_CONFIG_INTEGRATION = True
 except ImportError:

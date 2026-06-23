@@ -117,7 +117,7 @@ class TestFindTestFiles:
 
             # Проверяем, что файлы тестов найдены
             pytest_files = files[TestFramework.PYTEST.value]
-            unittest_files = files[TestFramework.UNITTEST.value]
+            files[TestFramework.UNITTEST.value]
 
             assert len(pytest_files) >= 3  # test_main.py, conftest.py, test_submodule.py
 
@@ -565,7 +565,7 @@ def test_with_syntax_error(
 
             # Анализатор должен корректно обрабатывать синтаксические ошибки
             try:
-                report = analyzer.generate_test_report()
+                analyzer.generate_test_report()
                 # Может не сгенерировать отчет из-за ошибки, но не должен падать
             except Exception:
                 # Обработка любых исключений должна быть корректной

@@ -30,9 +30,9 @@ def test_component_config_import_from_decision_engine():
         from src.config.loader import COMPONENT_CONFIG
 
         # Проверяем, что конфиг взят из мока, а не из fallback
-        assert {"test": "value"} == COMPONENT_CONFIG
+        assert COMPONENT_CONFIG == {"test": "value"}
         # Проверяем, что конфиг не является fallback-конфигом
-        assert {
+        assert COMPONENT_CONFIG != {
             "automation": {
                 "scripts": [
                     {
@@ -41,7 +41,7 @@ def test_component_config_import_from_decision_engine():
                     }
                 ]
             }
-        } != COMPONENT_CONFIG
+        }
 
 
 def test_component_config_fallback_when_decision_engine_missing():
@@ -65,7 +65,7 @@ def test_component_config_fallback_when_decision_engine_missing():
         from src.config.loader import COMPONENT_CONFIG
 
         # Проверяем, что используется fallback-конфиг
-        assert {
+        assert COMPONENT_CONFIG == {
             "automation": {
                 "scripts": [
                     {
@@ -74,7 +74,7 @@ def test_component_config_fallback_when_decision_engine_missing():
                     }
                 ]
             }
-        } == COMPONENT_CONFIG
+        }
 
 
 def test_load_component_config_fallback():

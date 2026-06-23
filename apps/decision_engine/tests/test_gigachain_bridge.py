@@ -12,6 +12,7 @@ import pytest
 # Добавляем корень проекта в путь
 ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 
 def test_gigachain_bridge_init(mock_gigachat, mock_prompt_template):

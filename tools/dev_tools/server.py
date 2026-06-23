@@ -23,11 +23,6 @@ if not os.path.exists(CONFIG_PATH):
 with open(CONFIG_PATH, encoding="utf-8") as f:
     config = json.load(f)
 
-# Загружаем переменные окружения
-from dotenv import load_dotenv
-
-load_dotenv()
-
 # Подменяем ключ GigaChat из .env
 if config.get("gigachat", {}).get("api_key") == "YOUR_GIGACHAT_TOKEN_HERE":
     key = os.getenv("GIGACHAT_API_KEY")

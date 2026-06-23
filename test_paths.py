@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 
 # Test what paths would be added

@@ -11,7 +11,7 @@ def find_files(base_dir, pattern):
         return
 
     print(f"\n=== {base_dir} ===")
-    for root, dirs, files in os.walk(base_dir):
+    for root, _dirs, files in os.walk(base_dir):
         for f in files:
             if f.endswith(pattern):
                 full_path = os.path.join(root, f)

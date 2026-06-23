@@ -1,4 +1,5 @@
 import sys
+
 sys.path = ['C:\\repo\\src', 'C:\\repo\\apps\\ai_config_manager\\src', 'C:\\repo'] + sys.path[3:]
 
 print("sys.path[0:3]:", sys.path[0:3])

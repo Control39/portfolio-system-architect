@@ -2,11 +2,11 @@
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class DecisionStatus(str, Enum):
+class DecisionStatus(StrEnum):
     """Статус архитектурного решения."""
 
     PROPOSED = "proposed"
@@ -15,7 +15,7 @@ class DecisionStatus(str, Enum):
     SUPERSEDED = "superseded"
 
 
-class DecisionLevel(str, Enum):
+class DecisionLevel(StrEnum):
     """Уровень важности решения."""
 
     CRITICAL = "critical"

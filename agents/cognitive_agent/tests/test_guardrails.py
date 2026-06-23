@@ -294,7 +294,7 @@ class TestGuardrails:
         context = {"command": "rm -rf /"}
 
         # Проверить, что при raise_exception=True поднимается исключение
-        with pytest.raises(Exception) as exc_info:
+        with pytest.raises(Exception):
             guardrails.enforce_guardrails("unsafe_action", context, raise_exception=True)
 
         # Проверить, что при raise_exception=False возвращаются нарушения

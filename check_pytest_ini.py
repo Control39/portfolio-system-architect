@@ -1,5 +1,4 @@
 """Check pytest paths."""
-import sys
 from pathlib import Path
 
 # Check if pytest.ini is being used
@@ -8,6 +7,7 @@ print(f"pytest.ini exists: {pytest_ini.exists()}")
 
 # Check what pytest would read from pytest.ini
 import configparser
+
 config = configparser.ConfigParser()
 config.read(pytest_ini)
 

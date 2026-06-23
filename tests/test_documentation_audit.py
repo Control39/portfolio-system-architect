@@ -1,10 +1,11 @@
 """
 Тесты для функционала аудита документации
 """
-import pytest
-from pathlib import Path
 import tempfile
-import os
+from pathlib import Path
+
+import pytest
+
 from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
 
 
@@ -49,11 +50,11 @@ def test_documentation_audit_functionality():
 
         # Проверяем, что найдены конкретные несоответствия
         discrepancies = audit_results["discrepancies"]
-        found_it_compass_issue = any(
+        any(
             "IT-Compass" in d["issue"] for d in discrepancies)
-        found_ollama_issue = any(
+        any(
             "ollama" in d["issue"].lower() for d in discrepancies)
-        found_e2e_issue = any("e2e" in d["issue"].lower()
+        any("e2e" in d["issue"].lower()
                               for d in discrepancies)
 
         # Эти проверки могут не пройти, если ключевые слова не найдены, но структура верна

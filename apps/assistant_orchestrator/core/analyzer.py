@@ -112,10 +112,7 @@ class AssistantOrchestrator:
         # Collect all evidence with timing
         results = {}
 
-        if self.config["parallel_collection"]:
-            results = self._collect_parallel()
-        else:
-            results = self._collect_sequential()
+        results = self._collect_parallel() if self.config["parallel_collection"] else self._collect_sequential()
 
         # Build result object
         try:

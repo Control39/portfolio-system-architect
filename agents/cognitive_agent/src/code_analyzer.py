@@ -2,6 +2,7 @@
 Модуль для интеграции агента с инструментами статического анализа кода
 """
 
+import contextlib
 import json
 import logging
 import subprocess
@@ -366,10 +367,8 @@ class CodeAnalyzer:
                     if "TOTAL" in line:
                         parts = line.split()
                         if len(parts) >= 4:
-                            try:
+                            with contextlib.suppress(ValueError):
                                 summary["total_coverage"] = float(parts[-1].replace("%", ""))
-                            except ValueError:
-                                pass
                         break
 
             return AnalysisResult(

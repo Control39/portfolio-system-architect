@@ -125,19 +125,14 @@ def is_stub(path: Path) -> bool:
     if path.stat().st_size < 200:
         return True
     content = path.read_text(encoding="utf-8")
-    if "См. оригинал" in content or "See original" in content.lower():
-        return True
-    return False
+    return bool("См. оригинал" in content or "See original" in content.lower())
 
 
 def format_new_filename(number: int, original_name: str) -> str:
     """Generate new filename: ADR-NNN-kebab-case.md"""
     # Extract any existing suffix after the number
     parts = original_name.replace(".md", "").split("-", 2)
-    if len(parts) >= 3:
-        suffix = parts[2]
-    else:
-        suffix = "consolidated"
+    suffix = parts[2] if len(parts) >= 3 else "consolidated"
     return f"ADR-{number:03d}-{suffix}.md"
 
 
@@ -313,7 +308,7 @@ def main():
 
         # 5. Write all files
         print("\n✍️  Writing consolidated ADRs...")
-        for filename, content, source_name, note in files_to_write:
+        for filename, content, source_name, _note in files_to_write:
             target_file = TARGET_DIR / filename
             target_file.write_text(content, encoding="utf-8")
             print(f"   ✅ Written: {source_name} → {filename}")

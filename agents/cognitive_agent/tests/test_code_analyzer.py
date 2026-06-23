@@ -73,7 +73,7 @@ class TestToolAvailability:
             analyzer = CodeAnalyzer(temp_dir)
 
             # Проверяем, что все инструменты помечены как доступные
-            for tool, available in analyzer.tools_available.items():
+            for _tool, available in analyzer.tools_available.items():
                 assert available is True
 
     @patch("subprocess.run")
@@ -92,7 +92,7 @@ class TestToolAvailability:
             analyzer = CodeAnalyzer(temp_dir)
 
             # Проверяем, что все инструменты помечены как недоступные
-            for tool, available in analyzer.tools_available.items():
+            for _tool, available in analyzer.tools_available.items():
                 assert available is False
 
     @patch("subprocess.run")

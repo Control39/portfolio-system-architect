@@ -196,7 +196,6 @@ def test_agent_context_preservation(service_instance, mock_dependencies):
     Проверяет, что контекст передаётся между вызовами.
     """
     # Arrange
-    context = {"user_id": "test-123", "session": "abc"}
 
     # Act
     # TODO: Вызови методы с контекстом

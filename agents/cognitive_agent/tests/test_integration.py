@@ -8,8 +8,6 @@ import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 # 🛠 ИСПРАВЛЕНО 1: REPO_ROOT теперь устойчивый (работает из любого места)
 REPO_ROOT = Path("C:/repo") if Path("C:/repo").exists() else Path(__file__).resolve().parents[3]
 
@@ -96,11 +94,11 @@ class TestIntegration:
         Test: Project Scanner Integration
         Проверка интеграции сканера проекта с остальными компонентами
         """
-        from agents.cognitive_agent.src.project_scanner import ProjectScanner
 
         # Создаем временный проект для тестирования
         import tempfile
-        import os
+
+        from agents.cognitive_agent.src.project_scanner import ProjectScanner
 
         with tempfile.TemporaryDirectory() as temp_dir:
             scanner = ProjectScanner(project_path=temp_dir)
@@ -132,10 +130,10 @@ class TestIntegration:
         }
 
         agent = AutonomousCognitiveAgent()
-        
+
         # Проверяем, что у агента есть нужные методы
         assert hasattr(agent, '_call_ai_sync')
-        
+
         # Проверяем вызов через правильный метод
         try:
             # Просто проверяем, что метод существует и вызываем
@@ -167,10 +165,10 @@ class TestIntegration:
         mock_get_scanner.return_value = mock_scanner
 
         agent = AutonomousCognitiveAgent()
-        
+
         # Проверяем, что у агента есть нужные методы
         assert hasattr(agent, '_run_compass_scan')
-        
+
         # Вызываем метод сканирования
         try:
             result = agent._run_compass_scan()
@@ -191,8 +189,9 @@ class TestIntegration:
         Проверка интеграции endpoints с конфигурацией
         """
         # Импортируем app после настройки импорт-пути
-        from agents.cognitive_agent.src.api.endpoints import app
         from fastapi.testclient import TestClient
+
+        from agents.cognitive_agent.src.api.endpoints import app
 
         client = TestClient(app)
 
@@ -211,8 +210,9 @@ class TestIntegration:
         Test: Endpoints Integration with AI Config
         Проверка интеграции endpoints с AI конфигурацией
         """
-        from agents.cognitive_agent.src.api.endpoints import app
         from fastapi.testclient import TestClient
+
+        from agents.cognitive_agent.src.api.endpoints import app
 
         client = TestClient(app)
 
@@ -231,7 +231,6 @@ class TestIntegration:
         Test: Orchestrator Integration with Workflows
         Проверка интеграции оркестратора с workflow файлами
         """
-        import os
         import tempfile
         from pathlib import Path
 
@@ -252,7 +251,7 @@ class TestIntegration:
             from agents.cognitive_agent.orchestrator_v2 import CognitiveOrchestrator
 
             orchestrator = CognitiveOrchestrator()
-            
+
             # Проверяем, что оркестратор может быть инициализирован
             assert orchestrator is not None
             assert hasattr(orchestrator, 'config')

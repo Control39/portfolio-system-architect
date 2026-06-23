@@ -201,12 +201,7 @@ class MetacognitiveMonitor:
         contradiction_keywords = ["не", "нет", "отрицание", "противоречит"]
 
         # Простая проверка на основе ключевых слов
-        for keyword in contradiction_keywords:
-            if keyword in step1_str.lower() and keyword in step2_str.lower():
-                # Дополнительная проверка на контекст
-                return True
-
-        return False
+        return any(keyword in step1_str.lower() and keyword in step2_str.lower() for keyword in contradiction_keywords)
 
     def trigger_self_correction(self, process_id: str, correction_reason: str) -> bool:
         """
@@ -278,7 +273,7 @@ class MetacognitiveMonitor:
         """
         with self.lock:
             total_processes = len(self.reasoning_trace)
-            processes_with_uncertainty = len([pid for pid in self.uncertainty_markers.keys()])
+            processes_with_uncertainty = len([pid for pid in self.uncertainty_markers])
             processes_with_low_confidence = len(
                 [pid for pid, data in self.confidence_levels.items() if data.get("score", 1.0) < 0.7]
             )

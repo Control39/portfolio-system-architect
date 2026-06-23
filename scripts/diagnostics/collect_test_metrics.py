@@ -27,7 +27,7 @@ def main():
                 content = f.read_text(encoding="utf-8", errors="ignore")
                 if "from apps." in content or "import apps" in content:
                     service_imports.append(f.name)
-            except:
+            except OSError:
                 pass
         print(f"Файлы с импортами сервисов: {service_imports if service_imports else 'Нет'}")
 
@@ -42,7 +42,7 @@ def main():
                 for pattern in helper_patterns:
                     if pattern in content:
                         duplicates[pattern].append(str(py_file.relative_to(Path("."))))
-            except:
+            except OSError:
                 pass
 
     for pattern, files in duplicates.items():
@@ -69,7 +69,7 @@ def main():
             fixture_count += len(re.findall(r"@pytest.fixture", content))
             slow_count += len(re.findall(r"@pytest.mark.slow", content))
             skip_count += len(re.findall(r"@pytest.mark.skip", content))
-        except:
+        except (OSError, re.error):
             pass
 
     print(f"Всего тест-файлов: {total_test_files}")
@@ -97,7 +97,7 @@ def main():
                 http_count += 1
             if re.search(r"(postgresql|redis|mongodb|sqlite)", content, re.IGNORECASE):
                 db_count += 1
-        except:
+        except (OSError, re.error):
             pass
 
     print(f"Файлов с HTTP-вызовами: {http_count}")
@@ -112,7 +112,7 @@ def main():
             content = py_file.read_text(encoding="utf-8", errors="ignore")
             sleep_count += len(re.findall(r"time\.sleep", content))
             random_count += len(re.findall(r"(random\.|randint|choice)", content))
-        except:
+        except (OSError, re.error):
             pass
 
     print(f"Использований time.sleep: {sleep_count}")

@@ -101,7 +101,6 @@ def check_port_conflicts(compose_data: dict[str, Any], file_name: str) -> list[t
         for port_mapping in ports:
             try:
                 host_port, _ = parse_port_mapping(port_mapping)
-                key = f"{file_name}:{service_name}"
                 if host_port in port_map:
                     prev_service, prev_file = port_map[host_port]
                     conflicts.append((host_port, prev_service, prev_file, service_name, file_name))

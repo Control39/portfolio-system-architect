@@ -33,9 +33,9 @@ jobs:
 
       - name: 🚀 Launch Cognitive Agent (Full Mode)
         run: |
-          PYTHONPATH=$PWD/.agents python -m apps.cognitive_agent.scripts.scanner_main --mode=full --stop-after=90s
+          PYTHONPATH=$PWD python -m agents.cognitive_agent.scripts.scanner_main --mode=full --stop-after=90s
         env:
-          PYTHONPATH: $PWD/.agents
+          PYTHONPATH: $PWD
           LOG_LEVEL: INFO
 
       - name: 📂 Upload Logs as Artifact
@@ -43,7 +43,7 @@ jobs:
         if: always()
         with:
           name: agent-logs-${{ github.run_id }}
-          path: .agents/logs/
+          path: agents/logs/
           retention-days: 7
 
       - name: 📊 Post Status to PR (if applicable)

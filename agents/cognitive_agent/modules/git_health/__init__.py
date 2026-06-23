@@ -42,7 +42,7 @@ class GitHealthAnalyzer:
             )
 
             if result.returncode == 0:
-                local_commits = len(result.stdout.strip().split("\n"))
+                len(result.stdout.strip().split("\n"))
 
                 result = subprocess.run(
                     ["git", "log", "--remotes", "--not", "--branches", "--oneline"],

@@ -1,5 +1,4 @@
 """Check pytest paths relative to rootdir."""
-import sys
 from pathlib import Path
 
 # When pytest runs from apps/ai_config_manager/tests/, rootdir is apps/ai_config_manager

@@ -203,7 +203,7 @@ class TestAnalyzer:
             import coverage
 
             # Создаем экземпляр coverage
-            cov = coverage.Coverage()
+            coverage.Coverage()
 
             # Запускаем тесты с покрытием
             if self.framework == TestFramework.PYTEST:
@@ -295,83 +295,82 @@ class TestAnalyzer:
                 tree = ast.parse(content)
 
                 for node in ast.walk(tree):
-                    if isinstance(node, ast.FunctionDef):
-                        if node.name.startswith("test_"):
-                            # Проверяем, есть ли asserts в тесте
-                            has_assert = any(
-                                isinstance(n, ast.Assert)
-                                or (
-                                    isinstance(n, ast.Expr)
-                                    and isinstance(n.value, ast.Call)
-                                    and isinstance(n.value.func, ast.Name)
-                                    and n.value.func.id == "assert"
+                    if isinstance(node, ast.FunctionDef) and node.name.startswith("test_"):
+                        # Проверяем, есть ли asserts в тесте
+                        has_assert = any(
+                            isinstance(n, ast.Assert)
+                            or (
+                                isinstance(n, ast.Expr)
+                                and isinstance(n.value, ast.Call)
+                                and isinstance(n.value.func, ast.Name)
+                                and n.value.func.id == "assert"
+                            )
+                            for n in ast.walk(node)
+                        )
+
+                        if not has_assert:
+                            issues.append(
+                                TestIssue(
+                                    file_path=str(test_file),
+                                    issue_type="no_assertions",
+                                    severity="high",
+                                    message=f"Тест '{node.name}' не содержит утверждений (asserts)",
                                 )
-                                for n in ast.walk(node)
                             )
 
-                            if not has_assert:
-                                issues.append(
-                                    TestIssue(
-                                        file_path=str(test_file),
-                                        issue_type="no_assertions",
-                                        severity="high",
-                                        message=f"Тест '{node.name}' не содержит утверждений (asserts)",
-                                    )
-                                )
+                        # Проверяем, есть ли side effects (изменение глобального состояния)
+                        has_side_effects = any(
+                            isinstance(n, ast.Assign)
+                            and isinstance(n.targets[0], ast.Name)
+                            and n.targets[0].id.startswith(("global_", "shared_"))
+                            for n in ast.walk(node)
+                            if isinstance(n, ast.Assign)
+                        )
 
-                            # Проверяем, есть ли side effects (изменение глобального состояния)
-                            has_side_effects = any(
-                                isinstance(n, ast.Assign)
-                                and isinstance(n.targets[0], ast.Name)
-                                and n.targets[0].id.startswith(("global_", "shared_"))
-                                for n in ast.walk(node)
-                                if isinstance(n, ast.Assign)
+                        if has_side_effects:
+                            issues.append(
+                                TestIssue(
+                                    file_path=str(test_file),
+                                    issue_type="side_effects",
+                                    severity="medium",
+                                    message=f"Тест '{node.name}' имеет побочные эффекты",
+                                )
                             )
 
-                            if has_side_effects:
-                                issues.append(
-                                    TestIssue(
-                                        file_path=str(test_file),
-                                        issue_type="side_effects",
-                                        severity="medium",
-                                        message=f"Тест '{node.name}' имеет побочные эффекты",
-                                    )
-                                )
+                        # Проверяем, использует ли тест внешние ресурсы без моков
+                        has_external_calls = any(
+                            isinstance(n, ast.Call)
+                            and isinstance(n.func, ast.Attribute)
+                            and n.func.attr in ["connect", "open", "request", "get", "post", "put", "delete"]
+                            for n in ast.walk(node)
+                            if isinstance(n, ast.Call)
+                        )
 
-                            # Проверяем, использует ли тест внешние ресурсы без моков
-                            has_external_calls = any(
-                                isinstance(n, ast.Call)
-                                and isinstance(n.func, ast.Attribute)
-                                and n.func.attr in ["connect", "open", "request", "get", "post", "put", "delete"]
-                                for n in ast.walk(node)
-                                if isinstance(n, ast.Call)
+                        if has_external_calls:
+                            issues.append(
+                                TestIssue(
+                                    file_path=str(test_file),
+                                    issue_type="external_calls",
+                                    severity="high",
+                                    message=f"Тест '{node.name}' делает внешние вызовы без мокирования",
+                                )
                             )
 
-                            if has_external_calls:
-                                issues.append(
-                                    TestIssue(
-                                        file_path=str(test_file),
-                                        issue_type="external_calls",
-                                        severity="high",
-                                        message=f"Тест '{node.name}' делает внешние вызовы без мокирования",
-                                    )
+                        # Проверяем длину теста
+                        test_lines = (
+                            len(ast.get_source_segment(content, node).split("\n"))
+                            if hasattr(ast, "get_source_segment")
+                            else len(node.body)
+                        )
+                        if test_lines > 30:
+                            issues.append(
+                                TestIssue(
+                                    file_path=str(test_file),
+                                    issue_type="long_test",
+                                    severity="medium",
+                                    message=f"Тест '{node.name}' слишком длинный ({test_lines} строк)",
                                 )
-
-                            # Проверяем длину теста
-                            test_lines = (
-                                len(ast.get_source_segment(content, node).split("\n"))
-                                if hasattr(ast, "get_source_segment")
-                                else len(node.body)
                             )
-                            if test_lines > 30:
-                                issues.append(
-                                    TestIssue(
-                                        file_path=str(test_file),
-                                        issue_type="long_test",
-                                        severity="medium",
-                                        message=f"Тест '{node.name}' слишком длинный ({test_lines} строк)",
-                                    )
-                                )
 
             except Exception as e:
                 logger.warning(f"Ошибка при анализе качества теста {test_file}: {e}")

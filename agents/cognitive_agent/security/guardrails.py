@@ -57,10 +57,7 @@ class SecurityManager:
         """Проверить, разрешен ли путь"""
         import re
 
-        for pattern in self.allowed_paths:
-            if re.match(pattern, path):
-                return True
-        return False
+        return any(re.match(pattern, path) for pattern in self.allowed_paths)
 
     def is_action_safe(self, action: str) -> bool:
         """Проверить, безопасно ли действие"""

@@ -109,10 +109,7 @@ class IntegrationTestRunner:
         print(f"  • Passed: {total_passed}")
         print(f"  • Failed: {total_failed}")
 
-        if total_tests > 0:
-            pass_rate = (total_passed / total_tests) * 100
-        else:
-            pass_rate = 0
+        pass_rate = total_passed / total_tests * 100 if total_tests > 0 else 0
 
         print(f"  • Pass Rate: {pass_rate:.1f}%")
 

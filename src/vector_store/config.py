@@ -2,13 +2,13 @@
 Configuration for vector stores.
 """
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, Field
 
 
-class VectorStoreType(str, Enum):
+class VectorStoreType(StrEnum):
     """Types of supported vector stores."""
 
     CHROMA = "chroma"

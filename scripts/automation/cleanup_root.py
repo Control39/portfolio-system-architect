@@ -171,10 +171,7 @@ class RootCleaner:
             "*.pyc",
         ]
 
-        if gitignore.exists():
-            content = gitignore.read_text()
-        else:
-            content = ""
+        content = gitignore.read_text() if gitignore.exists() else ""
 
         for addition in additions:
             if addition not in content:
