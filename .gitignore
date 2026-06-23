@@ -248,6 +248,9 @@ var/
 venv/
 wheels/
 
+# Windows null device
+nul
+
 # === Cognitive Agent temporary files ===
 .cognitive_agent_scan_cache.json
 agents/.cognitive_agent_scan_cache.json
