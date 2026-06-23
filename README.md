@@ -293,7 +293,7 @@ docker-compose up -d
 
 **Реализованные возможности:**
 - ✅ Интеграция с маркерами IT-Compass
-- ✅ Интеграция с Job Automation Agent  
+- ✅ Интеграция с Job Automation Agent
 - ✅ Ollama fallback
 - ✅ E2E-тесты
 - ✅ Docker Compose

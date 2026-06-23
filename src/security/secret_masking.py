@@ -89,7 +89,7 @@ def mask_secrets_dict(data: dict[str, Any]) -> dict[str, Any]:
             # Маскируем значение, если ключ содержит секрет
             if isinstance(value, str):
                 result[key] = "****"
-            elif isinstance(value, (int, float)):
+            elif isinstance(value, int | float):
                 result[key] = "****"  # ✅ Консистентно
 
         elif isinstance(value, dict):
@@ -251,7 +251,7 @@ def sanitize_for_output(obj: Any) -> str:
     """
     import json
 
-    if isinstance(obj, (dict, list)):
+    if isinstance(obj, dict | list):
         try:
             if isinstance(obj, dict):
                 sanitized: Any = mask_secrets_dict(obj)

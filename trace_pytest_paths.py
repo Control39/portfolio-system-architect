@@ -5,7 +5,7 @@ from pathlib import Path
 # 2. It processes pythonpath entries relative to rootdir
 
 rootdir = Path("C:/repo/apps/ai_config_manager")
-pythonpath_entries = ['.', '..', '../..', '../../src']
+pythonpath_entries = [".", "..", "../..", "../../src"]
 
 print("Relative to rootdir (C:/repo/apps/ai_config_manager):")
 for entry in pythonpath_entries:

@@ -1,4 +1,5 @@
 """Test conftest.py path additions."""
+
 import sys
 from pathlib import Path
 
@@ -66,6 +67,7 @@ if str(MOLECULE_SRC) not in sys.path:
 print("\n=== Try to import ai_config_manager ===")
 try:
     import ai_config_manager
+
     print(f"Success! ai_config_manager: {ai_config_manager}")
     print(f"  __file__: {ai_config_manager.__file__}")
     print(f"  __path__: {ai_config_manager.__path__}")

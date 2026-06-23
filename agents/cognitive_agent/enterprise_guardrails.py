@@ -166,7 +166,6 @@ class AuthorizationManager:
                 approval_required=False,
                 description="apps/README.md - developer access allowed",
             ),
-
             FileAccessRule(
                 pattern=r"^apps/[^/]+/.*$",
                 allowed_roles={UserRole.DEVELOPER, UserRole.ADMIN},
@@ -174,7 +173,6 @@ class AuthorizationManager:
                 approval_required=False,
                 description="Application services - developer access allowed",
             ),
-
             # Agents директории - ограниченный доступ
             FileAccessRule(
                 pattern=r"^agents/[^/]+/.*$",

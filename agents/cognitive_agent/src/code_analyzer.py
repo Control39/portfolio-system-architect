@@ -1035,7 +1035,6 @@ class CodeAnalyzer:
     def analyze_changed_files(self) -> dict[str, AnalysisResult]:
         """Анализировать только измененные файлы"""
         changed_files = self._get_changed_files()
-        results = {}
 
         for file_path in changed_files:
             # Обновляем хеш файла

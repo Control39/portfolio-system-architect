@@ -17,8 +17,8 @@ class GapCalculator:
         target_skills: {"python": 80, "docker": 80, "k8s": 60}
         """
         gaps = []
-        target_set = set(target_skills.keys())
-        current_set = set(current_skills.keys())
+        set(target_skills.keys())
+        set(current_skills.keys())
 
         # 1. Находим навыки, которых нет вообще или уровень ниже
         for skill, target_level in target_skills.items():

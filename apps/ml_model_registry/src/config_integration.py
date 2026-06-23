@@ -5,11 +5,12 @@
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent  # корень проекта (на уровень выше apps/)
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 try:
     from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
@@ -23,7 +24,7 @@ except ImportError:
 class MlModelRegistryConfig:
     """Обёртка для конфигурации Ml Model Registry через AI Config Manager"""
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         """
         Инициализация конфигурации
 
@@ -31,8 +32,8 @@ class MlModelRegistryConfig:
             config_path: Путь к файлу конфигурации (по умолчанию: config/ai-config.yaml)
         """
         self.config_path = config_path or str(REPO_ROOT / "config" / "ai-config.yaml")
-        self._config_manager: Optional[ConfigManager] = None
-        self._local_config: Optional[Dict[str, Any]] = None
+        self._config_manager: ConfigManager | None = None
+        self._local_config: dict[str, Any] | None = None
 
         if AI_CONFIG_AVAILABLE:
             self._init_config_manager()
@@ -57,12 +58,12 @@ class MlModelRegistryConfig:
         local_config_path = REPO_ROOT / "apps" / "ml_model_registry" / "config" / "config.yaml"
 
         if local_config_path.exists():
-            with open(local_config_path, "r", encoding="utf-8") as f:
+            with open(local_config_path, encoding="utf-8") as f:
                 self._local_config = yaml.safe_load(f)
         else:
             self._local_config = {}
 
-    def get_config(self) -> Dict[str, Any]:
+    def get_config(self) -> dict[str, Any]:
         """Получить полную конфигурацию"""
         if self._config_manager:
             try:
@@ -84,7 +85,7 @@ class MlModelRegistryConfig:
 
 
 # Singleton для удобства
-_config_instance: Optional[MlModelRegistryConfig] = None
+_config_instance: MlModelRegistryConfig | None = None
 
 
 def get_config() -> MlModelRegistryConfig:

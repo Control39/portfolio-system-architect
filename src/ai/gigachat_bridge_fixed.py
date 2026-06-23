@@ -51,7 +51,6 @@ class GigaMCPBridge:
         """Инициализация GigaChat с правильными параметрами"""
 
         # Пробуем разные варианты импорта
-        GigaChat = None
 
         # Вариант 1: langchain-gigachat (рекомендуемый)
         try:
@@ -223,10 +222,7 @@ class GigaMCPBridge:
             return False
 
         # Проверяем, что ответ не содержит ошибку
-        if "ошибка" in output.lower() or "error" in output.lower():
-            return False
-
-        return True
+        return not ("ошибка" in output.lower() or "error" in output.lower())
 
     def self_improve(self, traces: list[dict]) -> str:
         """Self-Improving Loop."""

@@ -85,7 +85,7 @@ $personalScripts = @(
 foreach ($script in $personalScripts) {
     $source = "scripts/$script"
     $dest = ".scripts/personal/$script"
-    
+
     if (Test-Path $source) {
         if (-not (Test-Path ".scripts/personal")) {
             New-Item -ItemType Directory -Path ".scripts/personal" | Out-Null

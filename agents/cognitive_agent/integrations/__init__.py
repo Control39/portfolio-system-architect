@@ -1,7 +1,6 @@
 """Integration module for cognitive agent."""
 
 
-
 class JobAgentIntegration:
     """Интеграция с Job Automation Agent"""
 
@@ -37,7 +36,7 @@ class AIProviderIntegration:
     """Интеграция с AI Provider Manager"""
 
     def __init__(self):
-        self.provider_manager = None
+        self._provider_manager = None
 
         try:
             from apps.ai_provider_manager.src.ai_provider_manager import (
@@ -46,7 +45,7 @@ class AIProviderIntegration:
             )
 
             self.chat_with_fallback = chat_with_fallback
-            self.get_provider_manager = get_provider_manager
+            self._get_provider_manager_func = get_provider_manager
         except ImportError:
             pass
 
@@ -56,4 +55,4 @@ class AIProviderIntegration:
 
     def get_provider_manager(self):
         """Получить менеджер провайдеров"""
-        return getattr(self, "get_provider_manager", None)
+        return getattr(self, "_get_provider_manager_func", None)

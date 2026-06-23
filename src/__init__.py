@@ -19,10 +19,4 @@ __all__ = [
     "shared",
 ]
 
-import os
-
 # Инициализация путей
-import sys
-
-
-# Добавляем src в PYTHONPATH для относительных импортов

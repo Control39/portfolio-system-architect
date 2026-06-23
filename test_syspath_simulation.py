@@ -11,13 +11,13 @@ import sys
 # conftest.py should:
 # 1. Remove MOLECULE_SRC from wherever it is
 # 2. Insert MOLECULE_SRC at [0]
-# 3. Remove SRC_PATH from wherever it is  
+# 3. Remove SRC_PATH from wherever it is
 # 4. Insert SRC_PATH at [0]
 
 # Let's simulate this
 sys.path = [
     "C:/repo/apps",  # [0] - from pytest.ini
-    "C:/repo",       # [1] - from pytest.ini
+    "C:/repo",  # [1] - from pytest.ini
     "C:/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python312.zip",
     "C:/Users/Z/.pyenv/pyenv-win/versions/3.12.5/DLLs",
     "C:/Users/Z/.pyenv/pyenv-win/versions/3.12.5/Lib",
@@ -54,10 +54,13 @@ for i, p in enumerate(sys.path[:10]):
 print("\n=== Testing import ===")
 try:
     import ai_config_manager
+
     print(f"ai_config_manager.__file__: {ai_config_manager.__file__}")
     from ai_config_manager.config_manager import ConfigManager
+
     print(f"ConfigManager: {ConfigManager}")
 except Exception as e:
     print(f"Failed: {e}")
     import traceback
+
     traceback.print_exc()

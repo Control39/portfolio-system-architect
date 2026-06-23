@@ -15,9 +15,9 @@ from pathlib import Path
 
 import pytest
 
-
 ROOT_DIR = Path(__file__).parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from apps.knowledge_graph.src.core.knowledge_graph import KnowledgeGraph  # noqa: E402
 from apps.knowledge_graph.src.entities import (  # noqa: E402
@@ -207,9 +207,7 @@ class TestRelationshipQueries:
 
     def test_find_relationships_by_type(self, kg_with_relationships):
         """Тест поиска отношений по типу."""
-        relations = kg_with_relationships.find_relationships(
-            relationship_type=RelationshipType.USES
-        )
+        relations = kg_with_relationships.find_relationships(relationship_type=RelationshipType.USES)
         assert len(relations) == 2
 
     def test_find_relationships_combined_filters(self, kg_with_relationships):

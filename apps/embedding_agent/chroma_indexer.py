@@ -160,7 +160,7 @@ class ChromaDocumentIndexer(AbstractContextManager):
             self.store: VectorStore = _InMemoryCollection()
             # Для backward compatibility: self.collection будет возвращать self.store через property
             return
-        
+
         self.client: Any | None = None
         self.store: VectorStore | None = None
         self._initialize_chroma()

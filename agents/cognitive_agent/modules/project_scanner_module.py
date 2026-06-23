@@ -169,7 +169,7 @@ class ProjectScanner:
         Анализировать отдельный файл
         """
         try:
-            async with aiofiles.open(filepath, "r", encoding="utf-8") as f:
+            async with aiofiles.open(filepath, encoding="utf-8") as f:
                 content = await f.read()
 
             file_info = {
@@ -230,7 +230,7 @@ class ProjectScanner:
                     analysis["complexity_score"] += 1
                     if isinstance(node, ast.AsyncFunctionDef):
                         analysis["has_async"] = True
-                elif isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
+                elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     analysis["imports"].append(ast.unparse(node))
                 elif isinstance(node, ast.AsyncFunctionDef):
                     analysis["has_async"] = True
@@ -327,7 +327,7 @@ class ProjectScanner:
             "README.md": "documentation",
         }
 
-        for root, dirs, files in os.walk(project_path):
+        for root, _dirs, files in os.walk(project_path):
             for file in files:
                 if file in config_files:
                     tech_stack["tools"].append(config_files[file])
@@ -363,7 +363,7 @@ class ProjectScanner:
         ]
 
         # Поиск в файлах
-        for root, dirs, files in os.walk(project_path):
+        for root, _dirs, files in os.walk(project_path):
             for file in files:
                 if file.endswith(".py"):
                     try:

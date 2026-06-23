@@ -5,6 +5,7 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -16,14 +17,11 @@ try:
     print("✅ ML Model Registry: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(
-        f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг"
-    )
+    print(f"⚠️  ML Model Registry: AI Config Manager недоступен ({e}), используется локальный конфиг")
     ml_config = {}
 
 from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
-
 
 # Пробуем импорт с разными путями
 try:
@@ -36,7 +34,6 @@ except ImportError:
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 from .portfolio_integration import router  # noqa: E402
-
 
 app = FastAPI(
     title="ML Model Registry API",

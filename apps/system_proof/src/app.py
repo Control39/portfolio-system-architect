@@ -8,6 +8,7 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -22,10 +23,10 @@ except Exception as e:
     print(f"⚠️  System Proof: AI Config Manager недоступен ({e}), используется локальный конфиг")
     sp_config = {}
 
+from datetime import datetime
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional
-from datetime import datetime
 
 # Инициализация приложения
 app = FastAPI(
@@ -67,7 +68,7 @@ class ProofStep(BaseModel):
     description: str
     evidence: str
     verified: bool = False
-    verified_at: Optional[datetime] = None
+    verified_at: datetime | None = None
 
 
 class ProofRecord(BaseModel):
@@ -78,7 +79,7 @@ class ProofRecord(BaseModel):
     chain_id: str
     title: str
     description: str
-    steps: List[ProofStep] = []
+    steps: list[ProofStep] = []
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
     status: str = "draft"  # draft, in_progress, verified, rejected
@@ -89,8 +90,8 @@ proofs_db: dict[str, ProofRecord] = {}
 
 
 # CRUD endpoints
-@app.get("/proofs", response_model=List[ProofRecord])
-async def list_proofs(architecture: Optional[str] = None, status: Optional[str] = None):
+@app.get("/proofs", response_model=list[ProofRecord])
+async def list_proofs(architecture: str | None = None, status: str | None = None):
     """Получить список доказательств"""
     proofs = list(proofs_db.values())
 

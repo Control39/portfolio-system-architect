@@ -252,7 +252,7 @@ class TestConfigIntegrationAdvanced:
 
         config_integration._config_instance = None
 
-        config = get_config()
+        get_config()
         reload_config()
 
         # Проверяем, что reload был вызван

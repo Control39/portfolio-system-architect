@@ -2,13 +2,15 @@
 Тесты интеграции с AI Config Manager для Decision Engine
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent  # apps/decision_engine/tests -> repo root
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 class TestDecisionEngineConfigIntegration:

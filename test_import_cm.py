@@ -1,4 +1,5 @@
 """Test import from ai_config_manager.config_manager."""
+
 import sys
 
 # Simulate what conftest.py does
@@ -11,8 +12,10 @@ print("sys.path[1]:", sys.path[1])
 
 try:
     from ai_config_manager.config_manager import ConfigManager
+
     print(f"Success! ConfigManager: {ConfigManager}")
 except Exception as e:
     print(f"Failed: {e}")
     import traceback
+
     traceback.print_exc()

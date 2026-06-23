@@ -23,7 +23,7 @@ import yaml
 
 # conftest.py добавляет корневой src/ и репозиторий в sys.path
 # Импортируем из ai_config_manager напрямую (package __init__.py экспортирует классы)
-from ai_config_manager import ConfigManager, AIConfig, ResourceConfig
+from ai_config_manager import AIConfig, ConfigManager
 from ai_config_manager.validators import ResourceType
 from pydantic import ValidationError
 
@@ -60,7 +60,9 @@ def valid_config_data() -> dict[str, Any]:
         },
         "secrets": {
             "api_keys": {"openai": "sk-..."},
-            "database_urls": {"primary": "postgres://user:pass@localhost/db"},  # pragma: allowlist secret
+            "database_urls": {
+                "primary": "postgres://user:pass@localhost/db"
+            },  # pragma: allowlist secret
             "custom": {"jwt": "jwt_secret"},  # pragma: allowlist secret
         },
         "version": "1.0.0",

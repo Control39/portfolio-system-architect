@@ -1,8 +1,5 @@
 # src/vector_store/__init__.py
 
-from abc import ABC, abstractmethod
-from typing import Any, Union
-
 try:
     from src.vector_store.chroma_impl import ChromaVectorStore
 except ImportError:
@@ -29,11 +26,6 @@ except ImportError:
     DocumentChunker = DocumentLoader = None
 
 
-class VectorStoreInterface(ABC):
-    # ... (как раньше) ...
-    pass
-
-
 def get_vector_store(store_type: str = "chroma", config=None):
     if config is None:
         from src.vector_store.config import VectorStoreConfig
@@ -54,7 +46,6 @@ def get_vector_store(store_type: str = "chroma", config=None):
 
 
 __all__ = [
-    "VectorStoreInterface",
     "get_vector_store",
     "ChromaVectorStore",
     "DocumentEmbedder",

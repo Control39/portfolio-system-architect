@@ -90,7 +90,6 @@ class TestCompassConcepts:
     def test_compass_recommendation_logic(self):
         """Test recommendation generation logic"""
         current_level = "Beginner"
-        target_level = "Intermediate"
 
         # Simple recommendation logic
         if current_level == "Beginner":

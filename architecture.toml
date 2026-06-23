@@ -73,31 +73,30 @@ input_sanitization = true
 agents = "agents/ - autonomous agents"
 apps = "apps/ - microservices"
 src = "src/ - shared components"
-config = "config/ - centralized configuration"
 docs = "docs/ - documentation"
 scripts = "scripts/ - automation scripts"
 tests = "tests/ - test suites"
 
-[folder_structure.agents.cognitive_agent]
-main = "autonomous_agent.py"
-version2 = "autonomous_agent_v.2.py"
-orchestrator = "orchestrator_v2.py"
-config = "config/ - guardrails and settings"
-skills = "skills/ - 25+ specialized skills"
-src = "src/ - core modules"
-tests = "tests/ - comprehensive tests"
-docs = "docs/ - architecture documentation"
+cognitive_agent = "agents/cognitive_agent/"
+cognitive_agent_main = "autonomous_agent.py"
+cognitive_agent_v2 = "autonomous_agent_v.2.py"
+cognitive_agent_orchestrator = "orchestrator_v2.py"
+cognitive_agent_config = "config/ - guardrails and settings"
+cognitive_agent_skills = "skills/ - 25+ specialized skills"
+cognitive_agent_tests = "tests/ - comprehensive tests"
+cognitive_agent_docs = "docs/ - architecture documentation"
 
-[folder_structure.apps]
-ai_config_manager = "apps/ai_config_manager/ - centralized AI config"
-ai_provider_manager = "apps/ai_provider_manager/ - AI provider routing"
-it_compass = "apps/it_compass/ - skill markers"
-auth_service = "apps/auth_service/ - authentication"
-decision_engine = "apps/decision_engine/ - recommendations"
-knowledge_graph = "apps/knowledge_graph/ - knowledge storage"
-embedding_agent = "apps/embedding_agent/ - RAG system"
+ai_apps = [
+    {name = "ai_config_manager", path = "apps/ai_config_manager/ - centralized AI config"},
+    {name = "ai_provider_manager", path = "apps/ai_provider_manager/ - AI provider routing"},
+    {name = "it_compass", path = "apps/it_compass/ - skill markers"},
+    {name = "auth_service", path = "apps/auth_service/ - authentication"},
+    {name = "decision_engine", path = "apps/decision_engine/ - recommendations"},
+    {name = "knowledge_graph", path = "apps/knowledge_graph/ - knowledge storage"},
+    {name = "embedding_agent", path = "apps/embedding_agent/ - RAG system"}
+]
 
-[[folder_structure.src]]
+[[folder_structure.modules]]
 common = "src/common/ - shared utilities"
 telemetry = "src/telemetry/ - monitoring"
 utils = "src/utils/ - helpers"

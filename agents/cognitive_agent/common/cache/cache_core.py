@@ -3,13 +3,14 @@ Cache Core Module
 Базовая логика кэширования для Cognitive Agent
 """
 
-import time
-from pathlib import Path
-from typing import Any, Dict, Optional, Callable
-from functools import wraps
 import hashlib
 import json
 import logging
+import time
+from collections.abc import Callable
+from functools import wraps
+from pathlib import Path
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 class CacheEntry:
     """Запись в кэше"""
 
-    def __init__(self, key: str, value: Any, ttl: Optional[int] = None):
+    def __init__(self, key: str, value: Any, ttl: int | None = None):
         """
         Инициализация записи в кэше
 
@@ -38,26 +39,22 @@ class CacheEntry:
             return False
         return time.time() - self.created_at > self.ttl
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Преобразовать в словарь"""
         return {
-            'key': self.key,
-            'value': self.value,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
-            'ttl': self.ttl
+            "key": self.key,
+            "value": self.value,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "ttl": self.ttl,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'CacheEntry':
+    def from_dict(cls, data: dict[str, Any]) -> "CacheEntry":
         """Создать из словаря"""
-        entry = cls(
-            key=data['key'],
-            value=data['value'],
-            ttl=data.get('ttl')
-        )
-        entry.created_at = data.get('created_at', entry.created_at)
-        entry.updated_at = data.get('updated_at', entry.updated_at)
+        entry = cls(key=data["key"], value=data["value"], ttl=data.get("ttl"))
+        entry.created_at = data.get("created_at", entry.created_at)
+        entry.updated_at = data.get("updated_at", entry.updated_at)
         return entry
 
 
@@ -72,9 +69,9 @@ class BaseCache:
             name: Имя кэша для логирования
         """
         self.name = name
-        self._store: Dict[str, CacheEntry] = {}
+        self._store: dict[str, CacheEntry] = {}
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """
         Получить значение по ключу
 
@@ -95,7 +92,7 @@ class BaseCache:
 
         return entry.value
 
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
+    def set(self, key: str, value: Any, ttl: int | None = None) -> None:
         """
         Установить значение по ключу
 
@@ -162,12 +159,12 @@ class FileCache(BaseCache):
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self._load_from_files()
 
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
+    def set(self, key: str, value: Any, ttl: int | None = None) -> None:
         """Установить значение по ключу и сохранить в файл"""
         super().set(key, value, ttl)
         self._save_to_file(key)
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """Получить значение по ключу (с проверки файла)"""
         # Проверить файл
         file_path = self._get_file_path(key)
@@ -205,19 +202,19 @@ class FileCache(BaseCache):
         file_path = self._get_file_path(key)
 
         try:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(entry.to_dict(), f, ensure_ascii=False, indent=2)
         except Exception as e:
             logger.error(f"Failed to save cache entry {key}: {e}")
 
-    def _load_from_file(self, key: str) -> Optional[CacheEntry]:
+    def _load_from_file(self, key: str) -> CacheEntry | None:
         """Загрузить запись из файла"""
         file_path = self._get_file_path(key)
         if not file_path.exists():
             return None
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 data = json.load(f)
                 entry = CacheEntry.from_dict(data)
                 self._store[key] = entry
@@ -230,7 +227,7 @@ class FileCache(BaseCache):
         """Загрузить все записи из файлов"""
         for file_path in self.cache_dir.glob("*.json"):
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, encoding="utf-8") as f:
                     data = json.load(f)
                     entry = CacheEntry.from_dict(data)
                     self._store[entry.key] = entry
@@ -252,7 +249,7 @@ class TTLCache(BaseCache):
         super().__init__(name)
         self.default_ttl = default_ttl
 
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
+    def set(self, key: str, value: Any, ttl: int | None = None) -> None:
         """Установить значение по ключу с использованием TTL"""
         if ttl is None:
             ttl = self.default_ttl
@@ -265,20 +262,16 @@ class TTLCache(BaseCache):
         Returns:
             Количество удаленных записей
         """
-        expired_keys = [
-            key for key, entry in self._store.items()
-            if entry.is_expired()
-        ]
+        expired_keys = [key for key, entry in self._store.items() if entry.is_expired()]
 
         for key in expired_keys:
             del self._store[key]
 
-        logger.debug(
-            f"Cache cleanup: removed {len(expired_keys)} expired entries")
+        logger.debug(f"Cache cleanup: removed {len(expired_keys)} expired entries")
         return len(expired_keys)
 
 
-def cached(ttl: Optional[int] = None, cache_name: str = "default_cache"):
+def cached(ttl: int | None = None, cache_name: str = "default_cache"):
     """
     Декоратор для кэширования результатов функций
 
@@ -311,6 +304,7 @@ def cached(ttl: Optional[int] = None, cache_name: str = "default_cache"):
             return result
 
         return wrapper
+
     return decorator
 
 
@@ -318,7 +312,7 @@ def cached(ttl: Optional[int] = None, cache_name: str = "default_cache"):
 global_cache = TTLCache(default_ttl=3600, name="global_cache")
 
 
-def with_cache(cache_name: str = "default", ttl: Optional[int] = None):
+def with_cache(cache_name: str = "default", ttl: int | None = None):
     """
     Декоратор для кэширования результатов функций
 
@@ -329,6 +323,7 @@ def with_cache(cache_name: str = "default", ttl: Optional[int] = None):
     Returns:
         Декоратор
     """
+
     def decorator(func: Callable) -> Callable:
         cache_instance = global_cache  # Используем глобальный кэш по умолчанию
 
@@ -351,6 +346,7 @@ def with_cache(cache_name: str = "default", ttl: Optional[int] = None):
             return result
 
         return wrapper
+
     return decorator
 
 
@@ -362,7 +358,13 @@ class MemoryAwareCache(BaseCache):
     при превышении лимитов.
     """
 
-    def __init__(self, max_size: int = 100*1024*1024, max_items: int = 1000, ttl: Optional[int] = None, name: str = "memory_aware_cache"):
+    def __init__(
+        self,
+        max_size: int = 100 * 1024 * 1024,
+        max_items: int = 1000,
+        ttl: int | None = None,
+        name: str = "memory_aware_cache",
+    ):
         """
         Инициализация кэша с учетом памяти
 
@@ -377,7 +379,7 @@ class MemoryAwareCache(BaseCache):
         self.max_items = max_items
         self.default_ttl = ttl
         self._current_size = 0
-        self._access_times: Dict[str, float] = {}  # Для LRU eviction
+        self._access_times: dict[str, float] = {}  # Для LRU eviction
 
     def _estimate_size(self, value: Any) -> int:
         """
@@ -391,12 +393,13 @@ class MemoryAwareCache(BaseCache):
         """
         try:
             import sys
+
             return sys.getsizeof(value)
         except Exception:
             # Fallback: базовая оценка
             return 1024  # 1KB по умолчанию
 
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> bool:
+    def set(self, key: str, value: Any, ttl: int | None = None) -> bool:
         """
         Установить значение по ключу с контролем памяти
 
@@ -416,8 +419,7 @@ class MemoryAwareCache(BaseCache):
 
         # Если значение больше максимального размера, отклонить
         if value_size > self.max_size:
-            logger.warning(
-                f"MemoryAwareCache: value too large ({value_size} bytes > {self.max_size} bytes max)")
+            logger.warning(f"MemoryAwareCache: value too large ({value_size} bytes > {self.max_size} bytes max)")
             return False
 
         # Если ключ уже существует, вычесть старый размер
@@ -427,8 +429,7 @@ class MemoryAwareCache(BaseCache):
             self._current_size -= old_size
 
         # Проверить лимиты и выполнить eviction если нужно
-        while (self._current_size + value_size > self.max_size or
-               len(self._store) >= self.max_items) and self._store:
+        while (self._current_size + value_size > self.max_size or len(self._store) >= self.max_items) and self._store:
             self._evict_one()
 
         # Добавить новую запись
@@ -437,11 +438,10 @@ class MemoryAwareCache(BaseCache):
         self._current_size += value_size
         self._access_times[key] = time.time()
 
-        logger.debug(
-            f"MemoryAwareCache set: {key} ({value_size} bytes, total: {self._current_size} bytes)")
+        logger.debug(f"MemoryAwareCache set: {key} ({value_size} bytes, total: {self._current_size} bytes)")
         return True
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """
         Получить значение по ключу с обновлением времени доступа
 
@@ -473,8 +473,7 @@ class MemoryAwareCache(BaseCache):
             del self._store[key]
             if key in self._access_times:
                 del self._access_times[key]
-            logger.debug(
-                f"MemoryAwareCache delete: {key} (freed {size} bytes)")
+            logger.debug(f"MemoryAwareCache delete: {key} (freed {size} bytes)")
             return True
         return False
 
@@ -483,7 +482,7 @@ class MemoryAwareCache(BaseCache):
         super().clear()
         self._current_size = 0
         self._access_times.clear()
-        logger.debug(f"MemoryAwareCache cleared (freed all memory)")
+        logger.debug("MemoryAwareCache cleared (freed all memory)")
 
     def _evict_one(self) -> None:
         """
@@ -495,8 +494,7 @@ class MemoryAwareCache(BaseCache):
             return
 
         # Найти наименее недавно использованный ключ
-        lru_key = min(self._access_times.keys(),
-                      key=lambda k: self._access_times[k])
+        lru_key = min(self._access_times.keys(), key=lambda k: self._access_times[k])
 
         # Также проверить на истекшие записи
         expired_keys = [k for k, v in self._store.items() if v.is_expired()]
@@ -513,16 +511,12 @@ class MemoryAwareCache(BaseCache):
         Returns:
             Количество удаленных записей
         """
-        expired_keys = [
-            key for key, entry in self._store.items()
-            if entry.is_expired()
-        ]
+        expired_keys = [key for key, entry in self._store.items() if entry.is_expired()]
 
         for key in expired_keys:
             self.delete(key)
 
-        logger.debug(
-            f"MemoryAwareCache cleanup: removed {len(expired_keys)} expired entries")
+        logger.debug(f"MemoryAwareCache cleanup: removed {len(expired_keys)} expired entries")
         return len(expired_keys)
 
     def _cleanup_expired(self) -> int:
@@ -567,7 +561,7 @@ class LRUCache(BaseCache):
         self.maxsize = maxsize
         self._order: list = []  # Порядок доступа для LRU
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """
         Получить значение по ключу с обновлением порядка доступа
 
@@ -585,7 +579,7 @@ class LRUCache(BaseCache):
             self._order.append(key)
         return value
 
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
+    def set(self, key: str, value: Any, ttl: int | None = None) -> None:
         """
         Установить значение по ключу с контролем размера
 

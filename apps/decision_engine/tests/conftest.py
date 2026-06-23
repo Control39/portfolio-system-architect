@@ -96,9 +96,7 @@ def mock_gigachat():
 @pytest.fixture
 def mock_prompt_template():
     """Fixture providing a mock PromptTemplate instance"""
-    return MockPromptTemplate(
-        input_variables=["context", "query"], template="Context: {context}\nQuery: {query}"
-    )
+    return MockPromptTemplate(input_variables=["context", "query"], template="Context: {context}\nQuery: {query}")
 
 
 @pytest.fixture

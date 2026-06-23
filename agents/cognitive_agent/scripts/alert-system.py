@@ -382,19 +382,16 @@ class AlertSystem:
         notifications_sent = 0
 
         # Email уведомления
-        if self.alert_config["notification"]["email"]["enabled"]:
-            if self._send_email_alert(message):
-                notifications_sent += 1
+        if self.alert_config["notification"]["email"]["enabled"] and self._send_email_alert(message):
+            notifications_sent += 1
 
         # Slack уведомления
-        if self.alert_config["notification"]["slack"]["enabled"]:
-            if self._send_slack_alert(message):
-                notifications_sent += 1
+        if self.alert_config["notification"]["slack"]["enabled"] and self._send_slack_alert(message):
+            notifications_sent += 1
 
         # Telegram уведомления
-        if self.alert_config["notification"]["telegram"]["enabled"]:
-            if self._send_telegram_alert(message):
-                notifications_sent += 1
+        if self.alert_config["notification"]["telegram"]["enabled"] and self._send_telegram_alert(message):
+            notifications_sent += 1
 
         # Локальное сохранение оповещений
         self._save_alerts_locally(alerts)

@@ -12,16 +12,16 @@ from pathlib import Path
 
 import pytest
 
-
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Flask тестовый клиент для portfolio_organizer
 # Примечание: используется FastAPI app из endpoints/routes.py
-from apps.portfolio_organizer.endpoints.routes import app as portfolio_fastapi_app
-
 from fastapi.testclient import TestClient
+
+from apps.portfolio_organizer.endpoints.routes import app as portfolio_fastapi_app
 
 portfolio_client = TestClient(portfolio_fastapi_app)
 
@@ -29,7 +29,6 @@ portfolio_client = TestClient(portfolio_fastapi_app)
 from fastapi.testclient import TestClient  # noqa: E402
 
 from apps.system_proof.src.app import app as proof_app  # noqa: E402
-
 
 proof_client = TestClient(proof_app)
 

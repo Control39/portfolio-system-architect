@@ -41,7 +41,7 @@ def mock_db_dependencies():
         },
     ):
         # Force reimport
-        modules_to_remove = [k for k in sys.modules.keys() if "career_development.src.core" in k]
+        modules_to_remove = [k for k in sys.modules if "career_development.src.core" in k]
         for mod in modules_to_remove:
             if mod in sys.modules:
                 del sys.modules[mod]

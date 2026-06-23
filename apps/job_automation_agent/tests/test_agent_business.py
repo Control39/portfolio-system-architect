@@ -12,12 +12,13 @@ Test Coverage:
 import sys
 from pathlib import Path
 
-
 # Добавляем корень проекта и apps в путь
 ROOT_DIR = Path(__file__).parent.parent.parent
 SRC_DIR = ROOT_DIR / "apps" / "job-automation-agent"
 if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 from src.analysis import JobAnalyzer, MatchScore  # noqa: E402
 from src.resume import ResumeParser  # noqa: E402

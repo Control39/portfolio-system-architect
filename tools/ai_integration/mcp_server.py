@@ -4,12 +4,16 @@
 """
 
 import json
+import logging
 import os
 import sys
 from pathlib import Path
 
 # Добавляем путь к проекту для импорта модулей
 project_root = Path(__file__).parent.parent
+
+# Настройка логирования
+logger = logging.getLogger(__name__)
 
 try:
     import importlib.util
@@ -70,7 +74,24 @@ class FileReadRequest(BaseModel):
 class PortfolioMCP:
     """MCP сервер для портфолио"""
 
-{"text": "    def __init__(self):\n        self.server = Server(\"portfolio-mcp-server\", \"0.1.0\")\n        self.giga_bridge = None\n        self.setup_tools()\n        self._initialize_giga_bridge()\n\n    def _initialize_giga_bridge(self) -> None:\n        \"\"\"Initialize GigaChat bridge if available.\"\"\"\n        try:\n            # Пытаемся импортировать GigaMCPBridge\n            sys.path.insert(0, str(project_root))\n            from src.ai.gigachat_bridge import GigaMCPBridge\n            self.giga_bridge = GigaMCPBridge()\n            logger.info(\"GigaChat bridge initialized successfully\")\n        except Exception as e:\n            logger.warning(f\"GigaChat bridge not available: {e}\")\n            self.giga_bridge = None"}
+    def __init__(self):
+        self.server = Server("portfolio-mcp-server", "0.1.0")
+        self.giga_bridge = None
+        self.setup_tools()
+        self._initialize_giga_bridge()
+
+    def _initialize_giga_bridge(self) -> None:
+        """Initialize GigaChat bridge if available."""
+        try:
+            # Пытаемся импортировать GigaMCPBridge
+            sys.path.insert(0, str(project_root))
+            from src.ai.gigachat_bridge import GigaMCPBridge
+
+            self.giga_bridge = GigaMCPBridge()
+            logger.info("GigaChat bridge initialized successfully")
+        except Exception as e:
+            logger.warning(f"GigaChat bridge not available: {e}")
+            self.giga_bridge = None
 
     def setup_tools(self):
         """Настройка инструментов MCP"""

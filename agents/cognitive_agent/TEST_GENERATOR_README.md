@@ -42,13 +42,13 @@
 class TestGenerator:
     def analyze_and_generate(self, file_path: str) -> dict[str, Any]:
         """Анализ кода и генерация тестов"""
-        
+
     def generate_for_service(self, service_name: str) -> dict[str, Any]:
         """Генерация тестов для всего сервиса"""
-        
+
     def _select_prompt_template(self, service_profile, file_path) -> str:
         """Выбор промпт-шаблона"""
-        
+
     def _call_ai_for_generation(self, prompt_template, context) -> str:
         """Вызов AI для генерации"""
 ```
@@ -81,11 +81,11 @@ class ServiceDiscovery:
     @classmethod
     def detect_language(cls, service_path) -> str:
         """Определить язык программирования"""
-        
+
     @classmethod
     def detect_framework(cls, service_path, language) -> Optional[str]:
         """Определить фреймворк"""
-        
+
     @classmethod
     def detect_criticality(cls, service_path) -> str:
         """Определить критичность"""
@@ -118,7 +118,7 @@ prompts/
 ```markdown
 Роль: Ты — эксперт по Python и pytest.
 
-Контекст: 
+Контекст:
 - Изменен файл {file_path} в сервисе {service_name}
 - Фреймворк: {framework}
 - Цель покрытия: {coverage_target}%
@@ -295,12 +295,12 @@ def _select_prompt_template(self, service_profile, file_path):
     # 1. Определить язык → prompts/{language}/
     # 2. Определить фреймворк → prompts/{language}/{framework}/
     # 3. Определить тип теста по имени файла → {test_type}.md
-    
+
     return prompts_dir / service_profile.language / service_profile.framework / f"{test_type}.md"
 ```
 
 ---
 
-**Автор:** GigaCode  
-**Дата:** 2026-06-19  
+**Автор:** GigaCode
+**Дата:** 2026-06-19
 **Версия:** 1.0.0 (Test Generator)

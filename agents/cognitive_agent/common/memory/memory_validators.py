@@ -239,10 +239,7 @@ class MemoryValidatorChain:
         Returns:
             True, если все валидаторы прошли
         """
-        for validator in self._validators:
-            if not validator.validate(key, value):
-                return False
-        return True
+        return all(validator.validate(key, value) for validator in self._validators)
 
     def get_first_error(self) -> str | None:
         """

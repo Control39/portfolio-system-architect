@@ -145,7 +145,7 @@ async def fetch_with_retry(
         raise last_exception
 
 
-async def batch_async_operations(
+async def batch_async_operations[T](
     items: list[T],
     async_fn: Callable[[T], Coroutine],
     batch_size: int = 10,

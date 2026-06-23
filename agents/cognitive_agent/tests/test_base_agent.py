@@ -132,7 +132,7 @@ class TestBaseCognitiveAgentTimeouts:
 
             # Тестируем метод _call_ai_with_timeout с таймаутом
             try:
-                result = agent._call_ai_with_timeout(ai_call_func=lambda: {"data": "response"}, timeout=1)
+                agent._call_ai_with_timeout(ai_call_func=lambda: {"data": "response"}, timeout=1)
                 # Результат может быть None или дефолтным значением при таймауте
             except builtins.TimeoutError:
                 # Это ожидаемое поведение при таймауте
@@ -229,7 +229,7 @@ class TestBaseCognitiveAgentAsyncMethods:
         mock_create_task.return_value = AsyncMock()
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что агент может работать с асинхронными методами
             async def dummy_async_func():

@@ -8,6 +8,7 @@ from pathlib import Path
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -22,10 +23,11 @@ except Exception as e:
     print(f"⚠️  Knowledge Graph: AI Config Manager недоступен ({e}), используется локальный конфиг")
     kg_config = {}
 
+from datetime import datetime
+from typing import Any
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
-from datetime import datetime
 
 # Инициализация приложения
 app = FastAPI(
@@ -65,7 +67,7 @@ class Entity(BaseModel):
 
     entity_id: str
     entity_type: str
-    properties: Dict[str, Any] = {}
+    properties: dict[str, Any] = {}
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
 
@@ -77,7 +79,7 @@ class Relationship(BaseModel):
     source_entity: str
     target_entity: str
     relationship_type: str
-    properties: Dict[str, Any] = {}
+    properties: dict[str, Any] = {}
     created_at: datetime = datetime.now()
 
 
@@ -87,8 +89,8 @@ relationships_db: dict[str, Relationship] = {}
 
 
 # CRUD для сущностей
-@app.get("/entities", response_model=List[Entity])
-async def list_entities(entity_type: Optional[str] = None):
+@app.get("/entities", response_model=list[Entity])
+async def list_entities(entity_type: str | None = None):
     """Получить список сущностей"""
     entities = list(entities_db.values())
     if entity_type:
@@ -147,11 +149,11 @@ async def delete_entity(entity_id: str):
 
 
 # CRUD для отношений
-@app.get("/relationships", response_model=List[Relationship])
+@app.get("/relationships", response_model=list[Relationship])
 async def list_relationships(
-    source: Optional[str] = None,
-    target: Optional[str] = None,
-    relationship_type: Optional[str] = None,
+    source: str | None = None,
+    target: str | None = None,
+    relationship_type: str | None = None,
 ):
     """Получить список отношений"""
     relationships = list(relationships_db.values())
@@ -220,9 +222,7 @@ async def get_neighbors(entity_id: str, limit: int = 100):
 
 
 @app.get("/query")
-async def execute_query(
-    entity_type: Optional[str] = None, relationship_type: Optional[str] = None, limit: int = 100
-):
+async def execute_query(entity_type: str | None = None, relationship_type: str | None = None, limit: int = 100):
     """Выполнить графовый запрос"""
     results = {"entities": [], "relationships": []}
 

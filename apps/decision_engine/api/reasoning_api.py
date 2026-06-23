@@ -58,10 +58,7 @@ def chat_handler(event, context):
         logger.log_analysis("reasoning-api", 0, {"event": "request_received", "request": event})
 
         # Парсинг тела запроса
-        if isinstance(event.get("body"), str):
-            body = json.loads(event["body"])
-        else:
-            body = event.get("body", {})
+        body = json.loads(event["body"]) if isinstance(event.get("body"), str) else event.get("body", {})
 
         message = body.get("message")
         if not message:

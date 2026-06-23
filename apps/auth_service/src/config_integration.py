@@ -5,11 +5,12 @@
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent  # корень проекта (на уровень выше apps/)
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 class AuthServiceConfig:
@@ -17,13 +18,13 @@ class AuthServiceConfig:
 
     def __init__(self):
         """Инициализация конфигурации"""
-        self._config: Dict[str, Any] = {
+        self._config: dict[str, Any] = {
             "initialized": True,
             "version": "1.0.0",
             "environment": "test",
         }
 
-    def get_config(self) -> Dict[str, Any]:
+    def get_config(self) -> dict[str, Any]:
         """Получить полную конфигурацию"""
         return self._config.copy()
 
@@ -37,7 +38,7 @@ class AuthServiceConfig:
 
 
 # Singleton для удобства
-_config_instance: Optional[AuthServiceConfig] = None
+_config_instance: AuthServiceConfig | None = None
 
 
 def get_config() -> AuthServiceConfig:

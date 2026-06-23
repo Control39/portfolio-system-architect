@@ -1,12 +1,12 @@
 """Core models for thought_architecture."""
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 
-class DecisionStatus(str, Enum):
+class DecisionStatus(StrEnum):
     """Decision status enumeration."""
 
     PENDING = "pending"
@@ -17,7 +17,7 @@ class DecisionStatus(str, Enum):
     CANCELLED = "cancelled"
 
 
-class ThoughtStatus(str, Enum):
+class ThoughtStatus(StrEnum):
     """Thought status enumeration."""
 
     DRAFT = "draft"

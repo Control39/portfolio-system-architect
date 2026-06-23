@@ -342,7 +342,7 @@ class Phase1Tester:
 
             try:
                 start_time = time.time()
-                result = subprocess.run(
+                subprocess.run(
                     [sys.executable, str(audit_script), "--quick", "--format=text"],
                     capture_output=True,
                     text=True,
@@ -406,10 +406,7 @@ class Phase1Tester:
         warning_tests = len([t for t in tests if t["status"] == "warning"])
 
         # Оценка в процентах
-        if total_tests > 0:
-            score_percentage = (passed_tests / total_tests) * 100
-        else:
-            score_percentage = 0
+        score_percentage = passed_tests / total_tests * 100 if total_tests > 0 else 0
 
         # Определение статуса реализации
         if score_percentage >= 80:

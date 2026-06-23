@@ -43,7 +43,7 @@ class GitHealthAnalyzer:
             )
 
             if result.returncode == 0:
-                local_ahead = len(result.stdout.strip().split("\n")) if result.stdout.strip() else 0
+                len(result.stdout.strip().split("\n")) if result.stdout.strip() else 0
 
                 result = subprocess.run(
                     ["git", "log", "--remotes", "--not", "--branches", "--oneline"],

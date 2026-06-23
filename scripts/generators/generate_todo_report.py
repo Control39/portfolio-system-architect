@@ -17,8 +17,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent.parent
 
 
-def find_todos(project_path: Path, extensions: list[str] = [".py", ".ps1", ".js", ".ts"]) -> list[dict]:
+def find_todos(project_path: Path, extensions: list[str] = None) -> list[dict]:
     """Найти все TODO-комментарии в проекте"""
+    if extensions is None:
+        extensions = [".py", ".ps1", ".js", ".ts"]
     todos = []
 
     pattern = re.compile(r"#\s*TODO[:\s]+(.+)", re.IGNORECASE)
@@ -55,10 +57,7 @@ def group_todos(todos: list[dict]) -> dict[str, list[dict]]:
     for todo in todos:
         # Извлекаем сервис из пути (например, agents/cognitive_agent/... -> cognitive_agent)
         parts = todo["file"].split(os.sep)
-        if len(parts) > 1 and parts[0] == "apps":
-            service = parts[1]
-        else:
-            service = "root"
+        service = parts[1] if len(parts) > 1 and parts[0] == "apps" else "root"
 
         grouped[service].append(todo)
 

@@ -1,6 +1,6 @@
 Роль: Ты — эксперт по Python и pytest.
 
-Контекст: 
+Контекст:
 - Изменен API-файл {file_path} в сервисе {service_name}
 - Фреймворк: {framework}
 - Цель покрытия веток: не менее {coverage_target}%

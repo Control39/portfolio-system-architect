@@ -1,4 +1,5 @@
 """Conftest that imports test_config.py to see the error."""
+
 import sys
 from pathlib import Path
 
@@ -33,9 +34,11 @@ for i, p in enumerate(sys.path[:5]):
 print("\n=== Importing test_config.py ===")
 try:
     import apps.ai_config_manager.tests.test_config as tc
+
     print("Success!")
     print(f"test_config module: {tc}")
 except Exception as e:
     print(f"Failed: {e}")
     import traceback
+
     traceback.print_exc()

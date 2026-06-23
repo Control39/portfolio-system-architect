@@ -1,4 +1,5 @@
 """Debug import."""
+
 import sys
 from pathlib import Path
 
@@ -16,8 +17,10 @@ for f in MOLECULE_SRC.iterdir():
 print("\nTrying to import ai_config_manager.config_manager:")
 try:
     import ai_config_manager.config_manager
+
     print(f"Success! config_manager.__file__ = {ai_config_manager.config_manager.__file__}")
 except Exception as e:
     print(f"Failed: {e}")
     import traceback
+
     traceback.print_exc()

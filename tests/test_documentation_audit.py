@@ -1,10 +1,12 @@
 """
 Тесты для функционала аудита документации
 """
-import pytest
-from pathlib import Path
+
 import tempfile
-import os
+from pathlib import Path
+
+import pytest
+
 from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
 
 
@@ -22,20 +24,23 @@ def test_documentation_audit_functionality():
 - E2E-тесты (в разработке 🟡)
 - Docker Compose (в разработке 🟡)
         """
-        readme_path.write_text(readme_content, encoding='utf-8')
+        readme_path.write_text(readme_content, encoding="utf-8")
 
         # Создаем подкаталог agents с README
         agents_dir = Path(temp_dir) / "agents"
         agents_dir.mkdir()
         cognitive_agent_readme = agents_dir / "README.md"
-        cognitive_agent_readme.write_text("""
+        cognitive_agent_readme.write_text(
+            """
 # Cognitive Agent
 
 ## Функции
 - Анализ кода (в разработке 🟡)
 - Анализ документации (в разработке 🟡)
 - Анализ тестов (в разработке 🟡)
-        """, encoding='utf-8')
+        """,
+            encoding="utf-8",
+        )
 
         # Создаем агента и выполняем аудит
         agent = AutonomousCognitiveAgent(project_path=temp_dir)
@@ -49,12 +54,9 @@ def test_documentation_audit_functionality():
 
         # Проверяем, что найдены конкретные несоответствия
         discrepancies = audit_results["discrepancies"]
-        found_it_compass_issue = any(
-            "IT-Compass" in d["issue"] for d in discrepancies)
-        found_ollama_issue = any(
-            "ollama" in d["issue"].lower() for d in discrepancies)
-        found_e2e_issue = any("e2e" in d["issue"].lower()
-                              for d in discrepancies)
+        any("IT-Compass" in d["issue"] for d in discrepancies)
+        any("ollama" in d["issue"].lower() for d in discrepancies)
+        any("e2e" in d["issue"].lower() for d in discrepancies)
 
         # Эти проверки могут не пройти, если ключевые слова не найдены, но структура верна
         assert isinstance(discrepancies, list)
@@ -71,7 +73,7 @@ def test_documentation_sync_report_generation():
 ## Функции
 - Интеграция с IT-Compass (в разработке 🟡)
         """
-        readme_path.write_text(readme_content, encoding='utf-8')
+        readme_path.write_text(readme_content, encoding="utf-8")
 
         # Создаем агента и генерируем отчет
         agent = AutonomousCognitiveAgent(project_path=temp_dir)
@@ -79,7 +81,7 @@ def test_documentation_sync_report_generation():
 
         # Проверяем, что отчет содержит информацию о несоответствии
         assert isinstance(report, str)
-        assert ("НЕСООТВЕТСТВИЯ" in report or "Документация соответствует" in report)
+        assert "НЕСООТВЕТСТВИЯ" in report or "Документация соответствует" in report
 
 
 def test_documentation_audit_with_up_to_date_docs():
@@ -94,7 +96,7 @@ def test_documentation_audit_with_up_to_date_docs():
 - Интеграция с IT-Compass (реализована ✅)
 - Ollama fallback (реализован ✅)
         """
-        readme_path.write_text(readme_content, encoding='utf-8')
+        readme_path.write_text(readme_content, encoding="utf-8")
 
         # Создаем агента и выполняем аудит
         agent = AutonomousCognitiveAgent(project_path=temp_dir)

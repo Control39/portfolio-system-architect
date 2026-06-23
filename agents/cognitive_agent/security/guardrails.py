@@ -583,9 +583,8 @@ class GuardrailDecorator:
         context = {"args": args, "kwargs": kwargs}
 
         # Попробовать извлечь специфичные поля
-        if args:
-            if isinstance(args[0], dict):
-                context.update(args[0])  # Обычно первый аргумент - контекст
+        if args and isinstance(args[0], dict):
+            context.update(args[0])  # Обычно первый аргумент - контекст
 
         context.update(kwargs)
 

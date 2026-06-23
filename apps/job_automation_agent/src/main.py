@@ -6,6 +6,7 @@ from typing import Any
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Интеграция с AI Config Manager
 try:
@@ -17,13 +18,13 @@ try:
     print("✅ Job Automation Agent: использован AI Config Manager")
 except Exception as e:
     AI_CONFIG_AVAILABLE = False
-    print(
-        f"⚠️  Job Automation Agent: AI Config Manager недоступен ({e}), используется локальный конфиг"
-    )
+    print(f"⚠️  Job Automation Agent: AI Config Manager недоступен ({e}), используется локальный конфиг")
     job_agent_config = {}
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+
+from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch
 
 # Добавляем путь для импорта общих модулей
 from src.common.async_helpers import fetch_with_timeout
@@ -32,7 +33,6 @@ from src.common.health_check import init_health_checks
 # ИМПОРТИРУЕМ ЧЕРЕЗ ИНТЕРФЕЙС, а не напрямую!
 # Это архитектурное решение: зависимости внедряются, а не импортируются жёстко.
 from src.interfaces.job_search import IJobSearch
-from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch
 
 
 # Внедрение зависимости (Dependency Injection)

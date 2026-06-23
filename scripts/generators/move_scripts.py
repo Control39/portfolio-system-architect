@@ -5,11 +5,11 @@
 
 import os
 import shutil
-from pathlib import Path
+
 
 def main():
     print("=== START SCRIPT MOVING ===")
-    
+
     # Create directories
     scripts_dirs = [
         "scripts/ai",
@@ -29,24 +29,24 @@ def main():
         "scripts/utils_legacy",
         "scripts/windows",
         ".scripts/personal",
-        "scripts/build/test"
+        "scripts/build/test",
     ]
-    
+
     for dir_path in scripts_dirs:
         os.makedirs(dir_path, exist_ok=True)
         print(f"Created/exists: {dir_path}")
-    
+
     # Move root files
     files_to_move = [
         ("check_integrations.py", "scripts/diagnostics/check_integrations.py"),
         ("test_fallback_fix.py", "scripts/build/test/test_fallback_fix.py"),
     ]
-    
+
     for source, dest in files_to_move:
         if os.path.exists(source):
             shutil.move(source, dest)
             print(f"Moved: {source} -> {dest}")
-    
+
     # List of personal scripts to move to .scripts/personal
     personal_scripts = [
         "agent_self_analyze.py",
@@ -76,16 +76,16 @@ def main():
         "update_agent_config.py",
         "update_readme_badges.py",
     ]
-    
+
     # Move personal scripts
     for script in personal_scripts:
         source = f"scripts/{script}"
         dest = f".scripts/personal/{script}"
-        
+
         if os.path.exists(source):
             shutil.move(source, dest)
             print(f"Moved to .scripts/personal: {script}")
-    
+
     # Move additional scripts to appropriate folders
     # Check if files are in root and move them to .scripts/personal
     root_scripts = [
@@ -102,16 +102,17 @@ def main():
         "strategic_value_analyzer_web.py",
         "test_code_analyzer_only.py",
     ]
-    
+
     for script in root_scripts:
         source = script
         dest = f".scripts/personal/{script}"
-        
+
         if os.path.exists(source):
             shutil.move(source, dest)
             print(f"Moved to .scripts/personal: {script}")
-    
+
     print("=== SCRIPT MOVING COMPLETED ===")
+
 
 if __name__ == "__main__":
     main()

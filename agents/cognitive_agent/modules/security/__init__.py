@@ -145,28 +145,19 @@ class SecurityGuard:
             "aws_secret_key",
         ]
 
-        for pattern in secret_patterns:
-            if pattern.lower() in content.lower():
-                return True
-        return False
+        return any(pattern.lower() in content.lower() for pattern in secret_patterns)
 
     def _contains_sql_injection(self, content: str) -> bool:
         """Проверка на SQL инъекции"""
         sql_patterns = ["SELECT * FROM", "DROP TABLE", "INSERT INTO", "DELETE FROM", "UNION SELECT"]
 
-        for pattern in sql_patterns:
-            if pattern.lower() in content.lower():
-                return True
-        return False
+        return any(pattern.lower() in content.lower() for pattern in sql_patterns)
 
     def _contains_xss(self, content: str) -> bool:
         """Проверка на XSS"""
         xss_patterns = ["<script>", "javascript:", "onerror=", "onload="]
 
-        for pattern in xss_patterns:
-            if pattern.lower() in content.lower():
-                return True
-        return False
+        return any(pattern.lower() in content.lower() for pattern in xss_patterns)
 
     def _check_secrets(self, service_path: str) -> bool:
         """Проверка сканирования секретов"""

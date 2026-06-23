@@ -48,10 +48,7 @@ class FileFilter:
                 return False
 
         # Проверка расширения
-        if file_path.suffix.lower() not in self.extensions:
-            return False
-
-        return True
+        return file_path.suffix.lower() in self.extensions
 
     def get_stats(self) -> dict:
         """Статистика фильтра"""

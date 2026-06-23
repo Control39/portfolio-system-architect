@@ -192,7 +192,7 @@ class CacheStrategyFactory:
             strategy_name: Имя стратегии (lru, fifo, lfu)
             **kwargs: Аргументы для конструктора стратегии
         """
-    
+
     @classmethod
     def get_available_strategies(cls) -> List[str]:
         \"\"\"Получить список доступных стратегий\"\"\"
@@ -267,7 +267,7 @@ class CacheValidatorFactory:
             validator_name: Имя валидатора
             **kwargs: Аргументы для конструктора
         """
-    
+
     @classmethod
     def get_available_validators(cls) -> List[str]:
         \"\"\"Получить список доступных валидаторов\"\"\"
@@ -281,16 +281,16 @@ class CacheValidatorFactory:
 class CacheValidatorChain:
     def __init__(self):
         \"\"\"Инициализация цепочки валидаторов\"\"\"
-    
+
     def add(self, validator: CacheValidator) -> 'CacheValidatorChain':
         \"\"\"Добавить валидатор в цепочку\"\"\"
-    
+
     def validate(self, key: str, value: Any) -> bool:
         \"\"\"Валидировать через цепочку\"\"\"
-    
+
     def get_first_error(self) -> Optional[str]:
         \"\"\"Получить первое сообщение об ошибке\"\"\"
-    
+
     def validate_all(self, entries: Dict[str, Any]) -> Dict[str, bool]:
         \"\"\"Валидировать несколько записей\"\"\"
 ```
@@ -349,8 +349,8 @@ strategy = CacheStrategyFactory.create(\"lru\", max_size=100)
 
 ```python
 from common.cache import (
-    SizeValidator, 
-    TypeValidator, 
+    SizeValidator,
+    TypeValidator,
     PatternValidator,
     CacheValidatorChain
 )
