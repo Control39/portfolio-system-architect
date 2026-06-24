@@ -4,7 +4,7 @@ from pathlib import Path
 
 def get_hash(path):
     with open(path, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
+        return hashlib.md5(usedforsecurity=False)f.read()).hexdigest()
 
 
 # Проверка всех файлов в teacher/ и .agents/teacher/

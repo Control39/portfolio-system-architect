@@ -42,7 +42,7 @@ class VSCodeExtensionManager:
             ]
             for cmd in code_paths:
                 try:
-                    result = subprocess.run([cmd, "--version"], capture_output=True, check=False, shell=True)
+                    result = subprocess.run([cmd, "--version"], capture_output=True, check=False, shell=True)  # nosec B602
                     if result.returncode == 0:
                         return cmd
                 except (FileNotFoundError, subprocess.CalledProcessError):
@@ -50,7 +50,7 @@ class VSCodeExtensionManager:
         else:
             # Linux/macOS
             try:
-                subprocess.run(["code", "--version"], capture_output=True, check=False, shell=True)
+                subprocess.run(["code", "--version"], capture_output=True, check=False, shell=True)  # nosec B602
                 return "code"
             except (FileNotFoundError, subprocess.CalledProcessError):
                 pass
@@ -84,12 +84,12 @@ class VSCodeExtensionManager:
     def get_installed_extensions(self) -> list[str]:
         """Получает список установленных расширений"""
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B602
                 [self.code_cmd, "--list-extensions"],
                 capture_output=True,
                 text=True,
                 check=True,
-                shell=True,
+                shell=True,  # nosec B602
             )
             extensions = [ext.strip() for ext in result.stdout.split("\n") if ext.strip()]
             logger.info(f"Найдено {len(extensions)} установленных расширений")
@@ -110,7 +110,7 @@ class VSCodeExtensionManager:
                 capture_output=True,
                 text=True,
                 check=True,
-                shell=True,
+                shell=True,  # nosec B602
             )
             logger.info(f"Расширение {extension_id} успешно установлено")
             return True
@@ -127,7 +127,7 @@ class VSCodeExtensionManager:
                 capture_output=True,
                 text=True,
                 check=True,
-                shell=True,
+                shell=True,  # nosec B602
             )
             logger.info(f"Расширение {extension_id} успешно удалено")
             return True

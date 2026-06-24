@@ -134,15 +134,20 @@ repos:
     rev: 1.9.4
     hooks:
       - id: bandit
+        # Исключаем:
+        # - scripts/ (локальные скрипты с доверенными командами)
+        # - tools/ (инструменты с MD5 для идентификации файлов, не для безопасности)
+        # - legacy cognitive_agent код
+        # - временные скрипты
         exclude: |
           (?x)^(
             .*test.*\.py|
             agents/cognitive_agent/.*|
-            scripts/.*|
-            tools/.*|
-            apps/.*|
-            src/.*|
-            tests/.*|  # Exclude all test directories
+            scripts/.*|  # Local scripts with trusted commands
+            tools/.*|  # Tools with MD5 for file identification, not security
+            apps/.*|  # Application code
+            src/.*|  # Source code
+            tests/.*|  # Test directories
             check_syntax\.py|  # Temporary script
             find_empty_if\.py|  # Temporary script
             count_lines\.py|  # Temporary script

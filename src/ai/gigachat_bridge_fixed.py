@@ -79,7 +79,7 @@ class GigaMCPBridge:
         import httpx
 
         http_client = httpx.Client(
-            verify=False,  # Отключаем SSL для корпоративного прокси
+            verify=False,  # nosec B501: Corporate proxy requires disabled SSL verification
             timeout=httpx.Timeout(60.0, connect=10.0),
         )
 
@@ -139,7 +139,7 @@ class GigaMCPBridge:
             credentials = self.settings.gigachat_client_secret
 
         # Создаём HTTP клиент
-        http_client = httpx.Client(verify=False, timeout=60.0)
+        http_client = httpx.Client(verify=False, timeout=60.0)  # nosec B501: Corporate proxy requires disabled SSL verification
 
         # Инициализируем клиент
         self.direct_client = GigaChat(

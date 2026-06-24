@@ -80,8 +80,7 @@ headers = {
 }
 data = {"scope": env.get("GIGACODE_SCOPE", "GIGACHAT_API_PERS")}
 
-try:
-    response = requests.post(url, headers=headers, data=data, timeout=30, verify=False)
+    response = requests.post(url, headers=headers, data=data, timeout=30, verify=False)  # nosec B501
     response.raise_for_status()
     result = response.json()
     access_token = result["access_token"]

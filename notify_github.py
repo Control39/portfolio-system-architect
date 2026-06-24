@@ -4,9 +4,9 @@
 Инструкция: https://github.com/Control39/portfolio-system-architect/security/dependabot
 """
 
-print("="*70)
+print("=" * 70)
 print("ПОСЛЕДНИЙ ШАГ: Уведомление GitHub о исправленных уязвимостях")
-print("="*70)
+print("=" * 70)
 
 print("""
 ✅ ИСПРАВЛЕНО УЯЗВИМОСТЕЙ: 42 из 44 (95%)

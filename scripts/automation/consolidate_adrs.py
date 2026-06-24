@@ -117,7 +117,7 @@ DUPLICATES_IN_ADR = {
 
 
 def md5(path: Path) -> str:
-    return hashlib.md5(path.read_bytes()).hexdigest()
+    return hashlib.md5(usedforsecurity=False)path.read_bytes()).hexdigest()
 
 
 def is_stub(path: Path) -> bool:
