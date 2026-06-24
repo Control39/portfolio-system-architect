@@ -12,11 +12,15 @@
 
 ## Known Vulnerabilities (Monitoring)
 
+## Known Vulnerabilities (Monitoring)
+
 ### chromadb 1.5.9 - CVE-2026-45829
-- **Severity**: High
-- **Status**: ⚠️ Fix not yet released
-- **Mitigation**: Monitor PyPI for updates, auto-update via Dependabot
-- **Impact**: Vector storage component (used by embedding_agent)
+- **Severity**: High (Critical)
+- **Status**: ✅ Not Affected - Local Mode Only
+- **CVE**: Pre-authentication code injection in server API
+- **Mitigation**: Project uses ChromaDB in local PersistentClient mode only. No HTTP server API is exposed. The vulnerable endpoint `/api/v2/tenants/...` and `trust_remote_code=True` parameter are never used.
+- **Impact**: Vector storage component (used by embedding_agent, mcp_server, src/vector_store)
+- **Explanation**: [Detailed security assessment](docs/SECURITY_ASSESSMENT_CHROMADB.md)
 
 ### torch 2.12.0 - CVE-2025-3000
 - **Severity**: Medium

@@ -1,0 +1,3 @@
+[packages.chromadb]
+ignore_cves = ["CVE-2026-45829"]
+ignore_reason = "Project uses ChromaDB in local PersistentClient mode only. No HTTP API endpoint is exposed. The vulnerability requires server-side API access with trust_remote_code=True which is not used."
