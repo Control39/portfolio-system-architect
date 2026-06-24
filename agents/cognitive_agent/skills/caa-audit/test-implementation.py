@@ -4,6 +4,7 @@
 Проверка режима caa-audit и проактивных триггеров
 """
 
+import argparse
 import json
 import os
 import subprocess

@@ -1,5 +1,7 @@
 """Integration module for cognitive agent."""
 
+from typing import Any
+
 
 class JobAgentIntegration:
     """Интеграция с Job Automation Agent"""

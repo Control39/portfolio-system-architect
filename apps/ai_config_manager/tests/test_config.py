@@ -20,12 +20,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 import yaml
+from pydantic import ValidationError
 
 # conftest.py добавляет корневой src/ и репозиторий в sys.path
 # Импортируем из ai_config_manager напрямую (package __init__.py экспортирует классы)
 from ai_config_manager import AIConfig, ConfigManager
 from ai_config_manager.validators import ResourceType
-from pydantic import ValidationError
 
 
 def _write_yaml(tmp_path: Path, data: dict[str, Any]) -> str:

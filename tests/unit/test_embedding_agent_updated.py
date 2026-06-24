@@ -101,26 +101,26 @@ def test_chroma_document_indexer_add_document():
     from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
     # Mock dependencies
-    with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}):
-        with patch("uuid.uuid4", return_value="test-uuid"):
-            with patch("apps.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder:
-                mock_embedder.return_value.embed.return_value = [0.1, 0.2, 0.3]
+    with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}), \
+         patch("uuid.uuid4", return_value="test-uuid"), \
+         patch("apps.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder:
+        mock_embedder.return_value.embed.return_value = [0.1, 0.2, 0.3]
 
-                indexer = ChromaDocumentIndexer(persist_directory="./test_db")
-                doc_id = indexer.add_document("test text", {"source": "test.py"})
+        indexer = ChromaDocumentIndexer(persist_directory="./test_db")
+        doc_id = indexer.add_document("test text", {"source": "test.py"})
 
-                assert doc_id == "test-uuid"
-                # Collection.add should be called with correct parameters
-                indexer.collection.add.assert_called_once_with(
-                    ids=["test-uuid"],
-                    embeddings=[[0.1, 0.2, 0.3]],
-                    metadatas=[
-                        {
-                            "source": "test.py",
-                            "timestamp": (indexer.collection.add.call_args[1]["metadatas"][0]["timestamp"]),
-                            "embedding_model": mock_embedder.return_value.model_name,
-                            "text_length": 9,
-                        }
-                    ],
-                    documents=["test text"],
-                )
+        assert doc_id == "test-uuid"
+        # Collection.add should be called with correct parameters
+        indexer.collection.add.assert_called_once_with(
+            ids=["test-uuid"],
+            embeddings=[[0.1, 0.2, 0.3]],
+            metadatas=[
+                {
+                    "source": "test.py",
+                    "timestamp": (indexer.collection.add.call_args[1]["metadatas"][0]["timestamp"]),
+                    "embedding_model": mock_embedder.return_value.model_name,
+                    "text_length": 9,
+                }
+            ],
+            documents=["test text"],
+        )

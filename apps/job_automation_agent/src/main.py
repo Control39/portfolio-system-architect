@@ -21,8 +21,13 @@ except Exception as e:
     print(f"⚠️  Job Automation Agent: AI Config Manager недоступен ({e}), используется локальный конфиг")
     job_agent_config = {}
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import Dict, List, Optional
+from datetime import datetime
+import asyncio
+from apps.job_automation_agent.src.utils.timeout import fetch_with_timeout
+from apps.job_automation_agent.core.orchestrator import run_core_agent  # Добавляем недостающий импорт
 
 from apps.infra_orchestrator.src.adapters.job_search_adapter import CognitiveJobSearch
 

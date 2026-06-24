@@ -308,7 +308,7 @@ def main():
 
         # 5. Write all files
         print("\n✍️  Writing consolidated ADRs...")
-        for filename, content, source_name, note in files_to_write:
+        for filename, content, source_name, _note in files_to_write:
             target_file = TARGET_DIR / filename
             target_file.write_text(content, encoding="utf-8")
             print(f"   ✅ Written: {source_name} → {filename}")

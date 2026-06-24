@@ -343,7 +343,8 @@ class TriggerProcessor:
             "success": success,
         }
 
-        # Сохраняем в файл\n        log_dir = Path("logs/triggers")
+        # Сохраняем в файл
+        log_dir = Path("logs/triggers")
         log_dir.mkdir(exist_ok=True, parents=True)
 
         log_file = log_dir / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

@@ -126,7 +126,7 @@ def analyze_coverage():
                         cov2.load()
                         r = cov2.report(show_missing=False)
                         services[service_dir.name] = r
-                    except:
+                    except (OSError, Exception):
                         pass
 
         print("\nПокрытие по сервисам:")

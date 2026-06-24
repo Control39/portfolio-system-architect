@@ -166,7 +166,8 @@ def main():
     )
 
     args = parser.parse_args()
-    base_path = Path(__file__).parent.parent
+    # Путь к корню репозитория (scripts/ci/../.. = repo root)
+    base_path = Path(__file__).parent.parent.parent
 
     if args.service:
         # Проверка конкретного сервиса

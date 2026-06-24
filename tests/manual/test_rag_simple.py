@@ -5,6 +5,13 @@ import sys
 from pathlib import Path
 
 # Add src to path
+import sys
+from pathlib import Path
+
+# Добавляем путь к embedding_agent
+repo_root = Path(__file__).resolve().parent.parent.parent
+embedding_agent_path = repo_root / "apps" / "embedding_agent" / "src"
+sys.path.insert(0, str(embedding_agent_path))
 
 try:
     from embedding_agent.embedder import DocumentEmbedder

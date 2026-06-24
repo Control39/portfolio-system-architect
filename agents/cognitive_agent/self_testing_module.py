@@ -279,7 +279,7 @@ import sys
 import os
 
 # Добавляем путь к исходному файлу для импорта
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "{os.path.dirname(file_path)}"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", os.path.dirname(file_path)))
 
 # Пример автосгенерированного теста для {file_path}
 class Test{class_name}:

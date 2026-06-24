@@ -21,11 +21,10 @@ def get_python_version() -> str:
             with open(pyproject_path, "rb") as f:
                 data = tomllib.load(f)
                 # Проверяем различные места, где может быть указана версия Python
-                if "tool" in data and "poetry" in data["tool"]:
-                    if "dependencies" in data["tool"]["poetry"]:
-                        deps = data["tool"]["poetry"]["dependencies"]
-                        if "python" in deps:
-                            return deps["python"].replace("^", "").replace("~", "")
+                if "tool" in data and "poetry" in data["tool"] and "dependencies" in data["tool"]["poetry"]:
+                    deps = data["tool"]["poetry"]["dependencies"]
+                    if "python" in deps:
+                        return deps["python"].replace("^", "").replace("~", "")
     except Exception:
         pass
 
