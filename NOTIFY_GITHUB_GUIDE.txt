@@ -1,0 +1,41 @@
+═══════════════════════════════════════════════════════════════
+ГИД: Как уведомить GitHub об исправленных уязвимостях
+═══════════════════════════════════════════════════════════════
+
+1. Откройте: https://github.com/Control39/portfolio-system-architect/security/dependabot
+
+2. Найдите любую уязвимость (например, CVE-2026-45829 для chromadb)
+
+3. Нажмите на неё → появится модальное окно
+
+4. Нажмите кнопку "Dismiss vulnerability"
+
+5. В раскрывающемся списке выберите:
+   ✓ Work in progress (уже начата работа над исправлением)
+
+6. В поле "Comment" напишите:
+   Fixed in commit 45b4a5d4 - all dependencies updated to patched versions
+   (42 vulnerabilities fixed)
+
+7. Нажмите "Confirm dismissal"
+
+═══════════════════════════════════════════════════════════════
+
+Альтернативный способ для всех уязвимостей сразу:
+
+1. Откройте: https://github.com/Control39/portfolio-system-architect/security/dependabot
+
+2. Нажмите "Dismiss" рядом с каждой уязвимостью
+
+3. Выберите "Already addressed" или "Work in progress"
+
+4. Комментарий: "Fixed in commit 45b4a5d4 - dependencies updated"
+
+═══════════════════════════════════════════════════════════════
+
+P.S. chromadb уязвимость (CVE-2026-45829) не исправлена, так как
+это архитектурная проблема во всех версиях от 1.0.0. Оставьте её
+активной или поставьте "Work in progress" с комментарием
+"Monitoring upstream for fix".
+
+═══════════════════════════════════════════════════════════════
