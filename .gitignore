@@ -313,3 +313,9 @@ node_modules/
 # === Personal scripts (local user scripts) ===
 .scripts/
 .scripts/
+
+# === Disabled agent scan results (should never be committed) ===
+.agents.disabled/
+
+# === AI Agent state (should never be committed) ===
+.agent_state/
