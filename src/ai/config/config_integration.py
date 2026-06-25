@@ -1,0 +1,102 @@
+"""
+Интеграция с AI Config Manager для Ai-Config-Manager
+Обеспечивает централизованное управление конфигурациями
+"""
+
+from pathlib import Path
+from typing import Any
+
+try:
+    from ai_config_manager.config_manager import ConfigManager
+
+    AI_CONFIG_AVAILABLE = True
+except ImportError:
+    AI_CONFIG_AVAILABLE = False
+    print("⚠️  AI Config Manager не доступен, используется локальная конфигурация")
+
+
+# Путь к конфигурации относительно пакета
+PACKAGE_ROOT = Path(__file__).parent.parent
+DEFAULT_CONFIG_PATH = PACKAGE_ROOT / "config" / "ai-config.yaml"
+
+
+class AiConfigManagerConfig:
+    """Обёртка для конфигурации Ai-Config-Manager через AI Config Manager"""
+
+    def __init__(self, config_path: str | None = None):
+        """
+        Инициализация конфигурации
+
+        Args:
+            config_path: Путь к файлу конфигурации (по умолчанию: config/ai-config.yaml)
+        """
+        self.config_path = config_path or str(DEFAULT_CONFIG_PATH)
+        self._config_manager: ConfigManager | None = None
+        self._local_config: dict[str, Any] | None = None
+
+        if AI_CONFIG_AVAILABLE:
+            self._init_config_manager()
+        else:
+            self._load_local_config()
+
+    def _init_config_manager(self) -> None:
+        """Инициализация ConfigManager"""
+        try:
+            self._config_manager = ConfigManager(config_path=self.config_path)
+            if not self._config_manager.validate():
+                print("⚠️  Конфигурация не валидна, используется fallback")
+                self._load_local_config()
+        except Exception as e:
+            print(f"⚠️  Ошибка инициализации ConfigManager: {e}")
+            self._load_local_config()
+
+    def _load_local_config(self) -> None:
+        """Загрузка локальной конфигурации (fallback)"""
+        import yaml
+
+        local_config_path = DEFAULT_CONFIG_PATH
+
+        if local_config_path.exists():
+            with open(local_config_path, encoding="utf-8") as f:
+                self._local_config = yaml.safe_load(f)
+        else:
+            self._local_config = {}
+
+    def get_config(self) -> dict[str, Any]:
+        """Получить полную конфигурацию"""
+        if self._config_manager:
+            try:
+                return self._config_manager.get_agent_config("ai_config_manager")
+            except Exception:
+                return self._local_config or {}
+        return self._local_config or {}
+
+    def reload(self) -> None:
+        """Перезагрузить конфигурацию (hot reload)"""
+        if self._config_manager:
+            self._config_manager.reload()
+        else:
+            self._load_local_config()
+
+    def is_available(self) -> bool:
+        """Проверить доступность AI Config Manager"""
+        return AI_CONFIG_AVAILABLE and self._config_manager is not None
+
+
+# Singleton для удобства
+_config_instance: AiConfigManagerConfig | None = None
+
+
+def get_config() -> AiConfigManagerConfig:
+    """Получить глобальный экземпляр конфигурации"""
+    global _config_instance
+    if _config_instance is None:
+        _config_instance = AiConfigManagerConfig()
+    return _config_instance
+
+
+def reload_config() -> None:
+    """Перезагрузить глобальную конфигурацию"""
+    global _config_instance
+    if _config_instance:
+        _config_instance.reload()

@@ -23,10 +23,20 @@ logger = logging.getLogger(__name__)
 # Prometheus метрики
 # В монорепозитории один и тот же модуль может импортироваться из разных точек.
 # Чтобы избежать падений при повторной регистрации таймсерий в default CollectorRegistry,
-# создаём метрики безопасно (при дублировании переиспользуем уже зарегистрированные).
+# создаём метрики безопасно (при дублировании не падаем).
 
 
-def _metric_or_existing(name: str):
+def _metric_or_existing(name: str) -> bool:
+    try:
+        for family in prom.REGISTRY.collect():
+            if family.name == name:
+                return True
+    except Exception:
+        pass
+    return False
+
+
+def _metric_or_existing(name: str) -> bool:
     try:
         for family in prom.REGISTRY.collect():
             if family.name == name:
@@ -37,8 +47,8 @@ def _metric_or_existing(name: str):
 
 
 def _get_counter(name: str, description: str, labelnames: list[str]):
-    # prom.Counter сам себя регистрирует и падает при повторной регистрации таймсерий.
-    # Поэтому при наличии метрики возвращаем зарегистрированный объект.
+    # prom.Counter при повторном создании может упасть из-за duplicated timeseries.
+    # Поэтому сначала проверяем наличие метрики в REGISTRY.
     if _metric_or_existing(name):
         return prom.REGISTRY._names_to_collectors[name]
     try:
@@ -346,9 +356,7 @@ class ConfigManager:
         # Получаем настройки из переменных окружения
         client_id = os.getenv("GIGACHAT_CLIENT_ID")
         client_secret = os.getenv("GIGACHAT_CLIENT_SECRET")
-        auth_url = os.getenv(
-            "GIGACHAT_AUTH_URL", "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
-        )
+        auth_url = os.getenv("GIGACHAT_AUTH_URL", "https://ngw.devices.sberbank.ru:9443/api/v2/oauth")
         scope = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_PERS")
 
         # Если есть готовый API ключ, возвращаем его
@@ -384,17 +392,13 @@ class ConfigManager:
                         logger.error("В ответе отсутствует access_token")
                         return None
                 else:
-                    logger.error(
-                        f"Ошибка получения токена GigaChat: {response.status_code}, {response.text}"
-                    )
+                    logger.error(f"Ошибка получения токена GigaChat: {response.status_code}, {response.text}")
                     return None
             except Exception as e:
                 logger.error(f"Исключение при получении токена GigaChat: {e}")
                 return None
         else:
-            logger.warning(
-                "Не настроены учетные данные для GigaChat (GIGACHAT_CLIENT_ID/GIGACHAT_CLIENT_SECRET)"
-            )
+            logger.warning("Не настроены учетные данные для GigaChat (GIGACHAT_CLIENT_ID/GIGACHAT_CLIENT_SECRET)")
             return None
 
     def update_agent_config(self, agent_name: str, updates: dict[str, Any]) -> None:
