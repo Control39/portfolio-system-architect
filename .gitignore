@@ -100,3 +100,14 @@ archive/
 # ============================================
 # End of .gitignore
 # ============================================
+
+# Temporary and cache files
+__pycache__/
+*.pyc
+.gigacode/
+.gigaide/
+*.cache
+analysis/security/
+.env.example
+.env.test
+cross_app_dependencies.txt
