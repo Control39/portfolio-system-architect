@@ -1,321 +1,102 @@
 # ============================================
-# Agent backup files
-# Agent test scripts with secrets
-# Agent-generated artifacts
-# AI Assistants
-# Archive
-# Backups
-# Cognitive Agent (agents/)
-# Database dumps
-# Docker volumes
-# Documentation builds
-# Generated & Static
-# GigaCode secrets
-# Hypothesis testing
-# IDE
-# Legacy agent directories (OLD standalone agent)
-# Legacy код (не используется в production)
-# Logs
-# Logs & Artifacts
-# Misc
-# Monitoring data
-# OS
-# Personal scripts
-# Pip cache
-# Planning reports
-# Python
-# Reports archive
-# Scan caches
-# Secrets
-# Security scans
-# Standalone repos
-# Temp directories
-# Temp files
-# Temporary tool files
-# Terraform
-# Test outputs
-# Test reports
-# Virtual environments
-# Windows recycle
-# Working dirs
-# Артефакты работы агента (runtime data)
-# Архив runtime-артефактов агента
-# Бэкапы агента
-# Временные скрипты
-# Временные файлы аудита зависимостей (не коммитить)
-# Данные обучения
-# Кэш Python
-# Логи и артефакты агента (не коммитить в Git)
-# Отчёты анализаторов (генерируются автоматически)
-$RECYCLE.BIN/
-* (*).*
-*$py.class
-**/*.log
-**/.gigacode/**/*.token_cache.json
-**/.gigacode/*.env
-**/.gigacode/*.env.*
-**/.gigacode/*.pyc
-**/.gigacode/__pycache__/
-**/node_modules/
-*.backup
-*.backup.*
-*.bak
-*.cer
-*.crt
-*.der
-*.dump
-*.egg
+# .gitignore - Clean and organized
+# ============================================
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
 *.egg-info/
-*.ipynb
-*.joblib
-*.key
-*.log
-*.p12
-*.pem
-*.pfx
-*.pid
-*.pkl
-*.ppk
-*.pub
-*.py[cod]
-*.scan.json
-*.so
-*.sql
-*.sqlite3
-*.swo
-*.swp
-*.temp
-*.test.html
-*.tfstate
-*.tmp
-*.volume/
-*_backup/
-*_test_results.json
-*~
-.agent_backups/
-.agents/
-.agents/plans/
-.archive/
-.azure/
-.cache/
-.chat-cache/
-.codeassistant/
-.continue/
-.coverage
-.DS_Store
+*.egg
 .eggs/
-.env
-.env.*
-.env.local
-.gigacode/
-.gigaide/
-.hypothesis/
-.idea/
-.installed.cfg
-.ipynb_checkpoints/
-.koda/
-.kodacli/
-.obsidian/
-.pytest_cache/
-.Python
-.reports/
-.ruff_cache/
-.scripts/
-.sys_path_backup_*/
-.terraform/
-.venv/
-.venv_local/
-.vscode/
-/cognitive_agent/
-__pycache__/
-_debug_*.py
-add_integrations*.py
-agent_self_analysis_report.*
-agent-logs-*.zip
-agents/*/local/
-agents/*/temp/
-agents/chroma_db/
-agents/cognitive_agent/.env.local
-agents/cognitive_agent/backups/
-agents/cognitive_agent/cache/
-agents/cognitive_agent/data/
-agents/cognitive_agent/knowledge/
-agents/cognitive_agent/logs/
-agents/cognitive_agent/metrics/
-agents/cognitive_agent/models/
-agents/cognitive_agent/recommendations/
-agents/cognitive_agent/reports/
-agents/cognitive_agent/scans/
-agents/cognitive_agent/status/
-agents/cognitive_agent/temp/
-apps/*/config/settings.json
-apps/*/configs/vscode_settings.json
-apps/logs/
-apps/plans/
-apps/reports/
-audit_report.txt
-authorized_keys
-backup_*
-backup_*.sql
-bandit-report.json
-build/
-cache/
-check_integrations.py
-client/dist/
-cognitive-agent-standalone/
-commit_msg*.txt
-complete_strategic_report.*
-coverage.xml
-current_deps.txt
-ddd_analysis_report.*
-debug_*.py
-decode_key.py
-DEPENDBOT_PR_REVIEW.md
-develop-eggs/
-diagnosis.ps1
-diagnostic_report.json
 dist/
-docker/volumes/
-docs/.build/
-docs/_build/
-docs/_site/
-docs/archive/site-html-build/
-docs/reports/archive/
-docs-archive/
-downloads/
-agents.disabled/scans/
-eggs/
+build/
+*.so
+.Python
 env/
-ENV/
-fix_*.py
-gitleaks-report.json
-grafana/data/
-grafana/sessions/
-health_check_report.json
-htmlcov/
-id_ed25519
-id_ed25519.*
-id_rsa
-id_rsa.*
-it_compass/*.json
-it_compass-standalone/
-junit.xml
-known_hosts
-legacy/
-lib/
-lib64/
-logs/
-no_commit/
-parts/
-phase2_*_test_results.json
-pip-conflicts.txt
-pip-log.txt
-pip-wheel-metadata/
-portfolio_organizer-standalone/
-prometheus/data/
-python_server/static/
-repo-env/
-reports/
-reports/planning/
-requirements.audit.txt
-requirements.clean.txt
-ruff.toml
-run-tests-safe.py
-sandbox/
-scan_results/
-sdist/
-secrets.json
-secrets/
-security_scan/
-site/
-sitecustomize.py
-smart_agent_patch.py
-ssh_host_*
-System Volume Information/
-system_proof-standalone/
-temp/
-temp_*.py
-temp_get_token.py
-terraform.tfstate*
-test_*.log
-test_db/
-test_output/
-test_reports/
-Thumbs.db
-tmp/
-tools/knowledge-extractor/chat-export-*.json
-tools/knowledge-extractor/extracted_cases.md
-var/
 venv/
-wheels/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Windows null device
-nul
+# === Testing ===
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
 
-# === Cognitive Agent temporary files ===
-.cognitive_agent_scan_cache.json
-agents/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.cognitive_agent_scan_cache.json
-agents/cognitive_agent/.agent_data/
-agents/cognitive_agent/plans/
-agents.disabled/
-*.backup_*
-*_backup.py
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# === Temporary scripts ===
-agents/cognitive_agent/scripts/1.py
-check_*.py
-find_*.py
-count_*.py
-generate_*.py
-test_*.py
-
-# === Archives ===
-archive/
-
-# === Duplicate directories ===
-apps/cognitive_agent/
-
-# === Python cache ===
-__pycache__/
-*.py[cod]
+# === OS ===
+.DS_Store
+Thumbs.db
 
 # === Logs ===
-logs/
 *.log
+logs/
 
-# === ChromaDB ===
-chroma_db/
-chroma_data/
+# === Environment ===
+.env
+.env.*
+!.env.example
+!.env.test
 
-# === Node modules ===
+# === Node.js ===
 node_modules/
 
-# === Scripts directories (generated during refactoring) ===
-# scripts/build/automation/cache/
-# scripts/build/ci/cache/
-# scripts/build/deployment/cache/
-# scripts/build/diagnostics/cache/
-# scripts/build/generators/cache/
-# scripts/build/management/cache/
-# scripts/build/security/cache/
-# scripts/deploy/cache/
-# scripts/runtime/cache/
-# scripts/dev/cache/
-
-# === Temp files in scripts ===
-# scripts/**/temp_*.py
-# scripts/**/*_test.py
-# scripts/**/test_*.py
-# scripts/**/*_check.py
-# scripts/**/check_*.py
-
-# === Personal scripts (local user scripts) ===
-.scripts/
-.scripts/
-
-# === Disabled agent scan results (should never be committed) ===
-.agents.disabled/
-
-# === AI Agent state (should never be committed) ===
+# === Agent runtime data ===
+.agent_data/
 .agent_state/
+.agents/
+.agents.disabled/
+chroma_db/
+
+# === Reports and artifacts ===
+reports/
+*.scan.json
+
+# === Temporary files ===
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# === Archives ===
+*.zip
+*.tar.gz
+
+# === Secrets ===
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+authorized_keys
+id_rsa
+id_ed25519
+
+# === Build artifacts ===
+*.egg-info/
+*.whl
+wheels/
+
+# === Cache ===
+.cache/
+.ruff_cache/
+.mypy_cache/
+
+# === Legacy (if needed) ===
+legacy/
+archive/
+
+# ============================================
+# End of .gitignore
+# ============================================
