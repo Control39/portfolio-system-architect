@@ -21,9 +21,11 @@ Autonomous Cognitive Agent - Автономный AI-агент
 
 import asyncio
 import datetime
+import json
 import re
 from pathlib import Path
 from typing import Any
+
 
 # Импорты из новых модулей
 from agents.cognitive_agent.core.base_agent import get_agent_data_dir, get_repo_root
@@ -126,24 +128,36 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             return
 
         self.running = True
+        # Сохранение handle для graceful shutdown
+        self._periodic_scan_task = getattr(self, "_periodic_scan_task", None)
         self.audit_logger.log_action("agent_started", {"background": background})
+
         logger.info(f"🚀 Autonomous Agent started in {'background' if background else 'foreground'} mode")
 
         # Запуск сканирования при старте
         if background:
             # В фоновом режиме запускаем периодическое сканирование
-            asyncio.create_task(self._run_periodic_scan())
+            if (
+                getattr(self, "_periodic_scan_task", None) is None
+                or getattr(self._periodic_scan_task, "done", lambda: True)()
+            ):
+                self._periodic_scan_task = asyncio.create_task(self._run_periodic_scan())
         else:
             # В foreground режиме выполняем одно сканирование
             self.scan_project(mode="auto")
 
     def stop(self):
-        """Остановить агента"""
+        """Остановить агента (graceful shutdown)."""
         if not self.running:
             logger.warning("Agent is not running")
             return
 
         self.running = False
+
+        task = getattr(self, "_periodic_scan_task", None)
+        if task is not None and not task.done():
+            task.cancel()
+
         self.audit_logger.log_action("agent_stopped", {})
         logger.info(f"🛑 Autonomous Agent stopped: {self.agent_id}")
 
@@ -231,18 +245,37 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 logger.error(f"🚫 AI response blocked: {safety_msg}")
                 return {"success": False, "error": safety_msg, "task": task}
 
-            # Парсинг ответа
-            import json
-
+            # Парсинг ответа (strict-ish)
             try:
-                json_match = re.search(r"\{.*\}", response, re.DOTALL)
-                if json_match:
-                    solution = json.loads(json_match.group())
-                    logger.info(f"✅ Solution generated: {solution.get('action', 'unknown')}")
-                    self._remember_decision({"task": task}, solution.get("action", "unknown"), "success")
+                # Сначала пытаемся распарсить ответ целиком как JSON
+                response_stripped = response.strip()
+                solution: dict[str, Any]
+
+                if response_stripped.startswith("{") and response_stripped.endswith("}"):
+                    solution = json.loads(response_stripped)
                 else:
-                    solution = {"action": "text_response", "description": response}
-            except json.JSONDecodeError:
+                    # Если модель вернула обёртку/текст — извлекаем первое JSON-объектное содержимое
+                    start = response_stripped.find("{")
+                    end = response_stripped.rfind("}")
+                    if start == -1 or end == -1 or end <= start:
+                        raise json.JSONDecodeError("No JSON object found", response_stripped, 0)
+                    solution = json.loads(response_stripped[start : end + 1])
+
+                # Минимальная валидация схемы (production hardening)
+                action = solution.get("action") if isinstance(solution, dict) else None
+                description = solution.get("description") if isinstance(solution, dict) else None
+
+                if not action or not isinstance(action, str):
+                    raise ValueError("Missing/invalid 'action' in AI solution")
+                if not description or not isinstance(description, str):
+                    # В fallback не ломаем — но фиксируем как текстовый ответ
+                    solution = {"action": action, "description": str(description) if description is not None else ""}
+
+                self._remember_decision({"task": task}, action, "success")
+                logger.info(f"✅ Solution generated: {action}")
+
+            except Exception as parse_exc:
+                logger.warning(f"AI solution parsing failed: {parse_exc}")
                 solution = {"action": "text_response", "description": response}
 
             # Сохранение результата

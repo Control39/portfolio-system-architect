@@ -10,7 +10,7 @@ models:
       completion: true
       embedding: false
   - id: "gigachat"
-    name: "GigaChat GPT 4o Mini"
+    name: "GigaChat Pro"
     provider:
       type: "gigachat"
       apiKey: "${GIGACHAT_API_KEY}"

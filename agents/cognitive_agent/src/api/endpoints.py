@@ -1,9 +1,11 @@
 # components/cognitive-agent/api/endpoints.py
 
 from contextvars import ContextVar
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
 
 # ⭐ [БЕЗОПАСНОСТЬ] ContextVar для изоляции агента в многопоточной среде
 _agent_context: ContextVar = ContextVar("agent_context", default=None)
@@ -76,25 +78,72 @@ async def root():
 
 @app.post("/api/v1/scan", response_model=ScanResponse)
 async def scan_project(request: ScanRequest):
-    """Запустить сканирование проекта"""
+    """Запустить сканирование проекта.
+
+    Использует `scripts/scanner_main.py` (ProjectScanner).
+    """
     try:
-        # TODO: Интегрировать scanner_main.py
-        return ScanResponse(
-            status="pending",
-            files_found=0,
-            languages_detected=[],
-            message=f"Сканирование начато для: {request.project_path}",
+        from agents.cognitive_agent.scripts.scanner_main import ProjectScanner
+
+        # Валидация пути: ограничиваем доступ в пределах репозитория c:/repo
+        # (на проде это защищает от простых попыток path traversal)
+        repo_root = Path(__file__).resolve().parents[3]
+        project_root = (
+            (repo_root / request.project_path).resolve()
+            if not Path(request.project_path).is_absolute()
+            else Path(request.project_path).resolve()
         )
+        if repo_root not in project_root.parents and repo_root != project_root:
+            raise HTTPException(status_code=400, detail="project_path must be inside repository")
+
+        scanner = ProjectScanner()
+        results = scanner.scan_project(str(project_root))
+
+        languages = results.get("tech_stack", {}).get("languages", [])
+        # files_found по текущей реализации сканера явно не возвращается — оцениваем косвенно
+        files_found = 0
+        files_found = len(results.get("dependencies", {}).get("python", []) or [])
+
+        return ScanResponse(
+            status="success",
+            files_found=files_found,
+            languages_detected=languages if isinstance(languages, list) else [],
+            message=f"Сканирование завершено для: {project_root}",
+        )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/api/v1/plan", response_model=PlanResponse)
 async def plan_tasks(request: PlanRequest):
-    """Создать план задач"""
+    """Создать план задач.
+
+    Использует `scripts/planner_main.py` (TaskPlanner).
+
+    В этой реализации goals пока не используется для генерации плана (планировщик
+    берет задачи из `apps/cognitive_agent/data/tasks.json` либо генерирует sample tasks).
+    """
     try:
-        # TODO: Интегрировать planner_main.py + AI
-        return PlanResponse(tasks=[], estimated_duration=0, message=f"Планирование начато для целей: {request.goals}")
+        from agents.cognitive_agent.scripts.planner_main import TaskPlanner
+
+        planner = TaskPlanner()
+        planner.load_tasks()
+        tasks = planner.prioritize_tasks()
+
+        # estimated_duration: суммарная оценка по минутам
+        estimated_duration = 0.0
+        for t in tasks or []:
+            estimated_duration += float(t.get("estimated_duration", 0) or 0)
+
+        return PlanResponse(
+            tasks=tasks or [],
+            estimated_duration=estimated_duration,
+            message=f"Планирование завершено для целей: {request.goals}",
+        )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

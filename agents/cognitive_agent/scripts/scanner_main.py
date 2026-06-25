@@ -135,7 +135,10 @@ class ProjectScanner:
                             continue
                         self.visited_paths.add(real_path)
 
-                        if item.is_dir(follow_symlinks=False):
+                        # Path.is_dir() в Python не принимает follow_symlinks.
+                        # Используем безопасную проверку директории.
+                        if item.is_dir():
+
                             if item.name not in ignore_dirs and not item.name.startswith("."):
                                 yield from walk_dir(item, current_depth + 1, count)
                         else:

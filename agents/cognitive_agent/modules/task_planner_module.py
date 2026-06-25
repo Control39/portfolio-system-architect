@@ -219,6 +219,7 @@ class TaskPlanner:
         path = params.get("path", ".")
         depth = params.get("depth", 3)
         scan_mode = params.get("mode", "auto")
+        task_id = params.get("task_id", "unknown")
 
         scanner = ProjectScanner(scan_depth=depth)
         result = await scanner.scan_project(path, scan_mode=scan_mode)

@@ -13,6 +13,16 @@ from pathlib import Path
 
 from fastapi import FastAPI
 
+# Подключаем router/эндпойнты из модуля API
+try:
+    from agents.cognitive_agent.src.api.endpoints import app as cognitive_api_app
+
+    _HAS_COGNITIVE_API = True
+except Exception:
+    cognitive_api_app = None
+    _HAS_COGNITIVE_API = False
+
+
 # Добавляем корень проекта в путь для импорта
 repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
@@ -49,6 +59,11 @@ if OTEL_ENABLED:
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "cognitive_agent"}
+
+
+# Монтируем внешний API (v1 endpoints)
+if _HAS_COGNITIVE_API and cognitive_api_app is not None:
+    app.mount("/", cognitive_api_app)
 
 
 @app.get("/")
