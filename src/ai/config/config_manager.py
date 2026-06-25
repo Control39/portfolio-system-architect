@@ -27,16 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 def _metric_or_existing(name: str) -> bool:
-    try:
-        for family in prom.REGISTRY.collect():
-            if family.name == name:
-                return True
-    except Exception:
-        pass
-    return False
-
-
-def _metric_or_existing(name: str) -> bool:
+    """Проверяет, зарегистрирована ли метрика с указанным именем."""
     try:
         for family in prom.REGISTRY.collect():
             if family.name == name:

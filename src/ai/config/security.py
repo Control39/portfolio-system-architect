@@ -104,7 +104,8 @@ class SecretMaskingHandler(logging.Handler):
             message = record.getMessage()
             masked_message = mask_string(message)
             record.msg = masked_message
-            record.args = tuple(mask_sensitive(arg) for arg in record.args) if record.args else ()
+            if record.args:
+                record.args = tuple(mask_sensitive(str(arg)) for arg in record.args)
             super().emit(record)
         except Exception:
             self.handleError(record)
