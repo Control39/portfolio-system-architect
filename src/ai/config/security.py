@@ -8,11 +8,11 @@ from typing import Any
 SECRET_PATTERNS = {
     "api_key": re.compile(r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?[a-zA-Z0-9_-]{20,}["\']?'),
     "bearer_token": re.compile(r"(?i)bearer\s+[a-zA-Z0-9_-]+"),
-    "password": re.compile(r'(?i)(password|passwd|pwd)\s*[:=]\s*["\']?[^\s"\']+?["\']?'),
+    "password": re.compile(r'(?i)(password|passwd|pwd)\s*[:=]\s*["\']? [^\s"\'] +?["\']?'),
     "secret": re.compile(r'(?i)(secret|secret_key)\s*[:=]\s*["\']?[a-zA-Z0-9_-]{10,}["\']?'),
     "aws_key": re.compile(r"AKIA[0-9A-Z]{16}"),
     "private_key": re.compile(r"-----BEGIN\s+(RSA|DSA|EC|OPENSSH)\s+PRIVATE\s+KEY-----"),
-    "database_url": re.compile(r'(?i)(postgres(?:ql)?|mysql|mongodb|redis)://[^\s"\'<>]+'),
+    "database_url": re.compile(r'(?i)(postgres(?:ql)?|mysql|mongodb|redis)://[^\s"\']<>]+'),
     "jwt_token": re.compile(r"eyJ[a-zA-Z0-9_-]*\.eyJ[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*"),
 }
 
@@ -105,7 +105,10 @@ class SecretMaskingHandler(logging.Handler):
             masked_message = mask_string(message)
             record.msg = masked_message
             if record.args:
-                record.args = tuple(mask_sensitive(str(arg)) for arg in record.args)
+                try:
+                    record.args = tuple(mask_sensitive(str(arg)) for arg in record.args)
+                except Exception:
+                    record.args = tuple(mask_sensitive(repr(arg)) for arg in record.args)
             super().emit(record)
         except Exception:
             self.handleError(record)

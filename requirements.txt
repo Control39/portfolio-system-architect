@@ -150,7 +150,6 @@ MarkupSafe==3.0.3
 marshmallow==3.26.2
 mccabe==0.7.0
 mcp==1.27.1
-# Editable install with no version control (mcp-server==0.1.0)
 mdurl==0.1.2
 mergedeep==1.3.4
 mkdocs==1.6.1
@@ -213,7 +212,6 @@ platformdirs==4.9.6
 playwright==1.59.0
 pluggy==1.6.0
 poetry-core==2.3.2
-# Editable install with no version control (portfolio-organizer==1.0.0)
 pre_commit==4.6.0
 prometheus-fastapi-instrumentator==7.1.0
 prometheus_client==0.25.0
