@@ -105,3 +105,7 @@ def reload_config() -> None:
     global _config_instance
     if _config_instance:
         _config_instance.reload()
+
+
+# blackboxai: proxy to shared config_integration
+from src.ai.config.config_integration import *  # noqa

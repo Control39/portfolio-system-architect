@@ -391,3 +391,6 @@ if __name__ == "__main__":
         print(f"✅ Response: {response[:100]}...")
     else:
         print("❌ No response from any provider")
+
+# blackboxai: proxy to shared config_integration
+from src.ai.config.config_integration import *  # noqa
