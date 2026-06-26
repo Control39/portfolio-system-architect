@@ -142,6 +142,11 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 or getattr(self._periodic_scan_task, "done", lambda: True)()
             ):
                 self._periodic_scan_task = asyncio.create_task(self._run_periodic_scan())
+
+            # ⭐ [SELF-TEST] Запуск автономного модуля тестирования (Safe Mode)
+            if not getattr(self, "_self_test_task", None) or getattr(self._self_test_task, "done", lambda: True)():
+                self._self_test_task = asyncio.create_task(self.self_testing_module.run_periodically(interval=3600))
+                logger.info("🛡️ Self-testing module started (Safe Mode - Dry Run)")
         else:
             # В foreground режиме выполняем одно сканирование
             self.scan_project(mode="auto")
@@ -157,6 +162,12 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         task = getattr(self, "_periodic_scan_task", None)
         if task is not None and not task.done():
             task.cancel()
+
+        # Остановка задачи само-тестирования
+        self_test_task = getattr(self, "_self_test_task", None)
+        if self_test_task is not None and not self_test_task.done():
+            self_test_task.cancel()
+            logger.info("🛡️ Self-testing module stopped")
 
         self.audit_logger.log_action("agent_stopped", {})
         logger.info(f"🛑 Autonomous Agent stopped: {self.agent_id}")
@@ -219,6 +230,24 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
                 "task_rejected", {"task_preview": task[:100], "reason": validation_msg}, "blocked"
             )
             return {"success": False, "error": validation_msg}
+
+        # ⭐ [SECURITY V2] Контекстная проверка guardrails v2.0
+        if hasattr(self, "guardrails_v2") and self.guardrails_v2 and self.guardrails_v2.guardrails_loaded:
+            allowed, reason = self.guardrails_v2.check_guardrail(
+                action="execute_task",
+                path=task[:100],  # Превью задачи
+                context={
+                    "environment": getattr(self, "environment", "development"),
+                    "user_role": getattr(self, "current_user_role", "developer"),
+                },
+            )
+
+            if not allowed:
+                logger.error(f"🚫 Guardrails v2.0 blocked task: {reason}")
+                self.audit_logger.log_security_event(
+                    "guardrails_v2_blocked", {"task_preview": task[:100], "reason": reason}, severity="critical"
+                )
+                return {"success": False, "error": reason}
 
         # Проверка guardrails
         try:
@@ -301,6 +330,70 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
             except Exception as e:
                 logger.error(f"Periodic scan failed: {e}")
                 await asyncio.sleep(60)  # Подождать перед повтором
+
+    # ⭐ [SECURITY V2] Метод для выполнения кода в sandbox
+    def execute_in_sandbox(self, code: str, timeout: int = 10) -> dict[str, Any]:
+        """
+        Выполнить Python-код в изолированном sandbox
+
+        Args:
+            code: Python-код для выполнения
+            timeout: Таймаут в секундах
+
+        Returns:
+            dict: Результат выполнения
+        """
+        if not hasattr(self, "sandbox") or self.sandbox is None:
+            logger.warning("⚠️ Sandbox not available - code execution disabled")
+            return {
+                "success": False,
+                "error": "Sandbox executor not available",
+                "exit_code": -1,
+                "output": "",
+            }
+
+        # ⭐ [SECURITY V2] Проверка guardrails перед выполнением
+        if hasattr(self, "guardrails_v2") and self.guardrails_v2 and self.guardrails_v2.guardrails_loaded:
+            allowed, reason = self.guardrails_v2.check_guardrail(
+                action="execute_code",
+                path="sandbox",
+                context={
+                    "environment": getattr(self, "environment", "development"),
+                    "user_role": getattr(self, "current_user_role", "developer"),
+                    "code_preview": code[:200],
+                },
+            )
+
+            if not allowed:
+                logger.error(f"🚫 Guardrails v2.0 blocked code execution: {reason}")
+                self.audit_logger.log_security_event(
+                    "sandbox_execution_blocked", {"code_preview": code[:200], "reason": reason}, severity="critical"
+                )
+                return {
+                    "success": False,
+                    "error": reason,
+                    "exit_code": -1,
+                    "output": "",
+                }
+
+        logger.info(f"⚡ Executing code in sandbox (timeout={timeout}s)")
+        self.audit_logger.log_action("sandbox_execution_started", {"code_preview": code[:200], "timeout": timeout})
+
+        # Выполнение в sandbox
+        result = self.sandbox.execute_python_code(code, timeout=timeout)
+
+        # Логирование результата
+        if result.get("success"):
+            logger.info(f"✅ Sandbox execution completed: exit_code={result.get('exit_code')}")
+            self.audit_logger.log_action(
+                "sandbox_execution_completed",
+                {"exit_code": result.get("exit_code"), "duration": result.get("duration", 0)},
+            )
+        else:
+            logger.error(f"❌ Sandbox execution failed: {result.get('error', 'Unknown error')}")
+            self.audit_logger.log_action("sandbox_execution_failed", {"error": result.get("error", "Unknown error")})
+
+        return result
 
 
 def main():
