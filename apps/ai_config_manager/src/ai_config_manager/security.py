@@ -104,7 +104,15 @@ class SecretMaskingHandler(logging.Handler):
             message = record.getMessage()
             masked_message = mask_string(message)
             record.msg = masked_message
-            record.args = tuple(mask_sensitive(arg) for arg in record.args) if record.args else ()
+            if record.args:
+                try:
+                    record.args = tuple(mask_sensitive(str(arg)) for arg in record.args)
+                except Exception:
+                    # При ошибке приведения к строке пропускаем маскирование аргументов
+                    # чтобы избежать раскрытия чувствительных данных через repr()
+                    logger = logging.getLogger(__name__)
+                    logger.warning("Failed to mask log arguments, skipping masking for safety")
+                    record.args = tuple(mask_sensitive(arg) for arg in record.args)
             super().emit(record)
         except Exception:
             self.handleError(record)

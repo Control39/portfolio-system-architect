@@ -91,6 +91,10 @@ def mask_sensitive(value: Any) -> Any:
     return value
 
 
+# Глобальный логгер модуля
+logger = logging.getLogger(__name__)
+
+
 class SecretMaskingHandler(logging.Handler):
     """
     Логгер, автоматически маскирующий секреты.
@@ -108,7 +112,10 @@ class SecretMaskingHandler(logging.Handler):
                 try:
                     record.args = tuple(mask_sensitive(str(arg)) for arg in record.args)
                 except Exception:
-                    record.args = tuple(mask_sensitive(repr(arg)) for arg in record.args)
+                    # При ошибке приведения к строке пропускаем маскирование аргументов
+                    # чтобы избежать раскрытия чувствительных данных через repr()
+                    logger.warning("Failed to mask log arguments, skipping masking for safety")
+                    record.args = tuple(mask_sensitive(arg) for arg in record.args)
             super().emit(record)
         except Exception:
             self.handleError(record)

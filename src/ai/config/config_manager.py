@@ -27,8 +27,21 @@ logger = logging.getLogger(__name__)
 
 
 def _metric_or_existing(name: str) -> bool:
-    """Проверяет, зарегистрирована ли метрика с указанным именем."""
-    return name in prom.REGISTRY._names_to_collectors  # неофициальный API, но эффективный
+    """
+    Проверяет, зарегистрирована ли метрика с указанным именем.
+
+    Сначала пытается использовать быстрый неофициальный API _names_to_collectors,
+    затем fallback на официальный метод collect() для совместимости.
+    """
+    try:
+        # Быстрый путь через неофициальный API (работает в prometheus_client >= 0.6.0)
+        return name in prom.REGISTRY._names_to_collectors
+    except AttributeError:
+        # Fallback для старых версий prometheus_client
+        try:
+            return any(family.name == name for family in prom.REGISTRY.collect())
+        except Exception:
+            return False
 
 
 def _get_counter(name: str, description: str, labelnames: list[str]):

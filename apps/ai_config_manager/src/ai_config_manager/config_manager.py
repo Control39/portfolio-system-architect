@@ -26,14 +26,25 @@ logger = logging.getLogger(__name__)
 # создаём метрики безопасно (при дублировании переиспользуем уже зарегистрированные).
 
 
-def _metric_or_existing(name: str):
+def _metric_or_existing(name: str) -> bool:
+    """
+    Проверяет, зарегистрирована ли метрика с указанным именем.
+
+    Сначала пытается использовать быстрый неофициальный API _names_to_collectors,
+    затем fallback на официальный метод collect() для совместимости.
+    """
     try:
-        for family in prom.REGISTRY.collect():
-            if family.name == name:
-                return True
-    except Exception:
-        pass
-    return False
+        # Быстрый путь через неофициальный API (работает в prometheus_client >= 0.6.0)
+        return name in prom.REGISTRY._names_to_collectors
+    except AttributeError:
+        # Fallback для старых версий prometheus_client
+        try:
+            for family in prom.REGISTRY.collect():
+                if family.name == name:
+                    return True
+        except Exception:
+            pass
+        return False
 
 
 def _get_counter(name: str, description: str, labelnames: list[str]):
