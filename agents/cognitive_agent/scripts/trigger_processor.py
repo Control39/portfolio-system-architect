@@ -22,13 +22,83 @@ from typing import Any
 
 import yaml
 
+# ============================================
+# 🔒 SAFE MODE CHECK - БЛОКИРОВКА ТРИГГЕРОВ
+# ============================================
+# Проверяем safe_mode.yaml перед запуском
+SAFE_MODE_CONFIG = Path("agents/cognitive_agent/config/safe_mode.yaml")
+
+def is_safe_mode_enabled() -> bool:
+    """Проверка включен ли safe_mode"""
+    if not SAFE_MODE_CONFIG.exists():
+        return False
+
+    try:
+        with open(SAFE_MODE_CONFIG, encoding="utf-8") as f:
+            config = yaml.safe_load(f) or {}
+
+        mode = config.get("mode", "")
+        return mode == "SAFE_READ_ONLY"
+    except Exception:
+        return False
+
+# Блокировка если safe_mode включен
+if is_safe_mode_enabled():
+    logger.warning("🔒 SAFE MODE ENABLED: Trigger processor is DISABLED")
+    logger.warning("❌ All trigger-based actions are BLOCKED")
+    print("🔒 SAFE MODE: Trigger processor disabled - no autonomous actions allowed")
+    sys.exit(0)
+# ============================================
+
+# Создание директории для логов
+LOG_DIR = Path("logs")
+LOG_DIR.mkdir(exist_ok=True, parents=True)
+
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("logs/triggers.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(LOG_DIR / "triggers.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
+# Аудит логирование для безопасности
+audit_logger = logging.getLogger("audit")
+audit_logger.setLevel(logging.INFO)
+audit_handler = logging.FileHandler(LOG_DIR / "audit.log")
+audit_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+audit_logger.addHandler(audit_handler)
+
+# Whitelist разрешенных команд
+ALLOWED_COMMANDS = [
+    "python",
+    "pytest",
+    "mypy",
+    "black",
+    "ruff",
+    "flake8",
+    "pip",
+    "git",
+    "echo",
+    "ls",
+    "cat",
+    "wc",
+    "grep",
+    "find",
+    "sed",
+    "awk",
+    "sh",
+    "bash",
+    "make",
+    "node",
+    "npm",
+    "yarn",
+    "docker",
+    "kubectl",
+    "terraform",
+    "aws",
+    "gcloud",
+]
 
 
 class TriggerPriority(Enum):
@@ -82,6 +152,18 @@ class TriggerAction:
     allowed_failures: int = 0
     retry_count: int = 0
 
+    def _find_script(self, script_name: str) -> Path | None:
+        """Поиск скрипта в директориях агента"""
+        script_paths = [
+            Path("scripts") / script_name,
+            Path("agents") / script_name,
+            Path("agents/cognitive_agent") / script_name,
+        ]
+        for path in script_paths:
+            if path.exists():
+                return path.resolve()
+        return None
+
     def execute(self) -> dict[str, Any]:
         """Выполнение действия"""
         logger.info(f"Выполнение действия: {self.name}")
@@ -90,7 +172,7 @@ class TriggerAction:
             # Разделяем команду на части
             cmd_parts = self.command.split()
 
-            # Валидация команды для предотвращения B603 и B607
+            # Валидация команды для предотвления B603 и B607
             if not self._validate_command(cmd_parts):
                 return {
                     "success": False,
@@ -153,12 +235,23 @@ class TriggerAction:
 
     def _validate_command(self, cmd_parts: list[str]) -> bool:
         """Валидация команды для предотвращения внедрения команд"""
+        # Whitelist-подход: проверяем, что команда разрешена
+        if cmd_parts:
+            command_name = cmd_parts[0].replace('.exe', '').replace('.bat', '').replace('.cmd', '').replace('.ps1', '')
+            if command_name not in ALLOWED_COMMANDS:
+                audit_logger.warning(f"Команда не разрешена whitelist: {command_name}")
+                logger.error(f"Команда не разрешена: {command_name}. Разрешенные команды: {ALLOWED_COMMANDS}")
+                return False
+            else:
+                audit_logger.info(f"Команда разрешена whitelist: {command_name}")
+
         # Проверяем, что команда не содержит потенциально опасных символов
         dangerous_patterns = [";", "&", "|", "$", "`", ">", "<", "(", ")", "[", "]"]
 
         for part in cmd_parts:
             for pattern in dangerous_patterns:
                 if pattern in part:
+                    audit_logger.warning(f"Найден потенциально опасный символ в команде: {pattern} в {part}")
                     logger.warning(f"Найден потенциально опасный символ в команде: {pattern} в {part}")
                     return False
 

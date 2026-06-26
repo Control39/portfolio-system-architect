@@ -4,13 +4,16 @@ Implementing AAA (Authentication, Authorization, Accounting)
 and fine-grained access control
 """
 
+import hashlib
 import logging
+import os
 import re
 import secrets
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -60,11 +63,24 @@ class FileAccessRule:
 class AuthenticationManager:
     """Менеджер аутентификации"""
 
-    def __init__(self, secret_key: str = None):
-        self.secret_key = secret_key or secrets.token_hex(32)
+    def __init__(self, secret_key: Optional[str] = None):
+        # ✅ БЕЗОПАСНОСТЬ: Загружать secret_key из переменной окружения
+        self.secret_key = secret_key or os.environ.get("COGNITIVE_AGENT_SECRET_KEY")
+        if not self.secret_key:
+            raise ValueError(
+                "COGNITIVE_AGENT_SECRET_KEY environment variable is not set. "
+                "Generate one with: python -c 'import secrets; print(secrets.token_hex(32))'"
+            )
+
         self.sessions: dict[str, UserSession] = {}
         self.session_timeout = timedelta(hours=1)
         self.max_concurrent_sessions = 5
+        # ✅ БЕЗОПАСНОСТЬ: Хеш-мапа для быстрого поиска сессий по токену
+        self._token_hash_index: dict[str, str] = {}
+
+    def _hash_token(self, token: str) -> str:
+        """✅ БЕЗОПАСНОСТЬ: Создать хеш токена для безопасного хранения"""
+        return hashlib.sha256(token.encode()).hexdigest()
 
     def create_session(self, user_id: str, role: UserRole, ip_address: str = "127.0.0.1") -> str:
         """Создать сессию для пользователя"""
@@ -87,6 +103,8 @@ class AuthenticationManager:
         )
 
         self.sessions[token] = session
+        # ✅ БЕЗОПАСНОСТЬ: Индексация по хешу токена
+        self._token_hash_index[self._hash_token(token)] = token
         logger.info(f"Session created for user {user_id} with role {role.value}")
         return token
 
@@ -97,7 +115,10 @@ class AuthenticationManager:
             return None
 
         if datetime.utcnow() > session.expires_at:
-            del self.sessions[token]  # Удалить просроченную сессию
+            # Удалить просроченную сессию и её индекс
+            token_hash = self._hash_token(token)
+            self._token_hash_index.pop(token_hash, None)
+            del self.sessions[token]
             return None
 
         return session
@@ -183,9 +204,50 @@ class AuthorizationManager:
             ),
         ]
 
+    def _sanitize_path(self, file_path: str) -> str:
+        """
+        ✅ БЕЗОПАСНОСТЬ: Санация пути для защиты от path traversal
+
+        Args:
+            file_path: Путь от пользователя
+
+        Returns:
+            str: Нормализованный путь
+
+        Raises:
+            ValueError: Если обнаружен path traversal
+        """
+        # Удалить потенциально опасные символы
+        sanitized = file_path.replace("\\", "/")
+
+        # Проверить на path traversal паттерны
+        dangerous_patterns = ["../", "..\\", "/etc/", "/root/", "C:\\Windows"]
+        for pattern in dangerous_patterns:
+            if pattern in sanitized:
+                raise ValueError(f"Path traversal detected: {file_path}")
+
+        # Нормализовать путь
+        normalized = Path(sanitized).as_posix()
+
+        # Удалить ведущие слеши для относительных путей
+        if normalized.startswith("/"):
+            normalized = normalized.lstrip("/")
+
+        return normalized
+
     def check_access(self, user_role: UserRole, file_path: str, action: AccessLevel) -> dict[str, any]:
         """Проверить доступ к файлу"""
-        path = Path(file_path).as_posix()  # Привести к POSIX формату
+        # ✅ БЕЗОПАСНОСТЬ: Санация пути
+        try:
+            path = self._sanitize_path(file_path)
+        except ValueError as e:
+            return {
+                "allowed": False,
+                "reason": str(e),
+                "requires_approval": False,
+                "requires_two_factor": False,
+                "rule_description": "Security violation",
+            }
 
         # Найти подходящее правило
         applicable_rule = None
@@ -245,10 +307,13 @@ class AuthorizationManager:
 class EnterpriseGuardrails:
     """Главный класс enterprise-level guardrails"""
 
-    def __init__(self):
-        self.auth_manager = AuthenticationManager()
+    def __init__(self, secret_key: Optional[str] = None):
+        # ✅ БЕЗОПАСНОСТЬ: Передача secret_key из конфигурации
+        self.auth_manager = AuthenticationManager(secret_key=secret_key)
         self.authz_manager = AuthorizationManager()
         self.audit_log = []
+        # ✅ БЕЗОПАСНОСТЬ: Ограничение размера аудит-лога
+        self.max_audit_log_size = 10000
 
     def authenticate_user(self, user_id: str, role: UserRole, ip_address: str = "127.0.0.1") -> str:
         """Аутентифицировать пользователя и создать сессию"""
@@ -279,17 +344,37 @@ class EnterpriseGuardrails:
 
         return result
 
+    @staticmethod
+    def _mask_sensitive_data(data: str) -> str:
+        """✅ БЕЗОПАСНОСТЬ: Маскировка чувствительных данных для логов"""
+        if not data:
+            return ""
+        if len(data) <= 8:
+            return "*" * len(data)
+        return data[:4] + "*" * (len(data) - 8) + data[-4:]
+
     def _log_audit(self, event_type: str, user_id: str, role: str, details: str):
         """Залогировать событие в аудит-лог"""
+        # ✅ БЕЗОПАСНОСТЬ: Маскировка токенов и чувствительных данных в логах
+        masked_details = details
+        if "token" in details.lower():
+            # Найти токен в строке и замаскировать его
+            masked_details = self._mask_sensitive_data(details)
+
         audit_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "event_type": event_type,
             "user_id": user_id,
             "role": role,
-            "details": details,
+            "details": masked_details,
         }
         self.audit_log.append(audit_entry)
-        logger.info(f"Audit: {event_type} - {user_id}({role}): {details}")
+
+        # ✅ БЕЗОПАСНОСТЬ: Ограничение размера логов
+        if len(self.audit_log) > self.max_audit_log_size:
+            self.audit_log = self.audit_log[-self.max_audit_log_size // 2 :]
+
+        logger.info(f"Audit: {event_type} - {user_id}({role}): {masked_details}")
 
     def get_audit_trail(self, user_id: str = None, event_type: str = None, limit: int = 100) -> list[dict]:
         """Получить аудит- trail"""

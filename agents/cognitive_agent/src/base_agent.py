@@ -22,10 +22,15 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 # Импорты общих зависимостей
 # Правильные пути для импортов
 from agents.cognitive_agent.enterprise_guardrails import AccessLevel, EnterpriseGuardrails, UserRole
+from agents.cognitive_agent.security.rate_limiter import PredefinedRateLimiters, RateLimitExceededError
+from agents.cognitive_agent.security.secret_manager import SecretManager, SecretManagerError
+
+# Импорты модулей безопасности
+from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
 from agents.cognitive_agent.src.code_analyzer import CodeAnalyzer  # Новый импорт
 from agents.cognitive_agent.src.documentation_analyzer import DocumentationAnalyzer  # Новый импорт
 from agents.cognitive_agent.src.test_analyzer import TestAnalyzer  # Новый импорт
-from apps.ai_config_manager.src.ai_config_manager.config_manager import ConfigManager
+from src.ai.config import ConfigManager
 from apps.ai_provider_manager.src.ai_provider_manager import (
     chat_with_fallback,
     get_provider_manager,
@@ -283,6 +288,70 @@ class BaseCognitiveAgent(ABC):
         r"del\s+\/\w+",
     ]
 
+    def _load_safe_mode_config(self):
+        """
+        ⭐ [БЕЗОПАСНОСТЬ] Загрузка конфигурации safe_mode
+
+        Эта конфигурация ОТКЛЮЧАЕТ все опасные функции агента
+        """
+        safe_mode_path = Path(__file__).parent.parent / "config" / "safe_mode.yaml"
+
+        self.safe_mode_enabled = False
+        self.safe_mode_config = {}
+
+        if safe_mode_path.exists():
+            try:
+                with open(safe_mode_path, encoding="utf-8") as f:
+                    self.safe_mode_config = yaml.safe_load(f)
+
+                # Проверка режима
+                mode = self.safe_mode_config.get("mode", "")
+                if mode == "SAFE_READ_ONLY":
+                    self.safe_mode_enabled = True
+                    logger.info(f"✅ Safe mode configuration loaded: {mode}")
+                else:
+                    logger.warning(f"⚠️ Safe mode is not enabled (mode={mode})")
+            except Exception as e:
+                logger.error(f"❌ Failed to load safe_mode config: {e}")
+                self.safe_mode_enabled = False
+        else:
+            logger.warning("⚠️ safe_mode.yaml not found - running without safety restrictions")
+            self.safe_mode_enabled = False
+
+    def _is_operation_allowed(self, operation_type: str) -> bool:
+        """
+        ⭐ [БЕЗОПАСНОСТЬ] Проверка разрешения операции
+
+        Args:
+            operation_type: Тип операции (write_file, git_commit, auto_execute, etc.)
+
+        Returns:
+            bool: True если операция разрешена
+        """
+        if not self.safe_mode_enabled:
+            return True  # Если safe mode выключен, разрешаем всё (обратная совместимость)
+
+        # Проверяем конфигурацию
+        category_map = {
+            "write_file": "file_operations",
+            "modify_file": "file_operations",
+            "delete_file": "file_operations",
+            "create_file": "file_operations",
+            "git_add": "git_operations",
+            "git_commit": "git_operations",
+            "git_push": "git_operations",
+            "auto_execute": "autonomous_actions",
+            "auto_approve": "autonomous_actions",
+            "trigger_action": "triggers",
+        }
+
+        category = category_map.get(operation_type)
+        if category:
+            category_config = self.safe_mode_config.get(category, {})
+            return category_config.get(operation_type, False)
+
+        return True  # По умолчанию разрешаем, если нет в конфиге
+
     def __init__(self, project_path: str = None):
         # Инициализация базовых атрибутов
         self._initialize_base_components(project_path)
@@ -295,7 +364,37 @@ class BaseCognitiveAgent(ABC):
         self.scan_interval = 1800  # 30 минут (экономия ресурсов)
         self.last_scan: datetime | None = None
 
-        # ⭐ [БЕЗОПАСНОСТЬ] Счётчики для rate limiting
+        # ⭐ [БЕЗОПАСНОСТЬ] Загрузка safe_mode конфигурации
+        self._load_safe_mode_config()
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Проверка режима только чтения
+        if self.safe_mode_enabled:
+            logger.warning("🔒 SAFE MODE ACTIVATED: All write operations are BLOCKED")
+            logger.info("✅ Agent is running in READ-ONLY mode")
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Инициализация модулей безопасности
+        try:
+            self.secure_path = SecurePath(self.project_path)
+            logger.info(f"✅ SecurePath initialized: {self.project_path}")
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize SecurePath: {e}")
+            self.secure_path = None
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Rate limiters для различных операций
+        self.ai_rate_limiter = PredefinedRateLimiters.ai_calls()
+        self.file_ops_rate_limiter = PredefinedRateLimiters.file_operations()
+        self.scan_rate_limiter = PredefinedRateLimiters.scan_operations()
+        logger.info("✅ Rate limiters initialized")
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Secret manager (опционально)
+        try:
+            self.secret_manager = SecretManager(project_root=self.project_path)
+            logger.info("✅ Secret manager initialized")
+        except SecretManagerError as e:
+            logger.warning(f"⚠️ Secret manager not available: {e}")
+            self.secret_manager = None
+
+        # ⭐ [БЕЗОПАСНОСТЬ] Счётчики для rate limiting (обратная совместимость)
         self.ai_call_counter = 0
         self.ai_call_reset_time = datetime.now()
 
@@ -438,17 +537,27 @@ class BaseCognitiveAgent(ABC):
         logger.warning("⚠️ Using default guardrails due to load error")
 
     # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limiting
-    def _check_rate_limit(self):
-        """Проверить лимиты AI вызовов"""
-        now = datetime.now()
-        if (now - self.ai_call_reset_time).seconds >= 3600:
-            self.ai_call_counter = 0
-            self.ai_call_reset_time = now
+    def _check_rate_limit(self, operation_type: str = "ai_call"):
+        """
+        Проверить лимиты операций
 
-        if self.ai_call_counter >= self.OPERATION_LIMITS["max_ai_calls_per_hour"]:
-            raise Exception(f"Rate limit exceeded: {self.ai_call_counter} calls in last hour")
-
-        self.ai_call_counter += 1
+        Args:
+            operation_type: Тип операции (ai_call, file_op, scan)
+        """
+        try:
+            if operation_type == "ai_call":
+                self.ai_rate_limiter.check_rate_limit(f"ai:{self.agent_id}")
+            elif operation_type == "file_op":
+                self.file_ops_rate_limiter.check_rate_limit(f"file:{self.agent_id}")
+            elif operation_type == "scan":
+                self.scan_rate_limiter.check_rate_limit(f"scan:{self.agent_id}")
+        except RateLimitExceededError as e:
+            self._log_security_event(
+                "rate_limit_exceeded",
+                {"operation_type": operation_type, "error": str(e)},
+                severity="warning",
+            )
+            raise
 
     # ⭐ [БЕЗОПАСНОСТЬ] Валидация входных данных
     def _validate_task(self, task: str) -> tuple[bool, str]:
@@ -509,6 +618,33 @@ class BaseCognitiveAgent(ABC):
 
         return True, "OK"
 
+    # ⭐ [БЕЗОПАСНОСТЬ] Безопасное получение безопасного пути
+    def _get_safe_path(self, file_path: str) -> Path | None:
+        """
+        Получить безопасный путь к файлу
+
+        Args:
+            file_path: Путь от пользователя
+
+        Returns:
+            Path | None: Безопасный путь или None если путь небезопасен
+        """
+        if not self.secure_path:
+            logger.error("SecurePath not initialized")
+            return None
+
+        try:
+            safe_path = self.secure_path.resolve(file_path)
+            return safe_path
+        except PathSecurityError as e:
+            logger.error(f"🚫 Path security violation: {e}")
+            self._log_security_event(
+                "path_traversal_attempt",
+                {"requested_path": file_path, "error": str(e)},
+                severity="critical",
+            )
+            return None
+
     # ⭐ [ENTERPRISE] Проверка доступа к файлу через enterprise guardrails
     def _check_file_access(self, file_path: str, action: str) -> tuple[bool, str]:
         """
@@ -524,6 +660,17 @@ class BaseCognitiveAgent(ABC):
         if not self.auth_token:
             return False, "Agent not authenticated"
 
+        # ⭐ [БЕЗОПАСНОСТЬ] Санация пути перед проверкой
+        safe_path_obj = self._get_safe_path(file_path)
+        if not safe_path_obj:
+            return False, "Path security violation"
+
+        # Использовать относительный путь для проверки
+        try:
+            relative_path = str(safe_path_obj.relative_to(self.project_path))
+        except ValueError:
+            relative_path = file_path  # Fallback к оригинальному пути
+
         # Преобразовать действие в AccessLevel
         action_map = {
             "read": AccessLevel.READ,
@@ -537,7 +684,7 @@ class BaseCognitiveAgent(ABC):
             return False, f"Unknown action: {action}"
 
         # Проверить доступ
-        result = self.enterprise_guardrails.authorize_file_access(self.auth_token, file_path, access_level)
+        result = self.enterprise_guardrails.authorize_file_access(self.auth_token, relative_path, access_level)
 
         if result["allowed"]:
             return True, "Access granted"
@@ -557,6 +704,12 @@ class BaseCognitiveAgent(ABC):
         Returns:
             str | None: Ответ от AI или None при таймауте
         """
+        # ⭐ [БЕЗОПАСНОСТЬ] Проверка rate limit перед вызовом AI
+        try:
+            self._check_rate_limit("ai_call")
+        except RateLimitExceededError:
+            return None
+
         if timeout is None:
             timeout = self.ai_call_timeout
 

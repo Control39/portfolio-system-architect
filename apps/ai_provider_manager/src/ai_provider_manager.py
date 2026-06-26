@@ -235,7 +235,7 @@ class AIProviderManager:
 
     def _chat_gigachat(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в GigaChat"""
-        from apps.ai_config_manager.src.config_manager import ConfigManager
+        from src.ai.config import ConfigManager
 
         config = ConfigManager()
         token = config.get_gigachat_token()

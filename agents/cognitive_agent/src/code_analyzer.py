@@ -369,25 +369,36 @@ class CodeAnalyzer:
         status = {"gigachat": False, "ollama": False, "reason": []}
 
         try:
-            import gigachat_bridge  # noqa: F401
+            # Импортируем из правильного пути (src/ai/gigachat_bridge.py)
+            import sys
+            from pathlib import Path
+
+            # Добавляем src/ в sys.path для импорта
+            repo_root = Path(__file__).resolve().parents[3]  # agents/cognitive_agent/src/../../..
+            src_path = repo_root / "src"
+            if str(src_path) not in sys.path:
+                sys.path.insert(0, str(src_path))
+
+            from ai.gigachat_bridge import GigaMCPBridge  # noqa: F401
 
             if os.getenv("GIGACHAT_API_KEY"):
                 status["gigachat"] = True
             else:
                 status["reason"].append("GIGACHAT_API_KEY not set")
-        except ImportError:
-            status["reason"].append("gigachat_bridge not installed")
+        except ImportError as e:
+            status["reason"].append(f"gigachat_bridge not available: {e}")
 
         try:
-            import ollama_agent  # noqa: F401
+            # Ollama агент находится в agents/cognitive_agent/
+            from agents.cognitive_agent.ollama_agent import OllamaAgent  # noqa: F401
             import requests
 
             response = requests.get("http://localhost:11434/api/tags", timeout=2)
             status["ollama"] = response.status_code == 200
             if not status["ollama"]:
                 status["reason"].append("Ollama server not responding")
-        except ImportError:
-            status["reason"].append("ollama_agent not installed")
+        except ImportError as e:
+            status["reason"].append(f"ollama_agent not available: {e}")
         except Exception as e:
             status["reason"].append(f"Ollama connection error: {str(e)}")
 
@@ -918,7 +929,7 @@ class CodeAnalyzer:
         return {"success": True, "source": source, "fix": fix, "ai_available": self.ai_available}
 
     def _call_gigachat(self, issue: dict[str, Any]) -> str | None:
-        from gigachat_bridge import giga_request
+        from ai.gigachat_bridge import giga_request
 
         prompt = (
             f"Исправь проблему в коде:\n"
@@ -933,7 +944,7 @@ class CodeAnalyzer:
         return giga_request(prompt)
 
     def _call_ollama(self, issue: dict[str, Any]) -> str | None:
-        from ollama_agent import OllamaAgent
+        from agents.cognitive_agent.ollama_agent import OllamaAgent
 
         prompt = (
             f"Ты — эксперт по Python. Исправь проблему в коде:\n"
