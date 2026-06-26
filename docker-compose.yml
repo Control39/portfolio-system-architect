@@ -289,27 +289,6 @@ services:
         condition: service_started
 
   # ============================================================
-  # ⚙️ AI Config Manager
-  # ============================================================
-  ai_config_manager:
-    build:
-      context: .
-      dockerfile: apps/ai_config_manager/Dockerfile
-    container_name: ai_config_manager
-    environment:
-      - PYTHONPATH=/app:/app/src
-      - LOG_LEVEL=INFO
-    networks:
-      - portfolio-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ai-config.rule=Host(`localhost`) && PathPrefix(`/ai-config`)"
-      - "traefik.http.services.ai-config.loadbalancer.server.port=8500"
-    depends_on:
-      traefik:
-        condition: service_started
-
-  # ============================================================
   # 🤖 ML Model Registry
   # ============================================================
   ml-model-registry:

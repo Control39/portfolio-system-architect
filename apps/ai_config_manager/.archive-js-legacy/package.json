@@ -1,0 +1,21 @@
+{
+  "name": "ai-config-manager",
+  "version": "1.0.0",
+  "description": "GUI for managing AI service configurations",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "fs-extra": "^11.3.5",
+    "js-yaml": "^4.1.0",
+    "socket.io": "^4.8.0"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^42.0.0"
+  }
+}

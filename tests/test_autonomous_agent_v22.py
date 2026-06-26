@@ -29,7 +29,7 @@ class TestAutonomousAgentV2(unittest.TestCase):
 
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    @patch("apps.ai_config_manager.src.config_manager.ConfigManager")
+    @patch("src.ai.config.ConfigManager")
     @patch("apps.ai_provider_manager.src.ai_provider_manager.AIProviderManager")
     def test_agent_v2_initialization(self, mock_provider_manager, mock_config_manager):
         """Тест инициализации агента v2"""

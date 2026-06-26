@@ -40,7 +40,7 @@ REPO_ROOT = Path(__file__).parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
 
 try:
-    from apps.ai_config_manager.src.config_manager import ConfigManager
+    from src.ai.config import ConfigManager
     AI_CONFIG_AVAILABLE = True
 except ImportError:
     AI_CONFIG_AVAILABLE = False

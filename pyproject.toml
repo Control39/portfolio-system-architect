@@ -119,7 +119,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["src", "apps", "agents", "tools", "cognitive_agent", "ai_config_manager", "decision_engine"]
+known-first-party = ["src", "apps", "agents", "tools", "cognitive_agent", "decision_engine"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -166,7 +166,7 @@ ignore_missing_imports = true
 
 # ✅ Игнорировать ошибки для файлов, которые нуждаются в рефакторинге
 [[tool.mypy.overrides]]
-module = ["src.vector_store.*", "apps.embedding_agent.*", "apps.ai_config_manager.tests.*", "apps.job_automation_agent.providers.*"]
+module = ["src.vector_store.*", "apps.embedding_agent.*", "apps.job_automation_agent.providers.*"]
 ignore_errors = true
 
 # -----------------------------

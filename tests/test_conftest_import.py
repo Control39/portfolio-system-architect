@@ -33,7 +33,7 @@ for i, p in enumerate(sys.path[:5]):
 # Try to import test_config.py
 print("\n=== Importing test_config.py ===")
 try:
-    import apps.ai_config_manager.tests.test_config as tc
+    import src.ai.config.tests.test_config as tc
 
     print("Success!")
     print(f"test_config module: {tc}")

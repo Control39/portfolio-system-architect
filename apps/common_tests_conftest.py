@@ -5,7 +5,7 @@
 
 Правила импортов:
 1. Общие модули (src/): from src.common.health_check import health_check
-2. Модули микросервиса (apps/*/src/): from apps.ai_config_manager.config_manager import ConfigManager
+2. Модули микросервиса (src/ai/config/): from src.ai.config import ConfigManager
 3. Относительные импорты внутри микросервиса: from .config_manager import ConfigManager
 """
 

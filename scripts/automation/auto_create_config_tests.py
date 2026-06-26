@@ -43,7 +43,7 @@ class Test{service_class}ConfigIntegration:
     def test_config_manager_available(self):
         """Проверка доступности AI Config Manager"""
         try:
-            from apps.ai_config_manager.src.config_manager import ConfigManager
+            from src.ai.config import ConfigManager
             assert ConfigManager is not None
         except ImportError:
             pytest.skip("AI Config Manager не доступен")
@@ -120,7 +120,7 @@ from pathlib import Path
 
 # Попытка импорта AI Config Manager
 try:
-    from apps.ai_config_manager.src.config_manager import ConfigManager
+    from src.ai.config import ConfigManager
     AI_CONFIG_AVAILABLE = True
 except ImportError:
     AI_CONFIG_AVAILABLE = False
