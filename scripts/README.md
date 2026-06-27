@@ -1,0 +1,176 @@
+# Scripts Directory
+
+> **Обновлено:** 2026-06-27 (Актуальные данные)
+
+---
+
+## 📊 Статистика
+
+| Категория | Количество | Примечание |
+|-----------|------------|------------|
+| **Всего Python файлов** | 106 | В scripts/ |
+| **Всего shell-скриптов** | 84 | .ps1 + .sh + .bat |
+| **Всего скриптов** | 190 | Полный пул |
+
+---
+
+## 🗂️ Структура
+
+```
+scripts/
+├── ai/                     # AI-специфичные скрипты
+├── automation/             # Автоматизация процессов
+├── ci/                     # CI/CD проверки
+├── diagnostics/            # Диагностика и мониторинг
+├── deployment/             # Скрипты деплоя
+├── generators/             # Генераторы кода и тестов
+├── git/                    # Git-утилиты
+├── maintenance/            # Обслуживание репозитория
+├── management/             # Управление проектом
+├── migration/              # Миграции (legacy)
+├── python/                 # Python утилиты
+├── security/               # Скрипты безопасности
+├── utils/                  # Утилиты (не рекомендуется - мигрировать в automation/)
+├── utils_legacy/           # Устаревшие утилиты (legacy)
+├── windows/                # Windows-специфичные скрипты
+├── linux/                  # Linux-специфичные скрипты
+├── dev/                    # Скрипты разработки
+├── backup/                 # Бэкапы
+├── __init__.py             # Модуль scripts
+├── *.ps1, *.sh, *.bat      # Shell-скрипты
+└── *.py                    # Python скрипты
+```
+
+---
+
+## 🎯 Категории скриптов
+
+### 1. Для AI-агента (`scripts/ai/`)
+Скрипты, которые использует Cognitive Agent:
+- `update_gigacode_token.py` - обновление токена GigaCode
+- `run_gigacode_update.py` - запуск обновления
+
+### 2. Для автоматизации (`scripts/automation/`)
+Утилиты автоматизации:
+- `auto_fix_service_structure.py` - исправление структуры сервисов
+- `cleanup_root.py` - очистка корня
+- `consolidate_adrs.py` - консолидация ADR
+- `create_init_files.py` - создание `__init__.py`
+- `create_issue.py` - создание GitHub Issue
+- `create_service.py` - создание нового сервиса
+- `demo_integration.py` - демонстрация интеграции
+- `integrate_ai_config_manager.py` - интеграция AI Config
+- `start_dev.py` - запуск разработки
+- `start_server.py` - запуск сервера
+
+### 3. Для CI/CD (`scripts/ci/`)
+Проверки в CI/CD пайплайне:
+- `check_all_readme_links.py` - проверка ссылок README
+- `check_badge_urls.py` - проверка URL бейджей
+- `check_config.py` - проверка конфигов
+- `check_ports.py` - проверка портов
+- `check_readme_quality.py` - качество README
+- `check_root_structure.py` - структура корня
+- `check_service_structure.py` - структура сервисов
+- `check_yaml_fixed.py` - проверка YAML
+- `validate_dependabot.py` - валидация Dependabot
+
+### 4. Для диагностики (`scripts/diagnostics/`)
+Диагностика системы:
+- `analyze_code_organization.py` - анализ организации кода
+- `analyze_nesting.py` - анализ вложенности
+- `collect_metrics.py` - сбор метрик
+- `collect_test_metrics.py` - сбор метрик тестов
+- `complete_diagnostic.py` - полный диагностикум
+- `deep_test_analysis.py` - глубокий анализ тестов
+- `health_check.py` - health check
+
+### 5. Для деплоя (`scripts/deployment/`)
+Скрипты деплоя
+
+### 6. Для генерации (`scripts/generators/`)
+Генераторы кода и тестов:
+- `bulk_test_generator.py` - генератор тестов
+- `enhance-badge-links.py` - улучшение бейджей
+- `generate_badges.py` - генерация бейджей
+- `generate_integration_tests.py` - интеграционные тесты
+- `generate_readme.py` - генерация README
+- `generate_root_structure.py` - структура корня
+- `generate_routes.py` - генерация маршрутов
+- `generate_stats.py` - статистика
+- `generate_todo_report.py` - отчёт TODO
+- `rename_integration_tests.py` - переименование тестов
+- `run_enhanced_tests.py` - запуск тестов
+- `run_enhanced_tests_individual.py` - индивидуальные тесты
+- `run_integration_tests.py` - запуск интеграции
+- `update_readme_badges.py` - обновление бейджей
+- `update_service_readmes.py` - обновление README сервисов
+- `update-coverage-badge.py` - обновление бейджа покрытия
+
+### 7. Для Git (`scripts/git/`)
+Git-утилиты
+
+### 8. Для обслуживания (`scripts/maintenance/`)
+Обслуживание репозитория
+
+### 9. Для управления (`scripts/management/`)
+Управление проектом
+
+### 10. Для миграции (`scripts/migration/`)
+Миграции (legacy - можно удалить после завершения миграции)
+
+### 11. Python утилиты (`scripts/python/`)
+Универсальные Python утилиты
+
+### 12. Безопасность (`scripts/security/`)
+Скрипты безопасности:
+- `scan_secrets.py` - сканирование секретов
+
+### 13. Утилиты (`scripts/utils/`)
+Утилиты (не рекомендуется - мигрировать в automation/)
+
+### 14. Устаревшие утилиты (`scripts/utils_legacy/`)
+Устаревшие утилиты (legacy)
+
+---
+
+## 🛠️ Использование
+
+### Для AI-агента:
+Скрипты в `scripts/ai/` использует Cognitive Agent автоматически.
+
+### Для разработчика:
+```bash
+# Запуск скрипта
+python scripts/automation/cleanup_root.py
+
+# Проверка структуры
+python scripts/ci/check_service_structure.py
+
+# Генерация тестов
+python scripts/generators/generate_integration_tests.py
+```
+
+### Для CI/CD:
+Скрипты в `scripts/ci/` вызываются автоматически в CI/CD пайплайне.
+
+---
+
+## 📝 Примечания
+
+1. **Порядок номеров**: Скрипты с номерами (`01_start_agent.sh`, `02_start_agent_foreground.sh`) выполняются в определённом порядке
+2. **Локальные скрипты**: `scripts/python/` содержит универсальные утилиты
+3. **Устаревшие скрипты**: `scripts/migration/` и `scripts/utils_legacy/` можно удалить после завершения миграции
+4. **Дубликаты**: Некоторые скрипты дублируются (например, `scripts/create_init_files.py` и `scripts/automation/create_init_files.py`) - удалять дубликаты на усмотрение
+
+---
+
+## 🔗 Ссылки
+
+- [README.md](../README.md) - Корневой README
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - Архитектура системы
+- [agents/cognitive_agent/README.md](../agents/cognitive_agent/README.md) - Документация агента
+
+---
+
+**Последнее обновление:** 2026-06-27

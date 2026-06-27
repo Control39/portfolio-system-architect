@@ -2,7 +2,7 @@
 
 > **Централизованное хранилище конфигураций**
 > **Single Source of Truth для всех сервисов**
-> **Обновлено:** 18 мая 2026
+> **Обновлено:** 27 июня 2026 (Актуальные данные)
 
 ---
 
@@ -12,6 +12,9 @@
 config/
 ├── ai-config.yaml              # ✅ AI Config Manager (глобальная)
 ├── ai/                         # AI модели, промпты, RAG настройки
+│   ├── ai-models.yaml          # 8 моделей AI (GigaChat, Ollama, YandexGPT, DeepSeek)
+│   ├── main/                   # Основная конфигурация
+│   └── README.md               # Документация AI config
 ├── base/                       # Общие настройки (dev/staging/prod)
 │   ├── dev/                    # Dev environment
 │   ├── staging/                # Staging environment
@@ -19,7 +22,7 @@ config/
 ├── services/                   # Пер-сервис конфигурации
 │   ├── cognitive-agent/
 │   ├── decision-engine/
-│   └── ... (все 15 сервисов)
+│   └── ... (21 сервис)
 ├── deployment/                 # Docker, K8s, Cloud
 │   ├── docker/                 # Docker Compose, Dockerfiles
 │   ├── k8s/                    # Kubernetes manifests
@@ -30,7 +33,7 @@ config/
 ├── docker/                     # Docker-конфигурации
 └── secrets/                    # ⚠️ Секреты (НЕ в git!)
     ├── .gitignore
-    └── templates/              # Шаблони секрета
+    └── templates/              # Шаблоны секрета
 ```
 
 ---
@@ -150,15 +153,15 @@ API_KEY="your-api-key-here"  # pragma: allowlist secret
 
 ---
 
-## 📊 Текущий статус
+## 📊 Текущий статус (обновлено 2026-06-27)
 
 | Компонент | Статус | Примечание |
 |-----------|--------|------------|
 | **AI Config Manager** | ✅ Готово | `config/ai-config.yaml` |
-| **14 сервисов интегрированы** | ✅ Готово | Singleton + hot reload |
-| **9 сервисов активно** | ✅ Готово | Используют центральный конфиг |
-| **5 сервисов в работе** | ⏳ В работе | Нет main.py/app.py |
-| **Пер-сервис конфиги** | 🔄 В процессе | Миграция продолжается |
+| **YAML конфигов** | ✅ 6 | 4 в config/ + 2 в config/ai/ |
+| **Моделей AI** | ✅ 8 | GigaChat Lite/Pro/Max, Ollama Qwen/Cogito, YandexGPT, DeepSeek |
+| **Сервисов** | ✅ 21 | Все интегрированы |
+| **Централизованных конфигов** | ✅ Готово | Singleton + hot reload |
 | **Secrets management** | ⚠️ Частично | Есть `.secrets.baseline` |
 
 ---
