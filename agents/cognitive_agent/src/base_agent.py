@@ -27,6 +27,17 @@ from agents.cognitive_agent.security.secret_manager import SecretManager, Secret
 
 # Импорты модулей безопасности
 from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
+from agents.cognitive_agent.security.file_type_validator import FileTypeValidator  # ⭐ [SECURITY V2]
+
+# Sandbox executor - опциональная зависимость
+try:
+    from security.sandbox_executor import SandboxExecutor, SandboxExecutionError  # ⭐ [SECURITY V2]
+
+    SANDBOX_AVAILABLE = True
+except ImportError:
+    SANDBOX_AVAILABLE = False
+    SandboxExecutor = None  # type: ignore
+    SandboxExecutionError = Exception  # type: ignore
 from agents.cognitive_agent.src.code_analyzer import CodeAnalyzer  # Новый импорт
 from agents.cognitive_agent.src.documentation_analyzer import DocumentationAnalyzer  # Новый импорт
 from agents.cognitive_agent.src.test_analyzer import TestAnalyzer  # Новый импорт
@@ -412,6 +423,37 @@ class BaseCognitiveAgent(ABC):
             logger.info("✅ guardrails.yaml загружен — агент в безопасном режиме")
             self._load_guardrails(guardrails_path)
 
+        # ⭐ [SECURITY V2] Инициализация guardrails v2.0
+        try:
+            logger.info("✅ Guardrails v2.0 initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Guardrails v2.0 not available: {e}")
+
+        # ⭐ [SECURITY V2] File type validator
+        try:
+            self.file_validator = FileTypeValidator()
+            logger.info("✅ File type validator initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ File type validator not available: {e}")
+            self.file_validator = None
+
+        # ⭐ [SECURITY V2] Sandbox executor (опционально)
+        self.sandbox = None
+        if SANDBOX_AVAILABLE:
+            try:
+                self.sandbox = SandboxExecutor(auto_init=True)
+                logger.info("✅ Sandbox executor initialized")
+            except SandboxExecutionError as e:
+                logger.warning(f"⚠️ Sandbox executor not available (Docker required): {e}")
+            except Exception as e:
+                logger.warning(f"⚠️ Sandbox executor initialization failed: {e}")
+        else:
+            logger.info("ℹ️ Sandbox executor not available (optional dependency)")
+
+        # ⭐ [SECURITY V2] Настройки окружения и роли
+        self.environment = "development"  # По умолчанию dev окружение
+        self.current_user_role = "developer"
+
         # ⭐ [ENTERPRISE] Инициализация enterprise guardrails
         self.enterprise_guardrails = EnterpriseGuardrails()
         self.auth_token = None  # Токен аутентификации агента
@@ -670,6 +712,18 @@ class BaseCognitiveAgent(ABC):
             relative_path = str(safe_path_obj.relative_to(self.project_path))
         except ValueError:
             relative_path = file_path  # Fallback к оригинальному пути
+
+        # ⭐ [SECURITY V2] Проверка MIME-типа файла
+        if self.file_validator and safe_path_obj.exists():
+            is_safe, msg = self.file_validator.validate_file(safe_path_obj)
+            if not is_safe:
+                logger.error(f"🚫 Unsafe file type: {msg}")
+                self._log_security_event(
+                    "unsafe_file_type",
+                    {"file_path": str(file_path), "reason": msg},
+                    severity="critical",
+                )
+                return False, msg
 
         # Преобразовать действие в AccessLevel
         action_map = {
