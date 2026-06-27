@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Скрипт удаления дублирующихся директорий."""
+
 import shutil
 from pathlib import Path
 

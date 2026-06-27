@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Скрипт для переноса планов агентов в .codeassistant/plans/."""
+
 import shutil
 from pathlib import Path
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Скрипт переноса .codeassistant в .agents и архив"""
+"""Скрипт переноса .codeassistant в .agents и архив."""
 
 import shutil
 from pathlib import Path

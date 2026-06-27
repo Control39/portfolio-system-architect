@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Скрипт копирования файлов из бэкапа .codeassistant."""
+
 import os
 import shutil
 from pathlib import Path

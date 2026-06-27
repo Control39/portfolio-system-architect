@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Скрипт для очистки корневой директории проекта."""
+
 import shutil
 from pathlib import Path
 
@@ -13,15 +16,10 @@ def clean_root():
     # Список скриптов для переноса в /tools
     scripts_to_move = [
         "analyze_logs.py",
-        "check_skills.py",
         "find_plans.py",
         "move_agent_plans.py",
         "consolidate_cases.py",
         "copy_codeassistant_backup.py",
-        "check_duplicates.py",
-        "check_rules.py",
-        "check_skills_duplicates.py",
-        "check_teacher_duplicates.py",
         "delete_duplicates.py",
         "security_scan.py",
         "setup_jekyll.py",
@@ -41,7 +39,6 @@ def clean_root():
             shutil.move(str(src), str(dst))
 
     # Объединяем .coveragerc и .coveragerc.cd
-    # Основной конфиг
     coveragerc_main = repo_root / ".coveragerc"
     coveragerc_cd = repo_root / ".coveragerc.cd"
 
