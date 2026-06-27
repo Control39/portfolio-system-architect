@@ -87,7 +87,7 @@ class PromptEngine:
             try:
                 template = self._load_template_from_file(md_file)
                 # Use relative path as template name (e.g., "python/fastapi/api")
-                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(''))
+                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(""))
                 self.templates[template_name] = template
                 logger.debug(f"Loaded template: {template_name} v{template.version}")
             except Exception as e:
@@ -158,7 +158,7 @@ class PromptEngine:
         for md_file in self.prompts_dir.rglob("*.md"):
             if md_file.stem == name:
                 template = self._load_template_from_file(md_file)
-                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(''))
+                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(""))
                 self.templates[name] = template
                 self.templates[template_name] = template
                 return template

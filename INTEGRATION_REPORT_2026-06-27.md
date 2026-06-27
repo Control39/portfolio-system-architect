@@ -125,6 +125,6 @@ prompt = engine.render("python/fastapi/api", {
 
 ---
 
-**Дата:** 2026-06-27  
-**Автор:** Cognitive Agent Team  
+**Дата:** 2026-06-27
+**Автор:** Cognitive Agent Team
 **Приоритет:** Высокий (улучшение автономности агента)
