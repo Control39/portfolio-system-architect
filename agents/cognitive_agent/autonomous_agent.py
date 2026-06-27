@@ -43,6 +43,12 @@ from agents.cognitive_agent.src.prompt_engine import PromptEngine
 # ⭐ [TEST GENERATION] Test Generator
 from agents.cognitive_agent.src.test_generator import TestGenerator
 
+# ⭐ [BUSINESS LOGIC] Analysis for intelligent test generation
+from agents.cognitive_agent.src.business_logic_analyzer import (
+    BusinessLogicAnalyzer,
+    TestCoverageCalculator,
+)
+
 # Добавляем корень проекта в PATH
 REPO_ROOT = get_repo_root()
 AGENT_DATA_DIR = get_agent_data_dir()

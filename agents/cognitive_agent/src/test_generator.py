@@ -1,7 +1,7 @@
 """
 Модуль для автоматической генерации тестов
 
-Использует PromptEngine и LLM для генерации тестов на основе изменённого кода.
+Использует PromptEngine, LLM и BusinessLogicAnalyzer для умной генерации тестов.
 """
 
 import asyncio
@@ -15,6 +15,17 @@ import structlog
 from agents.cognitive_agent.src.prompt_engine import PromptEngine
 
 logger = structlog.get_logger(__name__)
+
+# Импорт BusinessLogicAnalyzer для умной генерации
+try:
+    from agents.cognitive_agent.src.business_logic_analyzer import (
+        BusinessLogicAnalyzer,
+        TestCoverageCalculator,
+    )
+    HAS_ANALYZER = True
+except ImportError:
+    HAS_ANALYZER = False
+    logger.warning("BusinessLogicAnalyzer not available, using basic generation")
 
 
 class TestGenerator:
@@ -181,6 +192,21 @@ class TestGenerator:
         except Exception as e:
             raise IOError(f"Ошибка при чтении файла {file_path}: {e}")
 
+        # 🚀 УМНАЯ ГЕНЕРАЦИЯ: Анализ бизнес-логики
+        business_logic_analysis = None
+        if HAS_ANALYZER:
+            try:
+                analyzer = BusinessLogicAnalyzer(code)
+                business_logic_analysis = analyzer.analyze()
+                logger.info(
+                    "Business logic analysis completed",
+                    functions=len(business_logic_analysis.get("functions", [])),
+                    classes=len(business_logic_analysis.get("classes", [])),
+                    models=len(business_logic_analysis.get("models", [])),
+                )
+            except Exception as e:
+                logger.warning(f"Business logic analysis failed: {e}")
+
         # Определить путь к шаблону
         template_path = self._get_template_path(framework, file_type)
         logger.info(
@@ -203,6 +229,14 @@ class TestGenerator:
             "file_type": file_type,
             "code": code,
         }
+
+        # 🚀 Добавить анализ бизнес-логики в контекст для LLM
+        if business_logic_analysis:
+            context["business_logic"] = json.dumps(
+                business_logic_analysis,
+                ensure_ascii=False,
+                indent=2,
+            )
 
         # Выполнить стратегию через LLM
         result = await self.prompt_engine.execute_strategy(
