@@ -1,266 +1,342 @@
 """
-TestGenerator для Cognitive Agent
-Генерирует тесты на основе профилей сервисов и промпт-шаблонов.
+Модуль для автоматической генерации тестов
+
+Использует PromptEngine и LLM для генерации тестов на основе изменённого кода.
 """
 
+import asyncio
+import json
 import logging
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from agents.cognitive_agent.src.code_analyzer import CodeAnalyzer
-from agents.cognitive_agent.src.service_registry import ServiceProfile, ServiceRegistry
+import structlog
 
-# Импорт AI провайдера
-try:
-    from apps.ai_provider_manager.src.ai_provider_manager import (
-        chat_with_fallback,
-        get_provider_manager,
-    )
+from agents.cognitive_agent.src.prompt_engine import PromptEngine
 
-    AI_AVAILABLE = True
-except ImportError:
-    AI_AVAILABLE = False
-    logger = logging.getLogger(__name__)
-    logger.warning("AI Provider not available, using stub mode")
-
-logger = logging.getLogger(__name__)
-REPO_ROOT = Path(__file__).parent.parent.parent
+logger = structlog.get_logger(__name__)
 
 
 class TestGenerator:
     """
-    Генератор тестов для когнитивного агента.
+    Генератор тестов для Python кода
 
-    Стратегия работы:
-    1. Определить профиль сервиса по пути файла
-    2. Прочитать код файла
-    3. Выбрать промпт-шаблон на основе технологии
-    4. Вызвать AI для генерации тестов
-    5. Вернуть результат с инструкциями по применению
+    Использует шаблоны из PromptEngine и LLM для автоматической генерации тестов.
     """
 
-    def __init__(self, project_path: str, service_registry: ServiceRegistry | None = None, config_path: str = None):
+    def __init__(self, project_path: str, prompts_dir: Path | None = None):
+        """
+        Инициализация TestGenerator
+
+        Args:
+            project_path: Путь к проекту
+            prompts_dir: Путь к директории с шаблонами (по умолчанию agents/cognitive_agent/prompts)
+        """
         self.project_path = Path(project_path)
-        self.config_path = Path(config_path) if config_path else None
-        self.prompts_dir = REPO_ROOT / "prompts"
+        self.prompts_dir = prompts_dir or Path("agents/cognitive_agent/prompts")
 
-        # Инициализация ServiceRegistry
-        if service_registry:
-            self.service_registry = service_registry
-        else:
-            config_file = self.project_path / "agents" / "cognitive_agent" / "config" / "service-profiles.yaml"
-            self.service_registry = ServiceRegistry(
-                repo_root=str(self.project_path), config_path=str(config_file) if config_file.exists() else None
-            )
+        # Инициализация PromptEngine
+        self.prompt_engine = PromptEngine(prompts_dir=self.prompts_dir)
+        logger.info(f"✅ TestGenerator initialized: {self.project_path}")
 
-        # Инициализация CodeAnalyzer
-        self.code_analyzer = CodeAnalyzer(str(self.project_path))
-
-        logger.info(f"✅ TestGenerator initialized for {self.project_path}")
-        logger.info(f"📁 Found {len(self.service_registry.profiles)} services")
-
-    def analyze_and_generate(self, file_path: str) -> dict[str, Any]:
+    def _detect_framework(self, file_path: Path) -> str:
         """
-        Проанализировать код и сгенерировать тесты.
+        Определить фреймворк по файлу
 
         Args:
-            file_path: Путь к файлу, для которого нужно сгенерировать тесты
+            file_path: Путь к файлу кода
 
         Returns:
-            Словарь с результатами генерации
+            Название фреймворка (fastapi, flask, django, base)
         """
-        file_path = Path(file_path)
-
-        # 1. Определить профиль сервиса
-        service_profile = self.service_registry.get_profile_by_path(str(file_path))
-
-        if not service_profile:
-            logger.warning(f"⚠️ File outside known services: {file_path}")
-            return {
-                "status": "skipped",
-                "message": f"File outside known services: {file_path}",
-                "reasoning": "Could not determine service profile",
-            }
-
-        logger.info(f"📋 Service profile found: {service_profile.name} (criticality: {service_profile.criticality})")
-
-        # 2. Прочитать код файла
         try:
-            code = file_path.read_text(encoding="utf-8", errors="ignore")
+            content = file_path.read_text(encoding="utf-8")
+
+            # FastAPI
+            if "from fastapi" in content or "import fastapi" in content:
+                return "fastapi"
+
+            # Flask
+            if "from flask" in content or "import flask" in content:
+                return "flask"
+
+            # Django
+            if "from django" in content or "import django" in content:
+                return "django"
+
+            return "base"
         except Exception as e:
-            return {"status": "error", "message": f"Failed to read file: {e}", "reasoning": str(e)}
+            logger.warning(f"Ошибка при определении фреймворка для {file_path}: {e}")
+            return "base"
 
-        # 3. Выполнить анализ кода через CodeAnalyzer
-        analysis_results = self.code_analyzer.run_full_analysis()
-
-        # 4. Выбрать промпт-шаблон
-        prompt_template = self._select_prompt_template(service_profile=service_profile, file_path=file_path)
-
-        # 5. Сформировать контекст для AI
-        context = {
-            "file_path": str(file_path.relative_to(self.project_path)),
-            "service_name": service_profile.name,
-            "framework": service_profile.framework,
-            "coverage_target": service_profile.coverage_target,
-            "code": code,
-            "analysis_results": analysis_results,
-        }
-
-        # 6. Вызвать AI для генерации тестов
-        generated_tests = self._call_ai_for_generation(prompt_template, context)
-
-        # 7. Вернуть результат
-        return {
-            "status": "success",
-            "service_name": service_profile.name,
-            "service_profile": {
-                "name": service_profile.name,
-                "path": service_profile.path,
-                "criticality": service_profile.criticality,
-                "framework": service_profile.framework,
-                "coverage_target": service_profile.coverage_target,
-            },
-            "file_path": str(file_path),
-            "generated_tests": generated_tests,
-            "reasoning": f"Generated tests for {service_profile.name} ({service_profile.criticality} criticality)",
-            "timestamp": datetime.now().isoformat(),
-        }
-
-    def _select_prompt_template(self, service_profile: ServiceProfile, file_path: Path) -> str:
+    def _detect_file_type(self, file_path: Path, framework: str) -> str:
         """
-        Выбрать промпт-шаблон на основе технологии и типа теста.
-
-        Args:
-            service_profile: Профиль сервиса
-            file_path: Путь к файлу
-
-        Returns:
-            Путь к файлу шаблона
-        """
-        # Структура: prompts/{language}/{framework}/{test_type}.md
-        prompts_path = self.prompts_dir / service_profile.language / service_profile.framework
-
-        if not prompts_path.exists():
-            logger.warning(f"⚠️ Prompts directory not found: {prompts_path}")
-            # Использовать дефолтный шаблон
-            prompts_path = self.prompts_dir / service_profile.language / "base"
-
-        # Определить тип теста по содержимому файла
-        test_type = self._determine_test_type(file_path, service_profile.framework)
-
-        template_path = prompts_path / f"{test_type}.md"
-
-        if not template_path.exists():
-            logger.warning(f"⚠️ Template not found: {template_path}, using base template")
-            template_path = self.prompts_dir / service_profile.language / "base" / f"{test_type}.md"
-
-        if not template_path.exists():
-            # Если и дефолтного шаблона нет, вернуть базовый
-            return "# Base prompt template for {file_path} in {service_name}"
-
-        # Прочитать шаблон
-        return template_path.read_text(encoding="utf-8")
-
-    def _determine_test_type(self, file_path: Path, framework: str) -> str:
-        """
-        Определить тип теста на основе имени файла.
+        Определить тип файла для выбора шаблона
 
         Args:
             file_path: Путь к файлу
             framework: Фреймворк
 
         Returns:
-            Тип теста: 'unit', 'integration', 'e2e', 'api'
+            Тип файла (api, models, unit, integration)
         """
-        filename = file_path.name.lower()
+        name = file_path.name.lower()
 
-        if "test" in filename or filename.startswith("test_"):
-            # Это уже тест-файл
+        # FastAPI
+        if framework == "fastapi":
+            if "api" in name or "endpoint" in name:
+                return "api"
+            elif "integration" in name or "test_" in name or "_test" in name:
+                return "integration"
+            elif "model" in name or "schema" in name:
+                return "api"  # FastAPI использует api.md для моделей
+
+        # Flask
+        if framework == "flask":
+            if "api" in name or "endpoint" in name or "view" in name or "route" in name:
+                return "api"
+
+        # Django
+        if framework == "django":
+            if "model" in name:
+                return "models"
+            elif "view" in name or "form" in name:
+                return "unit"  # Django unit тесты
+
+        # Base / Other
+        if "model" in name:
+            return "models"
+        elif "test" in name or "spec" in name:
             return "unit"
 
-        # Определить по названию файла
-        if filename.endswith("_test.py"):
-            return "unit"
-        elif "integration" in filename:
-            return "integration"
-        elif "e2e" in filename or "scenario" in filename:
-            return "e2e"
-        elif "api" in filename or "endpoint" in filename:
-            return "api"
-        else:
-            # По умолчанию юнит-тесты
-            return "unit"
+        return "unit"
 
-    def _call_ai_for_generation(self, prompt_template: str, context: dict[str, Any]) -> str:
+    def _get_template_path(self, framework: str, file_type: str) -> str:
         """
-        Вызвать AI для генерации тестов.
+        Получить путь к шаблону по фреймворку и типу файла
 
         Args:
-            prompt_template: Шаблон промпта
-            context: Контекст для подстановки
+            framework: Фреймворк (fastapi, flask, django, base)
+            file_type: Тип файла (api, models, unit, integration)
 
         Returns:
-            Сгенерированные тесты или сообщение об ошибке
+            Путь к шаблону (например, "python/fastapi/api")
         """
-        # Подставить контекст в шаблон
-        prompt = prompt_template.format(**context)
+        framework_templates = {
+            "fastapi": {
+                "api": "python/fastapi/api",
+                "integration": "python/fastapi/integration",
+            },
+            "flask": {
+                "api": "python/flask/api",
+            },
+            "django": {
+                "models": "python/django/unit",
+                "unit": "python/django/unit",
+            },
+            "base": {
+                "unit": "python/base/unit",
+                "models": "python/base/unit",
+            },
+        }
 
-        # Вызвать AI
-        if AI_AVAILABLE:
-            try:
-                # Получить провайдер AI
-                ai_manager = get_provider_manager()
+        templates = framework_templates.get(framework, framework_templates["base"])
+        return templates.get(file_type, "python/base/unit")
 
-                # Сформировать сообщение
-                messages = [{"role": "user", "content": prompt}]
-
-                # Вызвать AI
-                response = chat_with_fallback(messages=messages, provider=ai_manager.primary_provider)
-
-                return response.get("content", "# Tests generation failed")
-
-            except Exception as e:
-                logger.error(f"❌ AI generation failed: {e}")
-                return f"# AI generation failed: {e}"
-        else:
-            # Stub режим - вернуть заглушку
-            logger.warning("⚠️ AI not available, returning stub tests")
-            return f"""
-# Stub tests for {context.get('file_path', 'unknown_file')}
-# Generated by TestGenerator (stub mode)
-
-import pytest
-
-
-def test_example():
-    \"\"\"Example test stub.\"\"\"
-    assert True
-"""
-
-    def generate_for_service(self, service_name: str) -> dict[str, Any]:
+    async def generate_test_for_file(
+        self,
+        file_path: str | Path,
+        llm_client: Any,
+        service_name: str | None = None,
+        target_coverage: int = 85,
+    ) -> dict[str, Any]:
         """
-        Сгенерировать тесты для всего сервиса.
+        Сгенерировать тесты для одного файла
 
         Args:
-            service_name: Имя сервиса
+            file_path: Путь к файлу кода
+            llm_client: Клиент LLM для выполнения запросов
+            service_name: Название сервиса (если не указан, будет определено автоматически)
+            target_coverage: Целевое покрытие процентами
 
         Returns:
-            Результат генерации
+            Словарь с результатами генерации
         """
-        profile = self.service_registry.get_profile(service_name)
+        file_path = Path(file_path)
 
-        if not profile:
-            return {"status": "error", "message": f"Service not found: {service_name}"}
+        if not file_path.exists():
+            raise FileNotFoundError(f"Файл не найден: {file_path}")
 
-        # Сканировать все Python файлы в сервисе
-        service_path = Path(profile.path)
-        py_files = list(service_path.rglob("*.py"))
+        # Определить сервис
+        if service_name is None:
+            service_name = self._detect_service(file_path)
+
+        # Определить фреймворк и тип файла
+        framework = self._detect_framework(file_path)
+        file_type = self._detect_file_type(file_path, framework)
+
+        # Получить код файла
+        try:
+            code = file_path.read_text(encoding="utf-8")
+        except Exception as e:
+            raise IOError(f"Ошибка при чтении файла {file_path}: {e}")
+
+        # Определить путь к шаблону
+        template_path = self._get_template_path(framework, file_type)
+        logger.info(
+            f"Generating tests for {file_path}",
+            service=service_name,
+            framework=framework,
+            file_type=file_type,
+            template=template_path,
+        )
+
+        # Создать контекст
+        context = {
+            "repo_path": str(self.project_path),
+            "service_name": service_name,
+            "python_version": "3.12",
+            "framework": framework,
+            "current_coverage": "45",
+            "coverage_target": str(target_coverage),
+            "file_path": str(file_path),
+            "file_type": file_type,
+            "code": code,
+        }
+
+        # Выполнить стратегию через LLM
+        result = await self.prompt_engine.execute_strategy(
+            strategy=template_path,
+            context=context,
+            timeout=120,  # 2 минуты на генерацию
+        )
+
+        return {
+            "success": result["success"],
+            "output": result.get("output", ""),
+            "template_used": template_path,
+            "framework": framework,
+            "file_type": file_type,
+            "file_path": str(file_path),
+            "execution_time": result["execution_time"],
+            "prompt_length": result.get("prompt_length", 0),
+            "response_length": len(result.get("output", "")),
+        }
+
+    def _detect_service(self, file_path: Path) -> str:
+        """
+        Определить название сервиса по пути файла
+
+        Args:
+            file_path: Путь к файлу
+
+        Returns:
+            Название сервиса
+        """
+        # Пытаемся найти в apps/
+        try:
+            relative_path = file_path.relative_to(self.project_path / "apps")
+            parts = relative_path.parts
+            if len(parts) > 0:
+                return parts[0]
+        except ValueError:
+            pass
+
+        # По умолчанию - последний элемент пути
+        return file_path.parent.name
+
+    async def generate_tests_for_directory(
+        self,
+        directory: str | Path,
+        llm_client: Any,
+        target_coverage: int = 85,
+        file_patterns: list[str] | None = None,
+    ) -> list[dict[str, Any]]:
+        """
+        Сгенерировать тесты для всех файлов в директории
+
+        Args:
+            directory: Путь к директории
+            llm_client: Клиент LLM
+            target_coverage: Целевое покрытие
+            file_patterns: Паттерны файлов для генерации (по умолчанию *.py)
+
+        Returns:
+            Список результатов генерации для каждого файла
+        """
+        directory = Path(directory)
+        if not directory.exists():
+            raise FileNotFoundError(f"Директория не найдена: {directory}")
+
+        if file_patterns is None:
+            file_patterns = ["*.py", "**/*.py"]
+
+        # Найти все файлы
+        files_to_test = []
+        for pattern in file_patterns:
+            files_to_test.extend(directory.glob(pattern))
+
+        # Удалить дубликаты и файлы из venv
+        files_to_test = [
+            f for f in files_to_test
+            if f.is_file()
+            and "venv" not in str(f)
+            and "__pycache__" not in str(f)
+            and "test_" not in f.name.lower()
+            and "_test" not in f.name.lower()
+        ]
 
         results = []
 
-        for py_file in py_files:
-            result = self.analyze_and_generate(str(py_file))
-            results.append(result)
+        for file_path in files_to_test:
+            try:
+                result = await self.generate_test_for_file(
+                    file_path=file_path,
+                    llm_client=llm_client,
+                    target_coverage=target_coverage,
+                )
+                results.append(result)
+                logger.info(f"Generated tests for {file_path}", success=result["success"])
+            except Exception as e:
+                logger.error(f"Failed to generate tests for {file_path}: {e}")
+                results.append({
+                    "success": False,
+                    "error": str(e),
+                    "file_path": str(file_path),
+                })
 
-        return {"status": "success", "service_name": service_name, "files_processed": len(results), "results": results}
+        return results
+
+    def apply_generated_tests(
+        self,
+        test_code: str,
+        output_file: str | Path,
+        mode: str = "append",
+    ) -> None:
+        """
+        Применить сгенерированные тесты к файлу
+
+        Args:
+            test_code: Сгенерированный код тестов
+            output_file: Путь к файлу для записи тестов
+            mode: Режим записи ("append" или "overwrite")
+        """
+        output_file = Path(output_file)
+
+        # Убедиться, что директория существует
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+
+        # Определить режим записи
+        if mode == "overwrite" or not output_file.exists():
+            mode = "w"
+        else:
+            mode = "a"
+
+        # Записать код
+        with open(output_file, mode, encoding="utf-8") as f:
+            # Если добавляем, добавляем пустую строку перед кодом
+            if mode == "a":
+                f.write("\n\n")
+            f.write(test_code)
+
+        logger.info(f"Applied generated tests to {output_file}", mode=mode)

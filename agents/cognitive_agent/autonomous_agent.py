@@ -40,6 +40,9 @@ from agents.cognitive_agent.src.project_scanner import ProjectScanner
 # ⭐ [HYBRID] Prompt Engine
 from agents.cognitive_agent.src.prompt_engine import PromptEngine
 
+# ⭐ [TEST GENERATION] Test Generator
+from agents.cognitive_agent.src.test_generator import TestGenerator
+
 # Добавляем корень проекта в PATH
 REPO_ROOT = get_repo_root()
 AGENT_DATA_DIR = get_agent_data_dir()
@@ -86,6 +89,13 @@ class AutonomousCognitiveAgent(BaseCognitiveAgent):
         prompts_dir = Path(__file__).parent / "prompts"
         self.prompt_engine = PromptEngine(prompts_dir=prompts_dir, llm_client=None)
         logger.info(f"✅ Prompt engine initialized: {prompts_dir}")
+
+        # ⭐ [TEST GENERATION] Initialize Test Generator
+        self.test_generator = TestGenerator(
+            project_path=str(self.project_path),
+            prompts_dir=prompts_dir,
+        )
+        logger.info("✅ Test generator initialized")
 
         # Инициализация модуля самотестирования
         self.project_scanner = ProjectScanner(str(self.project_path))
