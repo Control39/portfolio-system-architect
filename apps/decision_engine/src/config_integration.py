@@ -1,3 +1,10 @@
+# Прокси-импорт из новой локации (src/ai/config/)
+try:
+    from src.ai.config import ConfigManager
+
+    AI_CONFIG_AVAILABLE = True
+except ImportError:
+    AI_CONFIG_AVAILABLE = False
 # apps/decision_engine/src/config_integration.py
 """
 Configuration integration module for decision engine.

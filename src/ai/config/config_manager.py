@@ -20,6 +20,10 @@ from .validators import AgentConfig, AIConfig, ResourceConfig
 
 logger = logging.getLogger(__name__)
 
+# Защита от дублирования Prometheus метрик при повторном импорте
+if not globals().get("_PROMETHEUS_REGISTERED", False):
+    _PROMETHEUS_REGISTERED = True
+
 # Prometheus метрики
 # В монорепозитории один и тот же модуль может импортироваться из разных точек.
 # Чтобы избежать падений при повторной регистрации таймсерий в default CollectorRegistry,
