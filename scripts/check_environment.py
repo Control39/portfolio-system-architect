@@ -98,11 +98,15 @@ def check_agent_config():
             with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
 
-            if "roles" in config and "authentication" in config:
-                print("✅ Конфигурация guardrails корректна")
+            # Проверяем наличие реальных обязательных полей guardrails
+            required_fields = ["allowed_paths", "blocked_patterns", "safe_actions", "rules"]
+            missing_fields = [f for f in required_fields if f not in config]
+
+            if not missing_fields:
+                print("✅ Конфигурация guardrails содержит все необходимые поля")
                 return True
             else:
-                print("❌ Конфигурация guardrails неполная")
+                print(f"❌ Конфигурация guardrails не содержит: {missing_fields}")
                 return False
         except Exception as e:
             print(f"❌ Ошибка чтения конфигурации: {e}")
