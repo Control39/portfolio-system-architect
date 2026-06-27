@@ -16,6 +16,21 @@ import pytest
 from agents.cognitive_agent.src.base_agent import AuditLogger, BaseCognitiveAgent, StructuredLogger
 
 
+# Конкретная реализация для тестирования
+class ConcreteCognitiveAgent(BaseCognitiveAgent):
+    def execute_task(self, task):
+        return {"status": "completed"}
+
+    def scan_project(self):
+        return {"files": []}
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+
 class TestStructuredLogger:
     """Тесты структурированного логгера"""
 
@@ -76,7 +91,7 @@ class TestBaseCognitiveAgentInitialization:
     def test_agent_initialization_with_defaults(self):
         """Тест инициализации агента со значениями по умолчанию"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             assert agent is not None
             assert agent.agent_id == "test_agent"
@@ -88,7 +103,7 @@ class TestBaseCognitiveAgentInitialization:
         config = {"max_workers": 4, "timeout": 30, "enable_logging": True, "enable_auditing": True}
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(
+            agent = ConcreteCognitiveAgent(
                 project_path=temp_dir, agent_id="test_agent_2", name="Test Cognitive Agent 2", config=config
             )
 
@@ -111,7 +126,7 @@ class TestBaseCognitiveAgentTimeouts:
         mock_wait_for.return_value = {"result": "success"}
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Тестируем метод _call_ai_with_timeout
             try:
@@ -128,7 +143,7 @@ class TestBaseCognitiveAgentTimeouts:
         mock_wait_for.side_effect = builtins.TimeoutError()
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Тестируем метод _call_ai_with_timeout с таймаутом
             try:
@@ -148,7 +163,7 @@ class TestBaseCognitiveAgentScanning:
     def test_scan_project_method_exists(self):
         """Тест наличия метода сканирования проекта"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что метод scan_project существует
             assert hasattr(agent, "scan_project")
@@ -159,7 +174,7 @@ class TestBaseCognitiveAgentScanning:
     def test_scan_project_with_empty_directory(self):
         """Тест сканирования проекта с пустой директорией"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Тестируем сканирование пустой директории
             try:
@@ -177,7 +192,7 @@ class TestBaseCognitiveAgentTaskManagement:
     def test_add_task_method_exists(self):
         """Тест наличия метода добавления задачи"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что метод add_task существует
             assert hasattr(agent, "add_task")
@@ -185,7 +200,7 @@ class TestBaseCognitiveAgentTaskManagement:
     def test_get_task_method_exists(self):
         """Тест наличия метода получения задачи"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что метод get_task существует
             assert hasattr(agent, "get_task")
@@ -193,7 +208,7 @@ class TestBaseCognitiveAgentTaskManagement:
     def test_update_task_status_method_exists(self):
         """Тест наличия метода обновления статуса задачи"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что метод update_task_status существует
             assert hasattr(agent, "update_task_status")
@@ -205,7 +220,7 @@ class TestBaseCognitiveAgentLogging:
     def test_logging_functionality(self):
         """Тест функциональности логирования"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что у агента есть логгер
             assert hasattr(agent, "logger")
@@ -229,7 +244,7 @@ class TestBaseCognitiveAgentAsyncMethods:
         mock_create_task.return_value = AsyncMock()
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Проверяем, что агент может работать с асинхронными методами
             async def dummy_async_func():
@@ -250,7 +265,7 @@ class TestBaseCognitiveAgentErrorHandling:
     def test_error_handling_in_method_calls(self):
         """Тест обработки ошибок в вызовах методов"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Тестируем, что методы корректно обрабатывают исключения
             try:
@@ -267,7 +282,7 @@ class TestBaseCognitiveAgentErrorHandling:
     def test_input_validation(self):
         """Тест валидации входных данных"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            agent = BaseCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=temp_dir, agent_id="test_agent", name="Test Cognitive Agent")
 
             # Тестируем валидацию различных некорректных входных данных
             try:
@@ -304,7 +319,7 @@ class TestBaseCognitiveAgentEdgeCases:
             long_path = str(Path(long_path) / f"{'very_long_directory_name_' * 5}{i}")
 
         try:
-            agent = BaseCognitiveAgent(project_path=long_path, agent_id="test_agent", name="Test Cognitive Agent")
+            agent = ConcreteCognitiveAgent(project_path=long_path, agent_id="test_agent", name="Test Cognitive Agent")
             # Если инициализация прошла без ошибок, тест пройден
             assert agent is not None
         except Exception:
@@ -319,7 +334,7 @@ class TestBaseCognitiveAgentEdgeCases:
         special_path.mkdir(exist_ok=True)
 
         try:
-            agent = BaseCognitiveAgent(
+            agent = ConcreteCognitiveAgent(
                 project_path=str(special_path), agent_id="test_agent", name="Test Cognitive Agent"
             )
             # Если инициализация прошла без ошибок, тест пройден

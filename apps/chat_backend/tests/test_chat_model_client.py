@@ -66,7 +66,7 @@ def test_chat_client_injects_config_system_prompt_with_role(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     client = chat_model_client.OpenAIChatClient(
-        api_key="token",
+        api_key="token",  # pragma: allowlist secret
         model_name="openai/gpt-5",
         api_version="2024-08-01-preview",
         model_parameters={"temperature": 0.25},
@@ -89,7 +89,7 @@ def test_chat_client_injects_config_system_prompt_with_role(
 
 def test_chat_client_without_system_prompt(monkeypatch: pytest.MonkeyPatch) -> None:
     client = chat_model_client.OpenAIChatClient(
-        api_key="token",
+        api_key="token",  # pragma: allowlist secret
         model_name="gpt-4o-mini",
         model_parameters={"top_p": 0.8},
         system_prompt=None,
