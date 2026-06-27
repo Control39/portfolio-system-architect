@@ -18,7 +18,7 @@ def test_secure_path_basic():
     print("\n🧪 Тест 1: Базовая функциональность SecurePath")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
+    from src.security.secure_path import PathSecurityError, SecurePath
 
     with TemporaryDirectory() as tmpdir:
         base_path = Path(tmpdir)
@@ -58,7 +58,7 @@ def test_secure_path_symlinks():
     print("\n🧪 Тест 2: Проверка символических ссылок")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
+    from src.security.secure_path import PathSecurityError, SecurePath
 
     with TemporaryDirectory() as tmpdir:
         base_path = Path(tmpdir)
@@ -102,7 +102,7 @@ def test_secure_path_join():
     print("\n🧪 Тест 2: Secure path join")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath, safe_path_join
+    from src.security.secure_path import PathSecurityError, SecurePath, safe_path_join
 
     with TemporaryDirectory() as tmpdir:
         base_path = Path(tmpdir)
@@ -133,7 +133,7 @@ def test_secure_path_edge_cases():
     print("\n🧪 Тест 4: Граничные случаи")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
+    from src.security.secure_path import PathSecurityError, SecurePath
 
     with TemporaryDirectory() as tmpdir:
         base_path = Path(tmpdir)
@@ -172,7 +172,7 @@ def test_is_path_within_base():
     print("\n🧪 Тест 5: is_path_within_base")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secure_path import is_path_within_base
+    from src.security.secure_path import is_path_within_base
 
     with TemporaryDirectory() as tmpdir:
         base_path = Path(tmpdir)

@@ -1,6 +1,6 @@
 import pytest
 
-from agents.cognitive_agent.enterprise_guardrails import EnterpriseGuardrails, UserRole
+from src.security.enterprise_guardrails import EnterpriseGuardrails, UserRole
 from agents.cognitive_agent.src.policy_engine import PolicyDecisionType, PolicyEngine, PolicyRequest
 
 

@@ -18,7 +18,7 @@ def test_rate_limiter_sliding_window():
     print("\n🧪 Тест 1: Sliding Window Rate Limiter")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import (
+    from src.security.rate_limiter import (
         RateLimiter,
         RateLimitConfig,
         RateLimitStrategy,
@@ -71,7 +71,7 @@ def test_rate_limiter_fixed_window():
     print("\n🧪 Тест 2: Fixed Window Rate Limiter")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import (
+    from src.security.rate_limiter import (
         RateLimiter,
         RateLimitConfig,
         RateLimitStrategy,
@@ -107,7 +107,7 @@ def test_rate_limiter_token_bucket():
     print("\n🧪 Тест 3: Token Bucket Rate Limiter")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import (
+    from src.security.rate_limiter import (
         RateLimiter,
         RateLimitConfig,
         RateLimitStrategy,
@@ -154,7 +154,7 @@ def test_predefined_rate_limiters():
     print("\n🧪 Тест 4: Predefined Rate Limiters")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import PredefinedRateLimiters
+    from src.security.rate_limiter import PredefinedRateLimiters
 
     # Тест 4.1: AI calls limiter
     ai_limiter = PredefinedRateLimiters.ai_calls()
@@ -188,7 +188,7 @@ def test_rate_limit_decorator():
     print("\n🧪 Тест 5: Rate Limit Decorator")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import (
+    from src.security.rate_limiter import (
         RateLimiter,
         RateLimitConfig,
         RateLimitStrategy,
@@ -234,7 +234,7 @@ def test_rate_limiter_reset():
     print("\n🧪 Тест 6: Rate Limiter Reset")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.rate_limiter import (
+    from src.security.rate_limiter import (
         RateLimiter,
         RateLimitConfig,
         RateLimitStrategy,

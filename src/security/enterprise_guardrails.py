@@ -9,11 +9,10 @@ import logging
 import os
 import re
 import secrets
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -63,7 +62,7 @@ class FileAccessRule:
 class AuthenticationManager:
     """Менеджер аутентификации"""
 
-    def __init__(self, secret_key: Optional[str] = None):
+    def __init__(self, secret_key: str | None = None):
         # ✅ БЕЗОПАСНОСТЬ: Загружать secret_key из переменной окружения
         self.secret_key = secret_key or os.environ.get("COGNITIVE_AGENT_SECRET_KEY")
         if not self.secret_key:
@@ -307,7 +306,7 @@ class AuthorizationManager:
 class EnterpriseGuardrails:
     """Главный класс enterprise-level guardrails"""
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         # ✅ БЕЗОПАСНОСТЬ: Передача secret_key из конфигурации
         secret_key = None
         if config and "secret_key" in config:

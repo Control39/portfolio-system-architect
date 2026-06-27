@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
-from agents.cognitive_agent.enterprise_guardrails import AccessLevel, EnterpriseGuardrails
+from src.security.enterprise_guardrails import AccessLevel, EnterpriseGuardrails
 
 
 class PolicyDecisionType(StrEnum):

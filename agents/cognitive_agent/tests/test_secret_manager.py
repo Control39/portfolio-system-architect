@@ -19,7 +19,7 @@ def test_secret_manager_basic():
     print("\n🧪 Тест 1: SecretManager базовая функциональность")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import (
+    from src.security.secret_manager import (
         SecretManager,
         SecretManagerError,
         SecretNotFoundError,
@@ -59,7 +59,7 @@ def test_secret_encryption():
     print("\n🧪 Тест 2: Шифрование секретов")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import SecretManager, SecretManagerError
+    from src.security.secret_manager import SecretManager, SecretManagerError
 
     encryption_key = SecretManager.generate_key()
     manager = SecretManager(encryption_key=encryption_key)
@@ -92,7 +92,7 @@ def test_secret_masking():
     print("\n🧪 Тест 3: Маскировка секретов")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import SecretManager
+    from src.security.secret_manager import SecretManager
 
     # Тест 3.1: Маскировка длинного секрета
     masked = SecretManager.mask_secret("my-long-secret-key", visible_chars=4)
@@ -118,7 +118,7 @@ def test_secret_persistence():
     print("\n🧪 Тест 4: Сохранение секретов")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import SecretManager
+    from src.security.secret_manager import SecretManager
 
     with TemporaryDirectory() as tmpdir:
         encryption_key = SecretManager.generate_key()
@@ -142,7 +142,7 @@ def test_secret_manager_env():
     print("\n🧪 Тест 5: Загрузка из переменных окружения")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import (
+    from src.security.secret_manager import (
         EnvironmentSecretLoader,
         SecretNotFoundError,
     )
@@ -176,7 +176,7 @@ def test_secret_manager_key_generation():
     print("\n🧪 Тест 6: Генерация ключей")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import SecretManager
+    from src.security.secret_manager import SecretManager
 
     # Тест 6.1: Генерация ключа шифрования
     key = SecretManager.generate_key()
@@ -196,7 +196,7 @@ def test_secret_manager_error_handling():
     print("\n🧪 Тест 7: Обработка ошибок")
     print("=" * 50)
 
-    from agents.cognitive_agent.security.secret_manager import (
+    from src.security.secret_manager import (
         SecretManager,
         SecretManagerError,
     )
@@ -234,7 +234,7 @@ def main():
 
     try:
         # Импортировать для генерации ключа
-        from agents.cognitive_agent.security.secret_manager import SecretManager
+        from src.security.secret_manager import SecretManager
 
         # Установить переменную окружения для тестов
         os.environ["COGNITIVE_AGENT_ENCRYPTION_KEY"] = SecretManager.generate_key()

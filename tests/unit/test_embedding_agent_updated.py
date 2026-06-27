@@ -101,9 +101,11 @@ def test_chroma_document_indexer_add_document():
     from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
 
     # Mock dependencies
-    with patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}), \
-         patch("uuid.uuid4", return_value="test-uuid"), \
-         patch("apps.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder:
+    with (
+        patch.dict("sys.modules", {"chromadb": MagicMock(), "chromadb.config": MagicMock()}),
+        patch("uuid.uuid4", return_value="test-uuid"),
+        patch("apps.embedding_agent.chroma_indexer.DocumentEmbedder") as mock_embedder,
+    ):
         mock_embedder.return_value.embed.return_value = [0.1, 0.2, 0.3]
 
         indexer = ChromaDocumentIndexer(persist_directory="./test_db")

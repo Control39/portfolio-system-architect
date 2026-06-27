@@ -21,13 +21,13 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 
 # Импорты общих зависимостей
 # Правильные пути для импортов
-from agents.cognitive_agent.enterprise_guardrails import AccessLevel, EnterpriseGuardrails, UserRole
-from agents.cognitive_agent.security.rate_limiter import PredefinedRateLimiters, RateLimitExceededError
-from agents.cognitive_agent.security.secret_manager import SecretManager, SecretManagerError
+from src.security.enterprise_guardrails import AccessLevel, EnterpriseGuardrails, UserRole
+from src.security.rate_limiter import PredefinedRateLimiters, RateLimitExceededError
+from src.security.secret_manager import SecretManager, SecretManagerError
 
 # Импорты модулей безопасности
-from agents.cognitive_agent.security.secure_path import PathSecurityError, SecurePath
-from agents.cognitive_agent.security.file_type_validator import FileTypeValidator  # ⭐ [SECURITY V2]
+from src.security.secure_path import PathSecurityError, SecurePath
+from src.security.file_type_validator import FileTypeValidator  # ⭐ [SECURITY V2]
 
 # Sandbox executor - опциональная зависимость
 try:

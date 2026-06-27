@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from agents.cognitive_agent.enterprise_guardrails import (
+from src.security.enterprise_guardrails import (
     AccessLevel,
     AuthenticationManager,
     EnterpriseGuardrails,
