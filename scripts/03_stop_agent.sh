@@ -1,12 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # 03_stop_agent.sh - Остановка агента
 
-cd /c/repo
-source .venv/Scripts/activate
+cd "$(dirname "$0")/.."
+
+PYTHON_CMD="/mnt/c/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python.exe"
 
 echo "🔴 Остановка агента..."
-python agents/cognitive_agent/autonomous_agent_enterprise.py --stop
 
-pkill -f "autonomous_agent_enterprise.py" 2>/dev/null
+# Поиск и завершение процесса Python с autonomous_agent.py
+pkill -f "python.*autonomous_agent.py" 2>/dev/null || true
 
 echo "✅ Агент остановлен"

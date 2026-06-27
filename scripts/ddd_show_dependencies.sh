@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ddd_show_dependencies.sh - Показать зависимости между сервисами
 
-cd /c/repo
-source .venv/Scripts/activate
+cd "$(dirname "$0")/.."
 
-python scripts/ddd_show_dependencies.py
+PYTHON_CMD="/mnt/c/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python.exe"
+"$PYTHON_CMD" scripts/ddd_show_dependencies.py

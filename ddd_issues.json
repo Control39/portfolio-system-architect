@@ -1,0 +1,86 @@
+[
+  {
+    "type": "missing_readme",
+    "service": "ai_config_manager",
+    "severity": "medium",
+    "message": "Сервис ai_config_manager не имеет README.md"
+  },
+  {
+    "type": "missing_readme",
+    "service": "cognitive_agent",
+    "severity": "medium",
+    "message": "Сервис cognitive_agent не имеет README.md"
+  },
+  {
+    "type": "missing_dockerfile",
+    "service": "ai_config_manager",
+    "severity": "low",
+    "message": "Сервис ai_config_manager не имеет Dockerfile"
+  },
+  {
+    "type": "missing_dockerfile",
+    "service": "ai_provider_manager",
+    "severity": "low",
+    "message": "Сервис ai_provider_manager не имеет Dockerfile"
+  },
+  {
+    "type": "missing_dockerfile",
+    "service": "assistant_orchestrator",
+    "severity": "low",
+    "message": "Сервис assistant_orchestrator не имеет Dockerfile"
+  },
+  {
+    "type": "missing_dockerfile",
+    "service": "cognitive_agent",
+    "severity": "low",
+    "message": "Сервис cognitive_agent не имеет Dockerfile"
+  },
+  {
+    "type": "missing_dockerfile",
+    "service": "embedding_agent",
+    "severity": "low",
+    "message": "Сервис embedding_agent не имеет Dockerfile"
+  },
+  {
+    "type": "missing_requirements",
+    "service": "ai_config_manager",
+    "severity": "low",
+    "message": "Сервис ai_config_manager не имеет requirements.txt"
+  },
+  {
+    "type": "missing_requirements",
+    "service": "ai_provider_manager",
+    "severity": "low",
+    "message": "Сервис ai_provider_manager не имеет requirements.txt"
+  },
+  {
+    "type": "missing_requirements",
+    "service": "assistant_orchestrator",
+    "severity": "low",
+    "message": "Сервис assistant_orchestrator не имеет requirements.txt"
+  },
+  {
+    "type": "missing_requirements",
+    "service": "cognitive_agent",
+    "severity": "low",
+    "message": "Сервис cognitive_agent не имеет requirements.txt"
+  },
+  {
+    "type": "missing_requirements",
+    "service": "embedding_agent",
+    "severity": "low",
+    "message": "Сервис embedding_agent не имеет requirements.txt"
+  },
+  {
+    "type": "empty_service",
+    "service": "ai_config_manager",
+    "severity": "high",
+    "message": "Сервис ai_config_manager не содержит Python файлов"
+  },
+  {
+    "type": "empty_service",
+    "service": "cognitive_agent",
+    "severity": "high",
+    "message": "Сервис cognitive_agent не содержит Python файлов"
+  }
+]

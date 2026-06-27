@@ -1,0 +1,23 @@
+{
+  "ai_config_manager": [],
+  "ai_provider_manager": [],
+  "assistant_orchestrator": [],
+  "auth_service": [],
+  "career_development": [],
+  "chat_backend": [],
+  "cognitive_agent": [],
+  "competency_gap_engine": [],
+  "context_builder": [],
+  "decision_engine": [],
+  "embedding_agent": [],
+  "infra_orchestrator": [],
+  "it_compass": [],
+  "job_automation_agent": [],
+  "knowledge_graph": [],
+  "mcp_server": [],
+  "ml_model_registry": [],
+  "portfolio_organizer": [],
+  "system_proof": [],
+  "template_service": [],
+  "thought_architecture": []
+}

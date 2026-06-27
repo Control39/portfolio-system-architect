@@ -20,9 +20,9 @@
 5. **Учится** на результатах (собирает метрики)
 6. **Интегрируется** с другими сервисами (IT-Compass, Decision Engine, Job Automation)
 
-**Важно:** В системе реализованы две версии агента:
-- **Standard** ([autonomous_agent.py](file:///c:/repo/agents/cognitive_agent/autonomous_agent.py)): базовая функциональность
-- **Enterprise** ([autonomous_agent_enterprise.py](file:///c:/repo/agents/cognitive_agent/autonomous_agent_enterprise.py)): расширенные возможности с мониторингом, самовосстановлением и планированием задач
+**Важно:** В системе реализована одна главная версия агента:
+- **Standard** ([autonomous_agent.py](autonomous_agent.py)): базовая функциональность
+- **Enterprise Enhanced** ([base_agent.py](src/base_agent.py)): расширенные возможности с мониторингом, самовосстановлением и планированием задач (реализованы внутри базового класса)
 
 ---
 
@@ -76,7 +76,7 @@
 - **Май 2026:** MVP (Minimum Viable Product) — базовая работоспособность
 - **Июнь 2026:** 🔄 **Расширение возможностей** — добавлены модули анализа качества кода, документации и тестов
 
-> **Примечание:** Реализация включает две версии агента: Standard и Enterprise, каждая с разным уровнем функциональности.
+> **Примечание:** Реализация включает одну главную версию агента с enterprise-возможностями, реализованными внутри базового класса.
 
 ---
 
@@ -157,18 +157,17 @@
 
 ## 🧪 Текущий статус (MVP)
 
-**Что работает в Standard версии:**
+**Что работает в базовой версии:**
 - ✅ FastAPI-сервер с endpoints (`/health`, `/api/v1/*`)
-- ✅ Сканирование проекта (`scanner_main.py`)
-- ✅ Планирование задач (`planner_main.py` — без ИИ)
-- ✅ Сбор метрик (`learning_main.py`)
+- ✅ Сканирование проекта (`project_scanner.py`)
+- ✅ Планирование задач (`task_planner.py`)
+- ✅ Сбор метрик (`learning-system/`)
 - ✅ Интеграция с GigaChat (`src/ai/gigachat_bridge.py`)
 - ✅ Health check endpoints
 - ✅ Логирование в файлы
 - ✅ Система безопасности (guardrails)
 
-**Что работает в Enterprise версии:**
-- ✅ Все возможности Standard версии
+**Enterprise-возможности (реализованы внутри базового класса):**
 - ✅ Система сбора метрик (MetricsCollector)
 - ✅ Система самовосстановления (SelfHealingSystem)
 - ✅ Планировщик задач с зависимостями (TaskPlanner)
@@ -216,7 +215,7 @@ docker-compose up cognitive-agent
 - ИИ-планирование требует настройки (GigaChat API-ключ или локальный Ollama)
 - Требуются навыки (skills) для выполнения конкретных задач
 - Обучение требует времени (нужны итерации для сбора метрик)
-- Enterprise-версия имеет более широкую функциональность, чем Standard
+- Enterprise-возможности реализованы внутри базового класса
 
 ---
 
@@ -243,9 +242,9 @@ docker-compose up cognitive-agent
 
 ### 🧱 Архитектура и модули
 
-- **BaseCognitiveAgent** - базовый класс с общей функциональностью для стандартной и enterprise-версий
-- **AutonomousCognitiveAgent** - стандартная версия агента (наследуется от BaseCognitiveAgent)
-- **AutonomousCognitiveAgentEnterprise** - enterprise-версия с расширенными возможностями
+- **BaseCognitiveAgent** - базовый класс с общей функциональностью
+- **AutonomousCognitiveAgent** - основная версия агента (наследуется от BaseCognitiveAgent)
+- **EnterpriseGuardrails** - система enterprise-защиты (в `enterprise_guardrails.py`)
 - **ProjectScanner** - оптимизированный сканер проекта с кэшированием и поддержкой .gitignore
 - **CodeAnalyzer** - интеграция с инструментами статического анализа (MyPy, Ruff, Bandit, Pyright)
   - Метод `generate_quality_report()` - структурированный отчет о качестве кода
@@ -273,19 +272,17 @@ chromadb>=0.5.0
 ### Структура проекта
 ```
 agents/cognitive_agent/
-├── autonomous_agent.py                  # Standard версия агента
-├── autonomous_agent_enterprise.py       # Enterprise версия агента
+├── autonomous_agent.py                  # Основная версия агента
+├── enterprise_guardrails.py             # Enterprise-уровень безопасности
 ├── src/                                 # FastAPI-сервер и базовые компоненты
 │   ├── main.py                          # Точка входа
-│   ├── base_agent.py                    # Базовый класс агента
+│   ├── base_agent.py                    # Базовый класс с enterprise-функциональностью
 │   ├── code_analyzer.py                 # Анализатор качества кода
 │   ├── documentation_analyzer.py        # Анализатор документации
 │   ├── test_analyzer.py                 # Анализатор тестов
 │   └── api/
 │       └── endpoints.py                 # API endpoints
-├── enterprise_guardrails.py             # Enterprise-уровень безопасности
 ├── orchestrator_v2.py                   # Оркестратор
-├── add_integrations.py                  # Интеграции
 ├── scripts/                             # Скрипты агента
 ├── config/                              # Конфигурация
 ├── docs/                                # Документация
@@ -301,10 +298,10 @@ agents/cognitive_agent/
 | Файл/Папка                                                    | Назначение                   |
 | ------------------------------------------------------------- | ---------------------------- |
 | `agents/cognitive_agent/autonomous_agent.py`                  | Standard версия агента       |
-| `agents/cognitive_agent/autonomous_agent_enterprise.py`       | Enterprise версия агента     |
+| `agents/cognitive_agent/autonomous_agent.py`                    | Основная версия агента       |
 | `agents/cognitive_agent/self_testing_module.py`               | Модуль самотестирования      |
 | `agents/cognitive_agent/src/main.py`                          | FastAPI-сервер, точка входа  |
-| `agents/cognitive_agent/src/base_agent.py`                    | Базовый класс агента         |
+| `agents/cognitive_agent/src/base_agent.py`                    | Базовый класс с enterprise-функциональностью |
 | `agents/cognitive_agent/src/api/endpoints.py`                 | API endpoints                |
 | `agents/cognitive_agent/src/code_analyzer.py`                 | Анализатор качества кода     |
 | `agents/cognitive_agent/src/documentation_analyzer.py`        | Анализатор документации      |

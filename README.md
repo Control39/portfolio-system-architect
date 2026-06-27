@@ -232,7 +232,7 @@ python agents/cognitive_agent/orchestrator_v2.py
 
 # 6. Запустить агента с анализом качества кода
 cd agents/cognitive_agent
-python -c "from autonomous_agent_enterprise import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); agent.start()"
+python -c "from autonomous_agent import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); agent.start()"
 ```
 
 ### Запуск Cognitive Agent
@@ -246,7 +246,7 @@ python -m uvicorn main:app --reload --port 8008
 docker-compose up -d cognitive-agent
 
 # Или запуск с анализом качества кода, документации и тестов
-python -c "from autonomous_agent_enterprise import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); quality_report = agent.analyze_code_quality(); doc_report = agent.analyze_documentation_quality(); test_report = agent.analyze_test_quality(); print('Анализ завершен')"
+python -c "from autonomous_agent import AutonomousCognitiveAgent; agent = AutonomousCognitiveAgent(); quality_report = agent.analyze_code_quality(); doc_report = agent.analyze_documentation_quality(); test_report = agent.analyze_test_quality(); print('Анализ завершен')"
 ```
 
 ### Docker (опционально)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to clean up old branches that have been merged or are stale
 # Run this weekly via CI/CD to keep repositories clean
 set -e

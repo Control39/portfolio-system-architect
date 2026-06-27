@@ -1,9 +1,10 @@
-#!/bin/bash
-# 02_start_agent_foreground.sh - Запуск с отображением логов
+#!/usr/bin/env bash
+# 02_start_agent_foreground.sh - Запуск агента в foreground
 
-cd /c/repo
-source .venv/Scripts/activate
+cd "$(dirname "$0")/.."
 
-echo "🟢 Запуск агента в foreground (Ctrl+C для остановки)..."
+PYTHON_CMD="/mnt/c/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python.exe"
+
+echo "🟢 Запуск агента (Ctrl+C для остановки)..."
 echo "=================================================="
-python agents/cognitive_agent/autonomous_agent_enterprise.py --start --foreground
+"$PYTHON_CMD" agents/cognitive_agent/autonomous_agent.py

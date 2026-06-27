@@ -1,13 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # 04_agent_status.sh - Проверка статуса агента
 
-cd /c/repo
-source .venv/Scripts/activate
+cd "$(dirname "$0")/.."
+
+PYTHON_CMD="/mnt/c/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python.exe"
 
 echo "📊 Статус агента:"
 echo "=================================================="
-python agents/cognitive_agent/autonomous_agent_enterprise.py --status
 
-echo ""
-echo "📈 Процессы:"
-ps aux | grep "autonomous_agent_enterprise.py" | grep -v grep || echo "Агент не запущен"
+# Проверка запущенных процессов
+if pgrep -f "python.*autonomous_agent.py" > /dev/null; then
+    echo "✅ Агент запущен"
+    echo ""
+    echo "Processes:"
+    ps aux | grep "python.*autonomous_agent.py" | grep -v grep
+else
+    echo "❌ Агент не запущен"
+fi
