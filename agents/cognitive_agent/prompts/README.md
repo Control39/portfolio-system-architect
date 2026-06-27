@@ -28,6 +28,25 @@ Instead of hard-coding business logic in Python (if/else statements), we use **p
 
 ## 📁 Template Structure
 
+Templates are organized in subdirectories by language → framework → test type:
+
+```
+agents/cognitive_agent/prompts/
+├── test_generation.md              # Main strategy for test generation
+├── test_coverage_analysis.md       # Test coverage analysis strategy
+├── config.yaml                     # Template selection configuration
+└── python/                         # Python-specific templates
+    ├── base/                       # Base Python templates
+    │   └── unit.md
+    ├── django/                     # Django templates
+    │   └── unit.md
+    ├── fastapi/                    # FastAPI templates
+    │   ├── api.md
+    │   └── integration.md
+    └── flask/                      # Flask templates
+        └── api.md
+```
+
 Each template is a Markdown file with optional YAML frontmatter:
 
 ```markdown
@@ -62,16 +81,48 @@ Expected output structure (JSON, markdown, etc.)
 
 ## 🔧 Available Templates
 
-### 1. `test_coverage_analysis.md`
+### 1. `test_generation.md`
+**Purpose:** Generate tests for modified code files based on framework and file type
+**Variables:** `repo_path`, `service_name`, `python_version`, `framework`, `current_coverage`, `target_coverage`, `file_path`, `file_type`, `code`
+**Use Case:** Automatically generate tests when code changes are detected
+
+### 2. `test_coverage_analysis.md`
 **Purpose:** Analyze test coverage and recommend improvements
 **Variables:** `service_name`, `framework`, `criticality`, `current_coverage`, `target_coverage`, `python_version`
 **Use Case:** Automatically assess service test quality and generate actionable recommendations
+
+### Python Framework Templates:
+
+#### `python/fastapi/api.md`
+- **Purpose:** Generate API tests for FastAPI endpoints
+- **Variables:** `file_path`, `service_name`, `framework`, `coverage_target`, `code`
+- **Use Case:** Test FastAPI endpoints, authentication, validation errors
+
+#### `python/fastapi/integration.md`
+- **Purpose:** Generate integration tests for FastAPI services
+- **Variables:** `file_path`, `service_name`, `framework`, `coverage_target`, `code`
+- **Use Case:** Test database interactions, external API calls, component integration
+
+#### `python/flask/api.md`
+- **Purpose:** Generate API tests for Flask applications
+- **Variables:** `file_path`, `service_name`, `framework`, `coverage_target`, `code`
+- **Use Case:** Test Flask routes, request/response handling, error scenarios
+
+#### `python/django/unit.md`
+- **Purpose:** Generate unit tests for Django applications
+- **Variables:** `file_path`, `service_name`, `framework`, `coverage_target`, `code`
+- **Use Case:** Test Django models, views, forms, database operations
+
+#### `python/base/unit.md`
+- **Purpose:** Generate unit tests for base Python code
+- **Variables:** `file_path`, `service_name`, `framework`, `coverage_target`, `code`
+- **Use Case:** Test functions, classes, and modules without framework-specific dependencies
 
 ### More templates coming soon:
 - `code_review_python.md` - Code review strategy for Python services
 - `documentation_analysis.md` - Documentation quality assessment
 - `security_scan.md` - Security vulnerability analysis
-- `test_generation_python.md` - Automated test generation strategy
+- `performance_benchmark.md` - Performance testing strategy
 
 ## 💡 How to Use
 
@@ -85,7 +136,7 @@ from agents.cognitive_agent.src.prompt_engine import PromptEngine
 prompts_dir = Path("agents/cognitive_agent/prompts")
 engine = PromptEngine(prompts_dir=prompts_dir)
 
-# Render a template
+# Render a template (backward compatibility)
 context = {
     "service_name": "auth_service",
     "framework": "FastAPI",
@@ -97,8 +148,23 @@ context = {
 
 prompt = engine.render("test_coverage_analysis", context)
 
+# Render a subdirectory template (new format)
+test_generation_context = {
+    "repo_path": "/path/to/repo",
+    "service_name": "user_service",
+    "python_version": "3.12",
+    "framework": "FastAPI",
+    "current_coverage": 65,
+    "target_coverage": 90,
+    "file_path": "apps/user_service/api/users.py",
+    "file_type": "api",
+    "code": "# User API endpoints code here"
+}
+
+prompt = engine.render("python/fastapi/api", test_generation_context)
+
 # Execute via LLM (if client configured)
-result = await engine.execute_strategy("test_coverage_analysis", context)
+result = await engine.execute_strategy("test_generation", test_generation_context)
 ```
 
 ### Duel Mode (Code vs Prompt):
@@ -161,5 +227,5 @@ Track template effectiveness:
 
 ---
 
-**Last Updated:** 2026-06-21
+**Last Updated:** 2026-06-27
 **Maintained by:** Cognitive Agent Team

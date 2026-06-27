@@ -77,16 +77,30 @@ class PromptEngine:
         self._discover_templates()
 
     def _discover_templates(self):
-        """Discover and load all prompt templates from directory"""
+        """Discover and load all prompt templates from directory and subdirectories"""
         if not self.prompts_dir.exists():
             logger.warning(f"Prompts directory not found: {self.prompts_dir}")
             return
 
+        # Discover templates in subdirectories first (e.g., python/fastapi/api.md)
+        for md_file in self.prompts_dir.rglob("*.md"):
+            try:
+                template = self._load_template_from_file(md_file)
+                # Use relative path as template name (e.g., "python/fastapi/api")
+                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(''))
+                self.templates[template_name] = template
+                logger.debug(f"Loaded template: {template_name} v{template.version}")
+            except Exception as e:
+                logger.error(f"Failed to load template {md_file}: {e}")
+
+        # Also discover templates directly in prompts_dir (backward compatibility)
         for md_file in self.prompts_dir.glob("*.md"):
             try:
                 template = self._load_template_from_file(md_file)
-                self.templates[template.name] = template
-                logger.debug(f"Loaded template: {template.name} v{template.version}")
+                # Only add if not already loaded via subdirectory
+                if template.name not in self.templates:
+                    self.templates[template.name] = template
+                    logger.debug(f"Loaded template: {template.name} v{template.version}")
             except Exception as e:
                 logger.error(f"Failed to load template {md_file}: {e}")
 
@@ -119,7 +133,9 @@ class PromptEngine:
         Load a prompt template by name
 
         Args:
-            name: Template name (without .md extension)
+            name: Template name (without .md extension). Can be:
+                  - Simple name: "test_coverage_analysis"
+                  - Relative path: "python/fastapi/api"
 
         Returns:
             PromptTemplate object
@@ -131,11 +147,21 @@ class PromptEngine:
             return self.templates[name]
 
         # Try to load from file if not cached
+        # First try relative path (for subdirectory templates)
         template_file = self.prompts_dir / f"{name}.md"
         if template_file.exists():
             template = self._load_template_from_file(template_file)
             self.templates[name] = template
             return template
+
+        # Try backward compatibility: look for file by stem in all subdirectories
+        for md_file in self.prompts_dir.rglob("*.md"):
+            if md_file.stem == name:
+                template = self._load_template_from_file(md_file)
+                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(''))
+                self.templates[name] = template
+                self.templates[template_name] = template
+                return template
 
         raise ValueError(f"Template '{name}' not found in {self.prompts_dir}")
 

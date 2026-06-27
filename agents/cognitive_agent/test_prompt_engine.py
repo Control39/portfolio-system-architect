@@ -79,6 +79,44 @@ try:
 
 except Exception as e:
     print(f"   ✗ Error handling test failed: {e}")
+    import traceback
+
+    traceback.print_exc()
+    sys.exit(1)
+
+# Test 6: Test subdirectory templates (new feature)
+print("\n✅ Step 6: Testing subdirectory templates...")
+try:
+    # Test loading template by relative path (without rendering to avoid missing vars)
+    template = engine.load_template("python/fastapi/api")
+    print("   ✓ Subdirectory template loaded successfully")
+    print(f"   • Template name: {template.name}")
+    print(f"   • Template version: {template.version}")
+    print(f"   • Content length: {len(template.content)} characters")
+except Exception as e:
+    print(f"   ✗ Subdirectory template test failed: {e}")
+    import traceback
+
+    traceback.print_exc()
+    sys.exit(1)
+
+# Test 7: Test backward compatibility
+print("\n✅ Step 7: Testing backward compatibility...")
+try:
+    # Load template by simple name (should still work)
+    template = engine.load_template("test_coverage_analysis")
+    print("   ✓ Backward compatibility maintained")
+except Exception as e:
+    print(f"   ✗ Backward compatibility failed: {e}")
+    sys.exit(1)
+
+# Test 8: List all templates
+print("\n✅ Step 8: Listing all templates with subdirectories...")
+templates = engine.list_templates()
+for name, meta in sorted(templates.items()):
+    print(f"   • {name} v{meta['version']}")
+
+print(f"\n✅ Total templates discovered: {len(templates)}")
 
 # Final summary
 print("\n" + "=" * 80)
