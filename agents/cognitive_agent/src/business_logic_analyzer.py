@@ -94,17 +94,19 @@ class BusinessLogicAnalyzer(ast.NodeVisitor):
             if isinstance(item, ast.FunctionDef):
                 methods.append(self._analyze_function(item, node.name))
 
-        self.logic_items.append(BusinessLogicItem(
-            name=node.name,
-            type=class_type,
-            description=self._get_docstring(node),
-            dependencies=self._get_dependencies(node),
-            side_effects=self._get_side_effects(node),
-            edge_cases=self._get_edge_cases(node),
-            return_type=None,
-            line_start=node.lineno,
-            line_end=getattr(node, "end_lineno", node.lineno),
-        ))
+        self.logic_items.append(
+            BusinessLogicItem(
+                name=node.name,
+                type=class_type,
+                description=self._get_docstring(node),
+                dependencies=self._get_dependencies(node),
+                side_effects=self._get_side_effects(node),
+                edge_cases=self._get_edge_cases(node),
+                return_type=None,
+                line_start=node.lineno,
+                line_end=getattr(node, "end_lineno", node.lineno),
+            )
+        )
 
         self.generic_visit(node)
 
@@ -122,17 +124,19 @@ class BusinessLogicAnalyzer(ast.NodeVisitor):
         elif node.name.startswith("view_") or node.name.startswith("handle_"):
             func_type = "view"
 
-        self.logic_items.append(BusinessLogicItem(
-            name=node.name,
-            type=func_type,
-            description=self._get_docstring(node),
-            dependencies=self._get_dependencies(node),
-            side_effects=self._get_side_effects(node),
-            edge_cases=self._get_edge_cases(node),
-            return_type=self._get_return_type(node),
-            line_start=node.lineno,
-            line_end=getattr(node, "end_lineno", node.lineno),
-        ))
+        self.logic_items.append(
+            BusinessLogicItem(
+                name=node.name,
+                type=func_type,
+                description=self._get_docstring(node),
+                dependencies=self._get_dependencies(node),
+                side_effects=self._get_side_effects(node),
+                edge_cases=self._get_edge_cases(node),
+                return_type=self._get_return_type(node),
+                line_start=node.lineno,
+                line_end=getattr(node, "end_lineno", node.lineno),
+            )
+        )
 
         self.generic_visit(node)
 
@@ -187,6 +191,34 @@ class BusinessLogicAnalyzer(ast.NodeVisitor):
             elif isinstance(node.returns, ast.Constant):
                 return str(node.returns.value)
         return None
+
+    def _analyze_function(self, node: ast.FunctionDef, class_name: str | None = None) -> dict[str, Any]:
+        """Анализ метода класса"""
+        func_name = f"{class_name}.{node.name}" if class_name else node.name
+
+        # Определить тип функции
+        func_type = "method"
+        if node.name.startswith("test_"):
+            func_type = "test"
+        elif node.name.startswith("endpoint_") or node.name.startswith("route_"):
+            func_type = "endpoint"
+            self.endpoints.append(func_name)
+        elif node.name.startswith("view_") or node.name.startswith("handle_"):
+            func_type = "view"
+
+        self.functions.append(func_name)
+
+        return {
+            "name": func_name,
+            "type": func_type,
+            "description": self._get_docstring(node),
+            "dependencies": self._get_dependencies(node),
+            "side_effects": self._get_side_effects(node),
+            "edge_cases": self._get_edge_cases(node),
+            "return_type": self._get_return_type(node),
+            "line_start": node.lineno,
+            "line_end": getattr(node, "end_lineno", node.lineno),
+        }
 
     def analyze(self) -> dict[str, Any]:
         """Запустить полный анализ"""
@@ -259,6 +291,7 @@ class TestCoverageCalculator:
         # Попытаться импортировать модуль
         try:
             import importlib.util
+
             spec = importlib.util.spec_from_file_location("temp_module", file_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
@@ -296,24 +329,28 @@ class TestCoverageCalculator:
 
         for item in logic_items:
             if item["type"] == "function" or item["type"] == "method":
-                missing_coverage.append(TestCoveragePoint(
-                    target=item["name"],
-                    priority="high" if "test_" not in item["name"] else "medium",
-                    test_type="unit",
-                    description=f"Покрыть функцию {item['name']}: {item['description'][:100]}",
-                    depends_on=item["dependencies"],
-                    edge_cases=item["edge_cases"],
-                ))
+                missing_coverage.append(
+                    TestCoveragePoint(
+                        target=item["name"],
+                        priority="high" if "test_" not in item["name"] else "medium",
+                        test_type="unit",
+                        description=f"Покрыть функцию {item['name']}: {item['description'][:100]}",
+                        depends_on=item["dependencies"],
+                        edge_cases=item["edge_cases"],
+                    )
+                )
 
             if item["type"] == "model" or item["type"] == "class":
-                missing_coverage.append(TestCoveragePoint(
-                    target=f"{item['name']}.__init__",
-                    priority="high",
-                    test_type="unit",
-                    description=f"Покрыть инициализацию класса {item['name']}",
-                    depends_on=[],
-                    edge_cases=item["edge_cases"],
-                ))
+                missing_coverage.append(
+                    TestCoveragePoint(
+                        target=f"{item['name']}.__init__",
+                        priority="high",
+                        test_type="unit",
+                        description=f"Покрыть инициализацию класса {item['name']}",
+                        depends_on=[],
+                        edge_cases=item["edge_cases"],
+                    )
+                )
 
         return missing_coverage
 

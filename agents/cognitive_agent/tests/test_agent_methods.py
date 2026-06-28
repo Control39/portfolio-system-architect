@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test script for AutonomousCognitiveAgent methods"""
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
 # Test agent instantiation
 agent = AutonomousCognitiveAgent()

@@ -31,7 +31,7 @@ from src.security.file_type_validator import FileTypeValidator  # ⭐ [SECURITY 
 
 # Sandbox executor - опциональная зависимость
 try:
-    from security.sandbox_executor import SandboxExecutor, SandboxExecutionError  # ⭐ [SECURITY V2]
+    from src.security.sandbox_executor import SandboxExecutor, SandboxExecutionError  # ⭐ [SECURITY V2]
 
     SANDBOX_AVAILABLE = True
 except ImportError:

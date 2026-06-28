@@ -23,7 +23,7 @@ class TestRAGIndexing:
 
     def test_index_project_documents_method_exists(self):
         """Тест существования метода индексации проектных документов"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -39,7 +39,7 @@ class TestRAGIndexing:
 
     def test_search_similar_documents_method_exists(self):
         """Тест существования метода поиска похожих документов"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -51,7 +51,7 @@ class TestRAGIndexing:
 
     def test_index_project_documents_basic_functionality(self):
         """Тест базовой функциональности индексации проектных документов"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -74,7 +74,7 @@ class TestRAGIndexing:
 
     def test_search_similar_documents_basic_functionality(self):
         """Тест базовой функциональности поиска похожих документов"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -100,7 +100,7 @@ class TestChromaDBIntegration:
 
     def test_chroma_stats_method_exists(self):
         """Тест существования метода получения статистики ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -112,7 +112,7 @@ class TestChromaDBIntegration:
 
     def test_clear_chroma_collection_method_exists(self):
         """Тест существования метода очистки коллекции ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -124,7 +124,7 @@ class TestChromaDBIntegration:
 
     def test_chroma_stats_basic_functionality(self):
         """Тест базовой функциональности получения статистики ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -146,7 +146,7 @@ class TestChromaDBIntegration:
 
     def test_chroma_collection_clearing(self):
         """Тест очистки коллекции ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -172,7 +172,7 @@ class TestRAGWithMockedChroma:
 
     def test_document_indexer_with_mocked_chroma(self):
         """Тест индексатора документов с замокированной ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -192,7 +192,7 @@ class TestRAGWithMockedChroma:
 
     def test_document_search_with_mocked_chroma(self):
         """Тест поиска документов с замокированной ChromaDB"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)
@@ -216,7 +216,7 @@ class TestRAGFallbackMechanism:
 
     def test_rag_methods_exist_with_fallback(self):
         """Тест существования RAG-методов с механизмом fallback"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = object.__new__(AutonomousCognitiveAgent)

@@ -55,56 +55,82 @@ class PromptEngine:
     - Render templates with dynamic context
     - Execute strategies via LLM calls
     - Support duel mode (compare code vs prompt approaches)
+    - Support multi-directory template loading (root-level + agent-level)
     """
 
-    def __init__(self, prompts_dir: Path, llm_client=None):
+    def __init__(self, prompts_dir: Path, llm_client=None, root_prompts_dir: Path = None):
         """
         Initialize Prompt Engine
 
         Args:
-            prompts_dir: Path to directory containing prompt templates
+            prompts_dir: Path to directory containing prompt templates (agent-level)
             llm_client: Optional LLM client for executing prompts
+            root_prompts_dir: Optional root-level prompts directory (source of truth)
         """
         self.prompts_dir = Path(prompts_dir)
+        self.root_prompts_dir = Path(root_prompts_dir) if root_prompts_dir else None
         self.llm_client = llm_client
         self.templates: dict[str, PromptTemplate] = {}
         self.template_cache: dict[str, str] = {}
+        self.template_sources: dict[str, str] = {}  # Track which directory each template comes from
 
         # Create prompts directory if it doesn't exist
         self.prompts_dir.mkdir(parents=True, exist_ok=True)
 
         logger.info(f"✅ Prompt Engine initialized: {self.prompts_dir}")
+        if self.root_prompts_dir:
+            logger.info(f"📦 Root-level prompts: {self.root_prompts_dir}")
         self._discover_templates()
 
     def _discover_templates(self):
-        """Discover and load all prompt templates from directory and subdirectories"""
-        if not self.prompts_dir.exists():
-            logger.warning(f"Prompts directory not found: {self.prompts_dir}")
+        """Discover and load all prompt templates from directory and subdirectories
+
+        Priority order (later overwrites earlier):
+        1. Root-level prompts (source of truth, loaded first)
+        2. Agent-level prompts (extended templates, loaded last)
+        """
+        # First, discover templates from root-level prompts (if available)
+        if self.root_prompts_dir and self.root_prompts_dir.exists():
+            logger.info(f"📦 Loading root-level templates from: {self.root_prompts_dir}")
+            self._discover_directory_templates(self.root_prompts_dir, source="root")
+
+        # Then, discover templates from agent-level prompts (extends root-level)
+        if self.prompts_dir.exists():
+            logger.info(f"🔧 Loading agent-level templates from: {self.prompts_dir}")
+            self._discover_directory_templates(self.prompts_dir, source="agent")
+
+    def _discover_directory_templates(self, directory: Path, source: str = "unknown"):
+        """Discover and load templates from a single directory"""
+        if not directory.exists():
+            logger.warning(f"Prompts directory not found: {directory}")
             return
 
         # Discover templates in subdirectories first (e.g., python/fastapi/api.md)
-        for md_file in self.prompts_dir.rglob("*.md"):
+        for md_file in directory.rglob("*.md"):
             try:
                 template = self._load_template_from_file(md_file)
                 # Use relative path as template name (e.g., "python/fastapi/api")
-                template_name = str(md_file.relative_to(self.prompts_dir).with_suffix(""))
+                # Normalize to forward slashes for consistency
+                template_name = str(md_file.relative_to(directory).with_suffix("")).replace("\\", "/")
                 self.templates[template_name] = template
-                logger.debug(f"Loaded template: {template_name} v{template.version}")
+                self.template_sources[template_name] = source
+                logger.debug(f"Loaded {source} template: {template_name} v{template.version}")
             except Exception as e:
                 logger.error(f"Failed to load template {md_file}: {e}")
 
-        # Also discover templates directly in prompts_dir (backward compatibility)
-        for md_file in self.prompts_dir.glob("*.md"):
+        # Also discover templates directly in directory (backward compatibility)
+        for md_file in directory.glob("*.md"):
             try:
                 template = self._load_template_from_file(md_file)
                 # Only add if not already loaded via subdirectory
                 if template.name not in self.templates:
                     self.templates[template.name] = template
-                    logger.debug(f"Loaded template: {template.name} v{template.version}")
+                    self.template_sources[template.name] = source
+                    logger.debug(f"Loaded {source} template: {template.name} v{template.version}")
             except Exception as e:
                 logger.error(f"Failed to load template {md_file}: {e}")
 
-        logger.info(f"📚 Discovered {len(self.templates)} prompt templates")
+        logger.info(f"📚 Discovered {len(self.templates)} prompt templates (source: {source})")
 
     def _load_template_from_file(self, file_path: Path) -> PromptTemplate:
         """Load a prompt template from markdown file"""
@@ -289,9 +315,22 @@ class PromptEngine:
                 "version": template.version,
                 "description": template.description,
                 "content_length": len(template.content),
+                "source": self.template_sources.get(name, "unknown"),
             }
             for name, template in self.templates.items()
         }
+
+    def get_template_source(self, template_name: str) -> str:
+        """
+        Get the source directory for a template
+
+        Args:
+            template_name: Name of template
+
+        Returns:
+            "root", "agent", or "unknown"
+        """
+        return self.template_sources.get(template_name, "unknown")
 
     def clear_cache(self):
         """Clear rendered template cache"""

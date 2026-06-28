@@ -31,6 +31,7 @@ class TestGeneratorWatcher:
         polling_interval: int = 60,  # 1 минута по умолчанию
         file_patterns: list[str] | None = None,
         on_change_callback: Callable | None = None,
+        root_prompts_dir: Path | None = None,
     ):
         """
         Инициализация Watcher
@@ -42,18 +43,22 @@ class TestGeneratorWatcher:
             polling_interval: Интервал проверки изменений (секунды)
             file_patterns: Паттерны файлов для мониторинга
             on_change_callback: Коллбек при изменении (для интеграции с UI)
+            root_prompts_dir: Путь к корневой директории с шаблонами (source of truth)
         """
         self.project_path = Path(project_path)
         self.prompts_dir = prompts_dir
+        self.root_prompts_dir = root_prompts_dir or Path("prompts")
         self.llm_client = llm_client
         self.polling_interval = polling_interval
         self.file_patterns = file_patterns or ["*.py", "**/*.py"]
         self.on_change_callback = on_change_callback
 
-        # Инициализация TestGenerator
+        # Инициализация TestGenerator с поддержкой корневых шаблонов
         self.test_generator = TestGenerator(
             project_path=str(project_path),
             prompts_dir=prompts_dir,
+            llm_client=llm_client,
+            root_prompts_dir=self.root_prompts_dir,
         )
 
         # Кэш хешей файлов

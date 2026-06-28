@@ -16,7 +16,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # Импорт для тестов
-from agents.cognitive_agent.orchestrator_v2 import CognitiveOrchestrator
+from agents.cognitive_agent.src.orchestrator_v2 import CognitiveOrchestrator
 
 
 class TestCognitiveOrchestrator:
@@ -26,7 +26,7 @@ class TestCognitiveOrchestrator:
     # TEST 1: IT-Compass Markers Loading
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_load_it_compass_markers_success(self, mock_logging):
         """
         Test: Load IT-Compass Markers (Success)
@@ -45,7 +45,7 @@ class TestCognitiveOrchestrator:
         else:
             pytest.skip("IT-Compass markers directory not found")
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_load_it_compass_markers_empty_directory(self, mock_logging):
         """
         Test: Load IT-Compass Markers (Empty Directory)
@@ -60,7 +60,7 @@ class TestCognitiveOrchestrator:
             assert isinstance(markers, dict)
             assert len(markers) == 0
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_load_it_compass_markers_invalid_json(self, mock_logging):
         """
         Test: Load IT-Compass Markers (Invalid JSON)
@@ -84,7 +84,7 @@ class TestCognitiveOrchestrator:
     # TEST 2: Workflow Execution
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_run_workflow_not_found(self, mock_logging):
         """
         Test: Run Workflow (Not Found)
@@ -102,7 +102,7 @@ class TestCognitiveOrchestrator:
     # TEST 3: Job Search Adapter Check
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_check_job_search_adapter_success(self, mock_logging):
         """
         Test: Check Job Search Adapter (Success)
@@ -118,7 +118,7 @@ class TestCognitiveOrchestrator:
         else:
             pytest.skip("job_search_adapter.py not found")
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_check_job_search_adapter_not_found(self, mock_logging):
         """
         Test: Check Job Search Adapter (Not Found)
@@ -136,7 +136,7 @@ class TestCognitiveOrchestrator:
     # TEST 4: FastAPI Endpoint Check
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_check_fastapi_endpoint_success(self, mock_logging):
         """
         Test: Check FastAPI Endpoint (Success)
@@ -152,7 +152,7 @@ class TestCognitiveOrchestrator:
         else:
             pytest.skip("main.py not found")
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_check_fastapi_endpoint_not_found(self, mock_logging):
         """
         Test: Check FastAPI Endpoint (Not Found)
@@ -170,7 +170,7 @@ class TestCognitiveOrchestrator:
     # TEST 5: Full Run Cycle
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_run_full_cycle(self, mock_logging):
         """
         Test: Run Full Cycle
@@ -201,7 +201,7 @@ class TestCognitiveOrchestrator:
     # TEST 6: Error Handling
     # =========================================================================
 
-    @patch("agents.cognitive_agent.orchestrator_v2.logging")
+    @patch("agents.cognitive_agent.src.orchestrator_v2.logging")
     def test_error_handling_signal_handling(self, mock_logging):
         """
         Test: Error Handling - Signal Handling

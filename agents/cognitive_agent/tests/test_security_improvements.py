@@ -22,7 +22,7 @@ def test_validate_ai_response():
     print("=" * 50)
 
     # Импортируем паттерны из autonomous_agent
-    from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+    from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
     dangerous_patterns = AutonomousCognitiveAgent.AI_RESPONSE_DANGEROUS_PATTERNS
 

@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 sys.path.append(str(Path(__file__).parent.parent / "agents" / "cognitive_agent"))
 
-from agents.cognitive_agent.autonomous_agent_v_2 import AutonomousCognitiveAgentV2
+from agents.cognitive_agent.src.autonomous_agent_v_2 import AutonomousCognitiveAgentV2
 
 
 class TestAutonomousAgentV2(unittest.TestCase):

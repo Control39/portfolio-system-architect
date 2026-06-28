@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
 
 def test_documentation_audit_functionality():

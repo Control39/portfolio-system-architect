@@ -428,7 +428,7 @@ experimental:
       endpoint: "https://gigachat.devices.sberbank.ru/api/v1"
       api_key_env: "GIGACHAT_API_KEY"
       models:
-        - "GigaChat-Lite"    # Основная
+        - "GigaChat"    # Основная
         - "GigaChat-Pro"     # Сложные задачи
         - "GigaChat-Max"     # Критичные решения
 

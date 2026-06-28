@@ -64,11 +64,17 @@ class AuthenticationManager:
 
     def __init__(self, secret_key: str | None = None):
         # ✅ БЕЗОПАСНОСТЬ: Загружать secret_key из переменной окружения
-        self.secret_key = secret_key or os.environ.get("COGNITIVE_AGENT_SECRET_KEY")
+        # Приоритет: явный параметр > COGNITIVE_AGENT_SECRET_KEY > GIGACHAT_API_KEY > GIGACHAT_CLIENT_SECRET
+        self.secret_key = (
+            secret_key
+            or os.environ.get("COGNITIVE_AGENT_SECRET_KEY")
+            or os.environ.get("GIGACHAT_API_KEY")
+            or os.environ.get("GIGACHAT_CLIENT_SECRET")
+        )
         if not self.secret_key:
             raise ValueError(
-                "COGNITIVE_AGENT_SECRET_KEY environment variable is not set. "
-                "Generate one with: python -c 'import secrets; print(secrets.token_hex(32))'"
+                " neither COGNITIVE_AGENT_SECRET_KEY nor GIGACHAT_API_KEY nor GIGACHAT_CLIENT_SECRET is set. "
+                "Please set one of these environment variables."
             )
 
         self.sessions: dict[str, UserSession] = {}
@@ -308,6 +314,7 @@ class EnterpriseGuardrails:
 
     def __init__(self, config: dict | None = None):
         # ✅ БЕЗОПАСНОСТЬ: Передача secret_key из конфигурации
+        # Приоритет: явный параметр > config["secret_key"] > COGNITIVE_AGENT_SECRET_KEY > GIGACHAT_SECRET_KEY
         secret_key = None
         if config and "secret_key" in config:
             secret_key = config["secret_key"]

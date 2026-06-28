@@ -6,6 +6,7 @@ import asyncio
 import json
 import logging
 import threading
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +17,7 @@ from pydantic import ValidationError
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
+from .token_refresh_service import TokenRefreshService
 from .validators import AgentConfig, AIConfig, ResourceConfig
 
 logger = logging.getLogger(__name__)
@@ -142,6 +144,7 @@ class ConfigManager:
         self._config: AIConfig | None = None
         self._lock = threading.RLock()
         self._observer: Observer | None = None
+        self._token_service: TokenRefreshService | None = None
 
         # Загрузка начальной конфигурации
         self.load()
@@ -343,28 +346,39 @@ class ConfigManager:
             raise KeyError(f"Ресурс не найден: {resource_name}")
         return config.resources[resource_name]
 
-    def get_gigachat_token(self) -> str | None:
+    def get_gigachat_token(self, force_refresh: bool = False) -> str | None:
         """
-        Получить токен GigaChat из настроек окружения.
+        Получить токен GigaChat из настроек окружения или OAuth.
+
+        Args:
+            force_refresh: Принудительно обновить токен
 
         Returns:
             str | None: Токен GigaChat или None, если не настроен
         """
-        import base64
         import os
+
+        # Всегда используем TokenRefreshService для управления токеном
+        if not self._token_service:
+            self._token_service = TokenRefreshService()
+
+        # TokenRefreshService сначала проверит GIGACHAT_API_KEY из env
+        # Если установлен, он вернёт его (но мы всё равно вызовем get_token())
+        # чтобы убедиться, что он валиден
+
+        token = self._token_service.get_token(force_refresh=force_refresh)
+        if token:
+            return token
+
+        # Fallback: попытка получить токен напрямую (если TokenRefreshService не сработал)
+        import base64
 
         import requests
 
-        # Получаем настройки из переменных окружения
         client_id = os.getenv("GIGACHAT_CLIENT_ID")
         client_secret = os.getenv("GIGACHAT_CLIENT_SECRET")
         auth_url = os.getenv("GIGACHAT_AUTH_URL", "https://ngw.devices.sberbank.ru:9443/api/v2/oauth")
         scope = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_PERS")
-
-        # Если есть готовый API ключ, возвращаем его
-        api_key = os.getenv("GIGACHAT_API_KEY")
-        if api_key:
-            return api_key
 
         # Если настроены client_id и client_secret, получаем токен через OAuth
         if client_id and client_secret:
@@ -373,22 +387,27 @@ class ConfigManager:
                 auth_string = f"{client_id}:{client_secret}"
                 encoded_auth = base64.b64encode(auth_string.encode("utf-8")).decode("utf-8")
 
+                # ОБЯЗАТЕЛЬНЫЕ заголовки для GigaChat API
                 headers = {
                     "Authorization": f"Basic {encoded_auth}",
                     "Content-Type": "application/x-www-form-urlencoded",
+                    "Accept": "application/json",
+                    "RqUID": str(uuid.uuid4()),
                 }
 
                 data = {"scope": scope, "grant_type": "client_credentials"}
 
                 # Отправляем запрос для получения токена
-                response = requests.post(auth_url, headers=headers, data=data, timeout=10)
+                # Учитываем настройку GIGACHAT_VERIFY_SSL для корпоративных сетей
+                verify_ssl = os.getenv("GIGACHAT_VERIFY_SSL", "true").lower() != "false"
+                response = requests.post(auth_url, headers=headers, data=data, timeout=10, verify=verify_ssl)
 
                 if response.status_code == 200:
                     token_data = response.json()
                     access_token = token_data.get("access_token")
 
                     if access_token:
-                        logger.info("Токен GigaChat успешно получен")
+                        logger.info("Токен GigaChat успешно получен (fallback)")
                         return access_token
                     else:
                         logger.error("В ответе отсутствует access_token")
@@ -402,6 +421,24 @@ class ConfigManager:
         else:
             logger.warning("Не настроены учетные данные для GigaChat (GIGACHAT_CLIENT_ID/GIGACHAT_CLIENT_SECRET)")
             return None
+
+    def start_token_auto_refresh(self, interval: int = 60):
+        """
+        Запускает автоматическое обновление токенов.
+
+        Args:
+            interval: Интервал проверки в секундах
+        """
+        if not self._token_service:
+            self._token_service = TokenRefreshService()
+        self._token_service.start_auto_refresh(interval)
+        logger.info(f"Auto-refresh токенов запущен (interval={interval}s)")
+
+    def stop_token_auto_refresh(self):
+        """Останавливает автоматическое обновление токенов."""
+        if self._token_service:
+            self._token_service.stop_auto_refresh()
+            logger.info("Auto-refresh токенов остановлен")
 
     def update_agent_config(self, agent_name: str, updates: dict[str, Any]) -> None:
         """

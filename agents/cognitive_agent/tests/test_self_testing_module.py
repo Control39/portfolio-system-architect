@@ -10,7 +10,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agents.cognitive_agent.self_testing_module import SelfTestingModule
+from agents.cognitive_agent.src.self_testing_module import SelfTestingModule
 
 
 class TestSelfTestingModuleInitialization:

@@ -22,6 +22,7 @@ try:
         BusinessLogicAnalyzer,
         TestCoverageCalculator,
     )
+
     HAS_ANALYZER = True
 except ImportError:
     HAS_ANALYZER = False
@@ -35,19 +36,29 @@ class TestGenerator:
     Использует шаблоны из PromptEngine и LLM для автоматической генерации тестов.
     """
 
-    def __init__(self, project_path: str, prompts_dir: Path | None = None):
+    def __init__(
+        self, project_path: str, prompts_dir: Path | None = None, llm_client=None, root_prompts_dir: Path | None = None
+    ):
         """
         Инициализация TestGenerator
 
         Args:
             project_path: Путь к проекту
             prompts_dir: Путь к директории с шаблонами (по умолчанию agents/cognitive_agent/prompts)
+            llm_client: Клиент LLM для выполнения запросов (опционально)
+            root_prompts_dir: Путь к корневой директории с шаблонами (source of truth, опционально)
         """
         self.project_path = Path(project_path)
         self.prompts_dir = prompts_dir or Path("agents/cognitive_agent/prompts")
+        self.root_prompts_dir = root_prompts_dir or Path("prompts")
+        self.llm_client = llm_client
 
-        # Инициализация PromptEngine
-        self.prompt_engine = PromptEngine(prompts_dir=self.prompts_dir)
+        # Инициализация PromptEngine с поддержкой корневых шаблонов
+        self.prompt_engine = PromptEngine(
+            prompts_dir=self.prompts_dir,
+            llm_client=llm_client,
+            root_prompts_dir=self.root_prompts_dir,
+        )
         logger.info(f"✅ TestGenerator initialized: {self.project_path}")
 
     def _detect_framework(self, file_path: Path) -> str:
@@ -312,7 +323,8 @@ class TestGenerator:
 
         # Удалить дубликаты и файлы из venv
         files_to_test = [
-            f for f in files_to_test
+            f
+            for f in files_to_test
             if f.is_file()
             and "venv" not in str(f)
             and "__pycache__" not in str(f)
@@ -333,11 +345,13 @@ class TestGenerator:
                 logger.info(f"Generated tests for {file_path}", success=result["success"])
             except Exception as e:
                 logger.error(f"Failed to generate tests for {file_path}: {e}")
-                results.append({
-                    "success": False,
-                    "error": str(e),
-                    "file_path": str(file_path),
-                })
+                results.append(
+                    {
+                        "success": False,
+                        "error": str(e),
+                        "file_path": str(file_path),
+                    }
+                )
 
         return results
 

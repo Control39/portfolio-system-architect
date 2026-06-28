@@ -46,7 +46,7 @@ def get_agent():
     if agent is None:
         # Создаём новый экземпляр для каждого запроса
         try:
-            from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+            from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
             agent = AutonomousCognitiveAgent()
             _agent_context.set(agent)

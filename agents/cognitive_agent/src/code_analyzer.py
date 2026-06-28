@@ -390,7 +390,7 @@ class CodeAnalyzer:
 
         try:
             # Ollama агент находится в agents/cognitive_agent/
-            from agents.cognitive_agent.ollama_agent import OllamaAgent  # noqa: F401
+            from agents.cognitive_agent.src.ollama_agent import OllamaAgent  # noqa: F401
             import requests
 
             response = requests.get("http://localhost:11434/api/tags", timeout=2)
@@ -944,7 +944,7 @@ class CodeAnalyzer:
         return giga_request(prompt)
 
     def _call_ollama(self, issue: dict[str, Any]) -> str | None:
-        from agents.cognitive_agent.ollama_agent import OllamaAgent
+        from agents.cognitive_agent.src.ollama_agent import OllamaAgent
 
         prompt = (
             f"Ты — эксперт по Python. Исправь проблему в коде:\n"

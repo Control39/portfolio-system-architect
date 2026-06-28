@@ -30,7 +30,7 @@ class TestMetricsCollector:
 
     def test_metrics_collector_initialization(self):
         """Тест инициализации MetricsCollector"""
-        from agents.cognitive_agent.autonomous_agent import MetricsCollector
+        from agents.cognitive_agent.src.autonomous_agent import MetricsCollector
 
         collector = MetricsCollector()
 
@@ -41,7 +41,7 @@ class TestMetricsCollector:
 
     def test_record_task_completion(self):
         """Тест записи завершения задачи"""
-        from agents.cognitive_agent.autonomous_agent import MetricsCollector
+        from agents.cognitive_agent.src.autonomous_agent import MetricsCollector
 
         collector = MetricsCollector()
 
@@ -53,7 +53,7 @@ class TestMetricsCollector:
 
     def test_record_ai_call(self):
         """Тест записи вызова ИИ"""
-        from agents.cognitive_agent.autonomous_agent import MetricsCollector
+        from agents.cognitive_agent.src.autonomous_agent import MetricsCollector
 
         collector = MetricsCollector()
 
@@ -65,7 +65,7 @@ class TestMetricsCollector:
 
     def test_calculate_performance_metrics(self):
         """Тест расчета показателей производительности"""
-        from agents.cognitive_agent.autonomous_agent import MetricsCollector
+        from agents.cognitive_agent.src.autonomous_agent import MetricsCollector
 
         collector = MetricsCollector()
 
@@ -86,7 +86,7 @@ class TestSelfHealingSystem:
 
     def test_self_healing_system_initialization(self):
         """Тест инициализации SelfHealingSystem"""
-        from agents.cognitive_agent.autonomous_agent import SelfHealingSystem
+        from agents.cognitive_agent.src.autonomous_agent import SelfHealingSystem
 
         # Создаем мок-агент для инициализации
         mock_agent = MagicMock()
@@ -99,7 +99,7 @@ class TestSelfHealingSystem:
 
     def test_detect_anomalies_method(self):
         """Тест метода обнаружения аномалий"""
-        from agents.cognitive_agent.autonomous_agent import SelfHealingSystem
+        from agents.cognitive_agent.src.autonomous_agent import SelfHealingSystem
 
         # Создаем мок-агент с мок-коллектором метрик
         mock_agent = MagicMock()
@@ -123,7 +123,7 @@ class TestSelfHealingSystem:
 
     def test_apply_recovery_strategy_method(self):
         """Тест метода применения стратегии восстановления"""
-        from agents.cognitive_agent.autonomous_agent import SelfHealingSystem
+        from agents.cognitive_agent.src.autonomous_agent import SelfHealingSystem
 
         mock_agent = MagicMock()
         healing_system = SelfHealingSystem(agent=mock_agent)
@@ -142,7 +142,7 @@ class TestTaskPlanner:
 
     def test_task_planner_initialization(self):
         """Тест инициализации TaskPlanner"""
-        from agents.cognitive_agent.autonomous_agent import TaskPlanner
+        from agents.cognitive_agent.src.autonomous_agent import TaskPlanner
 
         planner = TaskPlanner()
 
@@ -153,7 +153,7 @@ class TestTaskPlanner:
 
     def test_add_and_get_tasks(self):
         """Тест добавления и получения задач"""
-        from agents.cognitive_agent.autonomous_agent import TaskPlanner
+        from agents.cognitive_agent.src.autonomous_agent import TaskPlanner
 
         planner = TaskPlanner()
 
@@ -166,7 +166,7 @@ class TestTaskPlanner:
 
     def test_task_status_management(self):
         """Тест управления статусом задачи"""
-        from agents.cognitive_agent.autonomous_agent import TaskPlanner
+        from agents.cognitive_agent.src.autonomous_agent import TaskPlanner
 
         planner = TaskPlanner()
 
@@ -191,7 +191,7 @@ class TestStateManager:
 
     def test_state_manager_initialization(self):
         """Тест инициализации StateManager"""
-        from agents.cognitive_agent.autonomous_agent import StateManager
+        from agents.cognitive_agent.src.autonomous_agent import StateManager
 
         state_manager = StateManager(agent_id="test_agent")
 
@@ -202,7 +202,7 @@ class TestStateManager:
     def test_save_and_load_state(self):
         """Тест сохранения и загрузки состояния"""
 
-        from agents.cognitive_agent.autonomous_agent import StateManager
+        from agents.cognitive_agent.src.autonomous_agent import StateManager
 
         # Используем уникальный ID агента для теста
         state_manager = StateManager(agent_id="test_agent_for_save_load")
@@ -229,7 +229,7 @@ class TestEnterpriseAgentIntegration:
 
     def test_enterprise_agent_creation(self):
         """Тест создания enterprise-агента"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Проверяем, что класс может быть импортирован
         assert AutonomousCognitiveAgent is not None
@@ -237,7 +237,7 @@ class TestEnterpriseAgentIntegration:
     def test_enterprise_components_existence(self):
         """Тест существования enterprise-компонентов в агенте"""
         # Так как основной класс абстрактный, просто проверим, что классы существуют
-        from agents.cognitive_agent.autonomous_agent import (
+        from agents.cognitive_agent.src.autonomous_agent import (
             MetricsCollector,
             SelfHealingSystem,
             StateManager,

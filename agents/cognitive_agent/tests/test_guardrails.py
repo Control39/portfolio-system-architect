@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
 
 class TestGuardrails:

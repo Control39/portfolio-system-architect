@@ -124,7 +124,7 @@ class TestTaskProcessingPerformance:
 
     def test_task_processing_time_acceptable(self):
         """Тест времени обработки задач"""
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = AutonomousCognitiveAgent.__new__(AutonomousCognitiveAgent)
@@ -152,7 +152,7 @@ class TestTaskProcessingPerformance:
         """Тест обработки параллельных задач"""
         import concurrent.futures
 
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = AutonomousCognitiveAgent.__new__(AutonomousCognitiveAgent)
@@ -238,7 +238,7 @@ class TestSystemResourceUsage:
         """Тест производительности запуска агента"""
         start_time = time.time()
 
-        from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+        from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
         # Создаем экземпляр через __new__ чтобы обойти абстрактность
         agent = AutonomousCognitiveAgent.__new__(AutonomousCognitiveAgent)
@@ -257,7 +257,7 @@ class TestEnterpriseFeaturesPerformance:
 
     def test_metrics_collector_overhead(self):
         """Тест накладных расходов системы сбора метрик"""
-        from agents.cognitive_agent.autonomous_agent_enterprise import MetricsCollector
+        from agents.cognitive_agent.src.autonomous_agent_enterprise import MetricsCollector
 
         collector = MetricsCollector()
 
@@ -274,7 +274,7 @@ class TestEnterpriseFeaturesPerformance:
 
     def test_state_manager_performance(self):
         """Тест производительности менеджера состояния"""
-        from agents.cognitive_agent.autonomous_agent_enterprise import StateManager
+        from agents.cognitive_agent.src.autonomous_agent_enterprise import StateManager
 
         state_manager = StateManager(agent_id="performance_test")  # noqa: F841
 

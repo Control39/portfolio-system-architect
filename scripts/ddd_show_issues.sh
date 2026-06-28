@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ddd_show_issues.sh - Показать архитектурные проблемы
 
+# Используем относительные пути для совместимости с разными ОС
 cd "$(dirname "$0")/.."
 
-PYTHON_CMD="/mnt/c/Users/Z/.pyenv/pyenv-win/versions/3.12.5/python.exe"
-"$PYTHON_CMD" scripts/ddd_show_issues.py
+python scripts/ddd_show_issues.py

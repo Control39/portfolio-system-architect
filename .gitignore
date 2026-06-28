@@ -111,3 +111,17 @@ analysis/security/
 .env.example
 .env.test
 cross_app_dependencies.txt
+
+# Cognitive Agent runtime
+agents/cognitive_agent/.agent_data/
+agents/cognitive_agent/logs/
+agents/cognitive_agent/htmlcov/
+agents/cognitive_agent/.coverage
+agents/cognitive_agent/src/.coverage
+agents/cognitive_agent/src/.mypy_cache/
+agents/cognitive_agent/scripts/logs/
+agents/cognitive_agent/apps/
+*.backup
+
+# Скрипты с токенами (не коммитить)
+scripts/gigachat/final_token_check.py

@@ -18,7 +18,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 import pytest
 
-from agents.cognitive_agent.autonomous_agent import AutonomousCognitiveAgent
+from agents.cognitive_agent.src.autonomous_agent import AutonomousCognitiveAgent
 
 
 class TestAgentLifecycle:

@@ -235,9 +235,13 @@ class AIProviderManager:
 
     def _chat_gigachat(self, messages: list[dict[str, str]], temperature: float) -> str | None:
         """Отправить сообщение в GigaChat"""
+        import os
+
         from src.ai.config import ConfigManager
 
-        config = ConfigManager()
+        # Использовать ConfigManager с правильным путем конфигурации
+        config_path = "agents/cognitive_agent/config/agent-config.yaml"
+        config = ConfigManager(config_path=config_path)
         token = config.get_gigachat_token()
 
         if not token:
@@ -252,7 +256,7 @@ class AIProviderManager:
         }
 
         payload = {
-            "model": "GigaChat-Latest",
+            "model": "GigaChat",
             "messages": messages,
             "temperature": temperature,
             "max_tokens": 8192,
@@ -264,9 +268,25 @@ class AIProviderManager:
         last_error: Exception | None = None
         for attempt in range(max_retries + 1):
             try:
-                response = requests.post(url, json=payload, headers=headers, timeout=30)
+                # Проверить переменную окружения для отключения SSL verification (для корпоративных сетей)
+                verify_ssl = os.getenv("GIGACHAT_VERIFY_SSL", "true").lower() != "false"
+                response = requests.post(url, json=payload, headers=headers, timeout=30, verify=verify_ssl)
 
                 if response.status_code != 200:
+                    # 401 может быть из-за истекшего токена, попробуем переполучить
+                    if response.status_code == 401:
+                        logger.warning("GigaChat 401 Unauthorized - token may be expired")
+                        # Переполучаем токен
+                        config = ConfigManager(config_path=config_path)
+                        token = config.get_gigachat_token()
+                        if token:
+                            headers["Authorization"] = f"Bearer {token}"
+                            logger.info("GigaChat token refreshed")
+                            # Повторяем запрос с новым токеном
+                            response = requests.post(url, json=payload, headers=headers, timeout=30, verify=verify_ssl)
+                            if response.status_code == 200:
+                                result = response.json()
+                                return result["choices"][0]["message"]["content"]
                     # Часть ошибок ретраимим (429/5xx/timeout-like)
                     raise Exception(f"GigaChat API error: {response.status_code} - {response.text}")
 
