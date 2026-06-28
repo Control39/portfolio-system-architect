@@ -25,34 +25,63 @@ import yaml
 # ============================================
 # 🔒 SAFE MODE CHECK - БЛОКИРОВКА ТРИГГЕРОВ
 # ============================================
-# Проверяем safe_mode.yaml перед запуском
+# Проверяем safe_mode.yaml перед выполнением триггерных действий
 SAFE_MODE_CONFIG = Path("agents/cognitive_agent/config/safe_mode.yaml")
 
-def is_safe_mode_enabled() -> bool:
-    """Проверка включен ли safe_mode"""
+
+class SafeMode(str, Enum):
+    """Режимы безопасного выполнения."""
+
+    NORMAL = "NORMAL"
+    SAFE_READ_ONLY = "SAFE_READ_ONLY"
+    LOCKDOWN = "LOCKDOWN"
+
+
+def load_safe_mode() -> SafeMode:
+    """Загружает safe_mode.yaml и возвращает режим.
+
+    По умолчанию — NORMAL (т.е. разрешить работу), чтобы обеспечить обратную совместимость.
+    """
+
     if not SAFE_MODE_CONFIG.exists():
-        return False
+        return SafeMode.NORMAL
 
     try:
         with open(SAFE_MODE_CONFIG, encoding="utf-8") as f:
             config = yaml.safe_load(f) or {}
 
-        mode = config.get("mode", "")
-        return mode == "SAFE_READ_ONLY"
-    except Exception:
-        return False
+        raw_mode = str(config.get("mode", SafeMode.NORMAL.value)).strip()
+        try:
+            return SafeMode(raw_mode)
+        except ValueError:
+            logging.getLogger(__name__).warning(
+                "Unknown safe_mode mode='%s', fallback to NORMAL", raw_mode
+            )
+            return SafeMode.NORMAL
+    except Exception as exc:
+        logging.getLogger(__name__).warning(
+            "Failed to load safe_mode.yaml: %s; fallback to NORMAL", exc
+        )
+        return SafeMode.NORMAL
 
-# Блокировка если safe_mode включен
-if is_safe_mode_enabled():
-    logger.warning("🔒 SAFE MODE ENABLED: Trigger processor is DISABLED")
-    logger.warning("❌ All trigger-based actions are BLOCKED")
-    print("🔒 SAFE MODE: Trigger processor disabled - no autonomous actions allowed")
-    sys.exit(0)
+
+
+def is_trigger_execution_allowed() -> bool:
+    """Определяет, можно ли выполнять триггерные действия в текущем безопасном режиме."""
+
+    mode = load_safe_mode()
+    # SAFE_READ_ONLY и LOCKDOWN запрещают выполнение действий
+    return mode == SafeMode.NORMAL
+
 # ============================================
 
+
 # Создание директории для логов
-LOG_DIR = Path("logs")
+AGENT_ROOT = Path(__file__).resolve().parents[1]
+AGENT_DATA_DIR = AGENT_ROOT / ".agent_data"
+LOG_DIR = AGENT_DATA_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True, parents=True)
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -350,6 +379,11 @@ class TriggerProcessor:
 
     def process_event(self, event: TriggerEvent) -> bool:
         """Обработка одного события"""
+        # SafeMode: запрет выполнения триггерных действий
+        if not is_trigger_execution_allowed():
+            logger.warning("🔒 SAFE MODE active: Trigger execution is blocked")
+            return False
+
         logger.info(f"Обработка события: {event.name}")
 
         # Получаем конфигурацию триггера
@@ -415,17 +449,128 @@ class TriggerProcessor:
         return success
 
     def _check_conditions(self, conditions: list[Any], event: TriggerEvent) -> bool:
-        """Проверка условий триггера"""
+        """Проверка условий триггера.
+
+        Формат YAML: список элементов, где каждый элемент — словарь с одним ключом типа условия.
+
+        Если условие не распознано — логируется warning и возвращается True
+        (обратная совместимость).
+        """
+
         if not conditions:
             return True
 
-        # Простая реализация проверки условий
-        for _condition in conditions:
-            # TODO: Реализовать полноценную проверку условий
-            # Сейчас просто возвращаем True для всех условий
-            pass
+        def _parse_hhmm(value: str) -> tuple[int, int]:
+            hh_s, mm_s = value.split(":", 1)
+            return int(hh_s), int(mm_s)
+
+        now = datetime.now().time()
+        for raw_condition in conditions:
+            if not isinstance(raw_condition, dict) or not raw_condition:
+                logger.warning("Unknown condition format: %r; fallback to True", raw_condition)
+                continue
+
+            condition_type = next(iter(raw_condition.keys()))
+            condition_value = raw_condition.get(condition_type)
+
+            # 1) file_exists
+            if condition_type == "file_exists":
+                if not isinstance(condition_value, str):
+                    logger.warning("file_exists expects string path; fallback to True")
+                    continue
+                if not Path(condition_value).exists():
+                    return False
+                continue
+
+            # 2) git_operation
+            if condition_type == "git_operation":
+                expected = str(condition_value)
+                actual = str(event.data.get("git_operation", ""))
+                if actual != expected:
+                    return False
+                continue
+
+            # 3) time_of_day
+            if condition_type == "time_of_day":
+                if not isinstance(condition_value, str) or "-" not in condition_value:
+                    logger.warning("time_of_day expects 'HH:MM-HH:MM'; fallback to True")
+                    continue
+                start_s, end_s = condition_value.split("-", 1)
+                sh, sm = _parse_hhmm(start_s.strip())
+                eh, em = _parse_hhmm(end_s.strip())
+                start_t = datetime.now().replace(
+                    hour=sh, minute=sm, second=0, microsecond=0
+                ).time()
+                end_t = datetime.now().replace(
+                    hour=eh, minute=em, second=0, microsecond=0
+                ).time()
+
+                # wrap-around window (e.g. 22:00-02:00)
+                if start_t <= end_t:
+                    if not (start_t <= now <= end_t):
+                        return False
+                else:
+                    if not (now >= start_t or now <= end_t):
+                        return False
+                continue
+
+            # 4) log_contains
+            if condition_type == "log_contains":
+                if not isinstance(condition_value, str):
+                    logger.warning("log_contains expects string; fallback to True")
+                    continue
+
+                log_path = event.data.get("log_path")
+                if not isinstance(log_path, str):
+                    log_path = str(Path("logs") / "triggers.log")
+
+                try:
+                    log_file = Path(log_path)
+                    if not log_file.exists():
+                        return False
+                    content = log_file.read_text(encoding="utf-8", errors="ignore")
+                except Exception:
+                    logger.warning("Failed reading log file '%s'", log_path)
+                    return False
+
+                if condition_value not in content:
+                    return False
+                continue
+
+            # 5) response_time_gt
+            if condition_type == "response_time_gt":
+                try:
+                    threshold_ms = float(condition_value)
+                except (TypeError, ValueError):
+                    logger.warning("response_time_gt expects number; fallback to True")
+                    continue
+
+                actual_ms_raw = event.data.get("response_time_ms")
+                if actual_ms_raw is None:
+                    return False
+                try:
+                    actual_ms_f = float(actual_ms_raw)
+                except (TypeError, ValueError):
+                    return False
+
+                if not (actual_ms_f > threshold_ms):
+                    return False
+                continue
+
+            # Unknown condition: обратная совместимость
+            logger.warning(
+                "Unknown condition '%s'=%r; fallback to True",
+                condition_type,
+                condition_value,
+            )
+            # Unknown condition => обратная совместимость: условие не блокирует триггер
+            continue
 
         return True
+
+
+
+
 
     def _log_results(self, event: TriggerEvent, results: list[dict[str, Any]], success: bool):
         """Логирование результатов"""
@@ -437,8 +582,9 @@ class TriggerProcessor:
         }
 
         # Сохраняем в файл
-        log_dir = Path("logs/triggers")
+        log_dir = LOG_DIR / "triggers"
         log_dir.mkdir(exist_ok=True, parents=True)
+
 
         log_file = log_dir / f"trigger_{event.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(log_file, "w", encoding="utf-8") as f:

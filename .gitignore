@@ -125,3 +125,10 @@ agents/cognitive_agent/apps/
 
 # Скрипты с токенами (не коммитить)
 scripts/gigachat/final_token_check.py
+
+# AI Agent configurations (не коммитить)
+.gigacode/
+.continue/
+.sourcecraft/
+.qoder/
+.blackbox/

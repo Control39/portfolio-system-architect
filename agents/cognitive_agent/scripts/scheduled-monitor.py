@@ -16,8 +16,12 @@ import schedule
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(".agents/logs/scheduled-monitor.log"), logging.StreamHandler()],
+    handlers=[
+        logging.FileHandler(str(Path(__file__).resolve().parent.parent / "\.agent_data" / "logs" / "scheduled-monitor.log")),
+        logging.StreamHandler(),
+    ],
 )
+
 logger = logging.getLogger(__name__)
 
 
@@ -26,8 +30,9 @@ class ScheduledMonitor:
 
     def __init__(self):
         self.script_path = Path(__file__).parent / "trigger-monitor.py"
-        self.logs_dir = Path(".agents/logs/scheduled")
+        self.logs_dir = Path(__file__).resolve().parent.parent / ".agent_data" / "logs" / "scheduled"
         self.logs_dir.mkdir(parents=True, exist_ok=True)
+
 
     def run_monitoring(self, report_type: str = "daily"):
         """Запуск мониторинга с указанным типом отчета"""

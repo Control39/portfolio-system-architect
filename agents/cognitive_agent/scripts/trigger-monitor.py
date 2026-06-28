@@ -13,18 +13,26 @@ from pathlib import Path
 from typing import Any
 
 # Настройка логирования
+# logging.basicConfig expects handlers as a list/keyword parameter
+AGENT_ROOT = Path(__file__).resolve().parent.parent
+AGENT_DATA_DIR = AGENT_ROOT / ".agent_data"
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(".agents/logs/monitor.log"), logging.StreamHandler()],
+    handlers=[
+        logging.FileHandler(str(AGENT_DATA_DIR / "logs" / "monitor.log")),
+        logging.StreamHandler(),
+    ],
 )
+
 logger = logging.getLogger(__name__)
 
 
 class TriggerMetricsCollector:
     """Сборщик метрик работы триггеров"""
 
-    def __init__(self, db_path: str = ".agents/data/trigger_metrics.db"):
+    def __init__(self, db_path: str = ".agent_data/data/trigger_metrics.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_database()
@@ -314,7 +322,7 @@ class TriggerMetricsCollector:
         }
 
         # Сохраняем отчет
-        report_dir = Path(".agents/reports")
+        report_dir = Path(".agent_data/reports")
         report_dir.mkdir(parents=True, exist_ok=True)
 
         report_file = report_dir / f"trigger_report_{report_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -705,7 +713,7 @@ class TriggerDashboard:
         """
 
         # Сохраняем дашборд
-        dashboard_dir = Path(".agents/dashboards")
+        dashboard_dir = Path(".agent_data/dashboards")
         dashboard_dir.mkdir(parents=True, exist_ok=True)
 
         dashboard_file = dashboard_dir / f"trigger_dashboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"

@@ -1,11 +1,3 @@
-# Safe Mode Configuration for Cognitive Agent Triggers
-# Режимы: NORMAL, SAFE_READ_ONLY, LOCKDOWN
-# - NORMAL: триггеры работают нормально
-# - SAFE_READ_ONLY: триггеры заблокированы, только чтение
-# - LOCKDOWN: все операции заблокированы
-
-mode: NORMAL
-
-# Дополнительные настройки безопасности
+mode: LOCKDOWN
 require_approval: false
 log_all_actions: true
