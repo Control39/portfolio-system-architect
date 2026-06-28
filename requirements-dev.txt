@@ -173,7 +173,7 @@ execnet==2.1.2
     # via pytest-xdist
 executing==2.2.1
     # via stack-data
-fastapi[all]==0.136.1
+fastapi[all]==0.136.3
     # via -r requirements-dev.in
 fastapi-cli[standard]==0.0.24
     # via fastapi
