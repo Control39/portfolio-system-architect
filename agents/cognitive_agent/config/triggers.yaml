@@ -5,148 +5,50 @@ version: "1.0.0"
 triggers:
   # Триггер при открытии проекта
   project_open:
-    enabled: false  # ОТКЛЮЧЕНО: ручное управление для экономии ресурсов
-    conditions:
-      - file_exists: "apps/cognitive_agent/config/agent-config.yaml"
-      - file_exists: ".git"
-    actions:
-      - scan_project
-      - validate_agent
-      - generate_welcome_plan
-    autonomy_level: medium
-    priority: high
+    enabled: false
 
   # Триггер при изменении файлов
   file_change:
-    enabled: true
-    watch_patterns:
-      - "**/*.py"
-      - "**/*.js"
-      - "**/*.ts"
-      - "**/*.yaml"
-      - "**/*.yml"
-      - "**/*.json"
-      - "**/requirements*.txt"
-      - "**/package.json"
-      - "**/Dockerfile*"
-      - "**/.github/workflows/*"
-    debounce_ms: 5000  # Задержка перед обработкой
-    actions:
-      - analyze_changes
-      - run_affected_tests
-      - update_dependencies
-    autonomy_level: low
-    priority: medium
+    enabled: false
 
   # Триггер при коммите в Git
   git_commit:
-    enabled: true
-    conditions:
-      - git_operation: "commit"
-    actions:
-      - validate_code
-      - run_tests
-      - generate_changelog
-    autonomy_level: high
-    priority: high
+    enabled: false
 
   # Триггер при пуше в Git
   git_push:
-    enabled: true
-    conditions:
-      - git_operation: "push"
-    actions:
-      - security_scan
-      - performance_check
-      - generate_deployment_plan
-    autonomy_level: medium
-    priority: high
+    enabled: false
 
   # Триггер при создании Pull Request
   pull_request:
-    enabled: true
-    conditions:
-      - git_operation: "pull_request"
-    actions:
-      - code_review
-      - conflict_detection
-      - test_coverage
-    autonomy_level: medium
-    priority: critical
+    enabled: false
 
   # Триггер по расписанию (ежедневно)
   daily_schedule:
-    enabled: true
-    schedule: "0 9 * * *"  # Каждый день в 9:00
-    actions:
-      - dependency_update_check
-      - security_audit
-      - performance_optimization
-      - generate_daily_report
-    autonomy_level: high
-    priority: medium
+    enabled: false
 
   # Триггер по расписанию (еженедельно)
   weekly_schedule:
-    enabled: true
-    schedule: "0 10 * * 1"  # Каждый понедельник в 10:00
-    actions:
-      - deep_cleanup
-      - model_retraining
-      - knowledge_base_update
-      - generate_weekly_report
-    autonomy_level: medium
-    priority: low
+    enabled: false
 
   # Триггер при ошибках
   error_detected:
-    enabled: true
-    conditions:
-      - log_contains: "ERROR"
-      - log_contains: "Exception"
-      - test_failure: true
-    actions:
-      - error_analysis
-      - auto_fix_attempt
-      - notification
-      - create_issue
-    autonomy_level: high
-    priority: critical
+    enabled: false
 
   # Триггер при низкой производительности
   performance_issue:
-    enabled: true
-    conditions:
-      - response_time_gt: 1000  # мс
-      - memory_usage_gt: 80     # %
-      - cpu_usage_gt: 70        # %
-    actions:
-      - performance_analysis
-      - optimization_suggestions
-      - scaling_recommendations
-    autonomy_level: medium
-    priority: high
+    enabled: false
 
   # Триггер при проблемах безопасности
   security_issue:
-    enabled: true
-    conditions:
-      - vulnerability_detected: true
-      - secret_leak: true
-      - permission_issue: true
-    actions:
-      - security_scan
-      - auto_remediation
-      - alert_team
-      - update_firewall
-    autonomy_level: high
-    priority: critical
+    enabled: false
 
 # Действия, доступные для триггеров
+# (оставлены, т.к. структура файла может использоваться другими компонентами)
 actions:
   scan_project:
     command: "scanner --mode=deep"
-    timeout: 300  # секунд
+    timeout: 300
     allowed_failures: 1
 
   validate_agent:
@@ -282,105 +184,27 @@ actions:
 processing:
   max_concurrent_triggers: 3
   retry_attempts: 3
-  retry_delay: 5000  # мс
+  retry_delay: 5000
   queue_size: 100
   log_level: "info"
 
-  # Приоритеты обработки
-  priority_mapping:
-    critical: 100
-    high: 75
-    medium: 50
-    low: 25
-
-  # Время жизни результатов
-  result_ttl: 86400  # секунд (24 часа)
-
 # Уведомления
 notifications:
-  enabled: true
-  channels:
-    - vscode
-    - console
-    - file
-
-  # Условия для уведомлений
-  conditions:
-    - on_success: true
-    - on_failure: true
-    - on_retry: true
-    - on_critical: true
-
-  # Форматы уведомлений
-  formats:
-    vscode:
-      type: "notification"
-      timeout: 5000
-
-    console:
-      type: "log"
-      level: "info"
-
-    file:
-      type: "json"
-      path: "apps/cognitive_agent/logs/notifications.log"
+  enabled: false
 
 # Мониторинг триггеров
 monitoring:
-  enabled: true
-  metrics:
-    - trigger_count
-    - success_rate
-    - average_processing_time
-    - queue_size
-    - error_rate
-
-  alerts:
-    - metric: "error_rate"
-      threshold: 0.1  # 10%
-      condition: "gt"
-      action: "notification"
-
-    - metric: "queue_size"
-      threshold: 50
-      condition: "gt"
-      action: "scale_workers"
-
-    - metric: "average_processing_time"
-      threshold: 300000  # 5 минут в мс
-      condition: "gt"
-      action: "optimize"
+  enabled: false
 
 # Интеграции для триггеров
 integrations:
   git:
-    enabled: true
-    hooks:
-      - pre_commit
-      - post_commit
-      - pre_push
-      - post_merge
-
+    enabled: false
   filesystem:
-    enabled: true
-    watchers:
-      - config_files
-      - source_code
-      - dependencies
-
+    enabled: false
   schedule:
-    enabled: true
-    scheduler: "cron"
-
+    enabled: false
   monitoring:
-    enabled: true
-    providers:
-      - prometheus
-      - grafana
-
+    enabled: false
   notifications:
-    enabled: true
-    providers:
-      - slack
-      - email
-      - telegram
+    enabled: false

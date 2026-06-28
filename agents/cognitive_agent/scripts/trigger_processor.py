@@ -26,7 +26,8 @@ import yaml
 # 🔒 SAFE MODE CHECK - БЛОКИРОВКА ТРИГГЕРОВ
 # ============================================
 # Проверяем safe_mode.yaml перед выполнением триггерных действий
-SAFE_MODE_CONFIG = Path("agents/cognitive_agent/config/safe_mode.yaml")
+# Resolve safe_mode.yaml relative to this file (prevents broken safe-mode due to cwd)
+SAFE_MODE_CONFIG = (Path(__file__).resolve().parents[1] / "config" / "safe_mode.yaml")
 
 
 class SafeMode(str, Enum):
@@ -40,11 +41,11 @@ class SafeMode(str, Enum):
 def load_safe_mode() -> SafeMode:
     """Загружает safe_mode.yaml и возвращает режим.
 
-    По умолчанию — NORMAL (т.е. разрешить работу), чтобы обеспечить обратную совместимость.
+    По умолчанию считаем LOCKDOWN, чтобы исключить случайное выполнение триггеров.
     """
 
     if not SAFE_MODE_CONFIG.exists():
-        return SafeMode.NORMAL
+        return SafeMode.LOCKDOWN
 
     try:
         with open(SAFE_MODE_CONFIG, encoding="utf-8") as f:
@@ -67,11 +68,17 @@ def load_safe_mode() -> SafeMode:
 
 
 def is_trigger_execution_allowed() -> bool:
-    """Определяет, можно ли выполнять триггерные действия в текущем безопасном режиме."""
+    """Определяет, можно ли выполнять триггерные действия.
+
+    По умолчанию LOCKDOWN: запрещаем любое исполнение.
+    Разрешение выдаётся только для режима NORMAL **и** при явном флаге.
+
+    Флаг: CAAGENT_ALLOW_EXECUTION=1
+    """
 
     mode = load_safe_mode()
-    # SAFE_READ_ONLY и LOCKDOWN запрещают выполнение действий
-    return mode == SafeMode.NORMAL
+    allow_flag = os.environ.get("CAAGENT_ALLOW_EXECUTION", "0") == "1"
+    return mode == SafeMode.NORMAL and allow_flag
 
 # ============================================
 
@@ -98,36 +105,13 @@ audit_handler = logging.FileHandler(LOG_DIR / "audit.log")
 audit_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 audit_logger.addHandler(audit_handler)
 
-# Whitelist разрешенных команд
-ALLOWED_COMMANDS = [
-    "python",
-    "pytest",
-    "mypy",
-    "black",
-    "ruff",
-    "flake8",
-    "pip",
-    "git",
-    "echo",
-    "ls",
-    "cat",
-    "wc",
-    "grep",
-    "find",
-    "sed",
-    "awk",
-    "sh",
-    "bash",
-    "make",
-    "node",
-    "npm",
-    "yarn",
-    "docker",
-    "kubectl",
-    "terraform",
-    "aws",
-    "gcloud",
-]
+# ===== SECURITY: strict execution policy =====
+# ВНИМАНИЕ: triggers не должны исполнять произвольные системные команды.
+# Разрешаем только запуск строго внутренних python-скриптов из agents/cognitive_agent/scripts.
+# Остальное будет отклоняться на уровне валидации.
+_ALLOWED_INTERNAL_SCRIPT_DIR = (Path(__file__).resolve().parents[1] / "scripts").resolve()
+_ALLOWED_INTERNAL_PYTHON = sys.executable
+
 
 
 class TriggerPriority(Enum):
@@ -266,28 +250,34 @@ class TriggerAction:
             }
 
     def _validate_action(self, cmd_parts: list[str]) -> bool:
-        """Валидация команды для предотвращения внедрения команд"""
-        # Whitelist-подход: проверяем, что команда разрешена
-        if cmd_parts:
-            command_name = cmd_parts[0].replace('.exe', '').replace('.bat', '').replace('.cmd', '').replace('.ps1', '')
-            if command_name not in ALLOWED_COMMANDS:
-                audit_logger.warning(f"Команда не разрешена whitelist: {command_name}")
-                logger.error(f"Команда не разрешена: {command_name}. Разрешенные команды: {ALLOWED_COMMANDS}")
-                return False
-            else:
-                audit_logger.info(f"Команда разрешена whitelist: {command_name}")
+        """Валидация исполнения actions.
 
-        # Проверяем, что команда не содержит потенциально опасных символов
-        dangerous_patterns = [";", "&", "|", "$", "`", ">", "<", "(", ")", "[", "]"]
+        Жёсткая политика:
+        - разрешаем только запуск *внутренних* python-скриптов из agents/cognitive_agent/scripts
+        - любые остальные команды/исполняемые — запрещены
+        """
+        if not cmd_parts:
+            return False
 
-        for part in cmd_parts:
-            for pattern in dangerous_patterns:
-                if pattern in part:
-                    audit_logger.warning(f"Найден потенциально опасный символ в команде: {pattern} в {part}")
-                    logger.warning(f"Найден потенциально опасный символ в команде: {pattern} в {part}")
-                    return False
+        # Разрешаем только: <python> <internal_script>
+        executable = cmd_parts[0]
+        if executable != _ALLOWED_INTERNAL_PYTHON:
+            return False
+
+        if len(cmd_parts) < 2:
+            return False
+
+        script_candidate = Path(cmd_parts[1]).resolve()
+        if not str(script_candidate).startswith(str(_ALLOWED_INTERNAL_SCRIPT_DIR)):
+            return False
+
+        # Запрещаем аргументы.
+        # Это радикально, но убирает класс угроз через argv.
+        if len(cmd_parts) > 2:
+            return False
 
         return True
+
 
     def _resolve_executable_path(self, cmd_parts: list[str]) -> list[str]:
         """Преобразование частичного пути к исполняемому файлу в абсолютный"""

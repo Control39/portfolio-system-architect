@@ -30,9 +30,9 @@
     "extraPaths": [
         "./src",
         "./apps",
-        "./apps/decision_reason",
+        "./apps/decision_engine",
         "./apps/it_compass/src",
-        "./apps/career-development/career-development-system/src",
+        "./apps/career_development",
         "./apps/ml_model_registry/src"
     ],
     "reportMissingImports": true,
@@ -97,7 +97,7 @@
         "extraPaths": [
             "./src",
             "./apps",
-            "./apps/decision_reason",
+            "./apps/decision_engine",
             "./apps/it_compass/src"
         ],
         "diagnosticSeverityOverrides": {

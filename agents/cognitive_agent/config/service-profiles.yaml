@@ -47,14 +47,6 @@ services:
     test_frameworks: ["pytest"]
     coverage_target: 85.0
 
-  - name: "ai_config_manager"
-    path: "apps/ai_config_manager"
-    language: "python"
-    framework: "base"
-    criticality: "high"
-    test_frameworks: ["pytest"]
-    coverage_target: 85.0
-
   - name: "job_automation_agent"
     path: "apps/job_automation_agent"
     language: "python"

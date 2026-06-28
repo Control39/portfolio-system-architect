@@ -560,31 +560,32 @@ def create_hooks_config():
     """Создаем конфигурационный файл для хуков"""
     config_path = Path(".agents/config/git-hooks.yaml")
 
+    # SECURITY HARDENING: disable all hooks by default
     config = {
         "version": "1.0.0",
         "hooks": {
             "pre-commit": {
-                "enabled": True,
+                "enabled": False,
                 "description": "Проверка кода перед коммитом",
                 "actions": ["validate_code", "run_tests", "check_formatting"],
             },
             "commit-msg": {
-                "enabled": True,
+                "enabled": False,
                 "description": "Проверка формата сообщений коммитов",
                 "actions": ["validate_commit_message", "enforce_conventional_commits"],
             },
             "post-commit": {
-                "enabled": True,
+                "enabled": False,
                 "description": "Действия после коммита",
                 "actions": ["generate_changelog", "update_documentation", "trigger_ci"],
             },
             "pre-push": {
-                "enabled": True,
+                "enabled": False,
                 "description": "Проверка перед отправкой в удаленный репозиторий",
                 "actions": ["run_integration_tests", "check_security", "validate_dependencies"],
             },
             "post-merge": {
-                "enabled": True,
+                "enabled": False,
                 "description": "Действия после слияния веток",
                 "actions": ["update_dependencies", "run_tests", "clear_caches"],
             },

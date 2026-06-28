@@ -1,12 +1,12 @@
 # Cognitive Agent
 
-> **Статус:** 🟢 MVP + Восстановление + Анализ качества (Обновлено 22 июня 2026 г.)
+> **Статус:** 🟢 MVP + Восстановление + Анализ качества + Актуализация документации (Обновлено 28 июня 2026 г.)
 > **Версия:** 1.0.0 (Standard) / Enterprise (Расширенная)
 > **Порт:** 8008
 > **Маршрут:** `/cognitive-agent`
 > **👤 Архитектор:** @Control39 | e-mail: leadarchitect@yandex.ru
 > **Дата «второго рождения»:** 23 мая 2026 г.
-> **Дата последнего обновления:** 22 июня 2026 г. (Исправление багов, анализ качества, SelfTestingModule)
+> **Дата последнего обновления:** 28 июня 2026 г. (Актуализация README, анализ 366 Markdown файлов, документация обновлена)
 
 ---
 
@@ -257,6 +257,38 @@ docker-compose up cognitive-agent
 - **EnterpriseGuardrails** - система enterprise-безопасности
 - **MetricsCollector** - сбор метрик производительности (в enterprise-версии)
 
+### 📚 Документация (актуализирована 28 июня 2026 г.)
+
+**Статус:** 366 Markdown файлов в репозитории (анализ в `docs/META/audit-report-repo.md`)
+
+**Документация Cognitive Agent:**
+
+**Основные документы (в корне docs/):**
+- `README-COMMUNITY.md` - Документация для сообщества (13.68 KB, 370 строк)
+- `USAGE.md` - Руководство по использованию (19.84 KB, 560 строк)
+- `ARCHITECTURE.md` - Архитектура системы (5.57 KB, 136 строк)
+- `COGNITIVE_AGENT_ARCHITECTURE.md` - Детальная архитектура (5.03 KB, 127 строк)
+- `COMMON_COMPONENTS.md` - Общие компоненты (23.22 KB, 373 строк)
+- `FLOW.md` - Поток данных (4.25 KB, 146 строк)
+- `ARCHITECTURE_RULES.md` - Архитектурные правила (179 строк)
+
+**Документы в later-use/ (устаревшие):**
+- `agents/cognitive_agent/later-use/docs_archive/` - 22 устаревших файла
+
+**Архитектурные решения (ADR):**
+- `docs/architecture/decisions/` - 24 решения (ADR-001 до ADR-024)
+
+**Отчеты:**
+- `docs/reports/` - Отчеты по интеграции, тестированию и состоянию
+- `agents/cognitive_agent/docs/reports/` - 16 отчетов о реализации
+
+**Статистика (28 июня 2026):**
+- Всего Markdown файлов: **366**
+- Общий размер: **2455 KB**
+- Средняя длина: **163 строки**
+- Самый новый документ: **2026-06-28**
+- Самый старый документ: **2026-06-09**
+
 ### Зависимости
 ```
 fastapi>=0.124.0
@@ -297,9 +329,8 @@ agents/cognitive_agent/
 
 | Файл/Папка                                                    | Назначение                   |
 | ------------------------------------------------------------- | ---------------------------- |
-| `agents/cognitive_agent/autonomous_agent.py`                  | Standard версия агента       |
-| `agents/cognitive_agent/autonomous_agent.py`                    | Основная версия агента       |
-| `agents/cognitive_agent/self_testing_module.py`               | Модуль самотестирования      |
+| `agents/cognitive_agent/src/autonomous_agent.py`              | Standard версия агента       |
+| `agents/cognitive_agent/src/self_testing_module.py`           | Модуль самотестирования      |
 | `agents/cognitive_agent/src/main.py`                          | FastAPI-сервер, точка входа  |
 | `agents/cognitive_agent/src/base_agent.py`                    | Базовый класс с enterprise-функциональностью |
 | `agents/cognitive_agent/src/api/endpoints.py`                 | API endpoints                |
@@ -309,9 +340,8 @@ agents/cognitive_agent/
 | `src/ai/gigachat_bridge.py`                                   | Интеграция с GigaChat (атом) |
 | `src/shared/models.py`                                        | Pydantic-модели (атом)       |
 | `src/core/config_loader.py`                                   | Загрузчик конфигов (атом)    |
-| `agents/cognitive_agent/docs/IMPLEMENTATION_CONTEXT.md`       | Контекст для ИИ              |
 | `agents/cognitive_agent/docs/COGNITIVE_AGENT_ARCHITECTURE.md` | Архитектура                  |
-| `agents/cognitive_agent/enterprise_guardrails.py`             | Enterprise безопасность      |
+| `agents/cognitive_agent/common/base_security.py`              | Базовые функции безопасности |
 
 ---
 
@@ -431,7 +461,7 @@ MIT License
 
 | Горизонт       | Цель                                                | Статус                |
 | -------------- | --------------------------------------------------- | --------------------- |
-| 🔥 **Сейчас**   | Обновление README + коммиты                         | 🟢 Выполнено           |
+| 🔥 **Сейчас**   | Актуализация README (28 июня 2026)                  | 🟢 Выполнено           |
 | 🔥 **1 день**   | Удалить placeholder-генерации в SelfTestingModule | 🔜 Планируется          |
 | 🔥 **2 дня**   | Реальная интеграция с GigaChat/Ollama              | 🔜 Планируется          |
 | 📅 **3-4 дня**  | Добавить тесты для SelfTestingModule              | 🔜 Планируется          |
@@ -483,8 +513,8 @@ MIT License
 ---
 
 **Автор:** Екатерина Куделя (@Control39)
-**Дата обновления:** 22 июня 2026 г.
-**Версия:** MVP + Восстановление + Анализ качества (1.0.0)
+**Дата обновления:** 28 июня 2026 г.
+**Версия:** MVP + Восстановление + Анализ качества + Актуализация документации (1.0.0)
 
 ---
 
