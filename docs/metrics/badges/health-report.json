@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-06-27T21:59:47.860390",
+  "health_score": 70,
+  "summary": {
+    "static_badges": {
+      "static_badges_checked": true,
+      "issues": [
+        "Python version badge: 3.12",
+        "Missing security badges"
+      ],
+      "python_version": "3.12",
+      "coverage_value": "unknown"
+    },
+    "dynamic_badges": {
+      "dynamic_badges_checked": true,
+      "total_badges_found": 9,
+      "working_badges": 5,
+      "broken_badges": 0,
+      "issues": []
+    },
+    "freshness": {
+      "freshness_checked": false,
+      "issues": [
+        "No metrics file found"
+      ]
+    }
+  },
+  "recommendations": [
+    "Бейджи в хорошем состоянии. Продолжайте поддерживать актуальность."
+  ]
+}
