@@ -132,3 +132,9 @@ scripts/gigachat/final_token_check.py
 .sourcecraft/
 .qoder/
 .blackbox/
+
+# VS Code integration scripts (dangerous auto-execution)
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/cognitive_agent.code-snippets
+.agents/

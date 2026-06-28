@@ -49,7 +49,8 @@ def test_trigger_processor_safe_mode_blocks_or_allows(tmp_path: Path, mode: str,
                 },
                 "actions": {
                     "echo_ok": {
-                        "command": "python --version",
+                        "executable": "python",
+                        "args": ["--version"],
                         "timeout": 5,
                         "allowed_failures": 0,
                     }

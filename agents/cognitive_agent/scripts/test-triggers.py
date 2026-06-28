@@ -17,7 +17,7 @@ try:
     # Создаем временный модуль для импорта
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("trigger_processor", Path(__file__).parent / "trigger-processor.py")
+    spec = importlib.util.spec_from_file_location("trigger_processor", Path(__file__).parent / "trigger_processor.py")
     trigger_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(trigger_module)
 

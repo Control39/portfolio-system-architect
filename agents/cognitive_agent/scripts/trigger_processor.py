@@ -176,10 +176,12 @@ class TriggerAction:
     """Действие триггера"""
 
     name: str
-    command: str
-    timeout: int
+    executable: str
+    args: list[str] = field(default_factory=list)
+    timeout: int = 60
     allowed_failures: int = 0
     retry_count: int = 0
+
 
     def _find_script(self, script_name: str) -> Path | None:
         """Поиск скрипта в директориях агента"""
@@ -198,11 +200,12 @@ class TriggerAction:
         logger.info(f"Выполнение действия: {self.name}")
 
         try:
-            # Разделяем команду на части
-            cmd_parts = self.command.split()
+            # Формируем команду без небезопасного split()
+            cmd_parts = [self.executable] + list(self.args)
 
-            # Валидация команды для предотвления B603 и B607
-            if not self._validate_command(cmd_parts):
+
+            # Политика безопасности для конкретного action
+            if not self._validate_action(cmd_parts):
                 return {
                     "success": False,
                     "returncode": -1,
@@ -262,7 +265,7 @@ class TriggerAction:
                 "execution_time": 0,
             }
 
-    def _validate_command(self, cmd_parts: list[str]) -> bool:
+    def _validate_action(self, cmd_parts: list[str]) -> bool:
         """Валидация команды для предотвращения внедрения команд"""
         # Whitelist-подход: проверяем, что команда разрешена
         if cmd_parts:
@@ -357,7 +360,8 @@ class TriggerProcessor:
         for name, config in actions_config.items():
             action = TriggerAction(
                 name=name,
-                command=config.get("command", ""),
+                executable=config.get("executable", ""),
+                args=config.get("args", []),
                 timeout=config.get("timeout", 60),
                 allowed_failures=config.get("allowed_failures", 0),
             )
