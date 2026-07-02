@@ -29,6 +29,24 @@ class LLMClient:
         """
         self.provider_manager = provider_manager
         self._provider_manager_instance = None
+        self._provider_manager_loaded = False
+
+    def _load_provider_manager(self):
+        """Ленивая загрузка provider manager"""
+        if self._provider_manager_loaded:
+            return
+
+        try:
+            from apps.ai_provider_manager.src.ai_provider_manager import get_provider_manager
+
+            self._provider_manager_instance = get_provider_manager()
+            self._provider_manager_loaded = True
+        except ImportError:
+            logger.warning("AI Provider Manager not available, provider_manager will be None")
+            self._provider_manager_loaded = True  # Mark as loaded to avoid retry
+        except Exception as e:
+            logger.error(f"Failed to load provider manager: {e}")
+            self._provider_manager_loaded = True
 
     async def generate(self, prompt: str, timeout: int = 60, temperature: float = 0.7) -> str:
         """
@@ -52,8 +70,11 @@ class LLMClient:
             pm = self.provider_manager
         else:
             if self._provider_manager_instance is None:
-                self._provider_manager_instance = get_provider_manager()
+                self._load_provider_manager()
             pm = self._provider_manager_instance
+
+        if pm is None:
+            raise ValueError("Provider manager is not available - AI Provider Manager integration is missing")
 
         logger.info(f"🔄 Calling LLM provider: {pm.get_active_provider()}")
 

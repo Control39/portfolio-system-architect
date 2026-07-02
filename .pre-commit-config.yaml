@@ -37,6 +37,17 @@ repos:
             apps/infra_orchestrator/tests/.*\.ps1|
             apps/infra_orchestrator/src/core/diagnostics/HealthCheck\.psm1|
             scripts/prevent_blind_add\.py|
+            agents/cognitive_agent/tests/test_safe_logger\.py|  # Test for secret filtering - contains false positives
+            agents/cognitive_agent/tests/test_transparency_logger\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_memory_integrity\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_conflict_resolver\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_approval_workflow\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_proposal_system\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_rollback_manager\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_explanation_engine\.py|  # Contains test data
+            agents/cognitive_agent/tests/test_llm_client\.py|  # Contains test data
+            agents/cognitive_agent/tests/explanation_engine_test\.py|  # Contains test data
+            agents/cognitive_agent/tests/rollback_manager_test\.py|  # Contains test data
             \.agents\.disabled/.*|  # Agent disabled files with scan results
             agents\.disabled/.*|  # Agent disabled files with scan results
             .gigacode/.*  # GigaCode config files

@@ -4,34 +4,63 @@ from typing import Any
 
 
 class JobAgentIntegration:
-    """Интеграция с Job Automation Agent"""
+    """Интеграция с Job Automation Agent (с ленивой загрузкой)"""
 
     def __init__(self):
-        self.job_agent_available = False
-        self.analyze_requirements = None
-        self.generate_resume = None
-        self.job_search = None
-        self.process_request_sync = None
+        self._job_agent = None
+        self.available = False
 
-        try:
-            from apps.job_automation_agent.job_agent import (
-                analyze_requirements,
-                generate_resume,
-                job_search,
-                process_request_sync,
-            )
+    def _load_job_agent(self):
+        """Ленивая загрузка Job Agent"""
+        if self._job_agent is None:
+            try:
+                from apps.job_automation_agent.job_agent import (
+                    analyze_requirements,
+                    generate_resume,
+                    job_search,
+                    process_request_sync,
+                )
 
-            self.analyze_requirements = analyze_requirements
-            self.generate_resume = generate_resume
-            self.job_search = job_search
-            self.process_request_sync = process_request_sync
-            self.job_agent_available = True
-        except ImportError:
-            pass  # Job Agent is optional
+                self._job_agent = {
+                    "analyze_requirements": analyze_requirements,
+                    "generate_resume": generate_resume,
+                    "job_search": job_search,
+                    "process_request_sync": process_request_sync,
+                }
+                self.available = True
+            except ImportError:
+                self.available = False
 
     def is_available(self) -> bool:
         """Проверить доступность Job Agent"""
-        return self.job_agent_available
+        if self._job_agent is None:
+            self._load_job_agent()
+        return self.available
+
+    # Proxy methods for backward compatibility
+    @property
+    def job_agent_available(self) -> bool:
+        return self.is_available()
+
+    @property
+    def analyze_requirements(self):
+        self._load_job_agent()
+        return self._job_agent.get("analyze_requirements") if self._job_agent else None
+
+    @property
+    def generate_resume(self):
+        self._load_job_agent()
+        return self._job_agent.get("generate_resume") if self._job_agent else None
+
+    @property
+    def job_search(self):
+        self._load_job_agent()
+        return self._job_agent.get("job_search") if self._job_agent else None
+
+    @property
+    def process_request_sync(self):
+        self._load_job_agent()
+        return self._job_agent.get("process_request_sync") if self._job_agent else None
 
 
 class AIProviderIntegration:

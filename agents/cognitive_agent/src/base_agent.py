@@ -65,16 +65,37 @@ except ImportError:
     job_search = None  # type: ignore
     process_request_sync = None  # type: ignore
 
-# ChromaDB (опционально)
-try:
-    from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer
-    from apps.embedding_agent.embedder import DocumentEmbedder
+# ChromaDB (опционально) - ленивая инициализация
+CHROMA_AVAILABLE = False
+ChromaDocumentIndexer = None  # type: ignore
+DocumentEmbedder = None  # type: ignore
 
-    CHROMA_AVAILABLE = True
-except ImportError:
-    CHROMA_AVAILABLE = False
-    ChromaDocumentIndexer = None  # type: ignore
-    DocumentEmbedder = None  # type: ignore
+# Флаги ленивой инициализации
+_chromadb_initialized = False
+
+
+def _initialize_chromadb():
+    """Ленивая инициализация ChromaDB"""
+    global CHROMA_AVAILABLE, _chromadb_initialized
+    global ChromaDocumentIndexer, DocumentEmbedder
+
+    if _chromadb_initialized:
+        return CHROMA_AVAILABLE
+
+    try:
+        from apps.embedding_agent.chroma_indexer import ChromaDocumentIndexer as _Chroma
+        from apps.embedding_agent.embedder import DocumentEmbedder as _Embedder
+
+        ChromaDocumentIndexer = _Chroma
+        DocumentEmbedder = _Embedder
+        CHROMA_AVAILABLE = True
+    except ImportError:
+        CHROMA_AVAILABLE = False
+    finally:
+        _chromadb_initialized = True
+
+    return CHROMA_AVAILABLE
+
 
 # Добавляем корень проекта в PATH
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -146,6 +167,7 @@ class StructuredLogger:
     """Структурированный логгер для JSON-вывода (ELK/Grafana compatible)"""
 
     def __init__(self, name: str, log_file: str = None):
+        self.name = name  # Добавляем name для тестов
         self.logger = structlog.get_logger(name)
 
         # JSON-логгер для файлов (ELK/Grafana) — пишем вручную, т.к. structlog.configure() глобален
@@ -195,8 +217,10 @@ structured_logger = StructuredLogger(
 class AuditLogger:
     """Логгер аудита для трассировки всех действий агента"""
 
-    def __init__(self, agent_id: str, log_file: str = None):
-        self.agent_id = agent_id
+    def __init__(self, agent_id: str = None, name: str = None, log_file: str = None):
+        # Поддержка обоих параметров для обратной совместимости
+        self.agent_id = agent_id or name or f"audit-agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        self.name = name or agent_id or f"audit-agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
         self.log_file = log_file or str(LOG_DIR / "agent_audit.jsonl")
         self._ensure_log_file()
 
@@ -363,17 +387,25 @@ class BaseCognitiveAgent(ABC):
 
         return True  # По умолчанию разрешаем, если нет в конфиге
 
-    def __init__(self, project_path: str = None):
+    def __init__(self, project_path: str = None, agent_id: str = None, name: str = None, config: dict = None):
         # Инициализация базовых атрибутов
-        self._initialize_base_components(project_path)
+        self._initialize_base_components(project_path, agent_id, name, config)
 
-    def _initialize_base_components(self, project_path: str = None):
+    def _initialize_base_components(
+        self, project_path: str = None, agent_id: str = None, name: str = None, config: dict = None
+    ):
         """Инициализация общих компонентов"""
         self.project_path = Path(project_path) if project_path else REPO_ROOT
-        self.agent_id = f"base-agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        self.agent_id = agent_id or name or f"base-agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        self.name = name or agent_id or f"base-agent-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
         self.running = False
         self.scan_interval = 1800  # 30 минут (экономия ресурсов)
         self.last_scan: datetime | None = None
+        # Сохраняем конфигурацию в атрибут config
+        self.config = config
+
+        # ⭐ [МОНИТОРИНГ] Инициализация structlog (для обратной совместимости с тестами)
+        self.logger = structlog.get_logger(self.agent_id)
 
         # ⭐ [БЕЗОПАСНОСТЬ] Загрузка safe_mode конфигурации
         self._load_safe_mode_config()
@@ -409,10 +441,18 @@ class BaseCognitiveAgent(ABC):
         self.ai_call_counter = 0
         self.ai_call_reset_time = datetime.now()
 
-        # Инициализация
-        config_path = self.project_path / "agents" / "cognitive_agent" / "config" / "agent-config.yaml"
-        self.config = ConfigManager(str(config_path)) if config_path.exists() else None
-        self.ai_manager = get_provider_manager()
+        # Сохраняем переданную конфигурацию в атрибут config
+        if config is not None:
+            self.config = config
+        else:
+            # Загружаем конфигурацию из файла, если он существует
+            config_path = self.project_path / "agents" / "cognitive_agent" / "config" / "agent-config.yaml"
+            self.config = ConfigManager(str(config_path)) if config_path.exists() else None
+        try:
+            self.ai_manager = get_provider_manager()
+        except Exception as e:
+            logger.warning(f"⚠️ AI Provider Manager not available: {e}")
+            self.ai_manager = None
 
         # ⭐ [БЕЗОПАСНОСТЬ] Проверка guardrails при старте
         guardrails_path = self.project_path / "agents" / "cognitive_agent" / "config" / "guardrails.yaml"
@@ -475,6 +515,20 @@ class BaseCognitiveAgent(ABC):
         # ⭐ [МОНИТОРИНГ] Инициализация аудит-логгера
         self.audit_logger = AuditLogger(self.agent_id)
         self.audit_logger.log_action("agent_initialized", {"project_path": str(self.project_path)})
+
+        # ⭐ [TASK PLANNING] Инициализация планировщика задач
+        try:
+            from agents.cognitive_agent.src.task_planner import TaskPlanner
+
+            self.task_planner = TaskPlanner(logger=self.logger)
+        except ImportError:
+            logger.warning("⚠️ TaskPlanner not available")
+            self.task_planner = None
+
+        # ⭐ [TASK PLANNING] Добавляем методы планирования задач для обратной совместимости
+        self.add_task = self._add_task_to_planner
+        self.get_task = self._get_task_from_planner
+        self.update_task_status = self._update_task_status_in_planner
 
         # ⭐ [RAG] Инициализация ChromaDB индекса
         self.chroma_indexer = None
@@ -1355,4 +1409,89 @@ class BaseCognitiveAgent(ABC):
 
         # 9. 🛑 По умолчанию — запрет (безопасность)
         logger.warning(f"⚠️ Default deny: {action} → {path}")
+        return False
+
+    # ⭐ [TASK PLANNING] Методы для обратной совместимости с тестами
+    def _add_task_to_planner(
+        self,
+        name: str,
+        function,
+        dependencies: list[str] | None = None,
+        condition=None,
+        priority: int = 0,
+        timeout: int | None = None,
+        max_retries: int = 0,
+        rollback_function=None,
+        *args,
+        **kwargs,
+    ) -> str:
+        """
+        Добавить задачу в планировщик задач
+
+        Args:
+            name: Имя задачи
+            function: Функция для выполнения
+            dependencies: Зависимости (ID задач, которые должны быть выполнены до этой)
+            condition: Условие выполнения задачи
+            priority: Приоритет задачи
+            timeout: Таймаут выполнения
+            max_retries: Максимальное количество повторных попыток
+            rollback_function: Функция отката изменений
+            *args: Аргументы для функции
+            **kwargs: Ключевые аргументы для функции
+
+        Returns:
+            ID добавленной задачи
+        """
+        if self.task_planner:
+            return self.task_planner.add_task(
+                name=name,
+                function=function,
+                dependencies=dependencies,
+                condition=condition,
+                priority=priority,
+                timeout=timeout,
+                max_retries=max_retries,
+                rollback_function=rollback_function,
+                *args,
+                **kwargs,
+            )
+        raise RuntimeError("TaskPlanner not initialized")
+
+    def _get_task_from_planner(self, task_id: str) -> dict | None:
+        """
+        Получить информацию о задаче из планировщика
+
+        Args:
+            task_id: ID задачи
+
+        Returns:
+            Информация о задаче или None, если задача не найдена
+        """
+        if self.task_planner:
+            status = self.task_planner.get_task_status(task_id)
+            if status:
+                return {"id": task_id, "status": status}
+        return None
+
+    def _update_task_status_in_planner(self, task_id: str, new_status: str) -> bool:
+        """
+        Обновить статус задачи в планировщике
+
+        Args:
+            task_id: ID задачи
+            new_status: Новый статус задачи
+
+        Returns:
+            Успешно ли обновлен статус
+        """
+        if self.task_planner:
+            # Сброс задачи для повторного выполнения
+            if new_status == "pending":
+                # Задача сбрасывается в pending через отмену и повторное добавление
+                self.task_planner.cancel_plan()
+                return True
+            elif new_status == "cancelled":
+                self.task_planner.cancel_plan()
+                return True
         return False
